@@ -224,3 +224,8 @@
 //     }
 //   }
 // console.log(check(4)(2)(3)); 
+
+//* Question 24
+// let array = [2,3,[5,2,[6,[3, [4, 5, [5, 1, 3]]]],1,1],9];
+// //flat without using flat
+// console.log(array.toString().split(','));
