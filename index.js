@@ -92,7 +92,7 @@
 // var a = "hello"
 // var sum = 0
 // for (let i = 0; i < a.length; i++) {
-//     sum += (a[i] - "a"); 
+//     sum += (a[i] - "a");
 // }
 // console.log(sum);
 //? NaN
@@ -223,9 +223,122 @@
 //       }
 //     }
 //   }
-// console.log(check(4)(2)(3)); 
+// console.log(check(4)(2)(3));
 
 //* Question 24
 // let array = [2,3,[5,2,[6,[3, [4, 5, [5, 1, 3]]]],1,1],9];
 // //flat without using flat
 // console.log(array.toString().split(','));
+
+//* What is the difference between Element and Component?
+// An Element is a plain object describing what you want to appear on the screen in terms of the DOM nodes or other components. Elements can contain other Elements in their props. Creating a React element is cheap. Once an element is created, it is never mutated.
+
+// The object representation of React Element would be as follows:
+
+// const element = React.createElement(
+//   'div',
+//   {id: 'login-btn'},
+//   'Login'
+// )
+// The above React.createElement() function returns an object:
+
+// {
+//   type: 'div',
+//   props: {
+//     children: 'Login',
+//     id: 'login-btn'
+//   }
+// }
+// And finally it renders to the DOM using ReactDOM.render():
+
+// <div id='login-btn'>Login</div>
+// Whereas a component can be declared in several different ways. It can be a class with a render() method or it can be defined as a function. In either case, it takes props as an input, and returns a JSX tree as the output:
+
+// const Button = ({ onLogin }) =>
+//   <div id={'login-btn'} onClick={onLogin}>Login</div>
+// Then JSX gets transpiled to a React.createElement() function tree:
+
+// const Button = ({ onLogin }) => React.createElement(
+//   'div',
+//   { id: 'login-btn', onClick: onLogin },
+//   'Login'
+// )
+//* When to use a Class Component over a Function Component?
+// If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. *So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries *
+//* What are synthetic events in React?
+// SyntheticEvent is a cross-browser wrapper around the browser's native event. Its API is same as the browser's native event, including stopPropagation() and preventDefault(), except the events work identically across all browsers.
+//* What are forward refs?
+// Ref forwarding is a feature that lets some components take a ref they receive, and pass it further down to a child.
+//* What is the difference between Shadow DOM and Virtual DOM?
+// The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components. The Virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs.
+//* What are the limitations of React?
+// React is just a view library, not a full framework.
+// There is a learning curve for beginners who are new to web development.
+// Integrating React into a traditional MVC framework requires some additional configuration.
+// The code complexity increases with inline templating and JSX.
+// Too many smaller components leading to over engineering or boilerplate.
+//* What are error boundaries in React v16?
+// Error boundaries are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.
+//* How to use innerHTML in React?
+// The dangerouslySetInnerHTML attribute is React's replacement for using innerHTML in the browser DOM. Just like innerHTML, it is risky to use this attribute considering cross-site scripting (XSS) attacks. You just need to pass a __html object as key and HTML text as value.
+//* What is the impact of indexes as keys?
+// Keys should be stable, predictable, and unique so that React can keep track of elements.
+
+// In the below code snippet each element's key will be based on ordering, rather than tied to the data that is being represented. This limits the optimizations that React can do.
+
+// {todos.map((todo, index) =>
+//   <Todo
+//     {...todo}
+//     key={index}
+//   />
+// )}
+// If you use element data for unique key, assuming todo.id is unique to this list and stable, React would be able to reorder elements without needing to reevaluate them as much.
+
+// {todos.map((todo) =>
+//   <Todo {...todo}
+//     key={todo.id} />
+// )}
+//* How do you conditionally render components?
+// In some cases you want to render different components depending on some state. JSX does not render false or undefined, so you can use conditional short-circuiting to render a given part of your component only if a certain condition is true.
+
+// const MyComponent = ({ name, address }) => (
+//   <div>
+//     <h2>{name}</h2>
+//     {address &&
+//       <p>{address}</p>
+//     }
+//   </div>
+// )
+//* What is strict mode in React?
+// React.StrictMode is a useful component for highlighting potential problems in an application. Just like <Fragment>, <StrictMode> does not render any extra DOM elements. It activates additional checks and warnings for its descendants. These checks apply for development mode only.
+//* Why should component names start with capital letter?
+// If you are rendering your component using JSX, the name of that component has to begin with a capital letter otherwise React will throw an error as an unrecognized tag. This convention is because only HTML elements and SVG tags can begin with a lowercase letter.
+// The component names should start with an uppercase letter but there are few exceptions to this convention. The lowercase tag names with a dot (property accessors) are still considered as valid component names. For example, the below tag can be compiled to a valid component,
+
+//      render() {
+//           return (
+//             <obj.component/> // `React.createElement(obj.component)`
+//           )
+//     }
+//* How to combine multiple inline style objects?
+// You can use spread operator in regular React:
+
+//  <button style={{...styles.panel.button, ...styles.panel.submitButton}}>{'Submit'}</button>
+//* How to re-render the view when the browser is resized?
+// we can add eventlistner on resize
+//* How to use https instead of http in create-react-app?
+// You just need to use HTTPS=true configuration. You can edit your package.json scripts section:
+
+// "scripts": {
+//   "start": "set HTTPS=true && react-scripts start"
+// }
+//* How to avoid using relative path imports in create-react-app?
+// we can use the "~" which points towards the root directory
+//* How to update a component every second?
+// const [time, setTime] = useState(Date.now());
+// useEffect(() => {
+//   const interval = setInterval(() => setTime(Date.now()), 1000);
+//   return () => {
+//     clearInterval(interval);
+//   };
+// }, []);
