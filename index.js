@@ -342,3 +342,49 @@
 //     clearInterval(interval);
 //   };
 // }, []);
+//* Why does React emphasize on unidirectional data flow?
+// It is also known as one-way data flow, which means the data has one, and only one way to be transferred to other parts of the application. In essence, this means child components are not able to update the data that is coming from the parent component. In React, data coming from a parent is called props.
+
+// In React this means that:
+
+// state is passed to the view and to child components
+// actions are triggered by the view
+// actions can update the state
+// the state change is passed to the view and to child components
+// The view is a result of the application state. State can only change when actions happen. When actions happen, the state is updated. One-way data binding provides us with some key advantages
+
+// Easier to debug, as we know what data is coming from where.
+// Less prone to errors, as we have more control over our data.
+// More efficient, as the library knows what the boundaries are of each part of the system.
+//! What does eject do in create react app?
+//* Is it possible to use React without rendering HTML?
+// It is possible with latest version (>=16.2). Below are the possible options:
+
+// render() {
+//   return false
+// }
+// render() {
+//   return null
+// }
+// render() {
+//   return []
+// }
+//* Why to avoid using setState() after a component has been unmounted?
+// Calling setState() after a component has unmounted will emit a warning. The "setState warning" exists to help you catch bugs, because calling setState() on an unmounted component is an indication that your app/component has somehow failed to clean up properly.
+// Specifically, calling setState() in an unmounted component means that your app is still holding a reference to the component after the component has been unmounted - which often indicates a memory leak.
+//*Differentiate between stateful and stateless components?
+// Stateful and stateless components have many different names. They are also known as:
+// – Container vs Presentational components
+// – Smart vs Dumb components
+// The literal difference is that one has state, and the other does not. That means the stateful components are keeping track of changing data, while stateless components print out what is given to them via props, or they always render the same thing.
+//* What are the benefits of using HOC?
+// Benefits:
+// Importantly they provided a way to reuse code when using ES6 classes.
+// No longer have method name clashing if two HOC implement the same one.
+// It is easy to make small reusable units of code, thereby supporting the single responsibility principle.
+// Apply multiple HOCs to one component by composing them. The readability can be improve using a compose function like in Recompose.
+// Problems:
+// Boilerplate code like setting the displayName with the HOC function name e.g. (withHOC(Component)) to help with debugging.
+// Ensure all relevant props are passed through to the component.
+// Hoist static methods from the wrapped component.
+// It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
