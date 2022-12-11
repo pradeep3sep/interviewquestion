@@ -388,3 +388,42 @@
 // Ensure all relevant props are passed through to the component.
 // Hoist static methods from the wrapped component.
 // It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
+//! -------------------------VUE JS ------------------------
+//*What are the conditional directives
+// VueJS provides set of directives to show or hide elements based on conditions. The available directives are: v-if, v-else, v-else-if and v-show
+//* What is the difference between v-show and v-if directives?
+// Below are some of the main differences between v-show and v-if directives,
+// v-if only renders the element to the DOM if the expression passes whereas v-show renders all elements to the DOM and then uses the CSS display property to show/hide elements based on expression.
+// v-if supports v-else and v-else-if directives whereas v-show doesn't support else directives.
+// v-if has higher toggle costs while v-show has higher initial render costs. i.e, v-show has a performance advantage if the elements are switched on and off frequently, while the v-if has the advantage when it comes to initial render time.
+// v-if supports <template> tab but v-show doesn't support.
+//*How do you reuse elements with key attribute?  input k liye jarur
+//*Why should not use if and for directives together on the same element?
+//*What are the array detection mutation methods?
+//*What are the array detection non-mutation methods?
+//* v-for of/in
+//*What are the event modifiers provided by vue?
+//*What are the supported System Modifier Keys
+//*What are the supported modifiers on model?
+//*How do you communicate from child to parent using events?
+//*What is global registration in components vs local registration?
+//*What are non prop attributes?
+//*Describe about validations available for props?
+//*How do you customize model directive for a component?
+//*What is vue router and their features
+//*What are filters? zarur padhe
+//*What are the different ways to create filters?
+//*How to create a plugin?
+//*What is the purpose of keep alive tag?
+//*What is the purpose of vuejs once directive?
+//*What are asset url transform rules?
+//*How do you use deep selectors?
+//*vueX methods, mututations and actions
+//* v-html,v-once,watchers(use the value concept in it),computed property(ye bhi data function pe depend hota h,change hone pe run hota h, first time run hota h, used for fast calculation,)
+//* method vs computed vs watchers vue maxmilian video.
+//* various formats are kebap-case, PascalCase, camelCase
+//* Slots, teleport
+//^global imports vs local imports of components. for global componnents use the maxmilian example in main.js file of props video or use global vs local components video of max millian
+
+
+//! :class = "{active : dyanmicdata}" ======== "dynamicdata ? 'active' : ''" keep in mind bracket important h
