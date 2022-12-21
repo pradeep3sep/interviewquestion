@@ -230,6 +230,24 @@
 // //flat without using flat
 // console.log(array.toString().split(','));
 
+//^ 2 + undefined gives NaN, not gives any error
+// Question no 4,7,9,11,12,13,17,24,26,27,34,36,39,46.49 solution bhi,50,51 mast h solution bhi,54 solution bhi.56,57,58 solution bhi,59,61,62 solution must,63,64,65,67,72,73,74,75,76,83 sol,86 good,91,93,94,95,105,106,113 very good,123 revison concept
+// Pending 8,38,44,45,55,66,71,78,82,90,92,96,97,98,114,116,127
+
+
+
+
+//* There are 8 falsy values:
+
+// undefined
+// null
+// NaN
+// false
+// '' (empty string)
+// 0
+// -0
+// 0n (BigInt(0))
+
 //* What is the difference between Element and Component?
 // An Element is a plain object describing what you want to appear on the screen in terms of the DOM nodes or other components. Elements can contain other Elements in their props. Creating a React element is cheap. Once an element is created, it is never mutated.
 
@@ -423,6 +441,7 @@
 //* method vs computed vs watchers vue maxmilian video.
 //* various formats are kebap-case, PascalCase, camelCase
 //* Slots, teleport
+//*VueX-mutations
 //^global imports vs local imports of components. for global componnents use the maxmilian example in main.js file of props video or use global vs local components video of max millian
 
 
