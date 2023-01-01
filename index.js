@@ -231,9 +231,14 @@
 // console.log(array.toString().split(','));
 
 //^ 2 + undefined gives NaN, not gives any error
-// Question no 4,7,9,11,12,13,17,24,26,27,34,36,39,46.49 solution bhi,50,51 mast h solution bhi,54 solution bhi.56,57,58 solution bhi,59,61,62 solution must,63,64,65,67,72,73,74,75,76,83 sol,86 good,91,93,94,95,105,106,113 very good,123 revison concept
-// Pending 8,38,44,45,55,66,71,78,82,90,92,96,97,98,114,116,127
 
+//! https://github.com/pradeep3sep/javascript-questions-machine-code
+// Question no 4,7,9,11,12,13,17,24,26,27,34,36,39,46.49 solution bhi,50,51 mast h solution bhi,54 solution bhi.56,57,58 solution bhi,59,61,62 solution must,63,64,65,67,72,73,74,75,76,83 sol,86 good,91,93,94,95,105,106,113 very good,123 revison concept,127,145,151
+// Pending 8,38,44,45,55,66,71,78,82,90,92,96,97,98,114,116,127,132,133, object seal and freeze,138,139,140,141,142,144,147,150,152,153,154
+
+
+//! https://github.com/pradeep3sep/123-Essential-JavaScript-Interview-Questions
+// question no 3,
 
 
 
@@ -446,3 +451,22 @@
 
 
 //! :class = "{active : dyanmicdata}" ======== "dynamicdata ? 'active' : ''" keep in mind bracket important h
+
+
+//! -------------------------VANILLA JS ------------------------
+//* OBJECTS
+// JavaScript supports programming with objects. Objects are a way of organizing the variables. The different screen elements such
+// as Web pages, forms, text boxes, images, and buttons are treated as objects. Every object has its own properties and methods.
+// Properties define the characteristics of an object. Examples: color, length, name, height, width Methods are the actions that the
+// object can perform or that can be performed on the object. Examples: alert, confirm, write, open, close .
+
+//* Can you name two programming paradigms important for JavaScript app developers?
+// JavaScript is a multi-paradigm language, supporting imperative/procedural programming along with OOP (Object-Oriented
+// Programming) and functional programming. JavaScript supports OOP with prototypal inheritance.
+
+//* What is the difference between classical inheritance and prototypal inheritance?
+// Class Inheritance: instances inherit from classes (like a blueprint - a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the new keyword. Class
+// inheritance may or may not use the class keyword from ES6.
+// Prototypal Inheritance: instances inherit directly from other objects. Instances are typically instantiated via factory functions
+// or Object.create(). Instances may be composed from many different objects, allowing for easy selective inheritance.
+
