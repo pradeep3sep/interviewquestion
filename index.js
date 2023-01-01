@@ -241,6 +241,8 @@
 // question no 3,
 
 
+//! https://www.thatjsdude.com/interview/js1.html#isPrime
+
 
 //* There are 8 falsy values:
 
