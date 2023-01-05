@@ -244,16 +244,7 @@
 //! https://www.thatjsdude.com/interview/js1.html#isPrime
 
 
-//* There are 8 falsy values:
-
-// undefined
-// null
-// NaN
-// false
-// '' (empty string)
-// 0
-// -0
-// 0n (BigInt(0))
+//! -------------------------REACT JS ------------------------
 
 //* What is the difference between Element and Component?
 // An Element is a plain object describing what you want to appear on the screen in terms of the DOM nodes or other components. Elements can contain other Elements in their props. Creating a React element is cheap. Once an element is created, it is never mutated.
@@ -422,6 +413,7 @@
 // v-if supports v-else and v-else-if directives whereas v-show doesn't support else directives.
 // v-if has higher toggle costs while v-show has higher initial render costs. i.e, v-show has a performance advantage if the elements are switched on and off frequently, while the v-if has the advantage when it comes to initial render time.
 // v-if supports <template> tab but v-show doesn't support.
+//* Vue lifecycle methods.
 //*How do you reuse elements with key attribute?  input k liye jarur
 //*Why should not use if and for directives together on the same element?
 //*What are the array detection mutation methods?
@@ -456,6 +448,16 @@
 
 
 //! -------------------------VANILLA JS ------------------------
+//* There are 8 falsy values:
+
+// undefined
+// null
+// NaN
+// false
+// '' (empty string)
+// 0
+// -0
+// 0n (BigInt(0))
 //* OBJECTS
 // JavaScript supports programming with objects. Objects are a way of organizing the variables. The different screen elements such
 // as Web pages, forms, text boxes, images, and buttons are treated as objects. Every object has its own properties and methods.
@@ -473,17 +475,7 @@
 // or Object.create(). Instances may be composed from many different objects, allowing for easy selective inheritance.
 
 
-
-
-
-
-
 // Es6(6),arrow, pure components, react one way binding , generator in javascript , object.entries all, real dom virtual dom,ref, shadow dom, createelement in react, clone element in react, stateful components, limitations of react, react router, hosting, var let const, deep copy shallow copy deep copy limitations , object method like object.freeze and seal, can we pass react hook as a prop. High order components , redux, improve performance of react - usememo, useeffect with clear, lazy load, semantic tag, diff between visibility and d none, what is display flex, map and foreach with example, this keyword with example, accordian with nested child elements, call bind apply, array string object methods, pseudo element and class, position in css, duplicate count and other things in array, shadow DOM in react, dependency injection , box model in css, position and display in css, null ==\=== undefined and reason , html 5 comes with semantic tags, rest and spread operator, diff b/w functional class components , async and differ, package.json vs package.lock.json, create 3 promises and resolve them one by one, window vs document , attributes and property of html , how to empty a array,selectors in css, functional Component has advantage that in the end class components converted to functional so direct usage increase the fastness, doctype in html, advantage of css vs css3 geeks for geeks, how to stop all the console log at onec console.log = function (){}, error boundaries in react, http method like post,get,put etc
-
-
-
-
-
 
 // Arrow, let const, spread, rest, literal, destructuring 
 // Spa, component, virtual, declarative, seo
