@@ -18,9 +18,17 @@
     //PATCH: PATCH is similar to PUT request, but the only difference is, it modifies a part of the data. It will only replace the content that you want to update.
     //DELETE: A DELETE request is used to delete the data on the server at a specified location.
 //* html 5 comes with semantic tags
+// Advantage of CSS3 over CSS  === refer https://www.geeksforgeeks.org/advantage-of-css3-over-css/    and some are Responsiveness or Media queries,new color formats Colors, advanced Animations, etc
+//* how to stop all the console log at onec console.log = function (){},
 //*async vs differ  === see this image for answer  https://i.stack.imgur.com/wfL82.png
 
 //*   diff between visibility and d none  == visibility:hidden hides the element, but it still takes up space in the layout. display:none removes the element from the document. It does not take up any space.
+
+// doctype in html, 
+//All HTML documents must start with a <!DOCTYPE> declaration. The declaration is not an HTML tag. It is an "information" to the browser about what document type to expect. In HTML 5, the declaration is simple: <!DOCTYPE html>
+
+
+//* selectors in css ====  https://www.w3schools.com/css/css_selectors.asp
 
 //*   semantic tag === A semantic element clearly describes its meaning to both the browser and the developer.
 
@@ -68,8 +76,8 @@
 
 
 
-//  what is display flex, map and foreach with example, this keyword with example, accordian with nested child elements, call bind apply, array string object methods, pseudo element and class, position in css, duplicate count and other things in array, shadow DOM in react, dependency injection , box model in css, position and display in css, null ==\=== undefined and reason ,rest and spread operator, diff b/w functional class components , package.json vs package.lock.json, create 3 promises and resolve them one by one, window vs document , attributes and property of html , how to empty a array,selectors in css, functional Component has advantage that in the end class components converted to functional so direct usage increase the fastness, doctype in html, advantage of css vs css3 geeks for geeks, how to stop all the console log at onec console.log = function (){}, 
-//error boundaries in react, 
+//  what is display flex, map and foreach with example, this keyword with example, accordian with nested child elements, call bind apply, array string object methods, pseudo element and class, position in css, duplicate count and other things in array, shadow DOM in react, dependency injection , box model in css, position and display in css, null ==\=== undefined and reason ,rest and spread operator, diff b/w functional class components , package.json vs package.lock.json, create 3 promises and resolve them one by one, window vs document , attributes and property of html , how to empty a array, 
+ 
 
 
 // Arrow, let const, spread, rest, literal, destructuring 
@@ -89,6 +97,10 @@
 //use this url for refernce, vue has v-model so direct but react has to added the event function and the we use the setstate https://stackoverflow.com/questions/34519889/can-anyone-explain-the-difference-between-reacts-one-way-data-binding-and-angula
 //* What is the difference between Element and Component?
 // An Element is a plain object describing what you want to appear on the screen in terms of the DOM nodes or other components. Elements can contain other Elements in their props. Creating a React element is cheap. Once an element is created, it is never mutated.
+
+//error boundaries in react,
+
+//functional Component has advantage that in the end class components converted to functional so direct usage increase the fastness
 
 // The object representation of React Element would be as follows:
 
@@ -246,6 +258,10 @@
 // Hoist static methods from the wrapped component.
 // It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
 //! -------------------------VUE JS ------------------------
+//jo smjh nhi aaya  ==  14,15,39,44,65,66,68,69,70,71,79,81,82,83,84,85,86,87,105,115,116
+
+//* What are the major features of VueJS?
+//* Vue lifecycle methods.
 //*What are the conditional directives
 // VueJS provides set of directives to show or hide elements based on conditions. The available directives are: v-if, v-else, v-else-if and v-show
 //* What is the difference between v-show and v-if directives?
@@ -254,29 +270,57 @@
 // v-if supports v-else and v-else-if directives whereas v-show doesn't support else directives.
 // v-if has higher toggle costs while v-show has higher initial render costs. i.e, v-show has a performance advantage if the elements are switched on and off frequently, while the v-if has the advantage when it comes to initial render time.
 // v-if supports <template> tab but v-show doesn't support.
-//* Vue lifecycle methods.
+
 //*How do you reuse elements with key attribute?  input k liye jarur
 //*Why should not use if and for directives together on the same element?
+//* Why do you need to use key attribute on for directive?
 //*What are the array detection mutation methods?
 //*What are the array detection non-mutation methods?
-//* v-for of/in
+//*How do you use v-for directive with a range?
 //*What are the event modifiers provided by vue?
+//*What are key modifiers?
 //*What are the supported System Modifier Keys
+//*What are the supported Mouse Button Modifiers?
 //*What are the supported modifiers on model?
-//*How do you communicate from child to parent using events?
-//*What is global registration in components vs local registration?
+//*How do you communicate from child to parent using events? try example in codesandbox
+//*What is global registration in components vs local registration? iska second part dekho answer me se
 //*What are non prop attributes?
 //*Describe about validations available for props?
 //*How do you customize model directive for a component?
 //*What is vue router and their features
-//*What are filters? zarur padhe
-//*What are the different ways to create filters?
-//*How to create a plugin?
+//* What is route matching priority?
+//* What are nested routes? video dekho zara nested routing ki
+//* What are single file components? and then Is Single File Components violating separation of concerns?
+//*What are filters? What are the different ways to create filters? How do you chain filters? Is it possible to pass parameters for filters? zarur padhe
+//* What are plugins and their various services? How to create a plugin?  https://www.digitalocean.com/community/tutorials/vuejs-creating-custom-plugins
+
+//* Global mixins --- https://freek.dev/823-using-global-mixins-in-vuejs)
+//* What are the merging strategies in mixins?
+//* What are custom directives?How do you register directives locally?What are the hook functions provided by directives?  for the video https://youtu.be/HJHKSNA6HU0
 //*What is the purpose of keep alive tag?
 //*What is the purpose of vuejs once directive?
+//* How do you access the root instance?
+//* How do you access parent instance?
 //*What are asset url transform rules?
+//*Is it possible to mix both local and global styles?
+//* Is parent styles leaked into child components in scoped css?
+//* What is hot reloading in vue loader? How do you disable hot reloading explicitly?
 //*How do you use deep selectors?
-//*vueX methods, mututations and actions
+
+// Vuex k questions 143 se start hue h.
+//* What are vuex getters?? answer jarur dekhe iska
+//* How do you perform mutations in components?
+//* How do you perform asynchronous operations?
+//* What are differences between mutations and actions?
+//* How do you dispatch actions in components?
+//* What are modules in vuex?
+//*  How to use model directive with two way computed property? mast cheez h
+//* What does nextTick do in VueJS?
+//* What is the main difference between method and computed property? answer dekho jarur
+//* How do you watch route object changes?
+//* What are navigation guards in vue router?
+//* Can I use computed property in another computed property?
+//* Why the component data must be a function?
 //* v-html,v-once,watchers(use the value concept in it),computed property(ye bhi data function pe depend hota h,change hone pe run hota h, first time run hota h, used for fast calculation,)
 //* method vs computed vs watchers vue maxmilian video.
 //* various formats are kebap-case, PascalCase, camelCase
