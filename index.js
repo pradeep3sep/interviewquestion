@@ -9,8 +9,39 @@
 
 //! https://www.thatjsdude.com/interview/js1.html#isPrime
 
+//! -------------------------CSS ------------------------
+
+//* Box-Sizing :
+// The box-sizing property in CSS is used to control how the total width and height of an HTML element is calculated. It has two possible values: content-box and border-box.
+// The default value for box-sizing is content-box. This means that the width and height of an element are calculated based on the content of the element, excluding padding and border.
+// If you set the value of box-sizing to border-box, the width and height of an element are calculated based on the content, padding, and border of the element. This can be useful in situations where you want to set a specific width for an element that includes its padding and border, rather than having to calculate the total width manually.
+
+//* Pseudo-elements : befor and after
+//A CSS pseudo-element is a keyword added to a selector that lets you style a specific part of the selected element(s). For example, ::first-line can be used to change the font of the first line of a paragraph.
+
+//* Pseudo-classes/ Pseudo selector : hover,focus,active,link,first child,last child,nth child
+// A pseudo-class is used to define a special state of an element.
+
+//* What is flexbox
+// Flexbox is a layout module in CSS that provides a more efficient and flexible way to arrange and align elements in a container. The main idea behind Flexbox is that you can turn any container element into a flexible container,
+
+//* Position in css
+// position: static;
+// position: relative;
+// position: absolute;
+// position: fixed;
+// position: sticky;
 
 //! -------------------------VANILLA JS ------------------------
+//* throttling vs debouncing
+// Throttling is a technique where a function is executed at a regular interval, no matter how frequently it is called.
+// Debouncing, on the other hand, is a technique where a function is only executed after a certain amount of time has passed since the last time it was called.
+
+// Explanation by use case:
+// Search bar- Don't want to search every time user presses key? Want to search when user stopped typing for 1 sec. Use debounce 1 sec on key press.
+// Shooting game- Pistol take 1 sec time between each shot but user click mouse multiple times. Use throttle on mouse click.
+//* Event Loop
+//* prototype chaining
 //* http methods like 
     //GET: GET request is used to read/retrieve data from a web server. 
     //POST: POST request is used to send data (file, form data, etc.) to the server. On successful creation, it returns an HTTP status code of 201.
@@ -27,6 +58,22 @@
 // doctype in html, 
 //All HTML documents must start with a <!DOCTYPE> declaration. The declaration is not an HTML tag. It is an "information" to the browser about what document type to expect. In HTML 5, the declaration is simple: <!DOCTYPE html>
 
+//* Iframe in html : An inline frame is used to embed another document within the current HTML document.
+//* HTML Formatting Elements 
+// Formatting elements were designed to display special types of text:
+// <b> - Bold text
+// <strong> - Important text
+// <i> - Italic text
+// <em> - Emphasized text
+// <mark> - Marked text
+// <small> - Smaller text
+// <del> - Deleted text
+// <ins> - Inserted text
+// <sub> - Subscript text
+// <sup> - Superscript text
+
+//* Difference between <b> and <strong> Elements
+// The HTML <b> element defines bold text, without any extra importance. The HTML <strong> element defines text with strong importance. The content inside is typically displayed in bold.
 
 //* selectors in css ====  https://www.w3schools.com/css/css_selectors.asp
 
@@ -54,7 +101,7 @@
 
 // Es6(ECMAScript 2015) ====== let and const, Arrow Functions, Template Literals, rest and spread operator,  Default Parameters in functions, classes
 //pure components,
-    
+
 // generator in javascript ,
 // Object.keys(myObj). This method returns an array with only the enumerable own string property names ("keys") in the object myObj, but not those in the prototype chain. 
 //object.entries all, 
@@ -92,6 +139,7 @@
 
 
 //! -------------------------REACT JS ------------------------
+//* useimperativehandle hook 
 //*real dom virtual dom,ref, shadow dom, createelement in react, clone element in react, stateful components, limitations of react, react router,can we pass react hook as a prop. High order components , redux, improve performance of react - usememo, useeffect with clear, lazy load,
 //*react one way binding
 //use this url for refernce, vue has v-model so direct but react has to added the event function and the we use the setstate https://stackoverflow.com/questions/34519889/can-anyone-explain-the-difference-between-reacts-one-way-data-binding-and-angula
@@ -258,12 +306,26 @@
 // Hoist static methods from the wrapped component.
 // It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
 //! -------------------------VUE JS ------------------------
-//jo smjh nhi aaya  ==  14,15,39,44,65,66,68,69,70,71,79,81,82,83,84,85,86,87,105,115,116
+//jo smjh nhi aaya  ==  39,65,66,68,69,70,71,79,81,82,83,84,85,86,87,105
 
 //* What are the major features of VueJS?
+//* We can have 2 or more style in single component. One style is used for the global style and other one can be scoped style
 //* Vue lifecycle methods.
+//* CSS modules in vue js (similar like we use in the react)(:class="$style.red" and <style module> wala part is module)
+{/* <template>
+  <p :class="$style.red">This should be red</p>
+</template>
+
+<style module>
+.red {
+  color: red;
+}
+</style> */}
+
+
 //*What are the conditional directives
 // VueJS provides set of directives to show or hide elements based on conditions. The available directives are: v-if, v-else, v-else-if and v-show
+//* How to make router param changes as reactive?
 //* What is the difference between v-show and v-if directives?
 // Below are some of the main differences between v-show and v-if directives,
 // v-if only renders the element to the DOM if the expression passes whereas v-show renders all elements to the DOM and then uses the CSS display property to show/hide elements based on expression.
@@ -567,3 +629,47 @@
 // let array = [2,3,[5,2,[6,[3, [4, 5, [5, 1, 3]]]],1,1],9];
 // //flat without using flat
 // console.log(array.toString().split(','));
+
+//* Question 25
+// const firstname = fun()
+// let name = 'ram'
+// function fun(){
+//   return `my is ${name} malviya`
+// }
+// console.log(firstname);
+
+//* Write a program to remove duplicate from the array without using the default method
+//* Write a program to give second largest integer from the array without using the default method
+//* Write a program to make polyfill for map,filter,reduce method in javascript
+
+//* Question 26 , output of below code
+// for (let i = 0; i < 5; i++) {
+//   setTimeout(() => {
+//     console.log(i);
+//   }, i * 1000);
+  
+// }
+// for (var i = 0; i < 5; i++) {
+//   setTimeout(() => {
+//     console.log(i);
+//   }, i * 1000);
+// }
+// for (let i = 0; i < 5; i++) {
+//   setTimeout(() => {
+//     console.log(i);
+//   },  1000);
+  
+// }
+
+//* Question 27
+// var num = 4;
+// function outer(){
+//   var num = 2;
+//   function inner(){
+//     num++
+//     var num = 3;
+//     console.log("num",num);
+//   }
+//   inner()
+// }
+// outer()
