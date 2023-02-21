@@ -41,7 +41,6 @@
 // Search bar- Don't want to search every time user presses key? Want to search when user stopped typing for 1 sec. Use debounce 1 sec on key press.
 // Shooting game- Pistol take 1 sec time between each shot but user click mouse multiple times. Use throttle on mouse click.
 //* Event Loop
-//* prototype chaining
 //* http methods like 
     //GET: GET request is used to read/retrieve data from a web server. 
     //POST: POST request is used to send data (file, form data, etc.) to the server. On successful creation, it returns an HTTP status code of 201.
