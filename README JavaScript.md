@@ -1,4 +1,4 @@
-### What are the possible ways to create objects in JavaScript 2
+> ### What are the possible ways to create objects in JavaScript 2
 * Object constructor
  ```
  var object = new Object();
@@ -39,7 +39,7 @@ class Person {
 var object = new Person("Sudheer");
 ```
 
-### prototype chaining
+> ### prototype chaining
 Prototype chaining is a mechanism in JavaScript that allows objects to inherit properties and methods from their prototype objects. In JavaScript, every object has a prototype object, which is itself an object. The prototype object contains properties and methods that the object can access and use as its own.
 
 When a property or method is accessed on an object, if that property or method does not exist on the object itself, JavaScript will look for it on the object's prototype object. If it's still not found, JavaScript will continue to search up the prototype chain, looking at the prototype's prototype, and so on, until it either finds the property or method or reaches the end of the chain.
@@ -49,7 +49,7 @@ For example, suppose you have an object foo that has a prototype object bar, whi
 
 When it comes to inheritance, JavaScript only has one construct: objects. Each object has a private property which holds a link to another object called its prototype. That prototype object has a prototype of its own, and so on until an object is reached with null as its prototype. By definition, null has no prototype, and acts as the final link in this prototype chain.
 
-### Some cases of === or ==
+> ### Some cases of === or ==
 ```
 0 == false   // true
 0 === false  // false
@@ -63,13 +63,13 @@ null === undefined // false
 {}=={} or {}==={} //false, refer different objects in memory
 ```
 
-### What is a first order function
+> ### What is a first order function
 First-order function is a function that doesn’t accept another function as an argument and doesn’t return a function as its return value.
 
-### What is a unary function
+> ### What is a unary function
 Unary function (i.e. monadic) is a function that accepts exactly one argument. It stands for a single argument accepted by a function
 
-### How do you decode or encode a URL in JavaScript?
+> ### How do you decode or encode a URL in JavaScript?
 In JavaScript, you can encode or decode a URL using the encodeURIComponent() and decodeURIComponent() functions, respectively.
 The encodeURIComponent() function encodes a string by replacing special characters with their corresponding escape sequences. This is useful when you want to include special characters, such as spaces or non-ASCII characters, in a URL.
 
@@ -94,7 +94,7 @@ console.log(decodedUrl);
 ```
 Note that encodeURI() and decodeURI() functions are also available in JavaScript, which are similar to encodeURIComponent() and decodeURIComponent() respectively, but with slightly different encoding rules.
 
-### What are classes in ES6
+> ### What are classes in ES6
 In ES6, Javascript classes are primarily syntactic sugar over JavaScript’s existing prototype-based inheritance. For example, the prototype based inheritance written in function expression as below,
 
 ```
@@ -122,7 +122,7 @@ class Bike {
 }
 ```
 
-### What are the differences between cookie, local storage and session storage
+> ### What are the differences between cookie, local storage and session storage
 Below are some of the differences between cookie, local storage and session storage,
 
 Feature |	Cookie |	Local storage |	Session storage
@@ -132,7 +132,7 @@ Lifetime |	As configured using Expires option |	until deleted |	until tab is clo
 SSL support |	Supported |	Not supported |	Not supported
 Maximum data size |	4KB	| 5 MB |	5MB
 
-### What is a storage event and its event handler
+> ### What is a storage event and its event handler
 The StorageEvent is an event that fires when a storage area has been changed in the context of another document. Whereas onstorage property is an EventHandler for processing storage events. The syntax would be as below
 ```
 window.onstorage = functionRef;
@@ -152,7 +152,7 @@ window.onstorage = function (e) {
 };
 ```
 
-### What is a callback hell
+> ### What is a callback hell
 Callback Hell is an anti-pattern with multiple nested callbacks which makes code hard to read and debug when dealing with asynchronous logic. The callback hell looks like below,
 
 ```
@@ -167,7 +167,7 @@ async1(function(){
 });
 ```
 
-### What is the purpose of double exclamation
+> ### What is the purpose of double exclamation
 The double exclamation or negation(!!) ensures the resulting type is a boolean. If it was falsey (e.g. 0, null, undefined, etc.), it will be false, otherwise, true. For example, you can test IE version using this expression as below,
 ```
 let isIE8 = false;
@@ -176,7 +176,7 @@ console.log(isIE8); // returns true or false
 ```
 
 
-### What is the difference between null and undefined
+> ### What is the difference between null and undefined
 Null |	Undefined
 ----- | -----------
 It is an assignment value which indicates that variable points to no object. | 	It is not an assignment value where a variable has been declared but has not yet been assigned a value.
@@ -185,28 +185,28 @@ The null value is a primitive value that represents the null, empty, or non-exis
 Indicates the absence of a value for a variable  | 	Indicates absence of variable itself
 Converted to zero (0) while performing primitive operations  | 	Converted to NaN while performing primitive operations
 
-### What is eval
+> ### What is eval
 The eval() function evaluates JavaScript code represented as a string. The string can be a JavaScript expression, variable, statement, or sequence of statements.
 ```
 console.log(eval("1 + 2")); //  3
 ```
 
-### What is isNaN
+> ### What is isNaN
 The isNaN() function is used to determine whether a value is an illegal number (Not-a-Number) or not. i.e, This function returns true if the value equates to NaN. Otherwise it returns false.
 ```
 isNaN("Hello"); //true
 isNaN("100"); //false
 ```
 
-### What is the difference between document load and DOMContentLoaded events
+> ### What is the difference between document load and DOMContentLoaded events
 The DOMContentLoaded event is fired when the initial HTML document has been completely loaded and parsed, without waiting for assets(stylesheets, images, and subframes) to finish loading. Whereas The load event is fired when the whole page has loaded, including all dependent resources(stylesheets, images).
 
-### What is the difference between native, host and user objects
+> ### What is the difference between native, host and user objects
 `Native objects` are objects that are part of the JavaScript language defined by the ECMAScript specification. For example, String, Math, RegExp, Object, Function etc core objects defined in the ECMAScript spec.
 `Host objects` are objects provided by the browser or runtime environment (Node). For example, window, XmlHttpRequest, DOM nodes etc are considered as host objects.
 `User objects` are objects defined in the javascript code. For example, User objects created for profile information.
 
-### What are the pros and cons of promises over callbacks
+> ### What are the pros and cons of promises over callbacks
 Below are the list of pros and cons of promises over callbacks,
 
 Pros:
@@ -222,7 +222,7 @@ Cons:
 * You need to load a polyfill if ES6 is not supported
 
 
-### What is the difference between an attribute and a property
+> ### What is the difference between an attribute and a property
 Attributes are defined on the HTML markup whereas properties are defined on the DOM. For example, the below HTML element has 2 attributes type and value,
 ```
 <input type="text" value="Name:">
@@ -241,7 +241,7 @@ console.log(input.getAttribute("value")); // Good evening
 console.log(input.value); // Good evening
 ```
 
-### What is the purpose of void 0
+> ### What is the purpose of void 0
 Void(0) is used to prevent the page from refreshing.
 ```
 <a href="JavaScript:void(0);" onclick="alert('Well done!')">
@@ -249,26 +249,26 @@ Void(0) is used to prevent the page from refreshing.
 </a>
 ```
 
-### What is the use of preventDefault method
+> ### What is the use of preventDefault method
 The preventDefault() method cancels the event if it is cancelable, meaning that the default action or behaviour that belongs to the event will not occur. For example, prevent form submission when clicking on submit button and prevent opening the page URL when clicking on hyperlink are some common use cases.
 
-### What is BOM
+> ### What is BOM
 The Browser Object Model (BOM) allows JavaScript to "talk to" the browser. It consists of the objects navigator, history, screen, location and document which are children of the window. The Browser Object Model is not standardized and can change based on different browsers.
 
 ![BOM](/images/bom.png)
 
-### How do you redirect new page in javascript
+> ### How do you redirect new page in javascript
 ```
 function redirect() {
   window.location.href = "newPage.html";
 }
 ```
 
-### How do get query string values in javascript
+> ### How do get query string values in javascript
 `window.location.search`
 Basically use te window.location to get all things related to url
 
-### Can we define properties for functions
+> ### Can we define properties for functions
 Yes, We can define properties for functions because functions are also objects.
 ```
 fn = function (x) {
@@ -282,7 +282,7 @@ fn.profile = function (y) {
 };
 ```
 
-### What is the way to find the number of parameters expected by a function
+> ### What is the way to find the number of parameters expected by a function
 You can use function.length syntax to find the number of parameters expected by a function. Let's take an example of sum function to calculate the sum of numbers,
 
 ```
@@ -292,10 +292,10 @@ function sum(num1, num2, num3, num4) {
 sum.length; // 4 is the number of parameters expected.
 ```
 
-### What is a polyfill
+> ### What is a polyfill
 A polyfill is a piece of JS code used to provide modern functionality on older browsers that do not natively support it. For example, Silverlight plugin polyfill can be used to mimic the functionality of an HTML Canvas element on Microsoft Internet Explorer 7.
 
-### What are js labels
+> ### What are js labels
 The label statement allows us to name loops and blocks in JavaScript. We can then use these labels to refer back to the code later. For example, the below code with labels avoids printing the numbers when they are same,
 ```
 var i, j;
@@ -315,7 +315,7 @@ loop1: for (i = 0; i < 3; i++) {
 //   "i = 2, j = 1"
 ```
 
-### Can you write a random integers function to print integers with in a range
+> ### Can you write a random integers function to print integers with in a range
 ```
 function randomInteger(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -324,7 +324,7 @@ randomInteger(1, 100); // returns a random integer from 1 to 100
 randomInteger(1, 1000); // returns a random integer from 1 to 1000
 ```
 
-### How do you get the image width and height using JS
+> ### How do you get the image width and height using JS
 You can programmatically get the image and check the dimensions(width and height) using Javascript.
 ```
 var img = new Image();
@@ -334,13 +334,13 @@ img.onload = function () {
 img.src = "http://www.google.com/intl/en_ALL/images/logo.gif";
 ```
 
-### How do you convert date to another timezone in javascript
+> ### How do you convert date to another timezone in javascript
 You can use the toLocaleString() method to convert dates in one timezone to another. For example, let's convert current date to British English timezone as below,
 ```
 console.log(event.toLocaleString("en-GB", { timeZone: "UTC" })); //29/06/2019, 09:56:00
 ```
 
-### What are the properties used to get size of window
+> ### What are the properties used to get size of window
 You can use innerWidth, innerHeight, clientWidth, clientHeight properties of windows, document element and document body objects to find the size of a window. Let's use them combination of these properties to calculate the size of a window or document,
 ```
 var width =
@@ -354,7 +354,7 @@ var height =
   document.body.clientHeight;
 ```
 
-### Can you apply chaining on conditional operator
+> ### Can you apply chaining on conditional operator
 ```
 function traceValue(someParam) {
   return condition1
@@ -381,7 +381,7 @@ function traceValue(someParam) {
 }
 ```
 
-### How do you detect javascript disabled in the page
+> ### How do you detect javascript disabled in the page
 You can use the `<noscript>` tag to detect javascript disabled or not. The code block inside `<noscript>` gets executed when JavaScript is disabled, and is typically used to display alternative content when the page generated in JavaScript.
 ```
 <script type="javascript">
@@ -392,7 +392,7 @@ You can use the `<noscript>` tag to detect javascript disabled or not. The code 
 </noscript>
 ```
 
-### What happens if you do not use rest parameter as a last argument
+> ### What happens if you do not use rest parameter as a last argument
 The rest parameter should be the last argument, as its job is to collect all the remaining arguments into an array. For example, if you define a function like below it doesn’t make any sense and will throw an error.
 ```
 function someFunc(a,…b,c){
@@ -401,7 +401,7 @@ return;
 }
 ```
 
-### How do you create an object with prototype
+> ### How do you create an object with prototype
 The Object.create() method is used to create a new object with the specified prototype object and properties. i.e, It uses an existing object as the prototype of the newly created object. It returns a new object with the specified prototype object and properties.
 ```
 const user = {
@@ -418,16 +418,16 @@ admin.name = "Nick"; // Remember that "name" is a property set on "admin" but no
 admin.printInfo(); // My name is Nick
 ```
 
-### What is call stack
+> ### What is call stack
 Call Stack is a data structure for javascript interpreters to keep track of function calls(creates execution context) in the program. It has two major actions,
 
 * Whenever you call a function for its execution, you are pushing it to the stack.
 * Whenever the execution is completed, the function is popped out of the stack.
 
-### What is the purpose of compareFunction while sorting arrays
+> ### What is the purpose of compareFunction while sorting arrays
 The compareFunction is used to define the sort order. If omitted, the array elements are converted to strings, then sorted according to each character's Unicode code point value. Let's take an example to see the usage of compareFunction,
 
-### What happens if you write constructor more than once in a class
+> ### What happens if you write constructor more than once in a class
 The "constructor" in a class is a special method and it should be defined only once in a class. i.e, If you write a constructor method more than once in a class it will throw a `SyntaxError` error.
 
 ```
@@ -445,7 +445,7 @@ The "constructor" in a class is a special method and it should be defined only o
  console.log(employeeObject.name);
  ```
 
- ### How do you call the constructor of a parent class
+ > ### How do you call the constructor of a parent class
  You can use the super keyword to call the constructor of a parent class. Remember that super() must be called before using 'this' reference. Otherwise it will cause a reference error. Let's the usage of it,
 
  ```
@@ -465,7 +465,7 @@ The "constructor" in a class is a special method and it should be defined only o
 }
 ```
 
-### What happens If I pass string type for getPrototype method
+> ### What happens If I pass string type for getPrototype method
 In ES5, it will throw a TypeError exception if the obj parameter isn't an object. Whereas in ES2015, the parameter will be coerced to an Object.
 ```
 // ES5
@@ -474,7 +474,7 @@ Object.getPrototypeOf("James"); // TypeError: "James" is not an object
 Object.getPrototypeOf("James"); // String.prototype
 ```
 
-### How do you set prototype of one object to another
+> ### How do you set prototype of one object to another
 You can use the `Object.setPrototypeOf()` method that sets the prototype (i.e., the internal `Prototype` property) of a specified object to another object or null. For example, if you want to set prototype of a square object to rectangle object would be as follows,
 
 ```
@@ -482,7 +482,7 @@ Object.setPrototypeOf(Square.prototype, Rectangle.prototype);
 Object.setPrototypeOf({}, null);
 ```
 
-### How do you check whether an object can be extendable or not
+> ### How do you check whether an object can be extendable or not
 The `Object.isExtensible()` method is used to determine if an object is extendable or not. i.e, Whether it can have new properties added to it or not.
 * `Note`: By default, all the objects are extendable. i.e, The new properties can be added or modified.
 
@@ -491,7 +491,7 @@ const newObject = {};
 console.log(Object.isExtensible(newObject)); //true
 ```
 
-### How do you prevent an object to extend
+> ### How do you prevent an object to extend
 The `Object.preventExtensions()` method is used to prevent new properties from ever being added to an object. In other words, it prevents future extensions to the object. Let's see the usage of this property,
 
 ```
@@ -509,14 +509,14 @@ try {
 ```
 
 
-### What are the different ways to make an object non-extensible
+> ### What are the different ways to make an object non-extensible
 You can mark an object non-extensible in 3 ways,
 
 * Object.preventExtensions
 * Object.seal
 * Object.freeze
 
-### What Is Obfuscation in javascript
+> ### What Is Obfuscation in javascript
 Obfuscation is the deliberate act of creating obfuscated javascript code(i.e, source or machine code) that is difficult for humans to understand. It is something similar to encryption, but a machine can understand the code and execute it. Let's see the below function before Obfuscation,
 
 ```
@@ -562,7 +562,7 @@ eval(
 );
 ```
 
-### Why do you need Obfuscation
+> ### Why do you need Obfuscation
 Below are the few reasons for Obfuscation,
 
 * The Code size will be reduced. So data transfers between server and client will be fast.
@@ -570,13 +570,13 @@ Below are the few reasons for Obfuscation,
 * Reverse engineering is highly difficult
 * The download time will be reduced
 
-### How do I modify the url without reloading the page
+> ### How do I modify the url without reloading the page
 The window.location.href property will be helpful to modify the url but it reloads the page. HTML5 introduced the history.pushState() and history.replaceState() methods, which allow you to add and modify history entries, respectively. For example, you can use pushState as below,
 ```
 window.history.pushState("page2", "Title", "/page2.html");
 ```
 
-### How do you print numbers with commas as thousand separators
+> ### How do you print numbers with commas as thousand separators
 You can use the `Number.prototype.toLocaleString()` method which returns a string with a language-sensitive representation such as thousand separator,currency etc of this number.
 ```
 function convertToThousandFormat(x) {
@@ -586,19 +586,19 @@ function convertToThousandFormat(x) {
 console.log(convertToThousandFormat(12345.6789));
 ```
 
-### What is the purpose of double tilde operator
+> ### What is the purpose of double tilde operator
 The double tilde operator(~~) is known as double NOT bitwise operator. This operator is going to be a quicker substitute for Math.floor().
 
-### Do all objects have prototypes
+> ### Do all objects have prototypes
 No. All objects have prototypes except for the base object which is created by the user, or an object that is created using the new keyword.
 
-### How do you create specific number of copies of a string
+> ### How do you create specific number of copies of a string
 The `repeat()` method is used to construct and return a new string which contains the specified number of copies of the string on which it was called, concatenated together. Remember that this method has been added to the ECMAScript 2015 specification. Let's take an example of Hello string to repeat it 4 times,
 ```
 "Hello".repeat(4); // 'HelloHelloHelloHello'
 ```
 
-### What is the output of prepend additive operator on falsy values
+> ### What is the output of prepend additive operator on falsy values
 If you prepend the additive(+) operator on falsy values(null, undefined, NaN, false, ""), the falsy value converts to a number value zero. Let's display them on browser console as below,
 ```
 console.log(+null); // 0
@@ -609,7 +609,7 @@ console.log(+""); // 0
 ```
 
 
-### How do you empty an array
+> ### How do you empty an array
 You can empty an array quickly by setting the array length to zero.
 ```
 let cities = ["Singapore", "Delhi", "London"];
@@ -617,17 +617,17 @@ cities.length = 0; // cities becomes []
 ```
 
 
-### How do you create an array with some data
+> ### How do you create an array with some data
 You can create an array with some data or an array with the same values using fill method.
 ```
 var newArray = new Array(5).fill("0");
 console.log(newArray); // ["0", "0", "0", "0", "0"]
 ```
 
-### Is it possible to add CSS to console messages
+> ### Is it possible to add CSS to console messages
 Yes, you can apply CSS styles to console messages similar to html text on the web page.
 
-### How do you create copy to clipboard button
+> ### How do you create copy to clipboard button
 You need to select the content(using .select() method) of the input element and execute the copy command with execCommand (i.e, execCommand('copy')). You can also execute other system commands like cut and paste.
 
 ```
@@ -639,7 +639,7 @@ document.querySelector("#copy-button").onclick = function () {
 };
 ```
 
-### How do you capture browser back button
+> ### How do you capture browser back button
 The window.onbeforeunload method is used to capture browser back button events. This is helpful to warn users about losing the current data.
 ```
 window.onbeforeunload = function () {
@@ -647,14 +647,14 @@ window.onbeforeunload = function () {
 };
 ```
 
-### What is babel
+> ### What is babel
 Babel is a JavaScript transpiler to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript in current and older browsers or environments. Some of the main features are listed below,
 
 * Transform syntax
 * Polyfill features that are missing in your target environment (using @babel/polyfill)
 * Source code transformations (or codemods)
 
-### What are the differences between for...of and for...in statements
+> ### What are the differences between for...of and for...in statements
 Both for...in and for...of statements iterate over js data structures. The only difference is over what they iterate:
 
 * for..in iterates over all enumerable property keys of an object
@@ -678,7 +678,7 @@ for (let value of arr) {
 ```
 Since for..in loop iterates over the keys of the object, the first loop logs 0, 1, 2 and newProp while iterating over the array object. The for..of loop iterates over the values of a arr data structure and logs a, b, c in the console.
 
-### How do you create custom HTML element?
+> ### How do you create custom HTML element?
 The creation of custom HTML elements involves two main steps,
 
 * Define your custom HTML element: First you need to define some custom class by extending HTMLElement class. After that define your component properties (styles,text etc) using connectedCallback method. Note: The browser exposes a function called customElements.define inorder to reuse the element.
@@ -697,7 +697,7 @@ customElements.define("custom-element", CustomElement);
 </body>
 ```
 
-### What are the differences between primitives and non-primitives?
+> ### What are the differences between primitives and non-primitives?
 Primitives | 	Non-primitives
 -----------  | -----------------
 These types are predefined | 	Created by developer
