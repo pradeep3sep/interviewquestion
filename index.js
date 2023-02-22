@@ -32,6 +32,8 @@
 // position: fixed;
 // position: sticky;
 
+//* Screen meaning in media queries
+
 //! -------------------------VANILLA JS ------------------------
 //* throttling vs debouncing
 // Throttling is a technique where a function is executed at a regular interval, no matter how frequently it is called.
@@ -672,3 +674,117 @@
 //   inner()
 // }
 // outer()
+
+//* Question 28
+// const obj = {
+//   prop1: function () {
+//     return 0;
+//   },
+//   prop2() {
+//     return 1;
+//   },
+//   ["prop" + 3]() {
+//     return 2;
+//   },
+// };
+
+// console.log(obj.prop1());
+// console.log(obj.prop2());
+// console.log(obj.prop3());
+
+//* Question 29
+// console.log(1 < 2 < 3);
+// console.log(3 > 2 > 1);
+
+//* Question 30
+// function printNumbers(first, second, first) {
+//   console.log(first, second, first);
+// }
+// printNumbers(1, 2, 3);
+
+//* Question 31
+// console.log(Math.max());
+
+//* Question 32
+// console.log(10 == [10]);
+// console.log(10 == [[[[[[[10]]]]]]]);
+
+// 1: True, True
+// 2: True, False
+// 3: False, False
+// 4: False, True
+
+// Answer: 1
+// As per the comparison algorithm in the ECMAScript specification(ECMA-262), the above expression converted into JS as below
+
+// 10 === Number([10].valueOf().toString()); // 10
+// So it doesn't matter about number brackets([]) around the number, it is always converted to a number in the expression.
+
+//* Question 33
+// console.log([0] == false);
+// if ([0]) {
+//   console.log("I'm True");
+// } else {
+//   console.log("I'm False");
+// }
+
+// In comparison operators, the expression [0] converted to Number([0].valueOf().toString()) which is resolved to false. Whereas [0] just becomes a truthy value without any conversion because there is no comparison operator.
+
+//* Question 34
+// console.log([1, 2] + [3, 4]);
+
+//* Question 35
+// let numbers = [1, 2, 3, 4, NaN];
+// console.log(numbers.indexOf(NaN));
+
+//* Question 36
+// async function func() {
+//   return 10;
+// }
+// console.log(func());
+
+// 1: Promise {<fulfilled>: 10}
+// 2: 10
+// 3: SyntaxError
+// 4: Promise {<rejected>: 10}
+
+// Answer: 1
+// Async functions always return a promise. But even if the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise. The above async function is equivalent to below expression,
+// function func() {
+//   return Promise.resolve(10);
+// }
+
+
+//* Question 37
+// async function func() {
+//   await 10;
+// }
+// console.log(func());
+
+// 1: Promise {<fulfilled>: 10}
+// 2: 10
+// 3: SyntaxError
+// 4: Promise {<resolved>: undefined}
+
+// Answer: 4
+// The await expression returns value 10 with promise resolution and the code after each await expression can be treated as existing in a .then callback. In this case, there is no return expression at the end of the function. Hence, the default return value of undefined is returned as the resolution of the promise. The above async function is equivalent to below expression,
+// function func() {
+//   return Promise.resolve(10).then(() => undefined);
+// }
+
+//* Question 38
+// let message = 'Hello World!';
+// message[0] = 'J'
+// console.log(message) // Hello World!
+
+// let name = 'John';
+// name = name + ' Smith';
+// console.log(name); // John Smith
+
+// 1: Jello World!, John Smith
+// 2: Jello World!, John
+// 3: Hello World!, John Smith
+// 4: Hello World!, John
+
+// Answer: 3
+// In JavaScript, primitives are immutable i.e. there is no way to change a primitive value once it gets created. So when you try to update the string's first character, there is no change in the string value and prints the same initial value Hello World!. Whereas in the later example, the concatenated value is re-assigned to the same variable which will result into creation of new memory block with the reference pointing to John Smith value and the old memory block value(John) will be garbage collected.
