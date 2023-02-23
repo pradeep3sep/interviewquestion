@@ -3,11 +3,31 @@
 // Pending 8,38,44,45,55,66,71,78,82,90,92,96,97,98,114,116,127,132,133, object seal and freeze,138,139,140,141,142,144,147,150,152,153,154
 
 
-//! https://github.com/pradeep3sep/123-Essential-JavaScript-Interview-Questions
-// question no 3,
-
-
 //! https://www.thatjsdude.com/interview/js1.html#isPrime
+
+
+//* html 5 comes with semantic tags
+//* doctype in html, 
+//All HTML documents must start with a <!DOCTYPE> declaration. The declaration is not an HTML tag. It is an "information" to the browser about what document type to expect. In HTML 5, the declaration is simple: <!DOCTYPE html>
+
+//* Iframe in html : An inline frame is used to embed another document within the current HTML document.
+//* HTML Formatting Elements 
+// Formatting elements were designed to display special types of text:
+// <b> - Bold text
+// <strong> - Important text
+// <i> - Italic text
+// <em> - Emphasized text
+// <mark> - Marked text
+// <small> - Smaller text
+// <del> - Deleted text
+// <ins> - Inserted text
+// <sub> - Subscript text
+// <sup> - Superscript text
+
+//* Difference between <b> and <strong> Elements
+// The HTML <b> element defines bold text, without any extra importance. The HTML <strong> element defines text with strong importance. The content inside is typically displayed in bold.
+
+//*   semantic tag === A semantic element clearly describes its meaning to both the browser and the developer.
 
 //! -------------------------CSS ------------------------
 
@@ -34,65 +54,13 @@
 
 //* Screen meaning in media queries
 
-//! -------------------------VANILLA JS ------------------------
-//* throttling vs debouncing
-// Throttling is a technique where a function is executed at a regular interval, no matter how frequently it is called.
-// Debouncing, on the other hand, is a technique where a function is only executed after a certain amount of time has passed since the last time it was called.
-
-// Explanation by use case:
-// Search bar- Don't want to search every time user presses key? Want to search when user stopped typing for 1 sec. Use debounce 1 sec on key press.
-// Shooting game- Pistol take 1 sec time between each shot but user click mouse multiple times. Use throttle on mouse click.
-//* Event Loop
-//* http methods like 
-    //GET: GET request is used to read/retrieve data from a web server. 
-    //POST: POST request is used to send data (file, form data, etc.) to the server. On successful creation, it returns an HTTP status code of 201.
-    //PUT: A PUT request is used to modify the data on the server. It replaces the entire content at a particular location with data that is passed in the body payload.If there are no resources that match the request, it will generate one.
-    //PATCH: PATCH is similar to PUT request, but the only difference is, it modifies a part of the data. It will only replace the content that you want to update.
-    //DELETE: A DELETE request is used to delete the data on the server at a specified location.
-//* html 5 comes with semantic tags
-// Advantage of CSS3 over CSS  === refer https://www.geeksforgeeks.org/advantage-of-css3-over-css/    and some are Responsiveness or Media queries,new color formats Colors, advanced Animations, etc
-//* how to stop all the console log at onec console.log = function (){},
-//*async vs differ  === see this image for answer  https://i.stack.imgur.com/wfL82.png
+//* Advantage of CSS3 over CSS  === refer https://www.geeksforgeeks.org/advantage-of-css3-over-css/    and some are Responsiveness or Media queries,new color formats Colors, advanced Animations, etc
 
 //*   diff between visibility and d none  == visibility:hidden hides the element, but it still takes up space in the layout. display:none removes the element from the document. It does not take up any space.
 
-// doctype in html, 
-//All HTML documents must start with a <!DOCTYPE> declaration. The declaration is not an HTML tag. It is an "information" to the browser about what document type to expect. In HTML 5, the declaration is simple: <!DOCTYPE html>
-
-//* Iframe in html : An inline frame is used to embed another document within the current HTML document.
-//* HTML Formatting Elements 
-// Formatting elements were designed to display special types of text:
-// <b> - Bold text
-// <strong> - Important text
-// <i> - Italic text
-// <em> - Emphasized text
-// <mark> - Marked text
-// <small> - Smaller text
-// <del> - Deleted text
-// <ins> - Inserted text
-// <sub> - Subscript text
-// <sup> - Superscript text
-
-//* Difference between <b> and <strong> Elements
-// The HTML <b> element defines bold text, without any extra importance. The HTML <strong> element defines text with strong importance. The content inside is typically displayed in bold.
-
 //* selectors in css ====  https://www.w3schools.com/css/css_selectors.asp
 
-//*   semantic tag === A semantic element clearly describes its meaning to both the browser and the developer.
-
-//*     2 + undefined gives NaN, not gives any error
-
-//* There are 8 falsy values:
-// undefined, null, NaN, false,'' (empty string),0,-0,0n (BigInt(0))
-//* OBJECTS
-// JavaScript supports programming with objects. Objects are a way of organizing the variables. The different screen elements such
-// as Web pages, forms, text boxes, images, and buttons are treated as objects. Every object has its own properties and methods.
-// Properties define the characteristics of an object. Examples: color, length, name, height, width Methods are the actions that the
-// object can perform or that can be performed on the object. Examples: alert, confirm, write, open, close .
-
-//* Can you name two programming paradigms important for JavaScript app developers?
-// JavaScript is a multi-paradigm language, supporting imperative/procedural programming along with OOP (Object-Oriented
-// Programming) and functional programming. JavaScript supports OOP with prototypal inheritance.
+//! -------------------------VANILLA JS ------------------------ 
 
 //* What is the difference between classical inheritance and prototypal inheritance?
 // Class Inheritance: instances inherit from classes (like a blueprint - a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the new keyword. Class
@@ -100,43 +68,16 @@
 // Prototypal Inheritance: instances inherit directly from other objects. Instances are typically instantiated via factory functions
 // or Object.create(). Instances may be composed from many different objects, allowing for easy selective inheritance.
 
-// Es6(ECMAScript 2015) ====== let and const, Arrow Functions, Template Literals, rest and spread operator,  Default Parameters in functions, classes
+
 //pure components,
 
 // generator in javascript ,
-// Object.keys(myObj). This method returns an array with only the enumerable own string property names ("keys") in the object myObj, but not those in the prototype chain. 
-//object.entries all, 
-// delete myobj.a;
-// Object.freeze(obj)  ===  kuch bhi nhi ho sakta
-// Object.seal() === new properties cannot be added, existing properties cannot be removed.Values of existing properties can still be changed as long as they are writable
-// hosting  === Hoisting in JavaScript is a behavior in which a function or a variable can be used before declaration. 
-//deep copy shallow copy deep copy limitations ,
-    //shallow copy
-        // let a = {
-        //     b: 7,
-        //     c: 8
-        // }
-        // let m = a
-    //deep copy ==  use the spread operator,Object.assign()
-            // for the nested objects 
-            //let m = JSON.parse(JSON.stringify(a))
 
+//  what is map and foreach with example, this keyword with example, 
 
-
-
-//  what is display flex, map and foreach with example, this keyword with example, accordian with nested child elements, call bind apply, array string object methods, pseudo element and class, position in css, duplicate count and other things in array, shadow DOM in react, dependency injection , box model in css, position and display in css, null ==\=== undefined and reason ,rest and spread operator, diff b/w functional class components , package.json vs package.lock.json, create 3 promises and resolve them one by one, window vs document , attributes and property of html , how to empty a array, 
- 
-
-
-// Arrow, let const, spread, rest, literal, destructuring 
-// Spa, component, virtual, declarative, seo
 // Props are immutable states are
-// Freeze,seal,key,value,entries
-// This in method, is object of method
-// This in normal function refer to global object ie window but show undefined in strict mode
-// This in arrow function is this keyword of surrounding
 
-// String-upper,lower,slice,concat,trim,
+// This in arrow function is this keyword of surrounding
 
 
 //! -------------------------REACT JS ------------------------
@@ -306,6 +247,8 @@
 // Ensure all relevant props are passed through to the component.
 // Hoist static methods from the wrapped component.
 // It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
+
+
 //! -------------------------VUE JS ------------------------
 //jo smjh nhi aaya  ==  39,65,66,68,69,70,71,79,81,82,83,84,85,86,87,105
 

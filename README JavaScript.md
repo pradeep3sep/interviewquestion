@@ -705,3 +705,215 @@ These are immutable | 	Mutable
 Compare by value | 	Compare by reference
 Stored in Stack | 	Stored in heap
 Contain certain value | 	Can contain NULL too
+
+### throttling vs debouncing
+* Throttling is a technique where a function is executed at a regular interval, no matter how frequently it is called.
+*  Debouncing, on the other hand, is a technique where a function is only executed after a certain amount of time has passed since the last time it was called.
+
+Explanation by use case:
+* Search bar- Don't want to search every time user presses key? Want to search when user stopped typing for 1 sec. Use debounce 1 sec on key press.
+* Shooting game- Pistol take 1 sec time between each shot but user click mouse multiple times. Use throttle on mouse click.
+
+### Event Loop
+
+### http methods
+* GET: GET request is used to read/retrieve data from a web server. 
+* POST: POST request is used to send data (file, form data, etc.) to the server. On successful creation, it returns an HTTP status code of 201.
+* PUT: A PUT request is used to modify the data on the server. It replaces the entire content at a particular location with data that is passed in the body payload.If there are no resources that match the request, it will generate one.
+* PATCH: PATCH is similar to PUT request, but the only difference is, it modifies a part of the data. It will only replace the content that you want to update.
+* DELETE: A DELETE request is used to delete the data on the server at a specified location.
+
+### how to stop all the console log at onec console.log = function (){}
+
+### async vs differ  === see this image for answer  https://i.stack.imgur.com/wfL82.png
+
+###   2 + undefined gives NaN, not gives any error
+
+### There are 8 falsy values:
+undefined, null, NaN, false,'' (empty string),0,-0,0n (BigInt(0))
+
+### What is OBJECTS
+JavaScript supports programming with objects. Objects are a way of organizing the variables. The different screen elements such as Web pages, forms, text boxes, images, and buttons are treated as objects. Every object has its own properties and methods.
+* Properties define the characteristics of an object. Examples: color, length, name, height, width Methods are the actions that the
+* object can perform or that can be performed on the object. Examples: alert, confirm, write, open, close .
+
+### how to call two api when second one depend on first response in js
+```
+async function fetchData() {
+  try {
+    const first_api_response = await fetch('first_api_url');
+    const first_api_data = await first_api_response.json();
+    
+    const second_api_url = `second_api_base_url?param=${first_api_data.some_value}`;
+    const second_api_response = await fetch(second_api_url);
+    const second_api_data = await second_api_response.json();
+    
+    console.log(second_api_data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+fetchData();
+```
+
+
+or
+
+```
+fetch('first_api_url')
+  .then(response => response.json())
+  .then(data => {
+    // Use the data from the first API response to construct the second API URL
+    const second_api_url = `second_api_base_url?param=${data.some_value}`;
+    
+    // Call the second API using the constructed URL
+    return fetch(second_api_url);
+  })
+  .then(response => response.json())
+  .then(data => {
+    // Use the data from the second API response
+    console.log(data);
+  })
+  .catch(error => {
+    console.error(error);
+  });
+```
+
+or 
+```
+axios.get(...)
+  .then((response) => {
+    return axios.get(...); // using response.data
+  })
+  .then((response) => {
+    console.log('Response', response);
+  });
+```
+### Can you name two programming paradigms important for JavaScript app developers?
+JavaScript is a multi-paradigm language, supporting imperative/procedural programming along with OOP (Object-Oriented Programming) and functional programming. JavaScript supports OOP with prototypal inheritance.
+
+### Es6(ECMAScript 2015)
+let and const, Arrow Functions, Template Literals, rest and spread operator,  Default Parameters in functions, classes
+
+### To delete a property in object
+```
+const myObject = {
+  key1: 'value1',
+  key2: 'value2',
+  key3: 'value3'
+};
+
+delete myObject.key2;
+```
+
+or 
+
+```
+const myObject = {
+  key1: 'value1',
+  key2: 'value2',
+  key3: 'value3'
+};
+
+const { key2, ...newObject } = myObject;
+```
+
+### Shallow Copy vs Deep copy
+* `Shallow copy`: means that only the first level of the object is copied. Deeper levels are referenced.
+
+```
+const obj1 = { name: "John", age: 30 };
+const obj2 = { ...obj1 };
+console.log(obj2); // { name: "John", age: 30 }
+```
+
+* `Deep copy`: means that all levels of the object are copied. This is a true copy of the object.
+
+```
+
+const obj = { name: 'Version 1', additionalInfo: { version: 1 } };
+
+const deepCopy = JSON.parse(JSON.stringify(obj));
+
+deepCopy.name = 'Version 2';
+deepCopy.additionalInfo.version = 2;
+
+console.log(obj); // { name: 'Version 1', additionalInfo: { version: 1 } }
+console.log(deepCopy); // { name: 'Version 2', additionalInfo: { version: 2 } }
+```
+
+
+### object freeze vs seal
+* Object.freeze(obj)  ===  kuch bhi nhi ho sakta
+* Object.seal(obj) === new properties cannot be added, existing properties cannot be removed.Values of existing properties can still be changed as long as they are writable
+
+### hosting
+Hoisting in JavaScript is a behavior in which a function or a variable can be used before declaration. 
+
+### call, bind and apply
+
+### Window vs document
+
+`window` is the top-level object in the browser's JavaScript hierarchy, and it represents the browser window or tab itself. It contains properties and methods that control the behavior of the browser window, such as `alert()`, `confirm()`, `setTimeout()`, `location`, and more. The `window` object is also the global object in the browser's JavaScript environment, meaning that any variables or functions declared without the `var`, `let`, or `const` keywords are automatically added as properties of the window object.
+
+On the other hand, `document` is an object that represents the web page displayed in the browser window. It contains properties and methods that allow you to manipulate the content and structure of the web page, such as `getElementById()`, `createElement()`, `querySelector()`, `innerHTML`, and more. The `document` object is a property of the window object, so you can access it as `window.document` or simply document.
+
+In summary, `window` is used to interact with the browser window, while `document` is used to interact with the content of the web page displayed in that window.
+
+
+### how to empty a array
+```
+myArray.length = 0;
+```
+or 
+```
+myArray = [];
+```
+
+### key,value,entries in object
+
+### Needs discussion
+What is the currying function
+How do you redeclare variables in switch block without an error
+What is the Temporal Dead Zone
+What is memoization
+What are server-sent events
+How do you receive server-sent event notifications
+How do you check browser support for server-sent events
+What are the events available for server sent events
+What is promise.all
+What is the purpose of the race method in promise
+How do you test for an empty object
+What is an arguments object
+How do you check if a string starts with another string
+What is a proxy object
+What are javascript accessors
+How do you define property on Object constructor
+What is the difference between get and defineProperty
+What are the advantages of Getters and Setters
+Can I add getters and setters using defineProperty method
+What is a decorator
+What is an empty statement and purpose of it
+How do you get metadata of a module
+hat is a comma operator
+What is the advantage of a comma operator
+What is an object initializer
+What are the DOM methods available for constraint validation
+What are the available constraint validation DOM properties
+What are the list of validity properties
+Give an example usage of rangeOverflow property
+How do you get property descriptors of an object
+What are the attributes provided by a property descriptor
+How do you load CSS and JS files dynamically
+How to cancel a fetch request
+What is web speech API
+What is minimum timeout throttling
+How do you implement zero timeout in modern browsers
+What is the difference between Function constructor and function declaration
+What is the difference between function and class declarations
+How to detect if a function is called as constructor
+How to invoke an IIFE without any extra brackets?
+What is the difference between dense and sparse arrays?
+What are the different ways to create sparse arrays?
+What is the difference between setTimeout, setImmediate and process.nextTick?
