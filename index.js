@@ -250,7 +250,7 @@
 
 
 //! -------------------------VUE JS ------------------------
-//jo smjh nhi aaya  ==  39,65,66,68,69,70,71,79,81,82,83,84,85,86,87,105
+//jo smjh nhi aaya  ==  65,66,68,69,70,71,79,81,82,83,84,85,86,87,105
 
 //* What are the major features of VueJS?
 //* We can have 2 or more style in single component. One style is used for the global style and other one can be scoped style
