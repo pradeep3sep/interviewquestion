@@ -1,8 +1,3 @@
-//! https://github.com/pradeep3sep/javascript-questions-machine-code
-// Question no 4,7,9,11,12,13,17,24,26,27,34,36,39,46.49 solution bhi,50,51 mast h solution bhi,54 solution bhi.56,57,58 solution bhi,59,61,62 solution must,63,64,65,67,72,73,74,75,76,83 sol,86 good,91,93,94,95,105,106,113 very good,123 revison concept,127,145,151
-// Pending 8,38,44,45,55,66,71,78,82,90,92,96,97,98,114,116,127,132,133, object seal and freeze,138,139,140,141,142,144,147,150,152,153,154
-
-
 //! https://www.thatjsdude.com/interview/js1.html#isPrime
 
 
@@ -69,18 +64,11 @@
 // or Object.create(). Instances may be composed from many different objects, allowing for easy selective inheritance.
 
 
-//pure components,
 
-// generator in javascript ,
-
-//  what is map and foreach with example, this keyword with example, 
+//! -------------------------REACT JS ------------------------
 
 // Props are immutable states are
 
-// This in arrow function is this keyword of surrounding
-
-
-//! -------------------------REACT JS ------------------------
 //* useimperativehandle hook 
 
 // ### Question 5
@@ -258,9 +246,6 @@
 // Ensure all relevant props are passed through to the component.
 // Hoist static methods from the wrapped component.
 // It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
-
-
-//! -------------------------VUE JS ------------------------
 
 
 
