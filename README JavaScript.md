@@ -1,3 +1,10 @@
+> ### What is webpack
+Webpack is a module bundler for JavaScript applications
+* Uses
+  * Make Build
+  * Js & CSS minify
+  * Create the entry file
+
 > ### What are the possible ways to create objects in JavaScript 2
 * Object constructor
  ```

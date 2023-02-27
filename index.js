@@ -82,6 +82,17 @@
 
 //! -------------------------REACT JS ------------------------
 //* useimperativehandle hook 
+
+// ### Question 5
+// how to add "<h1>Hello World</h1>" in jsx
+// export default function App() {
+//     const htmlString = "<h1>Hello World</h1>";
+//     return <div dangerouslySetInnerHTML={{ __html: htmlString }}>
+//            </div>;
+// }
+// true
+
+
 //*real dom virtual dom,ref, shadow dom, createelement in react, clone element in react, stateful components, limitations of react, react router,can we pass react hook as a prop. High order components , redux, improve performance of react - usememo, useeffect with clear, lazy load,
 //*react one way binding
 //use this url for refernce, vue has v-model so direct but react has to added the event function and the we use the setstate https://stackoverflow.com/questions/34519889/can-anyone-explain-the-difference-between-reacts-one-way-data-binding-and-angula
@@ -250,99 +261,16 @@
 
 
 //! -------------------------VUE JS ------------------------
-//jo smjh nhi aaya  ==  65,66,68,69,70,71,79,81,82,83,84,85,86,87,105
-
-//* What are the major features of VueJS?
-//* We can have 2 or more style in single component. One style is used for the global style and other one can be scoped style
-//* Vue lifecycle methods.
-//* CSS modules in vue js (similar like we use in the react)(:class="$style.red" and <style module> wala part is module)
-{/* <template>
-  <p :class="$style.red">This should be red</p>
-</template>
-
-<style module>
-.red {
-  color: red;
-}
-</style> */}
 
 
-//*What are the conditional directives
-// VueJS provides set of directives to show or hide elements based on conditions. The available directives are: v-if, v-else, v-else-if and v-show
-//* How to make router param changes as reactive?
-//* What is the difference between v-show and v-if directives?
-// Below are some of the main differences between v-show and v-if directives,
-// v-if only renders the element to the DOM if the expression passes whereas v-show renders all elements to the DOM and then uses the CSS display property to show/hide elements based on expression.
-// v-if supports v-else and v-else-if directives whereas v-show doesn't support else directives.
-// v-if has higher toggle costs while v-show has higher initial render costs. i.e, v-show has a performance advantage if the elements are switched on and off frequently, while the v-if has the advantage when it comes to initial render time.
-// v-if supports <template> tab but v-show doesn't support.
-
-//*How do you reuse elements with key attribute?  input k liye jarur
-//*Why should not use if and for directives together on the same element?
-//* Why do you need to use key attribute on for directive?
-//*What are the array detection mutation methods?
-//*What are the array detection non-mutation methods?
-//*How do you use v-for directive with a range?
-//*What are the event modifiers provided by vue?
-//*What are key modifiers?
-//*What are the supported System Modifier Keys
-//*What are the supported Mouse Button Modifiers?
-//*What are the supported modifiers on model?
-//*How do you communicate from child to parent using events? try example in codesandbox
-//*What is global registration in components vs local registration? iska second part dekho answer me se
-//*What are non prop attributes?
-//*Describe about validations available for props?
-//*How do you customize model directive for a component?
-//*What is vue router and their features
-//* What is route matching priority?
-//* What are nested routes? video dekho zara nested routing ki
-//* What are single file components? and then Is Single File Components violating separation of concerns?
-//*What are filters? What are the different ways to create filters? How do you chain filters? Is it possible to pass parameters for filters? zarur padhe
-//* What are plugins and their various services? How to create a plugin?  https://www.digitalocean.com/community/tutorials/vuejs-creating-custom-plugins
-
-//* Global mixins --- https://freek.dev/823-using-global-mixins-in-vuejs)
-//* What are the merging strategies in mixins?
-//* What are custom directives?How do you register directives locally?What are the hook functions provided by directives?  for the video https://youtu.be/HJHKSNA6HU0
-//*What is the purpose of keep alive tag?
-//*What is the purpose of vuejs once directive?
-//* How do you access the root instance?
-//* How do you access parent instance?
-//*What are asset url transform rules?
-//*Is it possible to mix both local and global styles?
-//* Is parent styles leaked into child components in scoped css?
-//* What is hot reloading in vue loader? How do you disable hot reloading explicitly?
-//*How do you use deep selectors?
-
-// Vuex k questions 143 se start hue h.
-//* What are vuex getters?? answer jarur dekhe iska
-//* How do you perform mutations in components?
-//* How do you perform asynchronous operations?
-//* What are differences between mutations and actions?
-//* How do you dispatch actions in components?
-//* What are modules in vuex?
-//*  How to use model directive with two way computed property? mast cheez h
-//* What does nextTick do in VueJS?
-//* What is the main difference between method and computed property? answer dekho jarur
-//* How do you watch route object changes?
-//* What are navigation guards in vue router?
-//* Can I use computed property in another computed property?
-//* Why the component data must be a function?
-//* v-html,v-once,watchers(use the value concept in it),computed property(ye bhi data function pe depend hota h,change hone pe run hota h, first time run hota h, used for fast calculation,)
-//* method vs computed vs watchers vue maxmilian video.
-//* various formats are kebap-case, PascalCase, camelCase
-//* Slots, teleport
-//*VueX-mutations
-//^global imports vs local imports of components. for global componnents use the maxmilian example in main.js file of props video or use global vs local components video of max millian
 
 
-//! :class = "{active : dyanmicdata}" ======== "dynamicdata ? 'active' : ''" keep in mind bracket important h
 
 
-// ### Question 5
-// how to add "<h1>Hello World</h1>" in jsx
-// export default function App() {
-//     const htmlString = "<h1>Hello World</h1>";
-//     return <div dangerouslySetInnerHTML={{ __html: htmlString }}>
-//            </div>;
-// }
-// true
+
+
+
+
+
+
+
