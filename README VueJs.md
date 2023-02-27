@@ -1,5 +1,5 @@
 ```
-https://github.com/pradeep3sep/vuejs-interview-questions#what-are-inline-templates
+https://github.com/pradeep3sep/vuejs-interview-questions
 ```
 
 ### How to use v-model on custom input box
