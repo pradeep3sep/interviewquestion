@@ -182,6 +182,15 @@ export default {
 ```
 When the AsyncComponent is rendered, it will load the component definition asynchronously and render it when it is ready.
 
+### what is vue loader 
+Vue Loader is a loader for Webpack, a popular module bundler for web applications, that allows you to write Vue.js components in a format that can be compiled into JavaScript code that can be run in a web browser.
+
+Vue Loader works by parsing your Vue components and their associated templates, and then transforming them into JavaScript code that can be included in your application. This allows you to write your components in a more modular and reusable way, and it also makes it easier to manage the dependencies between your components.
+
+Vue Loader supports many features of Vue.js, including template compilation, scoped CSS, custom blocks, and hot-reloading. It also supports pre-processors such as Sass and Less, and can be configured to use other plugins to extend its functionality.
+
+Overall, Vue Loader simplifies the process of building Vue.js applications by allowing developers to write components in a more intuitive and efficient way.
+
 ### How do you configure vue loader in webpack?
 ```
 // webpack.config.js

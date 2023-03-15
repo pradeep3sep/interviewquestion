@@ -884,6 +884,45 @@ myArray = [];
 
 ### key,value,entries in object
 
+### Math function in js
+Math.ceil(x)	Returns x rounded up next integer
+console.log(Math.ceil(4.9)) //5
+console.log(Math.ceil(4.5))  //5
+console.log(Math.ceil(4.1))  //5
+console.log(Math.ceil(-4.1))  //-4
+
+Math.round(x)	Returns x rounded to its nearest integer
+console.log(Math.round(4.9))    //5
+console.log(Math.round(4.5))    //5
+console.log(Math.round(4.1))    //4
+console.log(Math.round(-4.1))   //-4
+
+Math.floor(x) returns the value of x rounded down to its nearest integer
+console.log(Math.floor(4.9))    //4
+console.log(Math.floor(4.5))    //4
+console.log(Math.floor(4.1))    //4
+console.log(Math.floor(-4.1))   //-5
+
+Math.trunc(x) returns the integer part of x
+console.log(Math.trunc(4.9))    //4
+console.log(Math.trunc(4.5))    //4
+console.log(Math.trunc(4.1))    //4
+console.log(Math.trunc(-4.1))   //-4
+
+
+Math.sqrt()
+Math.sqrt(64);
+
+Math.pow()
+Math.pow(8, 2);
+
+Math.abs(x) returns the absolute (positive) value of x:
+Math.abs(-4.7); //4.7
+
+Math.min(0, 150, 30, 20, -8, -200); //-200
+console.log(Math.max(0, 150, 30, 20, -8, -200)) //150
+
+
 ### Needs discussion
 What is the currying function
 How do you redeclare variables in switch block without an error
