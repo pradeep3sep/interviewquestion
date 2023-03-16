@@ -348,7 +348,7 @@ Below are some of the main differences between v-show and v-if directives,
 
 >  How do you watch route object changes?
 
->  What are navigation guards in vue router?
+>  What are navigation guards in vue router?   https://router.vuejs.org/guide/advanced/navigation-guards.html
 
 >  Can I use computed property in another computed property?
 
