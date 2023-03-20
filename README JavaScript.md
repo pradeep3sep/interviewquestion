@@ -133,6 +133,39 @@ class Bike {
 }
 ```
 
+Below is for the parent and child
+```
+// Parent class
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  speak() {
+    console.log(`${this.name} makes a noise.`);
+  }
+}
+
+// Child class
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name); // call the parent class constructor with 'super'
+    this.breed = breed;
+  }
+  
+  speak() { // override the parent class method
+    console.log(`${this.name} barks!`);
+  }
+}
+
+// Create instances of both classes
+const animal = new Animal('Animal');
+const dog = new Dog('Buddy', 'Golden Retriever');
+
+animal.speak(); // Animal makes a noise.
+dog.speak(); // Buddy barks!
+```
+
 > ### What are the differences between cookie, local storage and session storage
 Below are some of the differences between cookie, local storage and session storage,
 
