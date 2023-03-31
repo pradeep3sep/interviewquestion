@@ -1000,3 +1000,26 @@ How to invoke an IIFE without any extra brackets?
 What is the difference between dense and sparse arrays?
 What are the different ways to create sparse arrays?
 What is the difference between setTimeout, setImmediate and process.nextTick?
+
+
+
+
+
+
+
+```
+React.memo() is a higher-order component that we can use to wrap components that we do not want to re-render unless props within them change
+useMemo() is a React Hook that we can use to wrap functions within a component. We can use this to ensure that the values within that function are re-computed only when one of its dependencies change
+
+debouncing vs throttling
+1st one is diff b/w to type value time and second one is the time difference between two function call
+
+Redux Thunk
+Oftentimes, when building a web application, you’ll need to call on APIs which means some asynchronous action is going on. Redux Thunk is a middleware that to do these asynchronous actions with Redux. Redux, by itself, does not allow asynchronous actions and this is troublesome if we want to dispatch an action that fetches data from an API for example. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met.
+
+window.onbeforeunload = popup;
+
+function popup() {
+  return 'I see you are leaving the site';
+}
+```
