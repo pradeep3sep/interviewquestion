@@ -1023,3 +1023,42 @@ function popup() {
   return 'I see you are leaving the site';
 }
 ```
+### Strict Mode
+Please make sure that "use strict" is at the top of your scripts, otherwise strict mode may not be enabled.
+
+Strict mode isn’t enabled here:
+```
+alert("some code");
+// "use strict" below is ignored--it must be at the top
+
+"use strict";
+
+// strict mode is not activated
+```
+There’s no way to cancel use strict
+There is no directive like "no use strict" that reverts the engine to old behavior.
+Once we enter strict mode, there’s no going back.
+
+### variables
+What’s interesting – the dollar sign '$' and the underscore '_' can also be used in names. They are regular symbols, just like letters, without any special meaning.
+These names are valid:
+```
+let $ = 1; // declared a variable with the name "$"
+let _ = 2; // and now a variable with the name "_"
+
+alert($ + _); // 3
+```
+
+```
+let my-name; // hyphens '-' aren't allowed in the name
+```
+
+Non-Latin letters are allowed, but not recommended
+It is possible to use any language, including cyrillic letters, Chinese logograms and so on, like this:
+```
+let имя = '...';
+let 我 = '...';
+```
+
+### Data Types
+Besides regular numbers, there are so-called “special numeric values” which also belong to this data type: Infinity, -Infinity and NaN.
