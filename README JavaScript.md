@@ -1062,3 +1062,25 @@ let 我 = '...';
 
 ### Data Types
 Besides regular numbers, there are so-called “special numeric values” which also belong to this data type: Infinity, -Infinity and NaN.
+
+
+url: https://javascript.info/cross-window-communication
+above is for iframe or cross-window communication
+An <iframe> tag hosts a separate embedded window, with its own separate document and window objects.
+We can access them using properties:
+iframe.contentWindow to get the window inside the <iframe>.
+iframe.contentDocument to get the document inside the <iframe>, shorthand for iframe.contentWindow.document.
+
+
+
+must read attack - The clickjacking attack - https://javascript.info/clickjacking  also see https://www.geeksforgeeks.org/http-headers-set-cookie/, https://http.dev/set-cookie
+
+
+No idea - 
+https://javascript.info/arraybuffer-binary-arrays
+https://javascript.info/text-decoder
+blob
+
+
+Axios upload progress with progress bar tutorial --- https://www.youtube.com/watch?v=nC3ntJUQrAM
+to copy the text - navigator.clipboard.writeText(copy_text)  . We can do according to promise resolve
