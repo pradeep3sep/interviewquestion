@@ -23,7 +23,21 @@ Please read about the process.argv in detail
 
 Mongodb is schemaless while mysql is opposite. mongodb me hum kuch bhi ghused dete h
 
-// Schema and Model
-We make schema(condition ) fist and then we make the model form it. Model is function used to connect to schema(blueprint) with a name. Layered form of schema is the model
+//--------------------Schema and Model-------------
+We make schema(condition ) fist and then we make the model form it. Model is function used to connect to schema(blueprint) with a name. Layered form of schema is the model. schema => model => model instance
+Generally the collection name is plural
 First argument of the model of mongoose is the collection or table name
 eg const data = mongoose.model('collection_name', dataSchema)
+In Schema, we have 
+- default
+- required
+- 
+
+
+
+// ---------------- MVC Architecture---------------
+Model Layer - It is concerned with everything about application data and business logic
+Controller Layer - It's function is to handle the application's request, interect with models, and send back responses to the client
+View Layer - used for the graphical interface, ssr website, template to generate the view. Basically presenation logic
+
+FAT Model/THIN Controllers - Offload as much logic as possible into the models and keep the cotrollers as simple and lean as possible.
