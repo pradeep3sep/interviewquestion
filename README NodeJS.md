@@ -1,4 +1,6 @@
-Jonas ka agar dekhna h to sction 8 se dekho
+Jonas ka agar dekhna h to sction 8 se dekho, for query see from video 96. video 100 is good one
+
+we need to form like "import-dev-data.js" of jonas to have the backup or default file to upload in database if anthing bad happen
 
 Browser has document and window
 Node has process and global
@@ -17,7 +19,10 @@ To read/write the file which is available in local folder we use the fs module i
 
 app.use(express.json({ limit : '10kb' })) It works as middleware and helps to get the data from the request body, also limits the data on body allowable
 
-To get the dynamic params => api/v1/products/:id
+To get the dynamic params => api/v1/products/:id and use through req.params.id
+req.query me hamesa object aata h
+find, findbyid, findone etc ye sab "query promise" k form me return karte h. isi query pe hum sort, paginate etc lagate h then promise resolve karte h
+for query - http://localhost:3000/api/v1/tours?duration[gte]=5&difficulty=easy
 
 Please read about the process.argv in detail
 
@@ -28,10 +33,49 @@ We make schema(condition ) fist and then we make the model form it. Model is fun
 Generally the collection name is plural
 First argument of the model of mongoose is the collection or table name
 eg const data = mongoose.model('collection_name', dataSchema)
+
+    image: {
+        type: [String],   // Here how we define the type is important
+        required: [true, "Please share the images"]
+    },
+
+
+
 In Schema, we have 
+- unique
 - default
 - required
-- 
+- min and max
+- validate or validator
+- trim (only for string)
+- select - if it is false means it will not be visible in response api
+- get
+- set
+- alias
+- immutable
+- transform
+
+String
+- lowercase
+- uppercase
+- trim
+- match
+- enum
+- minLength
+- maxLength
+- populate
+
+Number
+- min
+- max
+- enum
+- populate
+
+Date
+- min
+- max
+- expires
+
 
 
 
@@ -41,3 +85,9 @@ Controller Layer - It's function is to handle the application's request, interec
 View Layer - used for the graphical interface, ssr website, template to generate the view. Basically presenation logic
 
 FAT Model/THIN Controllers - Offload as much logic as possible into the models and keep the cotrollers as simple and lean as possible.
+
+
+// ----------------------- Aggregation---------------
+We basically define a pipeline that all documents from a certain collection go through where they are processed step by step in order to transform them into aggregated results.
+eg we use aggregation pipeline in order to calculate averages, min, max values 
+self note - basically data k uper calcution kr k kuch naya data dena.
