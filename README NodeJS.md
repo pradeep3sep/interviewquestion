@@ -83,7 +83,14 @@ const path = require('path')
 console.log(path.join(__dirname,"../../public"))
 
 express.static defines the folder which serves directly means if it has the about.html filr, you can access directly like localhost:3000/about.html.  Jab ye folder define kar denge phir iske ander file dhyan se rakhni padegai
+
+aur agr code me ye path use krna ho to src='/images/self.png'
+
 app.use(express.static(path.join(__dirname,'public')));
+
+-----------------------------
+https://expressjs.com/en/4x/api.html#app
+explore left section of above url
 
 
 // ---------------- MVC Architecture---------------
