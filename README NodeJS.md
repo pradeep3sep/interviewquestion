@@ -76,7 +76,14 @@ Date
 - max
 - expires
 
+-----------------------------
+console.log(__dirname)
+console.log(__filename)
+const path = require('path')
+console.log(path.join(__dirname,"../../public"))
 
+express.static defines the folder which serves directly means if it has the about.html filr, you can access directly like localhost:3000/about.html.  Jab ye folder define kar denge phir iske ander file dhyan se rakhni padegai
+app.use(express.static(path.join(__dirname,'public')));
 
 
 // ---------------- MVC Architecture---------------
