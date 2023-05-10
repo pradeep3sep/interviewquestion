@@ -135,3 +135,18 @@ We have the pre and post aggregation middleware. "This" points towards the aggre
 
 ------------ validation
 enum
+
+
+// ------------------------ Error Handling --------------------
+video 112 concept is good, not the code
+video 114 logic is must. 115 code and logic
+video 116 kafi deep logical h, catchasync h
+
+we always have 4, (err, req, res, next) => {}
+
+We need to understand separately
+- errorObject
+- unhandled route
+- catch and async or catchasync
+
+isOperational why it is added
