@@ -1,5 +1,9 @@
 Jonas ka agar dekhna h to sction 8 se dekho, for query see from video 96. video 100 is good one
 
+** Special note: Many functions, checks, validators do not work on updationg one or many. So we should keep it in mind
+
+video 102-107 phir se dekhna h
+
 we need to form like "import-dev-data.js" of jonas to have the backup or default file to upload in database if anthing bad happen
 
 Browser has document and window
@@ -105,3 +109,29 @@ FAT Model/THIN Controllers - Offload as much logic as possible into the models a
 We basically define a pipeline that all documents from a certain collection go through where they are processed step by step in order to transform them into aggregated results.
 eg we use aggregation pipeline in order to calculate averages, min, max values 
 self note - basically data k uper calcution kr k kuch naya data dena.
+
+aggreation is use to calculate the statics of the collection data in various steps or stages
+eg we use aggregation pipeline in order to calculate averages, min, max values 
+It occurs in stages, 
+eg  Stage 1 - match
+    Stage 2 - group it has _id means on which basis you want to group. if null is provided means no group or one single group. 
+    Stage 3 - sort
+    Stage 4 - match
+https://www.mongodb.com/docs/manual/aggregation/   site for defination and example
+self note - basically data k uper calcution kr k kuch naya data dena.
+
+We have the virtual properties which do not save the data but return in response of api. These data can not be used for query
+
+
+
+
+----------- https://mongoosejs.com/docs/middleware.html
+We have the pre and post save middleware ie Document middleware which work before and after saving the document. "This" points towards the schema
+
+We have the pre and post find middleware ie query middleware. "This" points towards the quey. Isme bas quey chalti h jo data filter karti h. We can use the regex in find to use various type of find query
+
+We have the pre and post aggregation middleware. "This" points towards the aggregation.
+
+
+------------ validation
+enum
