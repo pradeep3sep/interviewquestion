@@ -141,12 +141,21 @@ enum
 video 112 concept is good, not the code
 video 114 logic is must. 115 code and logic
 video 116 kafi deep logical h, catchasync h
+video 123 is also good
 
 we always have 4, (err, req, res, next) => {}
 
 We need to understand separately
 - errorObject
 - unhandled route
-- catch and async or catchasync
+- catch and async or catchasync - iske error kaise flow kar rahe h
 
 isOperational why it is added
+
+
+----------------------- Auth ---------------
+video 128 gives how JWT works
+point to note that password hashing is one side, means we can encrypt it but can't decrypt it. It is for safety purpose that no one can use that password on another platform
+Generally hume jwt me pas id pass karni chaiye coz, jwt debugger se data nikala ja sakta h. iska main use ye rehta h ki information koi bhi dekh le but koi ishe modify na kar paye
+
+we can create a method on the instance of schema
