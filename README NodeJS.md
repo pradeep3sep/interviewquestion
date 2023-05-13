@@ -159,3 +159,10 @@ point to note that password hashing is one side, means we can encrypt it but can
 Generally hume jwt me pas id pass karni chaiye coz, jwt debugger se data nikala ja sakta h. iska main use ye rehta h ki information koi bhi dekh le but koi ishe modify na kar paye
 
 we can create a method on the instance of schema
+
+video 132 part 2 is the good one
+
+
+
+------------------- POSTMAN -----------------
+video 133 for advanced postman setup
