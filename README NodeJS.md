@@ -1,4 +1,11 @@
 Jonas ka agar dekhna h to sction 8 se dekho, for query see from video 96. video 100 is good one
+video 135 for forgot password and reset password
+
+keep in mind when we are using the middleware protect, there we are adding the useer to res then the user details is available on all the routes below that
+
+security of cookie ----------- video 142 full dekhna -------------. res k cookies me humne apna jwt store kia and httponly mark kia h means no 3rd party can store it.
+
+video 145 bhi theek h
 
 ** Special note: Many functions, checks, validators do not work on updationg one or many. So we should keep it in mind
 
@@ -166,3 +173,23 @@ video 132 part 2 is the good one
 
 ------------------- POSTMAN -----------------
 video 133 for advanced postman setup
+
+---------------------
+we have the routes protected to certain user and login also like admin and subadmin
+
+
+----------------------- MODELLING DATA -------------------
+Relation
+1:1
+1: Many - further subdivide are few, many, ton
+Many : Many
+
+                                        data modelling
+                                embedding           referencing
+                                                child  parent  two-way
+
+how to decide which type of data referencing we should use like embedding or referencing. see video 148,151,152 is must
+ek hoto h child referencing and ek hoti h parent referencng
+ek hota h virtual, ek hota h populate, phir ek hota h virtual populate
+video - 153 - child referencing
+video - 154,156,157 - parent referencing and virtual populate - we mostly use it
