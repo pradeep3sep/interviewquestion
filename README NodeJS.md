@@ -193,3 +193,32 @@ ek hoto h child referencing and ek hoti h parent referencng
 ek hota h virtual, ek hota h populate, phir ek hota h virtual populate
 video - 153 - child referencing
 video - 154,156,157 - parent referencing and virtual populate - we mostly use it
+159 kam samjh aaya
+
+factory function banna padega pr wo project k last me banaunga
+
+indexes - video 167 very much important - Indexes created the performance very much----------- we need to create at the end
+
+populate or virtual populate me hum kabhi query nhi kr sakte like sum, avg. just we can show the data
+
+
+methods vs static in mongoose, the differece is that one is called after making the instance and other one is called directly
+
+video 168,169 aache content h
+
+we can use the index for preventing the duplicate values like 2 reviews by single user
+
+we have the set function in the schema.
+
+video 200 for multer, imp
+204 for multiple images imp h - multiple case me single and multiple dono cover ho jata h, we have the single and array
+
+if needed, frontend pe 203 dekhna
+
+we have the resize the photo function
+
+we are using the sharp package to image resize
+
+jab koi function kafi controller me use karna ho to bas uska ek factorycontroller bna lo design ek middleware(req,res,next) jaisa hone chaiye na ki koi function file bna k usko import karo controller file me
+
+Jab calculation karni ho to aggregation agar data dikhana ho to populate
