@@ -191,6 +191,13 @@ Many : Many
 how to decide which type of data referencing we should use like embedding or referencing. see video 148,151,152 is must
 ek hoto h child referencing and ek hoti h parent referencng
 ek hota h virtual, ek hota h populate, phir ek hota h virtual populate
+
+=> Ja child me parent ki id mark ki ho(parent referencing) and then child ko call kr k parent ki detail nikalni ho to populate use hoga. same case me agr parent ko call kr k child ki detail nikalni ho to virtual populate hoga
+=> virtual me as ek additional node add krna api me jo kuch calculate kr k de, without storing/adding/using the database
+
+
+
+
 video - 153 - child referencing
 video - 154,156,157 - parent referencing and virtual populate - we mostly use it
 159 kam samjh aaya
