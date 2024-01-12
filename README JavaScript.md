@@ -231,6 +231,7 @@ Converted to zero (0) while performing primitive operations  | 	Converted to NaN
 
 > ### What is eval
 The eval() function evaluates JavaScript code represented as a string. The string can be a JavaScript expression, variable, statement, or sequence of statements.
+isko hum calculator me use kar sakte h, '10+3' as a string pass kar do ye 13 return karega.
 ```
 console.log(eval("1 + 2")); //  3
 ```
