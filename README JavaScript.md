@@ -1,6 +1,30 @@
 ```
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
+### Array things
+- When setting a property on a JavaScript array when the property is a valid array index and that index is outside the current bounds of the array, the engine will update the array's length property accordingly:
+```
+const check = ["hi"]
+check[2] = "bbb"
+
+console.log(check)  // gives ['hi', empty, 'bbb']
+```
+
+- Increasing the length extends the array by adding empty slots without creating any new elements — not even undefined.
+```
+const list = ["sam"]
+list.length = 3
+console.log(list)   // gives  ['sam', empty × 2]
+```
+
+- Decreasing the length property does, however, delete elements.
+
+```
+const list = ["sam","ram","bima"]
+list.length = 1
+console.log(list)   // gives ['sam']
+```
+
 
 > ### What is webpack
 Webpack is a module bundler for JavaScript applications
