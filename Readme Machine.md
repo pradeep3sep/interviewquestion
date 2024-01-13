@@ -472,3 +472,11 @@ console.log(a == b)  // false
 ```
 
 arrays are coerced to strings by simply joining all the values with comma(,) in between
+
+### Question 40
+```
+'a' < 'b' // gives true because a and b both are string so are converted to number 1 and 2 respectively by coercion of js
+'a' > 'b'  // gives false because a and b both are string so are converted to number 1 and 2 respectively by coercion of js
+42 < 'hh'  // gives false
+42 > 'hh'  // gives false because the both are different data type so 'hh' are coerced to NaN and the comparison becomes 42 > NaN
+```
