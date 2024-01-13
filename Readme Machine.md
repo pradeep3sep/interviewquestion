@@ -459,3 +459,16 @@ console.log(name); // John Smith
 
 Answer: 3 \
 In JavaScript, primitives are immutable i.e. there is no way to change a primitive value once it gets created. So when you try to update the string's first character, there is no change in the string value and prints the same initial value Hello World!. Whereas in the later example, the concatenated value is re-assigned to the same variable which will result into creation of new memory block with the reference pointing to John Smith value and the old memory block value(John) will be garbage collected.
+
+### Question 39
+```
+var a = [1,2,3]
+var b = [1,2,3]
+var c = '1,2,3'
+
+console.log(a == c)  // true
+console.log(b == c)  // true
+console.log(a == b)  // false
+```
+
+arrays are coerced to strings by simply joining all the values with comma(,) in between
