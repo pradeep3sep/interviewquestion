@@ -56,7 +56,7 @@ function x() {
 var z = x();
 console.log(z);  // value of z is entire code of function y.
 ```
-    - In above code, When y is returned, not only is the function returned but the entire closure (fun y + its lexical scope) is returned and put inside z. So when z is used somewhere else in program, it still remembers var a inside x()
+- In above code, When y is returned, not only is the function returned but the entire closure (fun y + its lexical scope) is returned and put inside z. So when z is used somewhere else in program, it still remembers var a inside x()
 
 - Another example
   ```
