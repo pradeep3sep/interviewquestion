@@ -30,7 +30,7 @@ for slice - return new array
 ```
 slice()  // gives full array
 slice(startIndex)  // gives values from start index to end
-slice(startIndex, endIndex)
+slice(startIndex, endIndex) // gives values from start index to one before endIndex
 ```
 
 for splice - mutate the array and *keep in mind it return array of deleted values
