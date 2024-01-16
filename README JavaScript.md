@@ -130,6 +130,8 @@ console.log(window.a); // undefined
 console.log(window.b); // 15
 ```
 
+>### Hoisting
+Hoisting is a concept which enables us to extract values of variables and functions even before initialising/assigning value without getting error 
 
 
 > ### What is webpack
