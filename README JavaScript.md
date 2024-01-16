@@ -42,6 +42,61 @@ splice(startIndex, deleteCount, item1)  // delete the no of delteCount values fr
 splice(startIndex, deleteCount, item1, item2)
 ```
 
+> ### Map
+The Map object holds key-value pairs and remembers the original insertion order of the keys
+
+```
+const map1 = new Map();
+
+map1.set('a', 1);
+map1.set('b', ["hi","hello"]);
+map1.set('c', "any value can be added");
+
+console.log(map1.get('a'));
+// Expected output: 1
+
+map1.set('a', 97);
+
+console.log(map1.get('a'));
+// Expected output: 97
+
+console.log(map1.size);
+// Expected output: 3
+
+map1.delete('b');
+
+console.log(map1.size);
+// Expected output: 2
+```
+
+- Another way of create map
+
+```
+const question = new Map([
+    ["question","what is ..."],
+    [1,"C++"],
+    [2,"Java"],
+    [3,"Javascript"]
+])
+```
+
+- To convert an object to map
+```
+const newObject = {
+    name: "Pradeep",
+    gender: "M"
+}
+
+const objToMap = new Map(Object.entries(newObject))
+console.log(objToMap)
+```
+
+Diff b/w Object and Map
+1. In Object, the data-type of the key-field is restricted to integer(behind the scene it is stored as string), strings, and symbols. Whereas in Map, the key-field can be of any data-type (integer, an array, even an object!)
+2. In the Map, the original order of elements is preserved. This is not true in case of objects. Thus, when iterating over it, a Map object returns keys in order of insertion.
+3. You can get the size of a Map easily with the size property, while the number of properties in an Object must be determined manually.
+4. An Object has a prototype, so there are default keys in the map that could collide with your keys if you're not careful. As of ES5 this can be bypassed by using map = Object.create(null), but this is seldom done.
+
 > ### What is webpack
 Webpack is a module bundler for JavaScript applications
 * Uses
