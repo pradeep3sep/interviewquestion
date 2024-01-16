@@ -97,6 +97,24 @@ Diff b/w Object and Map
 3. You can get the size of a Map easily with the size property, while the number of properties in an Object must be determined manually.
 4. An Object has a prototype, so there are default keys in the map that could collide with your keys if you're not careful. As of ES5 this can be bypassed by using map = Object.create(null), but this is seldom done.
 
+> ### What is a pure function
+A Pure function is a function where the return value is only determined by its arguments without any side effects. i.e, If you call a function with the same arguments 'n' number of times and 'n' number of places in the application then it will always return the same value.
+
+> ### How do you redeclare variables in switch block without an error
+```
+let counter = 1;
+switch (x) {
+  case 0: {
+    let name;
+    break;
+  }
+  case 1: {
+    let name; // No SyntaxError for redeclaration.
+    break;
+  }
+}
+```
+
 > ### What is webpack
 Webpack is a module bundler for JavaScript applications
 * Uses
