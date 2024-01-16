@@ -170,9 +170,6 @@ null === undefined // false
 {}=={} or {}==={} //false, refer different objects in memory
 ```
 
-> ### What is a first order function
-First-order function is a function that doesn’t accept another function as an argument and doesn’t return a function as its return value.
-
 > ### What is a unary function
 Unary function (i.e. monadic) is a function that accepts exactly one argument. It stands for a single argument accepted by a function
 
