@@ -42,6 +42,51 @@ splice(startIndex, deleteCount, item1)  // delete the no of delteCount values fr
 splice(startIndex, deleteCount, item1, item2)
 ```
 
+> ### Closure
+- Function bundled along with it's lexical scope is closure.
+- If a function needs to access a variable, it first goes to its local memory. When it does not find it there, it goes to the memory of its lexical parent. See Below code, Over here function y along with its lexical scope i.e. (function x) would be called a closure.
+```
+function x() {
+    var a = 7;
+    function y() {
+        console.log(a);
+    }
+    return y;
+}
+var z = x();
+console.log(z);  // value of z is entire code of function y.
+```
+    - In above code, When y is returned, not only is the function returned but the entire closure (fun y + its lexical scope) is returned and put inside z. So when z is used somewhere else in program, it still remembers var a inside x()
+
+- Another example
+  ```
+      function z() {
+        var b = 900;
+        function x() {
+            var a=7;
+            function y(){
+                console.log(a,b);
+            }
+            y();
+        }
+        x();
+    }
+    z();    // 7 900
+  ```
+- Advantages of Closure:
+
+    - Module Design Pattern
+    - Currying
+    - Memoize
+    - Data hiding and encapsulation
+    - setTimeouts etc.
+
+- Disadvantages of Closure:
+
+    - Over consumption of memory
+    - Memory Leak
+    - Freeze browser
+
 > ### Map
 The Map object holds key-value pairs and remembers the original insertion order of the keys
 
