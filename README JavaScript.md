@@ -42,6 +42,12 @@ splice(startIndex, deleteCount, item1)  // delete the no of delteCount values fr
 splice(startIndex, deleteCount, item1, item2)
 ```
 
+> #### What is scope in javascript
+Scope is the accessibility of variables, functions, and objects in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
+
+> #### What is a service worker
+A Service worker is basically a script (JavaScript file) that runs in the background, separate from a web page and provides features that don't need a web page or user interaction. Some of the major features of service workers are Rich offline experiences(offline first web application development), periodic background syncs, push notifications, intercept and handle network requests and programmatically managing a cache of responses.
+
 > ### Closure
 - Function bundled along with it's lexical scope is closure.
 - If a function needs to access a variable, it first goes to its local memory. When it does not find it there, it goes to the memory of its lexical parent. See Below code, Over here function y along with its lexical scope i.e. (function x) would be called a closure.
