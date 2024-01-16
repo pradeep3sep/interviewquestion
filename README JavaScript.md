@@ -114,6 +114,23 @@ switch (x) {
   }
 }
 ```
+> #### What is the Temporal Dead Zone
+
+Time since when the let variable was hoisted until it is initialized some value.
+
+- So any line till before "let a = 10" is the TDZ for a
+
+```
+console.log(a); // ReferenceError: Cannot access 'a' before initialization
+console.log(b); // prints undefined as expected
+let a = 10;
+console.log(a); // 10
+var b = 15;
+console.log(window.a); // undefined
+console.log(window.b); // 15
+```
+
+
 
 > ### What is webpack
 Webpack is a module bundler for JavaScript applications
@@ -1069,9 +1086,7 @@ console.log(Math.max(0, 150, 30, 20, -8, -200)) //150
 
 
 ### Needs discussion
-What is the currying function
-How do you redeclare variables in switch block without an error
-What is the Temporal Dead Zone
+
 What is memoization
 What are server-sent events
 How do you receive server-sent event notifications
