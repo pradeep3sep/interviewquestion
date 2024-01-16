@@ -24,7 +24,24 @@ const list = ["sam","ram","bima"]
 list.length = 1
 console.log(list)   // gives ['sam']
 ```
+> ### Slice vs Splice in array
 
+for slice - return new array
+```
+slice()  // gives full array
+slice(startIndex)  // gives values from start index to end
+slice(startIndex, endIndex)
+```
+
+for splice - mutate the array
+```
+splice(start)
+splice(start, deleteCount)
+splice(start, deleteCount, item1)
+splice(start, deleteCount, item1, item2)
+splice(start, deleteCount, item1, item2, /* …, */ itemN)
+
+```
 
 > ### What is webpack
 Webpack is a module bundler for JavaScript applications
