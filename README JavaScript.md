@@ -33,14 +33,13 @@ slice(startIndex)  // gives values from start index to end
 slice(startIndex, endIndex)
 ```
 
-for splice - mutate the array
+for splice - mutate the array and *keep in mind it return array of deleted values
 ```
-splice(start)
-splice(start, deleteCount)
-splice(start, deleteCount, item1)
-splice(start, deleteCount, item1, item2)
-splice(start, deleteCount, item1, item2, /* …, */ itemN)
-
+splice() // delete all the values and make a blank array
+splice(startIndex) // delete all the values from satrtIndex
+splice(startIndex, deleteCount)  // delete the no of delteCount values from satrtIndex
+splice(startIndex, deleteCount, item1)  // delete the no of delteCount values from satrtIndex and add item1 before last deleted value
+splice(startIndex, deleteCount, item1, item2)
 ```
 
 > ### What is webpack
