@@ -42,6 +42,17 @@ onerror = function(error) {
 myWorker.terminate();
 
 ```
+
+How do you check web workers browser support
+```
+if (typeof Worker !== "undefined") {
+  // code for Web worker support.
+} else {
+  // Sorry! No Web Worker support..
+}
+```
+
+
 Points to note
 - Each worker thread will have its own isolated global env that is different form js env
 - Worker can not manipulate the DOM operations
