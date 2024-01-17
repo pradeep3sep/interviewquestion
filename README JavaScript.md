@@ -1,6 +1,60 @@
 ```
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
+> ### Promise
+Promise is pending state object which can be either fulfilled or rejected in future.
+
+```
+const promise = new Promise(function (resolve, reject) {
+  // promise description
+});
+```
+
+```
+const promise = new Promise(
+  (resolve) => {
+    setTimeout(() => {
+      resolve("I'm a Promise!");
+    }, 5000);
+  },
+  (reject) => {}
+);
+
+promise.then((value) => console.log(value));
+```
+
+> #### What is a callback function
+A callback function is a function passed into another function as an argument. This function is invoked inside the outer function to complete an action. Let's take a simple example of how to use callback function
+
+```
+function callbackFunction(name) {
+  console.log("Hello " + name);
+}
+
+function outerFunction(callback) {
+  let name = prompt("Please enter your name.");
+  callback(name);
+}
+
+outerFunction(callbackFunction);
+```
+
+> #### What is a callback hell
+Callback Hell is an anti-pattern with multiple nested callbacks which makes code hard to read and debug when dealing with asynchronous logic. The callback hell looks like below,
+
+```
+async1(function(){
+    async2(function(){
+        async3(function(){
+            async4(function(){
+                ....
+            });
+        });
+    });
+});
+```
+
+
 > ### Web Worker
 Some task which are sync and very lengthy task and that could block the main thread and block the UI. then we perform that task in other thread called worker thread which is in browser separate from the js single thread. This happens in the background.
 
