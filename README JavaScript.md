@@ -545,6 +545,9 @@ isko hum calculator me use kar sakte h, '10+3' as a string pass kar do ye 13 ret
 console.log(eval("1 + 2")); //  3
 ```
 
+> ### Is it recommended to use eval
+No, it allows arbitrary code to be run which causes a security problem. As we know that the eval() function is used to run text as code. In most of the cases, it should not be necessary to use it.
+
 > ### What is isNaN
 The isNaN() function is used to determine whether a value is an illegal number (Not-a-Number) or not. i.e, This function returns true if the value equates to NaN. Otherwise it returns false.
 ```
