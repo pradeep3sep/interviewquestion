@@ -1203,6 +1203,18 @@ console.log(deepCopy); // { name: 'Version 2', additionalInfo: { version: 2 } }
 
 ### object freeze vs seal
 * Object.freeze(obj)  ===  kuch bhi nhi ho sakta
+    - Remember freezing is only applied to the top-level properties in objects but not for nested objects.
+      ```
+      const user = {
+          name: "John",
+          employment: {
+            department: "IT",
+          },
+        };
+        
+        Object.freeze(user);
+        user.employment.department = "HR";
+      ```
 * Object.seal(obj) === new properties cannot be added, existing properties cannot be removed.Values of existing properties can still be changed as long as they are writable
 
 ### hosting
