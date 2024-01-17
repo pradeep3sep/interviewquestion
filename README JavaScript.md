@@ -1,6 +1,53 @@
 ```
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
+> ### Web Worker
+Some task which are sync and very lengthy task and that could block the main thread and block the UI. then we perform that task in other thread called worker thread which is in browser separate from the js single thread. This happens in the background.
+
+```
+// 1.Creating a Web Worker:
+
+// main.js
+const myWorker = new Worker('worker.js');
+
+
+
+// 2.Communication:
+
+// main.js
+myWorker.postMessage('Hello from the main thread!');
+
+myWorker.onmessage = function(event) {
+  console.log('Message from worker:', event.data);
+};
+
+// worker.js
+onmessage = function(event) {
+  console.log('Message from main thread:', event.data);
+  postMessage('Hello from the worker!');
+};
+
+
+
+// 3.Handling Errors:
+// worker.js
+onerror = function(error) {
+  console.error('Error in worker:', error.message);
+};
+
+
+
+// 4.Terminating a Worker:
+// main.js
+myWorker.terminate();
+
+```
+Points to note
+- Each worker thread will have its own isolated global env that is different form js env
+- Worker can not manipulate the DOM operations
+- Worker is not a part of js thread its browser feature
+
+
 > ### Array things
 - When setting a property on a JavaScript array when the property is a valid array index and that index is outside the current bounds of the array, the engine will update the array's length property accordingly:
 ```
