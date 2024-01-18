@@ -1,6 +1,7 @@
 ```
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
+break and continue in for loop
 
 > ### Promise
 Promise is pending state object which can be either fulfilled or rejected in future.
