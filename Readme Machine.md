@@ -621,3 +621,25 @@ set.has(1);
 
 It doesn't work that way for a set. There is no `'1'` in our set: `set.has('1')` returns `false`. It has the numeric type `1`, `set.has(1)` returns `true`.
 </details>
+
+
+### Question 46
+```
+function sayHi() {
+  return (() => 0)();
+}
+
+console.log(typeof sayHi());
+```
+
+- A: "object"
+- B: "number"
+- C: "function"
+- D: "undefined"
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: B</p>
+
+  The `sayHi` function returns the returned value of the immediately invoked function expression (IIFE). This function returned `0`, which is type `"number"`.
+</details>
