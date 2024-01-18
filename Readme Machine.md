@@ -669,3 +669,86 @@ Promise.race([firstPromise, secondPromise]).then(res => console.log(res));
 
   When we pass multiple promises to the `Promise.race` method, it resolves/rejects the first promise that resolves/rejects. To the `setTimeout` method, we pass a timer: 500ms for the first promise (`firstPromise`), and 100ms for the second promise (`secondPromise`). This means that the `secondPromise` resolves first with the value of `'two'`. `res` now holds the value of `'two'`, which gets logged.
 </details>
+
+### Question 48
+```
+function getInfo(member, year) {
+  member.name = 'Lydia';
+  year = '1998';
+}
+
+const person = { name: 'Sarah' };
+const birthYear = '1997';
+
+getInfo(person, birthYear);
+
+console.log(person, birthYear);
+```
+
+- A: { name: "Lydia" }, "1997"
+- B: { name: "Sarah" }, "1998"
+- C: { name: "Lydia" }, "1998"
+- D: { name: "Sarah" }, "1997"
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: A</p>
+
+  Arguments are passed by value, unless their value is an object, then they're passed by reference. `birthYear` is passed by value, since it's a string, not an object. When we pass arguments by value, a copy of that value is created (see question 46).
+
+The variable `birthYear` has a reference to the value `"1997"`. The argument `year` also has a reference to the value `"1997"`, but it's not the same value as `birthYear` has a reference to. When we update the value of `year` by setting `year` equal to `"1998"`, we are only updating the value of `year`. `birthYear` is still equal to `"1997"`.
+
+The value of `person` is an object. The argument `member` has a (copied) reference to the same object. When we modify a property of the object `member` has a reference to, the value of `person` will also be modified, since they both have a reference to the same object. `person's` `name` property is now equal to the value `"Lydia"`
+</details>
+
+### Question 49
+
+```
+function Car() {
+  this.make = 'Lamborghini';
+  return { make: 'Maserati' };
+}
+
+const myCar = new Car();
+console.log(myCar.make);
+```
+
+- A: "Lamborghini"
+- B: "Maserati"
+- C: ReferenceError
+- D: TypeError
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: B</p>
+
+  When you return a property, the value of the property is equal to the returned value, not the value set in the constructor function. We return the string `"Maserati"`, so `myCar.make` is equal to `"Maserati"`.
+</details>
+
+
+### Question 50
+
+```
+(() => {
+  let x = (y = 10);
+})();
+
+console.log(typeof x);
+console.log(typeof y);
+```
+
+- A: "undefined", "number"
+- B: "number", "number"
+- C: "object", "number"
+- D: "number", "undefined"
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: A</p>
+
+  `let x = (y = 10);` is actually shorthand for:
+  ```
+  y = 10;
+  let x = y;
+  ```
+</details>
