@@ -1,6 +1,141 @@
 ```
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
+
+> ### Promise
+Promise is pending state object which can be either fulfilled or rejected in future.
+
+```
+const promise = new Promise(function (resolve, reject) {
+  // promise description
+});
+```
+The above condition gives promise of state pending which can be fullfilled or reject
+
+##### Promise resolve() method 
+The promise.resolve() is a `static method` of class Promise in JS returns a Promise object that is resolved in state
+
+```
+let promise = Promise.resolve(17468);
+
+promise.then(function (val) {
+	console.log(val);
+});
+	//Output: 17468
+
+console.log(promise)
+// Promise {<fulfilled>: 17468}
+//  [[Prototype]]: Promise
+//  [[PromiseState]]: "fulfilled"
+//  [[PromiseResult]]: 17468
+```
+
+> #### What is the purpose of the race method in promise
+Promise.race() method will return the promise instance which is firstly resolved or rejected. Let's take an example of race() method where promise2 is resolved first
+
+```
+var promise1 = new Promise(function (resolve, reject) {
+  setTimeout(resolve, 500, "one");
+});
+var promise2 = new Promise(function (resolve, reject) {
+  setTimeout(resolve, 100, "two");
+});
+
+Promise.race([promise1, promise2]).then(function (value) {
+  console.log(value); // "two" // Both promises will resolve, but promise2 is faster
+});
+```
+
+> #### What is a callback function
+A callback function is a function passed into another function as an argument. This function is invoked inside the outer function to complete an action. Let's take a simple example of how to use callback function
+
+```
+function callbackFunction(name) {
+  console.log("Hello " + name);
+}
+
+function outerFunction(callback) {
+  let name = prompt("Please enter your name.");
+  callback(name);
+}
+
+outerFunction(callbackFunction);
+```
+
+> #### What is a callback hell
+Callback Hell is an anti-pattern with multiple nested callbacks which makes code hard to read and debug when dealing with asynchronous logic. The callback hell looks like below,
+
+```
+async1(function(){
+    async2(function(){
+        async3(function(){
+            async4(function(){
+                ....
+            });
+        });
+    });
+});
+```
+
+
+> ### Web Worker
+Some task which are sync and very lengthy task and that could block the main thread and block the UI. then we perform that task in other thread called worker thread which is in browser separate from the js single thread. This happens in the background.
+
+```
+// 1.Creating a Web Worker:
+
+// main.js
+const myWorker = new Worker('worker.js');
+
+
+
+// 2.Communication:
+
+// main.js
+myWorker.postMessage('Hello from the main thread!');
+
+myWorker.onmessage = function(event) {
+  console.log('Message from worker:', event.data);
+};
+
+// worker.js
+onmessage = function(event) {
+  console.log('Message from main thread:', event.data);
+  postMessage('Hello from the worker!');
+};
+
+
+
+// 3.Handling Errors:
+// worker.js
+onerror = function(error) {
+  console.error('Error in worker:', error.message);
+};
+
+
+
+// 4.Terminating a Worker:
+// main.js
+myWorker.terminate();
+
+```
+
+How do you check web workers browser support
+```
+if (typeof Worker !== "undefined") {
+  // code for Web worker support.
+} else {
+  // Sorry! No Web Worker support..
+}
+```
+
+
+Points to note
+- Each worker thread will have its own isolated global env that is different form js env
+- Worker can not manipulate the DOM operations
+- Worker is not a part of js thread its browser feature
+
+
 > ### Array things
 - When setting a property on a JavaScript array when the property is a valid array index and that index is outside the current bounds of the array, the engine will update the array's length property accordingly:
 ```
@@ -41,6 +176,57 @@ splice(startIndex, deleteCount)  // delete the no of delteCount values from satr
 splice(startIndex, deleteCount, item1)  // delete the no of delteCount values from satrtIndex and add item1 before last deleted value
 splice(startIndex, deleteCount, item1, item2)
 ```
+
+> #### What is scope in javascript
+Scope is the accessibility of variables, functions, and objects in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
+
+> #### What is a service worker
+A Service worker is basically a script (JavaScript file) that runs in the background, separate from a web page and provides features that don't need a web page or user interaction. Some of the major features of service workers are Rich offline experiences(offline first web application development), periodic background syncs, push notifications, intercept and handle network requests and programmatically managing a cache of responses.
+
+> ### Closure
+- Function bundled along with it's lexical scope is closure.
+- If a function needs to access a variable, it first goes to its local memory. When it does not find it there, it goes to the memory of its lexical parent. See Below code, Over here function y along with its lexical scope i.e. (function x) would be called a closure.
+```
+function x() {
+    var a = 7;
+    function y() {
+        console.log(a);
+    }
+    return y;
+}
+var z = x();
+console.log(z);  // value of z is entire code of function y.
+```
+- In above code, When y is returned, not only is the function returned but the entire closure (fun y + its lexical scope) is returned and put inside z. So when z is used somewhere else in program, it still remembers var a inside x()
+
+- Another example
+  ```
+      function z() {
+        var b = 900;
+        function x() {
+            var a=7;
+            function y(){
+                console.log(a,b);
+            }
+            y();
+        }
+        x();
+    }
+    z();    // 7 900
+  ```
+- Advantages of Closure:
+
+    - Module Design Pattern
+    - Currying
+    - Memoize
+    - Data hiding and encapsulation
+    - setTimeouts etc.
+
+- Disadvantages of Closure:
+
+    - Over consumption of memory
+    - Memory Leak
+    - Freeze browser
 
 > ### Map
 The Map object holds key-value pairs and remembers the original insertion order of the keys
@@ -130,6 +316,8 @@ console.log(window.a); // undefined
 console.log(window.b); // 15
 ```
 
+>### Hoisting
+Hoisting is a concept which enables us to extract values of variables and functions even before initialising/assigning value without getting error 
 
 
 > ### What is webpack
@@ -363,6 +551,9 @@ isko hum calculator me use kar sakte h, '10+3' as a string pass kar do ye 13 ret
 ```
 console.log(eval("1 + 2")); //  3
 ```
+
+> ### Is it recommended to use eval
+No, it allows arbitrary code to be run which causes a security problem. As we know that the eval() function is used to run text as code. In most of the cases, it should not be necessary to use it.
 
 > ### What is isNaN
 The isNaN() function is used to determine whether a value is an illegal number (Not-a-Number) or not. i.e, This function returns true if the value equates to NaN. Otherwise it returns false.
@@ -888,6 +1079,11 @@ Explanation by use case:
 * Shooting game- Pistol take 1 sec time between each shot but user click mouse multiple times. Use throttle on mouse click.
 
 ### Event Loop
+The event loop is a process that continuously monitors both the call stack and the event queue and checks whether or not the call stack is empty. If the call stack is empty and there are pending events in the event queue, the event loop dequeues the event from the event queue and pushes it to the call stack. The call stack executes the event, and any additional events generated during the execution are added to the end of the event queue.
+
+---
+event loop sequence microtask - https://www.jsv9000.app/
+---
 
 ### http methods
 * GET: GET request is used to read/retrieve data from a web server. 
@@ -1019,6 +1215,18 @@ console.log(deepCopy); // { name: 'Version 2', additionalInfo: { version: 2 } }
 
 ### object freeze vs seal
 * Object.freeze(obj)  ===  kuch bhi nhi ho sakta
+    - Remember freezing is only applied to the top-level properties in objects but not for nested objects.
+      ```
+      const user = {
+          name: "John",
+          employment: {
+            department: "IT",
+          },
+        };
+        
+        Object.freeze(user);
+        user.employment.department = "HR";
+      ```
 * Object.seal(obj) === new properties cannot be added, existing properties cannot be removed.Values of existing properties can still be changed as long as they are writable
 
 ### hosting
