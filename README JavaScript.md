@@ -1072,6 +1072,11 @@ Explanation by use case:
 * Shooting game- Pistol take 1 sec time between each shot but user click mouse multiple times. Use throttle on mouse click.
 
 ### Event Loop
+The event loop is a process that continuously monitors both the call stack and the event queue and checks whether or not the call stack is empty. If the call stack is empty and there are pending events in the event queue, the event loop dequeues the event from the event queue and pushes it to the call stack. The call stack executes the event, and any additional events generated during the execution are added to the end of the event queue.
+
+---
+event loop sequence microtask - https://www.jsv9000.app/
+---
 
 ### http methods
 * GET: GET request is used to read/retrieve data from a web server. 
