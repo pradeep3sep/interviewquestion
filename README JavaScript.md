@@ -13,7 +13,7 @@ const promise = new Promise(function (resolve, reject) {
 The above condition gives promise of state pending which can be fullfilled or reject
 
 ##### Promise resolve() method 
-The promise.resolve() is a static method in JS returns a Promise object that is resolved in state
+The promise.resolve() is a `static method` of class Promise in JS returns a Promise object that is resolved in state
 
 ```
 let promise = Promise.resolve(17468);
