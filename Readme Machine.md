@@ -23,8 +23,14 @@ const details = {
 }
 console.log(details);
 ```
- age: 25
-name: "Himanshu"
+<details>
+  <summary>Answer</summary>
+  <p>
+    age: "25",<br>
+    name: "Himanshu"
+  </p>
+</details>
+ 
 
 ### Question 3
 ```
