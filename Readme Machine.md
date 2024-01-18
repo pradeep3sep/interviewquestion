@@ -484,3 +484,11 @@ arrays are coerced to strings by simply joining all the values with comma(,) in 
 42 < 'hh'  // gives false
 42 > 'hh'  // gives false because the both are different data type so 'hh' are coerced to NaN and the comparison becomes 42 > NaN
 ```
+
+### Question 41
+```
++true;
+!'Lydia';
+```
+
+gives 1 and false
