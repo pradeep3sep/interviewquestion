@@ -10,19 +10,26 @@ const promise = new Promise(function (resolve, reject) {
   // promise description
 });
 ```
+The above condition gives promise of state pending which can be fullfilled or reject
+
+##### Promise resolve() method 
+The promise.resolve() is a static method in JS returns a Promise object that is resolved in state
 
 ```
-const promise = new Promise(
-  (resolve) => {
-    setTimeout(() => {
-      resolve("I'm a Promise!");
-    }, 5000);
-  },
-  (reject) => {}
-);
+let promise = Promise.resolve(17468);
 
-promise.then((value) => console.log(value));
+promise.then(function (val) {
+	console.log(val);
+});
+	//Output: 17468
+
+console.log(promise)
+// Promise {<fulfilled>: 17468}
+//  [[Prototype]]: Promise
+//  [[PromiseState]]: "fulfilled"
+//  [[PromiseResult]]: 17468
 ```
+
 > #### What is the purpose of the race method in promise
 Promise.race() method will return the promise instance which is firstly resolved or rejected. Let's take an example of race() method where promise2 is resolved first
 
