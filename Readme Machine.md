@@ -2,13 +2,17 @@
 // Question no 4,7,9,11,12,13,17,24,26,27,34,36,39,46.49 solution bhi,50,51 mast h solution bhi,54 solution bhi.56,57,58 solution bhi,59,61,62 solution must,63,64,65,67,72,73,74,75,76,83 sol,86 good,91,93,94,95,105,106,113 very good,123 revison concept,127,145,151
 // Pending 8,38,44,45,55,66,71,78,82,90,92,96,97,98,114,116,127,132,133, object seal and freeze,138,139,140,141,142,144,147,150,152,153,154
 
-### Question 1
+#### Question 1
 ```
 const numbers = [10,20,30,40,50,60]
 const [,,,...newNumbers] = numbers
 console.log(newNumbers);
 ```
-[40,50,60]
+<details>
+  <summary>Answer</summary>
+  <p>[40,50,60]</p>
+</details>
+
 
 ### Question 2
 ```
