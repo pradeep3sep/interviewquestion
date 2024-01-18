@@ -3,6 +3,10 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 break and continue in for loop
 
+setTimeout(functionRef, delay, param1) explain func with param
+
+map and weakMap
+
 > ### Promise
 Promise is pending state object which can be either fulfilled or rejected in future.
 
