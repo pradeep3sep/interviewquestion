@@ -752,3 +752,62 @@ console.log(typeof y);
   let x = y;
   ```
 </details>
+
+
+### Question 51
+```
+// counter.js
+let counter = 10;
+export default counter;
+```
+
+```
+// index.js
+import myCounter from './counter';
+
+myCounter += 1;
+
+console.log(myCounter);
+```
+
+
+- A: 10
+- B: 11
+- C: Error
+- D: NaN
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+
+  An imported module is read-only: you cannot modify the imported module. Only the module that exports them can change its value.
+
+When we try to increment the value of `myCounter`, it throws an error: `myCounter` is read-only and cannot be modified.
+
+</details>
+
+### Question 52
+```
+const name = 'Lydia';
+age = 21;
+var last = 'verma'
+console.log(delete name);
+console.log(delete age);
+console.log(delete last);
+```
+
+- A: false, true
+- B: "Lydia", 21
+- C: true, true
+- D: undefined, undefined
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: A</p>
+
+  The `delete` operator returns a boolean value: `true` on a successful deletion, else it'll return `false`. However, variables declared with the `var, const or let` keyword cannot be deleted using the `delete` operator.
+
+The `name` variable was declared with a `const` keyword, so its deletion is not successful: `false` is returned. When we set `age` equal to `21`, we actually added a property called `age` to the global object. You can successfully delete properties from objects this way, also the global object, so `delete age` returns `true`.
+
+</details>
