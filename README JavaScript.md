@@ -955,7 +955,7 @@ function convertToThousandFormat(x) {
 console.log(convertToThousandFormat(12345.6789));
 ```
 
-### typeof new Number(3) is object not number because of class
+### typeof `new Number(3)` is object not number because of class but Number(3) is number
 
 > ### What is the purpose of double tilde operator
 The double tilde operator(~~) is known as double NOT bitwise operator. This operator is going to be a quicker substitute for Math.floor().
