@@ -901,3 +901,37 @@ console.log(num2);
 `num2` is `10`, since we passed `num1` to the `increasePassedNumber`. `number` is equal to `10`(the value of `num1`. Again, the unary operator `++` first returns the value of the operand, then increments the value of the operand. The value of `number` is `10`, so `num2` is equal to `10`.
 
 </details>
+
+
+### Question 56
+```
+const value = { number: 10 };
+
+const multiply = (x = { ...value }) => {
+  console.log((x.number *= 2));
+};
+
+multiply();
+multiply();
+multiply(value);
+multiply(value);
+```
+
+- A: 20, 40, 80, 160
+- B: 20, 40, 20, 40
+- C: 20, 20, 20, 40
+- D: NaN, NaN, 20, 40
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+  
+The default argument is evaluated at call time! Every time we call the function, a new object is created. We invoke the multiply function the first two times without passing a value: x has the default value of { number: 10 }. We then log the multiplied value of that number, which is 20.
+
+The `third time` we invoke multiply, we do pass an argument: the object called value. The `*=` operator is actually shorthand for `x.number = x.number * 2`: we modify the value of x.number, and log the multiplied value 20.
+
+`passed value is object and object have refrence type which means when x is modifed in 3rd time then value also gets modified and become 20
+
+The fourth time, we pass the value object again. x.number was previously modified to 20, so x.number *= 2 logs 40. also the value.number becomes 40`
+
+</details>
