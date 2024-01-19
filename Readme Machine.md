@@ -971,3 +971,37 @@ console.log(data);
 ```
 
 </details>
+
+### Question 58
+
+```
+const add = () => {
+  const cache = {};
+  return num => {
+    if (num in cache) {
+      return `From cache! ${cache[num]}`;
+    } else {
+      const result = num + 10;
+      cache[num] = result;
+      return `Calculated! ${result}`;
+    }
+  };
+};
+
+const addFunction = add();
+console.log(addFunction(10));
+console.log(addFunction(10));
+console.log(addFunction(5 * 2));
+```
+
+- A: Calculated! 20 Calculated! 20 Calculated! 20
+- B: Calculated! 20 From cache! 20 Calculated! 20
+- C: Calculated! 20 From cache! 20 From cache! 20
+- D: Calculated! 20 From cache! 20 Error
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+
+  The `third time`, we pass `5 * 2` to the function which gets evaluated to `10`.
+</details>
