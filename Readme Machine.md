@@ -869,3 +869,35 @@ If the replacer is an array, only the property names included in the array will 
 If the replacer is a function, this function gets called on every property in the object you're stringifying. The value returned from this function will be the value of the property when it's added to the JSON string. If the value is `undefined`, this property is excluded from the JSON string.
 
 </details>
+
+
+
+### Question 55
+
+```
+let num = 10;
+
+const increaseNumber = () => num++;
+const increasePassedNumber = number => number++;
+
+const num1 = increaseNumber();
+const num2 = increasePassedNumber(num1);
+
+console.log(num1);
+console.log(num2);
+```
+
+- A: 10, 10
+- B: 10, 11
+- C: 11, 11
+- D: 11, 12
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: A</p>
+
+  The unary operator `++` first returns the value of the operand, then increments the value of the operand. The value of `num1` is `10`, since the `increaseNumber` function first returns the value of `num`, which is `10`, and only increments the value of `num` afterwards.
+
+`num2` is `10`, since we passed `num1` to the `increasePassedNumber`. `number` is equal to `10`(the value of `num1`. Again, the unary operator `++` first returns the value of the operand, then increments the value of the operand. The value of `number` is `10`, so `num2` is equal to `10`.
+
+</details>
