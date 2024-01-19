@@ -1005,3 +1005,30 @@ console.log(addFunction(5 * 2));
 
   The `third time`, we pass `5 * 2` to the function which gets evaluated to `10`.
 </details>
+
+
+### Question 59
+
+```
+class Person {
+  constructor(name) {
+    this.name = name;
+  }
+}
+
+const member = new Person('John');
+console.log(typeof member);
+```
+
+- A: "class"
+- B: "function"
+- C: "object"
+- D: "string"
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+
+Calling a function constructor with `new` results in the creation of an instance of `Person`, `typeof` keyword returns `"object"` for an instance. `typeof member` returns `"object"`.
+
+</details>
