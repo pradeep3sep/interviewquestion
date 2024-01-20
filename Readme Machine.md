@@ -1156,7 +1156,9 @@ or
 `const getUser = user => { return { name: user.name, age: user.age }}`
 </details>
 
-### Question 63
+### For understanding below question no 63, run with breakpoints in code
+
+### Question 63.a
 
 ```
 const myPromise = () => Promise.resolve('I have resolved!');
@@ -1189,6 +1191,39 @@ secondFunction();
 
 With the await keyword in `secondFunction`, we literally pause the execution of an async function until the value has been resolved before moving to the next line.
 </details>
+
+### Question 63.b
+
+```
+const myPromise = Promise.resolve(Promise.resolve('Promise'));
+
+function funcOne() {
+  setTimeout(() => console.log('Timeout 1!'), 0);
+  myPromise.then(res => res).then(res => console.log(`${res} 1!`));
+  console.log('Last line 1!');
+}
+
+async function funcTwo() {
+  const res = await myPromise;
+  console.log(`${res} 2!`)
+  setTimeout(() => console.log('Timeout 2!'), 0);
+  console.log('Last line 2!');
+}
+
+funcOne();
+funcTwo();
+```
+
+- A: Promise 1! Last line 1! Promise 2! Last line 2! Timeout 1! Timeout 2!
+- B: Last line 1! Timeout 1! Promise 1! Last line 2! Promise2! Timeout 2! 
+- C: Last line 1! Promise 2! Last line 2! Promise 1! Timeout 1! Timeout 2!
+- D: Timeout 1! Promise 1! Last line 1! Promise 2! Timeout 2! Last line 2!
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+</details>
+
 
 
 ### Question 64
@@ -1443,3 +1478,152 @@ funcTwo();
 - B: Last line 1! Timeout 1! Promise 1! Last line 2! Promise2! Timeout 2! 
 - C: Last line 1! Promise 2! Last line 2! Promise 1! Timeout 1! Timeout 2!
 - D: Timeout 1! Promise 1! Last line 1! Promise 2! Timeout 2! Last line 2!
+
+### Question 73
+
+```
+const person = {
+  name: 'Lydia Hallie',
+  hobbies: ['coding'],
+};
+
+function addHobby(hobby, hobbies = person.hobbies) {
+  hobbies.push(hobby);
+  return hobbies;
+}
+
+addHobby('running', []);
+addHobby('dancing');
+addHobby('baking', person.hobbies);
+
+console.log(person.hobbies);
+```
+
+- A: ["coding"]
+- B: ["coding", "dancing"]
+- C: ["coding", "dancing", "baking"]
+- D: ["coding", "running", "dancing", "baking"]
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+
+  The `addHobby` function receives two arguments, `hobby` and `hobbies` with the default value of the `hobbies` array on the `person` object.
+
+First, we invoke the `addHobby` function, and pass `"running"` as the value for `hobby` and an empty array as the value for `hobbies`. Since we pass an empty array as the value for `hobbies`, `"running"` gets added to this empty array.
+
+Then, we invoke the `addHobby` function, and pass `"dancing"` as the value for `hobby`. We didn't pass a value for `hobbies`, so it gets the default value, the `hobbies` property on the `person` object. We push the hobby `dancing` to the `person.hobbies` array.
+
+Last, we invoke the `addHobby` function, and pass `"baking"` as the value for `hobby`, and the `person.hobbies` array as the value for `hobbies`. We push the hobby `baking` to the `person.hobbies` array.
+
+After pushing `dancing` and `baking`, the value of `person.hobbies` is `["coding", "dancing", "baking"]`
+</details>
+
+
+### Question 74
+
+
+```
+class Bird {
+  constructor() {
+    console.log("I'm a bird. 🦢");
+  }
+}
+
+class Flamingo extends Bird {
+  constructor() {
+    console.log("I'm pink. 🌸");
+    super();
+  }
+}
+
+const pet = new Flamingo();
+```
+
+
+- A: I'm pink. 🌸
+- B: I'm pink. 🌸 I'm a bird. 🦢
+- C: I'm a bird. 🦢 I'm pink. 🌸
+- D: Nothing, we didn't call any method
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: B</p>
+
+
+  We create the variable `pet` which is an instance of the `Flamingo` class. When we instantiate this instance, the `constructor` on `Flamingo` gets called. First, `"I'm pink. 🌸"` gets logged, after which we call `super()`. `super()` calls the constructor of the parent class, `Bird`. The constructor in `Bird` gets called, and logs `"I'm a bird. 🦢"`.
+</details>
+
+
+### Question 75
+
+```
+const user = {
+	email: "e@mail.com",
+	password: "12345"
+}
+
+const updateUser = ({ email, password }) => {
+	if (email) {
+		Object.assign(user, { email })
+	}
+
+	if (password) {
+		user.password = password
+	}
+
+	return user
+}
+
+const updatedUser = updateUser({ email: "new@email.com" })
+
+console.log(updatedUser === user)
+```
+
+
+- A: false
+- B: true
+- C: TypeError
+- D: ReferenceError
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: B</p>
+
+  The `updateUser` function updates the values of the `email` and `password` properties on user, if their values are passed to the function, after which the function returns the `user` object. The returned value of the `updateUser` function is the `user` object, which means that the value of updatedUser is a reference to the same `user` object that `user` points to. `updatedUser === user` equals `true`.
+</details>
+
+
+### Question 75
+
+```
+const promise1 = Promise.resolve('First')
+const promise2 = Promise.resolve('Second')
+const promise3 = Promise.reject('Third')
+const promise4 = Promise.resolve('Fourth')
+
+const runPromises = async () => {
+	const res1 = await Promise.all([promise1, promise2])
+	const res2  = await Promise.all([promise3, promise4])
+	return [res1, res2]
+}
+
+runPromises()
+	.then(res => console.log(res))
+	.catch(err => console.log(err))
+```
+
+- A: [['First', 'Second'], ['Fourth']]
+- B: [['First', 'Second'], ['Third', 'Fourth']]
+- C: [['First', 'Second']]
+- D: 'Third'
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: D</p>
+
+  The `Promise.all` method runs the passed promises in parallel. If one promise fails, the `Promise.all` method rejects with the value of the rejected promise. In this case, `promise3` rejected with the value `"Third"`. We’re catching the rejected value in the chained `catch` method on the `runPromises` invocation to catch any errors within the `runPromises` function. Only `"Third"` gets logged, since `promise3` rejected with this value.
+</details>

@@ -7,6 +7,19 @@ setTimeout(functionRef, delay, param1) explain func with param
 
 map and weakMap
 
+> ### Keep in mind below
+```
+const a = {}
+const b = {}
+console.log(a === b)  // false
+```
+
+```
+const a = {}
+const b = a
+console.log(a === b)  // true
+```
+
 > ### Number.isNaN() vs global isNaN()
 
 Number.isNaN() doesn't attempt to convert the parameter to a number, so non-numbers always return false. 
