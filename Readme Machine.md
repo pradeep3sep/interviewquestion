@@ -1124,3 +1124,177 @@ You can still `access symbols` using the `Object.getOwnPropertySymbols()` method
 
 ### Question 62
 
+```
+const getList = ([x, ...y]) => [x, y]
+const getUser = user => { name: user.name, age: user.age }
+
+const list = [1, 2, 3, 4]
+const user = { name: "Lydia", age: 21 }
+
+console.log(getList(list))
+console.log(getUser(user))
+```
+
+- A: [1, [2, 3, 4]] and SyntaxError
+- B: [1, [2, 3, 4]] and { name: "Lydia", age: 21 }
+- C: [1, 2, 3, 4] and { name: "Lydia", age: 21 }
+- D: Error and { name: "Lydia", age: 21 }
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: A</p>
+
+  The `getUser` function receives an object. With arrow functions, we `don't` have to write `curly brackets` if we just `return one value`. However, if you want to instantly `return an object` from an arrow function, you have to `write it between parentheses`, otherwise everything between the two braces will be interpreted as a block statement. In this case the code between the braces is not a valid JavaScript code, so a SyntaxError gets thrown.
+
+The following function would have returned an object:
+
+`const getUser = user => ({ name: user.name, age: user.age })`
+
+or 
+
+`const getUser = user => { return { name: user.name, age: user.age }}`
+</details>
+
+### Question 63
+
+```
+const myPromise = () => Promise.resolve('I have resolved!');
+
+function firstFunction() {
+  myPromise().then(res => console.log(res));
+  console.log('second');
+}
+
+async function secondFunction() {
+  console.log(await myPromise());
+  console.log('second');
+}
+
+firstFunction();
+secondFunction();
+```
+
+
+- A: I have resolved!, second and I have resolved!, second
+- B: second, I have resolved! and second, I have resolved!
+- C: I have resolved!, second and second, I have resolved!
+- D: second, I have resolved! and I have resolved!, second
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: D</p>
+
+  In the `firstFunction`, we (sort of) put the myPromise function aside while it was running, but continued running the other code, which is `console.log('second')` in this case. Then, the function resolved with the string `I have resolved`, which then got logged after it saw that the callstack was empty.
+
+With the await keyword in `secondFunction`, we literally pause the execution of an async function until the value has been resolved before moving to the next line.
+</details>
+
+
+### Question 64
+
+```
+let name = 'Lydia';
+
+function getName() {
+  console.log(name);
+  let name = 'Sarah';
+}
+
+getName();
+```
+
+
+- A: Lydia
+- B: Sarah
+- C: undefined
+- D: ReferenceError
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: D</p>
+
+  Variables with the `let` keyword (and `const`) are hoisted, but unlike `var`, don't get initialized. They are not accessible before the line we declare (initialize) them. This is called the "temporal dead zone". When we try to access the variables before they are declared, JavaScript throws a `ReferenceError`
+</details>
+
+### Question 65
+
+```
+function* generatorOne() {
+  yield ['a', 'b', 'c'];
+}
+
+function* generatorTwo() {
+  yield* ['a', 'b', 'c'];
+}
+
+const one = generatorOne();
+const two = generatorTwo();
+
+console.log(one.next().value);
+console.log(two.next().value);
+```
+
+
+- A: a and a
+- B: a and undefined
+- C: ['a', 'b', 'c'] and a
+- D: a and ['a', 'b', 'c']
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+
+  In `generatorTwo`, we use the `yield*` keyword. This means that the first yielded value of `two`, is equal to the first yielded value in the iterator. The iterator is the array `['a', 'b', 'c']`. The first yielded value is `a`, so the first time we call `two.next().value`, `a` is returned.
+</details>
+
+
+### Question 66
+
+```
+console.log(`${(x => x)('I love')} to program`);
+```
+
+- A: I love to program
+- B: undefined to program
+- C: ${(x => x)('I love') to program
+- D: TypeError
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: A</p>
+
+  Expressions within template literals are evaluated first. This means that the string will contain the returned value of the expression, the immediately invoked function `(x => x)('I love')` in this case. We pass the value `'I love'` as an argument to the `x => x` arrow function. `x` is equal to `'I love'`, which gets returned. This results in `I love to program`.
+</details>
+
+
+
+### Question 67
+
+
+```
+let config = {
+  alert: setInterval(() => {
+    console.log('Alert!');
+  }, 1000),
+};
+
+config = null;
+```
+
+- A: The setInterval callback won't be invoked
+- B: The setInterval callback gets invoked once
+- C: The setInterval callback will still be called every second
+- D: We never invoked config.alert(), config is null
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+
+
+  Normally when we set objects equal to `null`, those objects get garbage collected as there is no reference anymore to that object.
+  
+   However, since the callback function within `setInterval` is an arrow function (thus bound to the `config` object), the callback function still holds a reference to the config object. 
+   
+   As long as there is a reference, the object won't get garbage collected. Since this is an interval, setting `config` to `null` or `delete`-ing `config.alert` won't garbage-collect the interval, so the interval will still be called. It should be cleared with `clearInterval(config.alert)` to remove it from memory. Since it was not cleared, the setInterval callback function will still get invoked every 1000ms (1s).
+</details>
