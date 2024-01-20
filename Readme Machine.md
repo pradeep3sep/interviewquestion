@@ -1298,3 +1298,85 @@ config = null;
    
    As long as there is a reference, the object won't get garbage collected. Since this is an interval, setting `config` to `null` or `delete`-ing `config.alert` won't garbage-collect the interval, so the interval will still be called. It should be cleared with `clearInterval(config.alert)` to remove it from memory. Since it was not cleared, the setInterval callback function will still get invoked every 1000ms (1s).
 </details>
+
+### Question 68
+
+```
+const config = {
+  languages: [],
+  set language(lang) {
+    return this.languages.push(lang);
+  },
+};
+
+console.log(config.language);
+```
+
+- A: function language(lang) { this.languages.push(lang) }
+- B: 0
+- C: []
+- D: undefined
+
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: D</p>
+
+  The `language` method is a `setter`. Setters don't hold an actual value, their purpose is to modify properties. When calling a `setter` method, `undefined` gets returned.
+</details>
+
+
+### Question 69
+
+```
+async function* range(start, end) {
+  for (let i = start; i <= end; i++) {
+    yield Promise.resolve(i);
+  }
+}
+
+(async () => {
+  const gen = range(1, 3);
+  for await (const item of gen) {
+    console.log(item);
+  }
+})();
+```
+
+- A: Promise {1} Promise {2} Promise {3}
+- B: Promise {<pending>} Promise {<pending>} Promise {<pending>}
+- C: 1 2 3
+- D: undefined undefined undefined
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+
+  The generator function `range` returns an async object with promises for each item in the range we pass: `Promise{1}`, `Promise{2}`, `Promise{3}`. We set the variable `gen` equal to the async object, after which we loop over it using a `for await ... of` loop. We set the variable `item` equal to the returned Promise values: first `Promise{1}`, then `Promise{2}`, then `Promise{3}`. Since we're awaiting the value of `item`, the resolved promise, the resolved values of the promises get returned: `1`, `2`, then `3`.
+</details>
+
+
+### Question 70
+
+```
+const myFunc = ({ x, y, z }) => {
+  console.log(x, y, z);
+};
+
+myFunc(1, 2, 3);
+```
+
+
+- A: 1 2 3
+- B: {1: 1} {2: 2} {3: 3}
+- C: { 1: undefined } undefined undefined
+- D: undefined undefined undefined
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: D</p>
+
+  `myFunc` expects an object with properties `x, y and z` as its argument. Since we're only passing three separate numeric values (1, 2, 3) instead of one object with properties `x, y and z` `({x: 1, y: 2, z: 3})`, `x, y and z` have their default value of `undefined`.
+</details>
