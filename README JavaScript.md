@@ -1370,46 +1370,46 @@ console.log(Math.max(0, 150, 30, 20, -8, -200)) //150
 
 ### Needs discussion
 
-What is memoization
-What are server-sent events
-How do you receive server-sent event notifications
-How do you check browser support for server-sent events
-What are the events available for server sent events
-What is promise.all
-What is the purpose of the race method in promise
-How do you test for an empty object
-What is an arguments object
-How do you check if a string starts with another string
-What is a proxy object
-What are javascript accessors
-How do you define property on Object constructor
-What is the difference between get and defineProperty
-What are the advantages of Getters and Setters
-Can I add getters and setters using defineProperty method
-What is a decorator
-What is an empty statement and purpose of it
-How do you get metadata of a module
-hat is a comma operator
-What is the advantage of a comma operator
-What is an object initializer
-What are the DOM methods available for constraint validation
-What are the available constraint validation DOM properties
-What are the list of validity properties
-Give an example usage of rangeOverflow property
-How do you get property descriptors of an object
-What are the attributes provided by a property descriptor
-How do you load CSS and JS files dynamically
-How to cancel a fetch request
-What is web speech API
-What is minimum timeout throttling
-How do you implement zero timeout in modern browsers
-What is the difference between Function constructor and function declaration
-What is the difference between function and class declarations
-How to detect if a function is called as constructor
-How to invoke an IIFE without any extra brackets?
-What is the difference between dense and sparse arrays?
-What are the different ways to create sparse arrays?
-What is the difference between setTimeout, setImmediate and process.nextTick?
+What is memoization\
+What are server-sent events\
+How do you receive server-sent event notifications\
+How do you check browser support for server-sent events\
+What are the events available for server sent events\
+What is promise.all\
+What is the purpose of the race method in promise\
+How do you test for an empty object\
+What is an arguments object\
+How do you check if a string starts with another string\
+What is a proxy object\
+What are javascript accessors\
+How do you define property on Object constructor\
+What is the difference between get and defineProperty\
+What are the advantages of Getters and Setters\
+Can I add getters and setters using defineProperty method\
+What is a decorator\
+What is an empty statement and purpose of it\
+How do you get metadata of a module\
+hat is a comma operator\
+What is the advantage of a comma operator\
+What is an object initializer\
+What are the DOM methods available for constraint validation\
+What are the available constraint validation DOM properties\
+What are the list of validity properties\
+Give an example usage of rangeOverflow property\
+How do you get property descriptors of an object\
+What are the attributes provided by a property descriptor\
+How do you load CSS and JS files dynamically\
+How to cancel a fetch request\
+What is web speech API\
+What is minimum timeout throttling\
+How do you implement zero timeout in modern browsers\
+What is the difference between Function constructor and function declaration\
+What is the difference between function and class declarations\
+How to detect if a function is called as constructor\
+How to invoke an IIFE without any extra brackets?\
+What is the difference between dense and sparse arrays?\
+What are the different ways to create sparse arrays?\
+What is the difference between setTimeout, setImmediate and process.nextTick?\
 
 
 
