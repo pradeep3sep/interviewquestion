@@ -7,6 +7,61 @@ setTimeout(functionRef, delay, param1) explain func with param
 
 map and weakMap
 
+> ### Number.isNaN() vs global isNaN()
+
+Number.isNaN() doesn't attempt to convert the parameter to a number, so non-numbers always return false. 
+
+Number.isNaN() return true if the given value is a number with value NaN. Otherwise, false. 
+
+```
+Number.isNaN(NaN); // true
+Number.isNaN(Number.NaN); // true
+Number.isNaN(0 / 0); // true
+Number.isNaN(37); // false
+
+// below give false
+Number.isNaN("NaN");
+Number.isNaN(undefined);
+Number.isNaN({});
+Number.isNaN("blabla");
+Number.isNaN(true);
+Number.isNaN(null);
+Number.isNaN("37");
+Number.isNaN("37.37");
+Number.isNaN("");
+Number.isNaN(" ");
+```
+
+isNaN()
+
+The isNaN() function determines whether a value is NaN, first converting the value to a number if necessary
+```
+isNaN(NaN); // true
+isNaN(undefined); // true
+isNaN({}); // true
+
+isNaN(true); // false
+isNaN(null); // false
+isNaN(37); // false
+
+// Strings
+isNaN("37"); // false: "37" is converted to the number 37 which is not NaN
+isNaN("37.37"); // false: "37.37" is converted to the number 37.37 which is not NaN
+isNaN("37,5"); // true
+isNaN("123ABC"); // true: Number("123ABC") is NaN
+isNaN(""); // false: the empty string is converted to 0 which is not NaN
+isNaN(" "); // false: a string with spaces is converted to 0 which is not NaN
+
+// Dates
+isNaN(new Date()); // false; Date objects can be converted to a number (timestamp)
+isNaN(new Date().toString()); // true; the string representation of a Date object cannot be parsed as a number
+
+// Arrays
+isNaN([]); // false; the primitive representation is "", which coverts to the number 0
+isNaN([1]); // false; the primitive representation is "1"
+isNaN([1, 2]); // true; the primitive representation is "1,2", which cannot be parsed as number
+```
+
 > ### Promise
 Promise is pending state object which can be either fulfilled or rejected in future.
 
