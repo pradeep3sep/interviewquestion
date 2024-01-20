@@ -1032,3 +1032,95 @@ console.log(typeof member);
 Calling a function constructor with `new` results in the creation of an instance of `Person`, `typeof` keyword returns `"object"` for an instance. `typeof member` returns `"object"`.
 
 </details>
+
+### Question 59
+
+```
+[1, 2, 3, 4].reduce((x, y) => console.log(x, y));
+```
+
+- A: 1 2 and 3 3 and 6 4
+- B: 1 2 and 2 3 and 3 4
+- C: 1 undefined and 2 undefined and 3 undefined and 4 undefined
+- D: 1 2 and undefined 3 and undefined 4
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: D</p>
+
+  The first argument that the `reduce` method receives is the   `accumulator`, `x` in this case. The second argument is the `current value`, `y`. With the reduce method, we execute a callback function on every element in the array, which could ultimately result in one single value.
+
+In this example, we are `not returning any values`, we are simply logging the values of the accumulator and the current value.
+
+The value of the `accumulator` is `equal` to the `previously returned` value of the callback function. If you `don't pass` the `optional initialValue argument` to the reduce method, the `accumulator` is `equal` to the `first element` ie `arr[0]` on the first call. and `start value` is `arr[1]`
+
+On the first call, the accumulator `(x)` is `1`, and the current value `(y)` is `2`. We don't return from the callback function, we log the accumulator and current value: `1` and `2` get logged.
+
+If you don't return a value from a function, it returns `undefined`. On the next call, the accumulator is `undefined`, and the current value is `3`. `undefined` and `3` get logged.
+
+On the fourth call, we again don't return from the callback function. The accumulator is again `undefined`, and the current value is `4`. `undefined` and `4` get logged.
+</details>
+
+
+### Question 60
+
+```
+class Person {
+  constructor() {
+    this.name = 'Lydia';
+  }
+}
+
+Person = class AnotherPerson {
+  constructor() {
+    this.name = 'Sarah';
+  }
+};
+
+const member = new Person();
+console.log(member.name);
+```
+
+- A: "Lydia"
+- B: "Sarah"
+- C: Error: cannot redeclare Person
+- D: SyntaxError
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer B</p>
+
+  We can set classes equal to other classes/function constructors. In this case, we set `Person` equal to `AnotherPerson`. The name on this constructor is `Sarah`, so the name property on the new `Person` instance `member` is `"Sarah"`.
+</details>
+
+
+### Question 61
+
+```
+const info = {
+  [Symbol('a')]: 'b',
+};
+
+console.log(info);
+console.log(Object.keys(info));
+```
+
+
+- A: {Symbol('a'): 'b'} and ["{Symbol('a')"]
+- B: {} and []
+- C: { a: "b" } and ["a"]
+- D: {Symbol('a'): 'b'} and []
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer D</p>
+
+  A `Symbol` is not `enumerable` ie can not run loop over it or non-iterable. The `Object.keys` method returns all `enumerable key` properties on an object. The Symbol won't be visible, and an empty array is returned. When `logging` the entire object, `all properties will be visible`, `even non-enumerable ones`.
+
+You can still `access symbols` using the `Object.getOwnPropertySymbols()` method).
+</details>
+
+
+### Question 62
+
