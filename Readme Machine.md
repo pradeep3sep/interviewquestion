@@ -1380,3 +1380,66 @@ myFunc(1, 2, 3);
 
   `myFunc` expects an object with properties `x, y and z` as its argument. Since we're only passing three separate numeric values (1, 2, 3) instead of one object with properties `x, y and z` `({x: 1, y: 2, z: 3})`, `x, y and z` have their default value of `undefined`.
 </details>
+
+
+### Question 71
+
+```
+class Counter {
+  constructor() {
+    this.count = 0;
+  }
+
+  increment() {
+    this.count++;
+  }
+}
+
+const counterOne = new Counter();
+counterOne.increment();
+counterOne.increment();
+
+const counterTwo = counterOne;
+counterTwo.increment();
+
+console.log(counterOne.count);
+```
+
+- A: 0
+- B: 1
+- C: 2
+- D: 3
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: D</p>
+</details>
+
+
+### Question 72
+
+```
+const myPromise = Promise.resolve(Promise.resolve('Promise'));
+
+function funcOne() {
+  setTimeout(() => console.log('Timeout 1!'), 0);
+  myPromise.then(res => res).then(res => console.log(`${res} 1!`));
+  console.log('Last line 1!');
+}
+
+async function funcTwo() {
+  const res = await myPromise;
+  console.log(`${res} 2!`)
+  setTimeout(() => console.log('Timeout 2!'), 0);
+  console.log('Last line 2!');
+}
+
+funcOne();
+funcTwo();
+```
+
+
+- A: Promise 1! Last line 1! Promise 2! Last line 2! Timeout 1! Timeout 2!
+- B: Last line 1! Timeout 1! Promise 1! Last line 2! Promise2! Timeout 2! 
+- C: Last line 1! Promise 2! Last line 2! Promise 1! Timeout 1! Timeout 2!
+- D: Timeout 1! Promise 1! Last line 1! Promise 2! Timeout 2! Last line 2!
