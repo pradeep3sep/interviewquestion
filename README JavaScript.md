@@ -207,9 +207,9 @@ var user = {
     this.language = lang;
   },
 };
-console.log(user.lang); // getter access lang as en
+console.log(user.lang); // getter access lang as "en"
 user.lang = "fr";
-console.log(user.lang); // setter used to set lang as fr
+console.log(user.lang); // setter used to set lang as "fr"
 ```
 
 > ### How does synchronous iteration works
@@ -638,6 +638,221 @@ const obj = { x: 1 };
 const { x: otherName } = obj;
 ```
 
+> ### How do you create copy to clipboard button
+
+You need to select the content(using .select() method) of the input element and execute the copy command with execCommand (i.e, execCommand('copy')). You can also execute other system commands like cut and paste.
+
+```
+document.querySelector("#copy-button").onclick = function () {
+  // Select the content
+  document.querySelector("#copy-input").select();
+  // Copy to the clipboard
+  document.execCommand("copy");
+};
+```
+
+> ### What is babel
+Babel is a JavaScript transpiler to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript in current and older browsers or environments. Some of the main features are listed below,
+
+- Transform syntax
+- Polyfill features that are missing in your target environment (using @babel/polyfill)
+- Source code transformations (or codemods)
+
+
+> ### How do you make an object iterable in javascript
+
+By default, plain objects are not iterable. But you can make the object iterable by defining a `Symbol.iterator` property on it.
+
+Let's demonstrate this with an example,
+
+```
+const collection = {
+  one: 1,
+  two: 2,
+  three: 3,
+  [Symbol.iterator]() {
+    const values = Object.keys(this);
+    let i = 0;
+    return {
+      next: () => {
+        return {
+          value: this[values[i++]],
+          done: i > values.length,
+        };
+      },
+    };
+  },
+};
+
+const iterator = collection[Symbol.iterator]();
+
+console.log(iterator.next()); // → {value: 1, done: false}
+console.log(iterator.next()); // → {value: 2, done: false}
+console.log(iterator.next()); // → {value: 3, done: false}
+console.log(iterator.next()); // → {value: undefined, done: true}
+```
+
+The above process can be simplified using a generator function,
+
+```
+const collection = {
+  one: 1,
+  two: 2,
+  three: 3,
+  [Symbol.iterator]: function* () {
+    for (let key in this) {
+      yield this[key];
+    }
+  },
+};
+const iterator = collection[Symbol.iterator]();
+console.log(iterator.next()); // {value: 1, done: false}
+console.log(iterator.next()); // {value: 2, done: false}
+console.log(iterator.next()); // {value: 3, done: false}
+console.log(iterator.next()); // {value: undefined, done: true}
+```
+
+> ### What is the difference between dense and sparse arrays?
+
+An array contains items at each index starting from first(0) to last(array.length - 1) is called as Dense array. Whereas if at least one item is missing at any index, the array is called as sparse.
+
+Let's see the below two kind of arrays,
+
+```
+const avengers = ["Ironman", "Hulk", "CaptainAmerica"];
+console.log(avengers[0]); // 'Ironman'
+console.log(avengers[1]); // 'Hulk'
+console.log(avengers[2]); // 'CaptainAmerica'
+console.log(avengers.length); // 3
+
+const justiceLeague = ["Superman", "Aquaman", , "Batman"];
+console.log(justiceLeague[0]); // 'Superman'
+console.log(justiceLeague[1]); // 'Aquaman'
+console.log(justiceLeague[2]); // undefined
+console.log(justiceLeague[3]); // 'Batman'
+console.log(justiceLeague.length); // 4
+
+```
+
+
+> ### What are the different ways to create sparse arrays?
+
+There are 4 different ways to create sparse arrays in JavaScript
+
+  1. **Array literal**: Omit a value when using the array literal
+    ```
+    const justiceLeague = ["Superman", "Aquaman", , "Batman"];
+    console.log(justiceLeague); // ['Superman', 'Aquaman', empty ,'Batman']
+    ```
+
+  2. **Array() constructor**: Invoking Array(length) or new Array(length)
+    ```
+    const array = Array(3);
+    console.log(array); // [empty, empty ,empty]
+    ```
+
+  3. **Delete operator**: Using delete array[index] operator on the array
+    ```
+    const justiceLeague = ["Superman", "Aquaman", "Batman"];
+    delete justiceLeague[1];
+    console.log(justiceLeague); // ['Superman', empty, ,'Batman']
+    ```
+
+  4. **Increase length property**: Increasing length property of an array
+
+    ```
+    const justiceLeague = ["Superman", "Aquaman", "Batman"];
+    justiceLeague.length = 5;
+    console.log(justiceLeague); // ['Superman', 'Aquaman', 'Batman', empty, empty]
+    ```
+
+
+> ### How do you create custom HTML element?
+The creation of custom HTML elements involves two main steps,
+
+  1. Define your custom HTML element: First you need to define some custom class by extending HTMLElement class. After that define your component properties (styles,text etc) using connectedCallback method. Note: The browser exposes a function called customElements.define inorder to reuse the element.
+
+  ```
+  class CustomElement extends HTMLElement {
+    connectedCallback() {
+      this.innerHTML = "This is a custom element";
+    }
+  }
+  customElements.define("custom-element", CustomElement);
+  ```
+
+  2. Use custome element just like other HTML element: Declare your custom element as a HTML tag.
+
+  ```
+    <body>
+      <custom-element>
+    </body>
+  ```
+
+
+
+> ### How do you check an object is a promise or not
+
+If you don't know if a value is a promise or not, wrapping the value as `Promise.resolve(value)` which returns a promise
+
+```
+function isPromise(object) {
+  if (Promise && Promise.resolve) {
+    return Promise.resolve(object) == object;
+  } else {
+    throw "Promise not supported in your environment";
+  }
+}
+
+var i = 1;
+var promise = new Promise(function (resolve, reject) {
+  resolve();
+});
+
+console.log(isPromise(i)); // false
+console.log(isPromise(promise)); // true
+```
+
+Another way is to check for .then() handler type
+
+```
+function isPromise(value) {
+  return Boolean(value && typeof value.then === "function");
+}
+var i = 1;
+var promise = new Promise(function (resolve, reject) {
+  resolve();
+});
+
+console.log(isPromise(i)); // false
+console.log(isPromise(promise)); // true
+```
+
+
+> ### How do you map the array values without using map method
+
+```
+const countries = [
+  { name: "India", capital: "Delhi" },
+  { name: "US", capital: "Washington" },
+  { name: "Russia", capital: "Moscow" },
+  { name: "Singapore", capital: "Singapore" },
+  { name: "China", capital: "Beijing" },
+  { name: "France", capital: "Paris" },
+];
+
+const cityNames = Array.from(countries, ({ capital }) => capital);
+console.log(cityNames); // ['Delhi, 'Washington', 'Moscow', 'Singapore', 'Beijing', 'Paris']
+```
+
+> ### How do you create an array with some data
+
+You can create an array with some data or an array with the same values using `fill` method.
+
+```
+var newArray = new Array(5).fill("0");
+console.log(newArray); // ["0", "0", "0", "0", "0"]
+```
 
 > ### Array things
 - When setting a property on a JavaScript array when the property is a valid array index and that index is outside the current bounds of the array, the engine will update the array's length property accordingly:
@@ -1579,9 +1794,135 @@ Contain certain value | 	Can contain NULL too
 * Throttling is a technique where a function is executed at a regular interval, no matter how frequently it is called.
 *  Debouncing, on the other hand, is a technique where a function is only executed after a certain amount of time has passed since the last time it was called.
 
+debounce
+
+```
+function debounce(func, delay) {
+  let timeoutId;
+  
+  return function() {
+    const context = this;
+    const args = arguments;
+    
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(function() {
+      func.apply(context, args);
+    }, delay);
+  };
+}
+
+// Example usage
+const debouncedFunction = debounce(function() {
+  console.log('Debounced function executed!');
+}, 500);
+
+// Attach the debounced function to an event
+window.addEventListener('scroll', debouncedFunction);
+
+```
+
+Throttle
+
+```
+function throttle(func, delay) {
+  let isThrottled = false;
+  
+  return function() {
+    const context = this;
+    const args = arguments;
+    
+    if (!isThrottled) {
+      func.apply(context, args);
+      isThrottled = true;
+      
+      setTimeout(function() {
+        isThrottled = false;
+      }, delay);
+    }
+  };
+}
+
+// Example usage
+const throttledFunction = throttle(function() {
+  console.log('Throttled function executed!');
+}, 500);
+
+// Attach the throttled function to an event
+window.addEventListener('scroll', throttledFunction);
+
+```
+
+
 Explanation by use case:
 * Search bar- Don't want to search every time user presses key? Want to search when user stopped typing for 1 sec. Use debounce 1 sec on key press.
 * Shooting game- Pistol take 1 sec time between each shot but user click mouse multiple times. Use throttle on mouse click.
+
+
+> ### How do you create your own bind method using either call or apply method?
+
+The custom bind function needs to be created on Function prototype inorder to use it as other builtin functions. This custom function should return a function similar to original bind method and the implementation of inner function needs to use apply method call.
+
+The function which is going to bind using custom `myOwnBind` method act as the attached function(`boundTargetFunction`) and argument as the object for `apply` method call.
+
+
+```
+Function.prototype.myOwnBind = function (whoIsCallingMe) {
+  if (typeof this !== "function") {
+    throw new Error(this + "cannot be bound as it's not callable");
+  }
+  const boundTargetFunction = this;
+  return function () {
+    boundTargetFunction.apply(whoIsCallingMe, arguments);
+  };
+};
+```
+
+> ### "this" refrence in class, constructor function, object in js
+
+  1. Using "this" in a Class:
+
+  ```
+  class MyClass {
+    constructor(name) {
+      this.name = name;
+    }
+
+    sayHello() {
+      console.log(`Hello, ${this.name}!`);
+    }
+  }
+
+  const obj = new MyClass('John');
+  obj.sayHello(); // Output: Hello, John!
+  ```
+
+  2. Using "this" in a Constructor Function:
+
+  ```
+    function Person(name) {
+      this.name = name;
+
+      this.sayHello = function() {
+        console.log(`Hello, ${this.name}!`);
+      };
+    }
+
+    const person1 = new Person('Alice');
+    person1.sayHello(); // Output: Hello, Alice!
+  ```
+
+  3. Using "this" in an Object:
+
+  ```
+    const myObject = {
+      value: 42,
+      getValue: function() {
+        console.log(this.value);
+      }
+    };
+
+    myObject.getValue(); // Output: 42
+  ```
 
 ### Event Loop
 The event loop is a process that continuously monitors both the call stack and the event queue and checks whether or not the call stack is empty. If the call stack is empty and there are pending events in the event queue, the event loop dequeues the event from the event queue and pushes it to the call stack. The call stack executes the event, and any additional events generated during the execution are added to the end of the event queue.
@@ -1800,18 +2141,6 @@ console.log(Math.max(0, 150, 30, 20, -8, -200)) //150
 
 ### Needs discussion
 
-What is memoization\
-What are server-sent events\
-How do you receive server-sent event notifications\
-How do you check browser support for server-sent events\
-What are the events available for server sent events\
-What is promise.all\
-What is the purpose of the race method in promise\
-How do you test for an empty object\
-What is an arguments object\
-How do you check if a string starts with another string\
-What is a proxy object\
-What are javascript accessors\
 How do you define property on Object constructor\
 What is the difference between get and defineProperty\
 What are the advantages of Getters and Setters\
@@ -1828,17 +2157,13 @@ What are the list of validity properties\
 Give an example usage of rangeOverflow property\
 How do you get property descriptors of an object\
 What are the attributes provided by a property descriptor\
-How do you load CSS and JS files dynamically\
 How to cancel a fetch request\
-What is web speech API\
 What is minimum timeout throttling\
 How do you implement zero timeout in modern browsers\
 What is the difference between Function constructor and function declaration\
 What is the difference between function and class declarations\
 How to detect if a function is called as constructor\
 How to invoke an IIFE without any extra brackets?\
-What is the difference between dense and sparse arrays?\
-What are the different ways to create sparse arrays?\
 What is the difference between setTimeout, setImmediate and process.nextTick?\
 
 
@@ -1854,8 +2179,6 @@ useMemo() is a React Hook that we can use to wrap functions within a component. 
 debouncing vs throttling
 1st one is diff b/w to type value time and second one is the time difference between two function call
 
-Redux Thunk
-Oftentimes, when building a web application, you’ll need to call on APIs which means some asynchronous action is going on. Redux Thunk is a middleware that to do these asynchronous actions with Redux. Redux, by itself, does not allow asynchronous actions and this is troublesome if we want to dispatch an action that fetches data from an API for example. The thunk can be used to delay the dispatch of an action, or to dispatch only if a certain condition is met.
 
 window.onbeforeunload = popup;
 
