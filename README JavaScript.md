@@ -212,6 +212,44 @@ user.lang = "fr";
 console.log(user.lang); // setter used to set lang as fr
 ```
 
+> ### How does synchronous iteration works
+
+Synchronous iteration was introduced in ES6 and it works with below set of components,
+
+**Iterable**: It is an object which can be iterated over via a method whose key is Symbol.iterator. Iterator: It is an object returned by invoking `[Symbol.iterator]()` on an iterable. This iterator object wraps each iterated element in an object and returns it via `next()` method one by one. **IteratorResult**: It is an object returned by `next()` method. The object contains two properties; the `value` property contains an iterated element and the done property determines whether the element is the last element or not.
+
+Let's demonstrate synchronous iteration with an array as below,
+
+```
+const iterable = ["one", "two", "three"];
+const iterator = iterable[Symbol.iterator]();
+console.log(iterator.next()); // { value: 'one', done: false }
+console.log(iterator.next()); // { value: 'two', done: false }
+console.log(iterator.next()); // { value: 'three', done: false }
+console.log(iterator.next()); // { value: 'undefined, done: true }
+```
+
+> ### How do you set prototype of one object to another
+
+You can use the `Object.setPrototypeOf()` method that sets the prototype (i.e., the internal `Prototype` property) of a specified object to another object or null. For example, if you want to set prototype of a square object to rectangle object would be as follows,
+
+```
+Object.setPrototypeOf(Square.prototype, Rectangle.prototype);
+Object.setPrototypeOf({}, null);
+```
+
+> ### How do you check whether an object can be extendable or not
+
+The `Object.isExtensible()` method is used to determine if an object is extendable or not. i.e, Whether it can have new properties added to it or not.
+
+```
+const newObject = {};
+console.log(Object.isExtensible(newObject)); //true
+```
+
+**Note**: By default, all the objects are extendable. i.e, The new properties can be added or modified.
+
+
 > ### What are the different error names from error object
 
 There are 6 different types of error names returned from error object,
@@ -426,6 +464,179 @@ Points to note
 - Each worker thread will have its own isolated global env that is different form js env
 - Worker can not manipulate the DOM operations
 - Worker is not a part of js thread its browser feature
+
+
+> ### How do you get property descriptors of an object
+
+You can use the `Object.getOwnPropertyDescriptors()` method which returns all own property descriptors of a given object. The example usage of this method is below,
+
+```
+const newObject = {
+  a: 1,
+  b: 2,
+  c: 3,
+};
+const descriptorsObject = Object.getOwnPropertyDescriptors(newObject);
+console.log(descriptorsObject.a.writable); //true
+console.log(descriptorsObject.a.configurable); //true
+console.log(descriptorsObject.a.enumerable); //true
+console.log(descriptorsObject.a.value); // 1
+
+```
+
+> ### How do I modify the url without reloading the page
+The `window.location.href` property will be helpful to modify the url but it reloads the page. HTML5 introduced the `history.pushState()` and `history.replaceState()` methods, which allow you to add and modify history entries, respectively. For example, you can use pushState as below,
+
+```
+window.history.pushState("page2", "Title", "/page2.html");
+```
+
+> ### How do you print numbers with commas as thousand separators
+
+You can use the `Number.prototype.toLocaleString()` method which returns a string with a language-sensitive representation such as thousand separator,currency etc of this number.
+
+```
+function convertToThousandFormat(x) {
+  return x.toLocaleString(); // 12,345.679
+}
+
+console.log(convertToThousandFormat(12345.6789));
+```
+
+
+> ### Does JavaScript supports namespace
+
+JavaScript doesn’t support namespace by default. So if you create any element(function, method, object, variable) then it becomes global and pollutes the global namespace. Let's take an example of defining two functions without any namespace,
+
+```
+function func1() {
+  console.log("This is a first definition");
+}
+function func1() {
+  console.log("This is a second definition");
+}
+func1(); // This is a second definition
+```
+
+**Note**: It always calls the second function definition. In this case, namespace will solve the name collision problem.
+
+
+> ### How do you declare namespace
+Even though JavaScript lacks namespaces, we can use Objects , IIFE to create namespaces.
+
+  1. **Using Object Literal Notation**: Let's wrap variables and functions inside an Object literal which acts as a namespace. After that you can access them using object notation
+
+  ```
+  var namespaceOne = {
+    function func1() {
+        console.log("This is a first definition");
+    }
+  }
+  var namespaceTwo = {
+      function func1() {
+          console.log("This is a second definition");
+      }
+  }
+  namespaceOne.func1(); // This is a first definition
+  namespaceTwo.func1(); // This is a second definition
+  ```
+  2. **Using IIFE (Immediately invoked function expression)**: The outer pair of parentheses of IIFE creates a local scope for all the code inside of it and makes the anonymous function a function expression. Due to that, you can create the same function in two different function expressions to act as a namespace.
+
+  ```
+  (function () {
+    function fun1() {
+      console.log("This is a first definition");
+    }
+    fun1();
+  })();
+
+  (function () {
+    function fun1() {
+      console.log("This is a second definition");
+    }
+    fun1();
+  })();
+  ```
+
+
+> ### How do you load CSS and JS files dynamically
+
+You can create both link and script elements in the DOM and append them as child to head tag. Let's create a function to add script and style resources as below,
+
+```
+function loadAssets(filename, filetype) {
+  if (filetype == "css") {
+    // External CSS file
+    var fileReference = document.createElement("link");
+    fileReference.setAttribute("rel", "stylesheet");
+    fileReference.setAttribute("type", "text/css");
+    fileReference.setAttribute("href", filename);
+  } else if (filetype == "js") {
+    // External JavaScript file
+    var fileReference = document.createElement("script");
+    fileReference.setAttribute("type", "text/javascript");
+    fileReference.setAttribute("src", filename);
+  }
+  if (typeof fileReference != "undefined")
+    document.getElementsByTagName("head")[0].appendChild(fileReference);
+}
+```
+
+> ### How do you create an infinite loop
+
+```
+for (;;) {}
+while (true) {}
+
+```
+
+> ### How do you convert character to ASCII code
+
+```
+"ABC".charCodeAt(0); // returns 65
+
+String.fromCharCode(65, 66, 67); // returns 'ABC'
+```
+
+> ### What is the output of below console statement with unary operator
+
+```
+console.log(+"Hello");
+```
+
+The output of the above console log statement returns NaN. Because the element is prefixed by the unary operator and the JavaScript interpreter will try to convert that element into a number type. Since the conversion fails, the value of the statement results in NaN value
+
+
+> ### What happens if we add two arrays
+
+If you add two arrays together, it will convert them both to strings and concatenate them. For example, the result of adding arrays would be as below,
+
+```
+console.log(["a"] + ["b"]); // "ab"
+console.log([] + []); // ""
+console.log(![] + []); // "false", because ![] returns false.
+```
+
+> ### What is the output of prepend additive operator on falsy values
+
+If you prepend the additive(+) operator on falsy values(null, undefined, NaN, false, ""), the falsy value converts to a number value zero. Let's display them on browser console as below,
+
+```
+console.log(+null); // 0
+console.log(+undefined); // NaN
+console.log(+false); // 0
+console.log(+NaN); // NaN
+console.log(+""); // 0
+```
+
+> ### What is destructuring aliases
+Sometimes you would like to have a destructured variable with a different name than the property name. In that case, you'll use a `: newName` to specify a name for the variable. This process is called destructuring aliases.
+
+```
+const obj = { x: 1 };
+// Grabs obj.x as as { otherName }
+const { x: otherName } = obj;
+```
 
 
 > ### Array things
