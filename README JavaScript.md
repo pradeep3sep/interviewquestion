@@ -15,9 +15,216 @@ setTimeout((a)=>{console.log(a)},1000,"sam")
 
 // gives sam in output
 ```
+> ### What is the difference between window and document
+Window  | Document
+------------- | -------------
+It is the root level element in any web page | It is the direct child of the window object. This is also known as Document Object Model(DOM)
+By default window object is available implicitly in the page | You can access it via window.document or document.
+It has methods like alert(), confirm() and properties like document, location | It provides methods like getElementById, getElementsByTagName, createElement etc
 
 
-map and weakMap
+> ### How do you detect javascript disabled in the page
+
+You can use the `<noscript>` tag to detect javascript disabled or not. The code block inside `<noscript>` gets executed when JavaScript is disabled, and is typically used to display alternative content when the page generated in JavaScript.
+
+```
+<script type="javascript">
+    // JS related code goes here
+</script>
+<noscript>
+    <a href="next_page.html?noJS=true">JavaScript is disabled in the page. Please click Next Page</a>
+</noscript>
+```
+
+> ### How do you determine whether object is frozen or not
+
+Object.isFrozen() method is used to determine if an object is frozen or not.An object is frozen if all of the below conditions hold true,
+
+- If it is not extensible.
+- If all of its properties are non-configurable.
+- If all its data properties are non-writable. The usage is going to be as follows,
+
+```
+const object = {
+  property: "Welcome JS world",
+};
+Object.freeze(object);
+console.log(Object.isFrozen(object));
+```
+
+> ### What is a proxy object
+
+The Proxy object is used to define custom behavior for fundamental operations such as property lookup, assignment, enumeration, function invocation, etc. The syntax would be as follows,
+
+```
+var p = new Proxy(target, handler);
+```
+
+Let's take an example of proxy object,
+
+```
+var handler = {
+  get: function (obj, prop) {
+    return prop in obj ? obj[prop] : 100;
+  },
+};
+
+var p = new Proxy({}, handler);
+p.a = 10;
+p.b = null;
+
+console.log(p.a, p.b); // 10, null
+console.log("c" in p, p.c); // false, 100
+```
+
+In the above code, it uses get handler which define the behavior of the proxy when an operation is performed on it
+
+> ### Object.entries(newObj), Object.keys(newObj), Object.values(newObj) 
+
+> ### How do you detect caps lock key turned on or not
+
+The mouseEvent `getModifierState()` is used to return a boolean value that indicates whether the specified modifier key is activated or not. The modifiers such as `CapsLock, ScrollLock and NumLock` are activated when they are clicked, and deactivated when they are clicked again.
+
+Let's take an input element to detect the CapsLock on/off behavior with an example,
+
+```
+<input type="password" onmousedown="enterInput(event)" />
+
+<p id="feedback"></p>
+
+<script>
+  function enterInput(e) {
+    var flag = e.getModifierState("CapsLock");
+    if (flag) {
+      document.getElementById("feedback").innerHTML = "CapsLock activated";
+    } else {
+      document.getElementById("feedback").innerHTML =
+        "CapsLock not activated";
+    }
+  }
+</script>
+```
+
+> ### What is the purpose of isFinite function
+The isFinite() function is used to determine whether a number is a finite, legal number. It returns false if the value is +infinity, -infinity, or NaN (Not-a-Number), otherwise it returns true.
+
+```
+isFinite(Infinity); // false
+isFinite(NaN); // false
+isFinite(-Infinity); // false
+
+isFinite(100); // true
+```
+
+> ### What is the difference between document load and DOMContentLoaded events
+
+The `DOMContentLoaded` event is fired when the initial HTML document has been completely loaded and parsed, without waiting for assets(stylesheets, images, and subframes) to finish loading. Whereas The load event is fired when the whole page has loaded, including all dependent resources(stylesheets, images).
+
+
+> ### How do you test for an empty object
+
+There are different solutions based on ECMAScript versions
+  1. Using Object entries(ECMA 7+): You can use object entries length along with constructor type.
+  ```
+  Object.entries(obj).length === 0 && obj.constructor === Object; // Since date object length is 0, you need to check constructor check as well
+  ```
+
+  2. Using Object keys(ECMA 5+): You can use object keys length along with constructor type.
+  ```
+  Object.keys(obj).length === 0 && obj.constructor === Object; // Since date object length is 0, you need to check constructor check as well
+  ```
+
+  3. Using for-in with hasOwnProperty(Pre-ECMA 5): You can use a for-in loop along with hasOwnProperty.
+  ```
+  function isEmpty(obj) {
+    for (var prop in obj) {
+      if (obj.hasOwnProperty(prop)) {
+        return false;
+      }
+    }
+
+    return JSON.stringify(obj) === JSON.stringify({});
+  }
+  ```
+
+> ### What are js labels
+
+The label statement allows us to name loops and blocks in JavaScript. We can then use these labels to refer back to the code later. For example, the below code with labels avoids printing the numbers when they are same,
+
+```
+var i, j;
+
+loop1: for (i = 0; i < 3; i++) {
+  loop2: for (j = 0; j < 3; j++) {
+    if (i === j) {
+      continue loop1;
+    }
+    console.log("i = " + i + ", j = " + j);
+  }
+}
+
+// Output is:
+//   "i = 1, j = 0"
+//   "i = 2, j = 0"
+//   "i = 2, j = 1"
+```
+
+
+
+> ### map and weakMap
+
+refer below for understanding
+```
+https://javascript.info/weakmap-weakset
+```
+
+
+Map  | WeakMap
+------------- | -------------
+A Map is an unordered list of key-value pairs where the key and the value can be of any type like string, boolean, number, etc.  | In a Weak Map, every key can only be an object and function. It used to store weak object references.
+Maps are iterable.  | WeakMaps are not iterable.
+Maps will keep everything even if you don’t use them. | WeakMaps holds the reference to the key, not the key itself.
+The garbage collector doesn’t remove a key pointer from “Map” and also doesn’t remove the key from memory. | The garbage collector goes ahead and removes the key pointer from “WeakMap” and also removes the key from memory. WeakMap allows the garbage collector to do its task but not the Map.
+Maps have some properties : .set, .get, .delete, .size, .has, .forEach, Iterators. | WeakMaps have some properties : .set, .get, .delete, .has.
+You can create a new map by using a new Map(). | You can create a new WeakMap by using a new WeakMap().
+
+
+
+> ### What are javascript accessors
+
+ECMAScript 5 introduced javascript object accessors or computed properties through getters and setters. Getters uses the `get` keyword whereas Setters uses the `set` keyword.
+
+
+```
+var user = {
+  firstName: "John",
+  lastName: "Abraham",
+  language: "en",
+  get lang() {
+    return this.language;
+  },
+  set lang(lang) {
+    this.language = lang;
+  },
+};
+console.log(user.lang); // getter access lang as en
+user.lang = "fr";
+console.log(user.lang); // setter used to set lang as fr
+```
+
+> ### What are the different error names from error object
+
+There are 6 different types of error names returned from error object,
+
+Error Name |	Description
+---------- | --------------
+EvalError	| An error has occurred in the eval() function
+RangeError	| An error has occurred with a number "out of range"
+ReferenceError	| An error due to an illegal reference
+SyntaxError	| An error due to a syntax error
+TypeError	| An error due to a type error
+URIError	| An error due to encodeURI()
+
 
 > ### Keep in mind below
 ```
