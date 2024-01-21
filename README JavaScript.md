@@ -1,9 +1,21 @@
 ```
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
-break and continue in for loop
+> ### Break vs Continue in for loop
 
-setTimeout(functionRef, delay, param1) explain func with param
+The `break` statement `"jumps out" or stops` of a loop.
+
+The `continue` statement `"jumps over or skip"` one iteration in the loop.
+
+> #### setTimeout(functionRef, delay, param1)
+
+params is passed functionRef
+```
+setTimeout((a)=>{console.log(a)},1000,"sam")
+
+// gives sam in output
+```
+
 
 map and weakMap
 
