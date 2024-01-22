@@ -1509,6 +1509,13 @@ Call Stack is a data structure for javascript interpreters to keep track of func
 > ### What is the purpose of compareFunction while sorting arrays
 The compareFunction is used to define the sort order. If omitted, the array elements are converted to strings, then sorted according to each character's Unicode code point value. Let's take an example to see the usage of compareFunction,
 
+compareFn(a, b) return value |	sort order
+-----------------------------------------
+> 0   |	sort a after b, e.g. [b, a]
+< 0   |	sort a before b, e.g. [a, b]
+=== 0  | keep original order of a and b
+
+
 > ### What happens if you write constructor more than once in a class
 The "constructor" in a class is a special method and it should be defined only once in a class. i.e, If you write a constructor method more than once in a class it will throw a `SyntaxError` error.
 
