@@ -247,10 +247,3 @@
 // Hoist static methods from the wrapped component.
 // It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
 
-
-
-
-
-
-
-

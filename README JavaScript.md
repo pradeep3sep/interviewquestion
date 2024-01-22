@@ -1516,6 +1516,17 @@ compareFn(a, b) return value |	sort order
  "=== 0"                        | keep original order of a and b
 
 
+```
+const d = [1,10,2,1000]
+
+d.sort((a,b)=>{
+    debugger    //a,b ulta hota h, b = 1 a = 10, agr a-b +ve to waisa hi rahega
+    return a - b
+})
+
+console.log(d);
+```
+
 > ### What happens if you write constructor more than once in a class
 The "constructor" in a class is a special method and it should be defined only once in a class. i.e, If you write a constructor method more than once in a class it will throw a `SyntaxError` error.
 
