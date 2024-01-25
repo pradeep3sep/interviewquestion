@@ -147,6 +147,33 @@ Below are some of the main differences between HTML and React event handling,
        Whereas in react you should not append `()` with the function name. (refer "activateLasers" function in the first point for example)
 
 
+> ### How to pass a parameter to an event handler or callback?
+
+  You can use an _arrow function_ to wrap around an _event handler_ and pass parameters:
+
+  ```jsx harmony
+  <button onClick={() => this.handleClick(id)} />
+  ```
+
+  This is an equivalent to calling `.bind`:
+
+  ```jsx harmony
+  <button onClick={this.handleClick.bind(this, id)} />
+  ```
+
+  Apart from these two approaches, you can also pass arguments to a function which is defined as arrow function
+
+  ```jsx harmony
+  <button onClick={this.handleClick(id)} />;
+  handleClick = (id) => () => {
+    console.log("Hello, your ticket number is", id);
+  };
+  ```
+
+
+> ### What are synthetic events in React?
+
+`SyntheticEvent` is a cross-browser wrapper around the browser's native event. Its API is same as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers. The native events can be accessed directly from synthetic events using `nativeEvent` attribute.
 
 
 
