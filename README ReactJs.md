@@ -111,9 +111,9 @@ setState({ name: "John" }, () =>
 
 > ### What is the difference between HTML and React event handling?
 
-    Below are some of the main differences between HTML and React event handling,
+Below are some of the main differences between HTML and React event handling,
 
-    1. In HTML, the event name usually represents in _lowercase_ as a convention:
+  1. In HTML, the event name usually represents in _lowercase_ as a convention:
 
        ```html
        <button onclick="activateLasers()"></button>
@@ -125,7 +125,7 @@ setState({ name: "John" }, () =>
        <button onClick={activateLasers}>
        ```
 
-    2. In HTML, you can return `false` to prevent default behavior:
+  2. In HTML, you can return `false` to prevent default behavior:
 
        ```html
        <a
@@ -143,7 +143,7 @@ setState({ name: "John" }, () =>
        }
        ```
 
-    3. In HTML, you need to invoke the function by appending `()`
+  3. In HTML, you need to invoke the function by appending `()`
        Whereas in react you should not append `()` with the function name. (refer "activateLasers" function in the first point for example)
 
 
