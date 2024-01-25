@@ -1,3 +1,22 @@
+> ### What are the advantages of React?
+Below are the list of main advantages of React,
+
+- Increases the application's performance with Virtual DOM.
+- JSX makes code easy to read and write.
+- It renders both on client and server side (SSR).
+- Easy to integrate with frameworks (Angular, Backbone) since it is only a view library.
+- Easy to write unit and integration tests with tools such as Jest.
+
+
+> ### What are the limitations of React?
+Apart from the advantages, there are few limitations of React too,
+
+- React is just a view library, not a full framework.
+- There is a learning curve for beginners who are new to web development.
+- Integrating React into a traditional MVC framework requires some additional configuration.
+- The code complexity increases with inline templating and JSX.
+- Too many smaller components leading to over engineering or boilerplate.
+
 > ### What is JSX?
 
 JSX stands for JavaScript XML. \
@@ -176,26 +195,432 @@ Below are some of the main differences between HTML and React event handling,
 `SyntheticEvent` is a cross-browser wrapper around the browser's native event. Its API is same as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers. The native events can be accessed directly from synthetic events using `nativeEvent` attribute.
 
 
+> ### What are forward refs?
+Ref forwarding is a feature that lets some components take a ref they receive, and pass it further down to a child.
+
+
+> ### What is Virtual DOM? How Virtual DOM works?
+
+The Virtual DOM (VDOM) is an `in-memory representation of Real DOM`. The representation of a UI is kept in memory and `synced with the "real" DOM`. It's a step that happens between the render function being called and the displaying of elements on the screen. This entire process is called `reconciliation`.
+
+The Virtual DOM works in three simple steps.
+
+  1. Whenever any underlying data changes, the entire UI is re-rendered in Virtual DOM representation.
+  2. Then the difference between the previous DOM representation and the new one is calculated.
+  3. Once the calculations are done, the real DOM will be updated with only the things that have actually changed.
+
+> ### What is the difference between Shadow DOM and Virtual DOM?
+The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components.\
+The Virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs.
+
+
+> ### What is React Fiber?
+
+Fiber is the `new reconciliation engine` or `reimplementation of core algorithm` in React v16. The goal of React Fiber is to increase its suitability for areas like animation, layout, gestures, ability to pause, abort, or reuse work and assign priority to different types of updates; and new concurrency primitives.
+
+Its main goals are:
+
+  1. Ability to split interruptible work in chunks.
+  2. Ability to prioritize, rebase and reuse work in progress.
+  3. Ability to yield back and forth between parents and children to support layout in React.
+  4. Ability to return multiple elements from render().
+  5. Better support for error boundaries.
+
+
+> ### What is Lifting State Up in React?
+When several components need to share the same changing data then it is recommended to lift the shared state up to their closest common ancestor. That means if two child components share the same data from its parent, then move the state to parent instead of maintaining local state in both of the child components.
+
+
+> ### What is reconciliation?
+
+  `Reconciliation` is the process through which React updates the Browser DOM and makes React work faster. React use a `diffing algorithm` so that component updates are predictable and faster. React would first calculate the difference between the `real DOM` and the copy of DOM `(Virtual DOM)` when there's an update of components.\
+  React stores a copy of Browser DOM which is called `Virtual DOM`. When we make changes or add data, React creates a new Virtual DOM and compares it with the previous one. This comparison is done by `Diffing Algorithm`.\
+  Now React compares the Virtual DOM with Real DOM. It finds out the changed nodes and updates only the changed nodes in Real DOM leaving the rest nodes as it is. This process is called _Reconciliation_.
+
+
+> ### Why fragments are better than container divs?
+Below are the list of reasons to prefer fragments over container DOM elements,
+
+- Fragments are a bit faster and use less memory by not creating an extra DOM node. This only has a real benefit on very large and deep trees.
+- Some CSS mechanisms like Flexbox and CSS Grid have a special parent-child relationships, and adding divs in the middle makes it hard to keep the desired layout.
+- The DOM Inspector is less cluttered.
+
+
+> ### What are portals in React?
+
+_Portal_ is a recommended way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+
+```javascript
+ReactDOM.createPortal(child, container);
+```
+
+The first argument is any render-able React child, such as an element, string, or fragment. The second argument is a DOM element.
+
+
+> ### How to use innerHTML in React?
+The `dangerouslySetInnerHTML` attribute is React's replacement for using `innerHTML` in the browser DOM. Just like `innerHTML`, it is risky to use this attribute considering cross-site scripting (XSS) attacks. You just need to pass a `__html` object as key and HTML text as value.
+
+In this example MyComponent uses `dangerouslySetInnerHTML` attribute for setting HTML markup:
+
+```
+function createMarkup() {
+  return { __html: "First &middot; Second" };
+}
+
+function MyComponent() {
+  return <div dangerouslySetInnerHTML={createMarkup()} />;
+}
+```
+
+
+> ### Importance of Keys in React
+Keys are significant in React because they aid in determining whether items in a list have been changed, updated, or removed. This process helps React to optimize the rendering by recycling existing DOM elements.
+
+When an element's key changes, React will create a new component instance rather than update the current one. This is why keys need to be stable in a list.
+
+
+> ### What is the impact of indexes as keys?
+Choosing the correct key can be tricky. It's often tempting to use the index as a key if the items in your list do not have a unique identifier. However, this can lead to issues if the order of items changes. This is because React uses keys to determine whether a component needs to be updated or not. If the keys are based on the index and the order changes, React might end up re-rendering more components than necessary, negatively impacting your app's performance.
+
+In the previous example of a list of posts, if we use the post's index as a key and then a post is added to the beginning of the list, all the keys will change, causing all post components to re-render. On the other hand, if each post has a unique ID and we use this ID as a key, only the new post component will re-render.
+
+
+> ### What will happen if you use props in initial state?
+
+```
+import React, { useState } from 'react';
+
+const MyComponent = (props) => {
+  // Don't do this! It breaks the principle of immutability with props.
+  const [myState, setMyState] = useState(props.initialValue);
+
+  // Rest of your component logic...
+
+  return (
+    <div>
+      {/* Your component UI */}
+    </div>
+  );
+};
+
+export default MyComponent;
+```
+
+In the above example, `props.initialValue` is used to set the initial state using the `useState` hook.
+
+This leads to unexpected behaviour.
+
+This will work for the first time, state value sets to initial value, but when the component re-renders, at that time useState value of `mystate` do `not reset`. During the rerender the state preserves the previous state or value in it. So when props value from the parent changes, the child gets rerendered but it don't have the updated value in it.
+
+below is the code you should better to use
+
+```
+import React, { useState } from 'react';
+
+const MyComponent = (props) => {
+  // Don't do this! It breaks the principle of immutability with props.
+  const [myState, setMyState] = useState(props.initialValue);
+
+  useEffect(() => {
+    // Update the state when the props change
+    setMyState(props.initialValue);
+  }, [props.initialValue]);
+
+  // Rest of your component logic...
+
+  return (
+    <div>
+      {/* Your component UI */}
+    </div>
+  );
+};
+
+export default MyComponent;
+```
+
+
+> ### How you implement Server Side Rendering or SSR?
+
+React is already equipped to handle rendering on Node servers. A special version of the DOM renderer is available, which follows the same pattern as on the client side.
+
+```
+import ReactDOMServer from "react-dom/server";
+import App from "./App";
+
+ReactDOMServer.renderToString(<App />);
+```
+
+This method will output the regular HTML as a string, which can be then placed inside a page body as part of the server response. On the client side, React detects the pre-rendered content and seamlessly picks up where it left off.
+
+
+> ### How to loop inside JSX?
+
+```
+<tbody>
+  {items.map((item) => (
+    <SomeComponent key={item.id} name={item.name} />
+  ))}
+</tbody>
+```
+
+
+> ### How to re-render the view when the browser is resized?
+
+```
+import React, { useState, useEffect } from "react";
+function WindowDimensions() {
+  const [dimensions, setDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    function handleResize() {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <span>
+      {dimensions.width} x {dimensions.height}
+    </span>
+  );
+}
+```
+
+
+> ### Is it possible to use React without rendering HTML?
+
+  It is possible. Below are the possible options:
+
+  ```jsx harmony
+  render() {
+    return false
+  }
+  ```
+
+  ```jsx harmony
+  render() {
+    return true
+  }
+  ```
+
+  ```jsx harmony
+  render() {
+    return null
+  }
+  ```
+
+  React version >=16.0.0:
+
+  ```jsx harmony
+  render() {
+    return []
+  }
+  ```
+
+  ```jsx harmony
+  render() {
+    return ""
+  }
+  ```
+
+  React version >=16.2.0:
+
+  ```jsx harmony
+  render() {
+    return <React.Fragment></React.Fragment>
+  }
+  ```
+
+  ```jsx harmony
+  render() {
+    return <></>
+  }
+  ```
+
+  React version >=18.0.0:
+
+  ```jsx harmony
+  render() {
+    return undefined
+  }
+  ```
 
 
 
+> ### How to pretty print JSON with React?
+
+```
+import React from 'react';
+
+export function App(props) {
+
+  const jsonData = {
+    key1: 'value1',
+    key2: 'value2',
+    key3: {
+      nestedKey1: 'nestedValue1',
+      nestedKey2: 'nestedValue2'
+    }
+  };
+
+  return (
+    <div className='App'>
+      <h1>Hello React.</h1>
+      <h2>Start editing to see some magic happen!</h2>
+      <PrettyPrintJSON data={jsonData} />
+    </div>
+  );
+}
+```
+
+```
+const PrettyPrintJSON = ({ data }) => {
+  // Use JSON.stringify with third and fourth parameters for pretty printing
+  const prettyJSON = JSON.stringify(data, null, 2);
+
+  return (
+    <pre>
+      {prettyJSON}
+    </pre>
+  );
+};
+
+export default PrettyPrintJSON;
+```
+
+> ### How to focus an input element on page load?
+
+```
+import React, { useEffect, useRef } from "react";
+
+const App = () => {
+  const inputElRef = useRef(null);
+
+  useEffect(() => {
+    inputElRef.current.focus();
+  }, []);
+
+  return (
+    <div>
+      <input defaultValue={"Won't focus"} />
+      <input ref={inputElRef} defaultValue={"Will focus"} />
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("app"));
+```
 
 
+> ### What are the possible ways of updating objects in state in react?
+
+1. Using the spread operator:
+
+```
+const [state, setState] = useState({ key1: 'value1', key2: 'value2' });
+
+const updateState = () => {
+  setState(prevState => ({ ...prevState, key1: 'new value' }));
+};
+
+```
+
+2. Using Object.assign():
+
+```
+const [state, setState] = useState({ key1: 'value1', key2: 'value2' });
+
+const updateState = () => {
+  setState(prevState => Object.assign({}, prevState, { key1: 'new value' }));
+};
+
+```
+
+3. Updating nested objects:
+If your state contains nested objects, you should ensure immutability at each level:
+
+```
+const [state, setState] = useState({ nested: { key1: 'value1', key2: 'value2' } });
+
+const updateState = () => {
+  setState(prevState => ({
+    ...prevState,
+    nested: { ...prevState.nested, key1: 'new value' }
+  }));
+};
+
+```
 
 
+> ### How can we find the version of React at runtime in the browser?
+
+You can use `React.version` to get the version.
+
+```
+const REACT_VERSION = React.version;
+
+ReactDOM.render(
+  <div>{`React version: ${REACT_VERSION}`}</div>,
+  document.getElementById("app")
+);
+```
+
+> ### How to use https instead of http in create-react-app?
+
+You just need to use `HTTPS=true` configuration. You can edit your `package.json` scripts section:
+
+```
+"scripts": {
+  "start": "set HTTPS=true && react-scripts start"
+}
+```
+
+or just run `set HTTPS=true && npm start`
 
 
+> ### How to update a component every second?
+
+```
+import React, { useState, useEffect } from 'react';
+
+const MyComponent = () => {
+  const [counter, setCounter] = useState(0);
+
+  useEffect(() => {
+    // Set up an interval to update the component every second
+    const intervalId = setInterval(() => {
+      // Update the state to trigger a re-render
+      setCounter(prevCounter => prevCounter + 1);
+    }, 1000);
+
+    // Clear the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }, []); // The empty dependency array ensures the effect runs only once on mount
+
+  return (
+    <div>
+      <p>Counter: {counter}</p>
+    </div>
+  );
+};
+
+export default MyComponent;
+```
+
+> ### How to programmatically trigger click event in React?
+Same as we did for the focus, just replace focus with click
 
 
+> ### What are render props?
 
-
-
-
-
-
-
-
-
+**Render Props** is a simple technique for sharing code between components using a prop whose value is a function. The below component uses render prop which returns a React element
 
 
 
