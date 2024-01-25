@@ -1,3 +1,233 @@
+> ### What is JSX?
+
+JSX stands for JavaScript XML. \
+Basically it just provides the `syntactic sugar` for the `React.createElement(type, props, ...children)` function,
+
+In the example below, the text inside `<h1>` tag is returned as JavaScript function to the render function.
+
+```
+export default function App() {
+  return (
+      <h1 className="greeting">{"Hello, this is a JSX Code!"}</h1>
+  );
+}
+```
+
+If you don't use JSX syntax then the respective JavaScript code should be written as below,
+
+```
+import { createElement } from 'react';
+
+export default function App() {
+  return createElement(
+    'h1',
+    { className: 'greeting' },
+    'Hello, this is a JSX Code!'
+  );
+}
+```
+
+
+> ### What is the difference between Element and Component?
+
+An Element is a `plain object`, describing what you want to appear on the screen in terms of the DOM nodes or other components. Elements can contain other Elements in their props. Creating a React element is cheap. Once an element is created, it cannot be mutated.
+
+The JavaScript representation(Without JSX) of React Element would be as follows:
+
+```
+const element = React.createElement("div", { id: "login-btn" }, "Login");
+```
+
+and this element can be simiplified using JSX
+
+```
+<div id="login-btn">Login</div>
+```
+
+The above React.createElement() function returns an object as below:
+
+```
+{
+  type: 'div',
+  props: {
+    children: 'Login',
+    id: 'login-btn'
+  }
+}
+```
+
+Finally, this element renders to the DOM using `ReactDOM.render()`.
+
+
+Whereas a `component` can be declared in several different ways.
+
+```
+const Button = ({ handleLogin }) => (
+  <div id={"login-btn"} onClick={handleLogin}>
+    Login
+  </div>
+);
+```
+
+Then JSX gets transpiled to a `React.createElement()` function tree:
+
+```
+const Button = ({ handleLogin }) =>
+  React.createElement(
+    "div",
+    { id: "login-btn", onClick: handleLogin },
+    "Login"
+  );
+```
+
+> ### Why should we not update the state directly?
+
+If you try to update the state directly then it won't re-render the component.
+
+```
+//Wrong
+this.state.message = "Hello world";
+```
+
+Instead use setState() method. It schedules an update to a component's state object. When state changes, the component responds by re-rendering.
+
+```
+//Correct
+this.setState({ message: "Hello World" });
+```
+
+> ### What is the purpose of `callback` function as an argument of `setState()`?
+
+The callback function is invoked when setState finished and the component gets rendered. Since `setState()` is `asynchronous` the callback function is used for any post action.
+
+Note: It is recommended to use lifecycle method rather than this callback function.
+
+```
+setState({ name: "John" }, () =>
+  console.log("The name has updated and component re-rendered")
+);
+```
+
+
+> ### What is the difference between HTML and React event handling?
+
+    Below are some of the main differences between HTML and React event handling,
+
+    1. In HTML, the event name usually represents in _lowercase_ as a convention:
+
+       ```html
+       <button onclick="activateLasers()"></button>
+       ```
+
+       Whereas in React it follows _camelCase_ convention:
+
+       ```jsx harmony
+       <button onClick={activateLasers}>
+       ```
+
+    2. In HTML, you can return `false` to prevent default behavior:
+
+       ```html
+       <a
+         href="#"
+         onclick='console.log("The link was clicked."); return false;'
+       />
+       ```
+
+       Whereas in React you must call `preventDefault()` explicitly:
+
+       ```javascript
+       function handleClick(event) {
+         event.preventDefault();
+         console.log("The link was clicked.");
+       }
+       ```
+
+    3. In HTML, you need to invoke the function by appending `()`
+       Whereas in react you should not append `()` with the function name. (refer "activateLasers" function in the first point for example)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ### Below are the my understanding and lack of notes
 ## Redux Thunk
 Redux thunk is a middleware, updating the store is sync process but when we need the async operation to update the store then we use the thunk.
