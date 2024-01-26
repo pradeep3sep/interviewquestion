@@ -1,3 +1,13 @@
+> ### What is React?
+
+React is an `open-source front-end JavaScript library` that is used for building user interfaces, especially for `single-page applications`
+
+> ### What are the major features of React?
+- JSX syntax, a syntax extension of JS that allows developers to write HTML in their JS code.
+- VirtualDOM
+- reusable/composable
+
+
 > ### What are the advantages of React?
 Below are the list of main advantages of React,
 
@@ -1147,21 +1157,6 @@ we added `export default loginSlice.reducer` which is used to combine multiple s
 //! -------------------------REACT JS ------------------------
 
 
-> ### What is React?
-
-React is an `open-source front-end JavaScript library` that is used for building user interfaces, especially for `single-page applications`
-
-> ### What are the major features of React?
-- JSX syntax, a syntax extension of JS that allows developers to write HTML in their JS code.
-- VirtualDOM
-- reusable/composable
-
-
-> ### What is JSX?
-JavaScript XML, Basically it just provides syntactic sugar for the React.createElement() function, 
-
-// Props are immutable states are
-
 //* useimperativehandle hook 
 
 // ### Question 5
@@ -1177,45 +1172,13 @@ JavaScript XML, Basically it just provides syntactic sugar for the React.createE
 //*real dom virtual dom,ref, shadow dom, createelement in react, clone element in react, stateful components, limitations of react, react router,can we pass react hook as a prop. High order components , redux, improve performance of react - usememo, useeffect with clear, lazy load,
 //*react one way binding
 //use this url for refernce, vue has v-model so direct but react has to added the event function and the we use the setstate https://stackoverflow.com/questions/34519889/can-anyone-explain-the-difference-between-reacts-one-way-data-binding-and-angula
-//* What is the difference between Element and Component?
-// An Element is a plain object describing what you want to appear on the screen in terms of the DOM nodes or other components. Elements can contain other Elements in their props. Creating a React element is cheap. Once an element is created, it is never mutated.
 
-//error boundaries in react,
 
 //functional Component has advantage that in the end class components converted to functional so direct usage increase the fastness
 
-// The object representation of React Element would be as follows:
-
-// const element = React.createElement(
-//   'div',
-//   {id: 'login-btn'},
-//   'Login'
-// )
-// The above React.createElement() function returns an object:
-
-// {
-//   type: 'div',
-//   props: {
-//     children: 'Login',
-//     id: 'login-btn'
-//   }
-// }
-// And finally it renders to the DOM using ReactDOM.render():
-
-// <div id='login-btn'>Login</div>
-// Whereas a component can be declared in several different ways. It can be a class with a render() method or it can be defined as a function. In either case, it takes props as an input, and returns a JSX tree as the output:
-
-// const Button = ({ onLogin }) =>
-//   <div id={'login-btn'} onClick={onLogin}>Login</div>
-// Then JSX gets transpiled to a React.createElement() function tree:
-
-// const Button = ({ onLogin }) => React.createElement(
-//   'div',
-//   { id: 'login-btn', onClick: onLogin },
-//   'Login'
-// )
 //* When to use a Class Component over a Function Component?
 // If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. *So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries *
+
 //* What are synthetic events in React?
 // SyntheticEvent is a cross-browser wrapper around the browser's native event. Its API is same as the browser's native event, including stopPropagation() and preventDefault(), except the events work identically across all browsers.
 //* What are forward refs?
