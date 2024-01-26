@@ -622,11 +622,289 @@ Same as we did for the focus, just replace focus with click
 
 **Render Props** is a simple technique for sharing code between components using a prop whose value is a function. The below component uses render prop which returns a React element
 
+```
+// ParentComponent.js
+import React from 'react';
+import ChildComponent from './ChildComponent';
+
+const ParentComponent = () => {
+  return (
+    <div>
+      <h2>Parent Component</h2>
+      <ChildComponent render={(data) => <p>Data from parent: {data}</p>} />
+    </div>
+  );
+};
+
+export default ParentComponent;
+```
+
+```
+// ChildComponent.js
+import React from 'react';
+
+const ChildComponent = ({ render }) => {
+  const dataFromParent = "Hello from Parent";
+
+  return (
+    <div>
+      <h3>Child Component</h3>
+      {render(dataFromParent)}
+    </div>
+  );
+};
+
+export default ChildComponent;
+```
 
 
+> ### What is the purpose of push() and replace() methods of history?
+
+If you think of the history as an array of visited locations, `push()` will add a new location to the array and `replace()` will replace the current location in the array with the new one.
+
+> ### How to pass params to history.push method in React Router v4?
+
+```
+this.props.history.push({
+  pathname: "/template",
+  search: "?name=sudheer",
+  state: { detail: response.data },
+});
+```
+
+> ### How to perform automatic redirect after login?
+
+```
+import React, { Component } from "react";
+import { Redirect } from "react-router";
+
+export default class LoginComponent extends Component {
+  render() {
+    if (this.state.isLoggedIn === true) {
+      return <Redirect to="/your/redirect/page" />;
+    } else {
+      return <div>{"Login Please"}</div>;
+    }
+  }
+}
+```
+
+> ### What are the differences between redux-saga and redux-thunk?
+
+Both _Redux Thunk_ and _Redux Saga_ take care of dealing with side effects. In most of the scenarios, Thunk uses _Promises_ to deal with them, whereas Saga uses _Generators_. Thunk is simple to use and Promises are familiar to many developers, Sagas/Generators are more powerful but you will need to learn them. But both middleware can coexist, so you can start with Thunks and introduce Sagas when/if you need them.
 
 
+> ### Why are inline ref callbacks or functions not recommended?
 
+If the ref callback is defined as an inline function, it will get called twice during updates, first with null and then again with the DOM element. This is because a new instance of the function is created with each render, so React needs to clear the old ref and set up the new one.
+
+```
+// Less performant (creates a new function on every render)
+const MyComponent = () => {
+  const myInputRef = useRef(null);
+
+  return <input ref={(input) => { myInputRef.current = input; }} />;
+};
+
+// More performant (assigns the ref once during initialization)
+const MyComponent = () => {
+  const myInputRef = useRef(null);
+
+  return <input ref={myInputRef} />;
+};
+```
+
+
+> ### What are HOC factory implementations?
+
+A Higher-Order Component (HOC) factory is a function that returns a Higher-Order Component. In React, a Higher-Order Component is a function that takes a component and returns a new component with additional props, state, or behavior. A HOC factory is essentially a function that generates HOCs with specific configurations.
+
+```
+import React, { useEffect } from 'react';
+
+const withLogger = (WrappedComponent, logMessage) => {
+  // Return a new functional component (HOC)
+  return (props) => {
+    // useEffect to log when the component mounts and unmounts
+    useEffect(() => {
+      console.log(`${logMessage}: Component ${WrappedComponent.name} mounted`);
+      
+      // Cleanup function for componentWillUnmount
+      return () => {
+        console.log(`${logMessage}: Component ${WrappedComponent.name} will unmount`);
+      };
+    }, []); // Empty dependency array ensures the effect runs only on mount and unmount
+
+    // Render the original component with its props
+    return <WrappedComponent {...props} />;
+  };
+};
+
+// Usage of the HOC factory
+const MyComponent = ({ name }) => {
+  return <div>{`Hello, ${name}!`}</div>;
+};
+
+const LogEnhancedComponent = withLogger(MyComponent, 'Log Message');
+
+// Usage of the enhanced component
+const App = () => {
+  return <LogEnhancedComponent name="John" />;
+};
+
+export default App;
+```
+
+- The `withLogger` HOC factory takes a functional component `(WrappedComponent)` and a `logMessage`.
+- It returns a new functional component (the HOC) that logs messages when the component it wraps mounts and unmounts using the `useEffect` hook.
+- The `LogEnhancedComponent` is the result of using the `withLogger` HOC factory with the original `MyComponent`.
+- Finally, in the `App` component, we use  `LogEnhancedComponent` just like any other component.
+
+
+> ### Higher-Order Component (HOC) 
+
+In React, a Higher-Order Component (HOC) is a pattern where a function takes a component and returns a new component with additional props, state, or behavior. HOCs are a way to reuse component logic, share code between components, and enhance the capabilities of existing components.
+
+```
+// HOC
+const withUpperCase = (WrappedComponent) => {
+  return (props) => {
+    const modifiedProps = {
+      ...props,
+      text: props.text.toUpperCase(),
+    };
+
+    return <WrappedComponent {...modifiedProps} />;
+  };
+};
+
+// Component
+const MyComponent = ({ text }) => {
+  return <div>{text}</div>;
+};
+
+// Using the HOC
+const EnhancedComponent = withUpperCase(MyComponent);
+
+// Render the enhanced component
+ReactDOM.render(<EnhancedComponent text="Hello, World!" />, document.getElementById('root'));
+```
+
+
+> ### What are hooks?
+Hooks is a special JavaScript function that allows you use state and other React features without writing a class. This pattern has been introduced as a new feature in React 16.8 and helped to isolate the stateful logic from the components.
+
+
+> ### In which scenarios error boundaries do not catch errors?
+Below are the cases in which error boundaries doesn't work,
+
+- Inside Event handlers
+- Asynchronous code using setTimeout or requestAnimationFrame callbacks
+- During Server side rendering
+- When errors thrown in the error boundary code itself
+
+> ### Why do you not need error boundaries for event handlers?
+
+Error boundaries do not catch errors inside event handlers.
+
+React doesn’t need error boundaries to recover from errors in event handlers. Unlike the render method and lifecycle methods, the event handlers don’t happen during rendering. So if they throw, React still knows what to display on the screen.
+
+If you need to catch an error inside an event handler, use the regular JavaScript try / catch statement:
+
+```
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { error: null };
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    try {
+      // Do something that could throw
+    } catch (error) {
+      this.setState({ error });
+    }
+  }
+
+  render() {
+    if (this.state.error) {
+      return <h1>Caught an error.</h1>;
+    }
+    return <button onClick={this.handleClick}>Click Me</button>;
+  }
+}
+```
+
+
+> ### What is the difference between try catch block and error boundaries?
+
+Try catch block works with imperative code whereas error boundaries are meant for declarative code to render on the screen.
+
+For example, the try catch block used for below imperative code
+
+```
+try {
+  showButton();
+} catch (error) {
+  // ...
+}
+```
+
+Whereas error boundaries wrap declarative code as below,
+
+```
+<ErrorBoundary>
+  <MyComponent />
+</ErrorBoundary>
+```
+
+So if an error occurs in a componentDidUpdate method caused by a setState somewhere deep in the tree, it will still correctly propagate to the closest error boundary.
+
+> ### What is the required method to be defined for a class component?
+
+The `render()` method is the only required method in a class component. i.e, All methods other than render method are optional for a class component.
+
+> ### What are default props?
+
+The defaultProps can be defined as a property on the component to set the default values for the props. These default props are used when props not supplied(i.e., undefined props), but not for null props. That means, If you provide null value then it remains null value.
+
+For example, let us create color default prop for the button component,
+
+```
+function MyButton {
+  // ...
+}
+
+MyButton.defaultProps = {
+  color: "red",
+};
+```
+
+If props.color is not provided then it will set the default value to 'red'. i.e, Whenever you try to access the color prop it uses the default value
+
+
+> ### What are Keyed Fragments?
+
+The Fragments declared with the explicit <React.Fragment> syntax may have keys. The general use case is mapping a collection to an array of fragments as below,
+
+```
+function Glossary(props) {
+  return (
+    <dl>
+      {props.items.map((item) => (
+        // Without the `key`, React will fire a key warning
+        <React.Fragment key={item.id}>
+          <dt>{item.term}</dt>
+          <dd>{item.description}</dd>
+        </React.Fragment>
+      ))}
+    </dl>
+  );
+}
+```
+
+**Note**: key is the only attribute that can be passed to Fragment. In the future, there might be a support for additional attributes, such as event handlers.
 
 
 
