@@ -906,19 +906,192 @@ function Glossary(props) {
 
 **Note**: key is the only attribute that can be passed to Fragment. In the future, there might be a support for additional attributes, such as event handlers.
 
+> ### What are the limitations with HOCs?
+
+- Prop Clashing:
+
+    - HOCs introduce new props to the wrapped component, and there's a potential for naming conflicts with existing prop names in the wrapped component. This can lead to unexpected behavior if not handled carefully.
+
+- Unintentional Re-renders:
+
+    - Some HOCs might cause unnecessary re-renders due to the way they handle props or state. This can impact the performance of the application, especially if not optimized.
+
+- Prop Drilling:
+
+    - If HOCs introduce props that are not used by the wrapped component but are only meant for internal functionalities, it might lead to prop drilling, where props are passed through multiple layers of components, making the code harder to maintain.
+
+
+> ### How do you pass arguments to an event handler?
+
+```
+<button onClick={(e) => this.updateUser(userId, e)}>Update User details</button>
+<button onClick={this.updateUser.bind(this, userId)}>Update User details</button>
+```
+
+> ### How to prevent component from rendering?
+You can prevent component from rendering by returning null based on specific condition. This way it can conditionally render component.
+
+```
+function Greeting(props) {
+  if (!props.loggedIn) {
+    return null;
+  }
+
+  return <div className="greeting">welcome, {props.name}</div>;
+}
+```
+
+
+> ### What are the conditions to safely use the index as a key?
+There are three conditions to make sure, it is safe use the index as a key.
+
+- The list and items are static– they are not computed and do not change
+- The items in the list have no ids
+- The list is never reordered or filtered.
+
+> ### Is it possible to use react without JSX?
+
+Yes, JSX is not mandatory for using React. Actually it is convenient when you don’t want to set up compilation in your build environment. Each JSX element is just syntactic sugar for calling `React.createElement(component, props, ...children)`.
+
+For example, let us take a greeting example with JSX,
+
+```
+import React from 'react';
+
+const MyComponent = (props) => {
+  return React.createElement('div', null,
+    React.createElement('h1', null, `Hello, ${props.name}!`),
+    React.createElement('p', null, `Age: ${props.age}`)
+  );
+};
+
+export default MyComponent;
+
+```
+
+> ### What is diffing algorithm?
+
+React needs to use algorithms to find out how to efficiently update the UI to match the most recent tree.
+The diffing algorithms is generating the minimum number of operations to transform one tree into another. However, the algorithms have a complexity in the order of O(n³) where n is the number of elements in the tree.
+
+In this case, displaying 1000 elements would require in the order of one billion comparisons. This is far too expensive. Instead, React implements a heuristic O(n) algorithm based on two assumptions:
+
+- Two elements of different types will produce different trees.
+- The developer can hint at which child elements may be stable across different renders with a key prop.
+
+> ### What are the rules covered by diffing algorithm?
+
+When diffing two trees, React first compares the two root elements. The behavior is different depending on the types of the root elements. It covers the below rules during reconciliation algorithm,
+
+  1. **Elements Of Different Types**: Whenever the root elements have different types, React will tear down the old tree and build the new tree from scratch. For example, elements to , or from to of different types lead a full rebuild.
+
+  2. **DOM Elements Of The Same Type**: When comparing two React DOM elements of the same type, React looks at the attributes of both, keeps the same underlying DOM node, and only updates the changed attributes. Lets take an example with same DOM elements except className attribute,
+
+      ```
+        <div className="show" title="ReactJS" />
+
+        <div className="hide" title="ReactJS" />
+      ```
+  3. **Component Elements Of The Same Type**: When a component updates, the instance stays the same, so that state is maintained across renders. React updates the props of the underlying component instance to match the new element, and calls componentWillReceiveProps() and componentWillUpdate() on the underlying instance. After that, the render() method is called and the diff algorithm recurses on the previous result and the new result.
+
+  4. **Recursing On Children**: when recursing on the children of a DOM node, React just iterates over both lists of children at the same time and generates a mutation whenever there’s a difference. For example, when adding an element at the end of the children, converting between these two trees works well.
+
+      ```
+      <ul>
+        <li>first</li>
+        <li>second</li>
+      </ul>
+
+      <ul>
+        <li>first</li>
+        <li>second</li>
+        <li>third</li>
+      </ul>
+      ```
+
+  5. **Handling keys**: React supports a key attribute. When children have keys, React uses the key to match children in the original tree with children in the subsequent tree. For example, adding a key can make the tree conversion efficient,
+
+      ```
+      <ul>
+        <li key="2015">Duke</li>
+        <li key="2016">Villanova</li>
+      </ul>
+
+      <ul>
+        <li key="2014">Connecticut</li>
+        <li key="2015">Duke</li>
+        <li key="2016">Villanova</li>
+      </ul>
+      ```
+
+
+> ### What is the typical use case of portals?
+React portals are very useful when a parent component has overflow: hidden or has properties that affect the stacking context (e.g. z-index, position, opacity) and you need to visually “break out” of its container.
+
+For example, dialogs, global message notifications, hovercards, and tooltips.
+
+
+> ### How do you set default value for uncontrolled component?
+
+In React, the value attribute on form elements will override the value in the DOM. With an uncontrolled component, you might want React to specify the initial value, but leave subsequent updates uncontrolled. To handle this case, you can specify a `defaultValue` attribute instead of `value`.
+
+
+```
+render() {
+  return (
+    <form onSubmit={this.handleSubmit}>
+      <label>
+        User Name:
+        <input
+          defaultValue="John"
+          type="text"
+          ref={this.input} />
+      </label>
+      <input type="submit" value="Submit" />
+    </form>
+  );
+}
+```
+
+The same applies for `select` and `textArea` inputs. But you need to use **defaultChecked** for `checkbox` and `radio` inputs.
+
+
+> ### What is Concurrent Rendering?
+The Concurrent rendering makes React apps to be more responsive by rendering component trees without blocking the main UI thread. It allows React to interrupt a long-running render to handle a high-priority event. i.e, When you enabled concurrent Mode, React will keep an eye on other tasks that need to be done, and if there's something with a higher priority it will pause what it is currently rendering and let the other task finish first. You can enable this in two ways,
+
+```
+// 1. Part of an app by wrapping with ConcurrentMode
+<React.unstable_ConcurrentMode>
+  <Something />
+</React.unstable_ConcurrentMode>;
+
+// 2. Whole app using createRoot
+ReactDOM.unstable_createRoot(domNode).render(<App />);
+```
 
 
 
+> ### What is the difference between async mode and concurrent mode?
+Both refers the same thing. Previously concurrent Mode being referred to as "Async Mode" by React team. The name has been changed to highlight React’s ability to perform work on different priority levels. So it avoids the confusion from other approaches to Async Rendering.
 
 
+> ### What are the differences between useEffect and useLayoutEffect hooks?
+useEffect and useLayoutEffect are both React hooks that can be used to synchronize a component with an external system, such as a browser API or a third-party library. However, there are some key differences between the two:
+
+- Timing: useEffect runs after the browser has finished painting, while useLayoutEffect runs synchronously before the browser paints. This means that useLayoutEffect can be used to measure and update layout in a way that feels more synchronous to the user.
 
 
+- Browser Paint: useEffect allows browser to paint the changes before running the effect, hence it may cause some visual flicker. useLayoutEffect synchronously runs the effect before browser paints and hence it will avoid visual flicker.
 
+ - Execution Order: The order in which multiple useEffect hooks are executed is determined by React and may not be predictable. However, the order in which multiple useLayoutEffect hooks are executed is determined by the order in which they were called.
 
+- Error handling: useEffect has a built-in mechanism for handling errors that occur during the execution of the effect, so that it does not crash the entire application. useLayoutEffect does not have this mechanism, and errors that occur during the execution of the effect will crash the entire application.
 
+In general, it's recommended to use useEffect as much as possible, because it is more performant and less prone to errors. useLayoutEffect should only be used when you need to measure or update layout, and you can't achieve the same result using useEffect.
 
+> ### What is strict mode in React?
 
-
+`React.StrictMode` is a useful component for highlighting potential problems in an application. Just like `<Fragment>`, `<StrictMode>` does not render any extra DOM elements. It activates additional checks and warnings for its descendants. These checks apply for _development mode_ only.
 
 
 
