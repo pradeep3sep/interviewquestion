@@ -1,3 +1,5 @@
+**just to know, we can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change**
+
 > ### What is React?
 
 React is an `open-source front-end JavaScript library` that is used for building user interfaces, especially for `single-page applications`
@@ -250,6 +252,58 @@ Below are some of the main differences between HTML and React event handling,
   };
   ```
 
+> ### props.children in react example, alternate of slots of vue
+
+```jsx
+// ParentComponent.js
+
+import React from 'react';
+
+const ParentComponent = (props) => {
+  return (
+    <div>
+      <h2>Parent Component</h2>
+      {/* Displaying the children passed to ParentComponent */}
+      {props.children}
+    </div>
+  );
+};
+
+export default ParentComponent;
+
+```
+
+
+```jsx
+// App.js
+
+import React from 'react';
+import ParentComponent from './ParentComponent';
+
+const App = () => {
+  return (
+    <div>
+      {/* Using ParentComponent and passing children */}
+      <ParentComponent>
+        <p>This is a child component.</p>
+        <button>Click me</button>
+      </ParentComponent>
+    </div>
+  );
+};
+
+export default App;
+
+```
+
+output will be below
+```html
+<div>
+  <h2>Parent Component</h2>
+  <p>This is a child component.</p>
+  <button>Click me</button>
+</div>
+```
 
 > ### What are synthetic events in React?
 
@@ -346,6 +400,47 @@ Choosing the correct key can be tricky. It's often tempting to use the index as 
 In the previous example of a list of posts, if we use the post's index as a key and then a post is added to the beginning of the list, all the keys will change, causing all post components to re-render. On the other hand, if each post has a unique ID and we use this ID as a key, only the new post component will re-render.
 
 
+> ### prop-types - How to apply validation on props in React?
+We don't need to install separate package for defining the type of props. We can do it by default installed prop-types package
+
+When the application is running in development mode, React will automatically check all props that we set on components to make sure they have correct type. If the type is incorrect, React will generate warning messages in the console. It's disabled in production mode due to performance impact. The mandatory props are defined with `isRequired`.
+
+The set of predefined prop types:
+
+- PropTypes.number
+- PropTypes.string
+- PropTypes.array
+- PropTypes.object
+- PropTypes.func
+- PropTypes.node
+- PropTypes.element
+- PropTypes.bool
+- PropTypes.symbol
+- PropTypes.any
+
+
+The Equivalent Functional Component
+
+```jsx
+import React from "react";
+import PropTypes from "prop-types";
+
+function User({ name, age }) {
+  return (
+    <>
+      <h1>{`Welcome, ${name}`}</h1>
+      <h2>{`Age, ${age}`}</h2>
+    </>
+  );
+}
+
+User.propTypes = {
+  name: PropTypes.string.isRequired,
+  age: PropTypes.number.isRequired,
+};
+```
+
+
 > ### What will happen if you use props in initial state?
 
 ```
@@ -398,6 +493,100 @@ const MyComponent = (props) => {
 
 export default MyComponent;
 ```
+
+
+> ### console of component
+
+```jsx
+import React from 'react';
+
+export function App(props) {
+
+  const jsonData = {
+    key1: 'value1',
+    key2: 'value2',
+    key3: {
+      nestedKey1: 'nestedValue1',
+      nestedKey2: 'nestedValue2'
+    }
+  };
+
+
+  console.log(<PrettyPrintJSON data={jsonData} />)
+
+  return (
+    <div className='App'>
+      <h1>Hello React.</h1>
+      <h2>Start editing to see some magic happen!</h2>
+      <PrettyPrintJSON data={jsonData} />
+    </div>
+  );
+}
+
+const PrettyPrintJSON = ({ data }) => {
+  // Use JSON.stringify with third and fourth parameters for pretty printing
+  const prettyJSON = JSON.stringify(data, null, 2);
+
+  return (
+    <pre>
+      {prettyJSON}
+    </pre>
+  );
+};
+
+export default PrettyPrintJSON;
+```
+
+- when we see in the console, we see all the details of the components in the foem of objects.
+
+- we see the `$$typeof : Symbol(react.element)`, symbole is added here because the symbol can not be passed through the JSON. It prevents from XSS.
+
+
+- In below code,
+
+```
+ console.log(<PrettyPrintJSON data={jsonData} />)
+
+ // or
+
+  console.log(PrettyPrintJSON())
+```
+
+we can also `console or use in the code` in the form of function call, it gives the almost same output, but things will be different because React now don't see as component instance,  it sees as raw react element.
+
+
+
+> ### Logging sequence
+
+```jsx
+import React, {useEffect} from 'react';
+
+export function App(props) {
+
+  useEffect(()=>{
+    console.log('B')
+  },[])
+
+  useEffect(()=>{
+    console.log('C')
+  },[])
+
+  console.log('A')
+
+  return (
+    <div className='App'>
+      <h1>Hello React.</h1>
+    </div>
+  );
+}
+```
+above code shows
+A
+B
+C
+
+this is beacuse useEffect works like mount, not like beforecreate or create. Bacially works after DOM paints in browser
+
 
 
 > ### How you implement Server Side Rendering or SSR?
