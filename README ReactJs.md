@@ -1,5 +1,41 @@
 **just to know, we can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change**
 
+useState me to state update karte h wo 2 tarike se hota h, direct update and function se update,
+
+jab 2 setSate use karte h same state k liye wo bhi direct method se, then 2nd wale ko purana data hi milta,
+agr function se update karte h new data milta h
+
+
+> ### useState accepts the callback function
+
+```jsx
+import React, { useState } from 'react';
+
+const MyComponent = () => {
+  // Using an arrow function for the default value
+  const [count, setCount] = useState(() => {
+    // Some heavy computation or logic to determine the initial value
+    return computeInitialCount();
+  });
+
+  const computeInitialCount = () => {
+    // Simulating some heavy computation
+    return Math.random() * 100;
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+};
+
+export default MyComponent;
+
+```
+
+
 > ### What is React?
 
 React is an `open-source front-end JavaScript library` that is used for building user interfaces, especially for `single-page applications`
@@ -308,6 +344,17 @@ output will be below
 > ### What are synthetic events in React?
 
 `SyntheticEvent` is a cross-browser wrapper around the browser's native event. Its API is same as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers. The native events can be accessed directly from synthetic events using `nativeEvent` attribute.
+
+
+> ### trick in module.css in react
+
+when we get the class which is not inside the component we use the global, like react router provide active class in route
+
+```css
+.nav :global(.active){
+  background-color: #ffff;
+}
+```
 
 
 > ### What are forward refs?
@@ -642,6 +689,61 @@ function WindowDimensions() {
   );
 }
 ```
+
+
+> ### Abort controller in react
+
+```
+import React, { useState, useEffect } from 'react';
+
+const MyComponent = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const signal = abortController.signal;
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://api.example.com/data', { signal });
+        const result = await response.json();
+        setData(result);
+        setLoading(false);
+      } catch (error) {
+        if (error.name === 'AbortError') {
+          console.log('Request was aborted');
+        } else {
+          console.error('Error fetching data:', error);
+        }
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      // Cleanup function to abort the request when the component is unmounted
+      abortController.abort();
+    };
+  }, []); // The empty dependency array ensures that the effect runs only once on mount
+
+  return (
+    <div>
+      {loading && <p>Loading...</p>}
+      {data && (
+        <div>
+          {/* Render your data here */}
+          <p>{data.someProperty}</p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MyComponent;
+
+```
+
 
 
 > ### Is it possible to use React without rendering HTML?
