@@ -9,6 +9,8 @@ agr function se update karte h new data milta h
 
 > ### npm install recharts for react charts
 
+> ### for react icon, npm i react-icons
+
 > ### Hooks are stored in number which is the sequence declared in the code, not by the name.
 
 > ### In react,  we have the loaders and actions in react-router, loaders for the get and actions for the rest, action is like earlier we create the form which have action like POST,PATCH etc which work on submit button, it is replaced by action of react-router
@@ -1728,6 +1730,7 @@ export function useOutsideClick(handler, listenCapturing = true) {
       function handleClick(e) {
         if (ref.current && !ref.current.contains(e.target)) {
           handler();
+          // the handler is any function which we want to excute when we click outside, which can be any close function
         }
       }
 
@@ -1843,4 +1846,56 @@ function App() {
     </DarkModeProvider>
   );
 }
+```
+
+> ### Compound Pattern in react
+
+```jsx
+
+import { createContext, useContext, useState } from "react";
+
+// 1. Create a context
+const CounterContext = createContext();
+
+// 2. Create parent component
+function Counter({ children }) {
+  const [count, setCount] = useState(0);
+  const increase = () => setCount((c) => c + 1);
+  const decrease = () => setCount((c) => c - 1);
+
+  return (
+    <CounterContext.Provider value={{ count, increase, decrease }}>
+      <span>{children}</span>
+    </CounterContext.Provider>
+  );
+}
+
+// 3. Create child components to help implementing the common task
+function Count() {
+  const { count } = useContext(CounterContext);
+  return <span>{count}</span>;
+}
+
+function Label({ children }) {
+  return <span>{children}</span>;
+}
+
+function Increase({ icon }) {
+  const { increase } = useContext(CounterContext);
+  return <button onClick={increase}>{icon}</button>;
+}
+
+function Decrease({ icon }) {
+  const { decrease } = useContext(CounterContext);
+  return <button onClick={decrease}>{icon}</button>;
+}
+// 4. Add child components as proeprties to parent component
+Counter.Count = Count;
+Counter.Label = Label;
+Counter.Increase = Increase;
+Counter.Decrease = Decrease;
+
+export default Counter;
+
+
 ```
