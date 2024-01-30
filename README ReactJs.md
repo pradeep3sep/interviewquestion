@@ -5,6 +5,84 @@ useState me to state update karte h wo 2 tarike se hota h, direct update and fun
 jab 2 setSate use karte h same state k liye wo bhi direct method se, then 2nd wale ko purana data hi milta,
 agr function se update karte h new data milta h
 
+> ### error boundary is used as package, because error boundries was only available in class components form but now it comes along with react
+
+> ### npm install recharts for react charts
+
+> ### Hooks are stored in number which is the sequence declared in the code, not by the name.
+
+> ### In react,  we have the loaders and actions in react-router, loaders for the get and actions for the rest, action is like earlier we create the form which have action like POST,PATCH etc which work on submit button, it is replaced by action of react-router
+
+
+> ### useNavigation can be used, 
+```jsx
+import { useNavigation } from "react-router-dom";
+
+function SomeComponent() {
+  const navigation = useNavigation();
+  navigation.state;
+  navigation.location;
+  navigation.formData;
+  navigation.json;
+  navigation.text;
+  navigation.formAction;
+  navigation.formMethod;
+  navigation.formEncType;
+}
+```
+
+navigation.state has idle → loading → idle, which can be used for loader (circle wala)
+
+> ### In react, all synthetic events like focus,blur,and change bubbles except scroll
+
+> ### useState is async
+Multiple state updates inside an event handler function are **batched**, so they happen all at once, **causing only one re-render**. This means we can **not access a state variable immediately after updating it**. State updates are **async**. Since React 18, batching also happens in timeouts, promises, and native event handlers.
+referenc is video no 136: state update batching in pratice
+
+
+> ### How usestate is async
+Basically, the thing is you don't get update value right after updating state.
+
+Below code shows async nature, as we can see the console.log gives same value in all 3 log
+
+```
+import { useState } from "react";
+
+export function App() {
+    const [count, setCount] = useState(0);
+    const handleCount = () => {
+        setCount(count + 1);
+        console.log(count)
+        setCount(count + 1);
+        console.log(count)
+        setCount(count + 1);
+        console.log(count)
+    };
+
+    const handleCountCallback = () => {
+        setCount(count => count + 1);
+        console.log(count)
+        setCount(count => count + 1);
+        console.log(count)
+        setCount(count => count + 1);
+        console.log(count)
+    };
+
+    return (
+        <div className="App">
+            <div>
+                <h2>Count Without useEffect</h2>
+                <h3>Count: {count}</h3>
+                <button onClick={handleCount}>Count++</button>
+                <button onClick={handleCountCallback}>Count++ callback</button>
+            </div>
+        </div>
+    );
+}
+
+```
+
+
 
 > ### useState accepts the callback function
 
@@ -214,19 +292,6 @@ Instead use setState() method. It schedules an update to a component's state obj
 this.setState({ message: "Hello World" });
 ```
 
-> ### What is the purpose of `callback` function as an argument of `setState()`?
-
-The callback function is invoked when setState finished and the component gets rendered. Since `setState()` is `asynchronous` the callback function is used for any post action.
-
-Note: It is recommended to use lifecycle method rather than this callback function.
-
-```
-setState({ name: "John" }, () =>
-  console.log("The name has updated and component re-rendered")
-);
-```
-
-
 > ### What is the difference between HTML and React event handling?
 
 Below are some of the main differences between HTML and React event handling,
@@ -355,6 +420,8 @@ when we get the class which is not inside the component we use the global, like 
   background-color: #ffff;
 }
 ```
+
+> ### We can use the JSON-Server to get temp backend in our frontend project.
 
 
 > ### What are forward refs?
@@ -1644,3 +1711,136 @@ we added `export default loginSlice.reducer` which is used to combine multiple s
 // Ensure all relevant props are passed through to the component.
 // Hoist static methods from the wrapped component.
 // It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
+
+
+
+
+> ### Hook for listening click outside
+
+```jsx
+import { useEffect, useRef } from "react";
+
+export function useOutsideClick(handler, listenCapturing = true) {
+  const ref = useRef();
+
+  useEffect(
+    function () {
+      function handleClick(e) {
+        if (ref.current && !ref.current.contains(e.target)) {
+          handler();
+        }
+      }
+
+      document.addEventListener("click", handleClick, listenCapturing);
+
+      return () =>
+        document.removeEventListener("click", handleClick, listenCapturing);
+    },
+    [handler, listenCapturing]
+  );
+
+  return ref;
+}
+```
+
+
+> ### Best toast to use npm install react-hot-toast
+
+
+> ### React Dark-mode
+
+First is the css change
+
+```scss
+:root {
+  --color-grey-0: #fff;
+  --color-grey-50: #f9fafb;
+
+  &.dark-mode {
+    --color-grey-0: #18212f;
+    --color-grey-50: #111827;
+  }
+}
+```
+
+useLocalStorageState.js
+
+```jsx
+import { useState, useEffect } from "react";
+
+export function useLocalStorageState(initialState, key) {
+  const [value, setValue] = useState(function () {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : initialState;
+  });
+
+  useEffect(
+    function () {
+      localStorage.setItem(key, JSON.stringify(value));
+    },
+    [value, key]
+  );
+
+  return [value, setValue];
+}
+```
+
+DarkModeContext.jsx
+```jsx
+import { createContext, useContext, useEffect } from "react";
+import { useLocalStorageState } from "../hooks/useLocalStorageState";
+
+const DarkModeContext = createContext();
+
+function DarkModeProvider({ children }) {
+  const [isDarkMode, setIsDarkMode] = useLocalStorageState(
+    window.matchMedia("(prefers-color-scheme: dark)").matches,
+    "isDarkMode"
+  );
+
+  useEffect(
+    function () {
+      if (isDarkMode) {
+        document.documentElement.classList.add("dark-mode");
+        document.documentElement.classList.remove("light-mode");
+      } else {
+        document.documentElement.classList.add("light-mode");
+        document.documentElement.classList.remove("dark-mode");
+      }
+    },
+    [isDarkMode]
+  );
+
+  function toggleDarkMode() {
+    setIsDarkMode((isDark) => !isDark);
+  }
+
+  return (
+    <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
+      {children}
+    </DarkModeContext.Provider>
+  );
+}
+
+function useDarkMode() {
+  const context = useContext(DarkModeContext);
+  if (context === undefined)
+    throw new Error("DarkModeContext was used outside of DarkModeProvider");
+  return context;
+}
+
+export { DarkModeProvider, useDarkMode };
+```
+
+In app.jsx
+
+```jsx
+function App() {
+  return (
+    <DarkModeProvider>
+
+      {/* route and other thing */}
+    </DarkModeProvider>
+  );
+}
+```
