@@ -2096,7 +2096,11 @@ Contain certain value | 	Can contain NULL too
 
 debounce
 
-```
+💡Other use cases :-
+👉 Continous button click event function call can be delay.
+👉 Resize of window event function call can be delay.
+
+```js
 function debounce(func, delay) {
   let timeoutId;
   
@@ -2123,7 +2127,7 @@ window.addEventListener('scroll', debouncedFunction);
 
 Throttle
 
-```
+```js
 function throttle(func, delay) {
   let isThrottled = false;
   
