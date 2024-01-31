@@ -10,3 +10,8 @@ Good website, must see
 ```
 https://www.patterns.dev/
 ```
+
+must see repo
+```
+https://github.com/jayesh2906/JavaScript-with-JC/tree/master
+```

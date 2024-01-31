@@ -250,6 +250,75 @@ console.log(Object.isExtensible(newObject)); //true
 **Note**: By default, all the objects are extendable. i.e, The new properties can be added or modified.
 
 
+> ### Currying
+
+Currying is a technique to convert multiple arguments function into a single argument functions (unary functions) in a sequence.
+
+Two ways to perform currying :-
+ 1) Using Closures
+ 2) Using Bind
+
+Simple Example of Currying -
+
+`Regular` n-ary function taking 3 parameters
+```js
+const addition = (a, b, c) => {
+  return a + b + c;
+};
+
+const result = addition(2, 3, 5);
+console.log(result); // 10
+```
+
+1. let's transform it to `currying using Closures`
+
+```js
+const additionCurry = (a) => {
+  return (b) => {
+    return (c) => {
+      return a + b + c;
+    };
+  };
+};
+
+const resultCurryClosure = additionCurry(2)(3)(5);
+console.log(resultCurryClosure); // 10
+```
+
+2) let's transform it to `currying using Bind`
+
+```js
+const additionAll = (a, b, c) => {
+  return a + b + c;
+};
+
+const additionFirst = additionAll.bind(this, 2);
+// binding further to get unary arguments to each function
+const additionSecond = additionFirst.bind(this, 3);
+const additionThird = additionSecond.bind(this, 5);
+
+const resultCurryBind = additionThird();
+console.log(resultCurryBind); // 10
+
+```
+
+
+Now Let's take an example of Infinite Currying -
+Implementation of sum(1)(2)(3)....(n)()
+
+```js
+const sum = (a) => {
+  return (b) => {
+    if (b) return sum(a + b);
+    return a;
+  };
+};
+
+const sumResult = sum(1)(2)(3)(4)(5)();
+console.log(sumResult); // 15
+```
+
+
 > ### What are the different error names from error object
 
 There are 6 different types of error names returned from error object,
