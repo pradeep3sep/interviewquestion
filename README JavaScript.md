@@ -171,22 +171,7 @@ loop1: for (i = 0; i < 3; i++) {
 
 
 
-> ### map and weakMap
 
-refer below for understanding
-```
-https://javascript.info/weakmap-weakset
-```
-
-
-Map  | WeakMap
-------------- | -------------
-A Map is an unordered list of key-value pairs where the key and the value can be of any type like string, boolean, number, etc.  | In a Weak Map, every key can only be an object and function. It used to store weak object references.
-Maps are iterable.  | WeakMaps are not iterable.
-Maps will keep everything even if you don’t use them. | WeakMaps holds the reference to the key, not the key itself.
-The garbage collector doesn’t remove a key pointer from “Map” and also doesn’t remove the key from memory. | The garbage collector goes ahead and removes the key pointer from “WeakMap” and also removes the key from memory. WeakMap allows the garbage collector to do its task but not the Map.
-Maps have some properties : .set, .get, .delete, .size, .has, .forEach, Iterators. | WeakMaps have some properties : .set, .get, .delete, .has.
-You can create a new map by using a new Map(). | You can create a new WeakMap by using a new WeakMap().
 
 
 
@@ -1162,33 +1147,75 @@ console.log(z);  // value of z is entire code of function y.
 > ### Map
 The Map object holds key-value pairs and remembers the original insertion order of the keys
 
-```
-const map1 = new Map();
+```js
+const players = new Map();
+players.set("Virat", "Batsman");
+players.set("Hardik", "All-Rounder");
+players.set("Bhumrah", "Bowler");
 
-map1.set('a', 1);
-map1.set('b', ["hi","hello"]);
-map1.set('c', "any value can be added");
+console.log(players); // Map(3) {'Virat' => 'Batsman', 'Hardik' => 'All-Rounder', 'Bhumrah' => 'Bowler'}
 
-console.log(map1.get('a'));
-// Expected output: 1
+// 👉 check size of map using map.size
+console.log(players.size); // 3
 
-map1.set('a', 97);
+// 👉 get value using map.get(key)
+console.log(players.get("Hardik")); // All-Rounder
+console.log(players.get("Rishab")); // undefined
 
-console.log(map1.get('a'));
-// Expected output: 97
+// 👉 check value exists using map.has(key)
+console.log(players.has("Hardik")); // true
+console.log(players.has("Rishab")); // false
 
-console.log(map1.size);
-// Expected output: 3
+// 💡 Map Iteration :-
+// 👉 1) map.keys()
+console.log(players.keys()); // [Map Iterator] { 'Virat', 'Hardik', 'Bhumrah' }
 
-map1.delete('b');
+// 👉 2) map.values()
+console.log(players.values()); // [Map Iterator] { 'Batsman', 'All-Rounder', 'Bowler' }
 
-console.log(map1.size);
-// Expected output: 2
+// 👉 3) map.entries()
+console.log(players.entries());
+/* 👇 output 
+[Map Entries] {
+  [ 'Virat', 'Batsman' ],
+  [ 'Hardik', 'All-Rounder' ],
+  [ 'Bhumrah', 'Bowler' ]
+} 
+*/
+
+// 👉 4) Iterating Map with for...of
+for (let [key, value] of players) {
+  console.log("name", key, "Role", value);
+}
+/* 👇 output
+name Virat Role Batsman
+name Hardik Role All-Rounder
+name Bhumrah Role Bowler 
+*/
+
+// 👉 5) Iterating Map with forEach()
+players.forEach((value, key) => {
+  console.log("name", key, "Role", value);
+});
+/* 👇 output
+name Virat Role Batsman
+name Hardik Role All-Rounder
+name Bhumrah Role Bowler 
+*/
+
+// 👉 delete value using map.delete(key)
+console.log(players.delete("Hardik")); // true
+console.log(players.delete("Rishab")); // false
+console.log(players); // Map(3) { 'Virat' => 'Batsman', 'Bhumrah' => 'Bowler' }
+
+// 👉 clear all values using map.clear()
+console.log(players.clear()); // undefined
+console.log(players); // Map(0) {}
 ```
 
 - Another way of create map
 
-```
+```js
 const question = new Map([
     ["question","what is ..."],
     [1,"C++"],
@@ -1198,7 +1225,7 @@ const question = new Map([
 ```
 
 - To convert an object to map
-```
+```js
 const newObject = {
     name: "Pradeep",
     gender: "M"
@@ -1213,6 +1240,145 @@ Diff b/w Object and Map
 2. In the Map, the original order of elements is preserved. This is not true in case of objects. Thus, when iterating over it, a Map object returns keys in order of insertion.
 3. You can get the size of a Map easily with the size property, while the number of properties in an Object must be determined manually.
 4. An Object has a prototype, so there are default keys in the map that could collide with your keys if you're not careful. As of ES5 this can be bypassed by using map = Object.create(null), but this is seldom done.
+
+
+
+> ### Set Object
+Set objects are collections of value of any type ( primitive or object).
+A value in the Set may only occur once. It is unique in the Set's collection.
+Set remembers the original insertion order of the values.
+
+```js
+
+// 💡 Creation of Set
+// 👉 1) Create Set Obj by Passing an array :-
+const numbers = [1, 2, 3, 4, 5, 5];
+const uniqueNumbers = new Set(numbers);
+console.log(uniqueNumbers); // Set(5) { 1, 2, 3, 4, 5 }
+
+const uniqueNumbersArray = [...new Set(numbers)];
+console.log(uniqueNumbersArray); // [ 1, 2, 3, 4, 5 ]
+
+// 👉 2) Create Set Obj by new Set() and Set.add() :-
+const persons = new Set();
+persons.add("Jayesh");
+persons.add("Sam");
+persons.add("John");
+console.log(persons); // Set(3) { 'Jayesh', 'Sam', 'John' }
+
+// 👉 get size using set.size
+console.log(persons.size); // 3
+
+// 👉 check value exists using set.has(value)
+console.log(persons.has("Jayesh")); // true
+console.log(persons.has("Jc")); // false
+
+// 💡 Set Iteration
+// 👉 1) set.keys()
+console.log(persons.keys()); // [Set Iterator] { 'Jayesh', 'Sam', 'John' }
+
+// 👉 2) set.values()
+console.log(persons.values()); // [Set Iterator] { 'Jayesh', 'Sam', 'John' }
+
+// 👉 3) set.entries()
+console.log(persons.entries());
+/* 👇 output
+[Set Entries] {
+  [ 'Jayesh', 'Jayesh' ],
+  [ 'Sam', 'Sam' ],
+  [ 'John', 'John' ]
+}
+*/
+
+// 👉 4) Iterating Set with for...of
+for (let value of persons) {
+  console.log(value);
+}
+/* 👇 output
+Jayesh
+Sam
+John
+*/
+
+// 👉 5) Iterating Set with forEach
+persons.forEach((value) => {
+  console.log(value);
+});
+/* output
+Jayesh
+Sam
+John
+*/
+
+// 👉 delete value using set.delete(value)
+console.log(persons.delete("Sam")); // true
+console.log(persons.delete("Jc")); // false
+console.log(persons); // Set(2) { 'Jayesh', 'John' }
+
+// 👉 clear all values using set.clear()
+console.log(players.clear()); // undefined
+console.log(players); // Map(0) {}
+```
+
+**We can loop over the set as we have done in the map**
+
+
+
+> ### map and weakMap
+
+refer below for understanding
+```
+https://javascript.info/weakmap-weakset
+```
+
+
+Map  | WeakMap
+------------- | -------------
+A Map is an unordered list of key-value pairs where the key and the value can be of any type like string, boolean, number, etc.  | In a Weak Map, every key can only be an object and function. It used to store weak object references.
+Maps are iterable.  | WeakMaps are not iterable.
+Maps will keep everything even if you don’t use them. | WeakMaps holds the reference to the key, not the key itself.
+The garbage collector doesn’t remove a key pointer from “Map” and also doesn’t remove the key from memory. | The garbage collector goes ahead and removes the key pointer from “WeakMap” and also removes the key from memory. WeakMap allows the garbage collector to do its task but not the Map.
+Maps have some properties : .set, .get, .delete, .size, .has, .forEach, Iterators. | WeakMaps have some properties : .set, .get, .delete, .has.
+You can create a new map by using a new Map(). | You can create a new WeakMap by using a new WeakMap().
+
+
+some code for weakMap and weakSet
+
+```js
+const employees = new WeakSet();
+
+let employee1 = {
+  name: "John",
+  experience: "5 years",
+};
+
+let employee2 = {
+  name: "Steve",
+  experience: "8 years",
+};
+
+employees.add(employee1);
+employees.add(employee2);
+console.log(employees);
+
+/* 👇 output 
+[[Entries]]
+0: value: {name: 'Steve', experience: '8 years'}
+1: value: {name: 'John', experience: '5 years'}
+*/
+
+// 👉 check key exists using WeakSet.has(key)
+console.log(employees.has(employee1)); // true
+console.log(employees.has(employee2)); // true
+
+// 👉 delete key-value using WeakSet.delete(key)
+console.log(employees.delete(employee1)); // true
+console.log(employees);
+/* 👇 output 
+[[Entries]]
+0: value: {name: 'Steve', experience: '8 years'}
+*/
+```
 
 > ### What is a pure function
 A Pure function is a function where the return value is only determined by its arguments without any side effects. i.e, If you call a function with the same arguments 'n' number of times and 'n' number of places in the application then it will always return the same value.
