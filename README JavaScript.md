@@ -1312,7 +1312,7 @@ class Bike {
 ```
 
 Below is for the parent and child
-```
+```js
 // Parent class
 class Animal {
   constructor(name) {
