@@ -1286,7 +1286,7 @@ Note that encodeURI() and decodeURI() functions are also available in JavaScript
 > ### What are classes in ES6
 In ES6, Javascript classes are primarily syntactic sugar over JavaScript’s existing prototype-based inheritance. For example, the prototype based inheritance written in function expression as below,
 
-```
+```js
 function Bike(model, color) {
   this.model = model;
   this.color = color;
@@ -1298,7 +1298,7 @@ Bike.prototype.getDetails = function () {
 ```
 Whereas ES6 classes can be defined as an alternative
 
-```
+```js
 class Bike {
   constructor(color, model) {
     this.color = color;
@@ -1343,6 +1343,104 @@ const dog = new Dog('Buddy', 'Golden Retriever');
 animal.speak(); // Animal makes a noise.
 dog.speak(); // Buddy barks!
 ```
+
+> ### What happens if you write constructor more than once in a class
+The "constructor" in a class is a special method and it should be defined only once in a class. i.e, If you write a constructor method more than once in a class it will throw a `SyntaxError` error.
+
+```
+ class Employee {
+   constructor() {
+     this.name = "John";
+   }
+   constructor() {   //  Uncaught SyntaxError: A class may only have one constructor
+     this.age = 30;
+   }
+ }
+
+ var employeeObject = new Employee();
+
+ console.log(employeeObject.name);
+ ```
+
+ > ### How do you call the constructor of a parent class
+ You can use the super keyword to call the constructor of a parent class. Remember that super() must be called before using 'this' reference. Otherwise it will cause a reference error. Let's the usage of it,
+
+
+ ```
+ class Square extends Rectangle {
+  constructor(length) {
+    super(length, length);
+    this.name = "Square";
+  }
+
+  get area() {
+    return this.width * this.height;
+  }
+
+  set area(value) {
+    this.area = value;
+  }
+}
+```
+
+**Note** : If you are `extending` the class then, you can skip the constructor part then the `this` of function will point to parent. If we have used the  constructor in child then `super` must be used. Otherwise the error will come `Error: Must call super constructor in derived class before accessing 'this' or returning from derived constructor`
+
+below code is ok
+
+```js
+class Foo {
+  constructor(name) {
+    this.name = name;
+  }
+
+  getNameSeparator() {
+    return '-';
+  }
+}
+
+class FooBar extends Foo {
+  getFullName() {
+    return this.name
+  }
+}
+
+const firstFooBar = new FooBar('foo', 1);
+
+console.log(firstFooBar);
+
+```
+
+but below code will give error
+
+```js
+class Foo {
+  constructor(name) {
+    this.name = name;
+  }
+
+  getNameSeparator() {
+    return '-';
+  }
+}
+
+class FooBar extends Foo {
+  constructor(name, index) {
+    
+    this.index = index;
+  }
+
+  getFullName() {
+    return this.name 
+  }
+}
+
+const firstFooBar = new FooBar('foo', 1);
+
+console.log(firstFooBar);
+
+```
+
+
 
 > ### What are the differences between cookie, local storage and session storage
 Below are some of the differences between cookie, local storage and session storage,
@@ -1663,43 +1761,7 @@ d.sort((a,b)=>{
 console.log(d);
 ```
 
-> ### What happens if you write constructor more than once in a class
-The "constructor" in a class is a special method and it should be defined only once in a class. i.e, If you write a constructor method more than once in a class it will throw a `SyntaxError` error.
 
-```
- class Employee {
-   constructor() {
-     this.name = "John";
-   }
-   constructor() {   //  Uncaught SyntaxError: A class may only have one constructor
-     this.age = 30;
-   }
- }
-
- var employeeObject = new Employee();
-
- console.log(employeeObject.name);
- ```
-
- > ### How do you call the constructor of a parent class
- You can use the super keyword to call the constructor of a parent class. Remember that super() must be called before using 'this' reference. Otherwise it will cause a reference error. Let's the usage of it,
-
- ```
- class Square extends Rectangle {
-  constructor(length) {
-    super(length, length);
-    this.name = "Square";
-  }
-
-  get area() {
-    return this.width * this.height;
-  }
-
-  set area(value) {
-    this.area = value;
-  }
-}
-```
 
 > ### What happens If I pass string type for getPrototype method
 In ES5, it will throw a TypeError exception if the obj parameter isn't an object. Whereas in ES2015, the parameter will be coerced to an Object.
