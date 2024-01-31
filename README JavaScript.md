@@ -1413,14 +1413,29 @@ console.log(firstFooBar);
 but below code will give error
 
 ```js
-class Foo {
-  constructor(name) {
+class Player {
+  constructor(name, role, country) {
+    // instance members
     this.name = name;
+    this.role = role;
+    this.country = country;
   }
 
-  getNameSeparator() {
-    return '-';
+  // prototype members - common tasks which can be perform by any player in a team
+  // 1) Batsman class extends from Player Base class
+class Batsman extends Player {
+  // prototype member
+  batting() {
+    // batting method created count 1
+    console.log(`${this.name} can do batting.`);
   }
+}
+
+const virat = new Batsman("Virat Kohli", "Batsman", "India");
+console.log(virat); // Batsman { name: 'Virat Kohli', role: 'Batsman', country: 'India' }
+virat.fielding(); // Virat Kohli can do fielding.
+virat.running(); // Virat Kohli can do running.
+virat.batting(); // Virat Kohli can do batting.
 }
 
 class FooBar extends Foo {
