@@ -407,6 +407,81 @@ async1(function(){
 });
 ```
 
+👉 Callback and Callback Hell
+Callback functions are first class citizens passed as an argument to higher order function,
+and later on higher order function calls the callback function to perform some operation.
+
+
+💡Types of Callback :- 
+👉 Synchronous Callback (blocking) :- Executes immediately during the execution of the higher-order function.
+👉 Asynchronous Callback (non-blocking) :- Executes after the execution of the higher-order function.
+
+💡Callback Hell :- 
+👉 Callback Hell is the situation where callbacks are nested several levels deep
+which makes it difficult to understand and maintain the code. It's also known as Pyramid of Doom.
+
+💡 Avoiding Callback Hell
+👉 1) Using Promises 
+👉 2) Using async-await 
+👉 3) Using generators
+
+
+```js
+function callBackExample() {
+  const DhoniFinishing = () => {
+    console.log("Dhoni came to bat after 16 overs for finishing");
+  };
+
+  const indiaBatting = (callDhoni) => {
+    console.log("India's batting...");
+    let overs = 16.2;
+    if (overs > 16) {
+      callDhoni();
+    }
+  };
+
+  indiaBatting(DhoniFinishing);
+}
+```
+
+
+```js
+// Function with nested callbacks
+function stepOne(callback) {
+  setTimeout(function () {
+    console.log("Step One completed");
+    callback();
+  }, 1000);
+}
+
+function stepTwo(callback) {
+  setTimeout(function () {
+    console.log("Step Two completed");
+    callback();
+  }, 1000);
+}
+
+function stepThree(callback) {
+  setTimeout(function () {
+    console.log("Step Three completed");
+    callback();
+  }, 1000);
+}
+
+// Callback hell example
+stepOne(function () {
+  stepTwo(function () {
+    stepThree(function () {
+      console.log("All steps completed");
+    });
+  });
+});
+
+```
+
+
+
+
 
 > ### Web Worker
 Some task which are sync and very lengthy task and that could block the main thread and block the UI. then we perform that task in other thread called worker thread which is in browser separate from the js single thread. This happens in the background.
@@ -904,7 +979,7 @@ A Service worker is basically a script (JavaScript file) that runs in the backgr
 > ### Closure
 - Function bundled along with it's lexical scope is closure.
 - If a function needs to access a variable, it first goes to its local memory. When it does not find it there, it goes to the memory of its lexical parent. See Below code, Over here function y along with its lexical scope i.e. (function x) would be called a closure.
-```
+```js
 function x() {
     var a = 7;
     function y() {
@@ -918,7 +993,7 @@ console.log(z);  // value of z is entire code of function y.
 - In above code, When y is returned, not only is the function returned but the entire closure (fun y + its lexical scope) is returned and put inside z. So when z is used somewhere else in program, it still remembers var a inside x()
 
 - Another example
-  ```
+  ```js
       function z() {
         var b = 900;
         function x() {
@@ -934,9 +1009,78 @@ console.log(z);  // value of z is entire code of function y.
   ```
 - Advantages of Closure:
 
-    - Module Design Pattern
-    - Currying
     - Memoize
+    Memoizing the result of the function and if later the same function is called with same arguments then return memoized result instead of executing whole function again
+
+
+    ```js
+    const memoizedMultiplyBy100 = () => {
+      const cache = {};
+
+      return (num) => {
+        if (cache[num]) {
+          return cache[num];
+        }
+        const result = num * 100;
+        cache[num] = result;
+        return result;
+      };
+    };
+
+
+    // Here, inner return function has access to cache object of outer function
+
+    const multiplyBy100 = memoizedMultiplyBy100();
+
+    console.log(multiplyBy100(1)); // 100
+    console.log(multiplyBy100(2)); // 200
+    console.log(multiplyBy100(3)); // 300
+    console.log(multiplyBy100(4)); // 400
+    console.log(multiplyBy100(2)); // 200
+    ```
+
+
+
+    - Module Design Pattern
+
+    All the members and methods of a particular module should be encapsulated together to maintain the well-structured code
+
+    ```js
+
+      const todosModule = (() => {
+        let todos = ["office", "gym", "party", "drive"];
+
+        const getTodos = () => {
+          return todos;
+        };
+
+        const addTodo = (newTodo) => {
+          todos.push(newTodo);
+          return todos;
+        };
+
+        const deleteTodo = (todoName) => {
+          const findIndex = todos.indexOf(todoName);
+          todos.splice(findIndex, 1);
+          return todos;
+        };
+
+        return {
+          getTodos,
+          addTodo,
+          deleteTodo,
+        };
+      })();
+
+      // console.log(todos); // todos is not defined
+      console.log(todosModule.getTodos());
+      // [ 'office', 'gym', 'party', 'drive' ]
+      console.log(todosModule.addTodo("sleep"));
+      // [ 'office', 'gym', 'party', 'drive', 'sleep' ]
+      console.log(todosModule.deleteTodo("gym"));
+      // [ 'office', 'party', 'drive', 'sleep' ]
+    ```
+    - Currying
     - Data hiding and encapsulation
     - setTimeouts etc.
 
@@ -944,7 +1088,7 @@ console.log(z);  // value of z is entire code of function y.
 
     - Over consumption of memory
     - Memory Leak
-    - Freeze browser
+    - Variables are not Garbage collected.
 
 > ### Map
 The Map object holds key-value pairs and remembers the original insertion order of the keys
@@ -1228,21 +1372,6 @@ window.onstorage = function (e) {
       "."
   );
 };
-```
-
-> ### What is a callback hell
-Callback Hell is an anti-pattern with multiple nested callbacks which makes code hard to read and debug when dealing with asynchronous logic. The callback hell looks like below,
-
-```
-async1(function(){
-    async2(function(){
-        async3(function(){
-            async4(function(){
-                ....
-            });
-        });
-    });
-});
 ```
 
 > ### What is the purpose of double exclamation
