@@ -92,3 +92,61 @@ Array.prototype.myConcat = function() {
   
   console.log(result);
 ```
+
+> ### Polyfill for the Every of array
+
+```js
+const numbers = [1, 2, 3, 4, 5, 6];
+
+const isGreaterThan5 = (value, index, array) => {
+  return value > 5;
+};
+
+const result = numbers.every(isGreaterThan5);
+console.log("result", result); // false
+
+Array.prototype.customEvery = function (callback) {
+  for (let i = 0; i < this.length; i++) {
+    if (!callback(this[i], i, this)) {
+      return false;
+    }
+  }
+  return true;
+};
+
+const resultCustom = numbers.customEvery(isGreaterThan5);
+console.log("resultCustom", resultCustom); // false
+``` 
+
+> ### Polyfill for the Filter of the array
+
+```js
+
+const numbers = [1, 2, 3, 4, 5, 6];
+
+const isOddNumber = (element, index, array) => {
+  if (element % 2) {
+    return true;
+  }
+  return false;
+};
+
+const oddNumbers = numbers.filter(isOddNumber);
+console.log("oddNumbers", oddNumbers); // [ 1, 3, 5 ]
+
+// Polyfill of filter
+Array.prototype.customFilter = function (callback) {
+  // this is pointing to numbers array here
+  let temp = [];
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i], i, this)) {
+      temp.push(this[i]);
+    }
+  }
+  return temp;
+};
+
+const oddNumbersCustom = numbers.customFilter(isOddNumber);
+console.log("oddNumbersCustom", oddNumbersCustom); // [ 1, 3, 5 ]
+
+```
