@@ -64,47 +64,4 @@
 // or Object.create(). Instances may be composed from many different objects, allowing for easy selective inheritance.
 
 
-Array.prototype.myConcat = function() {
-    const result = [];
-    
-    console.log(this);
-    for (let i = 0; i < this.length; i++) {
-      result.push(this[i]);
-    }
-  
-    for (let i = 0; i < arguments.length; i++) {
-      const currentArray = arguments[i];
-  
-      if (Array.isArray(currentArray)) {
-        for (let j = 0; j < currentArray.length; j++) {
-          result.push(currentArray[j]);
-        }
-      } else {
-        result.push(currentArray);
-      }
-    }
-  
-    return result;
-  };
-  
-  const numbers1 = [1, 2, 3];
-  const numbers2 = [4, 5, 6];
-  const value1 = "jc";
-  const value2 = "2";
-  const value3 = function () {};
-  const value4 = undefined;
-  const value5 = null;
-  const numbers3 = [7, 8, 9];
-  
-  const result = numbers1.myConcat(
-    numbers2,
-    value1,
-    value2,
-    value3,
-    value4,
-    value5,
-    numbers3
-  );
-  
-  console.log(result);
-  
+
