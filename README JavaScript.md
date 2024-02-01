@@ -2863,6 +2863,13 @@ An Intersection Observer API provides a way to observe the visibility and positi
 👉 2) lazy-loading images on scroll. 
 👉 3) Auto-pause video when it’s out of view
 
+
+> ### Mutation Observer
+
+The MutationObserver API allows you to continuously monitor the changes being made to the DOM tree. 
+When the DOM nodes change, you can invoke a callback function to detect the changes.
+
+
 ### call, bind and apply
 
 ### Window vs document

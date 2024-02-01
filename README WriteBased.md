@@ -207,6 +207,53 @@ Array.prototype.myConcat = function() {
   console.log(result);
 ```
 
+> ### Polyfill for the lastIndexof
+
+The lastIndexOf() method returns the last index at which a given element is found in an array, or -1 if it is not present, array is searched backwards, starting at fromIndex.
+
+Note - It does not mutate the original array, and returns an index or -1.
+
+```js
+
+const numbers = [1, 2, 5, 3, 4, 5, 6];
+
+Array.prototype.customLastIndexOf = function (value, fromIndex) {
+  if (fromIndex === undefined) {
+    fromIndex = this.length - 1;
+  }
+  if (isNaN(fromIndex)) {
+    return -1;
+  }
+  if (fromIndex < 0) {
+    fromIndex += this.length;
+  }
+  for (let i = fromIndex; i >= 0; i--) {
+    if (this[i] === value) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+const resultCustom1 = numbers.customLastIndexOf(5);
+console.log("resultCustom1", resultCustom1); // 5
+
+const resultCustom2 = numbers.customLastIndexOf();
+console.log("resultCustom2", resultCustom2); // -1
+
+const resultCustom3 = numbers.customLastIndexOf(5, 1);
+console.log("resultCustom3", resultCustom3); // -1
+
+const resultCustom4 = numbers.customLastIndexOf(5, -2);
+console.log("resultCustom4", resultCustom4); // 5
+
+const resultCustom5 = numbers.customLastIndexOf("5");
+console.log("resultCustom5", resultCustom5); // -1
+
+
+```
+
+
 > ### Polyfill for the Every of array
 
 ```js
@@ -231,6 +278,32 @@ Array.prototype.customEvery = function (callback) {
 const resultCustom = numbers.customEvery(isGreaterThan5);
 console.log("resultCustom", resultCustom); // false
 ``` 
+
+> ## Polyfill for the Map of the array
+
+
+```js
+
+const numbers = [1, 2, 3, 4, 5];
+
+const square = (element, index, array) => {
+  return element * 2;
+};
+
+Array.prototype.customMap = function (callback) {
+  //this is pointing to numbers array here
+  let temp = [];
+  for (let i = 0; i < this.length; i++) {
+    temp.push(callback(this[i], i, this));
+  }
+  return temp;
+};
+
+const doubleNumbersCustom = numbers.customMap(square);
+console.log("doubleNumbersCustom", doubleNumbersCustom); // [ 2, 4, 6, 8, 10 ]
+
+```
+
 
 > ### Polyfill for the Filter of the array
 
