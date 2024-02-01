@@ -44,6 +44,120 @@ console.log(getPlayerInfo.myBind(player2, "All-Rounder", "India")());
 console.log(getPlayerInfo.myApply(player2, ["All-Rounder", "India"]));
 ```
 
+> ### Polyfill for the includes
+
+```js
+
+const numbers = [1, 2, 5, 3, 4, 5, 6];
+
+Array.prototype.customIncludes = function (value, fromIndex) {
+  if (fromIndex === undefined || isNaN(fromIndex)) {
+    fromIndex = 0;
+  }
+  if (fromIndex < 0) {
+    fromIndex += this.length;
+  }
+  for (let i = fromIndex; i < this.length; i++) {
+    if (this[i] === value) {
+      return true;
+    }
+  }
+  return false;
+};
+
+
+const resultCustom1 = numbers.customIncludes(5);
+console.log("resultCustom1", resultCustom1); // true
+
+const resultCustom2 = numbers.customIncludes();
+console.log("resultCustom2", resultCustom2); // false
+
+const resultCustom3 = numbers.customIncludes(5, 6);
+console.log("resultCustom3", resultCustom3); // false
+
+const resultCustom4 = numbers.customIncludes(5, -2);
+console.log("resultCustom4", resultCustom4); // true
+
+const resultCustom5 = numbers.customIncludes("5");
+console.log("resultCustom5", resultCustom5); // false
+```
+
+
+> ### Polyfill of Index-of
+
+```js
+
+const numbers = [1, 2, 5, 3, 4, 5, 6];
+
+Array.prototype.customIndexOf = function (value, fromIndex) {
+  if (fromIndex === undefined || isNaN(fromIndex)) {
+    fromIndex = 0;
+  }
+  if (fromIndex < 0) {
+    fromIndex += this.length;
+  }
+  for (let i = fromIndex; i < this.length; i++) {
+    if (this[i] === value) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+const resultCustom1 = numbers.customIndexOf(5);
+console.log("resultCustom1", resultCustom1); // 2
+
+const resultCustom2 = numbers.customIndexOf();
+console.log("resultCustom2", resultCustom2); // -1
+
+const resultCustom3 = numbers.customIndexOf(5, 3);
+console.log("resultCustom3", resultCustom3); // 5
+
+const resultCustom4 = numbers.customIndexOf(5, -2);
+console.log("resultCustom4", resultCustom4); // 5
+
+const resultCustom5 = numbers.customIndexOf("5");
+console.log("resultCustom5", resultCustom5); // -1
+
+```
+
+> ### Polyfill to Join
+
+The join() method creates and returns a new string by concatenating all of the elements in an array, separated by commas or a specified separator string.
+
+```js
+
+const names = ["jay", "sam", "john"];
+
+Array.prototype.customJoin = function (separator) {
+  let resultString = "";
+  if (!this?.length) {
+    return resultString;
+  }
+  if (separator === undefined) {
+    separator = ",";
+  }
+  resultString = this[0];
+  for (let i = 1; i < this.length; i++) {
+    resultString = resultString + separator + this[i];
+  }
+  return resultString;
+};
+
+
+const resultCustom = names?.customJoin();
+console.log("resultCustom", resultCustom); // jay,sam,john
+
+const resultCustom1 = names?.customJoin("");
+console.log("resultCustom1", resultCustom1); // jaysamjohn
+
+const resultCustom2 = names?.customJoin(" ");
+console.log("resultCustom2", resultCustom2); // jay sam john
+
+const resultCustom3 = names?.customJoin("-");
+console.log("resultCustom3", resultCustom3); // jay-sam-john
+
+```
 
 > ### Polyfill for concat
 

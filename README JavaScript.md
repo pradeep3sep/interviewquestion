@@ -214,6 +214,187 @@ console.log(iterator.next()); // { value: 'three', done: false }
 console.log(iterator.next()); // { value: 'undefined, done: true }
 ```
 
+> ### Generator 
+Generator is a function that can be paused and resumed from where it was paused. It is written as the function keyword followed by an asterisk (*).
+Generator returns a Generator object that is used by calling the next method.
+
+Use cases :-
+1) Creating Infinite loop ( generating unique Id ).
+2) Iterators ( looping through an array ).
+3) Handling promises using async generator.
+4) State management using Redux Saga.
+
+Simple Example
+
+```js
+function simpleExample() {
+  function* getNumbers() {
+    yield 1;
+    yield 2;
+    yield 3;
+  }
+
+  const numberObject = getNumbers();
+  const first = numberObject.next();
+  const second = numberObject.next();
+  const third = numberObject.next();
+  const fourth = numberObject.next();
+
+  console.log(first); // { value: 1, done: false }
+  console.log(second); // { value: 2, done: false }
+  console.log(third); // { value: 3, done: false }
+  console.log(fourth); // { value: undefined, done: true }
+}
+simpleExample();
+```
+
+
+Use cases :-
+1) Creating Infinite loop ( generating unique Id )
+
+```js
+
+function infiniteLoop() {
+  function* generateId() {
+    let id = 1;
+    while (true) {
+      yield id++;
+    }
+  }
+
+  const uniqueId = generateId();
+  console.log(uniqueId.next().value); // 1
+  console.log(uniqueId.next().value); // 2
+  console.log(uniqueId.next().value); // 3
+  console.log(uniqueId.next().value); // 4
+  console.log(uniqueId.next().value); // 5 => infinite loop
+
+  // passing value to next
+  function passValuetoNext() {
+    function* generateId() {
+      let id = 1;
+      while (true) {
+        const increment = yield id;
+        if (increment != null) {
+          id += increment;
+        } else {
+          id++;
+        }
+      }
+    }
+
+    const uniqueId = generateId();
+    console.log(uniqueId.next().value); // 1
+    console.log(uniqueId.next().value); // 2
+    console.log(uniqueId.next(5).value); // 7
+    console.log(uniqueId.next().value); // 8
+    console.log(uniqueId.next().value); // 9 => infinite loop
+  }
+  passValuetoNext();
+}
+infiniteLoop()
+```
+
+2) Iterators ( looping through an array )
+
+```js
+
+function iterators() {
+  function* arrayIterator(array) {
+    for (let i = 0; i < array.length; i++) {
+      yield array[i];
+    }
+  }
+
+  const arrayItem = arrayIterator([11, 22, 33, 44]);
+  console.log(arrayItem.next().value); // 11
+  console.log(arrayItem.next().value); // 22
+  console.log(arrayItem.next().value); // 33
+  console.log(arrayItem.next().value); // 44
+}
+iterators();
+
+```
+
+
+3) Handling promises using async generator
+
+```js
+
+const taskOne = function () {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("First task resolved");
+    }, 1000);
+  });
+};
+
+const taskTwo = function () {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Second task resolved");
+    }, 1000);
+  });
+};
+
+const taskThree = function () {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve("Third task resolved");
+    }, 1000);
+  });
+};
+
+async function* generateTasks() {
+  yield await taskOne();
+  yield await taskTwo();
+  yield await taskThree();
+}
+
+// using then and catch
+const tasks = generateTasks();
+tasks
+  .next()
+  .then((response) => {
+    console.log(response); // { value: 'First task resolved', done: false }
+  })
+  .catch((error) => console.log(error));
+
+tasks
+  .next()
+  .then((response) => {
+    console.log(response); // { value: 'Second task resolved', done: false }
+  })
+  .catch((error) => console.log(error));
+
+tasks
+  .next()
+  .then((response) => {
+    console.log(response); // { value: 'Third task resolved', done: false }
+  })
+  .catch((error) => console.log(error));
+
+// More cleaner way
+async function doTasks() {
+  const tasks = generateTasks();
+  for await (let result of tasks) {
+    console.log(result);
+  }
+}
+doTasks().catch((error) => {
+  console.log("error", error);
+});
+
+/* Output
+First task resolved
+Second task resolved
+Third task resolved 
+*/
+
+```
+
+
+
 > ### How do you set prototype of one object to another
 
 You can use the `Object.setPrototypeOf()` method that sets the prototype (i.e., the internal `Prototype` property) of a specified object to another object or null. For example, if you want to set prototype of a square object to rectangle object would be as follows,
@@ -1416,6 +1597,132 @@ console.log(window.b); // 15
 >### Hoisting
 Hoisting is a concept which enables us to extract values of variables and functions even before initialising/assigning value without getting error 
 
+Hoisting in JavaScript is a behavior in which a function or a variable can be used before declaration. 
+
+
+When javaScript engine starts executing the code, It creates the global execution context in callstack
+Each context in callstack has two phases:-
+1) Memory Creation
+2) Code Execution
+
+```js
+
+💡 3 Things you should know about "Hoisting"
+👉 Hoisting of Variables ( var, let, const and global ) ?
+👉 Hoisting of Functions ( declaration and expression ) ?
+👉 Hoisting of Classes ( declaration and expression ) ?
+*/
+
+// Hoisting of Variables ?
+
+// case 1:- varibles declared with var keyword
+console.log(name); // undefined
+var name = "Jayesh";
+console.log(name); // Jayesh
+
+// case 2:- let and const variables ( Temporal Dead Zone :- Technically they are also hoisted )
+// What is TDZ ? :- time frame between let and const varibles are hoisted to they are initialized
+// let and const are allocated in diffrent memory space ( script scope ) than global scope
+
+// let example
+console.log(age); // Uncaught ReferenceError: Cannot access 'age' before initialization
+let age = 24;
+console.log(age); // 24
+
+// const example
+console.log(language); // Uncaught ReferenceError: Cannot access 'language' before initialization
+const language = "javaScript";
+console.log(language); // javaScript
+
+// case 3:- global variables
+console.log(a); // Uncaught ReferenceError: a is not defined
+a = 4;
+console.log(a); // 4
+
+// Hoisting of functions ?
+
+// case 1:- function declaration
+displayName(); // Jc
+function displayName() {
+  console.log("Jc");
+}
+displayName(); // Jc
+
+// case 2:- function expression
+// with "var" keyword
+getName(); // Uncaught TypeError: getName is not a function ( getName is undefined here )
+var getName = function () {
+  console.log("Jayesh");
+};
+getName(); // Jayesh
+
+// with "let" or "const" keyword
+getNameTDZ(); // Uncaught ReferenceError: Cannot access 'getNameTDZ' before initialization
+const getNameTDZ = function () {
+  console.log("Jayesh");
+};
+getNameTDZ(); // Jayesh
+
+// case 3:- Arrow function ( similar to function expression )
+// with "var" keyword
+getNameArrow(); // Uncaught TypeError: getNameArrow is not a function ( getNameArrow is undefined here )
+var getNameArrow = () => {
+  console.log("Jayesh");
+};
+getNameArrow(); // Jayesh
+
+// with "let" or "const" keyword
+getNameArrowTDZ(); // Uncaught ReferenceError: Cannot access 'getNameArrowTDZ' before initialization
+const getNameArrowTDZ = () => {
+  console.log("Jayesh");
+};
+getNameArrowTDZ(); // Jayesh
+
+// Hoisting of Classes ?
+
+// case 1:- class declaration
+
+// var jayesh = new Person("jayesh", 24); // Uncaught ReferenceError: Cannot access 'Person' before initialization ( TDZ )
+
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+}
+
+const jc = new Person("jc", 24);
+console.log(jc); // Person { name: 'jc', age: 24 }
+
+// case 2:- class expression
+
+// with "var" keyword
+var viru = new Player("viru"); // Uncaught TypeError: Player is not a constructor ( Player is undefined here )
+
+var Player = class {
+  constructor(name) {
+    this.name = name;
+  }
+};
+
+var virat = new Player("virat");
+console.log(virat); // Player { name: 'virat' }
+
+// with "let" or "const" keyword
+
+const meow = new Animal("meow"); // Uncaught ReferenceError: Cannot access 'Animal' before initialization ( TDZ )
+
+const Animal = class {
+  constructor(name) {
+    this.name = name;
+  }
+};
+
+const cat = new Animal("cat");
+console.log(cat); // Animal { name: 'cat' }
+
+```
+
 
 > ### What is webpack
 Webpack is a module bundler for JavaScript applications
@@ -2545,8 +2852,16 @@ console.log(deepCopy); // { name: 'Version 2', additionalInfo: { version: 2 } }
       ```
 * Object.seal(obj) === new properties cannot be added, existing properties cannot be removed.Values of existing properties can still be changed as long as they are writable
 
-### hosting
-Hoisting in JavaScript is a behavior in which a function or a variable can be used before declaration. 
+### Intersection Observer
+
+An Intersection Observer API provides a way to observe the visibility and position of a DOM element relative to the specified root element or viewport.
+
+💡Note - Intersection Observer API is asynchronous, Performs operations in the Microtask queue.
+
+💡Use Cases :-
+👉 1) Implementation of infinite scrolling. 
+👉 2) lazy-loading images on scroll. 
+👉 3) Auto-pause video when it’s out of view
 
 ### call, bind and apply
 
