@@ -1259,3 +1259,55 @@ const reduceEveryResult = everyNumbers.reduce((acc, curr, index, array) => {
 }, true);
 console.log("reduceEveryResult", reduceEveryResult); // true
 ```
+
+> ### Polyfill of the reverse of the array
+
+```js
+
+Array.prototype.customReverse = function () {
+  let array = this;
+  let j = array.length - 1;
+
+  for (let i = 0; i < array.length / 2; i++) {
+    let temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+    j--;
+  }
+
+  return array;
+};
+
+const numbersCustom = [1, 2, 3, 4, 5];
+
+const resultCustom = numbersCustom.customReverse();
+
+console.log("resultCustom", resultCustom); // [ 5, 4, 3, 2, 1 ]
+console.log("numbersCustom", numbersCustom); // [ 5, 4, 3, 2, 1 ]
+```
+
+> ### Polyfill of shift
+
+```js
+
+const numbers = [1, 2, 3, 4, 5];
+
+Array.prototype.customShift = function () {
+  let array = this;
+  let result = array[0];
+
+  for (let i = 0; i < this.length; i++) {
+    array[i] = array[i + 1];
+  }
+  array.length = array.length - 1;
+  return result;
+};
+
+const numbersCustom = [1, 2, 3, 4, 5];
+
+const resultCustom = numbersCustom.customShift();
+
+console.log("resultCustom", resultCustom); // 1
+console.log("numbersCustom", numbersCustom); // [ 2, 3, 4, 5 ]
+
+```
