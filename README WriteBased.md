@@ -994,6 +994,268 @@ Promise.customRace([p1, p2, p3, p4])
   .catch((error) => {
     console.log("error customRace", error);
   });
-  
 
+
+```
+
+
+> ### Implement fiter using the reduce method
+
+1. array of numbers
+
+```js
+
+const numbers = [1, 2, 3, 4, 5, 6];
+
+const isOddNumber = (element, index, array) => {
+  if (element % 2) {
+    return true;
+  }
+  return false;
+};
+
+// Implementation of filter using reduce method
+const reduceOddNumbers = numbers.reduce((acc, curr, index, array) => {
+  if (isOddNumber(curr, index, array)) {
+    acc.push(curr);
+  }
+  return acc;
+}, []);
+console.log("reduceOddNumbers", reduceOddNumbers); // [ 1, 3, 5 ]
+
+```
+
+
+2. array of objects
+
+```js
+
+const todos = [
+  { id: 1, todo: "Morning Walk" },
+  { id: 2, todo: "Go to Office" },
+  { id: 3, todo: "Watch Netflix" },
+  { id: 4, todo: "Go to Gym" },
+  { id: 5, todo: "Go for Movie" },
+];
+
+const filterTodo = (todoItem, index, array) => {
+  return todoItem.id !== 2;
+};
+
+
+// Implementation of filter using reduce method
+const reduceResultTodos = todos.reduce((acc, curr, index, array) => {
+  if (filterTodo(curr, index, array)) {
+    acc.push(curr);
+  }
+  return acc;
+}, []);
+console.log("reduceResultTodos", reduceResultTodos);
+```
+
+
+> ### Implementation of map method using reduce
+
+1. array of numbers
+
+```js
+
+const numbers = [1, 2, 3, 4, 5];
+
+const doubleNumber = (value, index, array) => {
+  return value * 2;
+};
+
+
+// Implementation of map using reduce method
+const reduceResult = numbers.reduce((acc, curr, index, array) => {
+  acc.push(doubleNumber(curr, index, array));
+  return acc;
+}, []);
+
+console.log("reduceResult", reduceResult);
+
+```
+
+
+2. array of objects
+
+```js
+
+const todos = [
+  { id: 1, todo: "Morning Walk" },
+  { id: 2, todo: "Go to Office" },
+  { id: 3, todo: "Watch Netflix" },
+  { id: 4, todo: "Go to Gym" },
+  { id: 5, todo: "Go for Movie" },
+];
+
+const addStatus = (todoItem, index, array) => {
+  return { ...todoItem, status: "completed" };
+};
+
+
+// Implementation of map using reduce method
+const reduceResultTodos = todos.reduce((acc, curr, index, array) => {
+  acc.push(addStatus(curr, index, array));
+  return acc;
+}, []);
+console.log("reduceResultTodos", reduceResultTodos);
+
+```
+
+> ### Remove duplicate no from array using the reduce
+
+```js
+const DuplicateNumbers = [1, 1, 2, 2, 3, 4, 5, 1];
+
+const DuplicatesRemoved = DuplicateNumbers.reduce(
+  (acc, curr, index, arr) => (acc.includes(curr) ? acc : [...acc, curr]),
+  []
+);
+
+console.log(DuplicatesRemoved); => [ 1, 2, 3, 4, 5 ]
+
+```
+
+> ### Counting occurrences of items in an array 👇
+
+```js
+
+const names = ["Jayesh", "John", "Sam", "Sam", "Jayesh", "Jayesh"];
+
+const nameOccurrences = names.reduce((acc, currName) => {
+  return {
+    ...acc,
+    [currName]: (acc[currName] || 0) + 1,
+  };
+}, {});
+
+console.log(nameOccurrences);
+// o/p { Jayesh: 3, John: 1, Sam: 2 }
+
+```
+
+
+> ### Reduce and Its Polyfill
+
+```js
+const numbers = [1, 2, 3, 4, 5, 6];
+
+const summation = (acc, curr, index, array) => {
+  acc = acc + curr;
+  return acc;
+};
+
+Array.prototype.customReduce = function (callback, initial) {
+  let result = initial;
+
+  // this is pointing to numbers array here,
+  // If initial value is not passed then callback skips first iteration as initial value is undefined.
+  for (let i = 0; i < this.length; i++) {
+    result =
+      result !== undefined ? callback(result, this[i], i, this) : this[i];
+  }
+  return result;
+};
+
+const totalCustom = numbers.customReduce(summation, 0);
+console.log("totalCustom", totalCustom); // 21
+```
+
+
+> ### re-build forEach(), some(), find() and every() method using reduce
+
+1. Implementation of forEach() using reduce method
+
+```js
+
+const numbers = [1, 2, 3, 4, 5];
+
+const display = (value, index, array) => {
+  console.log(value);
+};
+
+numbers.forEach(display);
+
+// let's re-build forEach using reduce this time 👇
+
+numbers.reduce((acc, curr, index, array) => {
+  display(curr, index, array);
+}, undefined);
+
+```
+
+2. Implementation of some() using reduce method
+
+```js
+
+const someNumbers = [1, 2, 3, 4, 5, 6];
+
+const isGreaterThan5 = (value, index, array) => {
+  return value > 5;
+};
+
+const someResult = someNumbers.some(isGreaterThan5);
+console.log("someResult", someResult); // true
+
+// let's re-build some using reduce this time 👇
+
+const reduceSomeResult = someNumbers.reduce((acc, curr, index, array) => {
+  if (isGreaterThan5(curr, index, array)) {
+    acc = true;
+  }
+  return acc;
+}, false);
+console.log("reduceSomeResult", reduceSomeResult); // true
+
+```
+
+3. Implementation of find() using reduce method
+
+```js
+const findNumbers = [2, 4, 5, 6, 7, 9];
+
+const isOddNumber = (number, index, array) => {
+  if (number % 2) {
+    return true;
+  }
+  return false;
+};
+
+const findFirstOdd = findNumbers.find(isOddNumber);
+console.log(findFirstOdd); // 5
+
+// let's re-build some using reduce this time 👇
+
+let found = false;
+const reduceFindFirstOdd = findNumbers.reduce((acc, curr, index, array) => {
+  if (isOddNumber(curr, index, array) && !found) {
+    acc = curr;
+    found = true;
+  }
+  return acc;
+}, undefined);
+console.log(reduceFindFirstOdd); // 5
+
+```
+
+
+4. Implementation of every() using reduce method
+
+```js
+const everyNumbers = [11, 12, 13, 14, 15];
+
+const everyResult = everyNumbers.every(isGreaterThan5);
+console.log("everyResult", everyResult); // true
+
+// let's re-build every using reduce this time 👇
+
+const reduceEveryResult = everyNumbers.reduce((acc, curr, index, array) => {
+  if (!isGreaterThan5(curr, index, array)) {
+    acc = false;
+  }
+  return acc;
+}, true);
+console.log("reduceEveryResult", reduceEveryResult); // true
 ```
