@@ -1196,6 +1196,16 @@ slice(startIndex)  // gives values from start index to end
 slice(startIndex, endIndex) // gives values from start index to one before endIndex
 ```
 
+**Note**
+
+```js
+const numbers = [10, 11, 12, 13, 14, 15, 16];
+
+const result7 = numbers.slice(false, true); // 0 to 1  // due to coercion
+console.log(result7); // [ 10 ]
+
+```
+
 for splice - mutate the array and *keep in mind it return array of deleted values
 ```
 splice() // delete all the values and make a blank array

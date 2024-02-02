@@ -1311,3 +1311,237 @@ console.log("resultCustom", resultCustom); // 1
 console.log("numbersCustom", numbersCustom); // [ 2, 3, 4, 5 ]
 
 ```
+
+
+> ### Polyfill for the slice
+
+```js
+Array.prototype.customSlice = function (start, end) {
+  let array = this;
+  let temp = [];
+
+  if (start === undefined && end === undefined) {
+    return [...array];
+  }
+  if (end === undefined) {
+    end = array.length;
+  }
+  if (start < 0) {
+    start = array.length + start;
+  }
+  if (end < 0) {
+    end = array.length + end;
+  }
+
+  for (let i = parseInt(+start); i < parseInt(+end); i++) {
+    temp.push(array[i]);
+  }
+  return temp;
+};
+
+const result1 = numbers.customSlice(2, 5);
+console.log(result1); // [ 12, 13, 14 ]
+
+const result2 = numbers.customSlice(-4, -1);
+console.log(result2); // [ 13, 14, 15 ]
+
+const result3 = numbers.customSlice();
+console.log(result3); // [ 10, 11, 12, 13, 14, 15, 16 ]
+
+const result4 = numbers.customSlice(false, true); // 0 to 1
+console.log(result4); // [ 10 ] implicit type coercion 👆
+
+
+```
+
+
+> ### Polyfill for the some of array
+
+```js
+
+const numbers = [1, 2, 3, 4, 5, 6];
+
+const isGreaterThan5 = (value, index, array) => {
+  return value > 5;
+};
+
+const result = numbers.some(isGreaterThan5);
+console.log("result", result); // true
+
+Array.prototype.customSome = function (callback) {
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i], i, this)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const resultCustom = numbers.customSome(isGreaterThan5);
+console.log("resultCustom", resultCustom); // true
+```
+
+> ### Polyfill of Splice
+
+Array.prototype.splice modifies an original array and returns deleted values array.
+
+splice method takes (start, howManyDelete, newAdd1, newAdd2, newAddN), If no argument  is passed then original array remains as it is and it returns an empty array [].
+
+```js
+
+const numbers = [10, 11, 12, 13, 14, 15];
+
+Array.prototype.customSplice = function (start, deleteCount) {
+  let array = this;
+
+  if (start !== undefined && deleteCount === undefined) {
+    deleteCount = array.length;
+  }
+  start = Number(start);
+  if (start < 0) {
+    start = array.length + start;
+  }
+  if (isNaN(start)) {
+    start = 0;
+  }
+  if (isNaN(deleteCount) || deleteCount < 0) {
+    deleteCount = 0;
+  }
+
+  let end = start + Number(deleteCount);
+
+  let valuesBeforeStart = [];
+  let SplicedArray = [];
+  let valuesAfterSplice = [];
+
+  for (let i = 0; i < array.length; i++) {
+    if (i < start) {
+      valuesBeforeStart.push(array[i]);
+    }
+    if (i >= start && i < end) {
+      SplicedArray.push(array[i]);
+    }
+    if (i >= end && i < array.length) {
+      valuesAfterSplice.push(array[i]);
+    }
+  }
+
+  for (let i = 2; i < arguments.length; i++) {
+    valuesBeforeStart.push(arguments[i]);
+  }
+
+  let result = valuesBeforeStart.concat(valuesAfterSplice);
+  let len = Math.max(array.length, result.length);
+
+  for (i = 0; i < len; i++) {
+    if (result.length > i) {
+      array[i] = result[i];
+    } else {
+      array.pop();
+    }
+  }
+  return SplicedArray;
+};
+
+const customNumbers = [10, 11, 12, 13, 14, 15];
+
+const deletedCustomNums = customNumbers.customSplice(2, 3, 77, 88);
+
+console.log(customNumbers); // [10, 11, 77, 88, 15]
+console.log(deletedCustomNums); // [12, 13, 14]
+
+```
+
+
+> ### Polyfill for the Split
+
+In the following example, split() looks for spaces in a string and returns the first 3 splits that it finds.
+
+```js
+
+const myString = "Hello World. How are you doing?";
+const splits = myString.split(" ", 3);
+
+console.log(splits); // [ "Hello", "World.", "How" ]
+
+
+```
+
+below is the polyfill
+```js
+
+String.prototype.customSplit = function (separator, limit) {
+  const string = this;
+  const result = [];
+
+  if (separator === "") {
+    return Array.from(string);
+  }
+
+  const splitString = (str) => {
+    if (result.length >= limit) {
+      return;
+    }
+    const index = str.indexOf(separator);
+    if (index >= 0) {
+      result.push(str.substring(0, index));
+      splitString(str.substring(index + separator.length));
+    } else {
+      result.push(str);
+    }
+  };
+
+  splitString(string);
+  return result;
+};
+
+const resultCustom1 = message.customSplit(" ", 4);
+console.log(message); // This is the string with two the in it.
+console.log(resultCustom1); // [ 'This', 'is', 'the',  'string' ]
+
+const resultCustom2 = message.customSplit("the");
+console.log(resultCustom2); // [ 'This is ', ' string with two ', ' in it.' ]
+
+
+```
+
+> ### Polyfill of Unshift
+
+```js
+
+const numbers = [1, 2, 3, 4, 5];
+
+const result = numbers.unshift("88", "99");
+
+console.log("result", result); // 7
+console.log("numbers", numbers); // ["88", "99", 1, 2, 3, 4, 5];
+
+Array.prototype.customUnshift = function () {
+  let array = this;
+  let temp = [];
+
+  for (let i = 0; i < array.length; i++) {
+    temp.push(array[i]);
+  }
+
+  const arrLength = arguments.length + array.length;
+
+  for (i = 0; i < arrLength; i++) {
+    if (arguments[i]) {
+      array[i] = arguments[i];
+    } else {
+      array[i] = temp[i - arguments.length];
+    }
+  }
+
+  return arrLength;
+};
+
+const numbersCustom = [1, 2, 3, 4, 5];
+
+const resultCustom = numbersCustom.customUnshift("88", "99");
+
+console.log("resultCustom", resultCustom); // 7
+console.log("numbersCustom", numbersCustom); // ["88", "99", 1, 2, 3, 4, 5];
+
+```
