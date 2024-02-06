@@ -3017,6 +3017,211 @@ The MutationObserver API allows you to continuously monitor the changes being ma
 When the DOM nodes change, you can invoke a callback function to detect the changes.
 
 
+> ### Rule of this
+
+💡 7 Things you should know about "this"
+👉 Rule 1) function with new keyword ( this refers to the function object )
+👉 Rule 2) call, apply, bind ( this refers to the obj passed to methods )
+👉 Rule 3) method in object ( this refers to the object )
+👉 Rule 4) simple function ( this refers to window object, undefined in strict mode )
+👉 Rule 5) multiple rules ( Higher rule has given priority )
+👉 Rule 6) arrow function ( inherits "this" from its outer function )
+👉 Miscellaneous important things about "this"
+
+
+Rule 1) function with new keyword ( this refers to the function object )
+
+```js
+function Person() {
+  console.log(this); // Person {}
+  this.name = "Jayesh";
+  this.age = 24;
+  console.log(this); // Person { name: 'Jayesh', age: 24 }
+}
+
+new Person();
+```
+
+Rule 2) call, apply, bind ( this refers to the obj passed to methods)
+
+```js
+
+const player = {
+  name: "Virat",
+  role: "Batsman",
+};
+
+// Note:- Normal function ( not an arrow function )
+const getPlayerInfo = function (country) {
+  console.log(this); // { name: 'Virat', role: 'Batsman' }
+  console.log(this.name, this.role, country); // Virat Batsman India
+};
+
+getPlayerInfo.call(player, "India"); // here, player borrowing getPlayerInfo function
+```
+
+Rule 3) method in object ( this refers to the object )
+
+```js
+const obj = {
+  name: "Jc",
+  displayName() {
+    console.log(this); // {name: 'Jc', displayName: ƒ}
+    console.log(this.name); // Jc
+  },
+};
+
+obj.displayName();
+```
+
+Rule 4) simple function ( undefined in strict mode)
+
+```js
+function simpleFunc() {
+  console.log(this); // window object
+}
+
+simpleFunc(); // or window.simpleFunc()
+```
+
+Rule 5) multiple rules :- Higher rule has more priority
+
+```js
+const obj1 = {
+  name: "Jayesh",
+  showName() {
+    console.log(this.name); // Jc
+  },
+};
+const obj2 = {
+  name: "Jc",
+};
+
+obj1.showName.call(obj2); // Jc precedence of Rule 2) Call method > Rule 3) method in object
+```
+
+Rule 6) arrow function :- arrow function does not create its own execution context
+
+inherits "this" from its outer function.
+
+  - case 1:- arrow function without any parent function
+  ```js
+  const arrowFunc = () => {
+    // ( Global function's "this" is window object, arrowFunc inherits "this" of Global function in this case )
+    console.log(this); // window object
+  };
+  arrowFunc();
+  ```
+
+
+  - case 2:- arrow function inside normal function
+
+  ```js
+    const animal = {
+      name: "cat",
+      displayName() {
+        console.log(this); // {name: 'cat', displayName: ƒ}
+        console.log(this.name); // cat
+
+        // inner arrow function inherits "this" from its outer normal funtion
+        const innerArrow = () => {
+          console.log(this); // {name: 'cat', displayName: ƒ}
+          console.log(this.name); // cat
+        };
+        innerArrow();
+      },
+    };
+
+    animal.displayName();
+  ```
+
+  - case 3 :- arrow function inside an arrow function
+
+  ```js
+    const outerArrow = () => {
+      console.log(this); //  window object ( Global function's "this" is window object )
+
+      // inner arrow function inherits "this" from its outer funtion
+      const innerArrow = () => {
+        console.log(this); // window object
+      };
+      innerArrow();
+    };
+    outerArrow();
+  ```
+
+  - case 4:- arrow function inside function constructor ( new keyword )
+
+  ```js
+
+    function OuterFunction() {
+      this.name = "jayeh";
+      console.log(this); // OuterFunction { name: 'jayeh' }
+
+      // inner arrow function inherits "this" from its outer funtion
+      const innerArrow = () => {
+        console.log(this); // OuterFunction { name: 'jayeh' }
+      };
+      innerArrow();
+    }
+    new OuterFunction();
+  ```
+
+Miscellaneous important things about "this"
+
+
+- "this" inside nested normal function
+
+```js
+const myObj = {
+  name: "Jc",
+  outerNormal() {
+    console.log(this); // {name: 'Jc', outerNormal: ƒ}
+
+    function innerNormal() {
+      console.log(this); // window object
+    }
+    innerNormal();
+  },
+};
+myObj.outerNormal();
+```
+
+- "this" inside normal function having outer arrow function
+
+```js
+const myobj2 = {
+  name: "Jc",
+  outerArrowFoo: () => {
+    console.log(this); // window object
+
+    function innerNormal() {
+      console.log(this); // window object
+    }
+    innerNormal();
+  },
+};
+myobj2.outerArrowFoo();
+```
+
+- "this" inside nested objects
+
+```js
+const outerObj = {
+  name: "Jc",
+  innerObj: {
+    name: "inner Jc",
+    getName() {
+      console.log(this.name); // inner Jc
+    },
+  },
+};
+outerObj.innerObj.getName();
+```
+
+
+
+
 ### call, bind and apply
 
 ### Window vs document
