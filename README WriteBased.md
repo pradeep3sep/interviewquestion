@@ -1545,3 +1545,24 @@ console.log("resultCustom", resultCustom); // 7
 console.log("numbersCustom", numbersCustom); // ["88", "99", 1, 2, 3, 4, 5];
 
 ```
+
+> ### Sort of array
+
+```js
+const array = [7, 10, 4, 3, 20, 15];
+
+function sortArray(arr) {
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] > arr[j]) {
+        let temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
+    }
+  }
+  console.log(arr);
+}
+
+sortArray(array)
+```

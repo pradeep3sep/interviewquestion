@@ -64,3 +64,17 @@
 // or Object.create(). Instances may be composed from many different objects, allowing for easy selective inheritance.
 
 
+const arr1 = [1, 2, 3, 5, 6];
+const arr2 = [1, 3, 4, 7];
+
+const unionArray = [...arr1,...arr2].sort()
+console.log(unionArray);
+
+const new1 = [...arr1].sort()
+const new2 = [...arr2].sort()
+
+for (let i = 0; i < arr2.length; i++) {
+    if (new1[i] !== new2[i]) {
+        unionArray.push(arr2[i])
+    }
+}
