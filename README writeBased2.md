@@ -320,3 +320,118 @@ for (let i = 0; i < sorted.length - 1; i++) {
 
 console.log("output", output);
 ```
+
+> ### Q10 - Merge Intervals
+Input: intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]
+Output: [ [1, 6], [8, 10], [15, 18]]
+https://www.youtube.com/watch?v=LvygwImtvEw
+
+
+```js
+
+const intervals = [[1, 3],[2, 6],[8, 10],[15, 18]];
+
+intervals.sort((a, b) => a[0] - b[0]);
+
+const result = [intervals[0]]; // [[1,3]]
+
+for (let interval of intervals.slice(1)) {
+    e1 = result[result.length - 1][1]; // 3
+    s2 = interval[0]; // 2
+    e2 = interval[1]; // 6
+
+    if (e1 >= s2) {
+      // 3 >= 2
+      result[result.length - 1][1] = Math.max(e1, e2); // [[1,6]]
+    } else {
+      result.push(interval);
+    }
+}
+
+console.log("result", result);
+
+```
+
+
+> ### Q12 Best Time to Buy and Sell Stock:-
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+
+```js
+const prices = [7, 1, 5, 3, 6, 4];
+
+  let maxProfit = 0;
+  let lowestPrice = prices[0];
+
+  for (let i = 1; i < prices.length; i++) {
+    lowestPrice = Math.min(prices[i], lowestPrice);
+    maxProfit = Math.max(prices[i] - lowestPrice, maxProfit);
+  }
+
+  console.log("maxProfit", maxProfit);
+```
+
+
+> ### Q13 find all pairs on integer array whose sum is equal to given number
+arr[] = {1, 5, 7, 1}
+Output: 2
+Explanation: 
+arr[0] + arr[1] = 1 + 5 = 6 
+and arr[1] + arr[3] = 5 + 1 = 6.
+
+
+```js
+const arr = [1, 5, 7, 1];
+  let sum = 6;
+  let count = 0;
+
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] + arr[j] === sum) {
+        count++;
+        console.log(`[${arr[i]},${arr[j]}]`);
+      }
+    }
+  }
+  console.log("No. of Pairs", count);
+```
+
+
+> ### Q14 - find common elements In 3 sorted arrays
+n1 = 6; A = {1, 5, 10, 20, 40, 80}
+n2 = 5; B = {6, 7, 20, 80, 100}
+n3 = 8; C = {3, 4, 15, 20, 30, 70, 80, 120}
+Output: 20 80
+Explanation: 20 and 80 are the only
+common elements in A, B and C.
+
+```js
+
+ const arr1 = [1, 5, 10, 20, 40, 80];
+  const arr2 = [6, 7, 20, 80, 100];
+  const arr3 = [3, 4, 15, 20, 30, 70, 80, 120];
+  let result = [];
+  let i = 0,
+    j = 0,
+    k = 0;
+
+  while (i < arr1.length && j < arr2.length && k < arr3.length) {
+    if (arr1[i] === arr2[j] && arr2[j] === arr3[k]) {
+      result.push(arr1[i]);
+      i++;
+      j++;
+      k++;
+    } else if (arr1[i] < arr2[j]) {
+      i++;
+    } else if (arr2[j] < arr3[k]) {
+      j++;
+    } else {
+      k++;
+    }
+  }
+  console.log("result", result); // [ 20, 80 ]
+
+```
+
