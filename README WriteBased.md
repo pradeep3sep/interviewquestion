@@ -1566,3 +1566,68 @@ function sortArray(arr) {
 
 sortArray(array)
 ```
+
+> ### check 2 arrays are same or not
+
+a. when sequence matter
+```js
+
+function arraysAreEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+    
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+const array1 = [1, 2, 3];
+const array2 = [1, 2, 3];
+console.log(arraysAreEqual(array1, array2)); // Output: true
+```
+
+
+b. When sequence do not matter
+
+```js
+
+function arraysHaveSameElements(array1, array2) {
+    // Check if arrays have the same length
+    if (array1.length !== array2.length) {
+        return false;
+    }
+    
+    // Create objects to count occurrences of elements in both arrays
+    const count1 = {};
+    const count2 = {};
+    
+    // Count occurrences in the first array
+    for (const element of array1) {
+        count1[element] = (count1[element] || 0) + 1;
+    }
+    
+    // Count occurrences in the second array
+    for (const element of array2) {
+        count2[element] = (count2[element] || 0) + 1;
+    }
+    
+    // Check if counts of elements in both arrays match
+    for (const key in count1) {
+        if (count1[key] !== count2[key]) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+const array1 = [1, 3, 2];
+const array2 = [1, 2, 3];
+
+console.log(arraysHaveSameElements(array1, array2)); // Output: true
+```

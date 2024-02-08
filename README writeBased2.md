@@ -120,5 +120,41 @@ console.log("Original array:", arr);
 console.log("Sorted array:", sortArray(arr));
 ```
 
-> ### Q
+> ### Q6 - Find the Union of two sorted arrays.
+arr1 = [1, 2, 3, 4, 5]
+arr2 = [1, 2, 3, 8, 9]
+output = [ 1, 2, 3, 4, 5, 8, 9 ]
 
+```js
+const x = [1, 2, 3, 5, 6];
+const y = [1, 3, 4, 7];
+
+let obj = {};
+for (let i = x.length - 1; i >= 0; --i){
+    obj[x[i]] = x[i];
+}
+
+for (let i = y.length - 1; i >= 0; --i){
+    obj[y[i]] = y[i];
+}
+
+const n = Object.keys(obj)
+console.log(n);
+```
+
+Using the set
+
+```js
+console.log([...new Set([...arr1, ...arr2])]); // [ 1, 2, 3, 4, 5, 8, 9 ]
+```
+
+using concat
+
+```js
+const unionR = arr1.concat(
+    arr2.filter((num) => {
+        return !arr1.includes(num);
+    })
+);
+console.log("unionR", unionR); // [ 1, 2, 3, 4, 5, 8, 9 ]
+```
