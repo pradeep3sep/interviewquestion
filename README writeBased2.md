@@ -158,3 +158,165 @@ const unionR = arr1.concat(
 );
 console.log("unionR", unionR); // [ 1, 2, 3, 4, 5, 8, 9 ]
 ```
+
+> ### Q6A - Find the Intersection of two sorted arrays.
+arr1 = [1, 2, 3, 4, 5]
+arr2 = [1, 2, 3, 8, 9]
+output = [ 1, 2, 3]
+
+using filter
+```js
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [1, 2, 3, 8, 9];
+
+const intersection = arr1.filter((num) => arr2.includes(num));
+console.log("intersection", intersection);
+```
+
+for loop
+```js
+function findIntersection(arr1, arr2) {
+  const intersection = [];
+  for (let i = 0; i < arr1.length; i++) {
+    const element = arr1[i];
+    if (arr2.indexOf(element) !== -1 && intersection.indexOf(element) === -1) {
+      intersection.push(element);
+    }
+  }
+  return intersection;
+}
+```
+
+using while loop sorted array
+```js
+  let i = 0;
+  let j = 0;
+  let result = [];
+
+  while (i < arr1.length && j < arr2.length) {
+    if (arr1[i] < arr2[j]) {
+      i++;
+    } else if (arr1[i] > arr2[j]) {
+      j++;
+    } else {
+      result.push(arr1[i]);
+      i++;
+      j++;
+    }
+  }
+```
+
+> ### Q6B - unique from two arrays
+
+const arr3 = [1, 2, 3, 4];
+const arr4 = [1, 2, 5, 6];
+output : [ 3, 4, 5, 6 ]
+
+using filter
+
+```js
+const uniqueArr3 = arr3.filter((num) => !arr4.includes(num));
+const uniqueArr4 = arr4.filter((num) => !arr3.includes(num));
+console.log([...uniqueArr3, ...uniqueArr4]); // [ 3, 4, 5, 6 ]
+```
+
+while loop
+```js
+ function uniqueNums() {
+    const arr1 = [1, 2, 3, 4];
+    const arr2 = [1, 2, 5, 6];
+    // output : [ 3, 4, 5, 6 ]
+    let i = 0;
+    let j = 0;
+    let result = [];
+    while (i < arr1.length && j < arr2.length) {
+      if (arr1[i] === arr2[j]) {
+        i++;
+        j++;
+      } else if (arr1[i] < arr2[j]) {
+        result.push(arr1[i]);
+        i++;
+      } else {
+        result.push(arr2[j]);
+        j++;
+      }
+    }
+    while (i < arr1.length) {
+      result.push(arr1[i]);
+      i++;
+    }
+    while (j < arr2.length) {
+      result.push(arr2[j]);
+      j++;
+    }
+    console.log(result);
+  }
+  uniqueNums();
+```
+
+Other method
+
+```js
+const arr1 = [1, 2, 3, 4];
+const arr2 = [1, 2, 5, 6];
+
+const concatenatedArr = arr1.concat(arr2);
+const countMap = {};
+
+// Count occurrences of each element
+for (let i = 0; i < concatenatedArr.length; i++) {
+    const num = concatenatedArr[i];
+    countMap[num] = (countMap[num] || 0) + 1;
+}
+
+// Filter out elements that appear only once
+const uniqueElements = [];
+for (const num in countMap) {
+    if (countMap.hasOwnProperty(num) && countMap[num] === 1) {
+        uniqueElements.push(parseInt(num));
+    }
+}
+
+console.log(uniqueElements); // Output: [ 3, 4, 5, 6 ]
+```
+
+> ### Q8 - find duplicate in an array
+
+arr1 = [1, 2, 2, 2, 3, 4, 4, 5]
+output = [ 2, 4 ]
+
+using object and for loop
+
+```js
+const arr2 = [3, 4, 5, 1, 2, 4, 3, 5];
+const obj2 = {};
+const result1 = [];
+
+for (let num of arr2) {
+    if (obj2[num]) {
+      if (!result1.includes(num)) result1.push(num);
+    } else {
+      obj2[num] = (obj2[num] || 0) + 1;
+    }
+}
+
+console.log("result1", result1);
+```
+
+using sorting and one loop
+
+```js
+const arr = [3, 4, 5, 1, 2, 4, 3, 5];
+const sorted = [...arr.sort()];
+const output = [];
+
+for (let i = 0; i < sorted.length - 1; i++) {
+    if (sorted[i] === sorted[i + 1]) {
+      if (!output.includes(sorted[i])) {
+        output.push(sorted[i]);
+      }
+    }
+}
+
+console.log("output", output);
+```
