@@ -434,4 +434,80 @@ common elements in A, B and C.
   console.log("result", result); // [ 20, 80 ]
 
 ```
+> ### Rearrange array in alternating positive & negative items
+Input:  arr[] = {1, 2, 3, -4, -1, 4}
+Output: arr[] = {-4, 1, -1, 2, 3, 4}
 
+key concept - Main concept is that first do the sorting and it becomes the -ve at first and +ve at the end, so we add the first -ve frist and +ve from the end using the loop.
+
+```js
+function rearrangeArray(arr) {
+    // Sort the array
+    arr.sort((a, b) => a - b);
+
+    // Create a new array to store rearranged elements
+    let rearrangedArr = [];
+
+    // Initialize indices for positive and negative numbers
+    let posIndex = 0;
+    let negIndex = arr.length - 1;
+
+    // Rearrange the elements
+    for (let i = 0; i < arr.length; i++) {
+        if (i % 2 === 0) {
+            rearrangedArr.push(arr[negIndex]);
+            negIndex--;
+        } else {
+            rearrangedArr.push(arr[posIndex]);
+            posIndex++;
+        }
+    }
+
+    return rearrangedArr;
+}
+
+// Example usage:
+let arr = [1, 2, 3, -4, -1, 4];
+console.log(rearrangeArray(arr)); // Output: [-4, 1, -1, 2, 3, 4]
+```
+
+> ###  Find if there is any subarray with sum equal to 0
+
+Input:  arr[] = 4 2 -3 1 6
+Output: 2, -3, 1 is the subarray with sum 0.
+
+```js
+
+function findSubarrayWithZeroSum(arr) {
+    let sum = 0;
+    let map = {};
+    let result = [];
+
+    // Traverse the array
+    for (let i = 0; i < arr.length; i++) {
+        // Add the current element to the sum
+        sum += arr[i];
+
+        // If the sum is zero or if it has been seen before
+        if (sum === 0 || map[sum] !== undefined) {
+            // If the sum is zero, extract the subarray from the beginning to the current index
+            if (sum === 0) {
+                result.push(arr.slice(0, i + 1));
+            } else {
+                // Otherwise, extract the subarray from the index after the previous occurrence of the sum to the current index
+                result.push(arr.slice(map[sum] + 1, i + 1));
+            }
+        } else {
+            // Store the current sum along with its index
+            map[sum] = i;
+        }
+    }
+
+    return result;
+}
+
+// Example usage:
+const arr = [4, 2, -3, 1, 6];
+const subarrays = findSubarrayWithZeroSum(arr);
+console.log(subarrays); // Output: [[2, -3, 1]]
+```
