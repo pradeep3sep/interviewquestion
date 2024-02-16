@@ -872,4 +872,153 @@ console.log(isBalanced("[(())]{}{[()()]()}")); // Output: true
 console.log(isBalanced("[(])"));  // Output: false
 ```
 
+> ### Q33 - Find Elements that occurred only once in the array
+
+const a = [1, 2, 3, 4, 5, 1, 2];
+Output => [ 3, 4, 5 ]
+
+```js
+function findUniqueElements(arr) {
+    const countMap = {};
+    const uniqueElements = [];
+
+    // Count occurrences of each element
+    for (let i = 0; i < arr.length; i++) {
+        const element = arr[i];
+        countMap[element] = (countMap[element] || 0) + 1;
+    }
+
+    // Filter out elements that occurred only once
+    for (let key in countMap) {
+        if (countMap.hasOwnProperty(key) && countMap[key] === 1) {
+            uniqueElements.push(parseInt(key)); // Convert key to integer if needed
+        }
+    }
+
+    return uniqueElements;
+}
+
+// Example usage:
+const array = [1, 2, 3, 4, 5, 1, 2, 3, 4];
+console.log(findUniqueElements(array)); // Output: [5]
+
+```
+
+
+> ### Q34 -  Find maximum char from string.
+const str = "hello"
+Output => l => 2
+
+```js
+function findMaxChar(str) {
+    const charMap = {};
+    let maxChar = '';
+    let maxCount = 0;
+
+    for (let char of str) {
+        charMap[char] = charMap[char] + 1 || 1;
+        if (charMap[char] > maxCount) {
+            maxCount = charMap[char];
+            maxChar = char;
+        }
+    }
+
+    return maxChar;
+}
+
+const str = "hello";
+const maxChar = findMaxChar(str);
+console.log(maxChar); // Output: l
+```
+
+
+> ### Q35 - Check Whether Two Strings Are Anagram Of Each Other
+
+An anagram of a string is another string that contains the same characters, 
+only the order of characters can be different. For example, “abcd” and “dabc” are an anagram of each other. 
+
+```js
+
+function areAnagrams(str1, str2) {
+    // Function to count the frequency of characters in a string
+    function countCharacters(str) {
+        const charCount = {};
+        for (let char of str) {
+            charCount[char] = (charCount[char] || 0) + 1;
+        }
+        return charCount;
+    }
+
+    // Count the characters in both strings
+    const charCount1 = countCharacters(str1.toLowerCase());
+    const charCount2 = countCharacters(str2.toLowerCase());
+
+    // Check if both objects have the same keys and values
+    if (Object.keys(charCount1).length !== Object.keys(charCount2).length) {
+        return false; // Different number of unique characters
+    }
+
+    for (let char in charCount1) {
+        if (charCount1[char] !== charCount2[char]) {
+            return false; // Different frequencies of characters
+        }
+    }
+
+    return true; // Same frequency of characters
+}
+
+// Example usage:
+const string1 = "abcd";
+const string2 = "dabc";
+console.log(areAnagrams(string1, string2)); // Output: true
+```
+
+
+2) sorting and compare
+
+```js
+  const s1 = "listen";
+  const s2 = "silent";
+
+  const ss1 = s1.split("").sort().join("");
+  const ss2 = s2.split("").sort().join("");
+
+  if (ss1 === ss2) {
+    console.log(true);
+  } else {
+    console.log(false);
+  }
+```
+
+> ### Q36 - convert a array into small chunks of given size
+
+ const arr = [1,2,3,4,5,6,7], size of chunk = 2
+ output = [[1,2], [3,4], [5,6], [7]]
+
+```js
+  const arr = [1, 2, 3, 4, 5, 6, 7];
+  const size = 2;
+  const chunks = [];
+
+  for (let i = 0; i < arr.length; i += size) {
+    chunks.push(arr.slice(i, i + size));
+  }
+
+  console.log(chunks); // [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7 ] ]
+```
+
+> ### Q40 - Array Rotation by n
+const arr = [1,2,3,4,5,6] n=2
+output =>   [5,6,1,2,3,4]
+
+Using merging arr twice
+```js
+const arr1 = [1, 2, 3, 4, 5, 6];
+const doubleArr = [...arr1, ...arr1];
+const start = arr1.length - n;
+const end = start + arr1.length;
+
+console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
+```
+
 
