@@ -434,7 +434,7 @@ common elements in A, B and C.
   console.log("result", result); // [ 20, 80 ]
 
 ```
-> ### Rearrange array in alternating positive & negative items
+> ### Q15 - Rearrange array in alternating positive & negative items
 Input:  arr[] = {1, 2, 3, -4, -1, 4}
 Output: arr[] = {-4, 1, -1, 2, 3, 4}
 
@@ -471,7 +471,7 @@ let arr = [1, 2, 3, -4, -1, 4];
 console.log(rearrangeArray(arr)); // Output: [-4, 1, -1, 2, 3, 4]
 ```
 
-> ###  Find if there is any subarray with sum equal to 0
+> ### Q16 - Find if there is any subarray with sum equal to 0
 
 Input:  arr[] = 4 2 -3 1 6
 Output: 2, -3, 1 is the subarray with sum 0.
@@ -511,3 +511,365 @@ const arr = [4, 2, -3, 1, 6];
 const subarrays = findSubarrayWithZeroSum(arr);
 console.log(subarrays); // Output: [[2, -3, 1]]
 ```
+
+> ### Q17 - Find factorial of a large number
+
+```js
+function factorial(num) {
+    if (num < 0) {
+      console.log("Please provide positive number");
+      return;
+    }
+    if (num === 0 || num === 1) {
+      return 1;
+    } else {
+      return num * factorial(num - 1);
+    }
+}
+console.log(factorial(5));
+
+```
+
+> ### Q18 - find maximum product subarray
+
+Arr[] = [ 6, -3, -10, 0, 2 ]
+Output: 180
+
+```js
+
+function maxProductSubarray(arr) {
+    if (arr.length === 0) return 0;
+
+    let maxEndingHere = arr[0];
+    let minEndingHere = arr[0];
+    let maxSoFar = arr[0];
+
+    for (let i = 1; i < arr.length; i++) {
+        let tempMax = Math.max(arr[i], maxEndingHere * arr[i], minEndingHere * arr[i]);
+        minEndingHere = Math.min(arr[i], maxEndingHere * arr[i], minEndingHere * arr[i]);
+
+        maxEndingHere = tempMax;
+
+        maxSoFar = Math.max(maxSoFar, maxEndingHere);
+    }
+
+    return maxSoFar;
+}
+
+const arr = [6, -3, -10, 0, 2];
+console.log(maxProductSubarray(arr)); // Output: 180
+```
+
+below is double loop
+
+```js
+const arr = [6, -3, -10, 0, 2];
+
+  function maxProduct(arr) {
+    let outMaxProd = arr[0];
+    for (let i = 0; i < arr.length - 1; i++) {
+      let innerProd = 1;
+      for (let j = i; j < arr.length; j++) {
+        innerProd *= arr[j];
+
+        if (innerProd > outMaxProd) {
+          outMaxProd = innerProd;
+        }
+      }
+    }
+    return outMaxProd;
+  }
+
+  console.log(maxProduct(arr));
+
+```
+
+> ### Q19 - Find longest coinsecutive subsequence
+a[] = {2,6,1,9,4,5,3}
+Output:
+6 => [1,2,3,4,5,6]
+
+```js
+function longestConsecutiveSubsequence(arr) {
+    if (arr.length === 0) {
+        return [];
+    }
+    
+    arr.sort((a, b) => a - b);
+    let longestSeq = [arr[0]];
+    let currentSeq = [arr[0]];
+    
+    for (let i = 1; i < arr.length; i++) {
+        if (arr[i] === currentSeq[currentSeq.length - 1] + 1) {
+            currentSeq.push(arr[i]);
+        } else if (arr[i] !== currentSeq[currentSeq.length - 1]) {
+            currentSeq = [arr[i]];
+        }
+        
+        if (currentSeq.length > longestSeq.length) {
+            longestSeq = currentSeq;
+        }
+    }
+    
+    return longestSeq;
+}
+
+const arr = [2, 6, 1, 9, 4, 5, 3];
+console.log(longestConsecutiveSubsequence(arr)); // Output: [1, 2, 3, 4, 5, 6]
+```
+
+> ### Q20 - Given Array of size n, find all elements that appear more than k times
+Input: arr[] = {3, 1, 2, 2, 1, 2, 3, 3}, k = 2
+Output: {2, 3}
+
+```js
+const arr = [3, 1, 2, 2, 1, 2, 3, 3];
+  const k = 2;
+  const map = new Map();
+  const result = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (map.has(arr[i])) {
+      map.set(arr[i], map.get(arr[i]) + 1);
+    } else {
+      map.set(arr[i], 1);
+    }
+  }
+
+  for (let [key, value] of map) {
+    if (value > k) {
+      result.push(key);
+    }
+  }
+
+  console.log("result", result);
+```
+
+> ### Q21 - Find whether an array is a subset of another array
+Input:
+a1[] = {11, 1, 13, 21, 3, 7}
+a2[] = {11, 3, 7, 1}
+Output: Yes
+
+```js
+function isSubset(array1, array2) {
+    // Convert arrays to sets to make element lookup more efficient
+    let set1 = new Set(array1);
+    let set2 = new Set(array2);
+
+    // Check if every element in array2 exists in array1
+    for (let elem of set2) {
+        if (!set1.has(elem)) {
+            return false; // If any element doesn't exist, return false
+        }
+    }
+
+    return true; // All elements found, return true
+}
+
+// Example usage:
+let a1 = [11, 1, 13, 21, 3, 7];
+let a2 = [11, 3, 7, 1];
+
+if (isSubset(a1, a2)) {
+    console.log("Yes"); // Output: Yes
+} else {
+    console.log("No");
+}
+```
+
+> ### Q23 - Pair elements of an array
+
+const arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]
+output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
+
+
+```js
+
+ const arr = [1, 2, 3, 2, 4, 5, 3, 2];
+
+  function pairElements(arr) {
+    let map = new Map();
+    const result = [];
+
+    for (let num of arr) {
+      map.set(num, (map.get(num) || 0) + 1);
+    }
+
+    for (let [key, value] of map) {
+      let temp = [];
+      for (let j = 0; j < value; j++) {
+        temp.push(+key);
+      }
+      result.push(temp);
+    }
+
+    return result;
+  }
+
+  console.log(pairElements(arr));
+```
+
+--- String ---
+
+> ### Q24 - Reverse a string
+
+ 1) using Decrementing for loop
+
+```js
+  const str1 = "hello";
+  let reverse = "";
+  for (i = str1.length - 1; i >= 0; i--) {
+    reverse += str1[i];
+  }
+
+  console.log(reverse);
+```
+
+2) using simple for loop
+
+```js
+  const str3 = "hello";
+  let output = "";
+
+  for (let char of str3) {
+    output = char + output;
+  }
+  console.log(output);
+```
+
+> ### Q25 - Check whether a String is Palindrome or not
+
+1) using for loop
+```js
+ function checkPalindrome(str) {
+    let j = str.length - 1;
+    for (let i = 0; i < str.length / 2; i++) {
+      if (str[i] === str[j]) {
+        j--;
+      } else {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  console.log(checkPalindrome(str));
+```
+
+2) using Built-In Functions
+```js
+const str1 = "abcba";
+const rev = str1;
+console.log(rev.split("").reverse().join("") === str1);
+```
+
+> ### Q26 - Find Duplicate characters in a string
+
+```js
+  const str = "babbar";
+  let map = new Map();
+
+  for (let i = 0; i < str.length; i++) {
+    if (map.has(str[i])) {
+      map.set(str[i], map.get(str[i]) + 1);
+    } else {
+      map.set(str[i], 1);
+    }
+  }
+
+  for (let [key, value] of map) {
+    if (value < 2) {
+      map.delete(key);
+    }
+  }
+
+  console.log(map);
+```
+
+> ### Q27 - 27) Write a Code to check whether one string is a rotation of another
+Input: S1 = ABCD, S2 = CDAB
+Output: Strings are rotations of each other
+
+Input: S1 = ABCD, S2 = ACBD
+Output: Strings are not rotations of each other
+
+```js
+const str1 = "ABCD";
+  const str2 = "CDAB";
+
+  function checkRotation(str1, str2) {
+    const str3 = str1 + str1;
+
+    if (str3.includes(str2)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  console.log(checkRotation(str1, str2));
+```
+
+> ### Q28 - Write a Program to check whether a string is a valid shuffle of two strings or not
+
+```js
+function isShuffle(str, str1, str2) {
+    if (str1.length + str2.length !== str.length) {
+        return false;
+    }
+
+    let i = 0, j = 0, k = 0;
+    while (k < str.length) {
+        if (i < str1.length && str[k] === str1[i]) {
+            i++;
+        } else if (j < str2.length && str[k] === str2[j]) {
+            j++;
+        } else {
+            return false;
+        }
+        k++;
+    }
+    return true;
+}
+
+// Example usage:
+const string = "abcde";
+const string1 = "ab";
+const string2 = "cde";
+console.log(isShuffle(string, string1, string2)); // Output: true
+
+const invalidString = "bacde";
+console.log(isShuffle(invalidString, string1, string2)); // Output: false
+```
+
+> ### Q29 - Balanced Parenthesis problem.
+the function should return 'true' for exp = “[()]{}{[()()]()}” and 'false' for exp = “[(])”.
+
+```js
+function isBalanced(str) {
+    const stack = [];
+    const pairs = {
+        '(': ')',
+        '[': ']',
+        '{': '}'
+    };
+    for (let char of str) {
+        if (pairs[char]) {
+            stack.push(char);
+        } else if (char === ')' || char === ']' || char === '}') {
+            if (pairs[stack.pop()] !== char) {
+                return false;
+            }
+        }
+    }
+
+    return stack.length === 0;
+}
+
+// Example usage:
+console.log(isBalanced("[(())]{}{[()()]()}")); // Output: true
+console.log(isBalanced("[(])"));  // Output: false
+```
+
+
