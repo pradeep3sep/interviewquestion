@@ -1021,4 +1021,71 @@ const end = start + arr1.length;
 console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 ```
 
+> ### Q41 - Find all permutations of string
+ const str = "ABC"
+ output => ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
 
+ ```js
+ function permutations(str) {
+    let result = [];
+
+    // Base case: if the string has only one character, return it as the only permutation
+    if (str.length === 1) {
+        result.push(str);
+        return result;
+    }
+
+    for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+        // Exclude the current character and get the rest of the string
+        const remainingChars = str.slice(0, i) + str.slice(i + 1);
+
+        // Recursively find permutations of the remaining characters
+        const perms = permutations(remainingChars);
+
+        // Add the current character to the beginning of each permutation of the remaining characters
+        for (const perm of perms) {
+            result.push(char + perm);
+        }
+    }
+
+    return result;
+}
+
+// Example usage:
+const inputString = "abc";
+const result = permutations(inputString);
+console.log(result);
+```
+
+> ### Q42 - Find missing number from an array 1 to n. ( sum of 1 to n and subtract all one by one to get missing number )
+
+ const arr = [1,2,3,5,6] 
+ output =>  missing number is 4
+
+```js
+const arr = [1, 2, 3, 5, 6];
+const n = arr.length + 1; // + 1 for missing number
+
+  // 1) using sum and minus
+function findMissing(arr, n) {
+let total = (n * (n + 1)) / 2;
+
+    for (let num of arr) {
+      total -= num;
+    }
+    return total;
+}
+console.log(findMissing(arr, n)); // 4
+
+  // 2) Using sorting and for loop
+let missing;
+
+for (let i = 1; i < arr.length; i++) {
+    if (arr[i] !== arr[i - 1] + 1) {
+      missing = arr[i] - 1;
+    }
+}
+
+console.log(missing);
+```
