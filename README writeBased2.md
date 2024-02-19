@@ -1089,3 +1089,86 @@ for (let i = 1; i < arr.length; i++) {
 
 console.log(missing);
 ```
+
+> ### Q44 - Remove duplicate items object from an array
+const arr = [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 5 }]
+output => [{ id: 1 }, { id: 2 }, { id: 5 }]
+
+```js
+const arr = [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 5 }];
+
+  // using map ( filter won't work beacuse of diff object reference )
+let map = new Map();
+let result = [];
+
+for (let item of arr) {
+    if (!map.has(item.id)) {
+      map.set(item.id, true);
+      result.push(item);
+    }
+}
+
+console.log(result); // [ { id: 1 }, { id: 2 }, { id: 5 } ]
+```
+
+> ### Q45 - Check all the chars are unique in string
+const str = "Jayesh"
+output => true
+
+const str = "boss"
+output => false
+
+```js
+const str = "Jayesh";
+const str2 = "boss";
+
+function checkAllCharUnique(s) {
+    let obj = {};
+
+    for (let char of s.split("")) {
+        if (obj[char]) {
+            return false;
+        } else {
+            obj[char] = true;
+        }
+    }
+
+    return true;
+}
+
+console.log(checkAllCharUnique(str)); // true
+console.log(checkAllCharUnique(str2)); // false
+```
+
+
+> ### 47 - Implement Deep copy of an object ( deepClone )
+
+const obj1 = { a: 10, b: { x: 20 } };
+const obj2 = deepClone(obj1);
+obj2.b.x = 90;
+
+console.log(obj1); // { a: 10, b: { x: 20 } }
+console.log(obj2); // { a: 10, b: { x: 90 } }
+
+```js
+function deepClone(obj) {
+    let clone = {};
+
+    for (let key in obj) {
+        if (typeof obj[key] === "object") {
+            clone[key] = deepClone(obj[key]);
+        } else {
+            clone[key] = obj[key];
+        }
+    }
+
+    return clone;
+}
+
+const obj1 = { a: 10, b: { x: 20 } };
+const obj2 = deepClone(obj1);
+obj2.b.x = 90;
+
+console.log(obj1); // { a: 10, b: { x: 20 } }
+console.log(obj2); // { a: 10, b: { x: 90 } }
+```
