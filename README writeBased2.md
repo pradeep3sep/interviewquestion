@@ -1172,3 +1172,1231 @@ obj2.b.x = 90;
 console.log(obj1); // { a: 10, b: { x: 20 } }
 console.log(obj2); // { a: 10, b: { x: 90 } }
 ```
+
+> ### Q48 - String compression
+const str = "aaaaaabbcc"
+output => 'a6b2c2'
+
+```js
+const str = "aaaaaabbcc";
+
+function compress(s) {
+    let compressed = "";
+    let map = new Map();
+
+    for (let char of s.split("")) {
+        if (!map.has(char)) {
+            map.set(char, 1);
+        } else {
+            let prevCount = map.get(char);
+            map.set(char, prevCount + 1);
+        }
+    }
+
+    console.log(map);
+
+    for (let [key, value] of map) {
+        compressed += key + value;
+    }
+
+    return compressed;
+}
+
+console.log(compress(str));
+```
+
+> ### Q49 - Check two given strings are isomorphic in JavaScript
+Two strings are said to be isomorphic if it is possible to map every character of the first string to every character 
+of the second string. Basically, in isomorphic strings, there is a one-to-one mapping between every character of 
+the first string to every character of the second string
+
+str1 = 'ABCA'
+str2 = 'XYZX'
+'A' maps to 'X'
+'B' maps to 'Y'
+'C' maps to 'Z' true
+
+str1 = 'ABCA'
+str2 = 'WXYZ'
+'A' maps to 'W'
+'B' maps to 'X'
+'C' maps to 'Y'
+'A' again maps to 'Z' false
+
+```js
+
+const str1 = "ABCA";
+const str2 = "XYZX";
+
+const str3 = "ABCA";
+const str4 = "WXYZ";
+
+function checkIsomorphic(s1, s2) {
+    let map = {};
+    if (s1.length !== s2.length) {
+        return false;
+    }
+
+    for (let i = 0; i < s1.length; i++) {
+        if (map[s1[i]]) {
+            if (map[s1[i]] !== s2[i]) {
+                return false;
+            }
+        } else {
+            map[s1[i]] = s2[i];
+        }
+    }
+
+    return true;
+}
+console.log(checkIsomorphic(str1, str2));
+console.log(checkIsomorphic(str3, str4));
+```
+
+> ### Q50 - find count of given digit ( 0 to 9 ) in range 1 to 250
+output => 4 -> 52, 9 -> 43
+
+```js
+let digit = 4;
+let range = 250;
+let count = 0;
+
+function checkNumber(num) {
+    while (num !== 0) {
+        let r = num % 10;
+        num = parseInt(num / 10);
+        if (r === digit) {
+            return true;
+        }
+    }
+    return false;
+}
+
+for (let i = 1; i <= range; i++) {
+    if (checkNumber(i)) {
+        count++;
+    }
+}
+console.log(count);
+```
+
+> ### Q51 - compare ONE-LEVEL object ( custom without JSON.stringify())
+const obj1 = { a: 20, b:40 }
+const obj2 = { a: 20, b:40 }
+
+```js
+const obj1 = { a: 20, b: 40 };
+const obj2 = { a: 20, b: 40 };
+const obj3 = { a: 20, b: 50 };
+
+function compareObj(o1, o2) {
+    let props1 = Object.keys(o1);
+    let props2 = Object.keys(o2);
+
+    if (props1.length !== props2.length) {
+        return false;
+    }
+
+    for (let prop of props1) {
+        if (o1[prop] !== o2[prop]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+console.log(compareObj(obj1, obj2)); // true
+console.log(compareObj(obj1, obj3)); // true
+```
+
+> ### Q52 -  Find all subsets of an array
+const arr = [1, 2, 3];
+output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
+
+```js
+function generateSubsets(arr) {
+    const subsets = [[]];
+
+    function generate(index, currentSubset) {
+        for (let i = index; i < arr.length; i++) {
+            currentSubset.push(arr[i]);
+            subsets.push([...currentSubset]);
+            generate(i + 1, currentSubset);
+            currentSubset.pop();
+        }
+    }
+
+    generate(0, []);
+
+    return subsets;
+}
+
+const arr = [1, 2, 3];
+console.log(generateSubsets(arr));
+```
+
+> ### 53 - Filter array of objects with exclude array
+
+let items = [
+  { color: "red", type: "tv" },
+  { color: "silver", type: "phone" },
+  { color: "black", type: "phone" },
+  { color: "blue", type: "phone" },
+];
+
+let excludes = [
+  { k: "color", v: "silver" },
+  { k: "type", v: "tv" },
+];
+
+output:- [ 
+  { color: "black", type: "phone" },
+  { color: "blue", type: "phone" },
+];
+
+```js
+let items = [
+  { color: "red", type: "tv" },
+  { color: "silver", type: "phone" },
+  { color: "black", type: "phone" },
+  { color: "blue", type: "phone" },
+];
+
+let excludes = [
+  { k: "color", v: "silver" },
+  { k: "type", v: "tv" },
+];
+
+let filteredItems = items.filter(item => {
+  return !excludes.some(exclude => item[exclude.k] === exclude.v);
+});
+
+console.log(filteredItems);
+```
+
+below is without in-built
+```js
+let items = [
+  { color: "red", type: "tv" },
+  { color: "silver", type: "phone" },
+  { color: "black", type: "phone" },
+  { color: "blue", type: "phone" },
+];
+
+let excludes = [
+  { k: "color", v: "silver" },
+  { k: "type", v: "tv" },
+];
+
+let filteredItems = [];
+
+for (let i = 0; i < items.length; i++) {
+  let includeItem = true;
+  for (let j = 0; j < excludes.length; j++) {
+    if (items[i][excludes[j].k] === excludes[j].v) {
+      includeItem = false;
+      break;
+    }
+  }
+  if (includeItem) {
+    filteredItems.push(items[i]);
+  }
+}
+
+console.log(filteredItems);
+```
+
+> ### 54 - Moving selected item at the end of an array ( move all 0 to end I.M.P )
+const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7]; selected item = 3
+output => [1, 2, 4, 5, 6, 7, 3, 3, 3];
+
+```js
+const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7];
+const selectedItem = 3;
+
+// Filter out the selected item from the array
+const filteredArr = arr.filter(item => item !== selectedItem);
+
+// Count how many times the selected item occurred
+const count = arr.length - filteredArr.length;
+
+// Push the selected item to the end of the filtered array the number of times it occurred
+for (let i = 0; i < count; i++) {
+    filteredArr.push(selectedItem);
+}
+
+console.log(filteredArr);
+```
+
+without in-built method
+
+```js
+const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7];
+const selectedItem = 3;
+
+// Loop through the array and move the selected item to the end
+for (let i = 0; i < arr.length; i++) {
+    if (arr[i] === selectedItem) {
+        // Remove the selected item from its current position
+        const removedItem = arr.splice(i, 1)[0];
+        // Push the removed item to the end of the array
+        arr.push(removedItem);
+        // Since we moved an element, decrement i to stay at the same position in the next iteration
+        i--;
+    }
+}
+
+console.log(arr);
+```
+
+> ### Q55 - write a program to print the first non-repeated number in an array.
+const arr = [1, 2, 3, 1, 2, 4, 5]
+output => 3
+
+```js
+function firstNonRepeated(arr) {
+    const counts = {};
+    
+    // Count occurrences of each number
+    for (const num of arr) {
+        counts[num] = (counts[num] || 0) + 1;
+    }
+    
+    // Find the first non-repeated number
+    for (const num of arr) {
+        if (counts[num] === 1) {
+            return num;
+        }
+    }
+    
+    // If no non-repeated number found, return null or any other default value as per your requirement
+    return null;
+}
+
+const arr = [1, 2, 3, 1, 2, 4, 5];
+console.log(firstNonRepeated(arr)); // Output: 3
+```
+
+> ### Q56 -  Find all the common elements from the arrays ( not sorted ) .
+const arr = [1, 100, 10, 20, 50];
+const arr1 = [2, 30, 21, 10, 20];
+output :- [ 10, 20 ]
+
+```js
+const arr = [1, 100, 10, 20, 50];
+const arr1 = [2, 30, 21, 10, 20];
+
+const set = new Set(arr);
+const commonElements = arr1.filter(item => set.has(item));
+
+console.log(commonElements); // Output: [10, 20]
+```
+
+```js
+function findCommonElements(arr1, arr2) {
+    const common = [];
+    const map = {};
+    
+    // Populate map with elements from arr1
+    for (const num of arr1) {
+        map[num] = true;
+    }
+    
+    // Iterate through arr2 and check if elements exist in the map
+    for (const num of arr2) {
+        if (map[num]) {
+            common.push(num);
+            // Remove the element from map to avoid duplicates
+            delete map[num];
+        }
+    }
+    
+    return common;
+}
+
+const arr = [1, 100, 10, 20, 50];
+const arr1 = [2, 30, 21, 10, 20];
+
+const commonElements = findCommonElements(arr, arr1);
+console.log(commonElements); // Output: [10, 20]
+```
+
+> ### 57 - Array of objects manipulatiion.
+a) declare array of employees & sort them in ascending order (empId)
+b) declare an array of employees & sort them in ascending order by name.
+c) declare array of employees & filter the employees whose sal>6000;
+d) declare array of employees & increase sal of every employee by 500;
+e) declare array of employees & add "comp:ibm" to every employee;
+
+```js
+const employees = [
+    { empId: 1, name: "John", salary: 8000 },
+    { empId: 3, name: "Ana", salary: 4000 },
+    { empId: 2, name: "Zion", salary: 7000 },
+];
+
+// a) declare array of employees & sort them in ascending order (empId)
+employees.sort((a, b) => a.empId - b.empId);
+console.log(employees);
+
+// b) declare an array of employees & sort them in ascending order by name.
+employees.sort((a, b) => {
+    if (a.name > b.name) {
+        return 1;
+    } else if (a.name < b.name) {
+        return -1;
+    } else {
+        return 0;
+    }
+});
+console.log(employees);
+
+// c) declare array of employees & filter the employees whose sal>6000;
+const result = employees.filter((employee) => {
+    return employee.salary > 6000;
+});
+console.log(result);
+
+// d) declare array of employees & increase sal of every employee by 500;
+const increaseSal = employees.map((employee) => ({
+    ...employee,
+    salary: employee.salary + 500,
+}));
+console.log(increaseSal);
+
+// e) declare array of employees & add "comp:ibm" to every employee;
+const addIbm = employees.map((employee) => ({ ...employee, comp: "IBM" }));
+console.log(addIbm);
+```
+
+
+> ### Q58 - Add Dept info for each employee.
+
+```js
+const employees = [
+    { eId: 101, name: "sanjay", sal: 5000, gender: "male" },
+    { eId: 104, name: "reena", sal: 8000, gender: "female" },
+];
+
+const departments = [
+    { eId: 101, dept: "sales" },
+    { eId: 104, dept: "manager" },
+];
+
+const updatedEmployees = employees.map((employee) => {
+    let department = departments.find((department) => {
+        if (department.eId === employee.eId) {
+            return true;
+        }
+    }).dept;
+
+    return { ...employee, dept: department };
+});
+
+console.log(updatedEmployees);
+```
+
+> ### Q59 - WAP to print Account number
+input:- '12345678987'
+output:- '12*******87'
+
+```js
+let accountNo = "12345678987";
+accountNo = accountNo.split("");
+for (let i = 2; i < accountNo.length - 2; i++) {
+    accountNo[i] = "*";
+}
+console.log(accountNo.join(""));
+```
+
+> ### Q60 - WAP to print Credit-card number
+input:- '1111222233334444'
+output:- '1111-2222-3333-4444'
+
+```js
+const str = "1111222233334444";
+const result = [];
+
+for (let i = 1; i < str.length; i++) {
+    if (i % 4 === 0) {
+        result.push(str.slice(i - 4, i));
+    }
+}
+result.push(str.slice(-4));
+
+console.log(result.join("-"));
+```
+
+> ### Q61 - WAP to remove special character from a string
+input:- 'hello@#hi&'
+output:- 'hellohi'
+
+```js
+const str = "hello@#hi&";
+console.log(str.replace(/[^a-zA-Z0-9 ]/g, ""));
+```
+
+> ### Q62 - WAP to move all the special characters to the end of the string
+
+input:- 'hello@#hi&'
+output:- 'hellohi@#&'
+
+```js
+function moveSpecialCharactersToEnd(inputString) {
+    // Separate alphabetic characters and special characters
+    let alphabeticChars = '';
+    let specialChars = '';
+    
+    for (let i = 0; i < inputString.length; i++) {
+        if (/[a-zA-Z]/.test(inputString[i])) {
+            alphabeticChars += inputString[i];
+        } else {
+            specialChars += inputString[i];
+        }
+    }
+    
+    // Concatenate alphabetic characters and special characters
+    return alphabeticChars + specialChars;
+}
+
+// Test the function
+let input = 'hello@#hi&';
+let output = moveSpecialCharactersToEnd(input);
+console.log(output); // Output will be 'hellohi@#&'
+```
+
+> ### Q63 - Covert char into word
+const input = ["c", "a", "k", "e", "", "e", "a", "t", "", "m", "a", "t", "e", "" ];
+output => ["cake", "eat", "mate"];
+
+```js
+const input = ["c","a","k","e","","e","a","t","","m","a","t","e",""];
+
+const output = [];
+let temp = "";
+
+for (let i = 0; i < input.length; i++) {
+    if (input[i] === "") {
+        output.push(temp);
+        temp = "";
+    } else {
+        temp += input[i];
+    }
+}
+
+console.log(output); // [ 'cake', 'eat', 'mate' ]
+```
+
+> ### Q64 - String Capatalize
+
+let arr = ["jayesh choudhary", "ankit sharma"];
+Output: JayeshChoudhary , AnkitSharma
+
+```js
+let arr = ["jayesh choudhary", "ankit sharma"];
+
+for (let i = 0; i < arr.length; i++) {
+    let string = arr[i];
+    let res = "";
+    for (let j = 0; j < string.length; j++) {
+        if (j === 0 || string[j - 1] === " ") {
+            res = res + string[j].toUpperCase();
+        } else if (string[j] === " ") {
+            continue;
+        } else {
+            res = res + string[j];
+        }
+    }
+    console.log(res);
+}
+```
+
+> ### Q65 - Rearrange array of Objects
+/* 
+[ { id: '1', name: 'number1' },
+  { id: '2', name: 'number2' },
+  { id: '3', name: 'number3' },
+  { id: 'S1', name: 'number4' },
+  { id: '4', name: 'number4' } ]
+       
+Output :-
+[ { id: 'S1', name: 'number4' },
+  { id: '1', name: 'number1' },
+  { id: '2', name: 'number2' },
+  { id: '3', name: 'number3' },
+  { id: '4', name: 'number4' } ]
+
+```js
+const arr = [
+    { id: "1", name: "number1" },
+    { id: "2", name: "number2" },
+    { id: "3", name: "number3" },
+    { id: "S1", name: "number4" },
+    { id: "4", name: "number4" },
+];
+
+let front = [];
+let back = [];
+
+arr.forEach((obj) => (isNaN(obj.id) ? front.push(obj) : back.push(obj)));
+console.log([...front, ...back]);
+```
+
+> ### Q66 - Mapping array
+ 
+let friends = [
+  { name: "chris", age: 13, books: ["sherlock holmes", "english"] },
+  { name: "john", age: 13, books: ["bible", "harry potter"] },
+  { name: "jack", age: 21, books: ["Alchemist", "Java"] },
+  { name: "jack", age: 21, books: ["Wings of fire”,”Davinci code"] },
+  { name: "holmes", age: 23, books: ["Invisible man”,”The Rainbow"] },
+];
+
+Output:-
+{
+  13: ["sherlock holmes", "english", "bible", "harry potter"],
+  21: ["Alchemist", "Java", "Wings of fire”,”Davinci code"],
+  23: ["Invisible man”,”The Rainbow"]
+}
+
+```js
+const friends = [
+    { name: "chris", age: 13, books: ["sherlock holmes", "english"] },
+    { name: "john", age: 13, books: ["bible", "harry potter"] },
+    { name: "jack", age: 21, books: ["Alchemist", "Java"] },
+    { name: "jack", age: 21, books: ["Wings of fire”,”Davinci code"] },
+    { name: "holmes", age: 23, books: ["Invisible man”,”The Rainbow"] },
+];
+const result = {};
+
+friends.forEach((friend) => {
+    if (result[friend.age]) {
+        result[friend.age] = [...result[friend.age], ...friend.books];
+    } else {
+        result[friend.age] = [...friend.books];
+    }
+});
+
+console.log(result);
+```
+
+> ### Q67 - Find peak elements from an array, An element is called a peak element if its value is not smaller than the value of its adjacent elements(if they exists).
+
+const arr = [1, 2, 3, 77, 6, 99, 2];
+output :- [ 77, 99 ]
+
+```js
+function findPeakElements(arr) {
+    const peaks = [];
+    
+    for (let i = 0; i < arr.length; i++) {
+        if ((i === 0 || arr[i] >= arr[i - 1]) && (i === arr.length - 1 || arr[i] >= arr[i + 1])) {
+            peaks.push(arr[i]);
+        }
+    }
+    
+    return peaks;
+}
+
+const arr = [1, 2, 3, 77, 6, 99, 2];
+console.log(findPeakElements(arr)); // Output: [77, 99]
+```
+
+> ### Q68 - find continuous sub-array which adds up to a given number.
+
+A[] = [1,2,3,7,5] , S = 12
+Output: [ 2, 3, 7 ], [ 7, 5 ]
+Explanation: The sum of elements from 2nd position to 4th position is 12. 
+
+```js
+function findSubArrayWithSum(arr, targetSum) {
+    let start = 0;
+    let end = 0;
+    let sum = 0;
+    const result = [];
+
+    while (end < arr.length) {
+        sum += arr[end];
+
+        while (sum > targetSum) {
+            sum -= arr[start];
+            start++;
+        }
+
+        if (sum === targetSum) {
+            result.push(arr.slice(start, end + 1));
+            sum -= arr[start];
+            start++;
+        }
+
+        end++;
+    }
+
+    return result;
+}
+
+const A = [1, 2, 3, 7, 5];
+const S = 12;
+console.log(findSubArrayWithSum(A, S));
+```
+
+> ### Q69 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
+
+Input: S = Bawds jog, flick quartz, vex nymph
+Output: 1
+Explanation: In the given input, there are all the letters of the English alphabet. Hence, the output is 1.
+
+```js
+const str = "Bawds jog, flick quartz, vex nymph";
+
+function checkPanagram(str) {
+    const alphabets = "abcdefghijklmnopqrstuvwxyz";
+    str = str.toLowerCase();
+
+    for (let char of alphabets) {
+        if (!str.includes(char)) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
+console.log(checkPanagram(str));
+```
+
+> ### Q70 - Print all subsequences of a string
+
+Input : abc
+Output : a, b, c, ab, bc, ac, abc
+
+Input : aaa
+Output : a, a, a, aa, aa, aa, aaa
+
+```js
+function generateSubsequences(str, index = 0, current = '') {
+    const n = str.length;
+
+    // Base case: if index has reached the end of the string
+    if (index === n) {
+        if (current !== '') {
+            console.log(current); // Print the current subsequence
+        }
+        return;
+    }
+
+    // Case 1: Include current character in the subsequence
+    generateSubsequences(str, index + 1, current + str[index]);
+
+    // Case 2: Exclude current character from the subsequence
+    generateSubsequences(str, index + 1, current);
+}
+
+// Test cases
+console.log("Input: abc");
+generateSubsequences("abc");
+
+console.log("\nInput: aaa");
+generateSubsequences("aaa");
+```
+
+> ### Q71 -  Program to convert time from 12 hour to 24 hour format
+
+Input : 07:05:45PM
+Output : 19:05:45
+
+```js
+function convertTime12to24(time12) {
+    // Extracting hours, minutes, seconds, and AM/PM indicator
+    var time = time12.slice(0, -2).split(':');
+    var hours = parseInt(time[0]);
+    var minutes = parseInt(time[1]);
+    var seconds = parseInt(time[2]);
+    var indicator = time12.slice(-2);
+
+    // Converting to 24-hour format
+    if (indicator === 'PM' && hours < 12) {
+        hours = hours + 12;
+    } else if (indicator === 'AM' && hours === 12) {
+        hours = 0;
+    }
+
+    // Formatting the output
+    var hoursStr = hours.toString().padStart(2, '0');
+    var minutesStr = minutes.toString().padStart(2, '0');
+    var secondsStr = seconds.toString().padStart(2, '0');
+
+    return `${hoursStr}:${minutesStr}:${secondsStr}`;
+}
+
+// Test the function
+var inputTime = "07:05:45PM";
+var outputTime = convertTime12to24(inputTime);
+console.log("Output:", outputTime); // Output: 19:05:45
+```
+
+
+> ### 72 -  Program to calculate the number of days between two dates
+var date1 = new Date("06/30/2019");
+var date2 = new Date("07/30/2019");
+output => 30 
+
+```js
+const date1 = new Date("06/29/2019");
+const date2 = new Date("07/30/2019");
+
+timeDifference = date2.getTime() - date1.getTime();
+//--------------------------- sec   min   hr   day
+const day = timeDifference / (1000 * 60 * 60 * 24);
+console.log(day);
+```
+
+> ### Q74 - Print the middle character of the word. If the word's length is odd, return the middle character. If the word's length is even, return the middle 2 characters.
+
+"test" => "es"
+"testing" => "t"
+"middle" => "dd"
+"A" => "A"
+
+
+```js
+function getMiddleCharacter(word) {
+    if (word.length % 2 === 0) {
+        // If the length is even, return the middle two characters
+        return word.substring(word.length / 2 - 1, word.length / 2 + 1);
+    } else {
+        // If the length is odd, return the middle character
+        return word.charAt(Math.floor(word.length / 2));
+    }
+}
+
+// Test cases
+console.log(getMiddleCharacter("test")); // Output: "es"
+console.log(getMiddleCharacter("testing")); // Output: "t"
+console.log(getMiddleCharacter("middle")); // Output: "dd"
+console.log(getMiddleCharacter("A")); // Output: "A"
+```
+
+> ### Q75 -  Remove given character from string.
+
+const str = "Jayesh";
+const char = "a";
+output = "Jyesh";
+
+```js
+const str = "Jayesh";
+const char = "a";
+
+let result = "";
+
+for (let c of str) {
+    if (c !== char) {
+        result += c;
+    }
+}
+
+console.log(result);
+```
+
+> ### Q76 - Spell out numbers ( convert numbers which are less than 100 into words ).
+
+spellNumber(50) => 'Fifty' 
+spellNumber(99) => 'Ninety Nine' 
+spellNumber(14632) => 'Fourteen Thousand Six Hundred Thirty Two' 
+spellNumber(7483647) => 'Seventy Four Lakh Eighty Three Thousand Six Hundred Forty Seven' 
+spellNumber(997751076) => 'Ninety Nine Crore Seventy Seven Lakh Fifty One Thousand Seventy Six'
+
+```js
+
+function spellNumber(number) {
+    const singleDigits = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
+    const teenNumbers = ['', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
+    const tens = ['', 'Ten', 'Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety'];
+
+    function convertLessThanOneThousand(n) {
+        let result = '';
+
+        if (n >= 100) {
+            result += singleDigits[Math.floor(n / 100)] + ' Hundred ';
+            n %= 100;
+        }
+
+        if (n >= 11 && n <= 19) {
+            return result + teenNumbers[n - 10];
+        } else if (n === 10 || n >= 20) {
+            result += tens[Math.floor(n / 10)] + ' ';
+            n %= 10;
+        }
+
+        if (n > 0) {
+            result += singleDigits[n];
+        }
+
+        return result.trim();
+    }
+
+    if (number === 0) return 'Zero';
+
+    let result = '';
+    let crores = Math.floor(number / 10000000);
+    let lakhs = Math.floor((number % 10000000) / 100000);
+    let thousands = Math.floor((number % 100000) / 1000);
+    let remaining = number % 1000;
+
+    if (crores > 0) {
+        result += convertLessThanOneThousand(crores) + ' Crore ';
+    }
+    if (lakhs > 0) {
+        result += convertLessThanOneThousand(lakhs) + ' Lakh ';
+    }
+    if (thousands > 0) {
+        result += convertLessThanOneThousand(thousands) + ' Thousand ';
+    }
+    if (remaining > 0) {
+        result += convertLessThanOneThousand(remaining);
+    }
+
+    return result.trim();
+}
+
+console.log(spellNumber(50)); // Fifty
+console.log(spellNumber(99)); // Ninety Nine
+console.log(spellNumber(14632)); // Fourteen Thousand Six Hundred Thirty Two
+console.log(spellNumber(7483647)); // Seventy Four Lakh Eighty Three Thousand Six Hundred Forty Seven
+console.log(spellNumber(997751076)); // Ninety Nine Crore Seventy Seven Lakh Fifty One Thousand Seventy Six
+```
+
+
+> ### Q77 - Array of objects Manipulation
+
+const portfolio = [
+  { name: "Mark", stock: "FB" },
+  { name: "Steve", stock: "AAPL" },
+  { name: "Tim", stock: "AAPL" },
+  { name: "Steve", stock: "MSFT" },
+  { name: "Bill", stock: "MSFT" },
+  { name: "Bill", stock: "AAPL" },
+];
+
+Output 
+const shareholder = [
+  { stock: "AAPL", name: ["Steve", "Bill", "Tim"], count: 3 },
+  { stock: "MSFT", name: ["Steve", "Bill"], count: 2 },
+  { stock: "FB", name: ["Mark"], count: 1 },
+];
+
+```js
+const portfolio = [
+  { name: "Mark", stock: "FB" },
+  { name: "Steve", stock: "AAPL" },
+  { name: "Tim", stock: "AAPL" },
+  { name: "Steve", stock: "MSFT" },
+  { name: "Bill", stock: "MSFT" },
+  { name: "Bill", stock: "AAPL" },
+];
+
+const shareholderObj = {};
+
+portfolio.forEach(({ name, stock }) => {
+  if (!shareholderObj[stock]) {
+    shareholderObj[stock] = { stock, name: [name], count: 1 };
+  } else {
+    if (!shareholderObj[stock].name.includes(name)) {
+      shareholderObj[stock].name.push(name);
+      shareholderObj[stock].count++;
+    }
+  }
+});
+
+const shareholder = Object.values(shareholderObj);
+
+console.log(shareholder);
+```
+
+> ### Q78 - Finding sum of digits of a number until sum becomes single digit
+const "5431" => "13" => "4"
+
+```js
+function sumOfDigits(num) {
+    // Convert the number to a string to iterate through its digits
+    let strNum = num.toString();
+
+    // Base case: If the number has only one digit, return it
+    if (strNum.length === 1) {
+        return parseInt(strNum);
+    }
+
+    // Sum the digits of the number
+    let sum = 0;
+    for (let digit of strNum) {
+        sum += parseInt(digit);
+    }
+
+    // Recursively call the function with the sum
+    return sumOfDigits(sum);
+}
+
+// Example usage:
+const result = sumOfDigits(5431);
+console.log(result); // Output will be 4
+```
+
+> ### Q79 -  Find sum of numbers occurred only once in the array ( using only one loop )
+
+const array = [2, 5, 4, 4, 6, 5, 4, 7, 6];
+output => 2 + 7 => 9
+
+```js
+function sumOfNumbersOccurringOnce(array) {
+    const occurrences = {};
+
+    // Populate occurrences object
+    for (const num of array) {
+        occurrences[num] = (occurrences[num] || 0) + 1;
+    }
+
+    let sum = 0;
+
+    // Iterate over the occurrences object
+    for (const num in occurrences) {
+        if (occurrences[num] === 1) {
+            sum += parseInt(num);
+        }
+    }
+
+    return sum;
+}
+
+// Example usage:
+const array = [2, 5, 4, 4, 6, 5, 4, 7, 6];
+const result = sumOfNumbersOccurringOnce(array);
+console.log(result); // Output will be 9
+```
+
+> ### Q80 - Find the smallest positive number missing from an unsorted array
+
+const arr1 = [2, 3, 7, 6, 8, -1, -10, 15]; // 1
+const arr2 = [2, 3, -7, 6, 8, 1, -10, 15]; // 4
+const arr3 = [1, 1, 0, -1, -2]; // 2
+const arr4 = [3, 2, 1, 4, 5]; // 6
+
+```js
+function smallestMissingPositive(arr) {
+    const n = arr.length;
+    let present = Array(n + 1).fill(false);
+
+    // Mark elements that are positive and within the range of the array size
+    for (let i = 0; i < n; i++) {
+        if (arr[i] > 0 && arr[i] <= n) {
+            present[arr[i]] = true;
+        }
+    }
+
+    // Find the smallest positive number missing
+    for (let i = 1; i <= n; i++) {
+        if (!present[i]) {
+            return i;
+        }
+    }
+
+    // If all positive integers are present, return the next positive integer
+    return n + 1;
+}
+
+// Test cases
+const arr1 = [2, 3, 7, 6, 8, -1, -10, 15]; // 1
+const arr2 = [2, 3, -7, 6, 8, 1, -10, 15]; // 4
+const arr3 = [1, 1, 0, -1, -2]; // 2
+const arr4 = [3, 2, 1, 4, 5]; // 6
+
+console.log(smallestMissingPositive(arr1)); // Output: 1
+console.log(smallestMissingPositive(arr2)); // Output: 4
+console.log(smallestMissingPositive(arr3)); // Output: 2
+console.log(smallestMissingPositive(arr4)); // Output: 6
+```
+
+> ### Q81 - compare nested object ( custom without JSON.stringify())
+
+const obj1 = { a: 20, b: { x: 40, y: 60 } };
+const obj2 = { a: 20, b: { x: 40, y: 60 } };
+
+```js
+const obj1 = { a: 20, b: { x: 40, y: 60 } };
+const obj2 = { a: 20, b: { x: 40, y: 60 } };
+
+function compare(obj1, obj2) {
+    for (let key in obj1) {
+        if (typeof obj1[key] === "object") {
+            return compare(obj1[key], obj2[key]);
+        } else {
+            if (obj1[key] !== obj2[key]) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+console.log(compare(obj1, obj2));
+```
+
+> ### Q84 - Find the 3rd min element of an array without using index and sorting
+
+const arr = [7, 10, 4, 3, 20, 15]
+output => 7 
+
+```js
+const arr = [7, 10, 4, 3, 20, 15];
+const Max = 1000000;
+
+let min1 = Max;
+let min2 = Max;
+let min3 = Max;
+
+for (let num of arr) {
+    if (num < min1) {
+        min3 = min2;
+        min2 = min1;
+        min1 = num;
+    } else if (num < min2) {
+        min3 = min2;
+        min2 = num;
+    } else if (num < min3) {
+        min3 = num;
+    }
+}
+
+console.log(min3);
+```
+
+
+> ### Q85 - Given an array of string return group of anagrams string array
+
+const arr = ["eat", "tea", "ate", "ball", "dna", "and"]
+output => [ [ 'eat', 'tea', 'ate' ], [ 'ball' ], [ 'dna', 'and' ] ]
+
+```js
+function groupAnagrams(arr) {
+    const map = {};
+    arr.forEach(word => {
+        const sortedWord = word.split('').sort().join('');
+        if (!map[sortedWord]) {
+            map[sortedWord] = [];
+        }
+        map[sortedWord].push(word);
+    });
+
+    return Object.values(map);
+}
+
+const arr = ["eat", "tea", "ate", "ball", "dna", "and"];
+const result = groupAnagrams(arr);
+console.log(result);
+```
+
+> ### Q87 - Given a positive integer N as input , print first N prime numbers
+
+Input  : 5, Output : [2,3,5,7,11]
+Input  : 0, Output : []
+
+```js
+function generatePrimes(N) {
+    let primes = [];
+    let num = 2;
+    
+    while (primes.length < N) {
+        if (isPrime(num)) {
+            primes.push(num);
+        }
+        num++;
+    }
+    
+    return primes;
+}
+
+function isPrime(num) {
+    if (num <= 1) return false;
+    if (num <= 3) return true;
+
+    if (num % 2 === 0 || num % 3 === 0) return false;
+
+    let i = 5;
+    while (i * i <= num) {
+        if (num % i === 0 || num % (i + 2) === 0) return false;
+        i += 6;
+    }
+    return true;
+}
+
+// Test cases
+console.log(generatePrimes(5)); // Output: [2, 3, 5, 7, 11]
+console.log(generatePrimes(0)); // Output: []
+```
+
+> ### Q88 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
+
+Input  : Banana, Output : Ban12
+Input  : Jayesh, Output : Jayesh
+
+```js
+const str1 = "Banana";
+const str2 = "Jayesh";
+
+function removeDuplicateswithIndex(str) {
+    let result = "";
+    const obj = {};
+
+    for (let i = 0; i < str.length; i++) {
+        if (obj[str[i]]) {
+            obj[str[i]] = { ...obj[str[i]], count: obj[str[i]].count + 1 };
+        } else {
+            result += str[i];
+            obj[str[i]] = { firstIndex: i, count: 1 };
+        }
+    }
+
+    for (let [key, value] of Object.entries(obj)) {
+        if (value.count > 1) {
+            result += value.firstIndex;
+        }
+    }
+
+    return result;
+}
+
+console.log(removeDuplicateswithIndex(str1));
+console.log(removeDuplicateswithIndex(str2));
+```
+
+> ### Q89 -  Implement the chessBoard pattern
+W B W B W B W B
+B W B W B W B w
+W B W B W B W B
+B W B W B W B w
+W B W B W B W B
+B W B W B W B w
+W B W B W B W B
+B W B W B W B w
+
+
+```js
+function drawChessboard(rows, cols) {
+    let output = '';
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if ((i + j) % 2 === 0) {
+                output += 'W ';
+            } else {
+                output += 'B ';
+            }
+        }
+        output += '\n';
+    }
+    return output;
+}
+
+// Call the function with desired dimensions
+console.log(drawChessboard(8, 8));
+```
+
+
