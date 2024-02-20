@@ -14,7 +14,7 @@ The `continue` statement `"jumps over or skip"` one iteration in the loop.
 > ### setTimeout(functionRef, delay, param1)
 
 params is passed functionRef
-```
+```js
 setTimeout((a)=>{console.log(a)},1000,"sam")
 
 // gives sam in output
@@ -36,7 +36,7 @@ It has methods like alert(), confirm() and properties like document, location | 
 
 You can use the `<noscript>` tag to detect javascript disabled or not. The code block inside `<noscript>` gets executed when JavaScript is disabled, and is typically used to display alternative content when the page generated in JavaScript.
 
-```
+```js
 <script type="javascript">
     // JS related code goes here
 </script>
@@ -50,7 +50,7 @@ You can use the `<noscript>` tag to detect javascript disabled or not. The code 
 > ### object freeze vs seal
 * Object.freeze(obj)  ===  kuch bhi nhi ho sakta
     - Remember freezing is only applied to the top-level properties in objects but not for nested objects.
-      ```
+      ```js
       const user = {
           name: "John",
           employment: {
@@ -61,7 +61,7 @@ You can use the `<noscript>` tag to detect javascript disabled or not. The code 
         Object.freeze(user);
         user.employment.department = "HR";
       ```
-* Object.seal(obj) === new properties cannot be added, existing properties cannot be removed.Values of existing properties can still be changed as long as they are writable
+* Object.seal(obj) === new properties cannot be added, existing properties cannot be removed. `Values` of existing properties can still be `changed` as long as they are writable
 
 
 <br>
@@ -75,7 +75,7 @@ Object.isFrozen() method is used to determine if an object is frozen or not.An o
 - If all of its properties are non-configurable.
 - If all its data properties are non-writable. The usage is going to be as follows,
 
-```
+```js
 const object = {
   property: "Welcome JS world",
 };
