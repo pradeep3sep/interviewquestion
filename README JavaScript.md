@@ -170,6 +170,7 @@ The `DOMContentLoaded` event is fired when the initial `HTML document` has been 
 > ### How do you test for an empty object
 
 There are different solutions based on ECMAScript versions
+
   1. Using Object entries(ECMA 7+): You can use object entries length along with constructor type.
   ```js
   Object.entries(obj).length === 0 && obj.constructor === Object; // Since date object length is 0, you need to check constructor check as well
@@ -189,7 +190,7 @@ There are different solutions based on ECMAScript versions
       }
     }
 
-    return JSON.stringify(obj) === JSON.stringify({});
+    return true
   }
   ```
 
