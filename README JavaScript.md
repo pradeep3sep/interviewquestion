@@ -58,8 +58,8 @@ You can use the `<noscript>` tag to detect javascript disabled or not. The code 
           },
         };
         
-        Object.freeze(user);
-        user.employment.department = "HR";
+      Object.freeze(user);
+      user.employment.department = "HR";
       ```
 * Object.seal(obj) === new properties cannot be added, existing properties cannot be removed. `Values` of existing properties can still be `changed` as long as they are writable
 
@@ -147,7 +147,7 @@ Let's take an input element to detect the CapsLock on/off behavior with an examp
 > ### What is the purpose of isFinite function
 The isFinite() function is used to determine whether a number is a finite, legal number. It returns false if the value is +infinity, -infinity, or NaN (Not-a-Number), otherwise it returns true.
 
-```
+```js
 isFinite(Infinity); // false
 isFinite(NaN); // false
 isFinite(-Infinity); // false
@@ -155,26 +155,31 @@ isFinite(-Infinity); // false
 isFinite(100); // true
 ```
 
+<br>
+ 
+
 > ### What is the difference between document load and DOMContentLoaded events
 
 The `DOMContentLoaded` event is fired when the initial HTML document has been completely loaded and parsed, without waiting for assets(stylesheets, images, and subframes) to finish loading. Whereas The load event is fired when the whole page has loaded, including all dependent resources(stylesheets, images).
 
 
+<br>
+ 
 > ### How do you test for an empty object
 
 There are different solutions based on ECMAScript versions
   1. Using Object entries(ECMA 7+): You can use object entries length along with constructor type.
-  ```
+  ```js
   Object.entries(obj).length === 0 && obj.constructor === Object; // Since date object length is 0, you need to check constructor check as well
   ```
 
   2. Using Object keys(ECMA 5+): You can use object keys length along with constructor type.
-  ```
+  ```js
   Object.keys(obj).length === 0 && obj.constructor === Object; // Since date object length is 0, you need to check constructor check as well
   ```
 
   3. Using for-in with hasOwnProperty(Pre-ECMA 5): You can use a for-in loop along with hasOwnProperty.
-  ```
+  ```js
   function isEmpty(obj) {
     for (var prop in obj) {
       if (obj.hasOwnProperty(prop)) {
@@ -186,11 +191,13 @@ There are different solutions based on ECMAScript versions
   }
   ```
 
+<br>
+ 
 > ### What are js labels
 
 The label statement allows us to name loops and blocks in JavaScript. We can then use these labels to refer back to the code later. For example, the below code with labels avoids printing the numbers when they are same,
 
-```
+```js
 var i, j;
 
 loop1: for (i = 0; i < 3; i++) {
@@ -210,16 +217,14 @@ loop1: for (i = 0; i < 3; i++) {
 
 
 
-
-
-
-
+<br>
+ 
 > ### What are javascript accessors
 
 ECMAScript 5 introduced javascript object accessors or computed properties through getters and setters. Getters uses the `get` keyword whereas Setters uses the `set` keyword.
 
 
-```
+```js
 var user = {
   firstName: "John",
   lastName: "Abraham",
@@ -236,6 +241,8 @@ user.lang = "fr";
 console.log(user.lang); // setter used to set lang as "fr"
 ```
 
+<br>
+ 
 > ### How does synchronous iteration works
 
 Synchronous iteration was introduced in ES6 and it works with below set of components,
@@ -244,7 +251,7 @@ Synchronous iteration was introduced in ES6 and it works with below set of compo
 
 Let's demonstrate synchronous iteration with an array as below,
 
-```
+```js
 const iterable = ["one", "two", "three"];
 const iterator = iterable[Symbol.iterator]();
 console.log(iterator.next()); // { value: 'one', done: false }
@@ -253,6 +260,9 @@ console.log(iterator.next()); // { value: 'three', done: false }
 console.log(iterator.next()); // { value: 'undefined, done: true }
 ```
 
+
+<br>
+ 
 > ### Generator 
 Generator is a function that can be paused and resumed from where it was paused. It is written as the function keyword followed by an asterisk (*).
 Generator returns a Generator object that is used by calling the next method.
@@ -434,11 +444,13 @@ Third task resolved
 
 
 
+<br>
+ 
 > ### How do you set prototype of one object to another
 
 You can use the `Object.setPrototypeOf()` method that sets the prototype (i.e., the internal `Prototype` property) of a specified object to another object or null. For example, if you want to set prototype of a square object to rectangle object would be as follows,
 
-```
+```js
 Object.setPrototypeOf(Square.prototype, Rectangle.prototype);
 Object.setPrototypeOf({}, null);
 ```
@@ -447,7 +459,7 @@ Object.setPrototypeOf({}, null);
 
 The `Object.isExtensible()` method is used to determine if an object is extendable or not. i.e, Whether it can have new properties added to it or not.
 
-```
+```js
 const newObject = {};
 console.log(Object.isExtensible(newObject)); //true
 ```
@@ -524,6 +536,8 @@ console.log(sumResult); // 15
 ```
 
 
+<br>
+ 
 > ### What are the different error names from error object
 
 There are 6 different types of error names returned from error object,
@@ -539,25 +553,27 @@ URIError	| An error due to encodeURI()
 
 
 > ### Keep in mind below
-```
+```js
 const a = {}
 const b = {}
 console.log(a === b)  // false
 ```
 
-```
+```js
 const a = {}
 const b = a
 console.log(a === b)  // true
 ```
 
+<br>
+ 
 > ### Number.isNaN() vs global isNaN()
 
 Number.isNaN() doesn't attempt to convert the parameter to a number, so non-numbers always return false. 
 
 Number.isNaN() return true if the given value is a number with value NaN. Otherwise, false. 
 
-```
+```js
 Number.isNaN(NaN); // true
 Number.isNaN(Number.NaN); // true
 Number.isNaN(0 / 0); // true
@@ -579,7 +595,7 @@ Number.isNaN(" ");
 isNaN()
 
 The isNaN() function determines whether a value is NaN, first converting the value to a number if necessary
-```
+```js
 isNaN(NaN); // true
 isNaN(undefined); // true
 isNaN({}); // true
@@ -606,20 +622,24 @@ isNaN([1]); // false; the primitive representation is "1"
 isNaN([1, 2]); // true; the primitive representation is "1,2", which cannot be parsed as number
 ```
 
+<br>
+ 
 > ### Promise
 Promise is pending state object which can be either fulfilled or rejected in future.
 
-```
+```js
 const promise = new Promise(function (resolve, reject) {
   // promise description
 });
 ```
 The above condition gives promise of state pending which can be fullfilled or reject
 
+<br>
+ 
 ##### Promise resolve() method 
 The promise.resolve() is a `static method` of class Promise in JS returns a Promise object that is resolved in state
 
-```
+```js
 let promise = Promise.resolve(17468);
 
 promise.then(function (val) {
@@ -634,10 +654,12 @@ console.log(promise)
 //  [[PromiseResult]]: 17468
 ```
 
+<br>
+ 
 > #### What is the purpose of the race method in promise
 Promise.race() method will return the promise instance which is firstly resolved or rejected. Let's take an example of race() method where promise2 is resolved first
 
-```
+```js
 var promise1 = new Promise(function (resolve, reject) {
   setTimeout(resolve, 500, "one");
 });
@@ -650,10 +672,12 @@ Promise.race([promise1, promise2]).then(function (value) {
 });
 ```
 
+<br>
+ 
 > #### What is a callback function
 A callback function is a function passed into another function as an argument. This function is invoked inside the outer function to complete an action. Let's take a simple example of how to use callback function
 
-```
+```js
 function callbackFunction(name) {
   console.log("Hello " + name);
 }
@@ -666,10 +690,12 @@ function outerFunction(callback) {
 outerFunction(callbackFunction);
 ```
 
+<br>
+ 
 > #### What is a callback hell
 Callback Hell is an anti-pattern with multiple nested callbacks which makes code hard to read and debug when dealing with asynchronous logic. The callback hell looks like below,
 
-```
+```js
 async1(function(){
     async2(function(){
         async3(function(){
@@ -755,12 +781,14 @@ stepOne(function () {
 
 
 
+<br>
+ 
 
 
 > ### Web Worker
 Some task which are sync and very lengthy task and that could block the main thread and block the UI. then we perform that task in other thread called worker thread which is in browser separate from the js single thread. This happens in the background.
 
-```
+```js
 // 1.Creating a Web Worker:
 
 // main.js
@@ -800,7 +828,7 @@ myWorker.terminate();
 ```
 
 How do you check web workers browser support
-```
+```js
 if (typeof Worker !== "undefined") {
   // code for Web worker support.
 } else {
@@ -815,11 +843,13 @@ Points to note
 - Worker is not a part of js thread its browser feature
 
 
+<br>
+ 
 > ### How do you get property descriptors of an object
 
 You can use the `Object.getOwnPropertyDescriptors()` method which returns all own property descriptors of a given object. The example usage of this method is below,
 
-```
+```js
 const newObject = {
   a: 1,
   b: 2,
@@ -833,6 +863,9 @@ console.log(descriptorsObject.a.value); // 1
 
 ```
 
+
+<br>
+ 
 > ### How do I modify the url without reloading the page
 The `window.location.href` property will be helpful to modify the url but it reloads the page. HTML5 introduced the `history.pushState()` and `history.replaceState()` methods, which allow you to add and modify history entries, respectively. For example, you can use pushState as below,
 
