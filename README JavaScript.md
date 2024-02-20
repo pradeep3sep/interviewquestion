@@ -47,7 +47,7 @@ You can use the `<noscript>` tag to detect javascript disabled or not. The code 
 
 <br>
  
-### object freeze vs seal
+> ### object freeze vs seal
 * Object.freeze(obj)  ===  kuch bhi nhi ho sakta
     - Remember freezing is only applied to the top-level properties in objects but not for nested objects.
       ```
