@@ -1,13 +1,17 @@
 ```
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
+<br>
+
 > ### Break vs Continue in for loop
 
 The `break` statement `"jumps out" or stops` of a loop.
 
 The `continue` statement `"jumps over or skip"` one iteration in the loop.
 
-> #### setTimeout(functionRef, delay, param1)
+<br>
+
+> ### setTimeout(functionRef, delay, param1)
 
 params is passed functionRef
 ```
