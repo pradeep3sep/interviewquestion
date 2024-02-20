@@ -87,13 +87,13 @@ console.log(Object.isFrozen(object));
 
 The Proxy object is used to define custom behavior for fundamental operations such as property lookup, assignment, enumeration, function invocation, etc. The syntax would be as follows,
 
-```
+```js
 var p = new Proxy(target, handler);
 ```
 
 Let's take an example of proxy object,
 
-```
+```js
 var handler = {
   get: function (obj, prop) {
     return prop in obj ? obj[prop] : 100;
@@ -112,13 +112,17 @@ In the above code, it uses get handler which define the behavior of the proxy wh
 
 > ### Object.entries(newObj), Object.keys(newObj), Object.values(newObj) 
 
+
+<br>
+ 
+
 > ### How do you detect caps lock key turned on or not
 
 The mouseEvent `getModifierState()` is used to return a boolean value that indicates whether the specified modifier key is activated or not. The modifiers such as `CapsLock, ScrollLock and NumLock` are activated when they are clicked, and deactivated when they are clicked again.
 
 Let's take an input element to detect the CapsLock on/off behavior with an example,
 
-```
+```html
 <input type="password" onmousedown="enterInput(event)" />
 
 <p id="feedback"></p>
@@ -135,6 +139,10 @@ Let's take an input element to detect the CapsLock on/off behavior with an examp
   }
 </script>
 ```
+
+
+<br>
+ 
 
 > ### What is the purpose of isFinite function
 The isFinite() function is used to determine whether a number is a finite, legal number. It returns false if the value is +infinity, -infinity, or NaN (Not-a-Number), otherwise it returns true.
