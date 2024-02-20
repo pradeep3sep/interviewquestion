@@ -19,6 +19,9 @@ setTimeout((a)=>{console.log(a)},1000,"sam")
 
 // gives sam in output
 ```
+
+<br>
+ 
 > ### What is the difference between window and document
 Window  | Document
 ------------- | -------------
@@ -26,6 +29,8 @@ It is the root level element in any web page | It is the direct child of the win
 By default window object is available implicitly in the page | You can access it via window.document or document.
 It has methods like alert(), confirm() and properties like document, location | It provides methods like getElementById, getElementsByTagName, createElement etc
 
+<br>
+ 
 
 > ### How do you detect javascript disabled in the page
 
@@ -39,6 +44,28 @@ You can use the `<noscript>` tag to detect javascript disabled or not. The code 
     <a href="next_page.html?noJS=true">JavaScript is disabled in the page. Please click Next Page</a>
 </noscript>
 ```
+
+<br>
+ 
+### object freeze vs seal
+* Object.freeze(obj)  ===  kuch bhi nhi ho sakta
+    - Remember freezing is only applied to the top-level properties in objects but not for nested objects.
+      ```
+      const user = {
+          name: "John",
+          employment: {
+            department: "IT",
+          },
+        };
+        
+        Object.freeze(user);
+        user.employment.department = "HR";
+      ```
+* Object.seal(obj) === new properties cannot be added, existing properties cannot be removed.Values of existing properties can still be changed as long as they are writable
+
+
+<br>
+ 
 
 > ### How do you determine whether object is frozen or not
 
@@ -3402,21 +3429,7 @@ console.log(deepCopy); // { name: 'Version 2', additionalInfo: { version: 2 } }
 ```
 
 
-### object freeze vs seal
-* Object.freeze(obj)  ===  kuch bhi nhi ho sakta
-    - Remember freezing is only applied to the top-level properties in objects but not for nested objects.
-      ```
-      const user = {
-          name: "John",
-          employment: {
-            department: "IT",
-          },
-        };
-        
-        Object.freeze(user);
-        user.employment.department = "HR";
-      ```
-* Object.seal(obj) === new properties cannot be added, existing properties cannot be removed.Values of existing properties can still be changed as long as they are writable
+
 
 ### Intersection Observer
 
