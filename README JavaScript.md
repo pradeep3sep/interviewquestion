@@ -83,6 +83,8 @@ Object.freeze(object);
 console.log(Object.isFrozen(object));
 ```
 
+<br>
+ 
 > ### What is a proxy object
 
 The Proxy object is used to define custom behavior for fundamental operations such as property lookup, assignment, enumeration, function invocation, etc. The syntax would be as follows,
