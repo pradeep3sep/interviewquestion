@@ -1322,12 +1322,12 @@ splice(startIndex, deleteCount, item1, item2)
 
 <br>
  
-> #### What is scope in javascript
-Scope is the accessibility of variables, functions, and objects in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
+> ### What is scope in javascript
+Scope is the `accessibility of variables, functions, and objects` in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
 
 <br>
  
-> #### What is a service worker
+> ### What is a service worker
 A Service worker is basically a script (JavaScript file) that runs in the background, separate from a web page and provides features that don't need a web page or user interaction. Some of the major features of service workers are Rich offline experiences(offline first web application development), periodic background syncs, push notifications, intercept and handle network requests and programmatically managing a cache of responses.
 
 <br>
@@ -1366,6 +1366,7 @@ console.log(z);  // value of z is entire code of function y.
 - Advantages of Closure:
 
     - Memoize
+
     Memoizing the result of the function and if later the same function is called with same arguments then return memoized result instead of executing whole function again
 
 
@@ -1703,7 +1704,7 @@ switch (x) {
   }
 }
 ```
-> #### What is the Temporal Dead Zone
+> ### What is the Temporal Dead Zone
 
 Time since when the let variable was hoisted until it is initialized some value.
 
