@@ -3,7 +3,7 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
-> ### 1. Break vs Continue in for loop
+> ### Break vs Continue in for loop
 
 The `break` statement `"jumps out" or stops` of a loop.
 
