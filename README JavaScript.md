@@ -1294,7 +1294,7 @@ console.log(list)   // gives ['sam']
  
 > ### Slice vs Splice in array
 
-for slice - return new array
+**for slice** - return new array
 ```js
 slice()  // gives full array
 slice(startIndex)  // gives values from start index to end
@@ -1311,7 +1311,7 @@ console.log(result7); // [ 10 ]
 
 ```
 
-for splice - mutate the array and *keep in mind it return array of deleted values
+**for splice** - mutate the array and *keep in mind it `return array of deleted values`
 ```js
 splice() // delete all the values and make a blank array
 splice(startIndex) // delete all the values from satrtIndex
