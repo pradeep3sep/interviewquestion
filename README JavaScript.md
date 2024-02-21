@@ -437,6 +437,8 @@ Object.setPrototypeOf(Square.prototype, Rectangle.prototype);
 Object.setPrototypeOf({}, null);
 ```
 
+<br>
+ 
 > ### How do you check whether an object can be extendable or not
 
 The `Object.isExtensible()` method is used to determine if an object is extendable or not. i.e, Whether it can have new properties added to it or not.
@@ -449,6 +451,8 @@ console.log(Object.isExtensible(newObject)); //true
 **Note**: By default, all the objects are extendable. i.e, The new properties can be added or modified.
 
 
+<br>
+ 
 > ### Currying
 
 Currying is a technique to convert multiple arguments function into a single argument functions (unary functions) in a sequence.
@@ -534,6 +538,8 @@ TypeError	| An error due to a type error
 URIError	| An error due to encodeURI()
 
 
+<br>
+ 
 > ### Keep in mind below
 ```js
 const a = {}
@@ -851,15 +857,17 @@ console.log(descriptorsObject.a.value); // 1
 > ### How do I modify the url without reloading the page
 The `window.location.href` property will be helpful to modify the url but it reloads the page. HTML5 introduced the `history.pushState()` and `history.replaceState()` methods, which allow you to add and modify history entries, respectively. For example, you can use pushState as below,
 
-```
+```js
 window.history.pushState("page2", "Title", "/page2.html");
 ```
 
+<br>
+ 
 > ### How do you print numbers with commas as thousand separators
 
 You can use the `Number.prototype.toLocaleString()` method which returns a string with a language-sensitive representation such as thousand separator,currency etc of this number.
 
-```
+```js
 function convertToThousandFormat(x) {
   return x.toLocaleString(); // 12,345.679
 }
@@ -867,12 +875,14 @@ function convertToThousandFormat(x) {
 console.log(convertToThousandFormat(12345.6789));
 ```
 
+<br>
+ 
 
 > ### Does JavaScript supports namespace
 
 JavaScript doesn’t support namespace by default. So if you create any element(function, method, object, variable) then it becomes global and pollutes the global namespace. Let's take an example of defining two functions without any namespace,
 
-```
+```js
 function func1() {
   console.log("This is a first definition");
 }
@@ -884,13 +894,15 @@ func1(); // This is a second definition
 
 **Note**: It always calls the second function definition. In this case, namespace will solve the name collision problem.
 
+<br>
+ 
 
 > ### How do you declare namespace
 Even though JavaScript lacks namespaces, we can use Objects , IIFE to create namespaces.
 
   1. **Using Object Literal Notation**: Let's wrap variables and functions inside an Object literal which acts as a namespace. After that you can access them using object notation
 
-  ```
+  ```js
   var namespaceOne = {
     function func1() {
         console.log("This is a first definition");
@@ -906,7 +918,7 @@ Even though JavaScript lacks namespaces, we can use Objects , IIFE to create nam
   ```
   2. **Using IIFE (Immediately invoked function expression)**: The outer pair of parentheses of IIFE creates a local scope for all the code inside of it and makes the anonymous function a function expression. Due to that, you can create the same function in two different function expressions to act as a namespace.
 
-  ```
+  ```js
   (function () {
     function fun1() {
       console.log("This is a first definition");
@@ -923,11 +935,13 @@ Even though JavaScript lacks namespaces, we can use Objects , IIFE to create nam
   ```
 
 
+<br>
+ 
 > ### How do you load CSS and JS files dynamically
 
 You can create both link and script elements in the DOM and append them as child to head tag. Let's create a function to add script and style resources as below,
 
-```
+```js
 function loadAssets(filename, filetype) {
   if (filetype == "css") {
     // External CSS file
@@ -946,46 +960,56 @@ function loadAssets(filename, filetype) {
 }
 ```
 
+<br>
+ 
 > ### How do you create an infinite loop
 
-```
+```js
 for (;;) {}
 while (true) {}
 
 ```
 
+<br>
+ 
 > ### How do you convert character to ASCII code
 
-```
+```js
 "ABC".charCodeAt(0); // returns 65
 
 String.fromCharCode(65, 66, 67); // returns 'ABC'
 ```
 
+<br>
+ 
 > ### What is the output of below console statement with unary operator
 
-```
+```js
 console.log(+"Hello");
 ```
 
 The output of the above console log statement returns NaN. Because the element is prefixed by the unary operator and the JavaScript interpreter will try to convert that element into a number type. Since the conversion fails, the value of the statement results in NaN value
 
 
+<br>
+ 
 > ### What happens if we add two arrays
 
 If you add two arrays together, it will convert them both to strings and concatenate them. For example, the result of adding arrays would be as below,
 
-```
+```js
 console.log(["a"] + ["b"]); // "ab"
 console.log([] + []); // ""
 console.log(![] + []); // "false", because ![] returns false.
 ```
 
+<br>
+ 
 > ### What is the output of prepend additive operator on falsy values
 
 If you prepend the additive(+) operator on falsy values(null, undefined, NaN, false, ""), the falsy value converts to a number value zero. Let's display them on browser console as below,
 
-```
+```js
 console.log(+null); // 0
 console.log(+undefined); // NaN
 console.log(+false); // 0
@@ -993,20 +1017,24 @@ console.log(+NaN); // NaN
 console.log(+""); // 0
 ```
 
+<br>
+ 
 > ### What is destructuring aliases
 Sometimes you would like to have a destructured variable with a different name than the property name. In that case, you'll use a `: newName` to specify a name for the variable. This process is called destructuring aliases.
 
-```
+```js
 const obj = { x: 1 };
 // Grabs obj.x as as { otherName }
 const { x: otherName } = obj;
 ```
 
+<br>
+ 
 > ### How do you create copy to clipboard button
 
 You need to select the content(using .select() method) of the input element and execute the copy command with execCommand (i.e, execCommand('copy')). You can also execute other system commands like cut and paste.
 
-```
+```js
 document.querySelector("#copy-button").onclick = function () {
   // Select the content
   document.querySelector("#copy-input").select();
@@ -1015,6 +1043,8 @@ document.querySelector("#copy-button").onclick = function () {
 };
 ```
 
+<br>
+ 
 > ### What is babel
 Babel is a JavaScript transpiler to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript in current and older browsers or environments. Some of the main features are listed below,
 
@@ -1022,6 +1052,8 @@ Babel is a JavaScript transpiler to convert ECMAScript 2015+ code into a backwar
 - Polyfill features that are missing in your target environment (using @babel/polyfill)
 - Source code transformations (or codemods)
 
+<br>
+ 
 
 > ### How do you make an object iterable in javascript
 
@@ -1029,7 +1061,7 @@ By default, plain objects are not iterable. But you can make the object iterable
 
 Let's demonstrate this with an example,
 
-```
+```js
 const collection = {
   one: 1,
   two: 2,
@@ -1058,7 +1090,7 @@ console.log(iterator.next()); // → {value: undefined, done: true}
 
 The above process can be simplified using a generator function,
 
-```
+```js
 const collection = {
   one: 1,
   two: 2,
@@ -1076,13 +1108,15 @@ console.log(iterator.next()); // {value: 3, done: false}
 console.log(iterator.next()); // {value: undefined, done: true}
 ```
 
+<br>
+ 
 > ### What is the difference between dense and sparse arrays?
 
 An array contains items at each index starting from first(0) to last(array.length - 1) is called as Dense array. Whereas if at least one item is missing at any index, the array is called as sparse.
 
 Let's see the below two kind of arrays,
 
-```
+```js
 const avengers = ["Ironman", "Hulk", "CaptainAmerica"];
 console.log(avengers[0]); // 'Ironman'
 console.log(avengers[1]); // 'Hulk'
@@ -1099,24 +1133,26 @@ console.log(justiceLeague.length); // 4
 ```
 
 
+<br>
+ 
 > ### What are the different ways to create sparse arrays?
 
 There are 4 different ways to create sparse arrays in JavaScript
 
   1. **Array literal**: Omit a value when using the array literal
-    ```
+    ```js
     const justiceLeague = ["Superman", "Aquaman", , "Batman"];
     console.log(justiceLeague); // ['Superman', 'Aquaman', empty ,'Batman']
     ```
 
   2. **Array() constructor**: Invoking Array(length) or new Array(length)
-    ```
+    ```js
     const array = Array(3);
     console.log(array); // [empty, empty ,empty]
     ```
 
   3. **Delete operator**: Using delete array[index] operator on the array
-    ```
+    ```js
     const justiceLeague = ["Superman", "Aquaman", "Batman"];
     delete justiceLeague[1];
     console.log(justiceLeague); // ['Superman', empty, ,'Batman']
@@ -1124,19 +1160,21 @@ There are 4 different ways to create sparse arrays in JavaScript
 
   4. **Increase length property**: Increasing length property of an array
 
-    ```
+    ```js
     const justiceLeague = ["Superman", "Aquaman", "Batman"];
     justiceLeague.length = 5;
     console.log(justiceLeague); // ['Superman', 'Aquaman', 'Batman', empty, empty]
     ```
 
 
+<br>
+ 
 > ### How do you create custom HTML element?
 The creation of custom HTML elements involves two main steps,
 
   1. Define your custom HTML element: First you need to define some custom class by extending HTMLElement class. After that define your component properties (styles,text etc) using connectedCallback method. Note: The browser exposes a function called customElements.define inorder to reuse the element.
 
-  ```
+  ```js
   class CustomElement extends HTMLElement {
     connectedCallback() {
       this.innerHTML = "This is a custom element";
@@ -1147,19 +1185,21 @@ The creation of custom HTML elements involves two main steps,
 
   2. Use custome element just like other HTML element: Declare your custom element as a HTML tag.
 
-  ```
+  ```html
     <body>
       <custom-element>
     </body>
   ```
 
 
+<br>
+ 
 
 > ### How do you check an object is a promise or not
 
 If you don't know if a value is a promise or not, wrapping the value as `Promise.resolve(value)` which returns a promise
 
-```
+```js
 function isPromise(object) {
   if (Promise && Promise.resolve) {
     return Promise.resolve(object) == object;
@@ -1179,7 +1219,7 @@ console.log(isPromise(promise)); // true
 
 Another way is to check for .then() handler type
 
-```
+```js
 function isPromise(value) {
   return Boolean(value && typeof value.then === "function");
 }
@@ -1192,10 +1232,12 @@ console.log(isPromise(i)); // false
 console.log(isPromise(promise)); // true
 ```
 
+<br>
+ 
 
 > ### How do you map the array values without using map method
 
-```
+```js
 const countries = [
   { name: "India", capital: "Delhi" },
   { name: "US", capital: "Washington" },
@@ -1209,18 +1251,22 @@ const cityNames = Array.from(countries, ({ capital }) => capital);
 console.log(cityNames); // ['Delhi, 'Washington', 'Moscow', 'Singapore', 'Beijing', 'Paris']
 ```
 
+<br>
+ 
 > ### How do you create an array with some data
 
 You can create an array with some data or an array with the same values using `fill` method.
 
-```
+```js
 var newArray = new Array(5).fill("0");
 console.log(newArray); // ["0", "0", "0", "0", "0"]
 ```
 
+<br>
+ 
 > ### Array things
 - When setting a property on a JavaScript array when the property is a valid array index and that index is outside the current bounds of the array, the engine will update the array's length property accordingly:
-```
+```js
 const check = ["hi"]
 check[2] = "bbb"
 
@@ -1228,7 +1274,7 @@ console.log(check)  // gives ['hi', empty, 'bbb']
 ```
 
 - Increasing the length extends the array by adding empty slots without creating any new elements — not even undefined.
-```
+```js
 const list = ["sam"]
 list.length = 3
 console.log(list)   // gives  ['sam', empty × 2]
@@ -1236,15 +1282,20 @@ console.log(list)   // gives  ['sam', empty × 2]
 
 - Decreasing the length property does, however, delete elements.
 
-```
+```js
 const list = ["sam","ram","bima"]
 list.length = 1
 console.log(list)   // gives ['sam']
 ```
+
+
+
+<br>
+ 
 > ### Slice vs Splice in array
 
 for slice - return new array
-```
+```js
 slice()  // gives full array
 slice(startIndex)  // gives values from start index to end
 slice(startIndex, endIndex) // gives values from start index to one before endIndex
@@ -1261,7 +1312,7 @@ console.log(result7); // [ 10 ]
 ```
 
 for splice - mutate the array and *keep in mind it return array of deleted values
-```
+```js
 splice() // delete all the values and make a blank array
 splice(startIndex) // delete all the values from satrtIndex
 splice(startIndex, deleteCount)  // delete the no of delteCount values from satrtIndex
@@ -1269,12 +1320,18 @@ splice(startIndex, deleteCount, item1)  // delete the no of delteCount values fr
 splice(startIndex, deleteCount, item1, item2)
 ```
 
+<br>
+ 
 > #### What is scope in javascript
 Scope is the accessibility of variables, functions, and objects in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
 
+<br>
+ 
 > #### What is a service worker
 A Service worker is basically a script (JavaScript file) that runs in the background, separate from a web page and provides features that don't need a web page or user interaction. Some of the major features of service workers are Rich offline experiences(offline first web application development), periodic background syncs, push notifications, intercept and handle network requests and programmatically managing a cache of responses.
 
+<br>
+ 
 > ### Closure
 - Function bundled along with it's lexical scope is closure.
 - If a function needs to access a variable, it first goes to its local memory. When it does not find it there, it goes to the memory of its lexical parent. See Below code, Over here function y along with its lexical scope i.e. (function x) would be called a closure.
@@ -1389,6 +1446,8 @@ console.log(z);  // value of z is entire code of function y.
     - Memory Leak
     - Variables are not Garbage collected.
 
+<br>
+ 
 > ### Map
 The Map object holds key-value pairs and remembers the original insertion order of the keys
 
@@ -1487,6 +1546,8 @@ Diff b/w Object and Map
 4. An Object has a prototype, so there are default keys in the map that could collide with your keys if you're not careful. As of ES5 this can be bypassed by using map = Object.create(null), but this is seldom done.
 
 
+<br>
+ 
 
 > ### Set Object
 Set objects are collections of value of any type ( primitive or object).
