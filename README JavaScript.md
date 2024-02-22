@@ -2594,7 +2594,7 @@ console.log(obj8); // { name: 'Jc', age: 24 }
 > ### What happens if you write constructor more than once in a class
 The "constructor" in a class is a special method and it should be defined only once in a class. i.e, If you write a constructor method more than once in a class it will throw a `SyntaxError` error.
 
-```
+```js
  class Employee {
    constructor() {
      this.name = "John";
@@ -2613,7 +2613,7 @@ The "constructor" in a class is a special method and it should be defined only o
  You can use the super keyword to call the constructor of a parent class. Remember that super() must be called before using 'this' reference. Otherwise it will cause a reference error. Let's the usage of it,
 
 
- ```
+ ```js
  class Square extends Rectangle {
   constructor(length) {
     super(length, length);
@@ -2716,11 +2716,11 @@ Maximum data size |	4KB	| 5 MB |	5MB
 
 > ### What is a storage event and its event handler
 The StorageEvent is an event that fires when a storage area has been changed in the context of another document. Whereas onstorage property is an EventHandler for processing storage events. The syntax would be as below
-```
+```js
 window.onstorage = functionRef;
 ```
 Let's take the example usage of onstorage event handler which logs the storage key and it's values
-```
+```js
 window.onstorage = function (e) {
   console.log(
     "The " +
@@ -2736,7 +2736,7 @@ window.onstorage = function (e) {
 
 > ### What is the purpose of double exclamation
 The double exclamation or negation(!!) ensures the resulting type is a boolean. If it was falsey (e.g. 0, null, undefined, etc.), it will be false, otherwise, true. For example, you can test IE version using this expression as below,
-```
+```js
 let isIE8 = false;
 isIE8 = !!navigator.userAgent.match(/MSIE 8.0/);
 console.log(isIE8); // returns true or false
@@ -2755,7 +2755,7 @@ Converted to zero (0) while performing primitive operations  | 	Converted to NaN
 > ### What is eval
 The eval() function evaluates JavaScript code represented as a string. The string can be a JavaScript expression, variable, statement, or sequence of statements.
 isko hum calculator me use kar sakte h, '10+3' as a string pass kar do ye 13 return karega.
-```
+```js
 console.log(eval("1 + 2")); //  3
 ```
 
@@ -2764,13 +2764,11 @@ No, it allows arbitrary code to be run which causes a security problem. As we kn
 
 > ### What is isNaN
 The isNaN() function is used to determine whether a value is an illegal number (Not-a-Number) or not. i.e, This function returns true if the value equates to NaN. Otherwise it returns false.
-```
+```js
 isNaN("Hello"); //true
 isNaN("100"); //false
 ```
 
-> ### What is the difference between document load and DOMContentLoaded events
-The DOMContentLoaded event is fired when the initial HTML document has been completely loaded and parsed, without waiting for assets(stylesheets, images, and subframes) to finish loading. Whereas The load event is fired when the whole page has loaded, including all dependent resources(stylesheets, images).
 
 > ### What is the difference between native, host and user objects
 `Native objects` are objects that are part of the JavaScript language defined by the ECMAScript specification. For example, String, Math, RegExp, Object, Function etc core objects defined in the ECMAScript spec.
