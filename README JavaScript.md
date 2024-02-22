@@ -3004,22 +3004,7 @@ Object.getPrototypeOf("James"); // TypeError: "James" is not an object
 Object.getPrototypeOf("James"); // String.prototype
 ```
 
-> ### How do you set prototype of one object to another
-You can use the `Object.setPrototypeOf()` method that sets the prototype (i.e., the internal `Prototype` property) of a specified object to another object or null. For example, if you want to set prototype of a square object to rectangle object would be as follows,
 
-```js
-Object.setPrototypeOf(Square.prototype, Rectangle.prototype);
-Object.setPrototypeOf({}, null);
-```
-
-> ### How do you check whether an object can be extendable or not
-The `Object.isExtensible()` method is used to determine if an object is extendable or not. i.e, Whether it can have new properties added to it or not.
-* `Note`: By default, all the objects are extendable. i.e, The new properties can be added or modified.
-
-```js
-const newObject = {};
-console.log(Object.isExtensible(newObject)); //true
-```
 
 > ### How do you prevent an object to extend
 The `Object.preventExtensions()` method is used to prevent new properties from ever being added to an object. In other words, it prevents future extensions to the object. Let's see the usage of this property,
@@ -3100,23 +3085,8 @@ Below are the few reasons for Obfuscation,
 * Reverse engineering is highly difficult
 * The download time will be reduced
 
-> ### How do I modify the url without reloading the page
-The window.location.href property will be helpful to modify the url but it reloads the page. HTML5 introduced the history.pushState() and history.replaceState() methods, which allow you to add and modify history entries, respectively. For example, you can use pushState as below,
-```js
-window.history.pushState("page2", "Title", "/page2.html");
-```
 
-> ### How do you print numbers with commas as thousand separators
-You can use the `Number.prototype.toLocaleString()` method which returns a string with a language-sensitive representation such as thousand separator,currency etc of this number.
-```js
-function convertToThousandFormat(x) {
-  return x.toLocaleString(); // 12,345.679
-}
-
-console.log(convertToThousandFormat(12345.6789));
-```
-
-### typeof `new Number(3)` is object not number because of class but Number(3) is number
+> ### typeof `new Number(3)` is object not number because of class but Number(3) is number
 
 > ### What is the purpose of double tilde operator
 The double tilde operator(~~) is known as double NOT bitwise operator. This operator is going to be a quicker substitute for Math.floor().
@@ -3148,17 +3118,6 @@ console.log(newArray); // ["0", "0", "0", "0", "0"]
 > ### Is it possible to add CSS to console messages
 Yes, you can apply CSS styles to console messages similar to html text on the web page.
 
-> ### How do you create copy to clipboard button
-You need to select the content(using .select() method) of the input element and execute the copy command with execCommand (i.e, execCommand('copy')). You can also execute other system commands like cut and paste.
-
-```js
-document.querySelector("#copy-button").onclick = function () {
-  // Select the content
-  document.querySelector("#copy-input").select();
-  // Copy to the clipboard
-  document.execCommand("copy");
-};
-```
 
 > ### How do you capture browser back button
 The window.onbeforeunload method is used to capture browser back button events. This is helpful to warn users about losing the current data.
@@ -3167,13 +3126,6 @@ window.onbeforeunload = function () {
   alert("You work will be lost");
 };
 ```
-
-> ### What is babel
-Babel is a JavaScript transpiler to convert ECMAScript 2015+ code into a backwards compatible version of JavaScript in current and older browsers or environments. Some of the main features are listed below,
-
-* Transform syntax
-* Polyfill features that are missing in your target environment (using @babel/polyfill)
-* Source code transformations (or codemods)
 
 > ### What are the differences between for...of and for...in statements
 Both for...in and for...of statements iterate over js data structures. The only difference is over what they iterate:
