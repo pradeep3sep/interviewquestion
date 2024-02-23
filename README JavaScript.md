@@ -3835,14 +3835,23 @@ iframe.contentDocument to get the document inside the `<iframe>`, shorthand for 
 
 
 
-must read attack - The clickjacking attack - https://javascript.info/clickjacking  also see https://www.geeksforgeeks.org/http-headers-set-cookie/, https://http.dev/set-cookie
+must read attack - 
+- The clickjacking attack - https://javascript.info/clickjacking  
+- also see https://www.geeksforgeeks.org/http-headers-set-cookie/,
+- https://http.dev/set-cookie
 
 
 No idea - 
-https://javascript.info/arraybuffer-binary-arrays
-https://javascript.info/text-decoder
-blob
+- https://javascript.info/arraybuffer-binary-arrays
+- https://javascript.info/text-decoder
+
+
+
+###blob
 
 
 Axios upload progress with progress bar tutorial --- https://www.youtube.com/watch?v=nC3ntJUQrAM
-to copy the text - navigator.clipboard.writeText(copy_text)  . We can do according to promise resolve
+
+
+> ### to copy the text
+navigator.clipboard.writeText(copy_text)  . We can do according to promise resolve
