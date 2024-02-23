@@ -44,6 +44,21 @@ console.log(getPlayerInfo.myBind(player2, "All-Rounder", "India")());
 console.log(getPlayerInfo.myApply(player2, ["All-Rounder", "India"]));
 ```
 
+> ### How do you create your own bind method using either call or apply method?
+
+```js
+Function.prototype.myOwnBind = function (whoIsCallingMe) {
+  if (typeof this !== "function") {
+    throw new Error(this + "cannot be bound as it's not callable");
+  }
+  const boundTargetFunction = this;
+  return function () {
+    boundTargetFunction.apply(whoIsCallingMe, arguments);
+  };
+};
+```
+
+
 > ### Polyfill for the includes
 
 ```js

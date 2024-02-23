@@ -3232,90 +3232,23 @@ Explanation by use case:
 * Search bar- Don't want to search every time user presses key? Want to search when user stopped typing for 1 sec. Use debounce 1 sec on key press.
 * Shooting game- Pistol take 1 sec time between each shot but user click mouse multiple times. Use throttle on mouse click.
 
-
-> ### How do you create your own bind method using either call or apply method?
-
-The custom bind function needs to be created on Function prototype inorder to use it as other builtin functions. This custom function should return a function similar to original bind method and the implementation of inner function needs to use apply method call.
-
-The function which is going to bind using custom `myOwnBind` method act as the attached function(`boundTargetFunction`) and argument as the object for `apply` method call.
-
-
-```js
-Function.prototype.myOwnBind = function (whoIsCallingMe) {
-  if (typeof this !== "function") {
-    throw new Error(this + "cannot be bound as it's not callable");
-  }
-  const boundTargetFunction = this;
-  return function () {
-    boundTargetFunction.apply(whoIsCallingMe, arguments);
-  };
-};
-```
-
-> ### "this" refrence in class, constructor function, object in js
-
-  1. Using "this" in a Class:
-
-  ```js
-  class MyClass {
-    constructor(name) {
-      this.name = name;
-    }
-
-    sayHello() {
-      console.log(`Hello, ${this.name}!`);
-    }
-  }
-
-  const obj = new MyClass('John');
-  obj.sayHello(); // Output: Hello, John!
-  ```
-
-  2. Using "this" in a Constructor Function:
-
-  ```js
-    function Person(name) {
-      this.name = name;
-
-      this.sayHello = function() {
-        console.log(`Hello, ${this.name}!`);
-      };
-    }
-
-    const person1 = new Person('Alice');
-    person1.sayHello(); // Output: Hello, Alice!
-  ```
-
-  3. Using "this" in an Object:
-
-  ```js
-    const myObject = {
-      value: 42,
-      getValue: function() {
-        console.log(this.value);
-      }
-    };
-
-    myObject.getValue(); // Output: 42
-  ```
-
-### Event Loop
+> ### Event Loop
 The event loop is a process that continuously monitors both the call stack and the event queue and checks whether or not the call stack is empty. If the call stack is empty and there are pending events in the event queue, the event loop dequeues the event from the event queue and pushes it to the call stack. The call stack executes the event, and any additional events generated during the execution are added to the end of the event queue.
 
 ---
 event loop sequence microtask - https://www.jsv9000.app/
 ---
 
-### http methods
+> ### http methods
 * GET: GET request is used to read/retrieve data from a web server. 
 * POST: POST request is used to send data (file, form data, etc.) to the server. On successful creation, it returns an HTTP status code of 201.
 * PUT: A PUT request is used to modify the data on the server. It replaces the entire content at a particular location with data that is passed in the body payload.If there are no resources that match the request, it will generate one.
 * PATCH: PATCH is similar to PUT request, but the only difference is, it modifies a part of the data. It will only replace the content that you want to update.
 * DELETE: A DELETE request is used to delete the data on the server at a specified location.
 
-### how to stop all the console log at onec console.log = function (){}
+> ### how to stop all the console log at onec console.log = function (){}
 
-### async vs differ  === see this image for answer  https://i.stack.imgur.com/wfL82.png
+> ### async vs differ  === see this image for answer  https://i.stack.imgur.com/wfL82.png
 
 ###   2 + undefined gives NaN, not gives any error
 
