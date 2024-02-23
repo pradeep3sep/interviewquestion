@@ -3250,18 +3250,18 @@ event loop sequence microtask - https://www.jsv9000.app/
 
 > ### async vs differ  === see this image for answer  https://i.stack.imgur.com/wfL82.png
 
-###   2 + undefined gives NaN, not gives any error
+> ###   2 + undefined gives NaN, not gives any error
 
 ### There are 8 falsy values:
 undefined, null, NaN, false,'' (empty string),0,-0,0n (BigInt(0))
 
-### What is OBJECTS
+? ### What is OBJECTS
 JavaScript supports programming with objects. Objects are a way of organizing the variables. The different screen elements such as Web pages, forms, text boxes, images, and buttons are treated as objects. Every object has its own properties and methods.
 * Properties define the characteristics of an object. Examples: color, length, name, height, width Methods are the actions that the
 * object can perform or that can be performed on the object. Examples: alert, confirm, write, open, close .
 
 ### how to call two api when second one depend on first response in js
-```
+```js
 async function fetchData() {
   try {
     const first_api_response = await fetch('first_api_url');
@@ -3283,7 +3283,7 @@ fetchData();
 
 or
 
-```
+```js
 fetch('first_api_url')
   .then(response => response.json())
   .then(data => {
@@ -3304,7 +3304,7 @@ fetch('first_api_url')
 ```
 
 or 
-```
+```js
 axios.get(...)
   .then((response) => {
     return axios.get(...); // using response.data
@@ -3313,14 +3313,14 @@ axios.get(...)
     console.log('Response', response);
   });
 ```
-### Can you name two programming paradigms important for JavaScript app developers?
+> ### Can you name two programming paradigms important for JavaScript app developers?
 JavaScript is a multi-paradigm language, supporting imperative/procedural programming along with OOP (Object-Oriented Programming) and functional programming. JavaScript supports OOP with prototypal inheritance.
 
-### Es6(ECMAScript 2015)
+> ### Es6(ECMAScript 2015)
 let and const, Arrow Functions, Template Literals, rest and spread operator,  Default Parameters in functions, classes
 
-### To delete a property in object
-```
+> ### To delete a property in object
+```js
 const myObject = {
   key1: 'value1',
   key2: 'value2',
@@ -3332,7 +3332,7 @@ delete myObject.key2;
 
 or 
 
-```
+```js
 const myObject = {
   key1: 'value1',
   key2: 'value2',
@@ -3342,10 +3342,10 @@ const myObject = {
 const { key2, ...newObject } = myObject;
 ```
 
-### Shallow Copy vs Deep copy
+> ### Shallow Copy vs Deep copy
 * `Shallow copy`: means that only the first level of the object is copied. Deeper levels are referenced.
 
-```
+```js
 const obj1 = { name: "John", age: 30 };
 const obj2 = { ...obj1 };
 console.log(obj2); // { name: "John", age: 30 }
@@ -3353,7 +3353,7 @@ console.log(obj2); // { name: "John", age: 30 }
 
 * `Deep copy`: means that all levels of the object are copied. This is a true copy of the object.
 
-```
+```js
 
 const obj = { name: 'Version 1', additionalInfo: { version: 1 } };
 
@@ -3367,9 +3367,7 @@ console.log(deepCopy); // { name: 'Version 2', additionalInfo: { version: 2 } }
 ```
 
 
-
-
-### Intersection Observer
+> ### Intersection Observer
 
 An Intersection Observer API provides a way to observe the visibility and position of a DOM element relative to the specified root element or viewport.
 
