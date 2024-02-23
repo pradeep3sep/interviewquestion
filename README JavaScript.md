@@ -3388,13 +3388,13 @@ When the DOM nodes change, you can invoke a callback function to detect the chan
 > ### Rule of this
 
 💡 7 Things you should know about "this"
-👉 Rule 1) function with new keyword ( this refers to the function object )
-👉 Rule 2) call, apply, bind ( this refers to the obj passed to methods )
-👉 Rule 3) method in object ( this refers to the object )
-👉 Rule 4) simple function ( this refers to window object, undefined in strict mode )
-👉 Rule 5) multiple rules ( Higher rule has given priority )
-👉 Rule 6) arrow function ( inherits "this" from its outer function )
-👉 Miscellaneous important things about "this"
+- 👉 Rule 1) function with new keyword ( this refers to the function object )
+- 👉 Rule 2) call, apply, bind ( this refers to the obj passed to methods )
+- 👉 Rule 3) method in object ( this refers to the object )
+- 👉 Rule 4) simple function ( this refers to window object, undefined in strict mode )
+- 👉 Rule 5) multiple rules ( Higher rule has given priority )
+- 👉 Rule 6) arrow function ( inherits "this" from its outer function )
+- 👉 Miscellaneous important things about "this"
 
 
 Rule 1) function with new keyword ( this refers to the function object )
@@ -3468,9 +3468,7 @@ const obj2 = {
 obj1.showName.call(obj2); // Jc precedence of Rule 2) Call method > Rule 3) method in object
 ```
 
-Rule 6) arrow function :- arrow function does not create its own execution context
-
-inherits "this" from its outer function.
+Rule 6) arrow function :- arrow function does not create its own execution context, inherits "this" from its outer function.
 
   - case 1:- arrow function without any parent function
   ```js
@@ -3587,12 +3585,7 @@ const outerObj = {
 outerObj.innerObj.getName();
 ```
 
-
-
-
-### call, bind and apply
-
-### Window vs document
+> ### Window vs document
 
 `window` is the top-level object in the browser's JavaScript hierarchy, and it represents the browser window or tab itself. It contains properties and methods that control the behavior of the browser window, such as `alert()`, `confirm()`, `setTimeout()`, `location`, and more. The `window` object is also the global object in the browser's JavaScript environment, meaning that any variables or functions declared without the `var`, `let`, or `const` keywords are automatically added as properties of the window object.
 
@@ -3601,55 +3594,64 @@ On the other hand, `document` is an object that represents the web page displaye
 In summary, `window` is used to interact with the browser window, while `document` is used to interact with the content of the web page displayed in that window.
 
 
-### how to empty a array
-```
+> ### how to empty a array
+```js
 myArray.length = 0;
 ```
 or 
-```
+```js
 myArray = [];
 ```
 
-### key,value,entries in object
-
-### Math function in js
+> ### Math function in js
 Math.ceil(x)	Returns x rounded up next integer
+```js
 console.log(Math.ceil(4.9)) //5
 console.log(Math.ceil(4.5))  //5
 console.log(Math.ceil(4.1))  //5
 console.log(Math.ceil(-4.1))  //-4
+```
 
 Math.round(x)	Returns x rounded to its nearest integer
+```js
 console.log(Math.round(4.9))    //5
 console.log(Math.round(4.5))    //5
 console.log(Math.round(4.1))    //4
 console.log(Math.round(-4.1))   //-4
+```
 
 Math.floor(x) returns the value of x rounded down to its nearest integer
+```js
 console.log(Math.floor(4.9))    //4
 console.log(Math.floor(4.5))    //4
 console.log(Math.floor(4.1))    //4
 console.log(Math.floor(-4.1))   //-5
-
+```
 Math.trunc(x) returns the integer part of x
+
+```js
 console.log(Math.trunc(4.9))    //4
 console.log(Math.trunc(4.5))    //4
 console.log(Math.trunc(4.1))    //4
 console.log(Math.trunc(-4.1))   //-4
+```
 
-
+```js
 Math.sqrt()
 Math.sqrt(64);
 
 Math.pow()
 Math.pow(8, 2);
+```
 
 Math.abs(x) returns the absolute (positive) value of x:
+```js
 Math.abs(-4.7); //4.7
-
+```
+```js
 Math.min(0, 150, 30, 20, -8, -200); //-200
 console.log(Math.max(0, 150, 30, 20, -8, -200)) //150
-
+```
 
 ### Needs discussion
 
