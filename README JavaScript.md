@@ -3161,7 +3161,11 @@ Compare by value | 	Compare by reference
 Stored in Stack | 	Stored in heap
 Contain certain value | 	Can contain NULL too
 
-### throttling vs debouncing
+
+
+> ### debouncing vs throttling
+1st one is diff b/w to type value time and second one is the time difference between two function call
+
 * Throttling is a technique where a function is executed at a regular interval, no matter how frequently it is called.
 *  Debouncing, on the other hand, is a technique where a function is only executed after a certain amount of time has passed since the last time it was called.
 
@@ -3653,6 +3657,106 @@ Math.min(0, 150, 30, 20, -8, -200); //-200
 console.log(Math.max(0, 150, 30, 20, -8, -200)) //150
 ```
 
+> ### How to invoke an IIFE without any extra brackets?
+```js
+!function() {
+    // Your code here
+}();
+```
+
+> ### What is the difference between setTimeout, setImmediate and process.nextTick?
+
+> ### What is an empty statement and purpose of it
+In JavaScript, an empty statement is a statement that consists solely of a semicolon (;) and nothing else. It serves as a no-operation (no-op) or a placeholder where a statement is syntactically required but no action needs to be performed.
+
+Here's an example of an empty statement:
+
+```javascript
+;
+```
+> ### what is a comma operator
+
+In JavaScript, the comma operator (`,`) is used to evaluate multiple expressions sequentially and return the value of the last expression. It allows you to combine multiple expressions into a single statement.
+
+Here's an example demonstrating the use of the comma operator:
+
+```javascript
+var a = 1, b = 2, c = 3;
+
+var result = (a++, b++, c++);
+
+console.log(result); // Output: 3
+console.log(a, b, c); // Output: 2 3 4
+```
+
+In this example:
+
+- `a++`, `b++`, and `c++` are three expressions separated by commas.
+- The comma operator evaluates each expression in sequence but only returns the value of the last expression, which is `c++` in this case.
+- After the comma operator is evaluated, `a`, `b`, and `c` are incremented by 1, so their values become 2, 3, and 4 respectively.
+- The variable `result` holds the value of the last expression evaluated by the comma operator, which is `c++`, resulting in `3`.
+
+> ### What is the difference between Function constructor and function declaration
+
+1. **Function Constructor**:
+   - The `Function` constructor is a built-in JavaScript constructor function used to create new function objects dynamically.
+   - It takes a variable number of arguments, where the last argument is the function body (a string containing the function's code) and the preceding arguments are the function parameters.
+   - It can be used to create functions at runtime, allowing you to generate functions based on dynamic conditions.
+   - Example:
+     ```javascript
+     var add = new Function('a', 'b', 'return a + b;');
+     ```
+
+2. **Function Declaration**:
+   - Function declarations define named functions using the `function` keyword followed by the function name, parameters (if any), and function body enclosed in curly braces.
+   - They are hoisted to the top of their scope during the compilation phase, meaning they are available for use before their actual declaration in the code.
+   - They are typically used to define reusable functions within a script or function block.
+   - Example:
+     ```javascript
+     function add(a, b) {
+         return a + b;
+     }
+     ```
+
+Key differences:
+
+- **Hoisting**: Function declarations are hoisted to the top of their scope, while function expressions (created using the Function constructor) are not hoisted.
+- **Syntax**: Function declarations have a specific syntax using the `function` keyword and are defined in a more traditional way, while the Function constructor uses a string representation of the function body and arguments.
+- **Performance**: Function declarations are generally more efficient in terms of performance because they are parsed and compiled during the initial compilation phase, whereas the Function constructor is evaluated at runtime, which may result in slower performance.
+- **Clarity and Readability**: Function declarations are often preferred for their clarity and readability, as they provide a more straightforward way to define functions within the code.
+
+In most cases, function declarations are preferred due to their simplicity, clarity, and performance benefits. However, the Function constructor can be useful in certain advanced scenarios where dynamic function creation is necessary.
+
+
+
+> ### How to detect if a function is called as constructor
+
+In JavaScript, you can detect if a function is called as a constructor by checking the value of the `this` keyword within the function. When a function is called as a constructor (i.e., using the `new` keyword), the `this` keyword refers to the newly created instance of the object.
+
+Here's how you can detect if a function is called as a constructor:
+
+```javascript
+function MyClass() {
+    // Check if the function is called as a constructor
+    if (!(this instanceof MyClass)) {
+        throw new Error('MyClass must be called with new keyword');
+    }
+
+    // Constructor logic here
+}
+
+// Usage
+var obj1 = new MyClass(); // This is called as a constructor
+var obj2 = MyClass();     // This will throw an error
+```
+
+In the example above:
+
+- The `MyClass` function checks whether it's called with the `new` keyword by using the `instanceof` operator to verify if `this` is an instance of `MyClass`.
+- If the check fails (i.e., if `this` is not an instance of `MyClass`), it throws an error indicating that the function must be called with the `new` keyword.
+- When `MyClass` is called with the `new` keyword (`var obj1 = new MyClass();`), it creates a new instance of `MyClass`.
+- When `MyClass` is called without the `new` keyword (`var obj2 = MyClass();`), it throws an error because it's not intended to be used in this way.
+
 ### Needs discussion
 
 How do you define property on Object constructor\
@@ -3660,10 +3764,7 @@ What is the difference between get and defineProperty\
 What are the advantages of Getters and Setters\
 Can I add getters and setters using defineProperty method\
 What is a decorator\
-What is an empty statement and purpose of it\
 How do you get metadata of a module\
-hat is a comma operator\
-What is the advantage of a comma operator\
 What is an object initializer\
 What are the DOM methods available for constraint validation\
 What are the available constraint validation DOM properties\
@@ -3673,38 +3774,16 @@ How do you get property descriptors of an object\
 What are the attributes provided by a property descriptor\
 How to cancel a fetch request\
 What is minimum timeout throttling\
-How do you implement zero timeout in modern browsers\
-What is the difference between Function constructor and function declaration\
-What is the difference between function and class declarations\
-How to detect if a function is called as constructor\
-How to invoke an IIFE without any extra brackets?\
-What is the difference between setTimeout, setImmediate and process.nextTick?\
-
-
-
-
-
-
 
 ```
 React.memo() is a higher-order component that we can use to wrap components that we do not want to re-render unless props within them change
 useMemo() is a React Hook that we can use to wrap functions within a component. We can use this to ensure that the values within that function are re-computed only when one of its dependencies change
-
-debouncing vs throttling
-1st one is diff b/w to type value time and second one is the time difference between two function call
-
-
-window.onbeforeunload = popup;
-
-function popup() {
-  return 'I see you are leaving the site';
-}
 ```
-### Strict Mode
+> ### Strict Mode
 Please make sure that "use strict" is at the top of your scripts, otherwise strict mode may not be enabled.
 
 Strict mode isn’t enabled here:
-```
+```js
 alert("some code");
 // "use strict" below is ignored--it must be at the top
 
@@ -3712,41 +3791,47 @@ alert("some code");
 
 // strict mode is not activated
 ```
-There’s no way to cancel use strict
-There is no directive like "no use strict" that reverts the engine to old behavior.
+There’s no way to cancel use strict\
+There is no directive like "no use strict" that reverts the engine to old behavior.\
 Once we enter strict mode, there’s no going back.
 
-### variables
-What’s interesting – the dollar sign '$' and the underscore '_' can also be used in names. They are regular symbols, just like letters, without any special meaning.
+> ### variables
+What’s interesting – the dollar sign '$' and the underscore '_' can also be used in names. They are regular symbols, just like letters, without any special meaning.\
 These names are valid:
-```
+```js
 let $ = 1; // declared a variable with the name "$"
 let _ = 2; // and now a variable with the name "_"
 
 alert($ + _); // 3
 ```
 
-```
+```js
 let my-name; // hyphens '-' aren't allowed in the name
 ```
 
 Non-Latin letters are allowed, but not recommended
 It is possible to use any language, including cyrillic letters, Chinese logograms and so on, like this:
-```
+```js
 let имя = '...';
 let 我 = '...';
 ```
 
-### Data Types
+> ### Data Types
 Besides regular numbers, there are so-called “special numeric values” which also belong to this data type: Infinity, -Infinity and NaN.
 
 
+<br>
+
 url: https://javascript.info/cross-window-communication
-above is for iframe or cross-window communication
-An <iframe> tag hosts a separate embedded window, with its own separate document and window objects.
+
+**above is for iframe or cross-window communication**
+
+<br>
+
+An `<iframe>` tag hosts a separate embedded window, with its own separate document and window objects.
 We can access them using properties:
-iframe.contentWindow to get the window inside the <iframe>.
-iframe.contentDocument to get the document inside the <iframe>, shorthand for iframe.contentWindow.document.
+iframe.contentWindow to get the window inside the `<iframe>`.
+iframe.contentDocument to get the document inside the `<iframe>`, shorthand for iframe.contentWindow.document.
 
 
 
