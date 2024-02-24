@@ -36,6 +36,62 @@ function sortArray(arr) {
 sortArray(array)
 ```
 
+> ### Remove duplicate from array.
+```js
+function removeDuplicates(array) {
+    const uniqueArray = [];
+    for (let i = 0; i < array.length; i++) {
+        if (uniqueArray.indexOf(array[i]) === -1) {
+            uniqueArray.push(array[i]);
+        }
+    }
+    return uniqueArray;
+}
+
+const array = [1, 2, 3, 3, 4, 5, 5];
+const uniqueArray = removeDuplicates(array);
+console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
+```
+
+if array is sorted
+```js
+function removeDuplicates(array) {
+    // Sort the array
+    array.sort((a, b) => a - b);
+    
+    const uniqueArray = [];
+    for (let i = 0; i < array.length; i++) {
+        // Skip adding if the current element is the same as the previous one
+        if (array[i] !== array[i - 1]) {
+            uniqueArray.push(array[i]);
+        }
+    }
+    return uniqueArray;
+}
+
+const array = [1, 2, 3, 3, 4, 5, 5];
+const uniqueArray = removeDuplicates(array);
+console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
+```
+
+```js
+const array = [1, 2, 3, 3, 4, 5, 5];
+const uniqueArray = array.filter((value, index) => array.indexOf(value) === index);
+console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
+```
+
+
+```js
+const array = [1, 2, 3, 3, 4, 5, 5];
+const uniqueArray = [];
+array.forEach(item => {
+    if (!uniqueArray.includes(item)) {
+        uniqueArray.push(item);
+    }
+});
+console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
+```
+
 > ### Q2 - Maximum and minimum of an array using minimum number of comparisons
 
 Input: arr = [3, 5, 4, 1, 9]
