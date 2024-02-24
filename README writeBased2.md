@@ -15,6 +15,27 @@ function reverserArray(arr){
 reverserArray(data);
 ```
 
+> ### Sort of array
+
+```js
+const array = [7, 10, 4, 3, 20, 15];
+
+function sortArray(arr) {
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[i] > arr[j]) {
+        let temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+      }
+    }
+  }
+  console.log(arr);
+}
+
+sortArray(array)
+```
+
 > ### Q2 - Maximum and minimum of an array using minimum number of comparisons
 
 Input: arr = [3, 5, 4, 1, 9]
