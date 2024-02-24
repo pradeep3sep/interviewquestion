@@ -2390,14 +2390,14 @@ console.log(removeDuplicateswithIndex(str2));
 ```
 
 > ### Q89 -  Implement the chessBoard pattern
-W B W B W B W B
-B W B W B W B w
-W B W B W B W B
-B W B W B W B w
-W B W B W B W B
-B W B W B W B w
-W B W B W B W B
-B W B W B W B w
+W B W B W B W B\
+B W B W B W B w\
+W B W B W B W B\
+B W B W B W B w\
+W B W B W B W B\
+B W B W B W B w\
+W B W B W B W B\
+B W B W B W B w\
 
 
 ```js
