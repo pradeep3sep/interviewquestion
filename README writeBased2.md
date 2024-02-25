@@ -361,8 +361,8 @@ console.log(uniqueElements); // Output: [ 3, 4, 5, 6 ]
 
 > ### Q8 - find duplicate in an array
 
-arr1 = [1, 2, 2, 2, 3, 4, 4, 5]
-output = [ 2, 4 ]
+arr1 = [1, 2, 2, 2, 3, 4, 4, 5]\
+output = [ 2, 4 ]\
 
 using object and for loop
 
@@ -401,8 +401,8 @@ console.log("output", output);
 ```
 
 > ### Q10 - Merge Intervals
-Input: intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]
-Output: [ [1, 6], [8, 10], [15, 18]]
+Input: intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]\
+Output: [ [1, 6], [8, 10], [15, 18]]\
 https://www.youtube.com/watch?v=LvygwImtvEw
 
 
@@ -433,9 +433,9 @@ console.log("result", result);
 
 
 > ### Q12 Best Time to Buy and Sell Stock:-
-Input: prices = [7,1,5,3,6,4]
-Output: 5
-Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Input: prices = [7,1,5,3,6,4]\
+Output: 5\
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\
 Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
 
 ```js
@@ -514,8 +514,8 @@ common elements in A, B and C.
 
 ```
 > ### Q15 - Rearrange array in alternating positive & negative items
-Input:  arr[] = {1, 2, 3, -4, -1, 4}
-Output: arr[] = {-4, 1, -1, 2, 3, 4}
+Input:  arr[] = {1, 2, 3, -4, -1, 4}\
+Output: arr[] = {-4, 1, -1, 2, 3, 4}\
 
 key concept - Main concept is that first do the sorting and it becomes the -ve at first and +ve at the end, so we add the first -ve frist and +ve from the end using the loop.
 
@@ -552,7 +552,7 @@ console.log(rearrangeArray(arr)); // Output: [-4, 1, -1, 2, 3, 4]
 
 > ### Q16 - Find if there is any subarray with sum equal to 0
 
-Input:  arr[] = 4 2 -3 1 6
+Input:  arr[] = 4 2 -3 1 6\
 Output: 2, -3, 1 is the subarray with sum 0.
 
 ```js
@@ -611,7 +611,7 @@ console.log(factorial(5));
 
 > ### Q18 - find maximum product subarray
 
-Arr[] = [ 6, -3, -10, 0, 2 ]
+Arr[] = [ 6, -3, -10, 0, 2 ]\
 Output: 180
 
 ```js
@@ -664,8 +664,8 @@ const arr = [6, -3, -10, 0, 2];
 ```
 
 > ### Q19 - Find longest coinsecutive subsequence
-a[] = {2,6,1,9,4,5,3}
-Output:
+a[] = {2,6,1,9,4,5,3}\
+Output:\
 6 => [1,2,3,4,5,6]
 
 ```js
@@ -698,7 +698,7 @@ console.log(longestConsecutiveSubsequence(arr)); // Output: [1, 2, 3, 4, 5, 6]
 ```
 
 > ### Q20 - Given Array of size n, find all elements that appear more than k times
-Input: arr[] = {3, 1, 2, 2, 1, 2, 3, 3}, k = 2
+Input: arr[] = {3, 1, 2, 2, 1, 2, 3, 3}, k = 2\
 Output: {2, 3}
 
 ```js
@@ -725,9 +725,9 @@ const arr = [3, 1, 2, 2, 1, 2, 3, 3];
 ```
 
 > ### Q21 - Find whether an array is a subset of another array
-Input:
-a1[] = {11, 1, 13, 21, 3, 7}
-a2[] = {11, 3, 7, 1}
+Input:\
+a1[] = {11, 1, 13, 21, 3, 7}\
+a2[] = {11, 3, 7, 1}\
 Output: Yes
 
 ```js
@@ -759,7 +759,7 @@ if (isSubset(a1, a2)) {
 
 > ### Q23 - Pair elements of an array
 
-const arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]
+const arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]\
 output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
 
 
@@ -867,10 +867,10 @@ console.log(rev.split("").reverse().join("") === str1);
 ```
 
 > ### Q27 - 27) Write a Code to check whether one string is a rotation of another
-Input: S1 = ABCD, S2 = CDAB
-Output: Strings are rotations of each other
+Input: S1 = ABCD, S2 = CDAB\
+Output: Strings are rotations of each other\
 
-Input: S1 = ABCD, S2 = ACBD
+Input: S1 = ABCD, S2 = ACBD\
 Output: Strings are not rotations of each other
 
 ```js
@@ -953,7 +953,7 @@ console.log(isBalanced("[(])"));  // Output: false
 
 > ### Q33 - Find Elements that occurred only once in the array
 
-const a = [1, 2, 3, 4, 5, 1, 2];
+const a = [1, 2, 3, 4, 5, 1, 2];\
 Output => [ 3, 4, 5 ]
 
 ```js
@@ -985,7 +985,7 @@ console.log(findUniqueElements(array)); // Output: [5]
 
 
 > ### Q34 -  Find maximum char from string.
-const str = "hello"
+const str = "hello"\
 Output => l => 2
 
 ```js
@@ -1013,7 +1013,7 @@ console.log(maxChar); // Output: l
 
 > ### Q35 - Check Whether Two Strings Are Anagram Of Each Other
 
-An anagram of a string is another string that contains the same characters, 
+An anagram of a string is another string that contains the same characters,\
 only the order of characters can be different. For example, “abcd” and “dabc” are an anagram of each other. 
 
 ```js
@@ -1071,7 +1071,7 @@ console.log(areAnagrams(string1, string2)); // Output: true
 
 > ### Q36 - convert a array into small chunks of given size
 
- const arr = [1,2,3,4,5,6,7], size of chunk = 2
+ const arr = [1,2,3,4,5,6,7], size of chunk = 2\
  output = [[1,2], [3,4], [5,6], [7]]
 
 ```js
@@ -1087,7 +1087,7 @@ console.log(areAnagrams(string1, string2)); // Output: true
 ```
 
 > ### Q40 - Array Rotation by n
-const arr = [1,2,3,4,5,6] n=2
+const arr = [1,2,3,4,5,6] n=2\
 output =>   [5,6,1,2,3,4]
 
 Using merging arr twice
@@ -1101,7 +1101,7 @@ console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 ```
 
 > ### Q41 - Find all permutations of string
- const str = "ABC"
+ const str = "ABC"\
  output => ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
 
  ```js
@@ -1139,7 +1139,7 @@ console.log(result);
 
 > ### Q42 - Find missing number from an array 1 to n. ( sum of 1 to n and subtract all one by one to get missing number )
 
- const arr = [1,2,3,5,6] 
+ const arr = [1,2,3,5,6]\
  output =>  missing number is 4
 
 ```js
@@ -1170,7 +1170,7 @@ console.log(missing);
 ```
 
 > ### Q44 - Remove duplicate items object from an array
-const arr = [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 5 }]
+const arr = [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 5 }]\
 output => [{ id: 1 }, { id: 2 }, { id: 5 }]
 
 ```js
@@ -1191,10 +1191,10 @@ console.log(result); // [ { id: 1 }, { id: 2 }, { id: 5 } ]
 ```
 
 > ### Q45 - Check all the chars are unique in string
-const str = "Jayesh"
-output => true
+const str = "Jayesh"\
+output => true\
 
-const str = "boss"
+const str = "boss"\
 output => false
 
 ```js
@@ -1222,11 +1222,11 @@ console.log(checkAllCharUnique(str2)); // false
 
 > ### 47 - Implement Deep copy of an object ( deepClone )
 
-const obj1 = { a: 10, b: { x: 20 } };
-const obj2 = deepClone(obj1);
-obj2.b.x = 90;
+const obj1 = { a: 10, b: { x: 20 } };\
+const obj2 = deepClone(obj1);\
+obj2.b.x = 90;\
 
-console.log(obj1); // { a: 10, b: { x: 20 } }
+console.log(obj1); // { a: 10, b: { x: 20 } }\
 console.log(obj2); // { a: 10, b: { x: 90 } }
 
 ```js
@@ -1253,7 +1253,7 @@ console.log(obj2); // { a: 10, b: { x: 90 } }
 ```
 
 > ### Q48 - String compression
-const str = "aaaaaabbcc"
+const str = "aaaaaabbcc"\
 output => 'a6b2c2'
 
 ```js
@@ -1287,19 +1287,19 @@ console.log(compress(str));
 > ### Q49 - Check two given strings are isomorphic in JavaScript
 Two strings are said to be isomorphic if it is possible to map every character of the first string to every character 
 of the second string. Basically, in isomorphic strings, there is a one-to-one mapping between every character of 
-the first string to every character of the second string
+the first string to every character of the second string\
 
-str1 = 'ABCA'
-str2 = 'XYZX'
-'A' maps to 'X'
-'B' maps to 'Y'
-'C' maps to 'Z' true
+str1 = 'ABCA'\
+str2 = 'XYZX'\
+'A' maps to 'X'\
+'B' maps to 'Y'\
+'C' maps to 'Z' true\
 
-str1 = 'ABCA'
-str2 = 'WXYZ'
-'A' maps to 'W'
-'B' maps to 'X'
-'C' maps to 'Y'
+str1 = 'ABCA'\
+str2 = 'WXYZ'\
+'A' maps to 'W'\
+'B' maps to 'X'\
+'C' maps to 'Y'\
 'A' again maps to 'Z' false
 
 ```js
@@ -1360,8 +1360,8 @@ console.log(count);
 ```
 
 > ### Q51 - compare ONE-LEVEL object ( custom without JSON.stringify())
-const obj1 = { a: 20, b:40 }
-const obj2 = { a: 20, b:40 }
+const obj1 = { a: 20, b:40 }\
+const obj2 = { a: 20, b:40 }\
 
 ```js
 const obj1 = { a: 20, b: 40 };
