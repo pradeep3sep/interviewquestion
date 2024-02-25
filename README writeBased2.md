@@ -2394,15 +2394,15 @@ function generatePrimes(N) {
 }
 
 function isPrime(num) {
-    if (num <= 1) return false;
-    if (num <= 3) return true;
-
-    if (num % 2 === 0 || num % 3 === 0) return false;
-
-    let i = 5;
-    while (i * i <= num) {
-        if (num % i === 0 || num % (i + 2) === 0) return false;
-        i += 6;
+    // Prime numbers are greater than 1
+    if (num <= 1) {
+        return false;
+    }
+    // Check for divisibility from 2 to sqrt(num)
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) {
+            return false;
+        }
     }
     return true;
 }
@@ -2411,6 +2411,37 @@ function isPrime(num) {
 console.log(generatePrimes(5)); // Output: [2, 3, 5, 7, 11]
 console.log(generatePrimes(0)); // Output: []
 ```
+
+above function in combined form 
+
+```js
+function printFirstNPrimes(N) {
+    let primes = [];
+    let num = 2; // Start checking from 2
+
+    while (primes.length < N) {
+        let isPrime = true;
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i === 0) {
+                isPrime = false;
+                break;
+            }
+        }
+        if (isPrime) {
+            primes.push(num);
+        }
+        num++;
+    }
+
+    console.log(`First ${N} prime numbers:`);
+    console.log(primes.join(', '));
+}
+
+// Example usage:
+printFirstNPrimes(10); // Prints the first 10 prime numbers
+```
+
+
 
 > ### Q88 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
 
