@@ -515,7 +515,7 @@ common elements in A, B and C.
 ```
 > ### Q15 - Rearrange array in alternating positive & negative items
 Input:  arr[] = {1, 2, 3, -4, -1, 4}\
-Output: arr[] = {-4, 1, -1, 2, 3, 4}\
+Output: arr[] = {-4, 1, -1, 2, 3, 4}
 
 key concept - Main concept is that first do the sorting and it becomes the -ve at first and +ve at the end, so we add the first -ve frist and +ve from the end using the loop.
 
@@ -2148,20 +2148,20 @@ console.log(spellNumber(997751076)); // Ninety Nine Crore Seventy Seven Lakh Fif
 
 > ### Q77 - Array of objects Manipulation
 
-const portfolio = [
-  { name: "Mark", stock: "FB" },
-  { name: "Steve", stock: "AAPL" },
-  { name: "Tim", stock: "AAPL" },
-  { name: "Steve", stock: "MSFT" },
-  { name: "Bill", stock: "MSFT" },
-  { name: "Bill", stock: "AAPL" },
+const portfolio = [\
+  { name: "Mark", stock: "FB" },\
+  { name: "Steve", stock: "AAPL" },\
+  { name: "Tim", stock: "AAPL" },\
+  { name: "Steve", stock: "MSFT" },\
+  { name: "Bill", stock: "MSFT" },\
+  { name: "Bill", stock: "AAPL" },\
 ];
 
-Output 
-const shareholder = [
-  { stock: "AAPL", name: ["Steve", "Bill", "Tim"], count: 3 },
-  { stock: "MSFT", name: ["Steve", "Bill"], count: 2 },
-  { stock: "FB", name: ["Mark"], count: 1 },
+Output \
+const shareholder = [\
+  { stock: "AAPL", name: ["Steve", "Bill", "Tim"], count: 3 },\
+  { stock: "MSFT", name: ["Steve", "Bill"], count: 2 },\
+  { stock: "FB", name: ["Mark"], count: 1 },\
 ];
 
 ```js
@@ -2222,7 +2222,7 @@ console.log(result); // Output will be 4
 
 > ### Q79 -  Find sum of numbers occurred only once in the array ( using only one loop )
 
-const array = [2, 5, 4, 4, 6, 5, 4, 7, 6];
+const array = [2, 5, 4, 4, 6, 5, 4, 7, 6];\
 output => 2 + 7 => 9
 
 ```js
@@ -2254,9 +2254,9 @@ console.log(result); // Output will be 9
 
 > ### Q80 - Find the smallest positive number missing from an unsorted array
 
-const arr1 = [2, 3, 7, 6, 8, -1, -10, 15]; // 1
-const arr2 = [2, 3, -7, 6, 8, 1, -10, 15]; // 4
-const arr3 = [1, 1, 0, -1, -2]; // 2
+const arr1 = [2, 3, 7, 6, 8, -1, -10, 15]; // 1\
+const arr2 = [2, 3, -7, 6, 8, 1, -10, 15]; // 4\
+const arr3 = [1, 1, 0, -1, -2]; // 2\
 const arr4 = [3, 2, 1, 4, 5]; // 6
 
 ```js
@@ -2296,7 +2296,7 @@ console.log(smallestMissingPositive(arr4)); // Output: 6
 
 > ### Q81 - compare nested object ( custom without JSON.stringify())
 
-const obj1 = { a: 20, b: { x: 40, y: 60 } };
+const obj1 = { a: 20, b: { x: 40, y: 60 } };\
 const obj2 = { a: 20, b: { x: 40, y: 60 } };
 
 ```js
@@ -2321,7 +2321,7 @@ console.log(compare(obj1, obj2));
 
 > ### Q84 - Find the 3rd min element of an array without using index and sorting
 
-const arr = [7, 10, 4, 3, 20, 15]
+const arr = [7, 10, 4, 3, 20, 15]\
 output => 7 
 
 ```js
@@ -2351,7 +2351,7 @@ console.log(min3);
 
 > ### Q85 - Given an array of string return group of anagrams string array
 
-const arr = ["eat", "tea", "ate", "ball", "dna", "and"]
+const arr = ["eat", "tea", "ate", "ball", "dna", "and"]\
 output => [ [ 'eat', 'tea', 'ate' ], [ 'ball' ], [ 'dna', 'and' ] ]
 
 ```js
@@ -2375,7 +2375,7 @@ console.log(result);
 
 > ### Q87 - Given a positive integer N as input , print first N prime numbers
 
-Input  : 5, Output : [2,3,5,7,11]
+Input  : 5, Output : [2,3,5,7,11]\
 Input  : 0, Output : []
 
 ```js
@@ -2414,7 +2414,7 @@ console.log(generatePrimes(0)); // Output: []
 
 > ### Q88 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
 
-Input  : Banana, Output : Ban12
+Input  : Banana, Output : Ban12\
 Input  : Jayesh, Output : Jayesh
 
 ```js
