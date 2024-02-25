@@ -92,6 +92,8 @@ array.forEach(item => {
 console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 ```
 
+> ### Infinite currying
+
 > ### Q2 - Maximum and minimum of an array using minimum number of comparisons
 
 Input: arr = [3, 5, 4, 1, 9]
@@ -452,10 +454,10 @@ const prices = [7, 1, 5, 3, 6, 4];
 
 
 > ### Q13 find all pairs on integer array whose sum is equal to given number
-arr[] = {1, 5, 7, 1}
-Output: 2
-Explanation: 
-arr[0] + arr[1] = 1 + 5 = 6 
+arr[] = {1, 5, 7, 1}\
+Output: 2\
+Explanation:\ 
+arr[0] + arr[1] = 1 + 5 = 6 \
 and arr[1] + arr[3] = 5 + 1 = 6.
 
 
@@ -477,11 +479,11 @@ const arr = [1, 5, 7, 1];
 
 
 > ### Q14 - find common elements In 3 sorted arrays
-n1 = 6; A = {1, 5, 10, 20, 40, 80}
-n2 = 5; B = {6, 7, 20, 80, 100}
-n3 = 8; C = {3, 4, 15, 20, 30, 70, 80, 120}
-Output: 20 80
-Explanation: 20 and 80 are the only
+n1 = 6; A = {1, 5, 10, 20, 40, 80}\
+n2 = 5; B = {6, 7, 20, 80, 100}\
+n3 = 8; C = {3, 4, 15, 20, 30, 70, 80, 120}\
+Output: 20 80\
+Explanation: 20 and 80 are the only\
 common elements in A, B and C.
 
 ```js
