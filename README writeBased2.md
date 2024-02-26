@@ -1390,7 +1390,7 @@ console.log(compareObj(obj1, obj3)); // true
 ```
 
 > ### Q52 -  Find all subsets of an array
-const arr = [1, 2, 3];
+const arr = [1, 2, 3];\
 output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
 
 ```js
@@ -1417,21 +1417,21 @@ console.log(generateSubsets(arr));
 
 > ### 53 - Filter array of objects with exclude array
 
-let items = [
-  { color: "red", type: "tv" },
-  { color: "silver", type: "phone" },
-  { color: "black", type: "phone" },
-  { color: "blue", type: "phone" },
+let items = [\
+  { color: "red", type: "tv" },\
+  { color: "silver", type: "phone" },\
+  { color: "black", type: "phone" },\
+  { color: "blue", type: "phone" },\
 ];
 
-let excludes = [
-  { k: "color", v: "silver" },
-  { k: "type", v: "tv" },
+let excludes = [\
+  { k: "color", v: "silver" },\
+  { k: "type", v: "tv" },\
 ];
 
-output:- [ 
-  { color: "black", type: "phone" },
-  { color: "blue", type: "phone" },
+output:- [ \
+  { color: "black", type: "phone" },\
+  { color: "blue", type: "phone" },\
 ];
 
 ```js
@@ -1487,7 +1487,7 @@ console.log(filteredItems);
 ```
 
 > ### 54 - Moving selected item at the end of an array ( move all 0 to end I.M.P )
-const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7]; selected item = 3
+const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7]; selected item = 3\
 output => [1, 2, 4, 5, 6, 7, 3, 3, 3];
 
 ```js
@@ -1530,7 +1530,7 @@ console.log(arr);
 ```
 
 > ### Q55 - write a program to print the first non-repeated number in an array.
-const arr = [1, 2, 3, 1, 2, 4, 5]
+const arr = [1, 2, 3, 1, 2, 4, 5]\
 output => 3
 
 ```js
@@ -1558,8 +1558,8 @@ console.log(firstNonRepeated(arr)); // Output: 3
 ```
 
 > ### Q56 -  Find all the common elements from the arrays ( not sorted ) .
-const arr = [1, 100, 10, 20, 50];
-const arr1 = [2, 30, 21, 10, 20];
+const arr = [1, 100, 10, 20, 50];\
+const arr1 = [2, 30, 21, 10, 20];\
 output :- [ 10, 20 ]
 
 ```js
@@ -1602,10 +1602,10 @@ console.log(commonElements); // Output: [10, 20]
 ```
 
 > ### 57 - Array of objects manipulatiion.
-a) declare array of employees & sort them in ascending order (empId)
-b) declare an array of employees & sort them in ascending order by name.
-c) declare array of employees & filter the employees whose sal>6000;
-d) declare array of employees & increase sal of every employee by 500;
+a) declare array of employees & sort them in ascending order (empId)\
+b) declare an array of employees & sort them in ascending order by name.\
+c) declare array of employees & filter the employees whose sal>6000;\
+d) declare array of employees & increase sal of every employee by 500;\
 e) declare array of employees & add "comp:ibm" to every employee;
 
 ```js
@@ -1677,7 +1677,7 @@ console.log(updatedEmployees);
 ```
 
 > ### Q59 - WAP to print Account number
-input:- '12345678987'
+input:- '12345678987'\
 output:- '12*******87'
 
 ```js
@@ -1690,7 +1690,7 @@ console.log(accountNo.join(""));
 ```
 
 > ### Q60 - WAP to print Credit-card number
-input:- '1111222233334444'
+input:- '1111222233334444'\
 output:- '1111-2222-3333-4444'
 
 ```js
@@ -1708,7 +1708,7 @@ console.log(result.join("-"));
 ```
 
 > ### Q61 - WAP to remove special character from a string
-input:- 'hello@#hi&'
+input:- 'hello@#hi&'\
 output:- 'hellohi'
 
 ```js
@@ -1718,7 +1718,7 @@ console.log(str.replace(/[^a-zA-Z0-9 ]/g, ""));
 
 > ### Q62 - WAP to move all the special characters to the end of the string
 
-input:- 'hello@#hi&'
+input:- 'hello@#hi&'\
 output:- 'hellohi@#&'
 
 ```js
@@ -1746,7 +1746,7 @@ console.log(output); // Output will be 'hellohi@#&'
 ```
 
 > ### Q63 - Covert char into word
-const input = ["c", "a", "k", "e", "", "e", "a", "t", "", "m", "a", "t", "e", "" ];
+const input = ["c", "a", "k", "e", "", "e", "a", "t", "", "m", "a", "t", "e", "" ];\
 output => ["cake", "eat", "mate"];
 
 ```js
@@ -1769,7 +1769,7 @@ console.log(output); // [ 'cake', 'eat', 'mate' ]
 
 > ### Q64 - String Capatalize
 
-let arr = ["jayesh choudhary", "ankit sharma"];
+let arr = ["jayesh choudhary", "ankit sharma"];\
 Output: JayeshChoudhary , AnkitSharma
 
 ```js
@@ -1793,17 +1793,17 @@ for (let i = 0; i < arr.length; i++) {
 
 > ### Q65 - Rearrange array of Objects
 /* 
-[ { id: '1', name: 'number1' },
-  { id: '2', name: 'number2' },
-  { id: '3', name: 'number3' },
-  { id: 'S1', name: 'number4' },
+[ { id: '1', name: 'number1' },\
+  { id: '2', name: 'number2' },\
+  { id: '3', name: 'number3' },\
+  { id: 'S1', name: 'number4' },\
   { id: '4', name: 'number4' } ]
        
-Output :-
-[ { id: 'S1', name: 'number4' },
-  { id: '1', name: 'number1' },
-  { id: '2', name: 'number2' },
-  { id: '3', name: 'number3' },
+Output :-\
+[ { id: 'S1', name: 'number4' },\
+  { id: '1', name: 'number1' },\
+  { id: '2', name: 'number2' },\
+  { id: '3', name: 'number3' },\
   { id: '4', name: 'number4' } ]
 
 ```js
@@ -1824,19 +1824,19 @@ console.log([...front, ...back]);
 
 > ### Q66 - Mapping array
  
-let friends = [
-  { name: "chris", age: 13, books: ["sherlock holmes", "english"] },
-  { name: "john", age: 13, books: ["bible", "harry potter"] },
-  { name: "jack", age: 21, books: ["Alchemist", "Java"] },
-  { name: "jack", age: 21, books: ["Wings of fire”,”Davinci code"] },
-  { name: "holmes", age: 23, books: ["Invisible man”,”The Rainbow"] },
+let friends = [\
+  { name: "chris", age: 13, books: ["sherlock holmes", "english"] },\
+  { name: "john", age: 13, books: ["bible", "harry potter"] },\
+  { name: "jack", age: 21, books: ["Alchemist", "Java"] },\
+  { name: "jack", age: 21, books: ["Wings of fire”,”Davinci code"] },\
+  { name: "holmes", age: 23, books: ["Invisible man”,”The Rainbow"] },\
 ];
 
-Output:-
-{
-  13: ["sherlock holmes", "english", "bible", "harry potter"],
-  21: ["Alchemist", "Java", "Wings of fire”,”Davinci code"],
-  23: ["Invisible man”,”The Rainbow"]
+Output:-\
+{\
+  13: ["sherlock holmes", "english", "bible", "harry potter"],\
+  21: ["Alchemist", "Java", "Wings of fire”,”Davinci code"],\
+  23: ["Invisible man”,”The Rainbow"]\
 }
 
 ```js
@@ -1862,7 +1862,7 @@ console.log(result);
 
 > ### Q67 - Find peak elements from an array, An element is called a peak element if its value is not smaller than the value of its adjacent elements(if they exists).
 
-const arr = [1, 2, 3, 77, 6, 99, 2];
+const arr = [1, 2, 3, 77, 6, 99, 2];\
 output :- [ 77, 99 ]
 
 ```js
