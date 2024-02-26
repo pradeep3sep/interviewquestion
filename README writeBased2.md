@@ -1884,40 +1884,30 @@ console.log(findPeakElements(arr)); // Output: [77, 99]
 
 > ### Q68 - find continuous sub-array which adds up to a given number.
 
-A[] = [1,2,3,7,5] , S = 12
-Output: [ 2, 3, 7 ], [ 7, 5 ]
+A[] = [1,2,3,7,5] , S = 12\
+Output: [ 2, 3, 7 ], [ 7, 5\ ]
 Explanation: The sum of elements from 2nd position to 4th position is 12. 
 
 ```js
 function findSubArrayWithSum(arr, targetSum) {
-    let start = 0;
-    let end = 0;
+  let result = [];
+  for (let i = 0; i < arr.length; i++) {
     let sum = 0;
-    const result = [];
-
-    while (end < arr.length) {
-        sum += arr[end];
-
-        while (sum > targetSum) {
-            sum -= arr[start];
-            start++;
-        }
-
-        if (sum === targetSum) {
-            result.push(arr.slice(start, end + 1));
-            sum -= arr[start];
-            start++;
-        }
-
-        end++;
+    for (let j = i; j < arr.length; j++) {
+      sum += arr[j];
+      if (sum === targetSum) {
+        result.push(arr.slice(i, j + 1));
+      }
     }
-
-    return result;
+  }
+  return result;
 }
 
-const A = [1, 2, 3, 7, 5];
-const S = 12;
-console.log(findSubArrayWithSum(A, S));
+const arr = [1, 2, 3, 7, 5];
+const targetSum = 12;
+const subArrays = findSubArrayWithSum(arr, targetSum);
+console.log(subArrays); // Output: [ [ 2, 3, 7 ], [ 7, 5 ] ]
+
 ```
 
 > ### Q69 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
