@@ -1922,8 +1922,8 @@ console.log(findSubArrayWithSum(A, S));
 
 > ### Q69 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
 
-Input: S = Bawds jog, flick quartz, vex nymph
-Output: 1
+Input: S = Bawds jog, flick quartz, vex nymph\
+Output: 1\
 Explanation: In the given input, there are all the letters of the English alphabet. Hence, the output is 1.
 
 ```js
@@ -1946,10 +1946,10 @@ console.log(checkPanagram(str));
 
 > ### Q70 - Print all subsequences of a string
 
-Input : abc
-Output : a, b, c, ab, bc, ac, abc
+Input : abc\
+Output : a, b, c, ab, bc, ac, abc\
 
-Input : aaa
+Input : aaa\
 Output : a, a, a, aa, aa, aa, aaa
 
 ```js
@@ -1981,7 +1981,7 @@ generateSubsequences("aaa");
 
 > ### Q71 -  Program to convert time from 12 hour to 24 hour format
 
-Input : 07:05:45PM
+Input : 07:05:45PM\
 Output : 19:05:45
 
 ```js
@@ -2016,8 +2016,8 @@ console.log("Output:", outputTime); // Output: 19:05:45
 
 
 > ### 72 -  Program to calculate the number of days between two dates
-var date1 = new Date("06/30/2019");
-var date2 = new Date("07/30/2019");
+var date1 = new Date("06/30/2019");\
+var date2 = new Date("07/30/2019");\
 output => 30 
 
 ```js
@@ -2032,9 +2032,9 @@ console.log(day);
 
 > ### Q74 - Print the middle character of the word. If the word's length is odd, return the middle character. If the word's length is even, return the middle 2 characters.
 
-"test" => "es"
-"testing" => "t"
-"middle" => "dd"
+"test" => "es"\
+"testing" => "t"\
+"middle" => "dd"\
 "A" => "A"
 
 
@@ -2058,8 +2058,8 @@ console.log(getMiddleCharacter("A")); // Output: "A"
 
 > ### Q75 -  Remove given character from string.
 
-const str = "Jayesh";
-const char = "a";
+const str = "Jayesh";\
+const char = "a";\
 output = "Jyesh";
 
 ```js
@@ -2079,11 +2079,11 @@ console.log(result);
 
 > ### Q76 - Spell out numbers ( convert numbers which are less than 100 into words ).
 
-spellNumber(50) => 'Fifty' 
-spellNumber(99) => 'Ninety Nine' 
-spellNumber(14632) => 'Fourteen Thousand Six Hundred Thirty Two' 
-spellNumber(7483647) => 'Seventy Four Lakh Eighty Three Thousand Six Hundred Forty Seven' 
-spellNumber(997751076) => 'Ninety Nine Crore Seventy Seven Lakh Fifty One Thousand Seventy Six'
+spellNumber(50) => 'Fifty'\
+spellNumber(99) => 'Ninety Nine'\
+spellNumber(14632) => 'Fourteen Thousand Six Hundred Thirty Two'\
+spellNumber(7483647) => 'Seventy Four Lakh Eighty Three Thousand Six Hundred Forty Seven'\
+spellNumber(997751076) => 'Ninety Nine Crore Seventy Seven Lakh Fifty One Thousand Seventy Six'\
 
 ```js
 
