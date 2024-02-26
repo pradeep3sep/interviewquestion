@@ -1952,6 +1952,8 @@ Output : a, b, c, ab, bc, ac, abc
 Input : aaa\
 Output : a, a, a, aa, aa, aa, aaa
 
+using recursion
+
 ```js
 function generateSubsequences(str, index = 0, current = '') {
     const n = str.length;
@@ -1978,6 +1980,31 @@ generateSubsequences("abc");
 console.log("\nInput: aaa");
 generateSubsequences("aaa");
 ```
+
+without recursion
+
+```js
+function generateSubsequences(str) {
+    const subsequences = [''];
+    for (let i = 0; i < str.length; i++) {
+        const currentCharacter = str[i];
+        const currentLength = subsequences.length;
+        for (let j = 0; j < currentLength; j++) {
+            subsequences.push(subsequences[j] + currentCharacter);
+        }
+    }
+    // Sort if you want the subsequences to be in lexicographical order
+    subsequences.sort();
+    // Print the subsequences
+    subsequences.forEach(sub => console.log(sub));
+}
+
+// Example usage:
+generateSubsequences("abc");
+
+```
+
+
 
 > ### Q71 -  Program to convert time from 12 hour to 24 hour format
 
