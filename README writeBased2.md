@@ -1947,7 +1947,7 @@ console.log(checkPanagram(str));
 > ### Q70 - Print all subsequences of a string
 
 Input : abc\
-Output : a, b, c, ab, bc, ac, abc\
+Output : a, b, c, ab, bc, ac, abc
 
 Input : aaa\
 Output : a, a, a, aa, aa, aa, aaa
