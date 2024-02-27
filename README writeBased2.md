@@ -866,7 +866,7 @@ console.log(rev.split("").reverse().join("") === str1);
   console.log(map);
 ```
 
-> ### Q27 - 27) Write a Code to check whether one string is a rotation of another
+> ### Q27 - Write a Code to check whether one string is a rotation of another
 Input: S1 = ABCD, S2 = CDAB\
 Output: Strings are rotations of each other\
 
@@ -1100,7 +1100,7 @@ const end = start + arr1.length;
 console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 ```
 
-> ### Q41 - Find all permutations of string
+> ### Q41 - Find all permutations of string  LOGIC
  const str = "ABC"\
  output => ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
 
@@ -1192,7 +1192,7 @@ console.log(result); // [ { id: 1 }, { id: 2 }, { id: 5 } ]
 
 > ### Q45 - Check all the chars are unique in string
 const str = "Jayesh"\
-output => true\
+output => true
 
 const str = "boss"\
 output => false
@@ -1224,7 +1224,7 @@ console.log(checkAllCharUnique(str2)); // false
 
 const obj1 = { a: 10, b: { x: 20 } };\
 const obj2 = deepClone(obj1);\
-obj2.b.x = 90;\
+obj2.b.x = 90;
 
 console.log(obj1); // { a: 10, b: { x: 20 } }\
 console.log(obj2); // { a: 10, b: { x: 90 } }
@@ -1287,13 +1287,13 @@ console.log(compress(str));
 > ### Q49 - Check two given strings are isomorphic in JavaScript
 Two strings are said to be isomorphic if it is possible to map every character of the first string to every character 
 of the second string. Basically, in isomorphic strings, there is a one-to-one mapping between every character of 
-the first string to every character of the second string\
+the first string to every character of the second string
 
 str1 = 'ABCA'\
 str2 = 'XYZX'\
 'A' maps to 'X'\
 'B' maps to 'Y'\
-'C' maps to 'Z' true\
+'C' maps to 'Z' true
 
 str1 = 'ABCA'\
 str2 = 'WXYZ'\
@@ -1361,7 +1361,7 @@ console.log(count);
 
 > ### Q51 - compare ONE-LEVEL object ( custom without JSON.stringify())
 const obj1 = { a: 20, b:40 }\
-const obj2 = { a: 20, b:40 }\
+const obj2 = { a: 20, b:40 }
 
 ```js
 const obj1 = { a: 20, b: 40 };
