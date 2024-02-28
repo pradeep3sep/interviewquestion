@@ -1,5 +1,5 @@
 ### Question 1
-```
+```js
 const numbers = [10,20,30,40,50,60]
 const [,,,...newNumbers] = numbers
 console.log(newNumbers);
@@ -11,7 +11,7 @@ console.log(newNumbers);
 
 
 ### Question 2
-```
+```js
 const details = {
     name : "Pradeep",
     age : 25,
@@ -29,7 +29,7 @@ console.log(details);
  
 
 ### Question 3
-```
+```js
 const name = "testify"
 console.log(!typeof name === "object");
 console.log(!typeof name === "string");
@@ -38,7 +38,7 @@ console.log(!typeof name); //this is for hint
 false,false
 
 ### Question 4
-```
+```js
 let a = 1
 c= 2;
 console.log(--c === a);
@@ -46,14 +46,14 @@ console.log(--c === a);
 true
 
 ### Question 5
-```
+```js
 let check = [1,2,3,4]
 let hi = [,...check]
 console.log(hi);
 ```
 
 ### Question 6
-```
+```js
 var x;
 x = 10;
 function test(){
@@ -68,7 +68,7 @@ test();
 undefined
 
 ### Question 7
-```
+```js
 const number = 2
 const result  = (function () {
     delete number;
@@ -79,7 +79,7 @@ console.log(result);
 2
 
 ### Question 8
-```
+```js
 const number = 2
 const result  = (function (number) {
     delete number;
@@ -90,7 +90,7 @@ console.log(result);
 20
 
 ### Question 9
-```
+```js
 function sum(num1, num2 = num1){
     console.log(num1 + num2);
 }
@@ -99,7 +99,7 @@ sum(10)
 20
 
 ### Question 10
-```
+```js
 function sum(num1, num2 = num1){
     console.log(num1 + num2);
 }
@@ -108,7 +108,7 @@ sum(10,89)
 99
 
 ### Question 11
-```
+```js
 var a = "hello"
 var sum = 0
 for (let i = 0; i < a.length; i++) {
@@ -119,7 +119,7 @@ console.log(sum);
 NaN
 
 ### Question 12
-```
+```js
 let a = 0
 for(a; a<5; a++);
 console.log(a);
@@ -127,7 +127,7 @@ console.log(a);
 5
 
 ### Question 13(revise the concept of shallow and deep copy)
-```
+```js
 let person = {
     name : "Lynda"
 }
@@ -138,7 +138,7 @@ console.log(members);
 [{name : "Lynda"}]
 
 ### Question 14
-```
+```js
 const a = {}
 const b = {
     key : "b"
@@ -166,7 +166,7 @@ Then, we log `a[b]`, which is actually `a["[object Object]"]`. We just set that 
 ```
 
 ### Question 15(console kra k check karo)
-```
+```js
 (()=> {
     let x = (y = 10)
 })()
@@ -176,15 +176,17 @@ console.log(typeof y);
 undefined, number
 
 ### Question 16
+```js
 (function(a){
     return (function(){
         console.log(a);
         a = 23
     })()
 })(45);
+```
 
 ### Question 17
-```
+```js
 const person = {
     name : "pradeep",
     age : 45
@@ -195,7 +197,7 @@ console.log(person);
 ```
 
 ### Question 18
-```
+```js
 var count = 1;
 var func1 = function (){
     console.log(count)
@@ -208,7 +210,7 @@ func2()
 ```
 
 ### Question 19
-```
+```js
 let users  = {
     name : "outside",
     hasArrowfunc : function(){
@@ -224,7 +226,7 @@ console.log(users.hasArrowfunc());
 ```
 
 ### Question 20
-```
+```js
 bar();
 (function abc(){
     console.log("something")
@@ -235,7 +237,7 @@ function bar(){
 ```
 
 ### Question 21 sorting of the array
-```
+```js
 let daya = [1,12,3,11,10]
 daya.sort((a,b)=> {
     return a-b
@@ -244,7 +246,7 @@ console.log(daya);
 ```
 
 ### Question 21 sorting of the object
-```
+```js
 const items = [
     { name: 'Edward', value: 21 },
     { name: 'Sharpe', value: 37 },
@@ -269,7 +271,7 @@ console.log(items);
 ```
 
 ### Question 22 converting the number into textnumber
-```
+```js
 let number = 9966
 let data = number.toLocaleString()
 ```
@@ -1332,7 +1334,7 @@ config = null;
 
 ### Question 68
 
-```
+```js
 const config = {
   languages: [],
   set language(lang) {
@@ -1449,7 +1451,7 @@ console.log(counterOne.count);
 
 ### Question 72
 
-```
+```js
 const myPromise = Promise.resolve(Promise.resolve('Promise'));
 
 function funcOne() {
@@ -1477,7 +1479,7 @@ funcTwo();
 
 ### Question 73
 
-```
+```js
 const person = {
   name: 'Lydia Hallie',
   hobbies: ['coding'],
@@ -1554,7 +1556,7 @@ const pet = new Flamingo();
 
 ### Question 75
 
-```
+```js
 const user = {
 	email: "e@mail.com",
 	password: "12345"
@@ -1594,7 +1596,7 @@ console.log(updatedUser === user)
 
 ### Question 75
 
-```
+```js
 const promise1 = Promise.resolve('First')
 const promise2 = Promise.resolve('Second')
 const promise3 = Promise.reject('Third')
