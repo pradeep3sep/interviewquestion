@@ -255,13 +255,13 @@ const items = [
 ];
 ```
 sort by value
-```
+```js
 items.sort((a, b) => a.value - b.value)
 console.log(items);
 ```
 
 sort by name
-```
+```js
 items.sort(function(a, b){
     if(a.firstname < b.firstname) { return -1; }
     if(a.firstname > b.firstname) { return 1; }
@@ -278,7 +278,7 @@ let data = number.toLocaleString()
 10K
 
 ### Question 23 check(4)(2)(3)
-```
+```js
 function check(num1){
     return (num2)=>{
       return (num3)=> {
@@ -290,14 +290,14 @@ console.log(check(4)(2)(3));
 ```
 
 ### Question 24
-```
+```js
 let array = [2,3,[5,2,[6,[3, [4, 5, [5, 1, 3]]]],1,1],9];
 //flat without using flat
 console.log(array.toString().split(','));
 ```
 
 ### Question 25
-```
+```js
 const firstname = fun()
 let name = 'ram'
 function fun(){
@@ -311,7 +311,7 @@ console.log(firstname);
 ### Write a program to make polyfill for map,filter,reduce method in javascript
 
 ### Question 26 , output of below code
-```
+```js
 for (let i = 0; i < 5; i++) {
   setTimeout(() => {
     console.log(i);
@@ -332,7 +332,7 @@ for (let i = 0; i < 5; i++) {
 ```
 
 ### Question 27
-```
+```js
 var num = 4;
 function outer(){
   var num = 2;
@@ -347,7 +347,7 @@ outer()
 ```
 
 ### Question 28
-```
+```js
 const obj = {
   prop1: function () {
     return 0;
@@ -366,13 +366,13 @@ console.log(obj.prop3());
 ```
 
 ### Question 29
-```
+```js
 console.log(1 < 2 < 3);
 console.log(3 > 2 > 1);
 ```
 
 ### Question 30
-```
+```js
 function printNumbers(first, second, first) {
   console.log(first, second, first);
 }
@@ -380,12 +380,12 @@ printNumbers(1, 2, 3);
 ```
 
 ### Question 31
-```
+```js
 console.log(Math.max());
 ```
 
 ### Question 32
-```
+```js
 console.log(10 == [10]);
 console.log(10 == [[[[[[[10]]]]]]]);
 ```
@@ -402,7 +402,7 @@ As per the comparison algorithm in the ECMAScript specification(ECMA-262), the a
 So it doesn't matter about number brackets([]) around the number, it is always converted to a number in the expression.
 
 ### Question 33
-```
+```js
 console.log([0] == false);
 if ([0]) {
   console.log("I'm True");
@@ -414,18 +414,18 @@ if ([0]) {
 In comparison operators, the expression [0] converted to Number([0].valueOf().toString()) which is resolved to false. Whereas [0] just becomes a truthy value without any conversion because there is no comparison operator.
 
 ### Question 34
-```
+```js
 console.log([1, 2] + [3, 4]);
 ```
 
 ### Question 35
-```
+```js
 let numbers = [1, 2, 3, 4, NaN];
 console.log(numbers.indexOf(NaN));
 ```
 
 ### Question 36
-```
+```js
 async function func() {
   return 10;
 }
@@ -445,7 +445,7 @@ function func() {
 
 
 ### Question 37
-```
+```js
 async function func() {
   await 10;
 }
