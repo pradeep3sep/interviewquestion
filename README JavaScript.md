@@ -1686,6 +1686,22 @@ console.log(employees);
 0: value: {name: 'Steve', experience: '8 years'}
 */
 ```
+> ### illegal shadowing
+If you create a variable in a global scope with the let keyword and another variable with the var keyword in a block scope but the exact same name, it will throw an error. This is called illegal shadowing.
+
+```js
+let fruit = 'apple';
+let hungry = true;
+
+if(hungry) {
+  var fruit = 'orange'
+  console.log(fruit)
+}
+
+console.log(fruit)
+```
+
+
 
 > ### What is a pure function
 A Pure function is a function where the return value is only determined by its arguments without any side effects. i.e, If you call a function with the same arguments 'n' number of times and 'n' number of places in the application then it will always return the same value.
