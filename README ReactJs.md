@@ -1957,3 +1957,37 @@ In commented it is earlier version, the non-commented is optimized version.
 It's re-rendered is optimized, you can check it in profiler.
 
 It works because, The component has been passed as a children prop, and so what this means is that this component here was actually created before the Counter component re-rendered. And so therefore, there's no way in which this component could have been affected by the state change in the counter. 
+
+
+> ### Children types
+React can render `children` from most types. In most cases it's either an `array` or a `string`.
+
+#### String
+```html
+<div>Hello World!</div>
+```
+#### Array
+
+```jsx
+<div>{["Hello ", <span>World</span>, "!"]}</div>
+```
+
+
+> ### Array as children
+Providing an array as `children` is a very common. It's how lists are drawn in React.
+
+We use `map()` to create an array of React Elements for every value in the array.
+
+```jsx
+<ul>
+  {["first", "second"].map((item) => (
+    <li>{item}</li>
+  ))}
+</ul>
+```
+
+That's equivalent to providing a literal `array`.
+
+```jsx
+<ul>{[<li>first</li>, <li>second</li>]}</ul>
+```
