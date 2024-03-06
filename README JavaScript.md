@@ -3,6 +3,15 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### new Keyword in js
+The `new` keyword is used to invoke a constructor. What it actually does is:
+
+Create a new instance
+
+Bind `this` to the new instance
+
+Reference the new object’s delegate [[Prototype]] to the object referenced by the constructor function’s `prototype` property.
+
 > ### Break vs Continue in for loop
 
 The `break` statement `"jumps out" or stops` of a loop.
