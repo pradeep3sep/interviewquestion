@@ -1625,3 +1625,46 @@ runPromises()
 
   The `Promise.all` method runs the passed promises in parallel. If one promise fails, the `Promise.all` method rejects with the value of the rejected promise. In this case, `promise3` rejected with the value `"Third"`. We’re catching the rejected value in the chained `catch` method on the `runPromises` invocation to catch any errors within the `runPromises` function. Only `"Third"` gets logged, since `promise3` rejected with this value.
 </details>
+
+
+### Question 76
+```js
+What is value of 3 instanceof Number
+```
+<details>
+  <summary>Answer</summary>
+  <p>Answer: false</p>
+</details>
+
+
+### Question 77
+
+```js
+var foo = 'outside';
+
+function logIt() {
+    console.log(foo); 
+    var foo = 'inside';
+}
+logIt();
+```
+<details>
+  <summary>Answer</summary>
+  <p>Answer: undefined</p>
+</details>
+
+
+### Question 78
+Why below gives true
+```js
+.1+.2 != .3
+```
+<details>
+  <summary>Answer</summary>
+  <p>Answer: </p>
+
+ This is not a javascript only limitation, it applies to all floating point calculations. The problem is that 0.1 and 0.2 and 0.3 are not exactly representable as javascript (or C or Java etc) floats. Thus the output you are seeing is due to that inaccuracy.
+
+In particular only certain sums of powers of two are exactly representable. 0.5 = =0.1b = 2^(-1), 0.25=0.01b=(2^-2), 0.75=0.11b = (2^-1 + 2^-2) are all OK. But 1/10 = 0.000110001100011..b can only be expressed as an infinite sum of powers of 2, which the language chops off at some point. Its this chopping that is causing these slight errors.
+</details>
+
