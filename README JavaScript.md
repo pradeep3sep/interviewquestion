@@ -2,6 +2,7 @@
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
+> ### constructor property which points to Person function itself
 
 > ### A memory leak is any object that persists after you no longer have a use or need for it.
 
