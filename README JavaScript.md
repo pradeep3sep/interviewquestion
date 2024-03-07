@@ -1354,7 +1354,53 @@ There are 4 different ways to create sparse arrays in JavaScript
 
 
 <br>
- 
+
+> ### Why does parseInt(1/0, 19) return 18?
+The result of 1/0 is `Infinity`.
+
+`parseInt` treats its first argument as a string which means first of all `Infinity.toString()` is called, producing the string `"Infinity"`. So it works the same as if you asked it to convert `"Infinity"` in base 19 to decimal.
+
+Here are the digits in base 19 along with their decimal values:
+
+```
+Base 19   Base 10 (decimal)
+---------------------------
+   0            0
+   1            1
+   2            2
+   3            3
+   4            4
+   5            5
+   6            6
+   7            7
+   8            8
+   9            9
+   a            10
+   b            11
+   c            12
+   d            13
+   e            14
+   f            15
+   g            16
+   h            17
+   i            18
+```
+
+What happens next is that `parseInt` scans the input `"Infinity"` to find which part of it can be parsed and stops after accepting the first `I` (because `n` is not a valid digit in base 19).
+
+Therefore it behaves as if you called `parseInt("I", 19)`, which converts to decimal 18 by the table above.
+
+> ### Why does ++[[]][+[]]+[+[]] return the string “10”?
+
+```js
+// behind the scene js convert the [] to '' and +'' gives 0
+// [+[]] = [0], ++0 = 1
+
+    ++[[]][+[]] => 1 
+    [+[]] => [0]
+```
+
+
 > ### How do you create custom HTML element?
 The creation of custom HTML elements involves two main steps,
 
