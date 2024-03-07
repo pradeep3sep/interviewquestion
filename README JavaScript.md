@@ -3,6 +3,8 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+>
+
 > ### What is 2 in [1,2]
 false. Because "in" returns whether a particular property/index available in the Object. In this case object has index 0 and 1 but don't have 2. Hence you get false.
 
