@@ -2,6 +2,25 @@
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
+
+> ### Rest operator in object
+```js
+let myObj = {
+
+    name: "Luke",
+    age: 25,
+    hobbies: "music"
+
+};
+
+let { hobbies, ...rest } = myObj;  // => Luke 25 music
+
+console.log(hobbies, rest)  // => music { name: 'Luke', age: 25 }
+
+console.log(hobbies, rest.age)  // => music 25
+
+```
+
 > ### constructor property which points to Person function itself
 
 > ### A memory leak is any object that persists after you no longer have a use or need for it.
