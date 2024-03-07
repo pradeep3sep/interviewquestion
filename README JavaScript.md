@@ -136,7 +136,122 @@ You can use the `<noscript>` tag to detect javascript disabled or not. The code 
 
 
 <br>
- 
+
+> ### Explain the difference between Object.freeze() vs const
+`const` and `Object.freeze` are two completely different things.
+
+`const` applies to bindings ("variables"). It creates an immutable binding, i.e. you cannot assign a new value to the binding.
+
+```js
+const person = {
+  name: "Leonardo",
+}
+let animal = {
+  species: "snake",
+}
+person = animal // ERROR "person" is read-only
+```
+
+`Object.freeze` works on values, and more specifically, object values. It makes an object immutable, i.e. you cannot change its properties.
+
+```js
+let person = {
+  name: "Leonardo",
+}
+let animal = {
+  species: "snake",
+}
+Object.freeze(person)
+person.name = "Lima" //TypeError: Cannot assign to read only property 'name' of object
+console.log(person)
+```
+
+### Summary
+
+`const` and `Object.freeze()` serve totally different purposes.
+
+- `const` is there for declaring a variable which has to assinged right away and can't be reassigned. variables declared by `const` are block scoped and not function scoped like variables declared with `var`
+- `Object.freeze()` is a method which accepts an object and returns the same object. Now the object cannot have any of its properties removed or any new properties added.
+
+
+
+> ### Data structures which are assigned to const can be mutated
+```js
+    const object = {
+      prop1: 1,
+      prop2: 2
+    }
+
+    object.prop1 = 5;   // object is still mutable!
+    object.prop3 = 3;   // object is still mutable!
+
+    console.log(object);  // object is mutated
+```
+
+In this example we declare a variable using the `const` keyword and assign an object to it. Although we can't reassign to this variable called object, we can mutate the object itself. If we change existing properties or add new properties this will this have effect. To disable any changes to the object we need `Object.freeze()`.
+
+
+> ### Objects with references aren't fully frozen
+```js
+const object = {
+  prop1: 1,
+  nestedObj: {
+    nestedProp1: 1,
+    nestedProp2: 2,
+  }
+}
+
+
+const frozen = Object.freeze(object);
+
+frozen.prop1 = 5; // won't have any effect
+frozen.nestedObj.nestedProp1 = 5; //will update because the nestedObject isn't frozen
+
+console.log(frozen);
+```
+
+> ### If we want the nested object to be freezed, we can use below code
+```js
+function deepFreeze(obj) {
+  // Retrieve the property names defined on obj
+  var propNames = Object.getOwnPropertyNames(obj);
+
+  // Freeze properties before freezing self
+  propNames.forEach(function(name) {
+    var prop = obj[name];
+
+    // Freeze prop if it is an object
+    if (typeof prop == 'object' && prop !== null) {
+      deepFreeze(prop);
+    }
+  });
+
+  // Freeze self
+  return Object.freeze(obj);
+}
+
+// Example nested object
+var nestedObj = {
+  a: 1,
+  b: {
+    c: 2,
+    d: {
+      e: 3
+    }
+  }
+};
+
+// Deep freeze the nested object
+var frozenObj = deepFreeze(nestedObj);
+
+// Try to modify a property of the nested object
+// This will throw an error in strict mode
+// In non-strict mode, the assignment will fail silently
+frozenObj.b.c = 5; // Throws an error
+```
+
+
+<br>
 
 > ### How do you determine whether object is frozen or not
 
