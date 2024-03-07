@@ -2322,7 +2322,11 @@ null === undefined // false
 '0' === false // false
 []==[] or []===[] //false, refer different objects in memory
 {}=={} or {}==={} //false, refer different objects in memory
+
+NaN === NaN  // false
+NaN == NaN  // false
 ```
+
 
 > ### What is a unary function
 Unary function (i.e. monadic) is a function that accepts exactly one argument. It stands for a single argument accepted by a function
