@@ -3,6 +3,22 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### What is 2 in [1,2]
+false. Because "in" returns whether a particular property/index available in the Object. In this case object has index 0 and 1 but don't have 2. Hence you get false.
+
+The `in` operator returns `true` if the specified property is in the specified object or its prototype chain.
+
+```js
+
+const car = { make: 'Honda', model: 'Accord', year: 1998 };
+
+console.log('make' in car);
+// Expected output: true
+
+```
+
+
+
 > ### Rest operator in object
 ```js
 let myObj = {
