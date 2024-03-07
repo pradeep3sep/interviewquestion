@@ -3,6 +3,48 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### A memory leak is any object that persists after you no longer have a use or need for it.
+
+> ### child class inheritance using constructor function
+```js
+// Parent constructor function
+function Animal(name) {
+  this.name = name;
+}
+
+// Method defined on the prototype of Animal
+Animal.prototype.walk = function() {
+  console.log(this.name + ' is walking.');
+};
+
+// Child constructor function
+function Dog(name, breed) {
+  // Call the parent constructor
+  Animal.call(this, name);
+  this.breed = breed;
+}
+
+// Inherit from Animal
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+
+// Method defined specifically for Dog
+Dog.prototype.bark = function() {
+  console.log(this.name + ' is barking.');
+};
+
+// Creating instances
+var myAnimal = new Animal('My Animal');
+var myDog = new Dog('Buddy', 'Labrador');
+
+// Using inherited methods
+myAnimal.walk(); // Output: My Animal is walking.
+myDog.walk();    // Output: Buddy is walking.
+
+// Using specific methods
+myDog.bark();    // Output: Buddy is barking.
+```
+
 > ### new Keyword in js
 The `new` keyword is used to invoke a constructor. What it actually does is:
 
