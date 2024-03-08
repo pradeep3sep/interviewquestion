@@ -1,3 +1,8 @@
+make notes of below
+```
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/arrow-function/arrow-vs-regular-functions.md
+```
+
 Need to explore
 
 ```
