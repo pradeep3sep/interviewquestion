@@ -2,7 +2,6 @@ make notes of below
 ```
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/arrow-function/arrow-vs-regular-functions.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/arrow-function/when-not-to-use-arrow-function.md  // iska event wala
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/js-basics/Closure/closure-setTimeout-MOST-POPULAR.js
 ```
 
 
