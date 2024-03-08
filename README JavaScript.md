@@ -3,6 +3,37 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### Mutability
+Array, objects are not while primitives are
+
+```js
+let name = 'pra'
+name[0] = 'x'
+console.log(name) // 'pra'
+
+```
+
+```js
+let name = ['p','r','a']
+name[0] = 'x'
+console.log(name) // ['x', 'r', 'a']
+```
+
+```js
+let lifeDiscovered = {
+  "Earth": true,
+  "Mars": false,
+  "Titan": false,
+};
+
+console.log(lifeDiscovered);
+  // Logs: { Earth: true, Mars: false, Titan: false }
+
+lifeDiscovered["Mars"] = true;
+console.log(lifeDiscovered);
+  // Logs: { Earth: true, Mars: true, Titan: false }
+```
+
 > ### BigInt
 BigInt is a built-in object that provides a way to represent whole numbers larger than 2^(53) - 1, which is the largest number JavaScript can reliably represent with the Number primitive and represented by the Number.MAX_SAFE_INTEGER constant. BigInt can be used for arbitrarily large integers.
 
