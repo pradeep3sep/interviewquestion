@@ -83,7 +83,14 @@ console.log('make' in car);
 
 ```
 
+> ### 42..toString()
+42
 
+> ### 4.2..toString
+SyntaxError: Unexpected token .
+
+> ### 42 . toString()
+42
 
 > ### Rest operator in object
 ```js
