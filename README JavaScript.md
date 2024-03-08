@@ -68,6 +68,30 @@ typeof Math.sin === "function";
 
 As for typeof, that depends on the language. And most languages will say that NaN is a float, double or number depending on how they classify it... I know of no languages that will say this is an unknown type or null.
 
+> ### What is the value of Math.max([2,3,4,5]);
+Answer: NaN
+
+you call this function with one parameter - [1,2,3] and javascript try convert it to number and get ("1,2,3" -> NaN) fail. So result as expected - NaN
+
+**NOTE**: if array with just one number - all work correctly
+
+```js
+ Math.max([23]) // return 23
+```
+because [23] -> "23" -> 23 and covert to Number is done.
+
+If you want get max element from array you should use apply function, like
+
+```js
+Math.max.apply(Math,[1,2,3])
+```
+
+or you can use the new spread operator
+
+```js
+Math.max(...[1,2,3])
+```
+
 
 > ### What is 2 in [1,2]
 false. Because "in" returns whether a particular property/index available in the Object. In this case object has index 0 and 1 but don't have 2. Hence you get false.
