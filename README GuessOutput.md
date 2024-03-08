@@ -1668,3 +1668,23 @@ Why below gives true
 In particular only certain sums of powers of two are exactly representable. 0.5 = =0.1b = 2^(-1), 0.25=0.01b=(2^-2), 0.75=0.11b = (2^-1 + 2^-2) are all OK. But 1/10 = 0.000110001100011..b can only be expressed as an infinite sum of powers of 2, which the language chops off at some point. Its this chopping that is causing these slight errors.
 </details>
 
+
+### Question 79
+For which value of `x` the results of the following statements are not the same?
+
+```js
+if( x <= 100 ) {...}
+if( !(x > 100) ) {...}
+```
+
+<details>
+  <summary>Answer</summary>
+
+`NaN <= 100` is `false` and `NaN > 100` is also `false`, so if the value of `x` is `NaN`, the statements are not the same.
+
+The same holds true for any value of x that being converted to type Number, returns `NaN`, e.g.: `undefined`, `[1,2,5]`, `{a:22}` , etc.
+
+This is why you need to pay attention when you deal with numeric variables. `NaN` can’t be equal, less than or more than any other numeric value, so the only reliable way to check if the value is `NaN`, is to use the `isNaN()` function.
+</details>
+
+
