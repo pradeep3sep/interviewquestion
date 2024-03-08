@@ -3,6 +3,21 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### determine if bar is an object
+```js
+console.log((bar !== null) && (bar.constructor === Object));   // it covers all the cases nulls, arrays, and functions, because typeof null,array and function is object
+```
+
+> ### 8 Ways to get Undefined:
+- A declared variable without assigning any value to it.
+- Implicit returns of functions due to missing return statements.
+- return statements that do not explicitly return anything.
+- Lookups of non-existent properties in an object.
+- Function parameters that have not passed.
+- Anything that has been set to the value of undefined.
+- Any expression in the form of void(expression)
+- The value of the global variable undefined
+
 > ### Various Typeof
 ```js
 // Numbers
