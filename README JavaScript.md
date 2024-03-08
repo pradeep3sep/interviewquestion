@@ -63,6 +63,12 @@ typeof class C {} === "function";
 typeof Math.sin === "function";
 ```
 
+> ### why is NaN === NaN or NaN == NaN returning false
+`NaN != NaN` because they are not necessary the SAME non-number. Thus it makes a lot of sense... Also why floats have both +0.00 and -0.00 that are not the same. Rounding may do that they are actually not zero.
+
+As for typeof, that depends on the language. And most languages will say that NaN is a float, double or number depending on how they classify it... I know of no languages that will say this is an unknown type or null.
+
+
 > ### What is 2 in [1,2]
 false. Because "in" returns whether a particular property/index available in the Object. In this case object has index 0 and 1 but don't have 2. Hence you get false.
 
