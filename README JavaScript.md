@@ -83,6 +83,14 @@ console.log('make' in car);
 
 ```
 
+> ### Explain why the following doesn't work as an IIFE: function foo(){ }();. What needs to be changed to properly make it an IIFE?
+Here are two ways to fix it that involves adding more parentheses:
+
+```js
+(function foo(){ })() and (function foo(){ }()).
+```
+
+
 > ### 42..toString()
 42
 
