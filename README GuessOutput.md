@@ -1687,4 +1687,33 @@ The same holds true for any value of x that being converted to type Number, retu
 This is why you need to pay attention when you deal with numeric variables. `NaN` can’t be equal, less than or more than any other numeric value, so the only reliable way to check if the value is `NaN`, is to use the `isNaN()` function.
 </details>
 
+### Question 80
 
+Guess the result
+
+```js
+var myObject = {
+  foo: 'bar',
+  func: function(){
+    var self = this;
+    console.log("Outer func: this.foo = " + this.foo);
+    console.log("Outer func: self.foo = " + self.foo);
+    (function(){
+      console.log("Outer func: this.foo = " + this.foo);
+      console.log("Outer func: self.foo = " + self.foo);
+    }())
+  }
+}
+
+myObject.func()
+```
+
+
+<details>
+  <summary>Answer</summary>
+
+Outer func: this.foo = bar
+Outer func: self.foo = bar
+Outer func: this.foo = undefined
+Outer func: self.foo = bar
+</details>
