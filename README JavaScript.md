@@ -184,6 +184,13 @@ console.log((bar !== null) && (bar.constructor === Object));   // it covers all 
 - Any expression in the form of void(expression)
 - The value of the global variable undefined
 
+> ### Need to know
+```js
+console.log(Number(42)) // 42
+console.log(Number("42")) // 42
+console.log(Number("paul")) // NaN
+```
+
 > ### Various Typeof
 ```js
 // Numbers
