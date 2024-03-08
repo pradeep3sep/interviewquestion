@@ -5,7 +5,7 @@ https://github.com/pradeep3sep/javascript-interview-questions
 
 > ### determine if bar is an object
 ```js
-console.log((bar !== null) && (bar.constructor === Object));   // it covers all the cases nulls, arrays, and functions, because typeof null,array and function is object
+console.log((bar !== null) && (bar.constructor === Object));   // it covers all the cases nulls, arrays, and functions, because typeof null,array is object
 ```
 
 > ### 8 Ways to get Undefined:
