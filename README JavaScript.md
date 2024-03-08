@@ -3,6 +3,9 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### BigInt
+BigInt is a built-in object that provides a way to represent whole numbers larger than 2^(53) - 1, which is the largest number JavaScript can reliably represent with the Number primitive and represented by the Number.MAX_SAFE_INTEGER constant. BigInt can be used for arbitrarily large integers.
+
 > ### To print 1 to 5 with different cases
 
 naive approach
