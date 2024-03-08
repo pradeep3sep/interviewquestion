@@ -3,6 +3,18 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### Answer below
+```js
+(function(){
+    var a = b = 3
+})()
+
+console.log('a defined? ' + (typeof a !== 'undefined') )
+console.log('b defined? ' + (typeof b !== 'undefined') )
+```
+
+But how can b be defined outside of the scope of the enclosing function? Well, since the statement var a = b = 3; is shorthand for the statements b = 3; and var a = b;, b ends up being a global variable (since it is not preceded by the var keyword) and is therefore still in scope even outside of the enclosing function.
+
 > ### NaN
 There are several ways in which NaN can happen:
 
