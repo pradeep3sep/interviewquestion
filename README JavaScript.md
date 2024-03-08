@@ -3,6 +3,36 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### NaN
+There are several ways in which NaN can happen:
+
+- Division of zero by zero
+- Dividing an infinity by an infinity
+- Multiplication of an infinity by a zero
+- Any operation in which NaN is an operand
+- Converting a non-numeric string or undefined into a number
+
+```js
+NaN < 1 // false
+NaN > 1 // false
+NaN == NaN // false
+// But we can still check for NaN:
+isNaN(NaN) // true
+```
+
+This is why you cannot determine whether a given value is NaN by comparing it to NaN, and instead you must use the isNaN() function. It is not surprising, then, that the native implementation of the function isNaN() could be simply replaced with:
+
+```js
+// Native implementation
+function isNaN(x) {
+  // Coerce into number
+  x = Number(x)
+  // if x is NaN, NaN != NaN is true, otherwise it's false
+  return x != x
+}
+```
+
+
 > ### determine if bar is an object
 ```js
 console.log((bar !== null) && (bar.constructor === Object));   // it covers all the cases nulls, arrays, and functions, because typeof null,array is object
