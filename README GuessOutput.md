@@ -1739,4 +1739,58 @@ In this code, we are passing the value 10 as the input to the function. But agai
 </details>
 
 
+### Question 81
+Guess the output
 
+```js
+var myObject = {
+  price: 20.99,
+  get_price: function () {
+    return this.price
+  },
+}
+var customObject = Object.create(myObject)
+customObject.price = 19.99
+delete customObject.price
+console.log(customObject.get_price())
+```
+
+### Question 82
+
+```js
+;(function (a) {
+  arguments[0] = 10
+  return a
+})(5)
+```
+
+### Below 2 cases must see, why having the issue
+
+### Question 83
+
+```js
+function Car(color) {
+  this.color = color
+}
+var lada = new Car("Black")
+Car.prototype.currentGear = 1
+console.log(++lada.currentGear)
+console.log(Car.prototype.currentGear)
+```
+
+
+### Question 84
+
+```js
+var User = function () {}
+User.prototype.attributes = {
+  isAdmin: false,
+}
+var admin = new User("Sam"),
+  guest = new User("Bob")
+admin.attributes.isAdmin = true
+alert(admin.attributes.isAdmin)
+alert(guest.attributes.isAdmin)
+```
+
+### Question 85
