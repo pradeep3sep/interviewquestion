@@ -4,6 +4,7 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascr
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/arrow-function/when-not-to-use-arrow-function.md  // iska event wala
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/js-basics/IIFE-10-ways.js
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/Why-eval-function-considered-dangerous.md
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/is-JS-block-scoped-or-function-scoped.md
 ```
 
 
