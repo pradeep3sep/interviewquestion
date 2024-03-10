@@ -2,6 +2,29 @@
 https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
+```
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise-Async-Await-Sequential-Execution/Promise-async-await-master-notes/calback-hell-resolved-with-promise.js
+```
+
+> ### When we retun in then of promise
+```js
+const axios = require(‘axios’);
+
+axios.get(‘http://www.somepage.com')
+.then(function (response) {
+    // response being the result of the first request
+    // Returns another promise to the next .then(..) in the chain
+    return axios.get(`http://www.somepage.com/${response.someValue}`);
+})
+.then(function response {
+    // response being the result of the second request
+    // Handle response
+})
+.catch(function (error) {
+    // Handle error.
+});
+
+```
 
 > ### NaN is a falsy value
 ```js
