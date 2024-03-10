@@ -3,6 +3,29 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### Object.create()
+The Object.create() static method creates a new object, using an `existing object` as `the prototype of the newly created object`.
+
+keep in mind it attaches the existing object as prototype of new object. You can see that in below code
+
+```js
+const person = {
+  isHuman: false,
+  printIntroduction: function () {
+    console.log(`My name is ${this.name}. Am I human? ${this.isHuman}`);
+  },
+};
+
+const me = Object.create(person);
+console.log(me)
+me.name = 'Matthew'; // "name" is a property set on "me", but not on "person"
+me.isHuman = true; // Inherited properties can be overwritten
+console.log(me)
+Object.getPrototypeOf(me)
+me.printIntroduction();
+```
+
+
 > ### Good case of 'this'
 
 ```js
