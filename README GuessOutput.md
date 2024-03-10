@@ -1764,7 +1764,7 @@ console.log(customObject.get_price())
 })(5)
 ```
 
-### Below 2 cases must see, why having the issue
+### Below 3 cases must see, why having the issue
 
 ### Question 83
 
@@ -1794,3 +1794,42 @@ alert(guest.attributes.isAdmin)
 ```
 
 ### Question 85
+
+```js
+function Person(name) {
+  if (name) this.options.name = name
+}
+Person.prototype.options = {
+  name: "Default name",
+}
+var foo = new Person("foo")
+var bar = new Person("bar")
+console.log(foo.options.name)
+console.log(bar.options.name)
+```
+
+### Question 86
+
+```js
+var a = {}
+;(function b(a) {
+  a.a = 10
+  a = null
+})(a)
+console.log(a)
+```
+
+### Question 87
+
+```js
+var obj = {
+  a: 1,
+}
+;(function (obj) {
+  obj = {
+    a: 2,
+  }
+})(obj)
+console.log(obj.a)
+```
+
