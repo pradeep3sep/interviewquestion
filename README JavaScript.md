@@ -3,6 +3,11 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### NaN is a falsy value
+```js
+NaN ? console.log("truthy") : console.log("falsy") // falsy
+```
+
 > ### Object.create()
 The Object.create() static method creates a new object, using an `existing object` as `the prototype of the newly created object`.
 
