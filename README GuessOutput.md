@@ -2296,7 +2296,205 @@ function foo() {
 ### Question 102
 
 ```js
+console.log("start");
 
+  async function getData() {
+    console.log("JC");
+    return "Jayesh";
+  }
+
+  getData().then((res) => console.log(res));
+
+  console.log("end");
+
+  // 👍A) start end JC Jayesh     💡B) start JC Jayesh end
+  // 💖C) start JC end Jayesh     😀D) start Jayesh JC end
+
+  /* 
+  Answer is C) start JC end Jayesh because async function always returns a promise. If no promise is return other values are wrapped in a resolved promise automatically.
+  So in the above question return "Jayesh" would be same as Promise.resolve("Jayesh");
+  First, All the synchronous code will be executed i.e start JC end and later on callback function attached to promise that is stored in microtask queue will be executed by callstack.
+  Hence, The Final Result will be:- start JC end Jayesh
+  */
 
 ```
 
+### Question 103
+
+```js
+const inc = async (x) => {
+    x = x + (await 1);
+    return x;
+  };
+
+  const increment = async (x) => {
+    x = x + 1;
+    return x;
+  };
+
+  inc(1).then((x) => {
+    increment(x).then((x) => console.log(x));
+  });
+
+  // 👍A) 1    💡B) 2
+  // 💖C) 3    😀D) 4
+
+  /* 
+  Answer is C) 3 because first promise return by async function "inc" will resolve and return ( 1 + 1 ) 2 as a result in .then method.
+  secondly, promise return by async function "increment" will resolve and return ( 2 + 1 ) 3 as a result in .then method.
+
+  Note:- await keyword in async function waits for the promise to fullfilled but if the value is not a Promise ( In above question await 1 ), 
+  it converts the value to a resolved Promise, and waits for it. So. await 1 would be same as Promise.resolve(1).
+  */
+```
+
+### Question 104
+
+```js
+
+const fetchData = function () {
+    return new Promise((res, reject) => {
+      reject("Error");
+    });
+  };
+
+  fetchData()
+    .then(null, (err) => {
+      console.log("First");
+      console.log(err);
+    })
+    .catch(() => {
+      console.log("Second");
+      console.log(err);
+    });
+
+  // 👍A) First Error        💡B) Second Error
+  // 💖C) Second undefined   😀D) ReferenceError
+
+  /* 
+  Answer is A) First Error because then() method takes up to two arguments: callback functions for the fulfilled and rejected 
+  cases of the Promise.
+  Syntax of then :- then(onFulfilled) or then(onFulfilled, onRejected).
+  then(
+  (value) => fulfillment handler 
+  (reason) => rejection handler 
+  );
+
+  In the above question, Inside .then() - We are passing first argument as null and second argument as callback function for rejected 
+  case of the Promise. So, Second argument callback function will be executed for rejected case and will console First Error. 
+  */
+
+```
+
+
+### Question 105
+
+```js
+
+function resolveAfterNSeconds(time, value) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(value);
+      }, time);
+    });
+  }
+
+  async function doTasks() {
+    console.time("time");
+    let a = await resolveAfterNSeconds(1000, 1);
+    let b = resolveAfterNSeconds(2000, 2);
+    let c = resolveAfterNSeconds(1000, 3);
+
+    console.log(a + (await b) + (await c));
+    console.timeEnd("time");
+  }
+  doTasks();
+
+  // 👍A) 6 in 4 Sec      💡B) 6 in 3 Sec
+  // 💖C) NaN in 1 Sec    😀D) 1 in 4 Sec
+
+  /* 
+  Answer is B) 6 in 3 Sec because while execution of doTasks function, first await resolveAfterNSeconds(1000, 1) will wait
+  for 1 second. variable "a" will be assigned value as 1. a = 1, Total time = 1 Sec.
+
+  In Next Line, resolveAfterNSeconds(2000, 2) pending Promise will be assigned to variable "b" and immediately next line
+  resolveAfterNSeconds(1000, 3) pending Promise will be assigned to variable "c", both promises "b" and "c" will run concurrently.
+
+  At Last Line, console.log(a + (await b) + (await c)), promise "b" will take 2Sec to resolve and concurrently promise "c" will 
+  also get resolved in 1sec. overall time to execute (await b) + (await c) is only 2Sec because of concurrency.
+
+  Hence, Output would be 6 where a = 1, b = 2, c = 3 and Total time = 3 Sec.
+  */
+
+```
+
+### Question 106
+
+```js
+ let a = true;
+
+  setTimeout(() => {
+    a = false;
+  }, 2000);
+
+  while (a) {
+    console.log("JC");
+  }
+
+  // 👍A) "JC" one time after 2 sec.
+  // 💡B) "JC" continously till 2 sec.
+  // 💖C) "JC" Infinite times.
+  // 😀D) Console Nothing.
+
+  /* 
+  Answer is C) "JC" Infinite times because callback attached to setTimeout function is asynchronous task and need to wait
+  for execution of main thread ( synchronous tasks in callstack ) to execute.
+
+  As value of a is true, code will never exit from while loop ( callstack will never be empty to take callback attached to
+  setTimeout function ). Hence, It will console "JC" Infinite times.
+  */
+
+```
+
+### Question 107
+
+```js
+
+console.log(1);
+
+  setTimeout(function () {
+    console.log(2);
+  }, 1000);
+
+  setTimeout(
+    (function () {
+      console.log(3);
+      return () => {};
+    })(),
+    2000
+  );
+
+  console.log(4);
+
+  // 👍A) 1 2 3 4    💡B) 1 4 3 2
+  // 💖C) 1 4 2 3    😀D) 1 3 4 2
+
+  /* 
+  Answer is D) 1 3 4 2 because at first console.log(1) will print "1", callback function attached to first setTimeout will 
+  wait for atleast 1 second.
+  In the 2nd setTimeout we are passing IIFE ( Immediately Invoked Function Expression ). So, IIFE will print "3" immediately 
+  and will return () => {} as callback that will wait for atleast 2 seconds. 
+  console.log(4) will print "4", callstack will be empty as all synchronous tasks completed.
+  After one second callback function attached to first setTimeout pushed into callstack and console.log(2) will print "2".
+  */
+
+```
+
+
+### Question 108
+
+```js
+
+
+
+```
