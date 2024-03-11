@@ -1859,3 +1859,29 @@ var player = "Virat";
   }
   displayPlayer();
 ```
+
+### Question 89
+```js
+// No Strict Mode
+  name = "Jayesh"; // window.name ( property of window object )
+  console.log(delete name);
+
+  const displayName = (function (name) {
+    console.log(delete name); // Local variable of function
+    return name;
+  })("JC");
+
+  console.log(displayName);
+
+  // 👍A) true, false, JC
+  // 💡B) true, true, undefined
+  // 💖C) false, false, JC
+  // 😀D) false, true, undefined
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A</p>
+
+Answer is A) true, false, JC because delete keyword deletes only property of an object. delete keyword can not delete local variables ( declared with var, let, and const ) and functions. delete keyword can delete global variables as they are property of window object.
+</details>
