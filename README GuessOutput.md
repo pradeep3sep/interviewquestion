@@ -1833,3 +1833,29 @@ var obj = {
 console.log(obj.a)
 ```
 
+### Question 88
+below 2 code will show different answers
+
+```js
+let name = "Jayesh";
+  function printName() {
+    if (name === "Jayesh") {
+      let name = "JC";
+      console.log(name);
+    }
+    console.log(name);
+  }
+  printName();
+```
+
+```js
+var player = "Virat";
+  function displayPlayer() {
+    if (player === "Virat") {
+      var player = "VK";
+      console.log(player);
+    }
+    console.log(player);
+  }
+  displayPlayer();
+```
