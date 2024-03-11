@@ -2065,7 +2065,238 @@ var length = 4;
 ### Question 95
 
 ```js
+var name = "Jayesh";
 
+  function displayName() {
+    console.log(this.name);
+  }
+
+  const person = {
+    name: "JC",
+    method: displayName.bind(this),
+  };
+
+  person.method();
+
+  // 👍A) Jayesh       💡B) JC
+  // 💖C) undefined    😀D) TypeError
+
+  /*
+  Answer is A) Jayesh because "this" inside the definition for person object does not refer to person object. 
+  "this" will refer to the window object here, and binding displayName function with passing window's this  
+  as a context will return a copy of bound function that is stored in method property of person object. 
+  So, While calling person.method() will console Jayesh as an output.
+  */
+
+  // 👇 We can get JC as an output by wrapping displayName.bind(this) inside a function because "this" inside the normal function of an object refers to the object :-
+
+  const person2 = {
+    name: "JC",
+    method: function () {
+      return displayName.bind(this); // Here, "this" refers to the person2 object
+    },
+  };
+
+  person2.method()(); // JC
 
 
 ```
+
+### Question 96
+
+```js
+
+function show() {
+    console.log(this.name);
+  }
+
+  const person1 = { name: "Jc" };
+  const person2 = { name: "Jayesh" };
+
+  show = show.bind(person1).bind(person2);
+  show();
+
+  // 👍A) Jayesh       💡B) undefined
+  // 💖C) JC           😀D) TypeError
+
+  /*
+  Answer is C) JC because a function which is bound with bind keyword can not be re-bound with other new context, bind chaining does not exist.
+  once the function is bound to a particular object, It will always be bound to that object no matter how many times it's further bounded.
+  */
+
+```
+
+### Question 97
+
+```js
+for (var i = 0; i < 5; i++) {
+    setTimeout(
+      (i) => {
+        console.log(i);
+      },
+      1000,
+      i
+    );
+  }
+
+  // 👍A) 0 1 2 3 4      💡B) 5 5 5 5 5
+  // 💖C) 4 4 4 4 4      😀D) 0 1 2 3 4 5
+
+  /*
+  Answer is A) 0 1 2 3 4 because as we are passing i ( 0 to 4 ) value as an argument to setTimeout callback function
+  therefore this will console different values of i from 0 to 4.
+
+  if there was no argument passed to setTimeout callback function then the output would be 5 5 5 5 5 because variables declared 
+  with var keyword are function-scoped or globally-scoped but not blocked scoped. Inner function i would point to the updated value of i that is 5.
+*/
+
+```
+
+### Question 98
+
+```js
+console.log(1);
+
+  async function fetchData() {
+    console.log(2);
+    let result = await Promise.resolve(3);
+    console.log(result);
+  }
+
+  fetchData();
+  console.log(4);
+
+  // 👍A) 1 2 3 4      💡B) 1 4 2 3
+  // 💖C) 1 2 4 3      😀D) 1 3 4 2
+
+  /*
+  Answer is C) 1 2 4 3 beacause promise is used to handle the asynchronous result of an operation and 
+  callback functions attached to the promises are stored into microtask queue. 
+  So, first synchronous code will be executed i.e 1,2,4 and once callstack is empty, event loop pushes the microtask queue's task into callstack
+  callstack will start executing the task and It will console 3 at last.
+```
+
+
+### Question 99
+
+
+```js
+
+ console.log("start");
+
+  const promise = new Promise((resolve) => {
+    console.log(1);
+    resolve(2);
+    console.log(3);
+  });
+
+  promise.then((result) => {
+    console.log(result);
+  });
+
+  console.log("end");
+
+  // 👍A) start end 1 3 2      💡B) start 1 3 end 2
+  // 💖C) start end 1 2 3      😀D) start 1 end 2 3
+
+  /*
+  Answer is B) start 1 3 end 2 beacause The function we pass into the Promise constructor runs synchronously, 
+  but anything that depends on its resolution ( resolve or reject ) will be called asynchronously. 
+  Even if the promise resolves immediately, any handlers ( callback attached to promise then and catch ) will execute asynchronously. 
+
+  const promise = new Promise((resolve) => {
+  console.log(1);  // runs synchronously
+  resolve(2); // called asynchronously by then callback
+  console.log(3); // runs synchronously
+});
+*/
+```
+
+
+### Question 100
+
+```js
+const fetchData = function () {
+    return new Promise((resolve, reject) => {
+      reject();
+    });
+  };
+
+  fetchData()
+    .then(() => {
+      console.log("Success 1");
+    })
+    .catch(() => {
+      console.log("Error 1");
+    })
+    .then(() => {
+      console.log("Success 2");
+    });
+
+  // 👍A) Error 1 TypeError    💡B) Error 1
+  // 💖C) Error 1 Success 2    😀D) undefined
+
+  /*
+  Answer is C) Error 1 Success 2 because in promise chaining .then method below .catch method will be called if in .catch method we are not 
+  returning rejected promise ( by default implicitly returns a promise that is handled by it's below .then method )
+  */
+```
+
+see also below code
+
+```js
+let p = new Promise((resolve, reject) => {
+    reject(Error("Fails!"));
+  });
+  p.catch((error) => {
+    console.log(error.message);
+  }).then((result) => {
+    console.log(result);
+  });
+
+  // 👍A) Fails! undefined    💡B) Fails!
+  // 💖C) Fails! TypeError    😀D) Fails! Fails!
+
+  /* 
+  Answer is A) Fails! undefined because promise is rejecting so .catch callback will execute and console "Fails" first.
+  In promise chaining .then method below .catch method will be called if in .catch method we are not 
+  returning rejected promise ( by default implicitly it returns a promise that is handled by it's below .then method ).
+  as .catch method is not returning anything, result of .then method will be undefined.
+
+  The Error() constructor creates an error object. Error() can be called with or without new. Both create a new Error instance.
+  Error objects are thrown when runtime errors occur. The Error object can also be used as a base object for user-defined exceptions.
+  Error.message in user-created Error objects is the string provided as the constructor's first argument that is "Fails!" in our case.
+  */
+```
+
+### Question 101
+
+```js
+function foo() {
+    let a = (b = 0);
+    a++;
+    return a;
+  }
+  foo();
+  console.log(typeof a);
+  console.log(typeof b);
+
+  // 👍A) undefined number        💡B) ReferenceError number
+  // 💖C) undefined undefined     😀D) number number
+
+  /* 
+  Answer is A) undefined number because variable a is declared with let it is blocked scope and will be "not defined" outside function foo().
+  The typeof operator returns "undefined" even for “undeclared” (or “not defined”) variables.
+  Notice that there was no error thrown when we executed typeof a, even though a is an undeclared variable. 
+  This is a special safety guard in the behavior of typeof. 
+  and variable b is a just global scope variable hence it will be available outside function foo() also. 
+  */
+```
+
+### Question 102
+
+```js
+
+
+```
+
