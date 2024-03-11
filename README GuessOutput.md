@@ -1928,4 +1928,144 @@ const arr = [];
   console.log(arrBlock[4]()); // 4
 ```
 
+### Question 91
 
+```js
+
+const value = { number: 10 };
+
+  const addition = (x = { ...value }) => {
+    console.log((x.number += 5));
+  };
+
+  addition();
+  addition();
+  addition(value);
+  addition(value);
+
+  // 👍A) 15, 20, 25, 30    💡B) 15, 15, 20, 25
+  // 💖C) 15, 15, 15, 15    😀D) 15, 15, 15, 20
+
+  /*
+  Answer is D) 15, 15, 15, 20 because when we call addition function 3rd time with passing value object as an argument, then x will take value as pass by reference and will update number property of original object ( value in this case ) to 15.  
+  Hence, while calling addition function 4th time will console 15 + 5 => 20.
+ */
+```
+
+### Question 92
+
+
+```js
+ const user = {
+    userName: "Jayesh",
+    displayName: function () {
+      console.log(this.userName);
+    },
+  };
+
+  setTimeout(user.displayName, 1000);
+
+  // 👍A) Jayesh     💡B) undefined
+  // 💖C) ""         😀D) TypeError
+
+  /*
+  Answer is B) undefined because setTimeout is using user.displayName as a callback function rather than object method.
+  callback function's "this" will refer to the window object and It will console undefined as there is no property such as userName in the window object.   
+  */
+
+  // 👇 We can get "Jayesh" as an output by wrapping the user.displayName() inside a function :-
+
+  setTimeout(function () {
+    user.displayName(); // Here, displayName is called by user object ( object method ). Hence, "this" will refer to user object.
+  }, 1000);
+```
+
+
+### Question 93
+
+```js
+ var name = "Jayesh";
+
+  function displayName() {
+    console.log(this.name);
+  }
+
+  const person = {
+    name: "JC",
+    method(fn) {
+      fn();
+    },
+  };
+
+  person.method(displayName);
+
+  // 👍A) JC           💡B) Jayesh
+  // 💖C) undefined    😀D) TypeError
+
+  /*
+  Answer is B) Jayesh because displayName function is passed to person object method as a callback function.
+  "this" keyword in displayName function will refer to window object and window object has a property "name" with value "Jayesh". Hence, It will console Jayesh as an output.
+  */
+
+  // 👇 We can get JC as an output by attaching call method with fn() inside person method :-
+
+  const person2 = {
+    name: "JC",
+    method(fn) {
+      fn.call(this); // borrowing function and passing "this" of person2 object.
+    },
+  };
+
+  person2.method(displayName); // JC
+```
+
+
+### Question 94
+
+```js
+var length = 4;
+
+  function callback() {
+    console.log(this.length);
+  }
+
+  const object = {
+    length: 5,
+    method: function () {
+      arguments[0]();
+    },
+  };
+
+  object.method(callback, 2, 3);
+
+  // 👍A) 2     💡B) 3
+  // 💖C) 4     😀D) 5
+
+  /*
+  Answer is B) 3 because arguments keyword is an array of arguments passed to the function. 
+  Here while calling object.method(), we are passing three arguments callback fn(), 2 and 3.
+  If we try to console arguments it will look like this 👇
+
+  Arguments(3) [ƒ, 2, 3, callee: ƒ, Symbol(Symbol.iterator): ƒ]
+  0: ƒ callback()
+  1: 2
+  2: 3
+  callee: ƒ ()
+  length: 3
+  Symbol(Symbol.iterator): ƒ values()
+  [[Prototype]]: Object
+
+  As we can clearly see, arguments is having length property that is equal to number of arguments passed to function.
+  So, arguments[0] is nothing but the first argument passed to function that is callback function in this case.
+  As we know, Everything in JavaScript is an object ( arguments is also an object which has length property with value 3 )
+  arguments[0]() function's "this" will refer to arguments object. Hence, It will console 3 as an output.
+  */
+```
+
+### Question 95
+
+```js
+
+
+
+```
