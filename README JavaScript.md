@@ -3,6 +3,140 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+> ### Object k saare method
+
+### Object.assign()
+
+The `Object.assign()` static method copies all `enumerable own properties` from one or more source objects to a target object. It returns the modified target object.
+
+```js
+const target = { a: 1, b: 2 };
+const source = { b: 4, c: 5 };
+
+const returnedTarget = Object.assign(target, source);
+
+console.log(target);
+// Expected output: Object { a: 1, b: 4, c: 5 }
+
+console.log(returnedTarget === target);
+// Expected output: true
+
+```
+
+### Object.create() 
+
+The `Object.create()` static method creates a new object, using an existing object as the `prototype` of the newly created object.
+
+keep in mind, it attaches on the prototype, not on real object
+
+```js
+const person = {
+  isHuman: false,
+  printIntroduction: function () {
+    console.log(`My name is ${this.name}. Am I human? ${this.isHuman}`);
+  },
+};
+
+const me = Object.create(person);
+
+me.name = 'Matthew'; // "name" is a property set on "me", but not on "person"
+me.isHuman = true; // Inherited properties can be overwritten
+
+me.printIntroduction();
+// Expected output: "My name is Matthew. Am I human? true"
+
+console.log(me)
+// Object { name: "Matthew", isHuman: true }
+```
+
+### Object.defineProperty()
+
+The Object.defineProperty() static method defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
+
+```js
+const object1 = {};
+
+Object.defineProperty(object1, 'property1', {
+  value: 42,
+  writable: false,
+});
+
+object1.property1 = 77;
+// Throws an error in strict mode
+
+console.log(object1.property1);
+// Expected output: 42
+
+```
+
+### Object.defineProperties()
+
+The `Object.defineProperties()` static method defines new or modifies existing properties directly on an object, returning the object.
+
+```js
+const object1 = {};
+
+Object.defineProperties(object1, {
+  property1: {
+    value: 42,
+    writable: true,
+  },
+  property2: {},
+});
+
+console.log(object1.property1);
+// Expected output: 42
+```
+
+### Object.freeze() do not freeze nested data
+
+### Object.getOwnPropertyDescriptor()
+
+The Object.getOwnPropertyDescriptor() static method returns an object describing the configuration of a specific property on a given object (that is, one directly present on an object and not in the object's prototype chain). The object returned is mutable but mutating it has no effect on the original property's configuration.
+
+```js
+const object1 = {
+  property1: 42,
+};
+
+const descriptor1 = Object.getOwnPropertyDescriptor(object1, 'property1');
+
+console.log(descriptor1)
+// Object { value: 42, writable: true, enumerable: true, configurable: true }
+
+console.log(descriptor1.configurable);
+// Expected output: true
+
+console.log(descriptor1.value);
+// Expected output: 42
+
+```
+
+### Object.getOwnPropertyDescriptors()
+
+The Object.getOwnPropertyDescriptors() static method returns all own property descriptors of a given object.
+
+```js
+const object1 = {
+  property1: 42,
+};
+
+const descriptors1 = Object.getOwnPropertyDescriptors(object1);
+
+console.log(descriptors1)
+// Object { property1: Object { value: 42, writable: true, enumerable: true, configurable: true } }
+
+console.log(descriptors1.property1.writable);
+// Expected output: true
+
+console.log(descriptors1.property1.value);
+// Expected output: 42
+
+```
+
+
+
+
 > ### Array k sare method
 
 ### Array.prototype.at()
