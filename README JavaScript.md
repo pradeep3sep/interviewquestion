@@ -5,6 +5,76 @@ https://github.com/pradeep3sep/javascript-interview-questions
 
 > ### Array k sare method
 
+### Array.prototype.at()
+
+The `at()` method of Array instances takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
+
+```js
+const array1 = [5, 12, 8, 130, 44];
+
+let index = 2;
+
+console.log(`An index of ${index} returns ${array1.at(index)}`);
+// Expected output: "An index of 2 returns 8"
+
+index = -2;
+
+console.log(`An index of ${index} returns ${array1.at(index)}`);
+// Expected output: "An index of -2 returns 130"
+```
+
+
+### Array.prototype.fill()
+
+The fill() method of Array instances changes all elements within a range of indices in an array to a static value. It returns the modified array.
+```js
+const array1 = [1, 2, 3, 4];
+
+// Fill with 0 from position 2 until position 4
+console.log(array1.fill(0, 2, 4));
+// Expected output: Array [1, 2, 0, 0]
+
+// Fill with 5 from position 1
+console.log(array1.fill(5, 1));
+// Expected output: Array [1, 5, 5, 5]
+
+console.log(array1.fill(6));
+// Expected output: Array [6, 6, 6, 6]
+```
+
+### Array.from()
+
+The `Array.from()` static method creates a new, shallow-copied `Array` instance from an iterable or array-like object.
+
+```js
+console.log(Array.from('foo'));
+// Expected output: Array ["f", "o", "o"]
+
+console.log(Array.from([1, 2, 3], (x) => x + x));
+// Expected output: Array [2, 4, 6]
+```
+
+### Array.prototype.flatMap()
+
+The `flatMap()` method of `Array` instances returns a new array formed by applying a given callback function to each element of the array, and then flattening the result by one level. It is identical to a `map()` followed by a `flat()` of depth 1 `(arr.map(...args).flat())`, but slightly more efficient than calling those two methods separately.
+
+```js
+const arr1 = [1, 2, 1];
+
+const result = arr1.flatMap((num) => (num === 2 ? [2, 2] : 1));
+
+console.log(result);
+// Expected output: Array [1, 2, 2, 1]
+```
+
+
+
+
+
+
+
+
+
 ```
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise-Async-Await-Sequential-Execution/Promise-async-await-master-notes/calback-hell-resolved-with-promise.js
 ```
