@@ -3054,9 +3054,34 @@ const arr = [1, 2, 3];
 ### Question 129
 
 ```js
+const person = {};
 
+  Object.defineProperties(person, {
+    name: {
+      value: "JC",
+      writable: true,
+    },
+    age: {
+      value: 24,
+      writable: false,
+    },
+  });
+
+  person.name = "VK";
+  person.age = 34;
+
+  console.log(person.name);
+  console.log(person.age);
+
+  // 👍A) JC 34     💡B) JC 24
+  // 💖C) VK 34     😀D) VK 24
+
+  /* 
+  Answer is D) VK 24 because The Object.defineProperties() method defines new or modifies existing properties directly on an object, returning the object.
+  if writable: true then value associated with the property can be modified else value can not be modified.
+  */
 ```
-### Question 114
+### Question 130
 
 ```js
 
