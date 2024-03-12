@@ -134,8 +134,61 @@ console.log(descriptors1.property1.value);
 
 ```
 
+### Object.is()
+
+The Object.is() static method determines whether two values are the same value.
+
+```js
+console.log(Object.is('1', 1));
+// Expected output: false
+
+console.log(Object.is(NaN, NaN));
+// Expected output: true
+
+console.log(Object.is(-0, 0));
+// Expected output: false
+
+const obj = {};
+console.log(Object.is(obj, {}));
+// Expected output: false
+```
+
+### Object.hasOwn()
+
+**Note**: `Object.hasOwn()` is intended as a `replacement` for `Object.prototype.hasOwnProperty()`.
+
+The `Object.hasOwn()` static method returns `true` if the specified object has the indicated property as its own property. If the property is inherited, or does not exist, the method returns `false`.
+
+```js
+const object1 = {
+  prop: 'exists',
+};
+
+console.log(Object.hasOwn(object1, 'prop'));
+// Expected output: true
+
+console.log(Object.hasOwn(object1, 'toString'));
+// Expected output: false
+
+console.log(Object.hasOwn(object1, 'undeclaredPropertyValue'));
+// Expected output: false
+```
 
 
+### Object.getOwnPropertyNames()
+
+The Object.getOwnPropertyNames() static method returns an array of all properties (including non-enumerable properties except for those which use Symbol) found directly in a given object.
+
+```js
+const arr = ["a", "b", "c"];
+console.log(Object.getOwnPropertyNames(arr).sort());
+// ["0", "1", "2", "length"]
+
+// Array-like object
+const obj = { 0: "a", 1: "b", 2: "c" };
+console.log(Object.getOwnPropertyNames(obj).sort());
+// ["0", "1", "2"]
+```
 
 > ### Array k sare method
 
