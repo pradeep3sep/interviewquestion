@@ -2859,19 +2859,71 @@ const person = [{ name: "Jayesh" }, 24];
 ### Question 120
 
 ```js
+const arr1 = new Array(3);
+  const arr2 = new Array(1, 2, 3);
 
+  console.log(arr1);
+  console.log(arr2);
+
+  // 👍A) [3] [1, 2, 3]
+  // 💡B) [empty × 3] [3]
+  // 💖C) [3] [3]
+  // 😀D) [empty × 3] [1, 2, 3]
+
+  /* 
+  Answer is D) [empty × 3] [1, 2, 3] because The Array() constructor is used to create Array objects. 
+  If the only one argument passed to the Array constructor then it returns a new empty slots array of the passed argument as length.
+  Syntax :-
+  new Array(element0, element1, ....., elementN)
+  new Array(arrayLength)
+  */
 ```
-### Question 114
+### Question 121
 
 ```js
+ const num1 = 034;
+  const num2 = 082;
 
+  console.log(num1);
+  console.log(num2);
+
+  // 👍A) 34 82      💡B) 28 82
+  // 💖C) 82 28      😀D) 82 34
+
+  /* 
+  Answer is B) 28 82 because of the Octal literals in JavaScript. If the number has zero prefix (0) followed by a sequence of octal digits (from 0 to 7) 
+  then the number will be converted into octal number. num1 => 034 is equal to 3*8 + 4*1 => 24 + 4 => 28.
+  If the octal literal contains a number that is out of range, JavaScript ignores the leading 0 and treats the octal literal as a decimal.
+  num2 => 082 has "8" which is out of range ( 0 to 7 ) so num2 will be treated as 82 only.
+  */
 ```
-### Question 114
+### Question 122
+Ishme dhyan se dekho ki kon sa array lia h and then uska reference
 
 ```js
+const arr = ["JC", { name: "VK" }, "JC", { name: "VK" }];
 
+  const res = arr.filter((item, index, array) => {
+    if (array.indexOf(item) === index) {
+      return true;
+    } else {
+      return false;
+    }
+  });
+
+  console.log(res);
+
+  // 👍A) ["JC", { name: "VK" }, "JC", { name: "VK" }]
+  // 💡B) ["JC", { name: "VK" }, { name: "VK" }]
+  // 💖C) ["JC", { name: "VK" }]
+  // 😀D) ["JC", { name: "VK" }, "JC"]
+
+  /* 
+  Answer is B) ["JC", { name: "VK" }, { name: "VK" }] because the above code is to remove the primitive type duplicates from an array with the help of filter method.
+  Non-primitive type duplicates will not be filtered out as indexOf() method uses strict equality ( === ), array.indexOf({ name: "VK" }) will return -1 as object are compared by their references.   
+  */
 ```
-### Question 114
+### Question 123
 
 ```js
 
