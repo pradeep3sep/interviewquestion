@@ -2678,7 +2678,321 @@ let num = 10;
 ### Question 113
 
 ```js
+ obj1 = { a: 10 };
+  const obj2 = obj1;
+  obj2.a = 20;
+
+  console.log(obj1);
+  console.log(obj2);
+  let obj1;
+
+  // 👍A) { a: 10 } { a: 20 }
+  // 💡B) { a: 20 } { a: 10 }
+  // 💖C) { a: 20 } { a: 20 }
+  // 😀D) ReferenceError
+
+  /* 
+  Answer is D) ReferenceError because "let" variables can not be accessed before their initialization. at the last line we are declaring let obj1. 
+  and at first line obj1 = { a: 10 } we will get Uncaught ReferenceError: Cannot access 'obj1' before initialization.
+
+  Once the "let" variables are declared then only we can initialize them. If we try to initialize "let" variables before their declaration It will throw ReferenceError.
+
+  In the case of "var" variables, because of hoisting the obj1 variable will be initialized as undefined and will get { a: 20 } { a: 20 } as an output.
+  In the case of "let" variables, the obj1 variable will be in temporal dead zone (time frame between hoisted to initialization).
+  */
 
 
+```
+
+### Question 114
+
+```js
+function Person(name) {
+    this.name = name;
+  }
+
+  Person.prototype.age = 24;
+
+  const jayesh = new Person("JC");
+
+  console.log(Object.keys(jayesh));
+
+  let keys = [];
+  for (let key in jayesh) {
+    keys.push(key);
+  }
+
+  console.log(keys);
+
+  // 👍A) ['name', 'age'] ['name', 'age']    💡B) ['name', 'age'] ['name']
+  // 💖C) ['name'] ['name', 'age']           😀D) ['name', 'age'] ['age']
+
+  /* 
+  Answer is C) ['name'] ['name', 'age'] because Object.keys() method returns an array of a given object's own properties only,
+  whereas for...in loop enumerates properties in the prototype chain as well.
+  */
+```
+### Question 115
+
+```js
+const person = {
+    pName: "Jayesh",
+    getInfo() {
+      function getName() {
+        console.log(this.pName);
+      }
+      getName();
+    },
+  };
+
+  person.getInfo();
+
+  // 👍A) undefined     💡B) Jayesh
+  // 💖C) ""            😀D) Error
+
+  /* 
+  Answer is A) undefined because "this" keyword inside nested normal function refers to window object and no property named with pName is present in window object.
+  We can get "Jayesh" as an output using arrow function, Because in arrow function the 'this' pointer is interpreted lexically, so it will refer to the object as desired.
+  */
+```
+### Question 116
+
+```js
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  class Player {
+    constructor(name, age) {
+      this.name = name;
+      this.age = age;
+    }
+  }
+
+  const jayesh = new Person("JC", 24);
+  const virat = new Player("VK", 34);
+
+  console.log(typeof Person);
+  console.log(typeof Player);
+
+  // 👍A) "object" "object"     💡B) "function" "function"
+  // 💖C) "function" "class"    😀D) "object" "class"
+
+  /* 
+  Answer is B) "function" "function" because The typeof operator in JavaScript returns "function" for user-defined function, a predefined function, or a class.
+  console.log(typeof function() {}) - user-defined function => "function"
+  console.log(typeof Math.tan) - predefined function => "function"
+  console.log(typeof class C {}) - class => "function"
+  */
+```
+### Question 117
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
+
+```
+### Question 114
+
+```js
 
 ```
