@@ -2927,20 +2927,79 @@ const arr = ["JC", { name: "VK" }, "JC", { name: "VK" }];
 
 ```js
 
+const map = new Map();
+
+  map.set("a", 1);
+  map.set("b", 2);
+  map.set("c", 3);
+  map.set("a", 7);
+
+  console.log(map.get("a"));
+  console.log(map.size);
+
+  // 👍A) 7 4      💡B) 1 4
+  // 💖C) 1 3      😀D) 7 3
+
+  /* 
+  Answer is D) 7 3 because Map objects are collections of key-value pairs. A key in the Map may only occur once; it is unique in the Map's collection.
+  map.set("a", 7) will override key "a" with value "7" and the size of map object will be 3.
+  */
+
 ```
-### Question 114
+### Question 124
 
 ```js
 
+ const calc = {
+    total: 0,
+    add: function (num) {
+      this.total += num;
+      return this;
+    },
+    sub: function (num) {
+      this.total -= num;
+      return this;
+    },
+    mul: function (num) {
+      this.total *= num;
+      return this;
+    },
+  };
+
+  console.log(calc.add(10).sub(5).mul(10).total);
+
+  // 👍A) 0   💡B) -50   💖C) 50   😀D) Error
+
+  /* 
+  Answer is C) 50 because Method chaining. Method chaining is a chain of methods where each method shares the same reference means each method returns an object, allowing the calls to be 
+  chained together in a single statement. Method chaining is used to write more readable code.
+  */
+
+
 ```
-### Question 114
+### Question 125
+
+```js
+ var result;
+  for (var i = 5; i > 0; i--) {
+    result = result + i;
+  }
+
+  console.log(result);
+
+  // 👍A) 14      💡B) 15
+  // 💖C) 10      😀D) NaN
+
+  /* 
+  Answer is D) NaN because at first line declaring "result" variable without initialization will store result value as undefined.
+  + operator applies an implicit coercion to an integer to an operand when the other is a number undefined is coerced to NaN.
+  */
+```
+### Question 126
 
 ```js
 
-```
-### Question 114
 
-```js
 
 ```
 ### Question 114
