@@ -2495,6 +2495,190 @@ console.log(1);
 
 ```js
 
+setTimeout(() => {
+    console.log(1);
+    Promise.resolve().then(() => {
+      console.log(2);
+    });
+  }, 0);
+
+  Promise.resolve().then(() => {
+    console.log(3);
+    setTimeout(() => {
+      console.log(4);
+    }, 0);
+  });
+
+  // 👍A) 3 1 2 4    💡B) 3 2 1 4
+  // 💖C) 1 2 3 4    😀D) 3 4 1 2
+
+  /* 
+  Answer is A) 3 1 2 4 because of taskqueue and microtask queue behaviour.
+  callback attached to setTimeout will be pushed to taskqueue and callback of Promise.resolve().then will be pushed to microtask queue.
+
+  As microtask queue has higher priority than taskqueue, callback attached to Promise.then will start executing in callstack 
+  and console.log(3) will print "3", in the next line callback attached to setTimeout will be pushed to taskqueue.
+
+  Now taskqueue has two setTimeout callback functions, So first callback function will start executing and console.log(1) will print "1"
+  in the next line callback attached to Promise.resolve().then will be pushed to microtask queue.
+
+  Now, microtask queue has one callback and taskqueue also has one callback, As microtask queue has higher priority than taskqueue
+  from microtask queue callback function will execute and console.log(2) will print "2" and at last from taskqueue console.log(4) will print "4".
+  */
+
+```
+
+
+### Question 109
+
+```js
+function getName1() {
+    console.log(arguments[0]);
+  }
+
+  getName1("Jayesh");
+
+  const getName2 = () => {
+    console.log(arguments[0]);
+  };
+
+  getName2("JC");
+
+  // 👍A) Jayesh ReferenceError    💡B) Jayesh undefined
+  // 💖C) ReferenceError JC        😀D) Jayesh JC
+
+  /* 
+  Answer is A) Jayesh ReferenceError because Arrow functions don't have their own bindings to this, arguments, or super.
+  Above code will give Uncaught ReferenceError: arguments is not defined at getName2. In place of arguments, we can use 
+  rest operator in arrow function definition for arguments array.  
+  const getName2 = (...arguments) => {
+    console.log(arguments[0]);
+  };
+  getName2("JC"); // JC
+
+```
+
+### Question 110
+
+```js
+const arr = [1, 2, 3];
+
+  const removeLast = function (array) {
+    array.pop();
+    return array;
+  };
+
+  removeLast([...arr]);
+  console.log(arr);
+
+  removeLast(arr);
+  console.log(arr);
+
+  // 👍A) [1, 2, 3] 3      💡B) [1, 2] [1, 2, 3]
+  // 💖C) [1, 2] [1]       😀D) [1, 2, 3] [1, 2]
+
+  /* 
+  Answer is D) [1, 2, 3] [1, 2] because first time for removeLast([...arr]), arr is passed with spread operator because of which new copy ( different reference ) 
+  of arr will be passed to removeLast function and won't mutate the original arr. arr will still have [1, 2, 3] as value.
+  For second call of removeLast(arr), arr is passed directly with same memory reference so mutating array will change original "arr" as well, so arr will be modified to [1, 2].
+  */
+
+```
+
+### Question 111
+
+
+```js
+
+console.log("start");
+
+  const first = setTimeout(() => {
+    console.log("first");
+    clearTimeout(second);
+  }, 1000);
+
+  const second = setTimeout(() => {
+    console.log("second");
+    clearTimeout(first);
+  }, 2000);
+
+  console.log("end");
+
+  // 👍A) start first second end    💡B) start end first
+  // 💖C) start end first second    😀D) start second end
+
+  /* 
+  Answer is B) start end first because The clearTimeout() method clears a timer set with the setTimeout() method.
+  In variable "first" we are assigning id of first setTimeout and similarly in variable "second" we are assigning id of seconnd setTimeout.
+  Both the setTimeouts ( asynchronous task ) will be handled by web api, as first setTimeout is taking only 1 second. So    
+  callback function attached to first setTimeout will be executed and clearTimeout(second) will clear the second setTimeout from web api.
+  Hence, The Final Output will be start end first.
+  */
+
+```
+
+### Question 112
+
+```js
+function* generateNumber(i) {
+    yield i;
+    yield i * 2;
+    return i * 2 * 2;
+    yield i * 2 * 2 * 2;
+  }
+
+  const numbers = generateNumber(10);
+
+  console.log(numbers.next().value);
+  console.log(numbers.next().value);
+  console.log(numbers.next().value);
+  console.log(numbers.next().value);
+
+  // 👍A) 10 20 40 80    💡B) 10 20 undefined 40
+  // 💖C) 10 20 20 40    😀D) 10 20 40 undefined
+
+  /* 
+  Answer is D) 10 20 40 undefined, Generator is a function that can be paused and resumed from where it was paused. It is written as the function keyword followed by an asterisk (*).
+  Generator returns a Generator object that is used by calling the next method. For the first time calling numbers.next().value, we will get 10 as an output, second time 20 as an ouput.
+  While calling numbers.next().value for third time, Inside generator function we have return keyword that will return 40 and also terminate the generator function and 
+  as the generator function is finished calling numbers.next().value again for fourth time will give output as undefined. So, Final Output will be 10 20 40 undefined
+
+  Note:- A return statement in a generator, when executed, will make the generator finish ( i.e. the done property of the object returned by it will be set to true ).
+  */
+
+
+```
+
+
+### Question 112
+
+```js
+let num = 10;
+
+  const incrementNumber1 = () => num++;
+
+  const incrementNumber2 = (num) => num++;
+
+  const num1 = incrementNumber1();
+  const num2 = incrementNumber2(num1);
+
+  console.log(num1);
+  console.log(num2);
+
+  // 👍A) 11 12     💡B) 10 10
+  // 💖C) 10 11     😀D) 11 11
+
+  /* 
+  Answer is B) 10 10 because The unary operator ++ first returns the value of the operand, then increments the value of the operand.
+  So, incrementNumber1() will return "10" that will be assigned to "num1" and increment "num" by 1. incrementNumber2(num1) will also return "10" that will be assigned to "num2".
+  */
+```
+
+
+### Question 113
+
+```js
+
 
 
 ```
