@@ -2789,19 +2789,74 @@ function Person(name, age) {
 ### Question 117
 
 ```js
+function getName1() {
+    return "Jayesh";
+  }
 
+  const getName2 = () => {
+    return "JC";
+  };
+
+  console.log(getName1.prototype);
+  console.log(getName2.prototype);
+
+  // 👍A) { constructor: ...} { constructor: ...}
+  // 💡B) {} { constructor: ...}
+  // 💖C) { constructor: ...} {}
+  // 😀D) { constructor: ...} undefined
+
+  /* 
+  Answer is D) { constructor: ...} undefined because regular functions have a prototype property, which is an object (prototype object) with a constructor property. 
+  Where as arrow functions do not have this prototype property. undefined gets returned when trying to access the prototype property using getName2.prototype.
+
+  Difference b/w Regular Function and Arrow Function :-
+  1) Arrow Function does not have it's own "this" keyword. 
+  2) Arrow Function does not have it's own "argument" keyword. 
+  3) Arrow Function can not be used as object function constructor.
+  4) We can not use "new" keyword with arrow function.
+  */
 ```
-### Question 114
+### Question 118
 
 ```js
+function getName() {
+    name = "JC";
+    console.log(name);
+  }
 
+  let name = "Jayesh";
+  getName();
+  console.log(name);
+
+  // 👍A) JC JC       💡B) JC undefined
+  // 💖C) JC Jayesh   😀D) ReferenceError
+
+  /* 
+  Answer is A) JC JC because at first name is initialized as "Jayesh", while calling getName() function name will be overwritten by "JC".
+  Hence, The result will be "JC" "JC".
+  */
 ```
-### Question 114
+### Question 119
 
 ```js
+const person = [{ name: "Jayesh" }, 24];
+  const result = person.slice();
 
+  result[0].name = "JC";
+  result[1] = 34;
+
+  console.log(person[0]);
+  console.log(person[1]);
+
+  // 👍A) {name: 'Jayesh'} 24     💡B) {name: 'JC'} 24
+  // 💖C) {name: 'Jayesh'} 34     😀D) {name: 'JC'} 34
+
+  /* 
+  Answer is B) {name: 'JC'} 24 because Array.prototype.slice method returns only a shallow copy of an original array.
+  While changing result[0].name will also change person[0].name as nested property of array will have same reference.
+  */
 ```
-### Question 114
+### Question 120
 
 ```js
 
