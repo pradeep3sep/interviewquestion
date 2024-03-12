@@ -2998,21 +2998,60 @@ const map = new Map();
 ### Question 126
 
 ```js
+let arr = ["Java Script", "with", "JC"];
 
+  let res = arr.flatMap((ele) => ele.split(" "));
+
+  console.log(res);
+
+  // 👍A) ['Java', 'Script', 'with', 'JC']
+  // 💡B) ["Java Script", "with", "JC"]
+  // 💖C) ['Java', 'Script', ['with'], ['JC']]
+  // 😀D) ['Java Script', ['with'], ['JC']]
+
+  /* 
+  Answer is A) ['Java', 'Script', 'with', 'JC'] because The flatMap() method returns a new array formed by applying a given callback function to each element of the array, and then flattening the result by one level. 
+  It is similar to a map() followed by a flat() of depth 1. 
+  */
 
 
 ```
-### Question 114
+### Question 127
 
 ```js
+const arr = [1, 2, 3, 4];
 
+  arr.fill(0, 1, 3);
+
+  console.log(arr);
+
+  // 👍A) [0, 0, 0, 0]   💡B) [0, 1, 3, 4]
+  // 💖C) [1, 0, 0, 4]   😀D) [1, 0, 0, 0]
+
+  /* 
+  Answer is C) [1, 0, 0, 4] because The fill() method changes all elements in an array to a static value, from a start index (default 0) to an end index (excluding end index and default array.length). 
+  It returns the modified array.
+  */
 ```
-### Question 114
+### Question 128
 
 ```js
+const arr = [1, 2, 3];
 
+  let sum = arr.reduceRight((acc, curr) => {
+    console.log(curr);
+    return acc + curr;
+  });
+
+  // 👍A) 3 2 1        💡B) 2 1
+  // 💖C) 1 2 3        😀D) 1 2
+
+  /* 
+  Answer is B) 2 1 because The reduceRight() is a higher order function that iterates through each value of an array (from right-to-left) and reduces array of values into single value.
+  as second argument is not passed to reduceRight() method, currentValue will start from last second element of an array. 
+  */
 ```
-### Question 114
+### Question 129
 
 ```js
 
