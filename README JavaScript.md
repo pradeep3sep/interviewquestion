@@ -7,6 +7,8 @@ https://github.com/pradeep3sep/javascript-interview-questions
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise-Async-Await-Sequential-Execution/Promise-async-await-master-notes/calback-hell-resolved-with-promise.js
 ```
 
+> ### arr.sort() return the modified array, also modified base array
+
 > ### async await under the hood'
 Async/Await enables us to write asynchronous code in a synchronous fashion, which produces cleaner and easier-to-understand logic. Under the hood, it’s just syntactic sugar using generators and yield statements to “pause” execution. In other words, async functions can “pull out” the value of a Promise even though it’s nested inside a callback function, giving us the ability to assign it to a variable!
 
