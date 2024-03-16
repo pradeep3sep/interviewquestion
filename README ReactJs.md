@@ -1,3 +1,13 @@
+```
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Hooks/useEffect-api-call-with-async-inside-useEffect.md
+
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Hooks/useEffect-async-call-inside.md
+
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Hooks/useState-replace-componentWillReceiveProps-getDerivedStateFromProps.md
+
+```
+
+
 **just to know, we can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change**
 
 useState me to state update karte h wo 2 tarike se hota h, direct update and function se update,
