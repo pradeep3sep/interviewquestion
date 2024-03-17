@@ -5,6 +5,8 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/H
 
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Hooks/useState-replace-componentWillReceiveProps-getDerivedStateFromProps.md
 
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Virtual-DOM-and-Reconciliation-Algorithm.md
+
 ```
 
 
