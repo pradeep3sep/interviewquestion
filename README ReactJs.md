@@ -7,6 +7,8 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/H
 
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Virtual-DOM-and-Reconciliation-Algorithm.md
 
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/pass-prop-to-component-rendered-by-React-Router.md
+
 ```
 
 
