@@ -9,6 +9,8 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/V
 
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/pass-prop-to-component-rendered-by-React-Router.md
 
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Development-In-General/What-happens-when-you-navigate-to-an-URL.md
+
 ```
 
 
