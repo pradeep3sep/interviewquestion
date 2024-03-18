@@ -11,6 +11,8 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/p
 
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Development-In-General/What-happens-when-you-navigate-to-an-URL.md
 
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Development-In-General/What-happens-when-you-navigate-to-google.md
+
 ```
 
 
