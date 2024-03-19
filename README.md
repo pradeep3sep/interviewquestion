@@ -29,6 +29,11 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascr
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/is-JS-block-scoped-or-function-scoped.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/PR-Flow/git-squash-many-commits-to-a-single-one-before-PR.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/git-rebase/git-rebase.md
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/IMPORANT-Gitignore-a-file-thats-ALREADY-PUSHED-to-Git%20.md
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Array-Problems/find-closest-number-in-array.js
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Array-Problems/find-length-of-integer-without-converting-to-string.js
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Array-Problems/shuffle_Array-2.js
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Dealing-with-Objects-in-JS/flatten-objects-plain-js-recursive.js
 ```
 
 
