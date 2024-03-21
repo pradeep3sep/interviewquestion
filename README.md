@@ -35,6 +35,9 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collect
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Array-Problems/shuffle_Array-2.js
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Dealing-with-Objects-in-JS/flatten-objects-plain-js-recursive.js
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/ES6/this-in-ES6/this-in-ES6.js
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/tree/master/Collection-of-Popular-Problems-with-Solutions/General-JS-Problems
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Imp-TECHNIQUES/general-Array-Creation.js
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Imp-TECHNIQUES/method_chaining.js
 ```
 
 
