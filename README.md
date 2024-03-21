@@ -34,6 +34,7 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collect
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Array-Problems/find-length-of-integer-without-converting-to-string.js
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Array-Problems/shuffle_Array-2.js
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Dealing-with-Objects-in-JS/flatten-objects-plain-js-recursive.js
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/ES6/this-in-ES6/this-in-ES6.js
 ```
 
 
