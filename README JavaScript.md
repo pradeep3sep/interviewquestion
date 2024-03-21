@@ -3,6 +3,14 @@ https://github.com/pradeep3sep/javascript-interview-questions
 ```
 <br>
 
+```js
+// Below is for the fibonacci number
+// Same as above, using ternary operator - AND THIS IS THE STANDARD SOLUTION
+fibonacci = n => {
+  return n < 2 ? n : fibonacci(n - 1) + fibonacci1(n - 2)
+}
+```
+
 > ### Object k saare method
 
 ### Object.assign()
