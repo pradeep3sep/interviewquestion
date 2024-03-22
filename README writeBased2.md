@@ -2526,4 +2526,64 @@ function drawChessboard(rows, cols) {
 console.log(drawChessboard(8, 8));
 ```
 
+> ### Q90 - longest_Substring-of-two-strings.js
 
+```js
+
+function longestCommonSubstring(str1, str2) {
+    let longestSubstring = '';
+    for (let i = 0; i < str1.length; i++) {
+        for (let j = 0; j < str2.length; j++) {
+            let k = 0;
+            while (str1[i + k] === str2[j + k]) {
+                k++;
+                if (i + k >= str1.length || j + k >= str2.length) break;
+            }
+            if (k > longestSubstring.length) {
+                longestSubstring = str1.substring(i, i + k);
+            }
+        }
+    }
+    return longestSubstring;
+}
+
+// Example usage:
+const str1 = 'abcdxyz';
+const str2 = 'xyzabcd';
+console.log(longestCommonSubstring(str1, str2)); // Output: 'abcd'
+
+```
+
+> ### Q91 - shift-each-letter-by-number.-of-position.js
+
+```js
+/* how to shift each letter in the given string N places down in the alphabet? Punctuation, spaces, and capitalization should remain intact. For example if the string is "ac" and num is 2 the output should be "ce".  */
+
+CaesarCipher = (str, num) => {
+
+  str = str.toUpperCase();
+
+  let resultStr = '';
+  let charAfterNumShift = 0;
+
+  for (let i = 0; i < str.length; i++) {
+
+    charAfterNumShift = (str[i].charCodeAt()) + num
+
+    resultStr += String.fromCharCode(charAfterNumShift);
+  }
+
+  return resultStr;
+}
+
+/* The fromCharCode function doesn't operate on strings, it operates on the global String object. like so
+String.fromCharCode(65, 66, 67);  // "ABC" */
+
+console.log(CaesarCipher('ac', 2));  // => ce
+
+const str = "Hello, World!";
+const num = 5;
+console.log(CaesarCipher(str, num)); // Output: "Mjqqt, Btwqi!"
+
+
+```
