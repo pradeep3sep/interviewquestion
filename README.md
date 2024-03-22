@@ -38,6 +38,7 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collect
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/tree/master/Collection-of-Popular-Problems-with-Solutions/General-JS-Problems
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Imp-TECHNIQUES/general-Array-Creation.js
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Imp-TECHNIQUES/method_chaining.js
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/careercup/google-biz-trip-boardingPass.js
 ```
 
 
