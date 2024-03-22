@@ -43,13 +43,6 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Challen
 ```
 
 
-Need to explore
-
-```
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews
-```
-
-
 Good website, must see
 
 ```
@@ -91,6 +84,7 @@ https://bigfrontend.dev/react
 must see repo - Done
 ```
 https://github.com/jayesh2906/JavaScript-with-JC/tree/master
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews
 ```
 
 must see
