@@ -2584,6 +2584,70 @@ console.log(CaesarCipher('ac', 2));  // => ce
 const str = "Hello, World!";
 const num = 5;
 console.log(CaesarCipher(str, num)); // Output: "Mjqqt, Btwqi!"
-
-
 ```
+
+> ### Q92 - Find the length of the longest substring in the given string s that is the same in reverse.
+As an example, if the input was “I like racecars that go fast”, the substring (racecar) length would be 7.
+If the length of the input string is 0, return value must be 0.
+Example:
+"a" -> 1
+"aab" -> 2
+"abcde" -> 1
+"zzbaabcd" -> 4
+
+```js
+function longestPalindromeSubstring(s) {
+    if (s.length === 0) return 0;
+
+    let maxLength = 1;
+
+    // Function to check if a substring is a palindrome
+    function isPalindrome(str) {
+        return str === str.split('').reverse().join('');
+    }
+
+    // Iterate through all possible substrings
+    for (let i = 0; i < s.length; i++) {
+        for (let j = i + 1; j <= s.length; j++) {
+            let substr = s.substring(i, j);
+            if (isPalindrome(substr) && substr.length > maxLength) {
+                maxLength = substr.length;
+            }
+        }
+    }
+
+    return maxLength;
+}
+
+// Test cases
+console.log(longestPalindromeSubstring("a"));        // Output: 1
+console.log(longestPalindromeSubstring("aab"));      // Output: 2
+console.log(longestPalindromeSubstring("abcde"));    // Output: 1
+console.log(longestPalindromeSubstring("zzbaabcd")); // Output: 4
+```
+
+> ### Q93 - Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
+For example://
+uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']
+uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']
+uniqueInOrder([1,2,2,3,3])       == [1,2,3]*/
+
+```js
+var uniqueInOrder=function(iterable){
+  var array = [],
+      len = iterable.length;
+
+    for(var i = 0; i < len; i++) {
+      if(iterable[i] !== iterable[i+1]) {
+        array.push(iterable[i]);
+      };
+    }
+    return array;
+  }
+
+console.log(uniqueInOrder('AAAABBBCCDAABBB'));
+console.log(uniqueInOrder('ABBCcAD'));
+console.log(uniqueInOrder([1,2,2,3,3]));
+```
+
+
