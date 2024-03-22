@@ -2650,4 +2650,68 @@ console.log(uniqueInOrder('ABBCcAD'));
 console.log(uniqueInOrder([1,2,2,3,3]));
 ```
 
+> ### Q94 - Implement a function that adds two numbers together and returns their sum in binary. The conversion can be done before, or after the addition.The binary number returned should be a string.
+
+```js
+// normal
+function addBinary(a,b){
+  let decSum = a + b;
+  return decSum.toString(2);
+}
+
+// without inbuilt
+function addBinaryAlt(a,b) {
+  var c = a + b;
+  var res = '';
+  while (c >= 1) {
+  	// console.log("value of c is " + c); // this line was only for debugging
+    res = c % 2 + res;
+    c = Math.floor(c / 2);    
+    // console.log("Accumuled string value of res is " + res); // this line was only for debugging
+  }
+  return res;
+}
+
+// console.log(addBinaryAlt(5, 6));
+console.log(addBinaryAlt(5, 6));
+
+```
+
+> ### Q95 - Your goal is to return multiplication table for number that is always an integer from 1 to 10.
+
+For example, a multiplication table (string) for number == 5 looks like below:
+
+1 * 5 = 5/
+2 * 5 = 10/
+3 * 5 = 15/
+4 * 5 = 20/
+5 * 5 = 25/
+6 * 5 = 30/
+7 * 5 = 35/
+8 * 5 = 40/
+9 * 5 = 45/
+10 * 5 = 50/
+P. S. You can use \n in string to jump to the next line.
+
+```js
+
+//Alternative solution by others
+function multiTable(number) {
+  multArr = [];
+  for (i = 1; i < 11; i++) {
+    multArr.push(`${i} * ${number} = ${i * number}`);
+  }
+  return multArr.join('\n');
+}
+
+console.log(multiTable(5));
+
+
+// other
+
+function multiTable(number) {
+  return [...Array(10)].map((currentNumber, index) => `${index + 1} * ${number} = ${ (index + 1) * number}`).join('\n');
+}
+
+```
 
