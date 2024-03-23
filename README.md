@@ -108,10 +108,6 @@ https://github.com/pradeep3sep/frontend-interview-preparation-kit
 ```
 
 ```
-https://github.com/pradeep3sep/react-interview-new-check
-```
-
-```
 https://github.com/pradeep3sep/bulletproof-react
 ```
 
