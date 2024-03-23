@@ -100,10 +100,6 @@ https://github.com/pradeep3sep/Machine-Coding-Round
 
 Pending Repo
 ```
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews
-```
-
-```
 https://github.com/pradeep3sep/All-react-details-AtoZ
 ```
 
