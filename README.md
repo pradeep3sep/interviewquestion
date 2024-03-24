@@ -19,6 +19,11 @@ let person = { name: "Jayesh" };
  */
 ```
 
+```
+https://github.com/marmelab/react-admin
+https://github.com/typescript-cheatsheets/react
+```
+
 
 make notes of below
 ```
