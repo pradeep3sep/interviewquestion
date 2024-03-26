@@ -34,6 +34,20 @@ agr function se update karte h new data milta h
 > ### In react,  we have the loaders and actions in react-router, loaders for the get and actions for the rest, action is like earlier we create the form which have action like POST,PATCH etc which work on submit button, it is replaced by action of react-router
 
 
+> ### Component and state optimizations
+- If you have a piece of state that is initialized by an expensive computation, use the state initializer function instead of executing it directly because the expensive function will be run only once as it is supposed to. e.g:
+
+```jsx
+// instead of this which would be executed on every re-render:
+const [state, setState] = React.useState(myExpensiveFn());
+
+// prefer this which is executed only once:
+const [state, setState] = React.useState(() => myExpensiveFn());
+```
+
+
+
+
 > ### useNavigation can be used, 
 ```jsx
 import { useNavigation } from "react-router-dom";
