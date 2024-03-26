@@ -14,7 +14,13 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Dev
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Development-In-General/What-happens-when-you-navigate-to-google.md
 
 ```
+```js
+// 👎 Don't use relative paths
+import Input from '../../../modules/common/components/Input'
 
+// 👍 Absolute ones don't change
+import Input from '@modules/common/components/Input'
+```
 
 **just to know, we can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change**
 
