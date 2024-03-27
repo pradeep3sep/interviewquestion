@@ -2715,3 +2715,22 @@ function multiTable(number) {
 
 ```
 
+
+
+```js
+// Below is for the fibonacci number
+// Same as above, using ternary operator - AND THIS IS THE STANDARD SOLUTION
+fibonacci = n => {
+  return n < 2 ? n : fibonacci(n - 1) + fibonacci1(n - 2)
+}
+
+// below is without recursion
+n_th_fibonacci = n => {
+  let [a, b] = [0, 1]
+
+  while (--n) {
+    ;[a, b] = [b, b + a]
+  }
+  return b
+}
+```
