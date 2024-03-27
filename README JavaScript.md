@@ -1,7 +1,3 @@
-```
-https://github.com/pradeep3sep/javascript-interview-questions
-```
-<br>
 
 ```js
 // Below is for the fibonacci number
