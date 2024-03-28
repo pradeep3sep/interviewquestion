@@ -1,11 +1,12 @@
 
 > ### Object k saare method
 
-### Object.assign()
+> ### Object.assign()
 
 The `Object.assign()` static method copies all `enumerable own properties` from one or more source objects to a target object. It returns the modified target object.
 
 ```js
+
 const target = { a: 1, b: 2 };
 const source = { b: 4, c: 5 };
 
@@ -14,9 +15,14 @@ const returnedTarget = Object.assign(target, source);
 console.log(target);
 // Expected output: Object { a: 1, b: 4, c: 5 }
 
+console.log(source);
+// Expected output: Object { b: 4, c: 5 }
+
+console.log(returnedTarget);
+// Expected output: Object { a: 1, b: 4, c: 5 }
+
 console.log(returnedTarget === target);
 // Expected output: true
-
 ```
 
 ### Object.create() 
@@ -279,6 +285,8 @@ axios.get(‘http://www.somepage.com')
     // response being the result of the first request
     // Returns another promise to the next .then(..) in the chain
     return axios.get(`http://www.somepage.com/${response.someValue}`);
+
+    // Keep in mind, yha jo bhi retrn karenge wo Promise ban k return hoga, niche wale then me resove hoga
 })
 .then(function response {
     // response being the result of the second request
@@ -295,51 +303,8 @@ axios.get(‘http://www.somepage.com')
 NaN ? console.log("truthy") : console.log("falsy") // falsy
 ```
 
-> ### Object.create()
-The Object.create() static method creates a new object, using an `existing object` as `the prototype of the newly created object`.
 
-keep in mind it attaches the existing object as prototype of new object. You can see that in below code
 
-```js
-const person = {
-  isHuman: false,
-  printIntroduction: function () {
-    console.log(`My name is ${this.name}. Am I human? ${this.isHuman}`);
-  },
-};
-
-const me = Object.create(person);
-console.log(me)
-me.name = 'Matthew'; // "name" is a property set on "me", but not on "person"
-me.isHuman = true; // Inherited properties can be overwritten
-console.log(me)
-Object.getPrototypeOf(me)
-me.printIntroduction();
-```
-
-> ### Object.assign()
-
-The `Object.assign()` static method copies all `enumerable own properties` from one or more source objects to a target object. It returns the modified target object.
-
-```js
-
-const target = { a: 1, b: 2 };
-const source = { b: 4, c: 5 };
-
-const returnedTarget = Object.assign(target, source);
-
-console.log(target);
-// Expected output: Object { a: 1, b: 4, c: 5 }
-
-console.log(source);
-// Expected output: Object { b: 4, c: 5 }
-
-console.log(returnedTarget);
-// Expected output: Object { a: 1, b: 4, c: 5 }
-
-console.log(returnedTarget === target);
-// Expected output: true
-```
 
 > ### Good case of 'this'
 
