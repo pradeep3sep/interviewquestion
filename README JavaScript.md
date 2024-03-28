@@ -1,5 +1,5 @@
 
-> ### Object k saare method
+### Object k saare method
 
 > ### Object.assign()
 
@@ -25,6 +25,8 @@ console.log(returnedTarget === target);
 // Expected output: true
 ```
 
+<br>
+ 
 ### Object.create() 
 
 The `Object.create()` static method creates a new object, using an existing object as the `prototype` of the newly created object.
@@ -51,6 +53,8 @@ console.log(me)
 // Object { name: "Matthew", isHuman: true }
 ```
 
+<br>
+ 
 ### Object.defineProperty()
 
 The Object.defineProperty() static method defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
@@ -71,6 +75,8 @@ console.log(object1.property1);
 
 ```
 
+<br>
+ 
 ### Object.defineProperties()
 
 The `Object.defineProperties()` static method defines new or modifies existing properties directly on an object, returning the object.
@@ -90,8 +96,12 @@ console.log(object1.property1);
 // Expected output: 42
 ```
 
+<br>
+ 
 ### Object.freeze() do not freeze nested data
 
+<br>
+ 
 ### Object.getOwnPropertyDescriptor()
 
 The Object.getOwnPropertyDescriptor() static method returns an object describing the configuration of a specific property on a given object (that is, one directly present on an object and not in the object's prototype chain). The object returned is mutable but mutating it has no effect on the original property's configuration.
@@ -114,6 +124,8 @@ console.log(descriptor1.value);
 
 ```
 
+<br>
+ 
 ### Object.getOwnPropertyDescriptors()
 
 The Object.getOwnPropertyDescriptors() static method returns all own property descriptors of a given object.
@@ -136,6 +148,8 @@ console.log(descriptors1.property1.value);
 
 ```
 
+<br>
+ 
 ### Object.is()
 
 The Object.is() static method determines whether two values are the same value.
@@ -155,6 +169,8 @@ console.log(Object.is(obj, {}));
 // Expected output: false
 ```
 
+<br>
+ 
 ### Object.hasOwn()
 
 **Note**: `Object.hasOwn()` is intended as a `replacement` for `Object.prototype.hasOwnProperty()`.
@@ -176,6 +192,8 @@ console.log(Object.hasOwn(object1, 'undeclaredPropertyValue'));
 // Expected output: false
 ```
 
+<br>
+ 
 
 ### Object.getOwnPropertyNames()
 
@@ -192,7 +210,10 @@ console.log(Object.getOwnPropertyNames(obj).sort());
 // ["0", "1", "2"]
 ```
 
-> ### Array k sare method
+<br>
+ 
+
+### Array k sare method
 
 ### Array.prototype.at()
 
@@ -213,6 +234,8 @@ console.log(`An index of ${index} returns ${array1.at(index)}`);
 ```
 
 
+<br>
+ 
 ### Array.prototype.fill()
 
 The fill() method of Array instances changes all elements within a range of indices in an array to a static value. It returns the modified array.
@@ -231,6 +254,8 @@ console.log(array1.fill(6));
 // Expected output: Array [6, 6, 6, 6]
 ```
 
+<br>
+ 
 ### Array.from()
 
 The `Array.from()` static method creates a new, shallow-copied `Array` instance from an iterable or array-like object.
@@ -245,6 +270,8 @@ console.log(Array.from([1, 2, 3], (x) => x + x));
 // Expected output: Array [2, 4, 6]
 ```
 
+<br>
+ 
 ### Array.prototype.flatMap()
 
 The `flatMap()` method of `Array` instances returns a new array formed by applying a given callback function to each element of the array, and then flattening the result by one level. It is identical to a `map()` followed by a `flat()` of depth 1 `(arr.map(...args).flat())`, but slightly more efficient than calling those two methods separately.
@@ -258,24 +285,24 @@ console.log(result);
 // Expected output: Array [1, 2, 2, 1]
 ```
 
-
-
-
-
-
-
-
-
+<br>
+ 
 ```
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise-Async-Await-Sequential-Execution/Promise-async-await-master-notes/calback-hell-resolved-with-promise.js
 ```
 
+<br>
+ 
 > ### arr.sort() return the modified array, also modified base array
 
+<br>
+ 
 > ### async await under the hood'
 Async/Await enables us to write asynchronous code in a synchronous fashion, which produces cleaner and easier-to-understand logic. Under the hood, it’s just syntactic sugar using generators and yield statements to “pause” execution. In other words, async functions can “pull out” the value of a Promise even though it’s nested inside a callback function, giving us the ability to assign it to a variable!
 
 
+<br>
+ 
 > ### When we retun in then of promise
 ```js
 const axios = require(‘axios’);
@@ -298,13 +325,15 @@ axios.get(‘http://www.somepage.com')
 
 ```
 
+<br>
+ 
 > ### NaN is a falsy value
 ```js
 NaN ? console.log("truthy") : console.log("falsy") // falsy
 ```
 
-
-
+<br>
+ 
 
 > ### Good case of 'this'
 
@@ -328,6 +357,8 @@ fun1() // Prints true as this method is invoked as a simple function.
 user.foo1() // Prints false on console as foo1 is invoked as a object’s method, and the 'this' refers to the containing object NOT 'window' or 'global'
 ```
 
+<br>
+ 
 
 > ### Mutability
 Array, objects are mutable while primitives don't
@@ -360,12 +391,14 @@ console.log(lifeDiscovered);
   // Logs: { Earth: true, Mars: true, Titan: false }
 ```
 
+<br>
+ 
 > ### BigInt
 BigInt is a built-in object that provides a way to represent whole numbers larger than 2^(53) - 1, which is the largest number JavaScript can reliably represent with the Number primitive and represented by the Number.MAX_SAFE_INTEGER constant. BigInt can be used for arbitrarily large integers.
 
 
-
-
+<br>
+ 
 
 > ### Answer below
 ```js
@@ -381,6 +414,8 @@ But how can b be defined outside of the scope of the enclosing function?\
 Well, since the statement var a = b = 3; is shorthand for the statements b = 3; and var a = b;,\
 b ends up being a global variable (since it is not preceded by the var keyword) and is therefore still in scope even outside of the enclosing function.
 
+<br>
+ 
 > ### NaN
 There are several ways in which NaN can happen:
 
@@ -411,11 +446,15 @@ function isNaN(x) {
 ```
 
 
+<br>
+ 
 > ### determine if bar is an object
 ```js
 console.log((bar !== null) && (bar.constructor === Object));   // it covers all the cases nulls, arrays, and functions, because typeof null,array is object
 ```
 
+<br>
+ 
 > ### 8 Ways to get Undefined:
 - A declared variable without assigning any value to it.
 - Implicit returns of functions due to missing return statements.
@@ -426,6 +465,8 @@ console.log((bar !== null) && (bar.constructor === Object));   // it covers all 
 - Any expression in the form of void(expression)
 - The value of the global variable undefined
 
+<br>
+ 
 > ### Need to know
 ```js
 console.log(Number(42)) // 42
@@ -433,6 +474,8 @@ console.log(Number("42")) // 42
 console.log(Number("paul")) // NaN
 ```
 
+<br>
+ 
 > ### Various Typeof
 ```js
 // Numbers
@@ -493,11 +536,15 @@ typeof class C {} === "function";
 typeof Math.sin === "function";
 ```
 
+<br>
+ 
 > ### why is NaN === NaN or NaN == NaN returning false
 `NaN != NaN` because they are not necessary the SAME non-number. Thus it makes a lot of sense... Also why floats have both +0.00 and -0.00 that are not the same. Rounding may do that they are actually not zero.
 
 As for typeof, that depends on the language. And most languages will say that NaN is a float, double or number depending on how they classify it... I know of no languages that will say this is an unknown type or null.
 
+<br>
+ 
 > ### What is the value of Math.max([2,3,4,5]);
 Answer: NaN
 
@@ -523,6 +570,8 @@ Math.max(...[1,2,3])
 ```
 
 
+<br>
+ 
 > ### What is 2 in [1,2]
 false. Because "in" returns whether a particular property/index available in the Object. In this case object has index 0 and 1 but don't have 2. Hence you get false.
 
@@ -537,6 +586,8 @@ console.log('make' in car);
 
 ```
 
+<br>
+ 
 > ### Explain why the following doesn't work as an IIFE: function foo(){ }();. What needs to be changed to properly make it an IIFE?
 Here are two ways to fix it that involves adding more parentheses:
 
@@ -544,6 +595,8 @@ Here are two ways to fix it that involves adding more parentheses:
 (function foo(){ })() and (function foo(){ }()).
 ```
 
+<br>
+ 
 
 > ### 42..toString()
 42
@@ -554,6 +607,8 @@ SyntaxError: Unexpected token .
 > ### 42 . toString()
 42
 
+<br>
+ 
 > ### Rest operator in object
 ```js
 let myObj = {
@@ -572,10 +627,16 @@ console.log(hobbies, rest.age)  // => music 25
 
 ```
 
+<br>
+ 
 > ### constructor property which points to Person function itself
 
+<br>
+ 
 > ### A memory leak is any object that persists after you no longer have a use or need for it.
 
+<br>
+ 
 > ### child class inheritance using constructor function
 ```js
 // Parent constructor function
@@ -616,6 +677,8 @@ myDog.walk();    // Output: Buddy is walking.
 myDog.bark();    // Output: Buddy is barking.
 ```
 
+<br>
+ 
 > ### new Keyword in js
 The `new` keyword is used to invoke a constructor. What it actually does is:
 
@@ -625,6 +688,8 @@ Bind `this` to the new instance
 
 Reference the new object’s delegate [[Prototype]] to the object referenced by the constructor function’s `prototype` property.
 
+<br>
+ 
 > ### Break vs Continue in for loop
 
 The `break` statement `"jumps out" or stops` of a loop.
@@ -633,6 +698,8 @@ The `continue` statement `"jumps over or skip"` one iteration in the loop.
 
 <br>
 
+<br>
+ 
 > ### setTimeout(functionRef, delay, param1)
 
 params is passed functionRef
@@ -1442,12 +1509,11 @@ and later on higher order function calls the callback function to perform some o
 👉 Asynchronous Callback (non-blocking) :- Executes after the execution of the higher-order function.
 
 💡Callback Hell :- \
-👉 Callback Hell is the situation where callbacks are nested several levels deep\
-which makes it difficult to understand and maintain the code. It's also known as Pyramid of Doom.
+👉 Callback Hell is the situation where callbacks are nested several levels deep which makes it difficult to understand and maintain the code. It's also known as Pyramid of Doom.
 
 💡 Avoiding Callback Hell\
 👉 1) Using Promises \
-👉 2) Using async-await\ 
+👉 2) Using async-await \
 👉 3) Using generators
 
 
