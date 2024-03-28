@@ -363,92 +363,6 @@ console.log(lifeDiscovered);
 > ### BigInt
 BigInt is a built-in object that provides a way to represent whole numbers larger than 2^(53) - 1, which is the largest number JavaScript can reliably represent with the Number primitive and represented by the Number.MAX_SAFE_INTEGER constant. BigInt can be used for arbitrarily large integers.
 
-> ### To print 1 to 5 with different cases
-
-naive approach
-```js
-
-for (var i = 0; i < arr.length; i++) {
-  setTimeout(() => {
-    console.log("Index: " + i + ", element : " + arr[i])
-  }, 1000)
-}
-```
-above will show 
-Index: 4, element : undefined\
-Index: 4, element : undefined\
-Index: 4, element : undefined\
-Index: 4, element : undefined
-
-Below are the possible solutions
-
-Case 1. We have changes var to let
-
-```js
-const arr1 = [10, 12, 15, 21]
-
-for (let i = 0; i < arr1.length; i++) {
-  setTimeout(() => {
-    console.log("The index of this number is: " + i)
-  }, 1000)
-}
-
-```
-
-case 2.  By using the IFFE with var
-
-```js
-const arr2 = [10, 12, 15, 21]
-
-for (var i = 1; i <= arr2.length; i++) {
-  setTimeout(
-    (function (i_local) {
-      return function () {
-        console.log("The index of this number is " + i_local)
-      }
-    })(i),
-    1000
-  )
-}
-
-```
-
-case 3. Use different iterator variable i and j
-
-```js
-for (var i = 1; i <= 3; i++) {
-  let j = i
-  setTimeout(function () {
-    console.log(`j: ${j}`)
-  }, 1000)
-}
-```
-
-case 4. using the return function
-
-```js
-funcToExecute = x => {
-  return () => {
-    console.log(x);
-  };
-};
-
-for (var i = 1; i <= 5; i++) {
-  setTimeout(funcToExecute(i), 1000);
-}
-```
-
-When we want to log every output after one second, just use the i withh time
-
-```js
-const arr1 = [10, 12, 15, 21]
-
-for (let i = 0; i < arr1.length; i++) {
-  setTimeout(() => {
-    console.log("The index of this number is: " + i)
-  }, 1000 * i)
-}
-```
 
 
 
@@ -463,7 +377,9 @@ console.log('a defined? ' + (typeof a !== 'undefined') )
 console.log('b defined? ' + (typeof b !== 'undefined') )
 ```
 
-But how can b be defined outside of the scope of the enclosing function? Well, since the statement var a = b = 3; is shorthand for the statements b = 3; and var a = b;, b ends up being a global variable (since it is not preceded by the var keyword) and is therefore still in scope even outside of the enclosing function.
+But how can b be defined outside of the scope of the enclosing function?\
+Well, since the statement var a = b = 3; is shorthand for the statements b = 3; and var a = b;,\
+b ends up being a global variable (since it is not preceded by the var keyword) and is therefore still in scope even outside of the enclosing function.
 
 > ### NaN
 There are several ways in which NaN can happen:

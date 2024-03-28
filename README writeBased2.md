@@ -2734,3 +2734,92 @@ n_th_fibonacci = n => {
   return b
 }
 ```
+
+
+> ### To print 1 to 5 with different cases
+
+naive approach
+```js
+const arr = [10, 12, 15, 21]
+
+for (var i = 0; i < arr.length; i++) {
+  setTimeout(() => {
+    console.log("Index: " + i + ", element : " + arr[i])
+  }, 1000)
+}
+```
+above will show 
+Index: 4, element : undefined\
+Index: 4, element : undefined\
+Index: 4, element : undefined\
+Index: 4, element : undefined
+
+Below are the possible solutions
+
+Case 1. We have changes var to let
+
+```js
+const arr1 = [10, 12, 15, 21]
+
+for (let i = 0; i < arr1.length; i++) {
+  setTimeout(() => {
+    console.log("The index of this number is: " + i)
+  }, 1000)
+}
+
+```
+
+case 2.  By using the IFFE with var
+
+```js
+const arr2 = [10, 12, 15, 21]
+
+for (var i = 1; i <= arr2.length; i++) {
+  setTimeout(
+    (function (i_local) {
+      return function () {
+        console.log("The index of this number is " + i_local)
+      }
+    })(i),
+    1000
+  )
+}
+
+```
+
+case 3. Use different iterator variable i and j
+
+```js
+for (var i = 1; i <= 3; i++) {
+  let j = i
+  setTimeout(function () {
+    console.log(`j: ${j}`)
+  }, 1000)
+}
+```
+
+case 4. using the return function
+
+```js
+funcToExecute = x => {
+  return () => {
+    console.log(x);
+  };
+};
+
+for (var i = 1; i <= 5; i++) {
+  setTimeout(funcToExecute(i), 1000);
+}
+```
+
+When we want to log every output after one second, just use the i withh time
+
+```js
+const arr1 = [10, 12, 15, 21]
+
+for (let i = 0; i < arr1.length; i++) {
+  setTimeout(() => {
+    console.log("The index of this number is: " + i)
+  }, 1000 * i)
+}
+```
