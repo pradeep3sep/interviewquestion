@@ -1418,7 +1418,7 @@ outerFunction(callbackFunction);
 <br>
  
 > #### What is a callback hell
-Callback Hell is an anti-pattern with multiple nested callbacks which makes code hard to read and debug when dealing with asynchronous logic. The callback hell looks like below,
+Callback Hell is an `anti-pattern` with `multiple nested callbacks` which makes code hard to read and debug when dealing with asynchronous logic. The callback hell looks like below,
 
 ```js
 async1(function(){
@@ -1432,22 +1432,22 @@ async1(function(){
 });
 ```
 
-👉 Callback and Callback Hell
+👉 Callback and Callback Hell\
 Callback functions are first class citizens passed as an argument to higher order function,
 and later on higher order function calls the callback function to perform some operation.
 
 
-💡Types of Callback :- 
-👉 Synchronous Callback (blocking) :- Executes immediately during the execution of the higher-order function.
+💡Types of Callback :-\
+👉 Synchronous Callback (blocking) :- Executes immediately during the execution of the higher-order function.\
 👉 Asynchronous Callback (non-blocking) :- Executes after the execution of the higher-order function.
 
-💡Callback Hell :- 
-👉 Callback Hell is the situation where callbacks are nested several levels deep
+💡Callback Hell :- \
+👉 Callback Hell is the situation where callbacks are nested several levels deep\
 which makes it difficult to understand and maintain the code. It's also known as Pyramid of Doom.
 
-💡 Avoiding Callback Hell
-👉 1) Using Promises 
-👉 2) Using async-await 
+💡 Avoiding Callback Hell\
+👉 1) Using Promises \
+👉 2) Using async-await\ 
 👉 3) Using generators
 
 
