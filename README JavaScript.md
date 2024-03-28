@@ -330,7 +330,7 @@ user.foo1() // Prints false on console as foo1 is invoked as a object’s method
 
 
 > ### Mutability
-Array, objects are not while primitives are
+Array, objects are mutable while primitives don't
 
 ```js
 let name = 'pra'
