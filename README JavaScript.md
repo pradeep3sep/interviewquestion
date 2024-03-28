@@ -229,6 +229,8 @@ console.log(array1.fill(6));
 
 The `Array.from()` static method creates a new, shallow-copied `Array` instance from an iterable or array-like object.
 
+Array.from(iterableArray, mapFn)
+
 ```js
 console.log(Array.from('foo'));
 // Expected output: Array ["f", "o", "o"]
