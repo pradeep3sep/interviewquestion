@@ -2556,7 +2556,7 @@ console.log(fruit)
 A Pure function is a function where the return value is only determined by its arguments without any side effects. i.e, If you call a function with the same arguments 'n' number of times and 'n' number of places in the application then it will always return the same value.
 
 > ### How do you redeclare variables in switch block without an error
-```
+```js
 let counter = 1;
 switch (x) {
   case 0: {
@@ -2575,7 +2575,7 @@ Time since when the let variable was hoisted until it is initialized some value.
 
 - So any line till before "let a = 10" is the TDZ for a
 
-```
+```js
 console.log(a); // ReferenceError: Cannot access 'a' before initialization
 console.log(b); // prints undefined as expected
 let a = 10;
@@ -2724,22 +2724,22 @@ Webpack is a module bundler for JavaScript applications
 
 > ### What are the possible ways to create objects in JavaScript 2
 * Object constructor
- ```
+ ```js
  var object = new Object();
  ```
  * Object's create method:
- ```
+ ```js
  var object = Object.create(null);
  ```
  * Object literal syntax:
- ```
+ ```js
  var object = {
      name: "Sudheer",
      age: 34
 };
 ```
 * Function constructor:
-```
+```js
 function Person(name) {
   this.name = name;
   this.age = 21;
@@ -2747,13 +2747,13 @@ function Person(name) {
 var object = new Person("Sudheer");
 ```
 * Function constructor with prototype: 
-```
+```js
 function Person() {}
 Person.prototype.name = "Sudheer";
 var object = new Person();
 ```
 * ES6 Class syntax:
-```
+```js
 class Person {
   constructor(name) {
     this.name = name;
@@ -2912,7 +2912,7 @@ josephBaby.getNameAge(); // name josephBaby age 3, child is inheriting the prope
 
 
 > ### Some cases of === or ==
-```
+```js
 0 == false   // true
 0 === false  // false
 1 == "1"     // true
@@ -2938,7 +2938,7 @@ The encodeURIComponent() function encodes a string by replacing special characte
 
 Here is an example of how to encode a URL in JavaScript using encodeURIComponent():\
 
-```
+```js
 const url = "https://www.example.com/search?q=hello world";
 const encodedUrl = encodeURIComponent(url);
 console.log(encodedUrl);
@@ -2949,7 +2949,7 @@ The decodeURIComponent() function decodes a string that has been encoded using e
 
 Here is an example of how to decode a URL in JavaScript using decodeURIComponent():
 
-```
+```js
 const encodedUrl = "https%3A%2F%2Fwww.example.com%2Fsearch%3Fq%3Dhello%20world";
 const decodedUrl = decodeURIComponent(encodedUrl);
 console.log(decodedUrl);
