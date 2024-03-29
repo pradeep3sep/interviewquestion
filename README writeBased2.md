@@ -2823,3 +2823,89 @@ for (let i = 0; i < arr1.length; i++) {
   }, 1000 * i)
 }
 ```
+find-closest-number-in-array.js
+
+```js
+// Find the number in an array that is closest to a given number
+
+// sort based on distance from the reference value num, and then take the first item.
+closestNumInArr = (arr, num) => {
+	return arr.sort((a, b) => Math.abs(num - a) - Math.abs(num - b))[0];
+}
+
+console.log(closestNumInArr([5,10,15,20,25,30,35], 22));
+```
+
+> ### find-length-of-integer-without-converting-to-string
+
+```js
+let number = 12345
+countDigits_1 = n => {
+
+    let counter = 0;
+
+    while ( n > 0) {
+        n = parseInt(n/10)
+        counter++
+    }
+    return counter;
+}
+
+console.log(countDigits_1(number));
+```
+
+> ### flatten my deep object to one level depth.
+
+```js
+const input = {
+  user: {
+    key_value_map: {
+      CreatedDate: "123424",
+      Department: {
+        Name: "XYZ",
+      },
+    },
+  },
+}
+
+//  Expected output:
+
+{
+    "user.key_value_map.CreatedDate": "123424",
+    "user.key_value_map.Department.Name": "XYZ"
+}
+```
+
+
+```js
+const input = {
+  user: {
+    key_value_map: {
+      CreatedDate: "123424",
+      Department: {
+        Name: "XYZ",
+      },
+    },
+  },
+}
+
+const flattenObject = obj => {
+  let flattened = {}
+  for (let i in obj) {
+    if (!obj.hasOwnProperty(i)) continue // ie. if the object does not have the 'i' property as its own property, ie. the object does not have any property to enumerate
+
+    if (typeof obj[i] === "object" && obj[i] !== null) {
+      var flatObject = flattenObject(obj[i])
+      for (let j in flatObject) {
+        if (!flatObject.hasOwnProperty(j)) continue
+        flattened[i + "." + j] = flatObject[j]
+      }
+    } else {
+      flattened[i] = obj[i]
+    }
+  }
+  return flattened
+}
+
+console.log(flattenObject(input))
+```

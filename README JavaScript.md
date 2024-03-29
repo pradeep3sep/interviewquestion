@@ -3631,6 +3631,33 @@ console.log(eval("1 + 2")); //  3
 > ### Is it recommended to use eval
 No, it allows arbitrary code to be run which causes a security problem. As we know that the eval() function is used to run text as code. In most of the cases, it should not be necessary to use it.
 
+```js
+var morning = "good morning"
+function speak(greeting) {
+  console.log(morning)
+}
+speak(morning)
+```
+
+This logs `good morning`. But what about this:
+
+```js
+var greeting = "good morning"
+function speak(str) {
+  eval(str)
+  console.log(greeting)
+}
+speak("var greeting = 'meow'")
+```
+
+This will log `meow`. Meow... indeed Since no local greeting variable was defined. We expected to access the global scope and print 'good morning' , Instead, eval injected a new local variable into our scope.
+
+So how bad is this:
+
+- You leave your code vulnerable to malicious code injection
+- You slow down your code's performance
+
+
 > ### What is isNaN
 The isNaN() function is used to determine whether a value is an illegal number (Not-a-Number) or not. i.e, This function returns true if the value equates to NaN. Otherwise it returns false.
 ```js
@@ -4258,6 +4285,65 @@ The MutationObserver API allows you to continuously monitor the changes being ma
 When the DOM nodes change, you can invoke a callback function to detect the changes.
 
 
+> ### normal function vs arrow function
+
+- Arguments objects are not available in arrow functions, but are available in regular functions.
+
+```js
+let user = {
+  show() {
+    console.log(arguments)
+  },
+}
+user.show(1, 2, 3) // => [Arguments] { '0': 1, '1': 2, '2': 3 }
+```
+
+```js
+let user = {
+  show_ar: () => {
+    console.log(...arguments)
+  },
+}
+
+user.show_ar(1, 2, 3)    // arguments is not defined
+```
+
+- Can NOT Use new keyword with arrow function
+
+Regular functions created using function declarations or expressions are ‘constructible’ and ‘callable’. Since regular functions are constructible, they can be called using the ‘new’ keyword. However, the arrow functions are only ‘callable’ and not constructible. Thus, we will get a run-time error on trying to construct a non-constructible arrow functions using the new keyword.
+
+```js
+let x = function() {
+  console.log(arguments)
+}
+new x(1, 2, 3) // => [Arguments] { '0': 1, '1': 2, '2': 3 }
+// The above will compile properly
+
+let x = () => {
+  console.log(arguments)
+}
+new x(1, 2, 3) // => TypeError: x is not a constructor
+```
+
+- arrow do not have `"this"` keyword
+- arrow can not be called before defined in code.
+
+
+> ### IIFE-10-ways
+
+```js
+~function () {console.log("Hi I'm IIFE 1")}();
+!function () {console.log("Hi I'm IIFE 2")}();
++function () {console.log("Hi I'm IIFE 3")}();
+-function () {console.log("Hi I'm IIFE 4")}();
+(function () {console.log("Hi I'm IIFE 5")}())
+var i = function(){console.log("Hi I'm IIFE 6")}();
+true && function(){console.log("Hi I'm IIFE 7")}();
+0, function(){console.log("Hi I'm IIFE 8")}();
+new function(){console.log("Hi I'm IIFE 9")};
+new function(){console.log("Hi I'm IIFE 10")}();
+```
+
 > ### Rule of this
 
 💡 7 Things you should know about "this"
@@ -4457,6 +4543,28 @@ const outerObj = {
 };
 outerObj.innerObj.getName();
 ```
+
+Below is the storage by reference
+```js
+let person = { name: "Jayesh" };
+  const personArray = [person];
+  person = null;
+  console.log(personArray);
+
+  personArray = [];
+  console.log(personArray);
+
+  // 👍A) [ { name: "Jayesh" } ], []
+  // 💡B) [ { name: "Jayesh" } ] , TyperError
+  // 💖C) [ null ], TypeError
+  // 😀D) [ {} ], []
+
+  /*
+  Answer is B) [ { name: "Jayesh" } ] , TyperError because person = null will only disconnect the person variable from value { name: "Jayesh"} which is stored in memory, personArray[0] will still point to same value { name: "Jayesh"}.
+  and personArray = [] at this line TyperError as const variable can't be redeclared and throws Uncaught TypeError: Assignment to constant variable.  
+ */
+```
+
 
 > ### Window vs document
 

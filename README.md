@@ -1,23 +1,4 @@
-Below is the storage by reference
-```js
-let person = { name: "Jayesh" };
-  const personArray = [person];
-  person = null;
-  console.log(personArray);
 
-  personArray = [];
-  console.log(personArray);
-
-  // 👍A) [ { name: "Jayesh" } ], []
-  // 💡B) [ { name: "Jayesh" } ] , TyperError
-  // 💖C) [ null ], TypeError
-  // 😀D) [ {} ], []
-
-  /*
-  Answer is B) [ { name: "Jayesh" } ] , TyperError because person = null will only disconnect the person variable from value { name: "Jayesh"} which is stored in memory, personArray[0] will still point to same value { name: "Jayesh"}.
-  and personArray = [] at this line TyperError as const variable can't be redeclared and throws Uncaught TypeError: Assignment to constant variable.  
- */
-```
 
 ```
 https://github.com/typescript-cheatsheets/react
@@ -27,18 +8,10 @@ https://github.com/PaulLeCam/react-leaflet
 
 make notes of below
 ```
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/arrow-function/arrow-vs-regular-functions.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/arrow-function/when-not-to-use-arrow-function.md  // iska event wala
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/js-basics/IIFE-10-ways.js
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/Why-eval-function-considered-dangerous.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascript/is-JS-block-scoped-or-function-scoped.md
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/PR-Flow/git-squash-many-commits-to-a-single-one-before-PR.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/git-rebase/git-rebase.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/IMPORANT-Gitignore-a-file-thats-ALREADY-PUSHED-to-Git%20.md
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Array-Problems/find-closest-number-in-array.js
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Array-Problems/find-length-of-integer-without-converting-to-string.js
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Array-Problems/shuffle_Array-2.js
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Dealing-with-Objects-in-JS/flatten-objects-plain-js-recursive.js
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/ES6/this-in-ES6/this-in-ES6.js
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/tree/master/Collection-of-Popular-Problems-with-Solutions/General-JS-Problems
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/Imp-TECHNIQUES/general-Array-Creation.js
