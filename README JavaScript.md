@@ -2722,7 +2722,7 @@ Webpack is a module bundler for JavaScript applications
   * Js & CSS minify
   * Create the entry file
 
-> ### What are the possible ways to create objects in JavaScript 2
+> ### What are the possible ways to create objects in JavaScript
 * Object constructor
  ```js
  var object = new Object();
@@ -2762,6 +2762,53 @@ class Person {
 
 var object = new Person("Sudheer");
 ```
+
+> ### What are the possible ways to create array in JavaScript
+- ONLY ONE(NUMBER) ARGUMENT:
+```js
+let arr1 = new Array(2);
+console.log(arr1)  // => [ <2 empty items> ]
+```
+
+- MORE THAN ONE ARGUMENTS:
+```js
+let arr2 = new Array(1, 2)
+console.log(arr2)       // => [ 1, 2 ]
+```
+
+```js
+let ones = new Array(5).fill(1);
+console.log(ones); // [ 1, 1, 1, 1, 1 ]
+```
+
+```js
+let arr3 = Array.from(new Array(5));
+console.log(arr3) // => [ undefined, undefined, undefined, undefined, undefined ]
+
+let zeros = Array.from(new Array(5), () => 0);
+
+console.log(zeros);  // => [ 0, 0, 0, 0, 0 ]
+
+let dynamicItems = Array.from(new Array(5), (item, index) => index + 10)
+
+console.log(dynamicItems);  // => [ 10, 11, 12, 13, 14 ]
+```
+
+```js
+let arr4 = [...new Array(5)]
+console.log(arr4)  // => [ undefined, undefined, undefined, undefined, undefined ]
+```
+
+```js
+console.log(Array.of(5)); // [5]
+console.log(Array(5)); // [ <5 empty items> ]
+```
+
+
+
+
+
+
 
 > ### Prototype chaining & Prototype Inheritance
 
@@ -3828,6 +3875,43 @@ function traceValue(someParam) {
 }
 ```
 
+> ###  Method chaining
+Method chaining, also known as named parameter idiom, is a common syntax for invoking multiple method calls in object-oriented programming languages. Each method returns an object allowing the calls to be chained together in a single statement without requiring variables to store the intermediate results.
+
+```js
+var obj = function(){
+
+    this.i = 0; // public property
+
+    this.add = function(i){ // public function add()
+        this.i += i;   // Add The value
+        return this;   // return's entire object
+    };
+
+    this.subtract = function(i){  // public function substract()
+        this.i -= i;  // Subtract's the value
+        return this;  // return's entire object
+    };
+
+    this.print = function(){  // public function print()
+        return this.i ;  // Prints the value
+    };
+    console.log(this)
+}
+
+let x = new obj()
+
+console.log(x.add(3).subtract(2).print());  // => 1
+
+console.log(obj.this)
+
+/* OUTPUT
+obj { i: 0, add: [Function], subtract: [Function], print: [Function] }
+
+*/
+```
+
+
 
 > ### Calling a function when it exist
 
@@ -4565,6 +4649,94 @@ let person = { name: "Jayesh" };
  */
 ```
 
+```js
+let obj_1 = {
+    name: "asim",
+    sayLater: function () {
+        setTimeout(function () {
+            console.log(this)
+            console.log(`${this.name}`);
+        }, 500);
+    }
+};
+
+// obj_1.sayLater();
+
+/* OUTPUT
+
+Timeout {
+  _called: true,
+  _idleTimeout: 500,
+  _idlePrev: null,
+  _idleNext: null,
+  _idleStart: 60,
+  _onTimeout: [Function],
+  _timerArgs: undefined,
+  _repeat: null,
+  _destroyed: false,
+  [Symbol(asyncId)]: 6,
+  [Symbol(triggerAsyncId)]: 1 }
+undefined
+*/
+
+
+/* EXPLANATION -
+The reason for outputting 'undefined' is that the value of this in a function depends on how the function is called. If its called as obj.sayLater(), the value of this is the calling context which in this case is obj.
+
+However the calling context (what 'this' will point to) for the anonymous function inside setTimeout is either of ...
+   
+   A) In the browser it’s either undefined or the global object depending on if you are running in strict mode or not. or B) In node it’s an internal timeout object.
+
+   C) In all cases however it isn’t going to be obj, so this.name is not going to return 'asim', it’s going to return undefined or raise an error.
+
+This instability of 'this' in ES-5 is an incredibly common problem which was resolved in ES6.  In ES6, if we use fat arrow functions the value of 'this' inside a fat arrow function will be the same as the value of this outside the fat arrow function.
+
+It uses the value of 'this' from the surrounding code for its context. i.e. whatever 'this' points to in the surrounding code, this will point to in the function body of the fat arrow function.
+
+We can re-write our obj to use fat arrow syntax like so: */
+
+let obj_3 = {
+    name: 'ES6_Asim',
+    sayLater: function () {
+        setTimeout(() => {
+            console.log(this)
+            console.log(`${this.name}`)
+        }, 500)
+    }
+}
+
+// obj_3.sayLater();
+
+/* OUTPUT
+
+{ name: 'ES6_Asim', sayLater: [Function: sayLater] }
+ES6_Asim
+
+VERY IMP NOTE  - The above arrow function ONLY works because its wrapped inside a regular function expression (ES5). Otherwise, as explained in the ES6_2.js that - Arrow function does not have a 'this' or their own, only regular function and global scope have 'this' of their own. 
+
+So, if I did not wrapp the above arrow function inside a regular ES-5 function, then it would be referring to a this.name in the global scope, >> and there would be no this.name in global scope, and the whole output will be 'undefined' as in the below implementation.
+
+*/
+
+let obj_4 = {
+    name: 'ES6_Asim',
+    sayLater: () => {
+        setTimeout(() => {
+            console.log(this)
+            console.log(`${this.name}`)
+        }, 500)
+    }
+}
+
+obj_4.sayLater();
+
+/*
+
+OUTPUT 
+{}
+undefined
+*/
+```
 
 > ### Window vs document
 

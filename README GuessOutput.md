@@ -644,7 +644,7 @@ console.log(typeof sayHi());
 
 ### Question 47
 
-```
+```js
 const firstPromise = new Promise((res, rej) => {
   setTimeout(res, 500, 'one');
 });
@@ -1192,7 +1192,7 @@ With the await keyword in `secondFunction`, we literally pause the execution of 
 
 ### Question 63.b
 
-```
+```js
 const myPromise = Promise.resolve(Promise.resolve('Promise'));
 
 function funcOne() {
