@@ -1,3 +1,38 @@
+> ### Keep in mind below condition using the stingify
+```js
+JSON.stringify({a: null})      // '{"a":null}'
+JSON.stringify({a: undefined}) // '{}'
+
+JSON.stringify([null])         // '[null]'
+JSON.stringify([undefined])    // '[null]
+
+JSON.stringify([NaN, null, Infinity]); // '[null,null,null]'
+
+// String-keyed array elements are not enumerable and make no sense in JSON
+const a = ["foo", "bar"];
+a["baz"] = "quux"; // a: [ 0: 'foo', 1: 'bar', baz: 'quux' ]
+JSON.stringify(a);
+// '["foo","bar"]'
+
+JSON.stringify({ x: [10, undefined, function () {}, Symbol("")] });
+// '{"x":[10,null,null,null]}'
+
+// Standard data structures
+JSON.stringify([
+  new Set([1]),
+  new Map([[1, 2]]),
+  new WeakSet([{ a: 1 }]),
+  new WeakMap([[{ a: 1 }, 2]]),
+]);
+// '[{},{},{},{}]'
+
+// Symbols:
+JSON.stringify({ x: undefined, y: Object, z: Symbol("") });
+// '{}'
+JSON.stringify({ [Symbol("foo")]: "foo" });
+// '{}'
+```
+
 
 ### Object k saare method
 
