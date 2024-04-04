@@ -2934,3 +2934,55 @@ var now = 0, prev = 0;
 
 console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 ```
+
+> ### One of the differences between null and undefined is how they are treated differently in JSON.stringify().
+
+``
+JSON.stringify({a: null})      // '{"a":null}'
+JSON.stringify({a: undefined}) // '{}'
+
+JSON.stringify([null])         // '[null]'
+JSON.stringify([undefined])    // '[null]'
+```
+This difference might create troubles if there are missing alignments between client and server. It might be helpful to enforce using only one of them.
+
+You are asked to implement `undefinedToNull()` to return a copy that has all undefined replaced with null.
+
+undefinedToNull({a: undefined, b: 'BFE.dev'})\
+// {a: null, b: 'BFE.dev'}
+
+undefinedToNull({a: ['BFE.dev', undefined, 'bigfrontend.dev']})\
+// {a: ['BFE.dev', null, 'bigfrontend.dev']}
+
+
+solution
+
+```js
+
+function undefinedToNull(arg) {
+    if (arg === undefined) {
+        return null;
+    }
+    if (Array.isArray(arg)) {
+        for (let i = 0; i < arg.length; i++) {
+            arg[i] = undefinedToNull(arg[i]);
+        }
+    } else if (typeof arg === 'object' && arg !== null) {
+        for (let key in arg) {
+            arg[key] = undefinedToNull(arg[key]);
+        }
+    }
+    return arg;
+}
+
+// Test case
+// {a: undefined, b: 'BFE.dev'}  
+
+// {a: undefined, b: { c: { d: undefined, e: ['BFE.dev', undefined]} }}  
+
+// ['BFE.dev', undefined, null, {a: ['BFE.dev', undefined]}]  
+
+// {a: 'BFE.dev', b: 'BFE.dev'}   
+
+
+```
