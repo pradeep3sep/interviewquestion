@@ -38,6 +38,48 @@ const z = Math.floor((Math.random() * 10) + 3);
 
 With this modification, `z` will give you a random integer between 3 and 12 (inclusive).
 
+> ### Your are given a 2-D array of characters. There is a hidden message in it.
+
+I B C A L K A\
+D R F C A E A\
+G H O E L A D \
+The way to collect the message is as follows
+
+start at top left\
+move diagonally down right\
+when cannot move any more, try to switch to diagonally up right\
+when cannot move any more, try switch to diagonally down right, repeat 3\
+stop when cannot neither move down right or up right. the character on the path is the message\
+for the input above, IROCLED should be returned.
+
+notes
+
+if no characters could be collected, return empty string
+
+```js
+function decode(message) {
+  const result = [];
+  let row = 0;
+  let col = 0;
+  while(message[row] && message[row][col]) {
+    result.push(message[row][col]);
+    if (message[row + 1]) {
+      row++;
+    } else {
+      row--;
+    }
+    col++;
+  }
+  return result.join('');
+}
+const matrix = [
+    ['I', 'B', 'C', 'A', 'L', 'K', 'A'],
+    ['D', 'R', 'F', 'C', 'A', 'E', 'A'],
+    ['G', 'H', 'O', 'E', 'L', 'A', 'D']
+];
+console.log(decode(matrix))
+```
+
 
 > ### Shuffle algorithm
 ```js
