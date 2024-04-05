@@ -38,6 +38,22 @@ const z = Math.floor((Math.random() * 10) + 3);
 
 With this modification, `z` will give you a random integer between 3 and 12 (inclusive).
 
+
+> ### Shuffle algorithm
+```js
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+const arr = [1, 2, 3, 4];
+shuffle(arr);
+console.log(arr);
+```
+
 > ### Q1 - Reverse an array
 
 ```js
