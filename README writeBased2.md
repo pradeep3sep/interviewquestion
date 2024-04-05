@@ -1,5 +1,43 @@
 Refer full code in - https://github.com/jayesh2906/JavaScript-with-JC/blob/master/DSA.js
 
+> ### To generate random no
+```js
+const x = Math.floor(Math.random() * 12 ) // Number between 0 to 11
+const y = Math.floor(Math.random() * 13); //  Number between 0 to 12
+const y = Math.floor(Math.random() * 12 + 1) // Number between 1 to 12
+const z = Math.floor((Math.random() * 13) + 3) // Number between 3 to 15 not 3 to 12, below is reason
+const z = Math.floor((Math.random() * 10) + 3); // Number between 3 to 12, jitna right me increase utna left me decrease
+```
+
+so
+
+```js
+function randomIntFromInterval(min, max) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+const rndInt = randomIntFromInterval(1, 6)
+console.log(rndInt)
+```
+
+Let's break down both expressions to understand why they produce different ranges of numbers:
+
+1. `const y = Math.floor(Math.random() * 12 + 1)`
+
+   Here, `Math.random()` generates a random floating-point number between 0 (inclusive) and 1 (exclusive). When you multiply it by 12, you get a number between 0 and 11.9999... Then when you add 1, the range becomes 1 to 12.9999..., and finally, `Math.floor()` rounds down to the nearest integer, so the result is between 1 and 12 (inclusive).
+
+2. `const z = Math.floor((Math.random() * 13) + 3)`
+
+   In this case, `Math.random()` generates a random floating-point number between 0 (inclusive) and 1 (exclusive). When you multiply it by 13, you get a number between 0 and 12.9999.... Then, when you add 3, the range becomes 3 to 15.9999.... Finally, `Math.floor()` rounds down to the nearest integer, so the result is between 3 and 15 (inclusive).
+
+To make `z` produce numbers between 3 and 12 (inclusive), you should adjust the range accordingly. Here's how you can do it:
+
+```javascript
+const z = Math.floor((Math.random() * 10) + 3);
+```
+
+With this modification, `z` will give you a random integer between 3 and 12 (inclusive).
+
 > ### Q1 - Reverse an array
 
 ```js
