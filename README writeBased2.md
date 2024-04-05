@@ -38,6 +38,42 @@ const z = Math.floor((Math.random() * 10) + 3);
 
 With this modification, `z` will give you a random integer between 3 and 12 (inclusive).
 
+> ### Say you have multiple versions of a program, write a program that will find and return the first bad revision given a isBad(version) function.
+
+Versions after first bad version are supposed to be all bad versions.
+
+notes
+
+Inputs are all non-negative integers\
+if none found, return -1
+
+```js
+function firstBadVersion(isBad) {
+  // firstBadVersion receive a check function isBad
+  // and should return a closure which accepts a version number(integer)
+
+  // the check function return the first bad version
+  // if version v is bad, continue to check v-1
+  // else return v+1
+  const check = (v) => isBad(v)?  check(v-1) : v+1;
+  return (version) => {
+    // if none found, return -1, else use the check function defined above
+    return isBad(version)? check(version) : -1
+  }
+}
+
+firstBadVersion((i) => i >= 4)(100) // expects 4
+
+firstBadVersion((i) => i >= 4)(4)  // expects -1
+
+firstBadVersion((i) => i >= 5)(3)  // expects -1
+
+firstBadVersion((i) => i >= 1)(1)  // expects -1
+
+firstBadVersion((i) => i >= 1)(2) // expects 1
+```
+
+
 > ### Your are given a 2-D array of characters. There is a hidden message in it.
 
 I B C A L K A\
