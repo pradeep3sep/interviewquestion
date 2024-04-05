@@ -2986,3 +2986,91 @@ function undefinedToNull(arg) {
 
 
 ```
+
+> ### Please implement a curry() function, which accepts a function and return a curried one.
+
+Here is an example
+
+```js
+const join = (a, b, c) => {
+   return `${a}_${b}_${c}`
+}
+
+const curriedJoin = curry(join)
+
+curriedJoin(1, 2, 3) // '1_2_3'
+
+curriedJoin(1)(2, 3) // '1_2_3'
+
+curriedJoin(1, 2)(3) // '1_2_3'
+```
+
+solution
+
+```js
+
+const join = (a, b, c) => {
+    return `${a}_${b}_${c}`
+}
+
+const curry = (fn) => {
+    return function curried(...args) {
+        if (args.length >= fn.length) {
+            return fn(...args);
+        } else {
+            return function (...nextArgs) {
+                return curried(...args.concat(nextArgs));
+            };
+        }
+    };
+};
+
+const curriedJoin = curry(join)
+
+
+console.log(curriedJoin(1, 2, 3)) // '1_2_3'
+
+console.log(curriedJoin(1)(2, 3)) // '1_2_3'
+
+console.log(curriedJoin(1, 2)(3)) // '1_2_3'
+```
+
+> ### There is already Array.prototype.flat() in JavaScript (ES2019), which reduces the nesting of Array.
+
+Could you manage to implement your own one?
+
+Here is an example to illustrate
+```
+const arr = [1, [2], [3, [4]]];
+
+flat(arr)
+// [1, 2, 3, [4]]
+
+flat(arr, 1)
+// [1, 2, 3, [4]]
+
+flat(arr, 2)
+// [1, 2, 3, 4]
+```
+
+solution 
+
+```js
+function flat(arr, depth = 1) {
+    const result = [];
+
+    for (const item of arr) {
+        if (Array.isArray(item) && depth > 0) {
+            result.push(...flat(item, depth - 1));
+        } else {
+            result.push(item);
+        }
+    }
+    return result;
+}
+
+const arr = [1, [2], [3, [4]]];
+console.log(flat(arr)); // [1, 2, 3, [4]]
+console.log(flat(arr, 1)); // [1, 2, 3, [4]]
+console.log(flat(arr, 2)); // [1, 2, 3, [4]]
+```
