@@ -1839,6 +1839,12 @@ If you add two arrays together, it will convert them both to strings and concate
 console.log(["a"] + ["b"]); // "ab"
 console.log([] + []); // ""
 console.log(![] + []); // "false", because ![] returns false.
+console.log([] - 1) // -1
+```
+```js
+console.log([] + {}) // [object Object]
+console.log({} + {}) // [object Object][object Object]
+console.log({} - {}) // NaN
 ```
 
 <br>
@@ -3007,6 +3013,7 @@ null < 0 // false
 null > 0 // false
 null <= 0 // true
 null >= 0 // true
+null == false // false
 undefined == 0 // false
 undefined < 0 // false
 undefined > 0 // false
