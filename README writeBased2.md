@@ -38,6 +38,140 @@ const z = Math.floor((Math.random() * 10) + 3);
 
 With this modification, `z` will give you a random integer between 3 and 12 (inclusive).
 
+> ### Here comes the Immutability Helper, you are asked to implement your own Immutability Helper update(), which supports following features.
+- 1. {$push: array} push() all the items in array on the target.
+     ```js
+	const arr = [1, 2, 3, 4]
+	const newArr = update(arr, {$push: [5, 6]})
+	// [1, 2, 3, 4, 5, 6]
+     ```
+- 2. {$set: any} replace the target
+     ```js
+	     const state = {
+	  a: {
+	    b: {
+	      c: 1
+	    }
+	  },
+	  d: 2
+	}
+	
+	const newState = update(
+	  state, 
+	  {a: {b: { c: {$set: 3}}}}
+	)
+	/*
+	{
+	  a: {
+	    b: {
+	      c: 3
+	    }
+	  },
+	  d: 2
+	}
+	*/
+     ```
+	Notice that we could also update array elements with $set
+
+     ```js
+     const arr = [1, 2, 3, 4]
+	const newArr = update(
+	  arr, 
+	  {0: {$set: 0}}
+	)
+	//  [0, 2, 3, 4]
+
+     ```
+
+  - 3. {$merge: object} merge object to the location
+       ```js
+
+	const state = {
+	  a: {
+	    b: {
+	      c: 1
+	    }
+	  },
+	  d: 2
+	}
+	
+	const newState = update(
+	  state, 
+	  {a: {b: { $merge: {e: 5}}}}
+	)
+	/*
+	{
+	  a: {
+	    b: {
+	      c: 1,
+	      e: 5
+	    }
+	  },
+	  d: 2
+	}
+	*/
+       ```
+
+4. {$apply: function} custom replacer
+   ```js
+	const arr = [1, 2, 3, 4]
+	const newArr = update(arr, {0: {$apply: (item) => item * 2}})
+	// [2, 2, 3, 4]
+   ```
+
+solution is below
+
+```js
+function update(data, command) {
+  for (const [key, value] of Object.entries(command)) {
+    switch (key) {
+      case '$push':
+        return [...data, ...value];
+      case '$set':
+        return value;
+      case '$merge':
+        if (!(data instanceof Object)) {
+          throw Error("bad merge");
+        }
+        return {...data, ...value};
+      case '$apply':
+        return value(data);
+      default:
+        if (data instanceof Array) {
+          const res = [...data];
+          res[key] = update(data[key], value);
+          return res;
+        } else {
+          return {
+            ...data,
+            [key]: update(data[key], value)
+          }
+        }
+    }
+  }
+}
+
+// test cases
+update([1], {$push: [2, 3]})  
+
+update({a: [1]}, {a: {$push: [2, 3]}})  
+
+$push on non-array should throw error  
+
+update([1], {1: {$set: 2}})  
+
+update({a: {b: 1}}, {a: { b: {$set: 2}}})  
+
+update({a: {b: 1}}, {a: {$merge: {c: 3}}})  
+
+update({a: {c: 1}}, {a: {$merge: {c: 3}}})  
+
+$merge on non-object should throw error  
+
+update([1], {0: {$apply: (item) => item * 2}})  
+```
+
+
 > ### Say you have multiple versions of a program, write a program that will find and return the first bad revision given a isBad(version) function.
 
 Versions after first bad version are supposed to be all bad versions.
