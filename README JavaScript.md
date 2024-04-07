@@ -3001,6 +3001,17 @@ josephBaby.getNameAge(); // name josephBaby age 3, child is inheriting the prope
 1 === "1"    // false
 null == undefined // true
 null === undefined // false
+null == 0 // false
+null === 0 // false
+null < 0 // false
+null > 0 // false
+null <= 0 // true
+null >= 0 // true
+undefined == 0 // false
+undefined < 0 // false
+undefined > 0 // false
+undefined <= 0 // false
+undefined >= 0 // false
 '0' == false // true
 '0' === false // false
 []==[] or []===[] //false, refer different objects in memory
