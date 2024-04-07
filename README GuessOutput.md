@@ -3114,14 +3114,41 @@ setTimeout(() => {
 ### Question 131
 
 ```js
-
+Promise.resolve(1)
+.then(() => 2)
+.then(3)
+.then((value) => value * 3)
+.then(Promise.resolve(4))
+.then(console.log)
 ```
-### Question 114
+### Question 132
 
 ```js
-
+Promise.resolve(1)
+.then((val) => {
+  console.log(val)
+  return val + 1
+}).then((val) => {
+  console.log(val)
+}).then((val) => {
+  console.log(val)
+  return Promise.resolve(3)
+    .then((val) => {
+      console.log(val)
+    })
+}).then((val) => {
+  console.log(val)
+  return Promise.reject(4)
+}).catch((val) => {
+  console.log(val)
+}).finally((val) => {
+  console.log(val)
+  return 10
+}).then((val) => {
+  console.log(val)
+})
 ```
-### Question 114
+### Question 133
 
 ```js
 
