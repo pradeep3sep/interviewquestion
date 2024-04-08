@@ -3198,9 +3198,13 @@ Therefore, all comparisons will log `false`.
 ### Question 135
 
 ```js
-
+console.log(Math.min())
+console.log(Math.max())
+console.log(Math.min(1))
+console.log(Math.max(1,2))
+console.log(Math.min([1,2,3]))
 ```
-### Question 114
+### Question 136
 
 ```js
 
