@@ -1,3 +1,20 @@
+> ### console value
+```js
+console.log(1 + + 2)
+console.log(1 + + + 2)
+console.log(1 + '2')
+console.log(1 + + '2')
+console.log('1' + + 2)
+console.log(1 + + true)
+console.log('1' + true)
+console.log('1' + + true)
+console.log('1' + null)
+console.log('1' + + null)
+console.log(1 + undefined)
+console.log(1 + + undefined)
+console.log('1' + undefined)
+```
+
 > ### Keep in mind below condition using the stingify
 ```js
 JSON.stringify({a: null})      // '{"a":null}'
