@@ -3165,9 +3165,37 @@ console.log(Number(false))
 ### Question 134
 
 ```js
+const p1 = Promise.resolve(1)
+const p2 = new Promise((resolve) => resolve(p1))
+const p3 = Promise.resolve(p1)
+const p4 = p2.then(() => new Promise((resolve) => resolve(p3)))
+const p5 = p4.then(() => p4)
 
+console.log(p1 == p2)
+console.log(p1 == p3)
+console.log(p3 == p4)
+console.log(p4 == p5)
 ```
-### Question 114
+
+Let's break down what each of these promises represents:
+
+1. `p1` is a promise resolved with the value `1`.
+2. `p2` is a promise that resolves with `p1`. This is effectively the same as `Promise.resolve(p1)`.
+3. `p3` is also a promise resolved with `p1`.
+4. `p4` is a promise chained from `p2`, and it resolves with a new promise that resolves with `p3`.
+5. `p5` is a promise chained from `p4`, and it resolves with `p4`.
+
+Now, let's evaluate the comparisons:
+
+- `p1 == p2`: `p1` and `p2` both resolve to the same value (`1`). Since objects and primitives are compared by reference in JavaScript, they will not be strictly equal. So, this will log `false`.
+- `p1 == p3`: Both `p1` and `p3` are resolved with the same value (`1`). Again, they are not strictly equal. So, this will log `false`.
+- `p3 == p4`: `p4` resolves with a promise that resolves with `p3`. Although `p3` is the resolved value of `p4`, they are not strictly equal. So, this will log `false`.
+- `p4 == p5`: `p5` resolves with `p4`. As with the previous comparisons, they are not strictly equal. So, this will log `false`.
+
+Therefore, all comparisons will log `false`.
+
+
+### Question 135
 
 ```js
 
