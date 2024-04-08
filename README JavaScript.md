@@ -13,7 +13,33 @@ console.log('1' + + null)
 console.log(1 + undefined)
 console.log(1 + + undefined)
 console.log('1' + undefined)
+console.log(typeof null)
+console.log(null instanceof Object)
+console.log(1 instanceof Number)
+console.log(Number(1) instanceof Object)
+console.log(new Number(1) instanceof Object)
+console.log([] instanceof Array)
+console.log([] instanceof Object) 
 ```
+
+> ### special case
+The output of `console.log(['0','1'].map(parseInt))` in JavaScript might be surprising if you're not familiar with how the `map` function works in conjunction with `parseInt`.
+
+Here's what's happening:
+
+1. `parseInt` is a function in JavaScript used to parse a string and return an integer. It takes two parameters: the string to parse and an optional radix (the base in mathematical numeral systems). However, when used with `map`, it's being called with three parameters: `currentValue`, `index`, and `array`.
+   
+2. When you pass `parseInt` to `map`, it calls `parseInt` with three parameters: the element value, the index, and the array being traversed. However, `parseInt` only uses the first two parameters: the string to parse and the radix. The `map` function passes these parameters to `parseInt` in that order.
+
+3. In JavaScript, `parseInt` interprets its second argument (radix) differently depending on the base. If the radix is not specified or is 0, the JavaScript engine tries to determine the most appropriate base. For this reason, it interprets the strings `'0'` and `'1'` as base-10 numbers.
+
+4. Here's what `parseInt` does with each element:
+   - For `'0'`, `parseInt` tries to parse `'0'` as a base-10 number, which is `0`.
+   - For `'1'`, `parseInt` tries to parse `'1'` as a base-10 number, which is `1`.
+
+So, the output of `console.log(['0','1'].map(parseInt))` would be `[0, NaN]`.
+
+The reason the second result is `NaN` is because when `parseInt` tries to parse `'1'` with a radix of `1` (the index of the element in the array), it fails because in base-1 numeral system, there's no representation for `1`. Therefore, `parseInt` returns `NaN` (Not-a-Number).
 
 > ### Keep in mind below condition using the stingify
 ```js
