@@ -3151,9 +3151,18 @@ Promise.resolve(1)
 ### Question 133
 
 ```js
-
+console.log(Boolean('false'))
+console.log(Boolean(false))
+console.log('3' + 1)
+console.log('3' - 1)
+console.log('3' - ' 02 ')
+console.log('3' * ' 02 ')
+console.log(Number('1'))
+console.log(Number('number'))
+console.log(Number(null))
+console.log(Number(false))
 ```
-### Question 114
+### Question 134
 
 ```js
 
