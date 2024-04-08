@@ -32,7 +32,56 @@ JSON.stringify({ x: undefined, y: Object, z: Symbol("") });
 JSON.stringify({ [Symbol("foo")]: "foo" });
 // '{}'
 ```
+> ### Arguments in function
+- Non-strict functions that only have simple parameters (that is, no rest, default, or destructured parameters) will sync the new value of parameters with the arguments object, and vice versa:
 
+```js
+function func(a) {
+  arguments[0] = 99; // updating arguments[0] also updates a
+  console.log(a);
+}
+func(10); // 99
+
+function func2(a) {
+  a = 99; // updating a also updates arguments[0]
+  console.log(arguments[0]);
+}
+func2(10); // 99
+```
+
+- Non-strict functions that are passed rest, default, or destructured parameters will not sync new values assigned to parameters in the function body with the arguments object.
+```js
+function funcWithDefault(a = 55) {
+  arguments[0] = 99; // updating arguments[0] does not also update a
+  console.log(a);
+}
+funcWithDefault(10); // 10
+
+function funcWithDefault2(a = 55) {
+  a = 99; // updating a does not also update arguments[0]
+  console.log(arguments[0]);
+}
+funcWithDefault2(10); // 10
+
+// An untracked default parameter
+function funcWithDefault3(a = 55) {
+  console.log(arguments[0]);
+  console.log(arguments.length);
+}
+funcWithDefault3(); // undefined; 0
+```
+
+```js
+function log(a,b,c,d) {
+  console.log(a,b,c,d)
+  arguments[0] = 'bfe'
+  arguments[3] = 'dev'
+ 
+  console.log(a,b,c,d)
+}
+
+log(1,2,3)
+```
 
 ### Object k saare method
 
