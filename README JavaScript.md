@@ -1,3 +1,5 @@
+> ### keep in mind that delte a[1] deleltes the value in the array and make it empty, but the length of the array do not changes
+
 > ### console value
 ```js
 console.log(1 + + 2)
