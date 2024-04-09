@@ -1,3 +1,5 @@
+> ### Keep in mind the usage of Promise.all 
+
 > ### keep in mind that delte a[1] deleltes the value in the array and make it empty, but the length of the array do not changes
 
 > ### console value
