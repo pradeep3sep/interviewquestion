@@ -23,7 +23,13 @@ console.log(1 instanceof Number)
 console.log(Number(1) instanceof Object)
 console.log(new Number(1) instanceof Object)
 console.log([] instanceof Array)
-console.log([] instanceof Object) 
+console.log([] instanceof Object)
+console.log(0 / 0)
+console.log(0 === -0)
+console.log(Object.is(0, -0))
+console.log(0 * Infinity)
+console.log(Infinity / Infinity)
+console.log(!![])
 ```
 
 > ### special case
