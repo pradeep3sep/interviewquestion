@@ -4782,6 +4782,15 @@ const outerObj = {
 };
 outerObj.innerObj.getName();
 ```
+- "this" in object gives blank {}
+```js
+const obj = {
+    a: 1,
+    b: this,
+}
+console.log(obj.b)
+```
+
 
 Below is the storage by reference
 ```js
