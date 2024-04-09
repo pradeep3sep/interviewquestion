@@ -3207,9 +3207,29 @@ console.log(Math.min([1,2,3]))
 ### Question 136
 
 ```js
+var a = 1
+function a() {
+}
 
+console.log(typeof a)
+
+var d = 1;
+
+(function(){
+  d = '2'
+  console.log(typeof d)
+  function d() {
+  }
+})()
+
+console.log(typeof d)
+
+var e = 1
+const f = function e() {}
+
+console.log(typeof e)
 ```
-### Question 114
+### Question 137
 
 ```js
 
