@@ -3232,14 +3232,31 @@ console.log(typeof e)
 ### Question 137
 
 ```js
-
+Promise.resolve(1)
+.finally((data) => {
+  console.log(data)
+  return Promise.reject('error')
+})
+.catch((error) => {
+  console.log(error)
+  throw 'error2'
+})
+.finally((data) => {
+  console.log(data)
+  return Promise.resolve(2).then(console.log)
+})
+.then(console.log)
+.catch(console.log)
 ```
-### Question 114
+### Question 138
 
 ```js
-
+const arr = [1,2]
+arr.push(3,4)
+arr.unshift(5,6)
+console.log(arr)
 ```
-### Question 114
+### Question 139
 
 ```js
 
