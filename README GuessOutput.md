@@ -3259,9 +3259,19 @@ console.log(arr)
 ### Question 139
 
 ```js
+function a() {
+    console.log(1)
+    return {
+        a: function () {
+            console.log(2)
+            return a()
+        }
+    }
+}
 
+a().a()
 ```
-### Question 114
+### Question 140
 
 ```js
 
