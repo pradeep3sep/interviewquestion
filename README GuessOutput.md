@@ -3349,14 +3349,68 @@ I hope this clears up any confusion! Let me know if you need further clarificati
 ### Question 141
 
 ```js
+const arr = [1,,,2]
 
+// forEach
+arr.forEach(i => console.log(i))
+
+// map
+console.log(arr.map(i => i * 2))
+
+// for ... of
+for (const i of arr) {
+  console.log(i)
+}
+
+// spread
+console.log([...arr])
 ```
-### Question 114
+### Question 142
 
 ```js
+const obj1 = {
+    valueOf() {
+        return 1
+    },
+    toString() {
+        return '100'
+    }
+}
+
+console.log(obj1 + 1)
+console.log(parseInt(obj1))
+```
+
+In JavaScript, when you perform operations like addition or conversion, the language engine tries to coerce objects to primitive types. The order in which it tries to do this is: `valueOf()` first, then `toString()`.
+
+Let's analyze your code:
+
+```javascript
+const obj1 = {
+    valueOf() {
+        return 1
+    },
+    toString() {
+        return '100'
+    }
+}
+
+console.log(obj1 + 1);
+console.log(parseInt(obj1));
+```
+
+1. `obj1 + 1`: In this case, JavaScript first attempts to convert `obj1` to a primitive type. It tries the `valueOf()` method first. Since `valueOf()` is defined and returns a numeric value (1), JavaScript uses this value. Therefore, `obj1` is effectively treated as `1` in the expression. So, the expression becomes `1 + 1`, which equals `2`.
+
+2. `parseInt(obj1)`: `parseInt()` function attempts to parse a string into an integer. It first converts its argument to a string (using `toString()`), then parses that string. In this case, `toString()` returns `'100'`, so `parseInt()` parses `'100'`, which results in `100`.
+
+So, the output of the code will be:
 
 ```
-### Question 114
+2
+100
+```
+
+### Question 143
 
 ```js
 
