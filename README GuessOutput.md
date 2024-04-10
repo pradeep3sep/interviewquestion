@@ -3413,24 +3413,148 @@ So, the output of the code will be:
 ### Question 143
 
 ```js
+const obj3 = {
+    toString() {
+        return '100'
+    }
+}
+
+console.log(+obj3)
+console.log(obj3 + 1)
+console.log(parseInt(obj3))
+```
+
+**Reason is below**
+
+In this code, you've defined an object `obj3` with a `toString` method that returns the string `'100'`.
+
+Let's break down each `console.log` statement:
+
+1. `console.log(+obj3)`
+   - The unary plus operator (`+`) tries to convert its operand to a number.
+   - In this case, it calls the `toString` method of `obj3`, which returns the string `'100'`.
+   - The unary plus operator then converts this string to a number, resulting in `100`.
+   - Output: `100`
+
+2. `console.log(obj3 + 1)`
+   - Here, you're trying to perform addition (`+`) between an object (`obj3`) and a number (`1`).
+   - JavaScript performs a type coercion, trying to convert `obj3` to a primitive value.
+   - Since `obj3` has a `toString` method, it's converted to a string, resulting in `'100'`.
+   - Then, JavaScript concatenates the string `'100'` with the string representation of `1`, resulting in `'1001'`.
+   - Output: `'1001'`
+
+3. `console.log(parseInt(obj3))`
+   - The `parseInt` function tries to parse a string and return an integer.
+   - Since `obj3` is an object, JavaScript first calls its `toString` method, resulting in the string `'100'`.
+   - `parseInt` then tries to parse this string as an integer.
+   - Output: `100`
+
+So, the outputs will be:
 
 ```
-### Question 114
+100
+1001
+100
+```
+
+
+### Question 144
 
 ```js
+const obj4 = {
+    valueOf() {
+        return 1
+    }
+}
 
+console.log(obj4 + 1)
+console.log(parseInt(obj4))
 ```
-### Question 114
+
+**Reason is below**
+
+In JavaScript, the `valueOf()` method is invoked automatically whenever an object is coerced to a primitive value. In the case of addition (`+` operator), if one operand is an object, JavaScript attempts to convert it to a primitive value using the `valueOf()` method.
+
+Let's analyze the code:
+
+```javascript
+const obj4 = {
+    valueOf() {
+        return 1;
+    }
+};
+
+console.log(obj4 + 1);  // Output: 2
+console.log(parseInt(obj4));  // Output: 1
+```
+
+1. `console.log(obj4 + 1);`:
+   - Here, `obj4` is an object. When you use the `+` operator, JavaScript tries to convert `obj4` into a primitive value.
+   - Since `valueOf()` is defined for `obj4`, it will be called. This method returns `1`.
+   - So, effectively, the expression becomes `1 + 1`, resulting in `2`.
+
+2. `console.log(parseInt(obj4));`:
+   - The `parseInt()` function attempts to convert its argument into an integer.
+   - Internally, `parseInt` will call the `toString()` method of the object to get the string representation, then parse it.
+   - In this case, `obj4`'s `valueOf()` method is called because `toString()` is not defined.
+   - `valueOf()` returns `1`, so effectively `parseInt` receives `"1"` as a string argument, which it successfully parses to the integer `1`. Hence, it prints `1`.
+
+
+### Question 145
 
 ```js
+const a = {}
+Object.defineProperty(a, 'foo1', {
+  value: 1
+})
+const b = Object.create(a)
+b.foo2 = 1
+
+console.log(b.foo1)
+console.log(b.foo2)
+
+b.foo1 = 2
+b.foo2 = 2
+
+
+console.log(b.foo1)
+console.log(b.foo2)
 
 ```
-### Question 114
+### Question 146
 
 ```js
+let val = 0
 
+class A {
+  set foo(_val) {
+    val = _val
+  }
+  get foo() {
+    return val
+  }
+}
+
+class B extends A { }
+
+class C extends A {
+  get foo() {
+    return val
+  }
+}
+
+const b = new B()
+console.log(b.foo)
+b.foo = 1
+console.log(b.foo)
+
+const c = new C()
+console.log(c.foo)
+c.foo = 2
+console.log(c.foo)
+console.log(b.foo)
 ```
-### Question 114
+### Question 147
 
 ```js
 
