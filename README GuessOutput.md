@@ -3274,9 +3274,79 @@ a().a()
 ### Question 140
 
 ```js
+// This is a JavaScript Quiz from BFE.dev
+
+function Foo() { }
+Foo.prototype.bar = 1
+const a = new Foo()
+console.log(a.bar)
+
+Foo.prototype.bar = 2
+const b = new Foo()
+console.log(a.bar)
+console.log(b.bar)
+
+Foo.prototype = {bar: 3}
+const c = new Foo()
+console.log(a.bar)
+console.log(b.bar)
+console.log(c.bar)
+```
+
+
+
+**explanation is below**
+
+Let's go through the code step by step:
+
+1. `function Foo() { }`: Defines a constructor function named `Foo`.
+2. `Foo.prototype.bar = 1`: Adds a property `bar` to the prototype of `Foo` with a value of `1`.
+3. `const a = new Foo()`: Creates a new object `a` using the `Foo` constructor.
+4. `console.log(a.bar)`: Prints the value of `bar` property of object `a`, which is `1`.
+5. `Foo.prototype.bar = 2`: Changes the value of the `bar` property on the prototype to `2`.
+6. `const b = new Foo()`: Creates a new object `b` using the `Foo` constructor.
+7. `console.log(a.bar)`: Prints the value of `bar` property of object `a`, which is now `2`. This is because objects `a` and `b` share the same prototype object.
+8. `console.log(b.bar)`: Prints the value of `bar` property of object `b`, which is `2`.
+9. `Foo.prototype = {bar: 3}`: Changes the prototype of `Foo` to a new object with a `bar` property of `3`. This doesn't affect objects `a` and `b` because they already have their own prototypes set when they were created.
+10. `const c = new Foo()`: Creates a new object `c` using the `Foo` constructor.
+11. `console.log(a.bar)`: Prints the value of `bar` property of object `a`, which is still `2`.
+12. `console.log(b.bar)`: Prints the value of `bar` property of object `b`, which is still `2`.
+13. `console.log(c.bar)`: Prints the value of `bar` property of object `c`, which is `3`. This is because object `c` is created after changing the prototype of `Foo`, so it inherits the new prototype with `bar` set to `3`.
+
+So, the output of the code will be:
 
 ```
-### Question 114
+1
+2
+2
+2
+2
+3
+```
+
+**also**
+
+Foo.prototype = {bar: 3}: Changes the prototype of Foo to a new object with a bar property of 3. This doesn't affect objects a and b because they already have their own prototypes set when they were created. why ????
+
+<br>
+
+Apologies for the confusion. Let's clarify:
+
+When you create an object using the `new` keyword in JavaScript, the prototype chain is established at that moment. The prototype chain determines where JavaScript looks for properties and methods when you try to access them on an object.
+
+In your code, `a` and `b` were created before you reassigned `Foo.prototype`, so they have already established their prototype chain. When you create `a` and `b`, they inherit properties from `Foo.prototype` as it was at the time of their creation. Changing `Foo.prototype` afterward does not affect the prototype chain of `a` and `b` because they have already established their connections.
+
+However, when you create `c` after reassigning `Foo.prototype`, it inherits from the new prototype object `{bar: 3}`, because at the time of its creation, `Foo.prototype` was pointing to this new object.
+
+So, in summary:
+
+- `a` and `b` have their own prototype objects created when they were instantiated, so changing `Foo.prototype` later does not affect them.
+- `c` is created after `Foo.prototype` is reassigned, so it inherits from the new prototype object.
+
+I hope this clears up any confusion! Let me know if you need further clarification.
+
+
+### Question 141
 
 ```js
 
