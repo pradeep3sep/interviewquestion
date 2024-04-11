@@ -3557,22 +3557,81 @@ console.log(b.foo)
 ### Question 147
 
 ```js
-
+const num = +((~~!+[])+(~~!+[])+[]+(~~!+[]))
+console.log(num)
 ```
-### Question 114
+
+solution
 
 ```js
++[] // 0 since Number([]) = 0
+!0 // true since 0 is falsy
+~true // -2
+~-2 // 1
 
+// another way to think will be is that ~~ cancel out each other and Number(true) is 1
+
+// If we use all this,
+(~~!+[]) // 1
+
+
+const num = +((~~!+[])+(~~!+[])+[]+(~~!+[]))
+
+// We know that (~~!+[]) = 1
+// num = +(1 + 1 + [] + 1)
+// num = +(2 + [] + 1)
+// since not all operands are number JS performs string concatenation, String([]) = ""
+// num = +('2' + '' + '1') = +("21") = 21
+
+console.log(num) // 21
 ```
-### Question 114
+
+
+
+### Question 148
 
 ```js
+const obj = {}
+const a = { name: 'a'}
+const b = { name: 'b'}
+obj[a] = {...a}
+obj[b] = {...b}
 
+console.log(obj[a].name)
+console.log(obj[b].name)
 ```
-### Question 114
+### Question 149
 
 ```js
+function* genA() {
+  yield [1, 2, 3]
+}
 
+function* genB() {
+  yield* [1, 2, 3]
+}
+
+console.log(genA().next().value)
+console.log(genB().next().value)
+
+```
+### Question 150
+
+```js
+function* gen() {
+    try {
+        yield 1
+        yield 2
+        return 3
+        yield 4
+    } finally {
+        yield 5
+        return 6
+        yield 7
+    }
+}
+
+console.log([...gen()])
 ```
 ### Question 114
 
