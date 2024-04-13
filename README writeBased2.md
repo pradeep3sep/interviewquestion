@@ -3340,3 +3340,107 @@ console.log(flat(arr)); // [1, 2, 3, [4]]
 console.log(flat(arr, 1)); // [1, 2, 3, [4]]
 console.log(flat(arr, 2)); // [1, 2, 3, [4]]
 ```
+
+
+> ### I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
+
+For example, below chained call turns button into a black button with white text.
+
+```js
+$('#button')
+  .css('color', '#fff')
+  .css('backgroundColor', '#000')
+  .css('fontWeight', 'bold')
+```
+The chaining makes the code simple to read, could you create a simple wrapper $ to make above code work as expected?
+
+The wrapper only needs to have css(propertyName: string, value: any)
+
+**Solution**
+
+```js
+function $(el) {
+    console.log(el);
+    // const getElement = document.getElementById(el)
+    return {
+        css(propertyName, value) {
+            console.log(property, value);
+            // getElement.forEach((element) => {
+            //     element.style[propertyName] = value;
+            // });
+            return this
+        }
+    }
+}
+
+
+$('#button').css('color', '#fff').css('backgroundColor', '#000').css('fontWeight', 'bold')
+```
+
+> ### There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
+
+You are asked to create an Event Emitter Class
+
+```js
+const emitter = new Emitter()
+```
+
+It should support event subscribing
+```js
+const sub1  = emitter.subscribe('event1', callback1)
+const sub2 = emitter.subscribe('event2', callback2)
+
+// same callback could subscribe 
+// on same event multiple times
+const sub3 = emitter.subscribe('event1', callback1)
+```
+emit(eventName, ...args) is used to trigger the callbacks, with args relayed
+
+```js
+emitter.emit('event1', 1, 2);
+// callback1 will be called twice
+```
+
+Subscription returned by subscribe() has a release() method that could be used to unsubscribe
+
+```js
+sub1.release()
+sub3.release()
+// now even if we emit 'event1' again, 
+// callback1 is not called anymore
+```
+
+**Solution**
+
+```js
+class EventEmitter {
+
+  constructor() {
+    this.subs = {};
+  }
+
+  subscribe(eventName, callback) {
+    this.subs[eventName] ??= new Map();
+
+    const key = Symbol();
+    this.subs[eventName].set(key, callback);
+
+    return {
+      release: () => {
+        this.subs[eventName].delete(key);
+      }
+    }
+  }
+  
+  emit(eventName, ...args) {
+    for(const callback of this.subs[eventName].values()) {
+      try {
+        callback(...args);
+      } catch (e) {
+        // Make sure to catch any errors - I was asked this in interview
+      }
+    }
+  }
+}
+
+```
