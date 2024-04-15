@@ -3514,3 +3514,141 @@ sum(5)(-1)(2) == 6 // true
 `func.valueOf = () => num;` This line adds a custom valueOf method to the func function object. The valueOf method is a default method in JavaScript that is called when the object is to be converted to a primitive value. In this case, it simply returns the num value associated with the func function.
 
 In simple words, in curry we have  sum(1)(2)(), but in above we have sum(1)(2), so for this we have used func.valueOf = () => num; the valueof is directly called by js itself due to which we do not need to use call function in end
+
+
+> ### Suppose we have an array of items - A, and another array of indexes in numbers - B
+
+```js
+const A = ['A', 'B', 'C', 'D', 'E', 'F']
+const B = [1,   5,   4,   3,   2,   0]
+```
+You need to reorder A, so that the A[i] is put at index of B[i], which means B is the new index for each item of A.
+
+For above example A should be modified inline to following
+```js
+['F', 'A', 'E', 'D', 'C', 'B']
+```
+The input are always valid.
+
+follow-up
+
+It is fairly easy to do this by using extra O(n) space, could you solve it with O(1) space?
+
+```js
+function sort(items, newOrder) {
+  let i=0;
+  while (i<items.length) {
+    if (i!=newOrder[i]) {
+      let newIndex = newOrder[i]; 
+      [items[i], items[newIndex]] = [items[newIndex], items[i]];
+      [newOrder[i], newOrder[newIndex]] = [newOrder[newIndex], newOrder[i]];
+    }
+    i++;
+  }
+}
+```
+
+> ### The Object.assign() method copies all enumerable own properties from one or more source objects to a target object. It returns the target object. (source: MDN)
+
+It is widely used, Object Spread operator actually is internally the same as Object.assign() (source). Following 2 lines of code are totally the same.
+
+```js
+let aClone = { ...a };
+let aClone = Object.assign({}, a);
+```
+This is an easy one, could you implement Object.assign() with your own implementation ?
+
+note
+
+Don't use Object.assign() in your code It doesn't help improve your skills
+
+**Solution**
+
+```js
+function objectAssign(target, ...sources) {
+  if(target == null) {
+    throw Error();
+  }
+  
+  target = Object(target);
+
+  for (let source of sources) {
+    if(source == null) continue;
+
+    merge(Object.keys(source), source);
+    merge(Object.getOwnPropertySymbols(source), source);
+  }
+
+  function merge(keys = [], currSource) {
+    for (let key of keys) {
+      target[key] = currSource[key];
+      if(target[key] !== currSource[key]) {
+        throw Error();
+      }
+    }
+  }
+
+  return target;
+}
+```
+
+> ### window.setTimeout() could be used to schedule some task in the future.
+
+Could you implement clearAllTimeout() to clear all the timers ? This might be useful when we want to clear things up before page transition.
+
+For example
+
+```js
+setTimeout(func1, 10000)
+setTimeout(func2, 10000)
+setTimeout(func3, 10000)
+
+// all 3 functions are scheduled 10 seconds later
+clearAllTimeout()
+
+// all scheduled tasks are cancelled.
+```
+note
+
+You need to keep the interface of window.setTimeout and window.clearTimeout the same, but you could replace them with new logic
+
+**Solution-1**
+```js
+function clearAllTimeout() {
+  // your code here
+  let id = setTimeout(null, 0);
+  while(id>=0){
+    window.clearTimeout(id);
+    id--;
+  }
+}
+```
+
+**Solution-2**
+
+```js
+
+// Create an object to keep track of all timeouts
+const timeoutIds = {};
+
+// Replace the original setTimeout with a new one that stores the timeout id
+window.setTimeout = function(callback, delay) {
+  const timeoutId = setTimeout(callback, delay);
+  timeoutIds[timeoutId] = true;
+  return timeoutId;
+};
+
+// Replace the original clearTimeout with a new one that clears all timeouts
+window.clearTimeout = function(timeoutId) {
+  clearTimeout(timeoutId);
+  delete timeoutIds[timeoutId];
+};
+
+// Implement clearAllTimeout function that clears all timeouts
+function clearAllTimeout() {
+  Object.keys(timeoutIds).forEach(timeoutId => {
+    clearTimeout(timeoutId);
+    delete timeoutIds[timeoutId];
+  });
+}
+```
