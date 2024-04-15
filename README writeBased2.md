@@ -3478,3 +3478,39 @@ function detectType(data) {
   return data.constructor.name.toLowerCase();
 }
 ```
+
+> ### Create a sum(), which makes following possible
+
+```js
+const sum1 = sum(1)
+sum1(2) == 3 // true
+sum1(3) == 4 // true
+sum(1)(2)(3) == 6 // true
+sum(5)(-1)(2) == 6 // true
+```
+
+**Solution**
+
+```js
+function sum(num) {
+    const func = function (num2) {
+        return num2 ? sum(num + num2) : num;
+    }
+
+    func.valueOf = () => num; 
+    return func; 
+}
+
+
+const sum1 = sum(1)
+console.log(sum(1) == 1); // true
+console.log(sum1(2) == 3) // true
+console.log(sum1(3) == 4) // true
+console.log(sum(1)(2)(3) == 6) // true
+sum(5)(-1)(2) == 6 // true
+
+```
+
+`func.valueOf = () => num;` This line adds a custom valueOf method to the func function object. The valueOf method is a default method in JavaScript that is called when the object is to be converted to a primitive value. In this case, it simply returns the num value associated with the func function.
+
+In simple words, in curry we have  sum(1)(2)(), but in above we have sum(1)(2), so for this we have used func.valueOf = () => num; the valueof is directly called by js itself due to which we do not need to use call function in end
