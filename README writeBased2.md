@@ -3652,3 +3652,136 @@ function clearAllTimeout() {
   });
 }
 ```
+
+> ### If you did unit test before, you must be familiar with Spy.
+
+You are asked to create a spyOn(object, methodName), which works the same as jest.spyOn().
+
+To make it simple, here are the 2 requirements of spyOn
+
+original method should be called when spied one is called
+spy should have a calls array, which holds all the arguments in each call.
+Code to explain everything.
+
+```js
+const obj = {
+   data: 1, 
+   increment(num) {
+      this.data += num
+   }
+}
+
+const spy = spyOn(obj, 'increment')
+
+obj.increment(1)
+
+console.log(obj.data) // 2
+
+obj.increment(2)
+
+console.log(obj.data) // 4
+
+console.log(spy.calls)
+// [ [1], [2] ]
+```
+
+**Solution** 
+
+```js
+function spyOn(obj, methodName) {
+    // your code here
+    const originalMethod = obj[methodName];
+    const calls = [];
+    obj[methodName] = function (...args) {
+        calls.push(args);
+        return originalMethod.apply(this, args);
+    };
+    return { calls };
+}
+```
+
+> ### Can you create a range(from, to) which makes following work?
+```js
+for (let num of range(1, 4)) {
+  console.log(num)  
+}
+// 1
+// 2
+// 3
+// 4
+```
+This is a simple one, could you think more fancy approaches other than for-loop?
+
+Notice that you are not required to return an array, but something iterable would be fine.
+
+**Solution**
+
+```js
+
+// 1. for loop approach
+function range(from, to) {
+  // return the result array
+  const result = []
+  while (from <= to) {
+    result.push(from++)
+  }
+  return result
+}
+
+
+// 2. implement iterable/iterator protocol
+// for ... of uses interable protocol
+// [Symbol.iterator]: () =>  Iterator
+// next: () => {done: bolean, value?: any} 
+
+function range(from, to) {
+  return {
+    // iterable protocol
+    [Symbol.iterator]() {
+      // iterator protocol
+      return {
+        next() {
+          return {
+            done: from > to,
+            value: from++
+          }
+        }
+      }
+    }
+  }
+}
+
+
+// 3. use geneator function to make things simpler
+// geneator function returns generator which implements iterator protocol
+function range(from, to) {
+  return {
+    // iterable protocol
+    [Symbol.iterator]: function * () {
+      while (from <= to) {
+        yield from++
+      }
+    }
+  }
+}
+
+// 4. actualy geneator also implements iterable protocol
+function range(from, to) {
+  return (function * () {
+    while (from <= to) {
+      yield from++
+    }
+  })(from, to)
+}
+
+// 5. maybe just change the entry function?
+function * range(from, to) {
+  while (from <= to) {
+    yield from++
+  }
+}
+
+
+// 6.
+const range = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => i + from)
+```
