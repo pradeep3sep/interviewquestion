@@ -3828,3 +3828,37 @@ function myNew(constructorFn, ...args) {
   return (typeof result === "object" && result !== null) ? result : instanceObj;
 }
 ```
+
+> ### hex to rcb
+```js
+const hex2rgb = (hex) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+
+    return { r, g, b };
+}
+```
+
+> ### rcb to hex
+```js
+function rgbToHex(r, g, b) {
+    // Convert each component to hexadecimal and ensure two digits
+    var hexR = r.toString(16).padStart(2, '0');
+    var hexG = g.toString(16).padStart(2, '0');
+    var hexB = b.toString(16).padStart(2, '0');
+    
+    // Concatenate the components to form the hexadecimal representation
+    var hexColor = '#' + hexR + hexG + hexB;
+    
+    return hexColor;
+}
+
+// Example usage:
+var red = 255;
+var green = 128;
+var blue = 0;
+
+var hexColor = rgbToHex(red, green, blue);
+console.log(hexColor); // Output: #ff8000
+```
