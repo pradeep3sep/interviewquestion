@@ -1518,6 +1518,33 @@ console.log(obj1); // { a: 10, b: { x: 20 } }
 console.log(obj2); // { a: 10, b: { x: 90 } }
 ```
 
+**Below is another way of doing which handles many cases**
+
+```js
+function cloneDeep(obj, map = new Map()) {
+
+    if (obj === null || typeof obj !== 'object') {
+        return obj;
+    }
+
+    if (map.has(obj)) {
+        return map.get(obj);
+    }
+
+    const output = Array.isArray(obj) ? [] : {};
+    map.set(obj, output);
+    const keys = [...Object.getOwnPropertySymbols(obj), ...Object.keys(obj)];
+
+    for (const key of keys) {
+        const val = obj[key];
+        output[key] = cloneDeep(val, map);
+    }
+
+    return output;
+
+}
+```
+
 > ### Q48 - String compression
 const str = "aaaaaabbcc"\
 output => 'a6b2c2'
