@@ -3785,3 +3785,19 @@ function * range(from, to) {
 // 6.
 const range = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => i + from)
 ```
+
+> ### new operator is used to create new instance objects.
+
+Do you know exactly what new does?
+
+You are asked to implement myNew(), which should return an object just as what new does but without using new.
+
+Pay attention to the return type of constructor.
+
+```js
+function myNew(constructorFn, ...args) {
+  const instanceObj = Object.create(constructorFn.prototype);
+  const result = constructorFn.apply(instanceObj, args);
+  return (typeof result === "object" && result !== null) ? result : instanceObj;
+}
+```
