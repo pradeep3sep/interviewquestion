@@ -3903,3 +3903,190 @@ function get(source, path, defaultValue = undefined) {
 }
 
 ```
+
+
+> ### longest substring with unique characters
+
+Given a string, please find the longest substring that has no repeated characters.
+
+If there are multiple result, any one substring is fine.
+
+```js
+longestUniqueSubstr('aaaaa')
+// 'a'
+longestUniqueSubstr('abcabc')
+// 'abc', or 'bca', or 'cab'
+longestUniqueSubstr('a12#2')
+// 'a12#
+```
+
+**Solution**
+
+```js
+function longestUniqueSubstr(str) {
+  let maxLength = 0;
+  let maxSubstr = "";
+  let currSubstr = "";
+  let seenChars = {};
+
+  for (let i = 0; i < str.length; i++) {
+    let char = str[i];
+    if (!seenChars[char]) {
+      seenChars[char] = true;
+      currSubstr += char;
+      if (currSubstr.length > maxLength) {
+        maxLength = currSubstr.length;
+        maxSubstr = currSubstr;
+      }
+    } else {
+      let prevOccurrence = str.lastIndexOf(char, i - 1);
+      currSubstr = str.slice(prevOccurrence + 1, i + 1);
+      seenChars = {};
+      for (let j = prevOccurrence + 1; j <= i; j++) {
+        seenChars[str[j]] = true;
+      }
+    }
+  }
+  return maxSubstr;
+}
+```
+
+
+> ### throttle Promises
+
+Say you need to fetch some data through 100 APIs, and as soon as possible.
+
+If you use Promise.all(), 100 requests go to your server at the same time, which is a burden to low spec servers.
+
+Can you throttle your API calls so that always maximum 5 API calls at the same time?
+
+You are asked to create a general throttlePromises() which takes an array of functions returning promises, and a number indicating the maximum concurrent pending promises.
+
+```js
+throttleAsync(callApis, 5).then((data) => {
+  // the data is the same as `Promise.all` 
+}).catch((err) => {
+  // any error occurs in the callApis would be relayed here
+})
+```
+
+By running above code, at any time, no more than 5 APIs are requested, so low spec servers are saved.
+
+```js
+function throttlePromises(funcs, max){
+  const results = [];
+  async function doWork(iterator) {
+    for (let [index, item] of iterator) {
+      const result = await item();
+      results[index] = result;
+    }
+  }
+  const iterator = Array.from(funcs).entries()
+  const workers = Array(max).fill(iterator).map(doWork); // maps over asynchronous fn doWork, which returns array of results for each promise
+  return Promise.all(workers).then(() => results);
+}
+```
+
+> ### Generate Fibonacci Number you are asked to create a fib(n).
+
+This could be simply done by a recursion, but it costs so much time that your browser freezes, don't try it with large numbers.
+
+const fib = (n) => {
+  if (n === 0) return 0
+  if (n === 1) return 1
+  return fib(n - 1) + fib(n - 2)
+}
+
+fib(10) // 55
+fib(1000) // timeout
+Can you improve above implementation to make it work for fib(1000) ? recursion should still be used.
+
+**Solution**
+
+```js
+const fib = (() => {
+  const memo = {};
+
+  const fibonacci = (n) => {
+    if (n === 0) return 0;
+    if (n === 1) return 1;
+    
+    if (memo[n]) {
+      return memo[n];
+    } else {
+      memo[n] = fibonacci(n - 1) + fibonacci(n - 2);
+      return memo[n];
+    }
+  };
+
+  return fibonacci;
+})();
+
+console.log(fib(10));   // 55
+console.log(fib(1000)); // 4.346655768693743e+208
+```
+
+**another method**
+
+```js
+const fib = (n) => {
+  if (n === 0) return 0;
+  if (n === 1) return 1;
+
+  const fibArray = [0, 1];
+  for (let i = 2; i <= n; i++) {
+    fibArray[i] = fibArray[i - 1] + fibArray[i - 2];
+  }
+  
+  return fibArray[n];
+};
+
+console.log(fib(10));   // 55
+console.log(fib(1000)); // 4.346655768693743e+208
+```
+
+
+> ### Math.sqrt() helps us getting the square root of a number.
+
+Can your write your own mySqrt() ? You should return the integer part only, truncating the fraction part.
+
+```js
+mySqrt(0)
+// 1
+
+mySqrt(1)
+// 1
+
+mySqrt(2)
+// 1
+
+mySqrt(4)
+// 2
+
+mySqrt(NaN)
+// NaN
+```
+
+**Solution**
+
+```js
+function mySqrt(x) {
+  if(x < 0 || isNaN(x) || typeof x !== 'number' ) return NaN
+
+  let start = 0;
+  let end = Math.floor(x/2)
+  let ans = 1;
+
+  while(start <= end){
+    const mid = Math.floor(start + (end-start)/2)
+    const square = mid*mid;
+    if(square === x) return mid
+    else if(square > x) end = mid-1
+    else {
+      ans = Math.max(mid, ans)
+      start = mid+1
+    }
+  }
+  return ans
+}
+```
