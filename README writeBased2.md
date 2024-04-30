@@ -4090,3 +4090,57 @@ function mySqrt(x) {
   return ans
 }
 ```
+
+
+> ### Given an array of integers, find two number that sums up to 0, return their indices.
+
+There might be multiple pairs, any of them would do. If not found, return null
+
+```js
+findTwo([1,2,3,-1])
+// [0,3]
+
+findTwo([1,2,3,-1,-2,0])
+// [0,3] or [1,4] or [5, 5]
+
+findTwo([1,2,3,4])
+// null
+```
+
+**Solution**
+
+```js
+function findTwo(arr) {
+  const obj = {};
+  for(let i in arr) obj[arr[i]] = i;
+  for(let key in obj){
+    if(obj[-key]) return [obj[key], obj[-key]]
+  }
+
+  return null;
+}
+```
+
+> ### Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
+
+Can you write a function to get the largest difference?
+
+```js
+largestDiff([-1, 2,3,10, 9])
+// 11,  obviously Math.abs(-1 - 10) is the largest
+
+largestDiff([])
+// 0
+
+largestDiff([1])
+// 0
+```
+
+**Solution**
+
+```js
+function largestDiff(arr) {
+  if(arr.length < 2) return 0
+  return Math.max(...arr) - Math.min(...arr)
+}
+```
