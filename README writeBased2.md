@@ -4144,3 +4144,124 @@ function largestDiff(arr) {
   return Math.max(...arr) - Math.min(...arr)
 }
 ```
+
+> ### You are asked to create a function that multiplies two big integers in string.
+
+```js
+multiply(
+  '1123456787654323456789', 
+  '1234567887654323456'
+)
+// '1386983673205309924427166592431045142784'
+```
+
+**Solution is below**
+
+```js
+function multiply(a, b) {
+  let sign = ''
+
+  if (a === '0' || b === '0') return '0';
+
+  if(a[0] === '-' && b[0] !== '-') {
+    sign = '-'
+    a = a.substr(1)
+  } else if (a[0] !== '-' && b[0] === '-') {
+    sign = '-'
+    b = b.substr(1)
+  } else if (a[0] === b[0] && a[0] === '-') {
+    a = a.substr(1);
+    b = b.substr(1);
+  }
+
+  let result = new Array(a.length + b.length).fill(0)
+
+  for(let i = a.length -1; i >= 0; i --) {
+    for(let j = b.length -1; j >= 0; j--) { 
+      const m = i + j + 1
+      const n = i + j
+
+      const s = (+a[i]) * (+b[j]) + result[m] 
+      result[m] = s % 10
+      result[n] += Math.floor(s / 10)
+    }
+  }
+
+  while (result[0] === 0) {
+    result.shift()
+  }
+
+  return sign + result.join('')
+}
+```
+
+> ### You are asked to create a BigInt division function.
+
+```js
+divide(
+  '1123456787654323456789', 
+  '1234567887654323456'
+)
+// '910'
+
+divide(
+  '-1123456787654323456789', 
+  '1234567887654323456'
+)
+```
+
+**Solution is below**
+
+```js
+function divide(a, b) {
+    if (b === '0') {
+        throw new Error('Division by zero');
+    }
+
+    // Determine the sign of the result
+    let sign = '';
+    if ((a[0] === '-' && b[0] !== '-') || (a[0] !== '-' && b[0] === '-')) {
+        sign = '-';
+    }
+
+    // Remove sign characters for simplicity
+    a = a.replace('-', '');
+    b = b.replace('-', '');
+
+    // Convert strings to arrays of digits
+    const dividend = a.split('').map(Number);
+    const divisor = b.split('').map(Number);
+
+    let quotient = '';
+
+    // Initialize dividend for long division
+    let currDividend = parseInt(dividend.slice(0, divisor.length).join(''));
+
+    for (let i = divisor.length; i <= dividend.length; i++) {
+        let digit = 0;
+
+        while (currDividend >= parseInt(b)) {
+            currDividend -= parseInt(b);
+            digit++;
+        }
+
+        quotient += digit;
+
+        if (i < dividend.length) {
+            currDividend = parseInt(currDividend.toString() + dividend[i]);
+        }
+    }
+
+    // Remove leading zeros from the quotient
+    quotient = quotient.replace(/^0+/, '');
+
+    return sign + (quotient || '0');
+}
+
+// Test cases
+console.log(divide('1123456787654323456789', '1234567887654323456')); // '910'
+console.log(divide('-1123456787654323456789', '1234567887654323456')); // '-910'
+console.log(divide('5', '2')); // '2'
+console.log(divide('-3', '2')); // '-1'
+```
+
