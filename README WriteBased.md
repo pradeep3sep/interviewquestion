@@ -1690,3 +1690,287 @@ function calculate(str) {
   return calc(0)[0];
 }
 ```
+
+> ### LazyMan is very lazy, he only eats and sleeps.
+
+LazyMan(name: string, logFn: (log: string) => void) would output a message, the passed logFn is used.
+
+```js
+LazyMan('Jack', console.log)
+// Hi, I'm Jack.
+```
+
+He can eat(food: string)
+
+```js
+LazyMan('Jack', console.log)
+  .eat('banana')
+  .eat('apple')
+// Hi, I'm Jack.
+// Eat banana.
+// Eat Apple.
+```
+
+He also sleep(time: number), time is based on seconds.
+```js
+LazyMan('Jack', console.log)
+  .eat('banana')
+  .sleep(10)
+  .eat('apple')
+  .sleep(1)
+// Hi, I'm Jack.
+// Eat banana.
+// (after 10 seconds)
+// Wake up after 10 seconds.
+// Eat Apple.
+// (after 1 second)
+// Wake up after 1 second.
+```
+
+He can sleepFirst(time: number), which has the highest priority among all tasks, no matter what the order is.
+
+```js
+LazyMan('Jack', console.log)
+  .eat('banana')
+  .sleepFirst(10)
+  .eat('apple')
+  .sleep(1)
+// (after 10 seconds)
+// Wake up after 10 seconds.
+// Hi, I'm Jack.
+// Eat banana
+// Eat apple
+// (after 1 second)
+// Wake up after 1 second.
+```
+
+Please create such LazyMan()
+
+
+**Solution is below**
+
+```js
+class ALazyMan {
+  constructor(name, logFn) {
+    this.name = name
+    this.log = logFn
+    
+    this.normalTasks = []
+    this.urgentTasks = []
+    
+    this.greet()
+    
+    setTimeout(() => {
+      this._triggerNext()
+    }, 0)
+  }
+  
+  greet() {
+    this.normalTasks.push(['greet'])
+    return this
+  }
+  
+  eat(food) {
+    this.normalTasks.push(['eat', food])
+    return this
+  }
+  
+  sleep(time) {
+    this.normalTasks.push(['sleep', time])
+    return this
+  }
+  
+  sleepFirst(time) {
+    this.urgentTasks.push(['sleep', time])
+    return this
+  }
+  
+  _triggerNext() {
+    let task = this.urgentTasks.shift()
+    if (!task) {
+      task = this.normalTasks.shift()
+    }
+    
+    if (!task) {
+      return
+    }
+    
+    const [action, param] = task
+    
+    switch (action) {
+      case 'greet':
+        this.log(`Hi, I'm ${this.name}.`)
+        this._triggerNext()
+        return
+      case 'eat':
+        this.log(`Eat ${param}.`)
+        this._triggerNext()
+        return
+      case 'sleep':
+        setTimeout(() => {
+          this.log(`Wake up after ${param} second${param > 1 ? 's' : ''}.`)
+          this._triggerNext()
+          return
+        }, param * 1000)
+    }
+  }
+}
+
+/**
+ * @param {string} name
+ * @param {(log: string) => void} logFn
+ * @returns {Laziness}
+ */
+function LazyMan(name, logFn) {
+  // use 2 array to to hold tasks , one for sleepFirs, one for the other
+  // return `this` for each method call
+  return new ALazyMan(name, logFn)
+}
+```
+
+
+> ### _.chunk() splits array into groups with the specific size.
+
+Please implement your chunk(arr: any[], size: number)
+
+```js
+chunk([1,2,3,4,5], 1)
+// [[1], [2], [3], [4], [5]]
+
+chunk([1,2,3,4,5], 2)
+// [[1, 2], [3, 4], [5]]
+
+chunk([1,2,3,4,5], 3)
+// [[1, 2, 3], [4, 5]]
+
+chunk([1,2,3,4,5], 4)
+// [[1, 2, 3, 4], [5]]
+
+chunk([1,2,3,4,5], 5)
+// [[1, 2, 3, 4, 5]]
+```
+
+for size smaller than 1, return an empty array.
+
+**Solution**
+
+```js
+function chunk(arr, size) {
+  if (size < 1) {
+    return [];
+  }
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+}
+```
+
+> ### Given a time string in format HH:mm, please return the angle between hour hand and minute hand.
+
+You should return rounded integer representing the smaller angle in degrees.
+
+```js
+angle('12:00')
+// 0
+
+angle('23:30')
+// 165
+```
+
+**Solution**
+
+```js
+function angle(time) {
+  // your code here
+  const [hour, min] = time.split(':').map((seg) => parseInt(seg, 10))
+  
+  const h = (hour >= 12 ? hour - 12 : hour)
+  const m = min
+
+  const angleMin = (m / 60) * 360
+  const angleHour = (h / 12) * 360 + angleMin / 12
+
+  
+  const angle = Math.abs(angleHour - angleMin)
+  const finalAngle = angle > 180 ? 360 - angle : angle
+  return Math.round(finalAngle)
+}
+```
+
+> ### Roman numerals are represented by combinations of following seven symbols, each with a fixed integer value.
+
+Symbol	I	V	X	L	C	D	M
+Value	1	5	10	50	100	500	1000
+For Standard form, subtractive notation is used, meaning 4 is IV rather than IIII, 9 is IX rather than VIIII. Same rule applies to 40(XL) and 900(CM) .etc.
+
+Simply speaking, the roman numerals in standard form follow these rules.
+
+symbols are listed from highest to lowest, from left to right
+from left to right, if the next symbol value is bigger than current one, it means subtracting, otherwise adding.
+Please implement romanToInteger(). The input are all valid strings.
+
+```js
+romanToInteger('CXXIII')
+// 123
+
+romanToInteger('MCMXCIX')
+// 1999
+
+romanToInteger('MMMCDXX')
+// 3420
+```
+
+**Solution**
+
+```js
+function romanToInteger(str) {
+  const romanInt = new Map([
+    ['I', 1],
+    ['V', 5],
+    ['X', 10],
+    ['L', 50],
+    ['C', 100],
+    ['D', 500],
+    ['M', 1000],
+  ])
+
+  let values = 0
+  for (let i = 0; i < str.length; i++) {
+    const currInt = romanInt.get(str[i])
+    const nextInt = i+1 < str.length ? romanInt.get(str[i+1]) : 0
+    
+    if (currInt < nextInt) {
+      values -= currInt
+    } else {
+      values += currInt
+    }
+  }
+
+  return values
+}
+```
+
+> ### Given two sorted array of integers, please return the median.
+
+```js
+median([1,2],[3,4,5])
+// 3
+If there are even numbers, return the average.
+
+median([1,2],[3,4])
+// 2.5
+```
+
+**Solution**
+
+```js
+const median = (arr1, arr2) => {
+  const merged = [...arr1, ...arr2].sort((a, b) => a - b)
+
+  return merged.length % 2
+    ? merged[Math.floor(merged.length / 2)]
+    : (merged[merged.length / 2] + merged[merged.length / 2 - 1]) / 2
+}
+```
