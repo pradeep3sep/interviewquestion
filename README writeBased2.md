@@ -4329,4 +4329,367 @@ function* tokenize(str) {
 }
 ```
 
+> ### Now please create a function to generate unique class names following rules below.
 
+only use alphabets: a to z , A to Z\
+return one unique class name each time function is called\
+the class name sequence should first be in order of length, then in Alphabetical order(lowercase in front).\
+should provide a function to reset the sequence
+
+```js
+getUniqueClassName()
+// 'a'
+
+getUniqueClassName()
+// 'b'
+
+getUniqueClassName()
+// 'c'
+
+// skip cases till 'Y'
+
+getUniqueClassName()
+// 'Z'
+
+getUniqueClassName()
+// 'aa'
+
+getUniqueClassName()
+// 'ab'
+
+getUniqueClassName()
+// 'ac'
+
+// skip more cases
+
+getUniqueClassName()
+// 'ZZ'
+
+getUniqueClassName()
+// 'aaa'
+
+getUniqueClassName()
+// 'aab'
+
+getUniqueClassName()
+// 'aac'
+
+getUniqueClassName.reset()
+
+getUniqueClassName()
+// 'a'
+```
+
+**Solution is below**
+
+```js
+const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+let id = 0;
+
+function getUniqueClassName() {
+  let className = '';
+  let num = id++;
+
+  while (num >= 0) {
+    className = chars[num % chars.length] + className;
+    num = Math.floor(num / chars.length) - 1;
+  }
+
+  return className;
+}
+
+getUniqueClassName.reset = function() {
+  id = 0;
+}
+```
+
+
+> ### Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented.
+
+```js
+count() // 1
+count() // 2
+count() // 3
+
+count.reset()
+
+count() // 1
+count() // 2
+count() // 3
+```
+
+**Solution**
+
+```js
+function count() {
+  count.val = count.val || 1
+  return count.val++
+}
+
+count.reset = function () {
+  count.val = 1
+}
+```
+
+> ### _.set(object, path, value) is a handy method to updating an object without checking the property existence.
+
+Can you create your own set()?
+
+```js
+const obj = {
+  a: {
+    b: {
+      c: [1,2,3]
+    }
+  }
+}
+set(obj, 'a.b.c', 'BFE')
+console.log(obj.a.b.c) // "BFE"
+
+set(obj, 'a.b.c.0', 'BFE')
+console.log(obj.a.b.c[0]) // "BFE"
+
+set(obj, 'a.b.c[1]', 'BFE')
+console.log(obj.a.b.c[1]) // "BFE"
+
+set(obj, ['a', 'b', 'c', '2'], 'BFE')
+console.log(obj.a.b.c[2]) // "BFE"
+
+set(obj, 'a.b.c[3]', 'BFE')
+console.log(obj.a.b.c[3]) // "BFE"
+
+set(obj, 'a.c.d[0]', 'BFE')
+// valid digits treated as array elements
+console.log(obj.a.c.d[0]) // "BFE"
+
+set(obj, 'a.c.d.01', 'BFE')
+// invalid digits treated as property string
+console.log(obj.a.c.d['01']) // "BFE"
+```
+
+**Solution**
+
+```js
+function set(obj, path, value) {
+  path = Array.isArray(path) ? path :  path.replace('[', '.').replace(']', '').split('.');
+  src = obj;
+  path.forEach((key, index, array) => {
+    if (index == path.length - 1) {
+      src[key] = value;
+    } else {
+      if (!src.hasOwnProperty(key)) { // if the key doesn't exist on object
+        const next = array[index + 1];
+        src[key] = String(Number(next)) === next ? [] : {}; // create a new object if next is item in array is not a number
+      }
+      src = src[key];
+    }
+  })
+}
+```
+
+> ### Please implement a function to compare 2 semver strings.
+
+```js
+compare('12.1.0', '12.0.9')
+// 1, meaning first one is greater
+
+compare('12.1.0', '12.1.2')
+// -1, meaning latter one is greater
+
+compare('5.0.1', '5.0.1')
+// 0, meaning they are equal.
+```
+
+**Solution**
+
+```js
+const getVersion = (str) => str.split('.').map(Number);
+
+function compare(v1, v2) {
+  const version1 = getVersion(v1);
+  const version2 = getVersion(v2);
+  for (let i = 0; i < 3; i++) {
+    if (version1[i]> version2[i]) return 1;
+    if (version1[i] < version2[i]) return -1;
+  }
+  return 0;
+}
+```
+
+> ### Let's take a look at following error-first callback.
+
+```js
+const callback = (error, data) => {
+  if (error) {
+    // handle the error
+  } else {
+    // handle the data
+  }
+}
+```
+
+Now think about async functions that takes above error-first callback as last argument.
+
+```js
+const func = (arg1, arg2, callback) => {
+  // some async logic
+  if (hasError) {
+    callback(someError)
+  } else {
+    callback(null, someData)
+  }
+}
+```
+You see what needs to be done now. Please implement promisify() to make the code better.
+
+```js
+const promisedFunc = promisify(func)
+
+promisedFunc().then((data) => {
+  // handles data
+}).catch((error) => {
+  // handles error
+})
+```
+
+**Solution**
+
+```js
+function promisify(func) {
+  return function (...args) {
+    return new Promise((resolve, reject) => {
+      func.call(this, ...args, (error, data) => {
+        if (error) {
+          reject(error)
+        } else {
+          resolve(data)
+        }
+      })
+    })
+  }
+}
+```
+
+> ### Here are some simple Jest test code.
+
+```js
+expect(3).toBe(3) // ✅
+expect(4).toBe(3) // ❌
+```
+
+We can reverse it with not.
+
+```js
+expect(3).not.toBe(3) // ❌
+expect(4).not.toBe(3) // ✅
+```
+
+Please implement myExpect() to support toBe() and also not.
+
+**Solution**
+
+```js
+function myExpect(input) {
+  // your code here
+  function toBe(value, isNegate = false){
+    const result = Object.is(input, value);
+    if(isNegate ? result : !result) throw new Error("Test case failed");
+    return true;
+  }
+  return {
+    toBe,
+    not: {
+      toBe: function(value){
+        return toBe(value, true)
+      }
+    }
+  }
+}
+```
+
+> ### Given an array of integers, all integers appear twice except one integer, could you quickly target it ?
+```js
+const arr = [10, 2, 2 , 1, 0, 0, 10]
+findSingle(arr) // 1
+```
+
+
+**Solution**
+
+```js
+function findSingle(arr) {
+    let seen = new Set();
+    let sumOfUniqueElements = 0;
+    let sumOfAllElements = 0;
+
+    for (let num of arr) {
+        if (!seen.has(num)) {
+            sumOfUniqueElements += num;
+            seen.add(num);
+        }
+        sumOfAllElements += num;
+    }
+
+    return 2 * sumOfUniqueElements - sumOfAllElements;
+}
+
+const arr = [10, 2, 2, 1, 0, 0, 10];
+console.log(findSingle(arr)); // Output: 1
+```
+
+> ### Roman numerals are represented by combinations of following seven symbols, each with a fixed integer value.
+
+Symbol	I	V	X	L	C	D	M
+Value	1	5	10	50	100	500	1000
+
+For Standard form, subtractive notation is used, meaning 4 is IV rather than IIII, 9 is IX rather than VIIII. Same rule applies to 40(XL) and 900(CM) .etc.
+
+Simply speaking, the roman numerals in standard form follow these rules.
+
+symbols are listed from highest to lowest, from left to right\
+from left to right, if the next symbol value is bigger than current one, it means subtracting, otherwise adding.\
+Please implement integerToRoman(). The input are all integers within valid range.
+
+```
+integerToRoman(123)
+// 'CXXIII'
+
+integerToRoman(1999)
+// 'MCMXCIX'
+
+integerToRoman(3420)
+// 'MMMCDXX'
+```
+
+**Solution**
+
+```js
+function integerToRoman(num) {
+  const numerals = {
+    M: 1000,
+    CM: 900,
+    D: 500,
+    CD: 400,
+    C: 100,
+    XC: 90,
+    L: 50,
+    XL: 40,
+    X: 10,
+    IX: 9,
+    V: 5,
+    IV: 4,
+    I: 1
+  };
+
+  let result = '';
+
+  for (let key in numerals) {
+    while (num >= numerals[key]) {
+      result += key;
+      num -= numerals[key];
+    }
+  }
+
+  return result;
+}
+```
