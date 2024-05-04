@@ -1974,3 +1974,80 @@ const median = (arr1, arr2) => {
     : (merged[merged.length / 2] + merged[merged.length / 2 - 1]) / 2
 }
 ```
+
+> ### Given a non-empty string, return the most frequently ocurring character.
+
+If there are multiple characters with same occurrance, return an array of them.
+```js
+count('abbccc')
+// 'c'
+
+count('abbcccddd')
+// ['c', 'd']
+```
+
+**Solution**
+
+```js
+function count(str) {
+  const countMap = {};
+  let maxCount = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+    countMap[char] = (countMap[char] || 0) + 1;
+    maxCount = Math.max(maxCount, countMap[char]);
+  }
+  const result = [];
+  for (const char in countMap) {
+    if (countMap[char] === maxCount) {
+      result.push(char);
+    }
+  }
+  return result.length === 1 ? result[0] : result;
+}
+```
+
+> ### There is a pile of n (n > 0) stones.
+
+Player A and Player B take turns to pick 1 or 2 stones from the pile. A starts first.
+
+Who picks the last stone loses the game.
+
+Now here is the question, is there a winning strategy for A or B ? If so, returns the player name. If there is none, return null.
+
+```js
+winningStonePicking(1)
+// 'B'
+
+winningStonePicking(2)
+// 'A'
+
+winningStonePicking(3)
+// 'A'
+
+winningStonePicking(4)
+// 'B'
+```
+
+**Solution**
+
+```js
+function canWinStonePicking(n) {
+  if(n === 0)
+  {
+    return null;
+  }
+  return n % 3 === 1 ? 'B' : 'A';
+}
+// n=1 : B
+// n=2 : A
+// n=3 : A
+
+// n=4 : B
+// n=5 : A
+// n=6 : A
+
+// n=7 : B
+// n=8 : A
+// n=9 : A
+```
