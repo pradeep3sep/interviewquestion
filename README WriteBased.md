@@ -1626,3 +1626,67 @@ console.log("resultCustom2", resultCustom2);
 console.log("resultCustom3", resultCustom3);
 console.log("resultCustom4", resultCustom4);
 ```
+
+> ### Now please calculate() the result of the string. You can use the tokenizer you wrote before.
+
+```js
+calculate('1 * (20 -   300      ) ')
+// -280
+
+calculate('     1/0 ')
+// Infinity
+```
+
+- the input expression is syntactically valid, containing non-negative integers, +, -, *, /, (, ) and spaces
+- Don't use eval()
+
+**Solution is below**
+
+```js
+function calculate(str) {
+  function calc(start) {
+    const stack = [];
+    let num = 0;
+    let sign  = '+';
+    let lastIndex;
+    let signs = new Set(['+', '-', '/', '*', ')']);
+    for (let i=start; i<str.length; i++) {
+      const char = str.charAt(i);
+      if (char === ' ') continue;
+      if (!isNaN(+char)) {
+        num = num * 10 + +char;
+      } else if (signs.has(char)) {
+        switch (sign) {
+          case '+':
+            stack.push(num);
+            break;
+          case '-':
+            stack.push(-num);
+            break;
+          case '*':
+            stack[stack.length-1]*= num;
+            break;
+          case '/':
+            stack[stack.length-1]/= num;
+            break;
+        }
+        if (char === ')') {
+          lastIndex = i;
+          break;
+        }
+        sign = char;
+        num = 0;
+      } else if (char === '(') {
+        const [newNum, index] = calc(i+1);
+        i = index;
+        lastIndex = i;
+        num = newNum;
+      }
+    }
+    const val = stack.reduce((accm, curr) => accm+curr, 0);
+    return [val, lastIndex];
+  }
+  str = str + '+';
+  return calc(0)[0];
+}
+```
