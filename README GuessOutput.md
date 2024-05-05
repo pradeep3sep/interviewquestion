@@ -3633,24 +3633,93 @@ function* gen() {
 
 console.log([...gen()])
 ```
-### Question 114
+### Question 151
 
 ```js
+// This is a JavaScript Quiz from BFE.dev
+
+async function async1(){
+  console.log(1)
+  await async2()
+  console.log(2)
+}
+
+async function async2(){
+  console.log(3)
+}
+
+console.log(4)
+
+setTimeout(function(){
+  console.log(5)
+}, 0)
+
+async1()
+
+new Promise(function(resolve){
+  console.log(6)
+  resolve()
+}).then(function(){
+  console.log(7)
+})
+
+console.log(8)
 
 ```
-### Question 114
+### Question 152
 
 ```js
 
+// This is a JavaScript Quiz from BFE.dev
+
+var a = 1;
+(function() {
+  console.log(a + this.a);
+  var a = '2'
+  console.log(a + this.a);
+})();
+
+var name = 1;
+(function() {
+  console.log(name + this.name);
+  var name = '2'
+  console.log(name + this.name);
+})();
 ```
-### Question 114
+### Question 153
 
 ```js
+// This is a JavaScript Quiz from BFE.dev 
 
+let num
+
+for (let i = 0; i < 5; i++) {
+  num = i
+  setTimeout(() => {
+    console.log(num)
+  }, 100)
+}
 ```
-### Question 114
+### Question 154
 
 ```js
+class A {
+  static dev = "BFE";
+  dev = "bigfrontend";
+}
+
+class B extends A {
+  log() {
+    console.log(this.dev);
+  }
+
+  static log() {
+    console.log(this.dev);
+  }
+}
+
+B.log();
+new B().log();
 
 ```
 ### Question 114
