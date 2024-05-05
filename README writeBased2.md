@@ -4693,3 +4693,55 @@ function integerToRoman(num) {
   return result;
 }
 ```
+
+
+> ### Given a string contaning only a, b and c, remove all b and ac.
+```js
+removeChars('ab') // 'a'
+removeChars('abc') // ''
+removeChars('cabbaabcca') // 'caa'
+```
+
+**Solution**
+
+```js
+function removeChars(input) {
+  let res = input
+  while (res.includes("b") || res.includes("ac")) {
+    if (res.includes("b")) {
+      res = res.replace("b", "")
+    }
+    if (res.includes("ac")) {
+      res = res.replace("ac", "")
+    }
+  }
+  return res
+}
+```
+
+> ### Given an array of integers, move zeros to the end while keeping the order of the rest.
+
+You should make the in-place change.
+
+```js
+const list = [1,0,0,2,3]
+moveZeros(list) 
+console.log(list) // [1,2,3,0,0]
+```
+
+**Solution**
+
+```js
+function moveZeros(list) {
+
+  for (let i = list.length - 1; i >= 0; i--) {
+
+    if (!list[i]) {
+      list.splice(i, 1)
+      list.push(0)
+    }
+    
+  }
+
+}
+```
