@@ -263,27 +263,7 @@ console.log(descriptor1.value);
 
 <br>
  
-### Object.getOwnPropertyDescriptors()
 
-The Object.getOwnPropertyDescriptors() static method returns all own property descriptors of a given object.
-
-```js
-const object1 = {
-  property1: 42,
-};
-
-const descriptors1 = Object.getOwnPropertyDescriptors(object1);
-
-console.log(descriptors1)
-// Object { property1: Object { value: 42, writable: true, enumerable: true, configurable: true } }
-
-console.log(descriptors1.property1.writable);
-// Expected output: true
-
-console.log(descriptors1.property1.value);
-// Expected output: 42
-
-```
 
 <br>
  
