@@ -1174,7 +1174,7 @@ loop1: for (i = 0; i < 3; i++) {
 
 Synchronous iteration was introduced in ES6 and it works with below set of components,
 
-**Iterable**: It is an object which can be iterated over via a method whose key is Symbol.iterator. 
+**Iterable**: It is an object which can be iterated over via a method whose key is Symbol.iterator.\
 Iterator: It is an object returned by invoking `[Symbol.iterator]()` on an iterable. This iterator object wraps each iterated element in an object and returns it via `next()` method one by one. **IteratorResult**: It is an object returned by `next()` method. The object contains two properties; the `value` property contains an iterated element and the done property determines whether the element is the last element or not.
 
 Let's demonstrate synchronous iteration with an array as below,
@@ -1374,6 +1374,60 @@ Third task resolved
 
 <br>
  
+ > ### How do you make an object iterable in javascript
+
+By default, plain objects are not iterable. But you can make the object iterable by defining a `Symbol.iterator` property on it.
+
+Let's demonstrate this with an example,
+
+```js
+const collection = {
+  one: 1,
+  two: 2,
+  three: 3,
+  [Symbol.iterator]() {
+    const values = Object.keys(this);
+    let i = 0;
+    return {
+      next: () => {
+        return {
+          value: this[values[i++]],
+          done: i > values.length,
+        };
+      },
+    };
+  },
+};
+
+const iterator = collection[Symbol.iterator]();
+
+console.log(iterator.next()); // → {value: 1, done: false}
+console.log(iterator.next()); // → {value: 2, done: false}
+console.log(iterator.next()); // → {value: 3, done: false}
+console.log(iterator.next()); // → {value: undefined, done: true}
+```
+
+The above process can be simplified using a generator function,
+
+```js
+const collection = {
+  one: 1,
+  two: 2,
+  three: 3,
+  [Symbol.iterator]: function* () {
+    for (let key in this) {
+      yield this[key];
+    }
+  },
+};
+const iterator = collection[Symbol.iterator]();
+console.log(iterator.next()); // {value: 1, done: false}
+console.log(iterator.next()); // {value: 2, done: false}
+console.log(iterator.next()); // {value: 3, done: false}
+console.log(iterator.next()); // {value: undefined, done: true}
+```
+
+<br>
 
  
 > ### Currying
@@ -1961,61 +2015,6 @@ Babel is a JavaScript transpiler to convert ECMAScript 2015+ code into a backwar
 
 <br>
  
-
-> ### How do you make an object iterable in javascript
-
-By default, plain objects are not iterable. But you can make the object iterable by defining a `Symbol.iterator` property on it.
-
-Let's demonstrate this with an example,
-
-```js
-const collection = {
-  one: 1,
-  two: 2,
-  three: 3,
-  [Symbol.iterator]() {
-    const values = Object.keys(this);
-    let i = 0;
-    return {
-      next: () => {
-        return {
-          value: this[values[i++]],
-          done: i > values.length,
-        };
-      },
-    };
-  },
-};
-
-const iterator = collection[Symbol.iterator]();
-
-console.log(iterator.next()); // → {value: 1, done: false}
-console.log(iterator.next()); // → {value: 2, done: false}
-console.log(iterator.next()); // → {value: 3, done: false}
-console.log(iterator.next()); // → {value: undefined, done: true}
-```
-
-The above process can be simplified using a generator function,
-
-```js
-const collection = {
-  one: 1,
-  two: 2,
-  three: 3,
-  [Symbol.iterator]: function* () {
-    for (let key in this) {
-      yield this[key];
-    }
-  },
-};
-const iterator = collection[Symbol.iterator]();
-console.log(iterator.next()); // {value: 1, done: false}
-console.log(iterator.next()); // {value: 2, done: false}
-console.log(iterator.next()); // {value: 3, done: false}
-console.log(iterator.next()); // {value: undefined, done: true}
-```
-
-<br>
  
 > ### What is the difference between dense and sparse arrays?
 
