@@ -2184,6 +2184,15 @@ console.log(isPromise(i)); // false
 console.log(isPromise(promise)); // true
 ```
 
+**Also for the same**
+
+```js
+function isPromise(obj) {
+  return obj instanceof Promise;
+}
+```
+
+
 <br>
  
 
