@@ -437,6 +437,91 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise
  
 > ### arr.sort() return the modified array, also modified base array
 
+> ### How do you map the array values without using map method
+
+```js
+const countries = [
+  { name: "India", capital: "Delhi" },
+  { name: "US", capital: "Washington" },
+  { name: "Russia", capital: "Moscow" },
+  { name: "Singapore", capital: "Singapore" },
+  { name: "China", capital: "Beijing" },
+  { name: "France", capital: "Paris" },
+];
+
+const cityNames = Array.from(countries, ({ capital }) => capital);
+console.log(cityNames); // ['Delhi, 'Washington', 'Moscow', 'Singapore', 'Beijing', 'Paris']
+```
+
+<br>
+ 
+> ### How do you create an array with some data
+
+You can create an array with some data or an array with the same values using `fill` method.
+
+```js
+var newArray = new Array(5).fill("0");
+console.log(newArray); // ["0", "0", "0", "0", "0"]
+```
+
+<br>
+ 
+> ### Array things
+- When setting a property on a JavaScript array when the property is a valid array index and that index is outside the current bounds of the array, the engine will update the array's length property accordingly:
+```js
+const check = ["hi"]
+check[2] = "bbb"
+
+console.log(check)  // gives ['hi', empty, 'bbb']
+```
+
+- Increasing the length extends the array by adding empty slots without creating any new elements — not even undefined.
+```js
+const list = ["sam"]
+list.length = 3
+console.log(list)   // gives  ['sam', empty × 2]
+```
+
+- Decreasing the length property does, however, delete elements.
+
+```js
+const list = ["sam","ram","bima"]
+list.length = 1
+console.log(list)   // gives ['sam']
+```
+
+
+
+<br>
+ 
+> ### Slice vs Splice in array
+
+**for slice** - return new array
+```js
+slice()  // gives full array
+slice(startIndex)  // gives values from start index to end
+slice(startIndex, endIndex) // gives values from start index to one before endIndex
+```
+
+**Note**
+
+```js
+const numbers = [10, 11, 12, 13, 14, 15, 16];
+
+const result7 = numbers.slice(false, true); // 0 to 1  // due to coercion
+console.log(result7); // [ 10 ]
+
+```
+
+**for splice** - mutate the array and *keep in mind it `return array of deleted values`
+```js
+splice() // delete all the values and make a blank array
+splice(startIndex) // delete all the values from satrtIndex
+splice(startIndex, deleteCount)  // delete the no of delteCount values from satrtIndex
+splice(startIndex, deleteCount, item1)  // delete the no of delteCount values from satrtIndex and add item1 before last deleted value
+splice(startIndex, deleteCount, item1, item2)
+```
+
 <br>
  
 > ### async await under the hood'
@@ -2196,92 +2281,7 @@ function isPromise(obj) {
 <br>
  
 
-> ### How do you map the array values without using map method
 
-```js
-const countries = [
-  { name: "India", capital: "Delhi" },
-  { name: "US", capital: "Washington" },
-  { name: "Russia", capital: "Moscow" },
-  { name: "Singapore", capital: "Singapore" },
-  { name: "China", capital: "Beijing" },
-  { name: "France", capital: "Paris" },
-];
-
-const cityNames = Array.from(countries, ({ capital }) => capital);
-console.log(cityNames); // ['Delhi, 'Washington', 'Moscow', 'Singapore', 'Beijing', 'Paris']
-```
-
-<br>
- 
-> ### How do you create an array with some data
-
-You can create an array with some data or an array with the same values using `fill` method.
-
-```js
-var newArray = new Array(5).fill("0");
-console.log(newArray); // ["0", "0", "0", "0", "0"]
-```
-
-<br>
- 
-> ### Array things
-- When setting a property on a JavaScript array when the property is a valid array index and that index is outside the current bounds of the array, the engine will update the array's length property accordingly:
-```js
-const check = ["hi"]
-check[2] = "bbb"
-
-console.log(check)  // gives ['hi', empty, 'bbb']
-```
-
-- Increasing the length extends the array by adding empty slots without creating any new elements — not even undefined.
-```js
-const list = ["sam"]
-list.length = 3
-console.log(list)   // gives  ['sam', empty × 2]
-```
-
-- Decreasing the length property does, however, delete elements.
-
-```js
-const list = ["sam","ram","bima"]
-list.length = 1
-console.log(list)   // gives ['sam']
-```
-
-
-
-<br>
- 
-> ### Slice vs Splice in array
-
-**for slice** - return new array
-```js
-slice()  // gives full array
-slice(startIndex)  // gives values from start index to end
-slice(startIndex, endIndex) // gives values from start index to one before endIndex
-```
-
-**Note**
-
-```js
-const numbers = [10, 11, 12, 13, 14, 15, 16];
-
-const result7 = numbers.slice(false, true); // 0 to 1  // due to coercion
-console.log(result7); // [ 10 ]
-
-```
-
-**for splice** - mutate the array and *keep in mind it `return array of deleted values`
-```js
-splice() // delete all the values and make a blank array
-splice(startIndex) // delete all the values from satrtIndex
-splice(startIndex, deleteCount)  // delete the no of delteCount values from satrtIndex
-splice(startIndex, deleteCount, item1)  // delete the no of delteCount values from satrtIndex and add item1 before last deleted value
-splice(startIndex, deleteCount, item1, item2)
-```
-
-<br>
  
 > ### What is scope in javascript
 Scope is the `accessibility of variables, functions, and objects` in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
