@@ -1755,27 +1755,6 @@ Points to note
 
 <br>
  
-> ### How do you get property descriptors of an object
-
-You can use the `Object.getOwnPropertyDescriptors()` method which returns all own property descriptors of a given object. The example usage of this method is below,
-
-```js
-const newObject = {
-  a: 1,
-  b: 2,
-  c: 3,
-};
-const descriptorsObject = Object.getOwnPropertyDescriptors(newObject);
-console.log(descriptorsObject.a.writable); //true
-console.log(descriptorsObject.a.configurable); //true
-console.log(descriptorsObject.a.enumerable); //true
-console.log(descriptorsObject.a.value); // 1
-
-```
-
-
-<br>
- 
 > ### How do I modify the url without reloading the page
 The `window.location.href` property will be helpful to modify the url but it reloads the page. HTML5 introduced the `history.pushState()` and `history.replaceState()` methods, which allow you to add and modify history entries, respectively. For example, you can use pushState as below,
 
