@@ -328,6 +328,31 @@ console.log(Object.getOwnPropertyNames(obj).sort());
 ```
 
 <br>
+
+> ### How do you set prototype of one object to another
+
+You can use the `Object.setPrototypeOf()` method that sets the prototype (i.e., the internal `Prototype` property) of a specified object to another object or null. For example, if you want to set prototype of a square object to rectangle object would be as follows,
+
+```js
+Object.setPrototypeOf(Square.prototype, Rectangle.prototype);
+Object.setPrototypeOf({}, null);
+```
+
+<br>
+ 
+> ### How do you check whether an object can be extendable or not
+
+The `Object.isExtensible()` method is used to determine if an object is extendable or not. i.e, Whether it can have new properties added to it or not.
+
+```js
+const newObject = {};
+console.log(Object.isExtensible(newObject)); //true
+```
+
+**Note**: By default, all the objects are extendable. i.e, The new properties can be added or modified.
+
+
+<br>
  
 
 ### Array k sare method
@@ -1349,30 +1374,7 @@ Third task resolved
 
 <br>
  
-> ### How do you set prototype of one object to another
 
-You can use the `Object.setPrototypeOf()` method that sets the prototype (i.e., the internal `Prototype` property) of a specified object to another object or null. For example, if you want to set prototype of a square object to rectangle object would be as follows,
-
-```js
-Object.setPrototypeOf(Square.prototype, Rectangle.prototype);
-Object.setPrototypeOf({}, null);
-```
-
-<br>
- 
-> ### How do you check whether an object can be extendable or not
-
-The `Object.isExtensible()` method is used to determine if an object is extendable or not. i.e, Whether it can have new properties added to it or not.
-
-```js
-const newObject = {};
-console.log(Object.isExtensible(newObject)); //true
-```
-
-**Note**: By default, all the objects are extendable. i.e, The new properties can be added or modified.
-
-
-<br>
  
 > ### Currying
 
