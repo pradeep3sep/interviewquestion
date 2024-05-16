@@ -3068,41 +3068,6 @@ for (let key in jayesh) {
   console.log(key);
 }
 // name, age, getName, lastName, getAge(Prototype member)
-
-// Now, Let's see Prototype inheritance
-
-// Parent function contructor Parent.prototype => Object.prototype => null
-const Parent = function (name, age) {
-  //instance member
-  this.name = name;
-  this.age = age;
-};
-
-// adding prototype member to Parent
-Parent.prototype.getNameAge = function () {
-  console.log("name", this.name, "age", this.age);
-};
-
-// creating object of Parent function constructor
-const joseph = new Parent("joseph", 35);
-joseph.getNameAge(); // name joseph age 35
-
-// Child function contructor Child.prototype => Object.prototype => null
-const Child = function (name, age, isCrying) {
-  // function constructor borrowing using call method (inheriting instance members)
-  Parent.call(this, name, age);
-  this.isCrying = isCrying;
-};
-
-// Now we have to make Child.prototype points to Parent.Prototype (inheriting prototype members)
-Child.prototype = Object.create(Parent.prototype);
-Child.prototype.constructor = Child;
-// After above 2 steps, Child.prototype => Parent.prototype => Object.prototype => null
-
-const josephBaby = new Child("josephBaby", 3, true);
-console.log(josephBaby);
-josephBaby.getNameAge(); // name josephBaby age 3, child is inheriting the property getNameAge of parent.
-
 ```
 
 
