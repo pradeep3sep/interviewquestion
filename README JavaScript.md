@@ -2594,6 +2594,43 @@ console.log(players); // Map(0) {}
 
 > ### map and weakMap
 
+if we use an object as the key in a regular Map, then while the Map exists, that object exists as well. It occupies memory and may not be garbage collected.
+
+```js
+let john = { name: "John" };
+
+let map = new Map();
+map.set(john, "...");
+
+john = null; // overwrite the reference
+
+// john is stored inside the map,
+// we can get it by using map.keys()
+```
+
+In Weakmap, if we use an object as the key in it, and there are no other references to that object – it will be removed from memory (and from the map) automatically.
+
+```js
+let john = { name: "John" };
+
+let weakMap = new WeakMap();
+weakMap.set(john, "...");
+
+john = null; // overwrite the reference
+
+// john is removed from memory!
+```
+
+Compare it with the regular Map example above. Now if john only exists as the key of WeakMap – it will be automatically deleted from the map (and memory).
+
+
+**Use case: additional data**
+
+The main area of application for WeakMap is an additional data storage.
+
+If we’re working with an object that “belongs” to another code, maybe even a third-party library, and would like to store some data associated with it, that should only exist while the object is alive – then WeakMap is exactly what’s needed.
+
+
 refer below for understanding
 ```
 https://javascript.info/weakmap-weakset
