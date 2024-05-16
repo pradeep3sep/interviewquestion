@@ -2822,7 +2822,7 @@ getNameArrowTDZ(); // Jayesh
 
 // case 1:- class declaration
 
-// var jayesh = new Person("jayesh", 24); // Uncaught ReferenceError: Cannot access 'Person' before initialization ( TDZ )
+var jayesh = new Person("jayesh", 24); // Uncaught ReferenceError: Cannot access 'Person' before initialization ( TDZ )
 
 class Person {
   constructor(name, age) {
