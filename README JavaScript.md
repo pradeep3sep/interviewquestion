@@ -5024,12 +5024,7 @@ In the example above:
 
 ### Needs discussion
 
-How do you define property on Object constructor\
-What is the difference between get and defineProperty\
-What are the advantages of Getters and Setters\
 Can I add getters and setters using defineProperty method\
-What is a decorator\
-How do you get metadata of a module\
 What is an object initializer\
 What are the DOM methods available for constraint validation\
 What are the available constraint validation DOM properties\
