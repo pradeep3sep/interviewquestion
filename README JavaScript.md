@@ -4357,11 +4357,6 @@ event loop sequence microtask - https://www.jsv9000.app/
 ### There are 8 falsy values:
 undefined, null, NaN, false,'' (empty string),0,-0,0n (BigInt(0))
 
-? ### What is OBJECTS
-JavaScript supports programming with objects. Objects are a way of organizing the variables. The different screen elements such as Web pages, forms, text boxes, images, and buttons are treated as objects. Every object has its own properties and methods.
-* Properties define the characteristics of an object. Examples: color, length, name, height, width Methods are the actions that the
-* object can perform or that can be performed on the object. Examples: alert, confirm, write, open, close .
-
 ### how to call two api when second one depend on first response in js
 ```js
 async function fetchData() {
