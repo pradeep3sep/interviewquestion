@@ -4213,14 +4213,6 @@ let cities = ["Singapore", "Delhi", "London"];
 cities.length = 0; // cities becomes []
 ```
 
-
-> ### How do you create an array with some data
-You can create an array with some data or an array with the same values using fill method.
-```js
-var newArray = new Array(5).fill("0");
-console.log(newArray); // ["0", "0", "0", "0", "0"]
-```
-
 > ### Is it possible to add CSS to console messages
 Yes, you can apply CSS styles to console messages similar to html text on the web page.
 
