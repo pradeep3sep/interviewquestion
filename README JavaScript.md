@@ -4211,6 +4211,9 @@ You can empty an array quickly by setting the array length to zero.
 ```js
 let cities = ["Singapore", "Delhi", "London"];
 cities.length = 0; // cities becomes []
+
+// or
+cities = []
 ```
 
 > ### Is it possible to add CSS to console messages
@@ -4868,15 +4871,6 @@ On the other hand, `document` is an object that represents the web page displaye
 
 In summary, `window` is used to interact with the browser window, while `document` is used to interact with the content of the web page displayed in that window.
 
-
-> ### how to empty a array
-```js
-myArray.length = 0;
-```
-or 
-```js
-myArray = [];
-```
 
 > ### Math function in js
 Math.ceil(x)	Returns x rounded up next integer
