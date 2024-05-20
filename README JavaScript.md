@@ -1,4 +1,13 @@
-> ### const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;  to get the para length
+> ### to get the paragraph length
+```js
+const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
+```
+
+> ### To get the color picker
+```js
+<input type="color" name="color1" value={color1} onChange={handleColorChange} />
+```
+
 > ### Keep in mind the usage of Promise.all 
 
 > ### keep in mind that delte a[1] deleltes the value in the array and make it empty, but the length of the array do not changes
