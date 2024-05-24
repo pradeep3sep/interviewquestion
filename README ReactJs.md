@@ -6,6 +6,8 @@ onInput
 
 onChange
 
+onSubmit - in form
+
 > ### Imp: State vs Ref: Refs are mutable and persist between renders without causing re-renders while state do not persist value while rerender
 
 ```
