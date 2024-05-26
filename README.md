@@ -33,10 +33,6 @@ https://bigfrontend.dev/problem
 ```
 
 ```
-https://github.com/sadanandpai/frontend-mini-challenges
-```
-
-```
 https://www.youtube.com/watch?v=3PHXvlpOkf4&ab_channel=freeCodeCamp.org
 ```
 
@@ -61,6 +57,7 @@ must see repo - Done
 ```
 https://github.com/jayesh2906/JavaScript-with-JC/tree/master
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews
+https://github.com/sadanandpai/frontend-mini-challenges
 ```
 
 must see
