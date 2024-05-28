@@ -60,12 +60,6 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews
 https://github.com/sadanandpai/frontend-mini-challenges
 ```
 
-must see
-
-```
-https://github.com/pradeep3sep/frontend-interview-preparation-kit
-```
-
 Repo for the various react package
 ```
 https://github.com/pradeep3sep/All-react-details-AtoZ
