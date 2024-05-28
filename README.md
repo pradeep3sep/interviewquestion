@@ -66,11 +66,6 @@ must see
 https://github.com/pradeep3sep/frontend-interview-preparation-kit
 ```
 
-machine code for pratice
-```
-https://github.com/pradeep3sep/Machine-Coding-Round
-```
-
 Repo for the various react package
 ```
 https://github.com/pradeep3sep/All-react-details-AtoZ
