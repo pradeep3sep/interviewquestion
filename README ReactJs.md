@@ -12,6 +12,11 @@ onMouseLeave
 
 onMouseOver
 
+> ### For the difference between the memo and useMemo
+```
+https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react/
+```
+
 > ### Imp: State vs Ref: Refs are mutable and persist between renders without causing re-renders while state do not persist value while rerender
 
 ```
