@@ -3940,3 +3940,104 @@ function App() {
   )
 }
 ```
+
+### Question 159
+
+```jsx
+import React, { useState, memo, createContext, useEffect, useContext} from 'react'
+import ReactDOM from 'react-dom'
+
+const MyContext = createContext(0);
+
+function B() {
+  const count = useContext(MyContext)
+  console.log('B')
+  return null
+}
+
+const A = memo(() => {
+  console.log('A')
+  return <B/>
+})
+
+function C() {
+  console.log('C')
+  return null
+}
+function App() {
+  const [state, setState] = useState(0)
+  useEffect(() => {
+    setState(state => state + 1)
+  }, [])
+  console.log('App')
+  return <MyContext.Provider value={state}>
+    <A/>
+    <C/>
+  </MyContext.Provider>
+}
+
+/* App
+A
+B
+C
+App
+B
+C */
+
+React Rendering Process
+
+ - Trigger Re-render: When the state of a component changes, React schedules a re-render of that component and all of its children.
+Render in JSX Order: React renders the children in the order they appear in the JSX tree.
+
+ - Context Consumers: When a context value changes, all consumers of that context will re-render, but they will still follow the rendering order defined by the parent component.
+```
+
+### Question 158 
+
+```jsx
+```
+
+### Question 158 
+
+```jsx
+```
+
+### Question 158 
+
+```jsx
+```
+
+### Question 158 
+
+```jsx
+```
+
+### Question 158 
+
+```jsx
+```
+
+### Question 158 
+
+```jsx
+```
+
+### Question 158 
+
+```jsx
+```
+
+### Question 158 
+
+```jsx
+```
+
+### Question 158 
+
+```jsx
+```
+
+### Question 158 
+
+```jsx
+```
