@@ -106,6 +106,10 @@ Basically, the thing is you don't get update value right after updating state.
 
 Below code shows async nature, as we can see the console.log gives same value in all 3 log
 
+Below code for batching of state
+
+**See all the console of the code after clicking both button**
+
 ```
 import { useState } from "react";
 
