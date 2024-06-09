@@ -7,6 +7,8 @@ There are four different combinators in CSS:
 - adjacent sibling selector (+)
 - general sibling selector (~)
 
+> ### how does `clear` in CSS work?
+The clear CSS property sets whether an element must be moved below (cleared) floating elements that precede it.
 
 > ### scss notes
 
