@@ -2881,6 +2881,84 @@ Webpack is a module bundler for JavaScript applications
   * Js & CSS minify
   * Create the entry file
 
+> ### What is loader and plugin in Webpack?
+
+
+
+> ### What is Array-Like Objects in JavaScript?
+An Array-Like object is an object that has properties and methods similar to a regular Array object but does not possess all the functionalities of a regular array, such as the methods like push(), pop(), and splice(). These objects can be indexed like an array, and their property values can be accessed with bracket notation.
+
+To loop through Array-Like Objects, we can use a for loop or forEach method, just like we do for regular arrays. Here is an example of using a for loop to loop through a NodeList object:
+
+```js
+const list = document.querySelectorAll('li');
+for (let i = 0; i < list.length; i++) {
+  console.log(list[i].textContent);
+}
+```
+
+Array-like objects are objects that have some characteristics of arrays but may not be true JavaScript arrays. They have numeric indices and a length property like arrays, allowing you to access elements using bracket notation and loop through them.
+
+Note: They may lack some of the array methods like `push, pop, or forEach` but rather have similar methods to achieve the same functionality.
+
+Array-Like Object it is an usual object - {}, keys are numbers and has a length property. It doesn't have any specific methods, and doesn't support array's methods.
+
+
+> ### What is the difference between ES6 Class and ES5 implementation?
+ES6 classes provide a more concise and readable syntax for creating objects and handling inheritance in JavaScript compared to the ES5 implementation. ES6 uses the `class` keyword, `constructor` for initialization, and `extends` and `super` for inheritance, making the code more intuitive. Methods are defined directly within the class body, while ES5 relies on function constructors and manually manipulating the prototype chain. ES6 also introduces static methods and the `new.target` meta-property, enhancing functionality and ease of use. Overall, ES6 classes simplify object-oriented programming in JavaScript, addressing the verbosity and complexity of ES5.
+
+```js
+// ES6 Class
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+
+  speak() {
+    console.log(`${this.name} makes a noise.`);
+  }
+}
+
+class Dog extends Animal {
+  constructor(name) {
+    super(name); // Calls the parent constructor
+  }
+
+  speak() {
+    console.log(`${this.name} barks.`);
+  }
+}
+
+const d = new Dog('Mitzie');
+d.speak(); // Mitzie barks.
+
+
+// ES5 Implementation
+function Animal(name) {
+  this.name = name;
+}
+
+Animal.prototype.speak = function() {
+  console.log(this.name + ' makes a noise.');
+};
+
+function Dog(name) {
+  Animal.call(this, name); // Call the parent constructor
+}
+
+// Inherit from Animal
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+
+Dog.prototype.speak = function() {
+  console.log(this.name + ' barks.');
+};
+
+var d = new Dog('Mitzie');
+d.speak(); // Mitzie barks.
+
+```
+
 > ### What are the possible ways to create objects in JavaScript
 * Object constructor
  ```js
@@ -4971,6 +5049,31 @@ In this example:
 - After the comma operator is evaluated, `a`, `b`, and `c` are incremented by 1, so their values become 2, 3, and 4 respectively.
 - The variable `result` holds the value of the last expression evaluated by the comma operator, which is `c++`, resulting in `3`.
 
+> ### What is the different between '^1.2.3' and '~1.2.3' in package.json
+
+**Caret (^) Range**: allows updates to the package up to the next major version.
+
+^1.2.3 specifies a minimum version of 1.2.3 and allows any version up to, but not including, 2.0.0.
+
+**Tilde (~) Range**: allows updates to the package up to the next minor version, but not the next major version.
+
+~1.2.3 specifies a minimum version of 1.2.3 and allows any version up to, but not including, 1.3.0
+
+
+> ### What is Virtual DOM? How does it work?
+**Virtual DOM:**
+
+The Virtual DOM is an abstraction of the Real DOM created and managed by a JavaScript library or framework (e.g., React).
+
+It is a lightweight in-memory representation of the Real DOM. When any change occurs in the application, a new Virtual DOM tree is created.
+
+**Diffing and Reconciliation:**
+
+After creating a new Virtual tree, the framework performs "diffing" to identify the differences between the new and the previous Virtual trees. Once identified, the framework calculates the minimal set of changes needed to update the Real DOM
+
+This process is efficient because manipulating the Virtual DOM in memory is faster than manipulating the Real DOM in the browser.
+
+
 > ### What is the difference between Function constructor and function declaration
 
 1. **Function Constructor**:
@@ -5050,6 +5153,9 @@ React.memo() is a higher-order component that we can use to wrap components that
 useMemo() is a React Hook that we can use to wrap functions within a component. We can use this to ensure that the values within that function are re-computed only when one of its dependencies change
 ```
 > ### Strict Mode
+use strict is a pragma that enables a strict mode of operation in your code. It's used to catch common coding mistakes and "unsafe" actions, making your code more reliable and secure. 
+
+
 Please make sure that "use strict" is at the top of your scripts, otherwise strict mode may not be enabled.
 
 Strict mode isn’t enabled here:
