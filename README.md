@@ -16,10 +16,15 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/tree/master/Collect
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/careercup/google-biz-trip-boardingPass.js
 https://github.com/ryanmcdermott/clean-code-javascript
 https://github.com/leonardomso/33-js-concepts
+https://www.atlassian.com/git/tutorials/merging-vs-rebasing
+what is the difference between cache-control:no-cache and cache-control:no-store?
 ```
 
 
 Good website, must see
+```
+https://jser.dev/series/react-source-code-walkthrough
+```
 
 ```
 https://www.patterns.dev/
