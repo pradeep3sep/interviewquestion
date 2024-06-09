@@ -28,9 +28,6 @@ https://www.patterns.dev/
 ```
 https://www.greatfrontend.com/prepare/coding
 ```
-```
-https://bigfrontend.dev/problem
-```
 
 ```
 https://www.youtube.com/watch?v=3PHXvlpOkf4&ab_channel=freeCodeCamp.org
@@ -44,20 +41,12 @@ https://www.youtube.com/watch?v=v_fwMoTVmqw&list=PLe3J6mZBq1xUs529Z-IHiCix4KBm0u
 https://www.youtube.com/watch?v=ZrMO0bCGwFg&list=PLKhlp2qtUcSYQojD5G-ElgHezoCyq2Hgo&ab_channel=RoadsideCoder
 ```
 
-```
-https://bigfrontend.dev/react-quiz
-```
-
-```
-https://bigfrontend.dev/react
-```
-
-
 must see repo - Done
 ```
 https://github.com/jayesh2906/JavaScript-with-JC/tree/master
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews
 https://github.com/sadanandpai/frontend-mini-challenges
+https://bigfrontend.dev/react
 ```
 
 Repo for the various react package
