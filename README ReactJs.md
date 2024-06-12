@@ -1590,20 +1590,15 @@ In slice, we create the slice initial state and along which we create the action
 we added `export default loginSlice.reducer` which is used to combine multiple slices in the store, 
 `export const { logincheck } = loginSlice.actions;` means for using the dispatch the actions which we used to modify the store of that slice.
 
-
-//! -------------------------REACT JS ------------------------
-
-
-//* useimperativehandle hook 
-
-// ### Question 5
+```jsx
+// Question 5
 // how to add "<h1>Hello World</h1>" in jsx
-// export default function App() {
-//     const htmlString = "<h1>Hello World</h1>";
-//     return <div dangerouslySetInnerHTML={{ __html: htmlString }}>
-//            </div>;
-// }
-// true
+export default function App() {
+     const htmlString = "<h1>Hello World</h1>";
+     return <div dangerouslySetInnerHTML={{ __html: htmlString }}>
+            </div>;
+}
+```
 
 
 //*real dom virtual dom,ref, shadow dom, createelement in react, clone element in react, stateful components, limitations of react, react router,can we pass react hook as a prop. High order components , redux, improve performance of react - usememo, useeffect with clear, lazy load,
