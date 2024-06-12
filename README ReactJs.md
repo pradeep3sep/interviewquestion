@@ -110,7 +110,7 @@ Below code for batching of state
 
 **See all the console of the code after clicking both button**
 
-```
+```jsx
 import { useState } from "react";
 
 export function App() {
@@ -266,7 +266,7 @@ The Babel convert the JSX to React.createElement to pure javascript
 
 In the example below, the text inside `<h1>` tag is returned as JavaScript function to the render function.
 
-```
+```jsx
 export default function App() {
   return (
       <h1 className="greeting">{"Hello, this is a JSX Code!"}</h1>
@@ -276,7 +276,7 @@ export default function App() {
 
 If you don't use JSX syntax then the respective JavaScript code should be written as below,
 
-```
+```jsx
 import { createElement } from 'react';
 
 export default function App() {
@@ -295,19 +295,19 @@ An Element is a `plain object`, describing what you want to appear on the screen
 
 The JavaScript representation(Without JSX) of React Element would be as follows:
 
-```
+```jsx
 const element = React.createElement("div", { id: "login-btn" }, "Login");
 ```
 
 and this element can be simiplified using JSX
 
-```
+```jsx
 <div id="login-btn">Login</div>
 ```
 
 The above React.createElement() function returns an object as below:
 
-```
+```jsx
 {
   type: 'div',
   props: {
@@ -322,7 +322,7 @@ Finally, this element renders to the DOM using `ReactDOM.render()`.
 
 Whereas a `component` can be declared in several different ways.
 
-```
+```jsx
 const Button = ({ handleLogin }) => (
   <div id={"login-btn"} onClick={handleLogin}>
     Login
@@ -332,7 +332,7 @@ const Button = ({ handleLogin }) => (
 
 Then JSX gets transpiled to a `React.createElement()` function tree:
 
-```
+```jsx
 const Button = ({ handleLogin }) =>
   React.createElement(
     "div",
@@ -345,14 +345,14 @@ const Button = ({ handleLogin }) =>
 
 If you try to update the state directly then it won't re-render the component.
 
-```
+```jsx
 //Wrong
 this.state.message = "Hello world";
 ```
 
 Instead use setState() method. It schedules an update to a component's state object. When state changes, the component responds by re-rendering.
 
-```
+```jsx
 //Correct
 this.setState({ message: "Hello World" });
 ```
@@ -622,7 +622,7 @@ User.propTypes = {
 
 > ### What will happen if you use props in initial state?
 
-```
+```jsx
 import React, { useState } from 'react';
 
 const MyComponent = (props) => {
@@ -649,7 +649,7 @@ This will work for the first time, state value sets to initial value, but when t
 
 below is the code you should better to use
 
-```
+```jsx
 import React, { useState } from 'react';
 
 const MyComponent = (props) => {
@@ -723,7 +723,7 @@ export default PrettyPrintJSON;
 
 - In below code,
 
-```
+```js
  console.log(<PrettyPrintJSON data={jsonData} />)
 
  // or
@@ -772,7 +772,7 @@ this is beacuse useEffect works like mount, not like beforecreate or create. Bac
 
 React is already equipped to handle rendering on Node servers. A special version of the DOM renderer is available, which follows the same pattern as on the client side.
 
-```
+```jsx
 import ReactDOMServer from "react-dom/server";
 import App from "./App";
 
@@ -784,7 +784,7 @@ This method will output the regular HTML as a string, which can be then placed i
 
 > ### How to loop inside JSX?
 
-```
+```jsx
 <tbody>
   {items.map((item) => (
     <SomeComponent key={item.id} name={item.name} />
@@ -795,7 +795,7 @@ This method will output the regular HTML as a string, which can be then placed i
 
 > ### How to re-render the view when the browser is resized?
 
-```
+```jsx
 import React, { useState, useEffect } from "react";
 function WindowDimensions() {
   const [dimensions, setDimensions] = useState({
@@ -825,7 +825,7 @@ function WindowDimensions() {
 
 > ### Abort controller in react
 
-```
+```jsx
 import React, { useState, useEffect } from 'react';
 
 const MyComponent = () => {
@@ -940,7 +940,7 @@ export default MyComponent;
 
 > ### How to pretty print JSON with React?
 
-```
+```jsx
 import React from 'react';
 
 export function App(props) {
@@ -964,7 +964,7 @@ export function App(props) {
 }
 ```
 
-```
+```jsx
 const PrettyPrintJSON = ({ data }) => {
   // Use JSON.stringify with third and fourth parameters for pretty printing
   const prettyJSON = JSON.stringify(data, null, 2);
@@ -981,7 +981,7 @@ export default PrettyPrintJSON;
 
 > ### How to focus an input element on page load?
 
-```
+```jsx
 import React, { useEffect, useRef } from "react";
 
 const App = () => {
@@ -1007,7 +1007,7 @@ ReactDOM.render(<App />, document.getElementById("app"));
 
 1. Using the spread operator:
 
-```
+```jsx
 const [state, setState] = useState({ key1: 'value1', key2: 'value2' });
 
 const updateState = () => {
@@ -1018,7 +1018,7 @@ const updateState = () => {
 
 2. Using Object.assign():
 
-```
+```jsx
 const [state, setState] = useState({ key1: 'value1', key2: 'value2' });
 
 const updateState = () => {
@@ -1030,7 +1030,7 @@ const updateState = () => {
 3. Updating nested objects:
 If your state contains nested objects, you should ensure immutability at each level:
 
-```
+```jsx
 const [state, setState] = useState({ nested: { key1: 'value1', key2: 'value2' } });
 
 const updateState = () => {
@@ -1047,7 +1047,7 @@ const updateState = () => {
 
 You can use `React.version` to get the version.
 
-```
+```jsx
 const REACT_VERSION = React.version;
 
 ReactDOM.render(
@@ -1060,7 +1060,7 @@ ReactDOM.render(
 
 You just need to use `HTTPS=true` configuration. You can edit your `package.json` scripts section:
 
-```
+```js
 "scripts": {
   "start": "set HTTPS=true && react-scripts start"
 }
@@ -1071,7 +1071,7 @@ or just run `set HTTPS=true && npm start`
 
 > ### How to update a component every second?
 
-```
+```jsx
 import React, { useState, useEffect } from 'react';
 
 const MyComponent = () => {
@@ -1106,7 +1106,7 @@ Same as we did for the focus, just replace focus with click
 
 **Render Props** is a simple technique for sharing code between components using a prop whose value is a function. The below component uses render prop which returns a React element
 
-```
+```jsx
 // ParentComponent.js
 import React from 'react';
 import ChildComponent from './ChildComponent';
@@ -1123,7 +1123,7 @@ const ParentComponent = () => {
 export default ParentComponent;
 ```
 
-```
+```jsx
 // ChildComponent.js
 import React from 'react';
 
@@ -1148,7 +1148,7 @@ If you think of the history as an array of visited locations, `push()` will add 
 
 > ### How to pass params to history.push method in React Router v4?
 
-```
+```jsx
 this.props.history.push({
   pathname: "/template",
   search: "?name=sudheer",
@@ -1158,7 +1158,7 @@ this.props.history.push({
 
 > ### How to perform automatic redirect after login?
 
-```
+```jsx
 import React, { Component } from "react";
 import { Redirect } from "react-router";
 
@@ -1182,7 +1182,7 @@ Both _Redux Thunk_ and _Redux Saga_ take care of dealing with side effects. In m
 
 If the ref callback is defined as an inline function, it will get called twice during updates, first with null and then again with the DOM element. This is because a new instance of the function is created with each render, so React needs to clear the old ref and set up the new one.
 
-```
+```jsx
 // Less performant (creates a new function on every render)
 const MyComponent = () => {
   const myInputRef = useRef(null);
@@ -1203,7 +1203,7 @@ const MyComponent = () => {
 
 A Higher-Order Component (HOC) factory is a function that returns a Higher-Order Component. In React, a Higher-Order Component is a function that takes a component and returns a new component with additional props, state, or behavior. A HOC factory is essentially a function that generates HOCs with specific configurations.
 
-```
+```jsx
 import React, { useEffect } from 'react';
 
 const withLogger = (WrappedComponent, logMessage) => {
@@ -1249,7 +1249,7 @@ export default App;
 
 In React, a Higher-Order Component (HOC) is a pattern where a function takes a component and returns a new component with additional props, state, or behavior. HOCs are a way to reuse component logic, share code between components, and enhance the capabilities of existing components.
 
-```
+```jsx
 // HOC
 const withUpperCase = (WrappedComponent) => {
   return (props) => {
@@ -1295,7 +1295,7 @@ React doesn’t need error boundaries to recover from errors in event handlers. 
 
 If you need to catch an error inside an event handler, use the regular JavaScript try / catch statement:
 
-```
+```jsx
 class MyComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -1327,7 +1327,7 @@ Try catch block works with imperative code whereas error boundaries are meant fo
 
 For example, the try catch block used for below imperative code
 
-```
+```jsx
 try {
   showButton();
 } catch (error) {
@@ -1337,7 +1337,7 @@ try {
 
 Whereas error boundaries wrap declarative code as below,
 
-```
+```jsx
 <ErrorBoundary>
   <MyComponent />
 </ErrorBoundary>
@@ -1355,7 +1355,7 @@ The defaultProps can be defined as a property on the component to set the defaul
 
 For example, let us create color default prop for the button component,
 
-```
+```jsx
 function MyButton {
   // ...
 }
@@ -1372,7 +1372,7 @@ If props.color is not provided then it will set the default value to 'red'. i.e,
 
 The Fragments declared with the explicit <React.Fragment> syntax may have keys. The general use case is mapping a collection to an array of fragments as below,
 
-```
+```jsx
 function Glossary(props) {
   return (
     <dl>
@@ -1407,7 +1407,7 @@ function Glossary(props) {
 
 > ### How do you pass arguments to an event handler?
 
-```
+```jsx
 <button onClick={(e) => this.updateUser(userId, e)}>Update User details</button>
 <button onClick={this.updateUser.bind(this, userId)}>Update User details</button>
 ```
@@ -1415,7 +1415,7 @@ function Glossary(props) {
 > ### How to prevent component from rendering?
 You can prevent component from rendering by returning null based on specific condition. This way it can conditionally render component.
 
-```
+```jsx
 function Greeting(props) {
   if (!props.loggedIn) {
     return null;
@@ -1439,7 +1439,7 @@ Yes, JSX is not mandatory for using React. Actually it is convenient when you do
 
 For example, let us take a greeting example with JSX,
 
-```
+```jsx
 import React from 'react';
 
 const MyComponent = (props) => {
@@ -1471,7 +1471,7 @@ When diffing two trees, React first compares the two root elements. The behavior
 
   2. **DOM Elements Of The Same Type**: When comparing two React DOM elements of the same type, React looks at the attributes of both, keeps the same underlying DOM node, and only updates the changed attributes. Lets take an example with same DOM elements except className attribute,
 
-      ```
+      ```html
         <div className="show" title="ReactJS" />
 
         <div className="hide" title="ReactJS" />
@@ -1480,7 +1480,7 @@ When diffing two trees, React first compares the two root elements. The behavior
 
   4. **Recursing On Children**: when recursing on the children of a DOM node, React just iterates over both lists of children at the same time and generates a mutation whenever there’s a difference. For example, when adding an element at the end of the children, converting between these two trees works well.
 
-      ```
+      ```html
       <ul>
         <li>first</li>
         <li>second</li>
@@ -1495,7 +1495,7 @@ When diffing two trees, React first compares the two root elements. The behavior
 
   5. **Handling keys**: React supports a key attribute. When children have keys, React uses the key to match children in the original tree with children in the subsequent tree. For example, adding a key can make the tree conversion efficient,
 
-      ```
+      ```html
       <ul>
         <li key="2015">Duke</li>
         <li key="2016">Villanova</li>
@@ -1520,7 +1520,7 @@ For example, dialogs, global message notifications, hovercards, and tooltips.
 In React, the value attribute on form elements will override the value in the DOM. With an uncontrolled component, you might want React to specify the initial value, but leave subsequent updates uncontrolled. To handle this case, you can specify a `defaultValue` attribute instead of `value`.
 
 
-```
+```jsx
 render() {
   return (
     <form onSubmit={this.handleSubmit}>
@@ -1543,7 +1543,7 @@ The same applies for `select` and `textArea` inputs. But you need to use **defau
 > ### What is Concurrent Rendering?
 The Concurrent rendering makes React apps to be more responsive by rendering component trees without blocking the main UI thread. It allows React to interrupt a long-running render to handle a high-priority event. i.e, When you enabled concurrent Mode, React will keep an eye on other tasks that need to be done, and if there's something with a higher priority it will pause what it is currently rendering and let the other task finish first. You can enable this in two ways,
 
-```
+```jsx
 // 1. Part of an app by wrapping with ConcurrentMode
 <React.unstable_ConcurrentMode>
   <Something />
@@ -1576,43 +1576,6 @@ In general, it's recommended to use useEffect as much as possible, because it is
 > ### What is strict mode in React?
 
 `React.StrictMode` is a useful component for highlighting potential problems in an application. Just like `<Fragment>`, `<StrictMode>` does not render any extra DOM elements. It activates additional checks and warnings for its descendants. These checks apply for _development mode_ only.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 ### Below are the my understanding and lack of notes
