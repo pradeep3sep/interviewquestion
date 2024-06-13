@@ -1578,17 +1578,7 @@ In general, it's recommended to use useEffect as much as possible, because it is
 `React.StrictMode` is a useful component for highlighting potential problems in an application. Just like `<Fragment>`, `<StrictMode>` does not render any extra DOM elements. It activates additional checks and warnings for its descendants. These checks apply for _development mode_ only.
 
 
-### Below are the my understanding and lack of notes
-## Redux Thunk
-Redux thunk is a middleware, updating the store is sync process but when we need the async operation to update the store then we use the thunk.
-
-### Redux
-Slice -  When we create the Store, instead of creating one big store, we create the slices of store is called the Slice.
-
-In slice, we create the slice initial state and along which we create the actions which are functions which we use to modify the store. the actions are added as object in reducers key of createSlice.
-
-we added `export default loginSlice.reducer` which is used to combine multiple slices in the store, 
-`export const { logincheck } = loginSlice.actions;` means for using the dispatch the actions which we used to modify the store of that slice.
+### Below are my understanding and lack of notes
 
 ```jsx
 // Question 5
@@ -1601,7 +1591,7 @@ export default function App() {
 ```
 
 
-//*real dom virtual dom,ref, shadow dom, createelement in react, clone element in react, stateful components, limitations of react, react router,can we pass react hook as a prop. High order components , redux, improve performance of react - usememo, useeffect with clear, lazy load,
+shadow dom, createelement in react, clone element in react, stateful components,can we pass react hook as a prop. High order components , redux, improve performance of react - usememo, useeffect with clear, lazy load,
 //*react one way binding
 //use this url for refernce, vue has v-model so direct but react has to added the event function and the we use the setstate https://stackoverflow.com/questions/34519889/can-anyone-explain-the-difference-between-reacts-one-way-data-binding-and-angula
 
@@ -1615,128 +1605,123 @@ export default function App() {
 // SyntheticEvent is a cross-browser wrapper around the browser's native event. Its API is same as the browser's native event, including stopPropagation() and preventDefault(), except the events work identically across all browsers.
 //* What are forward refs?
 // Ref forwarding is a feature that lets some components take a ref they receive, and pass it further down to a child.
-//* What is the difference between Shadow DOM and Virtual DOM?
-// The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components. The Virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs.
-//* What are the limitations of React?
-// React is just a view library, not a full framework.
-// There is a learning curve for beginners who are new to web development.
-// Integrating React into a traditional MVC framework requires some additional configuration.
-// The code complexity increases with inline templating and JSX.
-// Too many smaller components leading to over engineering or boilerplate.
-//* What are error boundaries in React v16?
-// Error boundaries are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.
-//* How to use innerHTML in React?
-// The dangerouslySetInnerHTML attribute is React's replacement for using innerHTML in the browser DOM. Just like innerHTML, it is risky to use this attribute considering cross-site scripting (XSS) attacks. You just need to pass a __html object as key and HTML text as value.
-//* What is the impact of indexes as keys?
-// Keys should be stable, predictable, and unique so that React can keep track of elements.
-
-// In the below code snippet each element's key will be based on ordering, rather than tied to the data that is being represented. This limits the optimizations that React can do.
-
-// {todos.map((todo, index) =>
-//   <Todo
-//     {...todo}
-//     key={index}
-//   />
-// )}
-// If you use element data for unique key, assuming todo.id is unique to this list and stable, React would be able to reorder elements without needing to reevaluate them as much.
-
-// {todos.map((todo) =>
-//   <Todo {...todo}
-//     key={todo.id} />
-// )}
-//* How do you conditionally render components?
-// In some cases you want to render different components depending on some state. JSX does not render false or undefined, so you can use conditional short-circuiting to render a given part of your component only if a certain condition is true.
-
-// const MyComponent = ({ name, address }) => (
-//   <div>
-//     <h2>{name}</h2>
-//     {address &&
-//       <p>{address}</p>
-//     }
-//   </div>
-// )
-//* What is strict mode in React?
-// React.StrictMode is a useful component for highlighting potential problems in an application. Just like <Fragment>, <StrictMode> does not render any extra DOM elements. It activates additional checks and warnings for its descendants. These checks apply for development mode only.
-//* Why should component names start with capital letter?
-// If you are rendering your component using JSX, the name of that component has to begin with a capital letter otherwise React will throw an error as an unrecognized tag. This convention is because only HTML elements and SVG tags can begin with a lowercase letter.
-// The component names should start with an uppercase letter but there are few exceptions to this convention. The lowercase tag names with a dot (property accessors) are still considered as valid component names. For example, the below tag can be compiled to a valid component,
-
-//      render() {
-//           return (
-//             <obj.component/> // `React.createElement(obj.component)`
-//           )
-//     }
-//* How to combine multiple inline style objects?
-// You can use spread operator in regular React:
-
-//  <button style={{...styles.panel.button, ...styles.panel.submitButton}}>{'Submit'}</button>
-//* How to re-render the view when the browser is resized?
-// we can add eventlistner on resize
-//* How to use https instead of http in create-react-app?
-// You just need to use HTTPS=true configuration. You can edit your package.json scripts section:
-
-// "scripts": {
-//   "start": "set HTTPS=true && react-scripts start"
-// }
-//* How to avoid using relative path imports in create-react-app?
-// we can use the "~" which points towards the root directory
-//* How to update a component every second?
-// const [time, setTime] = useState(Date.now());
-// useEffect(() => {
-//   const interval = setInterval(() => setTime(Date.now()), 1000);
-//   return () => {
-//     clearInterval(interval);
-//   };
-// }, []);
-//* Why does React emphasize on unidirectional data flow?
-// It is also known as one-way data flow, which means the data has one, and only one way to be transferred to other parts of the application. In essence, this means child components are not able to update the data that is coming from the parent component. In React, data coming from a parent is called props.
-
-// In React this means that:
-
-// state is passed to the view and to child components
-// actions are triggered by the view
-// actions can update the state
-// the state change is passed to the view and to child components
-// The view is a result of the application state. State can only change when actions happen. When actions happen, the state is updated. One-way data binding provides us with some key advantages
-
-// Easier to debug, as we know what data is coming from where.
-// Less prone to errors, as we have more control over our data.
-// More efficient, as the library knows what the boundaries are of each part of the system.
-//! What does eject do in create react app?
-//* Is it possible to use React without rendering HTML?
-// It is possible with latest version (>=16.2). Below are the possible options:
-
-// render() {
-//   return false
-// }
-// render() {
-//   return null
-// }
-// render() {
-//   return []
-// }
-//* Why to avoid using setState() after a component has been unmounted?
-// Calling setState() after a component has unmounted will emit a warning. The "setState warning" exists to help you catch bugs, because calling setState() on an unmounted component is an indication that your app/component has somehow failed to clean up properly.
-// Specifically, calling setState() in an unmounted component means that your app is still holding a reference to the component after the component has been unmounted - which often indicates a memory leak.
-//*Differentiate between stateful and stateless components?
-// Stateful and stateless components have many different names. They are also known as:
-// – Container vs Presentational components
-// – Smart vs Dumb components
-// The literal difference is that one has state, and the other does not. That means the stateful components are keeping track of changing data, while stateless components print out what is given to them via props, or they always render the same thing.
-//* What are the benefits of using HOC?
-// Benefits:
-// Importantly they provided a way to reuse code when using ES6 classes.
-// No longer have method name clashing if two HOC implement the same one.
-// It is easy to make small reusable units of code, thereby supporting the single responsibility principle.
-// Apply multiple HOCs to one component by composing them. The readability can be improve using a compose function like in Recompose.
-// Problems:
-// Boilerplate code like setting the displayName with the HOC function name e.g. (withHOC(Component)) to help with debugging.
-// Ensure all relevant props are passed through to the component.
-// Hoist static methods from the wrapped component.
-// It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
 
 
+> ### What is the difference between Shadow DOM and Virtual DOM?
+The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components. The Virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs.
 
+> ### What are error boundaries in React v16?
+Error boundaries are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.
+
+> ### What is the impact of indexes as keys?
+Keys should be stable, predictable, and unique so that React can keep track of elements.
+
+In the below code snippet each element's key will be based on ordering, rather than tied to the data that is being represented. This limits the optimizations that React can do.
+
+```jsx
+{todos.map((todo, index) =>
+  <Todo
+    {...todo}
+    key={index}
+  />
+)}
+```
+
+If you use element data for unique key, assuming todo.id is unique to this list and stable, React would be able to reorder elements without needing to reevaluate them as much.
+
+```jsx
+{todos.map((todo) =>
+  <Todo {...todo}
+    key={todo.id} />
+)}
+```
+
+sometimes agr index use hua hota h as key, to middle delete functionality pe element delete hota h middle dom me se to, index phir se update hota h, agr wahi hume id se kia hota to need nhi hoti key update ki 
+
+> ### Why should component names start with a capital letter?
+If you are rendering your component using JSX, the name of that component has to begin with a capital letter otherwise React will throw an error as an unrecognized tag. This convention is because only HTML elements and SVG tags can begin with a lowercase letter.
+
+The component names should start with an uppercase letter but there are a few exceptions to this convention. The lowercase tag names with a dot (property accessors) are still considered as valid component names. For example, the below tag can be compiled to a valid component,
+
+```jsx
+render() {
+  return (
+    <obj.component/> // `React.createElement(obj.component)`
+  )
+}
+```
+
+> ### How to combine multiple inline style objects?
+You can use the spread operator in regular React:
+
+```jsx
+<button style={{...styles.panel.button, ...styles.panel.submitButton}}>{'Submit'}</button>
+```
+
+
+> ### How to re-render the view when the browser is resized?
+we can add eventlistner on resize
+
+
+> ### How to use https instead of http in create-react-app?
+You just need to use HTTPS=true configuration. You can edit your package.json scripts section:
+```jsx
+"scripts": {
+  "start": "set HTTPS=true && react-scripts start"
+}
+```
+
+> ### How to avoid using relative path imports in create-react-app?
+we can use the "~" which points towards the root directory
+
+> ### How to update a component every second?
+```jsx
+const [time, setTime] = useState(Date.now());
+useEffect(() => {
+  const interval = setInterval(() => setTime(Date.now()), 1000);
+  return () => {
+    clearInterval(interval);
+  };
+}, []);
+```
+
+
+> ### Why does React emphasize on unidirectional data flow?
+It is also known as one-way data flow, which means the data has one, and only one way to be transferred to other parts of the application. In essence, this means child components are not able to update the data that is coming from the parent component. In React, data coming from a parent is called props.
+
+> ### What does eject do in create react app?
+The Create React App documentation characterizes this script as a “one-way operation” and warns that “once you eject, you can’t go back!” Create React App comes with an excellent configuration that helps you build your React app with the best practices in mind to optimize it.
+
+However, we may have to customize the pre-built react-scripts with additional configurations in some advanced scenarios. The eject script gives you full control over the React app configuration. For example, you can customize the webpack or Babel configuration according to a specific need by ejecting the React app.
+
+Running the eject script will remove the single build dependency from your project. That means it will copy the configuration files and the transitive dependencies (e.g., webpack, Babel, etc.) as dependencies in the package.json file. If you do that, you’ll have to ensure that the dependencies are installed before building your project.
+
+After running the eject command, it won’t be possible to run it again, because all scripts will be available except the eject one. Use this command only if you need to. Otherwise, stick with the default configuration. It’s better, anyway.
+
+
+> ### Why to avoid using setState() after a component has been unmounted?
+
+- Calling setState() after a component has unmounted will emit a warning. The "setState warning" exists to help you catch bugs, because calling setState() on an unmounted component is an indication that your app/component has somehow failed to clean up properly.
+- Specifically, calling setState() in an unmounted component means that your app is still holding a reference to the component after the component has been unmounted - which often indicates a memory leak.
+
+
+> ### Differentiate between stateful and stateless components?
+- Stateful and stateless components have many different names. They are also known as: `Container vs Presentational components` and `Smart vs Dumb components`.
+- The literal difference is that one has state, and the other does not. That means the stateful components are keeping track of changing data, while stateless components print out what is given to them via props, or they always render the same thing.
+
+
+> ### What are the benefits of using HOC?
+  Benefits:
+- Importantly they provided a way to reuse code when using ES6 classes.
+- No longer have method name clashing if two HOC implement the same one.
+- It is easy to make small reusable units of code, thereby supporting the single responsibility principle.
+- Apply multiple HOCs to one component by composing them. The readability can be improve using a compose function like in Recompose.
+
+  Problems:
+- Boilerplate code like setting the displayName with the HOC function name e.g. (withHOC(Component)) to help with debugging.
+- Ensure all relevant props are passed through to the component.
+- Hoist static methods from the wrapped component.
+- It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
 
 > ### Hook for listening click outside
 
@@ -1767,107 +1752,36 @@ export function useOutsideClick(handler, listenCapturing = true) {
 }
 ```
 
+```jsx
+
+// In app.jsx
+import React, { useState } from "react";
+import { useOutsideClick } from "./useOutsideClick";
+
+export function App() {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const ref = useOutsideClick(handleClose);
+
+  return (
+    <div>
+      <button onClick={() => setIsOpen(!isOpen)}>Toggle Dropdown</button>
+      {isOpen && (
+        <div ref={ref} className="dropdown-menu">
+          <p>Dropdown Content</p>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
 
 > ### Best toast to use npm install react-hot-toast
-
-
-> ### React Dark-mode
-
-First is the css change
-
-```scss
-:root {
-  --color-grey-0: #fff;
-  --color-grey-50: #f9fafb;
-
-  &.dark-mode {
-    --color-grey-0: #18212f;
-    --color-grey-50: #111827;
-  }
-}
-```
-
-useLocalStorageState.js
-
-```jsx
-import { useState, useEffect } from "react";
-
-export function useLocalStorageState(initialState, key) {
-  const [value, setValue] = useState(function () {
-    const storedValue = localStorage.getItem(key);
-    return storedValue ? JSON.parse(storedValue) : initialState;
-  });
-
-  useEffect(
-    function () {
-      localStorage.setItem(key, JSON.stringify(value));
-    },
-    [value, key]
-  );
-
-  return [value, setValue];
-}
-```
-
-DarkModeContext.jsx
-```jsx
-import { createContext, useContext, useEffect } from "react";
-import { useLocalStorageState } from "../hooks/useLocalStorageState";
-
-const DarkModeContext = createContext();
-
-function DarkModeProvider({ children }) {
-  const [isDarkMode, setIsDarkMode] = useLocalStorageState(
-    window.matchMedia("(prefers-color-scheme: dark)").matches,
-    "isDarkMode"
-  );
-
-  useEffect(
-    function () {
-      if (isDarkMode) {
-        document.documentElement.classList.add("dark-mode");
-        document.documentElement.classList.remove("light-mode");
-      } else {
-        document.documentElement.classList.add("light-mode");
-        document.documentElement.classList.remove("dark-mode");
-      }
-    },
-    [isDarkMode]
-  );
-
-  function toggleDarkMode() {
-    setIsDarkMode((isDark) => !isDark);
-  }
-
-  return (
-    <DarkModeContext.Provider value={{ isDarkMode, toggleDarkMode }}>
-      {children}
-    </DarkModeContext.Provider>
-  );
-}
-
-function useDarkMode() {
-  const context = useContext(DarkModeContext);
-  if (context === undefined)
-    throw new Error("DarkModeContext was used outside of DarkModeProvider");
-  return context;
-}
-
-export { DarkModeProvider, useDarkMode };
-```
-
-In app.jsx
-
-```jsx
-function App() {
-  return (
-    <DarkModeProvider>
-
-      {/* route and other thing */}
-    </DarkModeProvider>
-  );
-}
-```
 
 > ### Compound Pattern in react
 
