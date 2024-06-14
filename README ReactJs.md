@@ -579,28 +579,13 @@ ReactDOM.render(<Counter />, document.getElementById('root'));
 Both techniques aim to enhance performance and manageability of web applications but are used in different contexts and for different purposes. The Shadow DOM focuses on encapsulation and isolation, while the Virtual DOM aims to optimize rendering performance.
 
 
-> ### What is React Fiber?
 
-Fiber is the `new reconciliation engine` or `reimplementation of core algorithm` in React v16. The goal of React Fiber is to increase its suitability for areas like animation, layout, gestures, ability to pause, abort, or reuse work and assign priority to different types of updates; and new concurrency primitives.
-
-Its main goals are:
-
-  1. Ability to split interruptible work in chunks.
-  2. Ability to prioritize, rebase and reuse work in progress.
-  3. Ability to yield back and forth between parents and children to support layout in React.
-  4. Ability to return multiple elements from render().
-  5. Better support for error boundaries.
 
 
 > ### What is Lifting State Up in React?
 When several components need to share the same changing data then it is recommended to lift the shared state up to their closest common ancestor. That means if two child components share the same data from its parent, then move the state to parent instead of maintaining local state in both of the child components.
 
 
-> ### What is reconciliation?
-
-  `Reconciliation` is the process through which React updates the Browser DOM and makes React work faster. React use a `diffing algorithm` so that component updates are predictable and faster. React would first calculate the difference between the `real DOM` and the copy of DOM `(Virtual DOM)` when there's an update of components.\
-  React stores a copy of Browser DOM which is called `Virtual DOM`. When we make changes or add data, React creates a new Virtual DOM and compares it with the previous one. This comparison is done by `Diffing Algorithm`.\
-  Now React compares the Virtual DOM with Real DOM. It finds out the changed nodes and updates only the changed nodes in Real DOM leaving the rest nodes as it is. This process is called _Reconciliation_.
 
 
 > ### Why fragments are better than container divs?
@@ -1533,6 +1518,25 @@ In this case, displaying 1000 elements would require in the order of one billion
 
 - Two elements of different types will produce different trees.
 - The developer can hint at which child elements may be stable across different renders with a key prop.
+
+> ### What is reconciliation?
+
+  `Reconciliation` is the process through which React updates the Browser DOM and makes React work faster. React use a `diffing algorithm` so that component updates are predictable and faster. React would first calculate the difference between the `real DOM` and the copy of DOM `(Virtual DOM)` when there's an update of components.\
+  React stores a copy of Browser DOM which is called `Virtual DOM`. When we make changes or add data, React creates a new Virtual DOM and compares it with the previous one. This comparison is done by `Diffing Algorithm`.\
+  Now React compares the Virtual DOM with Real DOM. It finds out the changed nodes and updates only the changed nodes in Real DOM leaving the rest nodes as it is. This process is called _Reconciliation_.
+
+> ### What is React Fiber?
+
+Fiber is the `new reconciliation engine` or `reimplementation of core algorithm` in React v16. The goal of React Fiber is to increase its suitability for areas like animation, layout, gestures, ability to pause, abort, or reuse work and assign priority to different types of updates; and new concurrency primitives.
+
+Its main goals are:
+
+  1. Ability to split interruptible work in chunks.
+  2. Ability to prioritize, rebase and reuse work in progress.
+  3. Ability to yield back and forth between parents and children to support layout in React.
+  4. Ability to return multiple elements from render().
+  5. Better support for error boundaries.
+
 
 > ### What are the rules covered by diffing algorithm?
 
