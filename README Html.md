@@ -1,6 +1,7 @@
 # HTML Best Practices
 
 ### Start with DOCTYPE
+All HTML documents must start with a <!DOCTYPE> declaration. The declaration is not an HTML tag. It is an "information" to the browser about what document type to expect. In HTML 5, the declaration is simple: <!DOCTYPE html>
 
 DOCTYPE is required for activating no-quirks mode.
 
@@ -16,6 +17,23 @@ Good:
     <html>
       ...
     </html>
+
+> ### Iframe in HTML
+An inline frame is used to embed another document within the current HTML document.
+
+
+> ### HTML Formatting Elements 
+Formatting elements were designed to display special types of text:
+`<b>` - Bold text
+`<strong>` - Important text
+// <i> - Italic text
+// <em> - Emphasized text
+// <mark> - Marked text
+// <small> - Smaller text
+// <del> - Deleted text
+// <ins> - Inserted text
+// <sub> - Subscript text
+// <sup> - Superscript text
 
 ### Don’t use character references as much as possible
 
@@ -59,3 +77,6 @@ srcsets solve the problem whereby you want to serve smaller image files to narro
 Semantic HTML, also known as semantic markup, refers to the use of HTML tags that convey the meaning—or semantics—of the content contained within them.
 
 For example, tags like `<header>`, `<article>`, and `<footer>` are semantic HTML tags. They clearly indicate the role of the content they contain.
+
+> ### Difference between <b> and <strong> Elements
+The HTML <b> element defines bold text, without any extra importance. The HTML <strong> element defines text with strong importance. The content inside is typically displayed in bold.
