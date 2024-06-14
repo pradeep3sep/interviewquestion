@@ -1661,25 +1661,10 @@ export default function App() {
 }
 ```
 
-
-shadow dom, createelement in react, clone element in react, stateful components,can we pass react hook as a prop. High order components , redux, improve performance of react - usememo, useeffect with clear, lazy load,
-//*react one way binding
-//use this url for refernce, vue has v-model so direct but react has to added the event function and the we use the setstate https://stackoverflow.com/questions/34519889/can-anyone-explain-the-difference-between-reacts-one-way-data-binding-and-angula
+> ### When to use a Class Component over a Function Component?
+If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries.
 
 
-//functional Component has advantage that in the end class components converted to functional so direct usage increase the fastness
-
-//* When to use a Class Component over a Function Component?
-// If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. *So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries *
-
-//* What are synthetic events in React?
-// SyntheticEvent is a cross-browser wrapper around the browser's native event. Its API is same as the browser's native event, including stopPropagation() and preventDefault(), except the events work identically across all browsers.
-//* What are forward refs?
-// Ref forwarding is a feature that lets some components take a ref they receive, and pass it further down to a child.
-
-
-> ### What is the difference between Shadow DOM and Virtual DOM?
-The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components. The Virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs.
 
 > ### What are error boundaries in React v16?
 Error boundaries are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.
