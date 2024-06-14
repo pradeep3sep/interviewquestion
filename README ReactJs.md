@@ -274,7 +274,7 @@ export default function App() {
 }
 ```
 
-If you don't use JSX syntax then the respective JavaScript code should be written as below,
+If you `don't use JSX syntax` then the respective JavaScript code should be written as below,
 
 ```jsx
 import { createElement } from 'react';
@@ -287,6 +287,47 @@ export default function App() {
   );
 }
 ```
+
+**Do the below HTML code using react**
+```html
+<div id="container">
+  <h1>Heading 1</h1>
+  <h2>Heading 2</h2>
+</div>
+```
+
+Below is the solution
+```js
+const heading1 = React.createElement(
+  "h1",
+  {
+    id: "title1",
+  },
+  "Heading 1"
+)
+
+const heading2 = React.createElement(
+  "h2",
+  {
+    id: "title2",
+  },
+  "Heading 2"
+)
+
+const conatiner = React.createElement(
+  "div",
+  {
+    id: "container",
+  },
+  [heading1, heading2]
+)
+
+const root = ReactDOM.createRoot(
+  document.getElementById("root")
+)
+root.render(container)
+```
+
 
 
 > ### What is the difference between Element and Component?
