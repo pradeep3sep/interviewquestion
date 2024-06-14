@@ -965,7 +965,13 @@ console.log(hobbies, rest.age)  // => music 25
  
 > ### A memory leak is any object that persists after you no longer have a use or need for it.
 
-<br>
+<be>
+
+> ### What is the difference between classical inheritance and prototypal inheritance?
+**Class Inheritance**: instances inherit from classes (like a blueprint - a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the new keyword. Class inheritance may or may not use the class keyword from ES6.
+**Prototypal Inheritance**: instances inherit directly from other objects. Instances are typically instantiated via factory functions or Object.create(). Instances may be composed from many different objects, allowing for easy selective inheritance.
+
+
  
 > ### child class inheritance using constructor function
 ```js
