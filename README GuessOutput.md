@@ -721,7 +721,7 @@ console.log(sarah);
 
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>A</p>
 
   For `sarah`, we didn't use the `new` keyword. When using `new`, `this` refers to the new empty object we create. However, if you don't add `new`, `this` refers to the `global object!`
 
