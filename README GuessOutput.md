@@ -319,7 +319,7 @@ console.log(daya);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>[1, 3, 10, 11, 12]</p>
 </details>
 
 ### Question 21 sorting of the object
@@ -346,10 +346,6 @@ items.sort(function(a, b){
 })
 console.log(items);
 ```
-<details>
-  <summary>Answer</summary>
-  <p></p>
-</details>
 
 ### Question 22 converting the number into textnumber
 ```js
@@ -358,16 +354,16 @@ let data = number.toLocaleString()
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>'9,966'</p>
 </details>
-10K
+
 
 ### Question 23 check(4)(2)(3)
 ```js
 function check(num1){
     return (num2)=>{
       return (num3)=> {
-        return num1 ### num2 ### num3
+        return num1 * num2 * num3
       }
     }
   }
@@ -375,7 +371,7 @@ console.log(check(4)(2)(3));
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>24</p>
 </details>
 
 ### Question 24
@@ -386,7 +382,7 @@ console.log(array.toString().split(','));
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p> ['2', '3', '5', '2', '6', '3', '4', '5', '5', '1', '3', '1', '1', '9']</p>
 </details>
 
 ### Question 25
@@ -400,7 +396,9 @@ console.log(firstname);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>
+	  ReferenceError: name is not defined
+  </p>
 </details>
 
 ### Write a program to remove duplicate from the array without using the default method
