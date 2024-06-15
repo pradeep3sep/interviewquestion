@@ -35,7 +35,11 @@ console.log(!typeof name === "object");
 console.log(!typeof name === "string");
 console.log(!typeof name); //this is for hint
 ```
-false,false
+<details>
+  <summary>Answer</summary>
+  <p>false,false</p>
+</details>
+
 
 ### Question 4
 ```js
@@ -43,6 +47,10 @@ let a = 1
 c= 2;
 console.log(--c === a);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 true
 
 ### Question 5
@@ -51,6 +59,10 @@ let check = [1,2,3,4]
 let hi = [,...check]
 console.log(hi);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 6
 ```js
@@ -65,6 +77,10 @@ function test(){
 }
 test();
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 undefined
 
 ### Question 7
@@ -76,6 +92,10 @@ const result  = (function () {
 })();
 console.log(result);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 2
 
 ### Question 8
@@ -87,6 +107,10 @@ const result  = (function (number) {
 })(20);
 console.log(result);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 20
 
 ### Question 9
@@ -96,6 +120,10 @@ function sum(num1, num2 = num1){
 }
 sum(10)
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 20
 
 ### Question 10
@@ -105,6 +133,10 @@ function sum(num1, num2 = num1){
 }
 sum(10,89)
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 99
 
 ### Question 11
@@ -116,6 +148,10 @@ for (let i = 0; i < a.length; i++) {
 }
 console.log(sum);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 NaN
 
 ### Question 12
@@ -124,6 +160,10 @@ let a = 0
 for(a; a<5; a++);
 console.log(a);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 5
 
 ### Question 13(revise the concept of shallow and deep copy)
@@ -135,6 +175,10 @@ const members = [person]
 person = null
 console.log(members);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 [{name : "Lynda"}]
 
 ### Question 14
@@ -155,6 +199,11 @@ console.log(a[b]);
 - C: undefined
 - D: ReferenceError
 
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
+
 ```
 solution is 456
 
@@ -173,6 +222,10 @@ Then, we log `a[b]`, which is actually `a["[object Object]"]`. We just set that 
 console.log(typeof x);
 console.log(typeof y);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 undefined, number
 
 ### Question 16
@@ -184,6 +237,10 @@ undefined, number
     })()
 })(45);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 17
 ```js
@@ -195,6 +252,10 @@ let city = person.city
 city = "delhi"
 console.log(person);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 18
 ```js
@@ -208,6 +269,10 @@ var func2 = function(){
 }
 func2()
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 19
 ```js
@@ -224,6 +289,10 @@ let users  = {
 }
 console.log(users.hasArrowfunc());
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 20
 ```js
@@ -235,6 +304,10 @@ function bar(){
     console.log("bar got called")
 }
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 21 sorting of the array
 ```js
@@ -244,6 +317,10 @@ daya.sort((a,b)=> {
 });
 console.log(daya);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 21 sorting of the object
 ```js
@@ -269,12 +346,20 @@ items.sort(function(a, b){
 })
 console.log(items);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 22 converting the number into textnumber
 ```js
 let number = 9966
 let data = number.toLocaleString()
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 10K
 
 ### Question 23 check(4)(2)(3)
@@ -288,6 +373,10 @@ function check(num1){
   }
 console.log(check(4)(2)(3));
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 24
 ```js
@@ -295,6 +384,10 @@ let array = [2,3,[5,2,[6,[3, [4, 5, [5, 1, 3]]]],1,1],9];
 //flat without using flat
 console.log(array.toString().split(','));
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 25
 ```js
@@ -305,6 +398,10 @@ function fun(){
 }
 console.log(firstname);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Write a program to remove duplicate from the array without using the default method
 ### Write a program to give second largest integer from the array without using the default method
@@ -330,6 +427,10 @@ for (let i = 0; i < 5; i++) {
   
 }
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 27
 ```js
@@ -345,6 +446,11 @@ function outer(){
 }
 outer()
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
+
 
 ### Question 28
 ```js
@@ -365,11 +471,21 @@ console.log(obj.prop2());
 console.log(obj.prop3());
 ```
 
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
+
 ### Question 29
 ```js
 console.log(1 < 2 < 3);
 console.log(3 > 2 > 1);
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 30
 ```js
@@ -378,11 +494,19 @@ function printNumbers(first, second, first) {
 }
 printNumbers(1, 2, 3);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 31
 ```js
 console.log(Math.max());
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 32
 ```js
@@ -394,6 +518,11 @@ console.log(10 == [[[[[[[10]]]]]]]);
 2: True, False
 3: False, False
 4: False, True
+
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 Answer: 1
 As per the comparison algorithm in the ECMAScript specification(ECMA-262), the above expression converted into JS as below
@@ -410,6 +539,10 @@ if ([0]) {
   console.log("I'm False");
 }
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 In comparison operators, the expression [0] converted to Number([0].valueOf().toString()) which is resolved to false. Whereas [0] just becomes a truthy value without any conversion because there is no comparison operator.
 
@@ -417,12 +550,20 @@ In comparison operators, the expression [0] converted to Number([0].valueOf().to
 ```js
 console.log([1, 2] + [3, 4]);
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 35
 ```js
 let numbers = [1, 2, 3, 4, NaN];
 console.log(numbers.indexOf(NaN));
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 ### Question 36
 ```js
@@ -436,6 +577,11 @@ console.log(func());
 2: 10 \
 3: SyntaxError \
 4: Promise {<rejected>: 10}
+
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 Answer: 1 \
 Async functions always return a promise. But even if the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise. The above async function is equivalent to below expression,
@@ -456,6 +602,11 @@ console.log(func());
 2: 10 \
 3: SyntaxError \
 4: Promise {<resolved>: undefined}
+
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 Answer: 4 \
 The await expression returns value 10 with promise resolution and the code after each await expression can be treated as existing in a .then callback. In this case, there is no return expression at the end of the function. Hence, the default return value of undefined is returned as the resolution of the promise. The above async function is equivalent to below expression,
@@ -479,6 +630,11 @@ console.log(name); // John Smith
 3: Hello World!, John Smith \
 4: Hello World!, John 
 
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
+
 Answer: 3 \
 In JavaScript, primitives are immutable i.e. there is no way to change a primitive value once it gets created. So when you try to update the string's first character, there is no change in the string value and prints the same initial value Hello World!. Whereas in the later example, the concatenated value is re-assigned to the same variable which will result into creation of new memory block with the reference pointing to John Smith value and the old memory block value(John) will be garbage collected.
 
@@ -493,6 +649,11 @@ console.log(b == c)  // true
 console.log(a == b)  // false
 ```
 
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
+
 arrays are coerced to strings by simply joining all the values with comma(,) in between
 
 ### Question 40
@@ -503,11 +664,20 @@ arrays are coerced to strings by simply joining all the values with comma(,) in 
 42 > 'hh'  // gives false because the both are different data type so 'hh' are coerced to NaN and the comparison becomes 42 > NaN
 ```
 
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
+
 ### Question 41
 ```
 +true;
 !'Lydia';
 ```
+<details>
+  <summary>Answer</summary>
+  <p></p>
+</details>
 
 gives 1 and false
 
