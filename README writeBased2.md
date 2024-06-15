@@ -4745,3 +4745,34 @@ function moveZeros(list) {
 
 }
 ```
+
+> ###  Write a program to give second largest integer from the array without using the default method
+
+```js
+
+function findSecondLargest(arr) {
+    if (arr.length < 2) {
+        return null; // Not enough elements for second largest
+    }
+
+    let first = -Infinity;
+    let second = -Infinity;
+
+    for (let i = 0; i < arr.length; i++) {
+        if (arr[i] > first) {
+            second = first;
+            first = arr[i];
+        } else if (arr[i] > second && arr[i] !== first) {
+            second = arr[i];
+        }
+    }
+
+    return second === -Infinity ? null : second; // If there's no second largest, return null
+}
+
+// Example usage:
+const numbers = [10, 5, 8, 20, 15];
+const secondLargest = findSecondLargest(numbers);
+console.log(secondLargest); // Output should be 15
+
+```
