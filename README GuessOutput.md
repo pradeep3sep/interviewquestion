@@ -615,7 +615,7 @@ function func() {
 }
 
 ### Question 38
-```
+```js
 let message = 'Hello World!';
 message[0] = 'J'
 console.log(message) // Hello World!
@@ -639,7 +639,7 @@ Answer: 3 \
 In JavaScript, primitives are immutable i.e. there is no way to change a primitive value once it gets created. So when you try to update the string's first character, there is no change in the string value and prints the same initial value Hello World!. Whereas in the later example, the concatenated value is re-assigned to the same variable which will result into creation of new memory block with the reference pointing to John Smith value and the old memory block value(John) will be garbage collected.
 
 ### Question 39
-```
+```js
 var a = [1,2,3]
 var b = [1,2,3]
 var c = '1,2,3'
@@ -657,7 +657,7 @@ console.log(a == b)  // false
 arrays are coerced to strings by simply joining all the values with comma(,) in between
 
 ### Question 40
-```
+```js
 'a' < 'b' // gives true because a and b both are string so are converted to number 1 and 2 respectively by coercion of js
 'a' > 'b'  // gives false because a and b both are string so are converted to number 1 and 2 respectively by coercion of js
 42 < 'hh'  // gives false
@@ -670,7 +670,7 @@ arrays are coerced to strings by simply joining all the values with comma(,) in 
 </details>
 
 ### Question 41
-```
+```js
 +true;
 !'Lydia';
 ```
@@ -682,7 +682,7 @@ arrays are coerced to strings by simply joining all the values with comma(,) in 
 gives 1 and false
 
 ### Question 42
-```
+```js
 class Chameleon {
   static colorChange(newColor) {
     this.newColor = newColor;
@@ -711,7 +711,7 @@ console.log(freddie.colorChange('orange'));
 </details>
 
 ### Question 43
-```
+```js
 function Person(firstName, lastName) {
   this.firstName = firstName;
   this.lastName = lastName;
@@ -742,7 +742,7 @@ We said that `this.firstName` equals `"Sarah"` and `this.lastName` equals `"Smit
 
 
 ### Question 44
-```
+```js
 function getPersonInfo(one, two, three) {
   console.log(one);
   console.log(two);
@@ -766,7 +766,7 @@ getPersonInfo`${person} is ${age} years old`;
 </details>
 
 ### Question 45
-```
+```js
 const obj = { 1: 'a', 2: 'b', 3: 'c' };
 const set = new Set([1, 2, 3, 4, 5]);
 
@@ -792,7 +792,7 @@ It doesn't work that way for a set. There is no `'1'` in our set: `set.has('1')`
 
 
 ### Question 46
-```
+```js
 function sayHi() {
   return (() => 0)();
 }
@@ -839,7 +839,7 @@ Promise.race([firstPromise, secondPromise]).then(res => console.log(res));
 </details>
 
 ### Question 48
-```
+```js
 function getInfo(member, year) {
   member.name = 'Lydia';
   year = '1998';
@@ -871,7 +871,7 @@ The value of `person` is an object. The argument `member` has a (copied) referen
 
 ### Question 49
 
-```
+```js
 function Car() {
   this.make = 'Lamborghini';
   return { make: 'Maserati' };
@@ -896,7 +896,7 @@ console.log(myCar.make);
 
 ### Question 50
 
-```
+```js
 (() => {
   let x = (y = 10);
 })();
@@ -923,7 +923,7 @@ console.log(typeof y);
 
 
 ### Question 51
-```
+```js
 // counter.js
 let counter = 10;
 export default counter;
@@ -955,7 +955,7 @@ When we try to increment the value of `myCounter`, it throws an error: `myCounte
 </details>
 
 ### Question 52
-```
+```js
 const name = 'Lydia';
 age = 21;
 var last = 'verma'
@@ -983,7 +983,7 @@ The `name` variable was declared with a `const` keyword, so its deletion is not 
 
 ### Question 53
 
-```
+```js
 const person = { name: 'Lydia' };
 
 Object.defineProperty(person, 'age', { value: 21 });
@@ -1010,7 +1010,7 @@ Properties added using the `defineProperty` method are immutable by default. You
 
 ### Question 54
 
-```
+```js
 const settings = {
   username: 'lydiahallie',
   level: 19,
@@ -1042,7 +1042,7 @@ If the replacer is a function, this function gets called on every property in th
 
 ### Question 55
 
-```
+```js
 let num = 10;
 
 const increaseNumber = () => num++;
@@ -1072,7 +1072,7 @@ console.log(num2);
 
 
 ### Question 56
-```
+```js
 const value = { number: 10 };
 
 const multiply = (x = { ...value }) => {
@@ -1107,7 +1107,7 @@ The fourth time, we pass the value object again. x.number was previously modifie
 
 ### Question 57
 
-```
+```js
 async function getData() {
   return await Promise.resolve('I made it!');
 }
@@ -1142,7 +1142,7 @@ console.log(data);
 
 ### Question 58
 
-```
+```js
 const add = () => {
   const cache = {};
   return num => {
@@ -1177,7 +1177,7 @@ console.log(addFunction(5 * 2));
 
 ### Question 59
 
-```
+```js
 class Person {
   constructor(name) {
     this.name = name;
@@ -1203,7 +1203,7 @@ Calling a function constructor with `new` results in the creation of an instance
 
 ### Question 59
 
-```
+```js
 [1, 2, 3, 4].reduce((x, y) => console.log(x, y));
 ```
 
@@ -1233,7 +1233,7 @@ On the fourth call, we again don't return from the callback function. The accumu
 
 ### Question 60
 
-```
+```js
 class Person {
   constructor() {
     this.name = 'Lydia';
@@ -1265,7 +1265,7 @@ console.log(member.name);
 
 ### Question 61
 
-```
+```js
 const info = {
   [Symbol('a')]: 'b',
 };
@@ -1292,7 +1292,7 @@ You can still `access symbols` using the `Object.getOwnPropertySymbols()` method
 
 ### Question 62
 
-```
+```js
 const getList = ([x, ...y]) => [x, y]
 const getUser = user => { name: user.name, age: user.age }
 
@@ -1328,7 +1328,7 @@ or
 
 ### Question 63.a
 
-```
+```js
 const myPromise = () => Promise.resolve('I have resolved!');
 
 function firstFunction() {
@@ -1396,7 +1396,7 @@ funcTwo();
 
 ### Question 64
 
-```
+```js
 let name = 'Lydia';
 
 function getName() {
@@ -1422,7 +1422,7 @@ getName();
 
 ### Question 65
 
-```
+```js
 function* generatorOne() {
   yield ['a', 'b', 'c'];
 }
@@ -1454,7 +1454,7 @@ console.log(two.next().value);
 
 ### Question 66
 
-```
+```js
 console.log(`${(x => x)('I love')} to program`);
 ```
 
@@ -1475,7 +1475,7 @@ console.log(`${(x => x)('I love')} to program`);
 ### Question 67
 
 
-```
+```js
 let config = {
   alert: setInterval(() => {
     console.log('Alert!');
@@ -1532,7 +1532,7 @@ console.log(config.language);
 
 ### Question 69
 
-```
+```js
 async function* range(start, end) {
   for (let i = start; i <= end; i++) {
     yield Promise.resolve(i);
@@ -1563,7 +1563,7 @@ async function* range(start, end) {
 
 ### Question 70
 
-```
+```js
 const myFunc = ({ x, y, z }) => {
   console.log(x, y, z);
 };
@@ -1587,7 +1587,7 @@ myFunc(1, 2, 3);
 
 ### Question 71
 
-```
+```js
 class Counter {
   constructor() {
     this.count = 0;
@@ -1691,7 +1691,7 @@ After pushing `dancing` and `baking`, the value of `person.hobbies` is `["coding
 ### Question 74
 
 
-```
+```js
 class Bird {
   constructor() {
     console.log("I'm a bird. 🦢");
