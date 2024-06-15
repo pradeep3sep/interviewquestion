@@ -49,9 +49,9 @@ console.log(--c === a);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>true</p>
 </details>
-true
+
 
 ### Question 5
 ```js
@@ -61,7 +61,7 @@ console.log(hi);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>[empty, 1, 2, 3, 4]</p>
 </details>
 
 ### Question 6
@@ -205,8 +205,6 @@ console.log(a[b]);
 </details>
 
 ```
-
-
 Object keys are automatically converted into strings because object can store onlyy string and symbol. We are trying to set an object as a key to object `a`, with the value of `123`.
 
 However, when we stringify an object, it becomes `"[object Object]"`. So what we are saying here, is that `a["[object Object]"] = 123`. Then, we can try to do the same again. `c` is another object that we are implicitly stringifying. So then, `a["[object Object]"] = 456`.
@@ -214,7 +212,7 @@ However, when we stringify an object, it becomes `"[object Object]"`. So what we
 Then, we log `a[b]`, which is actually `a["[object Object]"]`. We just set that to `456`, so it returns `456`.
 ```
 
-### Question 15(console kra k check karo)
+### Question 15
 ```js
 (()=> {
     let x = (y = 10)
@@ -239,7 +237,7 @@ console.log(typeof y);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>45</p>
 </details>
 
 ### Question 17
@@ -254,7 +252,7 @@ console.log(person);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>{name: 'pradeep', age: 45}</p>
 </details>
 
 ### Question 18
@@ -271,7 +269,7 @@ func2()
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>1</p>
 </details>
 
 ### Question 19
@@ -291,7 +289,7 @@ console.log(users.hasArrowfunc());
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>outside, undefined</p>
 </details>
 
 ### Question 20
@@ -306,7 +304,9 @@ function bar(){
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>bar got called
+     something
+  </p>
 </details>
 
 ### Question 21 sorting of the array
