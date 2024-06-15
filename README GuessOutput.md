@@ -2135,16 +2135,16 @@ const value = { number: 10 };
 
   // 👍A) 15, 20, 25, 30    💡B) 15, 15, 20, 25
   // 💖C) 15, 15, 15, 15    😀D) 15, 15, 15, 20
-
-  /*
-  Answer is D) 15, 15, 15, 20 because when we call addition function 3rd time with passing value object as an argument, then x will take value as pass by reference and will update number property of original object ( value in this case ) to 15.  
-  Hence, while calling addition function 4th time will console 15 + 5 => 20.
- */
 ```
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+ 15, 15, 15, 20 because when we call addition function 3rd time with passing value object as an argument, then x will take value as pass by reference and will update number property of original object ( value in this case ) to 15.  
+  Hence, while calling addition function 4th time will console 15 + 5 => 20.
+</details>
 
 ### Question 92
-
-
 ```js
  const user = {
     userName: "Jayesh",
@@ -2157,46 +2157,57 @@ const value = { number: 10 };
 
   // 👍A) Jayesh     💡B) undefined
   // 💖C) ""         😀D) TypeError
+```
 
-  /*
-  Answer is B) undefined because setTimeout is using user.displayName as a callback function rather than object method.
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
+
+ Answer is B) undefined because setTimeout is using user.displayName as a callback function rather than object method.
   callback function's "this" will refer to the window object and It will console undefined as there is no property such as userName in the window object.   
-  */
 
   // 👇 We can get "Jayesh" as an output by wrapping the user.displayName() inside a function :-
 
+```js
   setTimeout(function () {
     user.displayName(); // Here, displayName is called by user object ( object method ). Hence, "this" will refer to user object.
   }, 1000);
 ```
+</details>
+
 
 
 ### Question 93
 
 ```js
- var name = "Jayesh";
+var name = "Jayesh";
 
-  function displayName() {
-    console.log(this.name);
-  }
+function displayName() {
+  console.log(this.name);
+}
 
-  const person = {
+const person = {
     name: "JC",
     method(fn) {
       fn();
     },
-  };
+};
 
-  person.method(displayName);
+person.method(displayName);
 
-  // 👍A) JC           💡B) Jayesh
-  // 💖C) undefined    😀D) TypeError
+// 👍A) JC           💡B) Jayesh
+// 💖C) undefined    😀D) TypeError
+```
 
-  /*
-  Answer is B) Jayesh because displayName function is passed to person object method as a callback function.
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
+ Answer is B) Jayesh because displayName function is passed to person object method as a callback function.
   "this" keyword in displayName function will refer to window object and window object has a property "name" with value "Jayesh". Hence, It will console Jayesh as an output.
-  */
 
+```js
   // 👇 We can get JC as an output by attaching call method with fn() inside person method :-
 
   const person2 = {
@@ -2208,6 +2219,7 @@ const value = { number: 10 };
 
   person2.method(displayName); // JC
 ```
+</details>
 
 
 ### Question 94
@@ -2230,9 +2242,14 @@ var length = 4;
 
   // 👍A) 2     💡B) 3
   // 💖C) 4     😀D) 5
+```
 
-  /*
-  Answer is B) 3 because arguments keyword is an array of arguments passed to the function. 
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
+```js
+Answer is B) 3 because arguments keyword is an array of arguments passed to the function. 
   Here while calling object.method(), we are passing three arguments callback fn(), 2 and 3.
   If we try to console arguments it will look like this 👇
 
@@ -2248,9 +2265,9 @@ var length = 4;
   As we can clearly see, arguments is having length property that is equal to number of arguments passed to function.
   So, arguments[0] is nothing but the first argument passed to function that is callback function in this case.
   As we know, Everything in JavaScript is an object ( arguments is also an object which has length property with value 3 )
-  arguments[0]() function's "this" will refer to arguments object. Hence, It will console 3 as an output.
-  */
+  arguments[0]() function's "this" will refer to arguments object. Hence, It will console 3 as an output
 ```
+</details>
 
 ### Question 95
 
@@ -2270,8 +2287,15 @@ var name = "Jayesh";
 
   // 👍A) Jayesh       💡B) JC
   // 💖C) undefined    😀D) TypeError
+```
 
-  /*
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
+
+ ```js
+ /*
   Answer is A) Jayesh because "this" inside the definition for person object does not refer to person object. 
   "this" will refer to the window object here, and binding displayName function with passing window's this  
   as a context will return a copy of bound function that is stored in method property of person object. 
@@ -2289,8 +2313,8 @@ var name = "Jayesh";
 
   person2.method()(); // JC
 
-
 ```
+</details>
 
 ### Question 96
 
@@ -2308,13 +2332,18 @@ function show() {
 
   // 👍A) Jayesh       💡B) undefined
   // 💖C) JC           😀D) TypeError
+```
+<details>
+  <summary>Answer</summary>
+  <p>Answer is C)</p>
 
-  /*
+ ```js
+/*
   Answer is C) JC because a function which is bound with bind keyword can not be re-bound with other new context, bind chaining does not exist.
   once the function is bound to a particular object, It will always be bound to that object no matter how many times it's further bounded.
   */
-
 ```
+</details>
 
 ### Question 97
 
@@ -2331,16 +2360,22 @@ for (var i = 0; i < 5; i++) {
 
   // 👍A) 0 1 2 3 4      💡B) 5 5 5 5 5
   // 💖C) 4 4 4 4 4      😀D) 0 1 2 3 4 5
+```
 
-  /*
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
+ ```js
+/*
   Answer is A) 0 1 2 3 4 because as we are passing i ( 0 to 4 ) value as an argument to setTimeout callback function
   therefore this will console different values of i from 0 to 4.
 
   if there was no argument passed to setTimeout callback function then the output would be 5 5 5 5 5 because variables declared 
   with var keyword are function-scoped or globally-scoped but not blocked scoped. Inner function i would point to the updated value of i that is 5.
 */
-
 ```
+</details>
 
 ### Question 98
 
@@ -2359,12 +2394,18 @@ console.log(1);
   // 👍A) 1 2 3 4      💡B) 1 4 2 3
   // 💖C) 1 2 4 3      😀D) 1 3 4 2
 
-  /*
-  Answer is C) 1 2 4 3 beacause promise is used to handle the asynchronous result of an operation and 
+```
+<details>
+  <summary>Answer</summary>
+  <p>Answer is C)</p>
+
+ ```js
+Answer is C) 1 2 4 3 beacause promise is used to handle the asynchronous result of an operation and 
   callback functions attached to the promises are stored into microtask queue. 
   So, first synchronous code will be executed i.e 1,2,4 and once callstack is empty, event loop pushes the microtask queue's task into callstack
   callstack will start executing the task and It will console 3 at last.
 ```
+</details>
 
 
 ### Question 99
@@ -2388,19 +2429,25 @@ console.log(1);
 
   // 👍A) start end 1 3 2      💡B) start 1 3 end 2
   // 💖C) start end 1 2 3      😀D) start 1 end 2 3
+```
 
-  /*
-  Answer is B) start 1 3 end 2 beacause The function we pass into the Promise constructor runs synchronously, 
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
+ ```js
+Answer is B) start 1 3 end 2 beacause The function we pass into the Promise constructor runs synchronously, 
   but anything that depends on its resolution ( resolve or reject ) will be called asynchronously. 
   Even if the promise resolves immediately, any handlers ( callback attached to promise then and catch ) will execute asynchronously. 
 
-  const promise = new Promise((resolve) => {
+const promise = new Promise((resolve) => {
   console.log(1);  // runs synchronously
   resolve(2); // called asynchronously by then callback
   console.log(3); // runs synchronously
 });
-*/
+
 ```
+</details>
 
 
 ### Question 100
@@ -2426,11 +2473,19 @@ const fetchData = function () {
   // 👍A) Error 1 TypeError    💡B) Error 1
   // 💖C) Error 1 Success 2    😀D) undefined
 
-  /*
+ 
+```
+<details>
+  <summary>Answer</summary>
+  <p>Answer is C)</p>
+
+```js
+ /*
   Answer is C) Error 1 Success 2 because in promise chaining .then method below .catch method will be called if in .catch method we are not 
   returning rejected promise ( by default implicitly returns a promise that is handled by it's below .then method )
   */
-```
+``` 
+</details>
 
 see also below code
 
@@ -2446,8 +2501,14 @@ let p = new Promise((resolve, reject) => {
 
   // 👍A) Fails! undefined    💡B) Fails!
   // 💖C) Fails! TypeError    😀D) Fails! Fails!
+```
 
-  /* 
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
+ ```js
+/* 
   Answer is A) Fails! undefined because promise is rejecting so .catch callback will execute and console "Fails" first.
   In promise chaining .then method below .catch method will be called if in .catch method we are not 
   returning rejected promise ( by default implicitly it returns a promise that is handled by it's below .then method ).
@@ -2458,6 +2519,7 @@ let p = new Promise((resolve, reject) => {
   Error.message in user-created Error objects is the string provided as the constructor's first argument that is "Fails!" in our case.
   */
 ```
+</details>
 
 ### Question 101
 
@@ -2474,7 +2536,14 @@ function foo() {
   // 👍A) undefined number        💡B) ReferenceError number
   // 💖C) undefined undefined     😀D) number number
 
-  /* 
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
+ ```js
+/* 
   Answer is A) undefined number because variable a is declared with let it is blocked scope and will be "not defined" outside function foo().
   The typeof operator returns "undefined" even for “undeclared” (or “not defined”) variables.
   Notice that there was no error thrown when we executed typeof a, even though a is an undeclared variable. 
@@ -2482,6 +2551,7 @@ function foo() {
   and variable b is a just global scope variable hence it will be available outside function foo() also. 
   */
 ```
+</details>
 
 ### Question 102
 
@@ -2499,15 +2569,22 @@ console.log("start");
 
   // 👍A) start end JC Jayesh     💡B) start JC Jayesh end
   // 💖C) start JC end Jayesh     😀D) start Jayesh JC end
+```
 
-  /* 
+<details>
+  <summary>Answer</summary>
+  <p>Answer is C)</p>
+
+
+ ```js
+ /* 
   Answer is C) start JC end Jayesh because async function always returns a promise. If no promise is return other values are wrapped in a resolved promise automatically.
   So in the above question return "Jayesh" would be same as Promise.resolve("Jayesh");
   First, All the synchronous code will be executed i.e start JC end and later on callback function attached to promise that is stored in microtask queue will be executed by callstack.
   Hence, The Final Result will be:- start JC end Jayesh
   */
-
 ```
+</details>
 
 ### Question 103
 
@@ -2528,8 +2605,14 @@ const inc = async (x) => {
 
   // 👍A) 1    💡B) 2
   // 💖C) 3    😀D) 4
+```
 
-  /* 
+<details>
+  <summary>Answer</summary>
+  <p>Answer is C)</p>
+
+ ```js
+/* 
   Answer is C) 3 because first promise return by async function "inc" will resolve and return ( 1 + 1 ) 2 as a result in .then method.
   secondly, promise return by async function "increment" will resolve and return ( 2 + 1 ) 3 as a result in .then method.
 
@@ -2537,6 +2620,7 @@ const inc = async (x) => {
   it converts the value to a resolved Promise, and waits for it. So. await 1 would be same as Promise.resolve(1).
   */
 ```
+</details>
 
 ### Question 104
 
@@ -2561,7 +2645,14 @@ const fetchData = function () {
   // 👍A) First Error        💡B) Second Error
   // 💖C) Second undefined   😀D) ReferenceError
 
-  /* 
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
+ ```js
+/* 
   Answer is A) First Error because then() method takes up to two arguments: callback functions for the fulfilled and rejected 
   cases of the Promise.
   Syntax of then :- then(onFulfilled) or then(onFulfilled, onRejected).
@@ -2573,8 +2664,8 @@ const fetchData = function () {
   In the above question, Inside .then() - We are passing first argument as null and second argument as callback function for rejected 
   case of the Promise. So, Second argument callback function will be executed for rejected case and will console First Error. 
   */
-
 ```
+</details>
 
 
 ### Question 105
