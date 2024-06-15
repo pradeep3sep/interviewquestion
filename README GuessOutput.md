@@ -1913,15 +1913,24 @@ customObject.price = 19.99
 delete customObject.price
 console.log(customObject.get_price())
 ```
+<details>
+  <summary>Answer</summary>
+  <p>20.99</p>
+</details>
 
 ### Question 82
 
 ```js
-;(function (a) {
+(function (a) {
   arguments[0] = 10
   return a
 })(5)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>10</p>
+</details>
 
 ### Below 3 cases must see, why having the issue
 
@@ -1936,7 +1945,10 @@ Car.prototype.currentGear = 1
 console.log(++lada.currentGear)
 console.log(Car.prototype.currentGear)
 ```
-
+<details>
+  <summary>Answer</summary>
+  <p>2 <br> 1</p>
+</details>
 
 ### Question 84
 
@@ -1951,6 +1963,11 @@ admin.attributes.isAdmin = true
 alert(admin.attributes.isAdmin)
 alert(guest.attributes.isAdmin)
 ```
+<details>
+  <summary>Answer</summary>
+  <p>true, true</p>
+</details>
+
 
 ### Question 85
 
@@ -1967,16 +1984,25 @@ console.log(foo.options.name)
 console.log(bar.options.name)
 ```
 
+<details>
+  <summary>Answer</summary>
+  <p>bar, bar</p>
+</details>
+
 ### Question 86
 
 ```js
-var a = {}
-;(function b(a) {
+var a = {};
+(function b(a) {
   a.a = 10
   a = null
 })(a)
 console.log(a)
 ```
+<details>
+  <summary>Answer</summary>
+  <p>{a: 10}</p>
+</details>
 
 ### Question 87
 
@@ -1984,7 +2010,7 @@ console.log(a)
 var obj = {
   a: 1,
 }
-;(function (obj) {
+(function (obj) {
   obj = {
     a: 2,
   }
@@ -1992,31 +2018,36 @@ var obj = {
 console.log(obj.a)
 ```
 
+<details>
+  <summary>Answer</summary>
+  <p>1</p>
+</details>
+
 ### Question 88
 below 2 code will show different answers
 
 ```js
 let name = "Jayesh";
-  function printName() {
+function printName() {
     if (name === "Jayesh") {
       let name = "JC";
       console.log(name);
     }
     console.log(name);
-  }
-  printName();
+}
+printName();
 ```
 
 ```js
 var player = "Virat";
-  function displayPlayer() {
+function displayPlayer() {
     if (player === "Virat") {
       var player = "VK";
       console.log(player);
     }
     console.log(player);
-  }
-  displayPlayer();
+}
+displayPlayer();
 ```
 
 ### Question 89
