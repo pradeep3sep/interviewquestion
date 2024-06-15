@@ -401,10 +401,6 @@ console.log(firstname);
   </p>
 </details>
 
-### Write a program to remove duplicate from the array without using the default method
-### Write a program to give second largest integer from the array without using the default method
-### Write a program to make polyfill for map,filter,reduce method in javascript
-
 ### Question 26 , output of below code
 ```js
 for (let i = 0; i < 5; i++) {
@@ -446,7 +442,7 @@ outer()
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>3</p>
 </details>
 
 
@@ -471,7 +467,7 @@ console.log(obj.prop3());
 
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>0 <br> 1 <br> 2</p>
 </details>
 
 ### Question 29
