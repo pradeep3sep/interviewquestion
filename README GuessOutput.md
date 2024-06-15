@@ -467,7 +467,7 @@ console.log(obj.prop3());
 
 <details>
   <summary>Answer</summary>
-  <p>0 <br> 1 <br> 2</p>
+  <p>'0' <br> '1' <br> '2'</p>
 </details>
 
 ### Question 29
