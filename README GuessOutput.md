@@ -467,7 +467,7 @@ console.log(obj.prop3());
 
 <details>
   <summary>Answer</summary>
-  <p>'0' <br> '1' <br> '2'</p>
+  <p>'0' <br> 1 <br> 2</p>
 </details>
 
 ### Question 29
@@ -478,7 +478,7 @@ console.log(3 > 2 > 1);
 
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>true,false</p>
 </details>
 
 ### Question 30
@@ -490,7 +490,7 @@ printNumbers(1, 2, 3);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>3, 2, 3</p>
 </details>
 
 ### Question 31
@@ -499,7 +499,7 @@ console.log(Math.max());
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>-Infinity</p>
 </details>
 
 ### Question 32
@@ -508,20 +508,19 @@ console.log(10 == [10]);
 console.log(10 == [[[[[[[10]]]]]]]);
 ```
 
-1: True, True
-2: True, False
-3: False, False
+1: True, True\
+2: True, False\
+3: False, False\
 4: False, True
 
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>Answer: 1</p>
 </details>
 
-Answer: 1
 As per the comparison algorithm in the ECMAScript specification(ECMA-262), the above expression converted into JS as below
 
-10 === Number([10].valueOf().toString()); // 10
+10 === Number([10].valueOf().toString()); // 10\
 So it doesn't matter about number brackets([]) around the number, it is always converted to a number in the expression.
 
 ### Question 33
@@ -535,7 +534,7 @@ if ([0]) {
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>true, I'm True</p>
 </details>
 
 In comparison operators, the expression [0] converted to Number([0].valueOf().toString()) which is resolved to false. Whereas [0] just becomes a truthy value without any conversion because there is no comparison operator.
@@ -546,7 +545,7 @@ console.log([1, 2] + [3, 4]);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>1,23,4</p>
 </details>
 
 ### Question 35
@@ -556,7 +555,7 @@ console.log(numbers.indexOf(NaN));
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>-1</p>
 </details>
 
 ### Question 36
@@ -574,15 +573,16 @@ console.log(func());
 
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>Answer: 1 </p>
 </details>
 
-Answer: 1 \
+
 Async functions always return a promise. But even if the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise. The above async function is equivalent to below expression,
+```
 function func() {
   return Promise.resolve(10);
 }
-
+```
 
 ### Question 37
 ```js
@@ -599,24 +599,27 @@ console.log(func());
 
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>Answer: 4 </p>
 </details>
 
-Answer: 4 \
+
 The await expression returns value 10 with promise resolution and the code after each await expression can be treated as existing in a .then callback. In this case, there is no return expression at the end of the function. Hence, the default return value of undefined is returned as the resolution of the promise. The above async function is equivalent to below expression,
+```js
 function func() {
   return Promise.resolve(10).then(() => undefined);
 }
+```
+
 
 ### Question 38
 ```js
 let message = 'Hello World!';
 message[0] = 'J'
-console.log(message) // Hello World!
+console.log(message)
 
 let name = 'John';
 name = name + ' Smith';
-console.log(name); // John Smith
+console.log(name);
 ```
 
 1: Jello World!, John Smith \
@@ -626,10 +629,9 @@ console.log(name); // John Smith
 
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>Answer: 3 </p>
 </details>
 
-Answer: 3 \
 In JavaScript, primitives are immutable i.e. there is no way to change a primitive value once it gets created. So when you try to update the string's first character, there is no change in the string value and prints the same initial value Hello World!. Whereas in the later example, the concatenated value is re-assigned to the same variable which will result into creation of new memory block with the reference pointing to John Smith value and the old memory block value(John) will be garbage collected.
 
 ### Question 39
@@ -638,14 +640,14 @@ var a = [1,2,3]
 var b = [1,2,3]
 var c = '1,2,3'
 
-console.log(a == c)  // true
-console.log(b == c)  // true
-console.log(a == b)  // false
+console.log(a == c) 
+console.log(b == c)  
+console.log(a == b) 
 ```
 
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>true, true, false</p>
 </details>
 
 arrays are coerced to strings by simply joining all the values with comma(,) in between
@@ -658,11 +660,6 @@ arrays are coerced to strings by simply joining all the values with comma(,) in 
 42 > 'hh'  // gives false because the both are different data type so 'hh' are coerced to NaN and the comparison becomes 42 > NaN
 ```
 
-<details>
-  <summary>Answer</summary>
-  <p></p>
-</details>
-
 ### Question 41
 ```js
 +true;
@@ -670,10 +667,8 @@ arrays are coerced to strings by simply joining all the values with comma(,) in 
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>1 <br> false</p>
 </details>
-
-gives 1 and false
 
 ### Question 42
 ```js
