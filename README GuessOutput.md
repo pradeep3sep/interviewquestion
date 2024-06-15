@@ -79,9 +79,9 @@ test();
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>undefined</p>
 </details>
-undefined
+
 
 ### Question 7
 ```js
@@ -94,9 +94,9 @@ console.log(result);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>2</p>
 </details>
-2
+
 
 ### Question 8
 ```js
@@ -109,9 +109,9 @@ console.log(result);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>20</p>
 </details>
-20
+
 
 ### Question 9
 ```js
@@ -122,9 +122,9 @@ sum(10)
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>20</p>
 </details>
-20
+
 
 ### Question 10
 ```js
@@ -135,9 +135,9 @@ sum(10,89)
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>99</p>
 </details>
-99
+
 
 ### Question 11
 ```js
@@ -150,9 +150,9 @@ console.log(sum);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>NaN</p>
 </details>
-NaN
+
 
 ### Question 12
 ```js
@@ -162,9 +162,9 @@ console.log(a);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>5</p>
 </details>
-5
+
 
 ### Question 13(revise the concept of shallow and deep copy)
 ```js
@@ -177,9 +177,9 @@ console.log(members);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>[{name : "Lynda"}]</p>
 </details>
-[{name : "Lynda"}]
+
 
 ### Question 14
 ```js
@@ -201,11 +201,11 @@ console.log(a[b]);
 
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>solution is 456</p>
 </details>
 
 ```
-solution is 456
+
 
 Object keys are automatically converted into strings because object can store onlyy string and symbol. We are trying to set an object as a key to object `a`, with the value of `123`.
 
@@ -224,9 +224,9 @@ console.log(typeof y);
 ```
 <details>
   <summary>Answer</summary>
-  <p></p>
+  <p>undefined, number</p>
 </details>
-undefined, number
+
 
 ### Question 16
 ```js
