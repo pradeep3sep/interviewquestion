@@ -2694,7 +2694,13 @@ function resolveAfterNSeconds(time, value) {
   // 👍A) 6 in 4 Sec      💡B) 6 in 3 Sec
   // 💖C) NaN in 1 Sec    😀D) 1 in 4 Sec
 
-  /* 
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
+
   Answer is B) 6 in 3 Sec because while execution of doTasks function, first await resolveAfterNSeconds(1000, 1) will wait
   for 1 second. variable "a" will be assigned value as 1. a = 1, Total time = 1 Sec.
 
@@ -2705,9 +2711,7 @@ function resolveAfterNSeconds(time, value) {
   also get resolved in 1sec. overall time to execute (await b) + (await c) is only 2Sec because of concurrency.
 
   Hence, Output would be 6 where a = 1, b = 2, c = 3 and Total time = 3 Sec.
-  */
-
-```
+</details>
 
 ### Question 106
 
@@ -2726,16 +2730,18 @@ function resolveAfterNSeconds(time, value) {
   // 💡B) "JC" continously till 2 sec.
   // 💖C) "JC" Infinite times.
   // 😀D) Console Nothing.
+```
 
-  /* 
-  Answer is C) "JC" Infinite times because callback attached to setTimeout function is asynchronous task and need to wait
+<details>
+  <summary>Answer</summary>
+  <p>Answer is C)</p>
+
+ Answer is C) "JC" Infinite times because callback attached to setTimeout function is asynchronous task and need to wait
   for execution of main thread ( synchronous tasks in callstack ) to execute.
 
   As value of a is true, code will never exit from while loop ( callstack will never be empty to take callback attached to
   setTimeout function ). Hence, It will console "JC" Infinite times.
-  */
-
-```
+</details>
 
 ### Question 107
 
@@ -2760,16 +2766,22 @@ console.log(1);
   // 👍A) 1 2 3 4    💡B) 1 4 3 2
   // 💖C) 1 4 2 3    😀D) 1 3 4 2
 
-  /* 
-  Answer is D) 1 3 4 2 because at first console.log(1) will print "1", callback function attached to first setTimeout will 
+
+  
+
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+ Answer is D) 1 3 4 2 because at first console.log(1) will print "1", callback function attached to first setTimeout will 
   wait for atleast 1 second.
   In the 2nd setTimeout we are passing IIFE ( Immediately Invoked Function Expression ). So, IIFE will print "3" immediately 
   and will return () => {} as callback that will wait for atleast 2 seconds. 
   console.log(4) will print "4", callstack will be empty as all synchronous tasks completed.
   After one second callback function attached to first setTimeout pushed into callstack and console.log(2) will print "2".
-  */
-
-```
+</details>
 
 
 ### Question 108
@@ -2793,7 +2805,14 @@ setTimeout(() => {
   // 👍A) 3 1 2 4    💡B) 3 2 1 4
   // 💖C) 1 2 3 4    😀D) 3 4 1 2
 
-  /* 
+
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
+
   Answer is A) 3 1 2 4 because of taskqueue and microtask queue behaviour.
   callback attached to setTimeout will be pushed to taskqueue and callback of Promise.resolve().then will be pushed to microtask queue.
 
@@ -2805,9 +2824,8 @@ setTimeout(() => {
 
   Now, microtask queue has one callback and taskqueue also has one callback, As microtask queue has higher priority than taskqueue
   from microtask queue callback function will execute and console.log(2) will print "2" and at last from taskqueue console.log(4) will print "4".
-  */
-
-```
+ 
+</details>
 
 
 ### Question 109
@@ -2828,16 +2846,22 @@ function getName1() {
   // 👍A) Jayesh ReferenceError    💡B) Jayesh undefined
   // 💖C) ReferenceError JC        😀D) Jayesh JC
 
-  /* 
-  Answer is A) Jayesh ReferenceError because Arrow functions don't have their own bindings to this, arguments, or super.
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
+ Answer is A) Jayesh ReferenceError because Arrow functions don't have their own bindings to this, arguments, or super.
   Above code will give Uncaught ReferenceError: arguments is not defined at getName2. In place of arguments, we can use 
-  rest operator in arrow function definition for arguments array.  
+  rest operator in arrow function definition for arguments array. 
+  ```js
   const getName2 = (...arguments) => {
     console.log(arguments[0]);
   };
   getName2("JC"); // JC
-
-```
+  ```
+</details>
 
 ### Question 110
 
@@ -2858,13 +2882,19 @@ const arr = [1, 2, 3];
   // 👍A) [1, 2, 3] 3      💡B) [1, 2] [1, 2, 3]
   // 💖C) [1, 2] [1]       😀D) [1, 2, 3] [1, 2]
 
-  /* 
-  Answer is D) [1, 2, 3] [1, 2] because first time for removeLast([...arr]), arr is passed with spread operator because of which new copy ( different reference ) 
-  of arr will be passed to removeLast function and won't mutate the original arr. arr will still have [1, 2, 3] as value.
-  For second call of removeLast(arr), arr is passed directly with same memory reference so mutating array will change original "arr" as well, so arr will be modified to [1, 2].
-  */
+  
 
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+
+ Answer is D) [1, 2, 3] [1, 2] because first time for removeLast([...arr]), arr is passed with spread operator because of which new copy ( different reference ) 
+  of arr will be passed to removeLast function and won't mutate the original arr. arr will still have [1, 2, 3] as value.
+  For second call of removeLast(arr), arr is passed directly with same memory reference so mutating array will change original "arr" as well, so arr will be modified to [1, 2].
+</details>
 
 ### Question 111
 
@@ -2887,16 +2917,18 @@ console.log("start");
 
   // 👍A) start first second end    💡B) start end first
   // 💖C) start end first second    😀D) start second end
+```
 
-  /* 
-  Answer is B) start end first because The clearTimeout() method clears a timer set with the setTimeout() method.
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
+ Answer is B) start end first because The clearTimeout() method clears a timer set with the setTimeout() method.
   In variable "first" we are assigning id of first setTimeout and similarly in variable "second" we are assigning id of seconnd setTimeout.
   Both the setTimeouts ( asynchronous task ) will be handled by web api, as first setTimeout is taking only 1 second. So    
   callback function attached to first setTimeout will be executed and clearTimeout(second) will clear the second setTimeout from web api.
   Hence, The Final Output will be start end first.
-  */
-
-```
+</details>
 
 ### Question 112
 
@@ -2918,17 +2950,23 @@ function* generateNumber(i) {
   // 👍A) 10 20 40 80    💡B) 10 20 undefined 40
   // 💖C) 10 20 20 40    😀D) 10 20 40 undefined
 
-  /* 
-  Answer is D) 10 20 40 undefined, Generator is a function that can be paused and resumed from where it was paused. It is written as the function keyword followed by an asterisk (*).
+  
+  
+
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+
+Answer is D) 10 20 40 undefined, Generator is a function that can be paused and resumed from where it was paused. It is written as the function keyword followed by an asterisk (*).
   Generator returns a Generator object that is used by calling the next method. For the first time calling numbers.next().value, we will get 10 as an output, second time 20 as an ouput.
   While calling numbers.next().value for third time, Inside generator function we have return keyword that will return 40 and also terminate the generator function and 
   as the generator function is finished calling numbers.next().value again for fourth time will give output as undefined. So, Final Output will be 10 20 40 undefined
 
   Note:- A return statement in a generator, when executed, will make the generator finish ( i.e. the done property of the object returned by it will be set to true ).
-  */
-
-
-```
+</details>
 
 
 ### Question 112
@@ -2949,11 +2987,18 @@ let num = 10;
   // 👍A) 11 12     💡B) 10 10
   // 💖C) 10 11     😀D) 11 11
 
-  /* 
+
+
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
   Answer is B) 10 10 because The unary operator ++ first returns the value of the operand, then increments the value of the operand.
   So, incrementNumber1() will return "10" that will be assigned to "num1" and increment "num" by 1. incrementNumber2(num1) will also return "10" that will be assigned to "num2".
-  */
-```
+ 
+</details>
 
 
 ### Question 113
@@ -2972,18 +3017,22 @@ let num = 10;
   // 💖C) { a: 20 } { a: 20 }
   // 😀D) ReferenceError
 
-  /* 
+
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+
   Answer is D) ReferenceError because "let" variables can not be accessed before their initialization. at the last line we are declaring let obj1. 
   and at first line obj1 = { a: 10 } we will get Uncaught ReferenceError: Cannot access 'obj1' before initialization.
 
   Once the "let" variables are declared then only we can initialize them. If we try to initialize "let" variables before their declaration It will throw ReferenceError.
 
   In the case of "var" variables, because of hoisting the obj1 variable will be initialized as undefined and will get { a: 20 } { a: 20 } as an output.
-  In the case of "let" variables, the obj1 variable will be in temporal dead zone (time frame between hoisted to initialization).
-  */
-
-
-```
+  In the case of "let" variables, the obj1 variable will be in temporal dead zone (time frame between hoisted to initialization). 
+</details>
 
 ### Question 114
 
@@ -3008,11 +3057,17 @@ function Person(name) {
   // 👍A) ['name', 'age'] ['name', 'age']    💡B) ['name', 'age'] ['name']
   // 💖C) ['name'] ['name', 'age']           😀D) ['name', 'age'] ['age']
 
-  /* 
-  Answer is C) ['name'] ['name', 'age'] because Object.keys() method returns an array of a given object's own properties only,
-  whereas for...in loop enumerates properties in the prototype chain as well.
-  */
 ```
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is C)</p>
+
+  Answer is C) ['name'] ['name', 'age'] because Object.keys() method returns an array of a given object's own properties only,
+  whereas for...in loop enumerates properties in the prototype chain as well. 
+</details>
+
 ### Question 115
 
 ```js
@@ -3031,11 +3086,19 @@ const person = {
   // 👍A) undefined     💡B) Jayesh
   // 💖C) ""            😀D) Error
 
-  /* 
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
   Answer is A) undefined because "this" keyword inside nested normal function refers to window object and no property named with pName is present in window object.
   We can get "Jayesh" as an output using arrow function, Because in arrow function the 'this' pointer is interpreted lexically, so it will refer to the object as desired.
-  */
-```
+ 
+</details>
+
+
+
 ### Question 116
 
 ```js
@@ -3060,13 +3123,20 @@ function Person(name, age) {
   // 👍A) "object" "object"     💡B) "function" "function"
   // 💖C) "function" "class"    😀D) "object" "class"
 
-  /* 
+
+```
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
   Answer is B) "function" "function" because The typeof operator in JavaScript returns "function" for user-defined function, a predefined function, or a class.
   console.log(typeof function() {}) - user-defined function => "function"
   console.log(typeof Math.tan) - predefined function => "function"
-  console.log(typeof class C {}) - class => "function"
-  */
-```
+  console.log(typeof class C {}) - class => "function" 
+</details>
+
 ### Question 117
 
 ```js
@@ -3085,9 +3155,14 @@ function getName1() {
   // 💡B) {} { constructor: ...}
   // 💖C) { constructor: ...} {}
   // 😀D) { constructor: ...} undefined
+```
 
-  /* 
-  Answer is D) { constructor: ...} undefined because regular functions have a prototype property, which is an object (prototype object) with a constructor property. 
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+ Answer is D) { constructor: ...} undefined because regular functions have a prototype property, which is an object (prototype object) with a constructor property. 
   Where as arrow functions do not have this prototype property. undefined gets returned when trying to access the prototype property using getName2.prototype.
 
   Difference b/w Regular Function and Arrow Function :-
@@ -3095,8 +3170,9 @@ function getName1() {
   2) Arrow Function does not have it's own "argument" keyword. 
   3) Arrow Function can not be used as object function constructor.
   4) We can not use "new" keyword with arrow function.
-  */
-```
+
+</details>
+
 ### Question 118
 
 ```js
@@ -3112,11 +3188,21 @@ function getName() {
   // 👍A) JC JC       💡B) JC undefined
   // 💖C) JC Jayesh   😀D) ReferenceError
 
-  /* 
+  
+```
+
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
+ 
   Answer is A) JC JC because at first name is initialized as "Jayesh", while calling getName() function name will be overwritten by "JC".
   Hence, The result will be "JC" "JC".
-  */
-```
+
+</details>
+
+
 ### Question 119
 
 ```js
@@ -3132,11 +3218,20 @@ const person = [{ name: "Jayesh" }, 24];
   // 👍A) {name: 'Jayesh'} 24     💡B) {name: 'JC'} 24
   // 💖C) {name: 'Jayesh'} 34     😀D) {name: 'JC'} 34
 
-  /* 
-  Answer is B) {name: 'JC'} 24 because Array.prototype.slice method returns only a shallow copy of an original array.
-  While changing result[0].name will also change person[0].name as nested property of array will have same reference.
-  */
+  
+  
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
+ Answer is B) {name: 'JC'} 24 because Array.prototype.slice method returns only a shallow copy of an original array.
+  While changing result[0].name will also change person[0].name as nested property of array will have same reference.
+  
+</details>
+
+
 ### Question 120
 
 ```js
@@ -3151,14 +3246,22 @@ const arr1 = new Array(3);
   // 💖C) [3] [3]
   // 😀D) [empty × 3] [1, 2, 3]
 
-  /* 
-  Answer is D) [empty × 3] [1, 2, 3] because The Array() constructor is used to create Array objects. 
+  
+  
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+ Answer is D) [empty × 3] [1, 2, 3] because The Array() constructor is used to create Array objects. 
   If the only one argument passed to the Array constructor then it returns a new empty slots array of the passed argument as length.
   Syntax :-
   new Array(element0, element1, ....., elementN)
   new Array(arrayLength)
-  */
-```
+
+</details>
+
 ### Question 121
 
 ```js
@@ -3170,14 +3273,20 @@ const arr1 = new Array(3);
 
   // 👍A) 34 82      💡B) 28 82
   // 💖C) 82 28      😀D) 82 34
+```
 
-  /* 
-  Answer is B) 28 82 because of the Octal literals in JavaScript. If the number has zero prefix (0) followed by a sequence of octal digits (from 0 to 7) 
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
+ Answer is B) 28 82 because of the Octal literals in JavaScript. If the number has zero prefix (0) followed by a sequence of octal digits (from 0 to 7) 
   then the number will be converted into octal number. num1 => 034 is equal to 3*8 + 4*1 => 24 + 4 => 28.
   If the octal literal contains a number that is out of range, JavaScript ignores the leading 0 and treats the octal literal as a decimal.
   num2 => 082 has "8" which is out of range ( 0 to 7 ) so num2 will be treated as 82 only.
-  */
-```
+  
+</details>
+
+
 ### Question 122
 Ishme dhyan se dekho ki kon sa array lia h and then uska reference
 
@@ -3198,12 +3307,18 @@ const arr = ["JC", { name: "VK" }, "JC", { name: "VK" }];
   // 💡B) ["JC", { name: "VK" }, { name: "VK" }]
   // 💖C) ["JC", { name: "VK" }]
   // 😀D) ["JC", { name: "VK" }, "JC"]
-
-  /* 
-  Answer is B) ["JC", { name: "VK" }, { name: "VK" }] because the above code is to remove the primitive type duplicates from an array with the help of filter method.
-  Non-primitive type duplicates will not be filtered out as indexOf() method uses strict equality ( === ), array.indexOf({ name: "VK" }) will return -1 as object are compared by their references.   
-  */
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
+Answer is B) ["JC", { name: "VK" }, { name: "VK" }] because the above code is to remove the primitive type duplicates from an array with the help of filter method.
+  Non-primitive type duplicates will not be filtered out as indexOf() method uses strict equality ( === ), array.indexOf({ name: "VK" }) will return -1 as object are compared by their references. 
+ 
+</details>
+
+
 ### Question 123
 
 ```js
@@ -3220,13 +3335,19 @@ const map = new Map();
 
   // 👍A) 7 4      💡B) 1 4
   // 💖C) 1 3      😀D) 7 3
-
-  /* 
-  Answer is D) 7 3 because Map objects are collections of key-value pairs. A key in the Map may only occur once; it is unique in the Map's collection.
-  map.set("a", 7) will override key "a" with value "7" and the size of map object will be 3.
-  */
-
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+ Answer is D) 7 3 because Map objects are collections of key-value pairs. A key in the Map may only occur once; it is unique in the Map's collection.
+  map.set("a", 7) will override key "a" with value "7" and the size of map object will be 3.
+
+</details>
+
+
+
 ### Question 124
 
 ```js
@@ -3251,13 +3372,20 @@ const map = new Map();
 
   // 👍A) 0   💡B) -50   💖C) 50   😀D) Error
 
-  /* 
-  Answer is C) 50 because Method chaining. Method chaining is a chain of methods where each method shares the same reference means each method returns an object, allowing the calls to be 
-  chained together in a single statement. Method chaining is used to write more readable code.
-  */
-
-
+  
+  
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is C)</p>
+
+
+ Answer is C) 50 because Method chaining. Method chaining is a chain of methods where each method shares the same reference means each method returns an object, allowing the calls to be 
+  chained together in a single statement. Method chaining is used to write more readable code.
+  
+</details>
+
 ### Question 125
 
 ```js
@@ -3271,11 +3399,19 @@ const map = new Map();
   // 👍A) 14      💡B) 15
   // 💖C) 10      😀D) NaN
 
-  /* 
-  Answer is D) NaN because at first line declaring "result" variable without initialization will store result value as undefined.
-  + operator applies an implicit coercion to an integer to an operand when the other is a number undefined is coerced to NaN.
-  */
+  
+  
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+ Answer is D) NaN because at first line declaring "result" variable without initialization will store result value as undefined.
+  + operator applies an implicit coercion to an integer to an operand when the other is a number undefined is coerced to NaN.
+  
+</details>
+
 ### Question 126
 
 ```js
@@ -3289,14 +3425,17 @@ let arr = ["Java Script", "with", "JC"];
   // 💡B) ["Java Script", "with", "JC"]
   // 💖C) ['Java', 'Script', ['with'], ['JC']]
   // 😀D) ['Java Script', ['with'], ['JC']]
-
-  /* 
-  Answer is A) ['Java', 'Script', 'with', 'JC'] because The flatMap() method returns a new array formed by applying a given callback function to each element of the array, and then flattening the result by one level. 
-  It is similar to a map() followed by a flat() of depth 1. 
-  */
-
-
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is A)</p>
+
+ Answer is A) ['Java', 'Script', 'with', 'JC'] because The flatMap() method returns a new array formed by applying a given callback function to each element of the array, and then flattening the result by one level. 
+  It is similar to a map() followed by a flat() of depth 1. 
+</details>
+
+
 ### Question 127
 
 ```js
@@ -3308,12 +3447,18 @@ const arr = [1, 2, 3, 4];
 
   // 👍A) [0, 0, 0, 0]   💡B) [0, 1, 3, 4]
   // 💖C) [1, 0, 0, 4]   😀D) [1, 0, 0, 0]
+```
 
-  /* 
+<details>
+  <summary>Answer</summary>
+  <p>Answer is C)</p>
+
   Answer is C) [1, 0, 0, 4] because The fill() method changes all elements in an array to a static value, from a start index (default 0) to an end index (excluding end index and default array.length). 
   It returns the modified array.
-  */
-```
+ 
+</details>
+
+
 ### Question 128
 
 ```js
@@ -3326,12 +3471,16 @@ const arr = [1, 2, 3];
 
   // 👍A) 3 2 1        💡B) 2 1
   // 💖C) 1 2 3        😀D) 1 2
+```
 
-  /* 
+<details>
+  <summary>Answer</summary>
+  <p>Answer is B)</p>
+
   Answer is B) 2 1 because The reduceRight() is a higher order function that iterates through each value of an array (from right-to-left) and reduces array of values into single value.
   as second argument is not passed to reduceRight() method, currentValue will start from last second element of an array. 
-  */
-```
+</details>
+
 ### Question 129
 
 ```js
@@ -3357,11 +3506,16 @@ const person = {};
   // 👍A) JC 34     💡B) JC 24
   // 💖C) VK 34     😀D) VK 24
 
-  /* 
-  Answer is D) VK 24 because The Object.defineProperties() method defines new or modifies existing properties directly on an object, returning the object.
-  if writable: true then value associated with the property can be modified else value can not be modified.
-  */
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is D)</p>
+
+  Answer is D) VK 24 because The Object.defineProperties() method defines new or modifies existing properties directly on an object, returning the object.
+  if writable: true then value associated with the property can be modified else value can not be modified. 
+</details>
+
 ### Question 130
 
 ```js
