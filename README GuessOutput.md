@@ -304,7 +304,7 @@ function bar(){
 ```
 <details>
   <summary>Answer</summary>
-  <p>bar got called
+  <p>bar got called\
      something
   </p>
 </details>
