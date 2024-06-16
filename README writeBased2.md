@@ -56,6 +56,7 @@ const arr = [1, 2, 3, 4];
 shuffle(arr);
 console.log(arr);
 ```
+<br>
 
 > ### Q2 - Reverse an array
 
@@ -71,6 +72,7 @@ function reverserArray(arr){
 }
 reverserArray(data);
 ```
+<br>
 
 > ### Q3 - Sort of array
 
@@ -92,6 +94,7 @@ function sortArray(arr) {
 
 sortArray(array)
 ```
+<br>
 
 > ### Q4 - Remove duplicate from array.
 ```js
@@ -147,6 +150,7 @@ array.forEach(item => {
 });
 console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 ```
+<br>
 
 > ### Q5 - Maximum and minimum of an array using minimum number of comparisons
 
@@ -195,6 +199,7 @@ console.log(Math.max(...numbers)); // 9
 console.log(Math.min.apply(null, numbers)); // 1
 console.log(Math.max.apply(null, numbers)); // 9
 ```
+<br>
 
 > ### Q6 - Find the "Kth" max and min element of an array
 arr[] = 7 10 4 3 20 15\
@@ -219,6 +224,7 @@ console.log(min); // 7
 console.log(max); // 10
 
 ```
+<br>
 
 > ### Q7 - Given an array of size N containing only 0s, 1s, and 2s; sort the array in ascending order without sort.
 arr = [0, 2, 1, 2, 0]
@@ -252,8 +258,9 @@ let arr = [0, 2, 1, 2, 0];
 console.log("Original array:", arr);
 console.log("Sorted array:", sortArray(arr));
 ```
+<br>
 
-> ### Q6 - Find the Union of two sorted arrays.
+> ### Q8 - Find the Union of two sorted arrays.
 arr1 = [1, 2, 3, 4, 5]
 arr2 = [1, 2, 3, 8, 9]
 output = [ 1, 2, 3, 4, 5, 8, 9 ]
@@ -292,7 +299,7 @@ const unionR = arr1.concat(
 console.log("unionR", unionR); // [ 1, 2, 3, 4, 5, 8, 9 ]
 ```
 
-> ### Q6A - Find the Intersection of two sorted arrays.
+> ### Q9 - Find the Intersection of two sorted arrays.
 arr1 = [1, 2, 3, 4, 5]
 arr2 = [1, 2, 3, 8, 9]
 output = [ 1, 2, 3]
@@ -339,7 +346,7 @@ using while loop sorted array
   }
 ```
 
-> ### Q6B - unique from two arrays
+> ### Q10 - unique from two arrays
 
 const arr3 = [1, 2, 3, 4];
 const arr4 = [1, 2, 5, 6];
