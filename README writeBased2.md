@@ -40,12 +40,15 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
 
 > ### Here comes the Immutability Helper, you are asked to implement your own Immutability Helper update(), which supports following features.
 - 1. {$push: array} push() all the items in array on the target.
+     
      ```js
 	const arr = [1, 2, 3, 4]
 	const newArr = update(arr, {$push: [5, 6]})
 	// [1, 2, 3, 4, 5, 6]
      ```
+     
 - 2. {$set: any} replace the target
+     
      ```js
 	     const state = {
 	  a: {
@@ -71,6 +74,7 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
 	}
 	*/
      ```
+     
 	Notice that we could also update array elements with $set
 
      ```js
@@ -84,6 +88,7 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
      ```
 
   - 3. {$merge: object} merge object to the location
+       
        ```js
 
 	const state = {
@@ -113,6 +118,7 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
        ```
 
 4. {$apply: function} custom replacer
+   
    ```js
 	const arr = [1, 2, 3, 4]
 	const newArr = update(arr, {0: {$apply: (item) => item * 2}})
