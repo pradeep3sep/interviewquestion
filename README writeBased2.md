@@ -285,8 +285,6 @@ array.forEach(item => {
 console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 ```
 
-> ### Infinite currying
-
 > ### Q2 - Maximum and minimum of an array using minimum number of comparisons
 
 Input: arr = [3, 5, 4, 1, 9]
@@ -336,8 +334,8 @@ console.log(Math.max.apply(null, numbers)); // 9
 ```
 
 > ### Q3 - Find the "Kth" max and min element of an array
-arr[] = 7 10 4 3 20 15
-K = 3;
+arr[] = 7 10 4 3 20 15\
+K = 3;\
 Output: kth Min - 7, kth Max - 10
 
 ```js
@@ -593,57 +591,6 @@ for (let i = 0; i < sorted.length - 1; i++) {
 console.log("output", output);
 ```
 
-> ### Q10 - Merge Intervals
-Input: intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]\
-Output: [ [1, 6], [8, 10], [15, 18]]\
-https://www.youtube.com/watch?v=LvygwImtvEw
-
-
-```js
-
-const intervals = [[1, 3],[2, 6],[8, 10],[15, 18]];
-
-intervals.sort((a, b) => a[0] - b[0]);
-
-const result = [intervals[0]]; // [[1,3]]
-
-for (let interval of intervals.slice(1)) {
-    e1 = result[result.length - 1][1]; // 3
-    s2 = interval[0]; // 2
-    e2 = interval[1]; // 6
-
-    if (e1 >= s2) {
-      // 3 >= 2
-      result[result.length - 1][1] = Math.max(e1, e2); // [[1,6]]
-    } else {
-      result.push(interval);
-    }
-}
-
-console.log("result", result);
-
-```
-
-
-> ### Q12 Best Time to Buy and Sell Stock:-
-Input: prices = [7,1,5,3,6,4]\
-Output: 5\
-Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\
-Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
-
-```js
-const prices = [7, 1, 5, 3, 6, 4];
-
-  let maxProfit = 0;
-  let lowestPrice = prices[0];
-
-  for (let i = 1; i < prices.length; i++) {
-    lowestPrice = Math.min(prices[i], lowestPrice);
-    maxProfit = Math.max(prices[i] - lowestPrice, maxProfit);
-  }
-
-  console.log("maxProfit", maxProfit);
-```
 
 
 > ### Q13 find all pairs on integer array whose sum is equal to given number
@@ -981,8 +928,6 @@ output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
 
   console.log(pairElements(arr));
 ```
-
---- String ---
 
 > ### Q24 - Reverse a string
 
@@ -5517,4 +5462,57 @@ const matrix = [
     ['G', 'H', 'O', 'E', 'L', 'A', 'D']
 ];
 console.log(decode(matrix))
+```
+
+
+> ### Q10 - Merge Intervals
+Input: intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]\
+Output: [ [1, 6], [8, 10], [15, 18]]\
+https://www.youtube.com/watch?v=LvygwImtvEw
+
+
+```js
+
+const intervals = [[1, 3],[2, 6],[8, 10],[15, 18]];
+
+intervals.sort((a, b) => a[0] - b[0]);
+
+const result = [intervals[0]]; // [[1,3]]
+
+for (let interval of intervals.slice(1)) {
+    e1 = result[result.length - 1][1]; // 3
+    s2 = interval[0]; // 2
+    e2 = interval[1]; // 6
+
+    if (e1 >= s2) {
+      // 3 >= 2
+      result[result.length - 1][1] = Math.max(e1, e2); // [[1,6]]
+    } else {
+      result.push(interval);
+    }
+}
+
+console.log("result", result);
+
+```
+
+
+> ### Q12 Best Time to Buy and Sell Stock:-
+Input: prices = [7,1,5,3,6,4]\
+Output: 5\
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+
+```js
+const prices = [7, 1, 5, 3, 6, 4];
+
+  let maxProfit = 0;
+  let lowestPrice = prices[0];
+
+  for (let i = 1; i < prices.length; i++) {
+    lowestPrice = Math.min(prices[i], lowestPrice);
+    maxProfit = Math.max(prices[i] - lowestPrice, maxProfit);
+  }
+
+  console.log("maxProfit", maxProfit);
 ```
