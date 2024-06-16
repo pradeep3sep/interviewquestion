@@ -72,7 +72,7 @@ function reverserArray(arr){
 reverserArray(data);
 ```
 
-> ### Sort of array
+> ### Q3 - Sort of array
 
 ```js
 const array = [7, 10, 4, 3, 20, 15];
@@ -93,12 +93,12 @@ function sortArray(arr) {
 sortArray(array)
 ```
 
-> ### Remove duplicate from array.
+> ### Q4 - Remove duplicate from array.
 ```js
 function removeDuplicates(array) {
     const uniqueArray = [];
     for (let i = 0; i < array.length; i++) {
-        if (uniqueArray.indexOf(array[i]) === -1) {
+        if (!uniqueArray.includes(array[i])) {
             uniqueArray.push(array[i]);
         }
     }
@@ -107,6 +107,12 @@ function removeDuplicates(array) {
 
 const array = [1, 2, 3, 3, 4, 5, 5];
 const uniqueArray = removeDuplicates(array);
+console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
+```
+
+```js
+const array = [1, 2, 3, 3, 4, 5, 5];
+const uniqueArray = array.filter((value, index) => array.indexOf(value) === index);
 console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 ```
 
@@ -133,13 +139,6 @@ console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 
 ```js
 const array = [1, 2, 3, 3, 4, 5, 5];
-const uniqueArray = array.filter((value, index) => array.indexOf(value) === index);
-console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
-```
-
-
-```js
-const array = [1, 2, 3, 3, 4, 5, 5];
 const uniqueArray = [];
 array.forEach(item => {
     if (!uniqueArray.includes(item)) {
@@ -149,7 +148,7 @@ array.forEach(item => {
 console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 ```
 
-> ### Q2 - Maximum and minimum of an array using minimum number of comparisons
+> ### Q5 - Maximum and minimum of an array using minimum number of comparisons
 
 Input: arr = [3, 5, 4, 1, 9]
 Output: Minimum element is: 1
@@ -197,7 +196,7 @@ console.log(Math.min.apply(null, numbers)); // 1
 console.log(Math.max.apply(null, numbers)); // 9
 ```
 
-> ### Q3 - Find the "Kth" max and min element of an array
+> ### Q6 - Find the "Kth" max and min element of an array
 arr[] = 7 10 4 3 20 15\
 K = 3;\
 Output: kth Min - 7, kth Max - 10
@@ -221,7 +220,7 @@ console.log(max); // 10
 
 ```
 
-> ### Q4 - Given an array of size N containing only 0s, 1s, and 2s; sort the array in ascending order without sort.
+> ### Q7 - Given an array of size N containing only 0s, 1s, and 2s; sort the array in ascending order without sort.
 arr = [0, 2, 1, 2, 0]
 Output: [0, 0, 1, 2, 2]
 
