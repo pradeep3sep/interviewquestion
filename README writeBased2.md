@@ -159,23 +159,23 @@ function update(data, command) {
 }
 
 // test cases
-update([1], {$push: [2, 3]})  
+console.log(update([1], {$push: [2, 3]})) 
 
-update({a: [1]}, {a: {$push: [2, 3]}})  
+console.log(update({a: [1]}, {a: {$push: [2, 3]}})) 
 
-$push on non-array should throw error  
+// $push on non-array should throw error  
 
-update([1], {1: {$set: 2}})  
+console.log(update([1], {1: {$set: 2}}))  
 
-update({a: {b: 1}}, {a: { b: {$set: 2}}})  
+console.log(update({a: {b: 1}}, {a: { b: {$set: 2}}})) 
 
-update({a: {b: 1}}, {a: {$merge: {c: 3}}})  
+console.log(update({a: {b: 1}}, {a: {$merge: {c: 3}}}))
 
-update({a: {c: 1}}, {a: {$merge: {c: 3}}})  
+console.log(update({a: {c: 1}}, {a: {$merge: {c: 3}}}))  
 
-$merge on non-object should throw error  
+// $merge on non-object should throw error  
 
-update([1], {0: {$apply: (item) => item * 2}})  
+console.log(update([1], {0: {$apply: (item) => item * 2}})) 
 ```
 
 
