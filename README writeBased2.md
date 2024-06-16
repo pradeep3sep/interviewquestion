@@ -46,7 +46,7 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
 ```js
 function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
+        const j = Math.floor(Math.random() * (i + 1));  // 1 is added because at 0 index, i=0 and which cause random no to be 0, also it make it lies below max index as you can see in above random no explanation
         [arr[i], arr[j]] = [arr[j], arr[i]];
     }
     return arr;
