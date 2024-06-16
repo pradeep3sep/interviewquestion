@@ -38,6 +38,8 @@ const z = Math.floor((Math.random() * 10) + 3);
 
 With this modification, `z` will give you a random integer between 3 and 12 (inclusive).
 
+<br>
+
 > ### Here comes the Immutability Helper, you are asked to implement your own Immutability Helper update(), which supports following features.
 
 - 1. {$push: array} push() all the items in array on the target.
@@ -79,13 +81,12 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
 	Notice that we could also update array elements with $set
 
     ```js
-     const arr = [1, 2, 3, 4]
+        const arr = [1, 2, 3, 4]
 	const newArr = update(
 	  arr, 
 	  {0: {$set: 0}}
 	)
 	//  [0, 2, 3, 4]
-
     ```
 
 - 3. {$merge: object} merge object to the location
