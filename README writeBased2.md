@@ -178,86 +178,6 @@ console.log(update({a: {c: 1}}, {a: {$merge: {c: 3}}}))
 console.log(update([1], {0: {$apply: (item) => item * 2}})) 
 ```
 
-
-> ### Say you have multiple versions of a program, write a program that will find and return the first bad revision given a isBad(version) function.
-
-Versions after first bad version are supposed to be all bad versions.
-
-notes
-
-Inputs are all non-negative integers\
-if none found, return -1
-
-```js
-function firstBadVersion(isBad) {
-  // firstBadVersion receive a check function isBad
-  // and should return a closure which accepts a version number(integer)
-
-  // the check function return the first bad version
-  // if version v is bad, continue to check v-1
-  // else return v+1
-  const check = (v) => isBad(v)?  check(v-1) : v+1;
-  return (version) => {
-    // if none found, return -1, else use the check function defined above
-    return isBad(version)? check(version) : -1
-  }
-}
-
-firstBadVersion((i) => i >= 4)(100) // expects 4
-
-firstBadVersion((i) => i >= 4)(4)  // expects -1
-
-firstBadVersion((i) => i >= 5)(3)  // expects -1
-
-firstBadVersion((i) => i >= 1)(1)  // expects -1
-
-firstBadVersion((i) => i >= 1)(2) // expects 1
-```
-
-
-> ### Your are given a 2-D array of characters. There is a hidden message in it.
-
-I B C A L K A\
-D R F C A E A\
-G H O E L A D \
-The way to collect the message is as follows
-
-start at top left\
-move diagonally down right\
-when cannot move any more, try to switch to diagonally up right\
-when cannot move any more, try switch to diagonally down right, repeat 3\
-stop when cannot neither move down right or up right. the character on the path is the message\
-for the input above, IROCLED should be returned.
-
-notes
-
-if no characters could be collected, return empty string
-
-```js
-function decode(message) {
-  const result = [];
-  let row = 0;
-  let col = 0;
-  while(message[row] && message[row][col]) {
-    result.push(message[row][col]);
-    if (message[row + 1]) {
-      row++;
-    } else {
-      row--;
-    }
-    col++;
-  }
-  return result.join('');
-}
-const matrix = [
-    ['I', 'B', 'C', 'A', 'L', 'K', 'A'],
-    ['D', 'R', 'F', 'C', 'A', 'E', 'A'],
-    ['G', 'H', 'O', 'E', 'L', 'A', 'D']
-];
-console.log(decode(matrix))
-```
-
-
 > ### Shuffle algorithm
 ```js
 function shuffle(arr) {
@@ -5519,4 +5439,82 @@ function canWinStonePicking(n) {
 // n=7 : B
 // n=8 : A
 // n=9 : A
+```
+
+> ### Say you have multiple versions of a program, write a program that will find and return the first bad revision given a isBad(version) function.
+
+Versions after first bad version are supposed to be all bad versions.
+
+notes
+
+Inputs are all non-negative integers\
+if none found, return -1
+
+```js
+function firstBadVersion(isBad) {
+  // firstBadVersion receive a check function isBad
+  // and should return a closure which accepts a version number(integer)
+
+  // the check function return the first bad version
+  // if version v is bad, continue to check v-1
+  // else return v+1
+  const check = (v) => isBad(v)?  check(v-1) : v+1;
+  return (version) => {
+    // if none found, return -1, else use the check function defined above
+    return isBad(version)? check(version) : -1
+  }
+}
+
+firstBadVersion((i) => i >= 4)(100) // expects 4
+
+firstBadVersion((i) => i >= 4)(4)  // expects -1
+
+firstBadVersion((i) => i >= 5)(3)  // expects -1
+
+firstBadVersion((i) => i >= 1)(1)  // expects -1
+
+firstBadVersion((i) => i >= 1)(2) // expects 1
+```
+
+
+> ### Your are given a 2-D array of characters. There is a hidden message in it.
+
+I B C A L K A\
+D R F C A E A\
+G H O E L A D \
+The way to collect the message is as follows
+
+start at top left\
+move diagonally down right\
+when cannot move any more, try to switch to diagonally up right\
+when cannot move any more, try switch to diagonally down right, repeat 3\
+stop when cannot neither move down right or up right. the character on the path is the message\
+for the input above, IROCLED should be returned.
+
+notes
+
+if no characters could be collected, return empty string
+
+```js
+function decode(message) {
+  const result = [];
+  let row = 0;
+  let col = 0;
+  while(message[row] && message[row][col]) {
+    result.push(message[row][col]);
+    if (message[row + 1]) {
+      row++;
+    } else {
+      row--;
+    }
+    col++;
+  }
+  return result.join('');
+}
+const matrix = [
+    ['I', 'B', 'C', 'A', 'L', 'K', 'A'],
+    ['D', 'R', 'F', 'C', 'A', 'E', 'A'],
+    ['G', 'H', 'O', 'E', 'L', 'A', 'D']
+];
+console.log(decode(matrix))
 ```
