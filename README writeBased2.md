@@ -588,7 +588,26 @@ console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
 ```
 <br>
 
-> ### Q15 - Find if there is any subarray with sum equal to 0
+> ### Q15 - Find factorial of a large number
+
+```js
+function factorial(num) {
+    if (num < 0) {
+      console.log("Please provide positive number");
+      return;
+    }
+    if (num === 0 || num === 1) {
+      return 1;
+    } else {
+      return num * factorial(num - 1);
+    }
+}
+console.log(factorial(5));
+
+```
+<br>
+
+> ### Q16 - Find if there is any subarray with sum equal to 0
 
 Input:  arr[] = [4, 2, -3, 1, 6]\
 Output: [2, -3, 1] is the subarray with sum 0.
@@ -616,24 +635,6 @@ function findZeroSumSubarray(arr) {
 }
 
 console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
-```
-
-> ### Q17 - Find factorial of a large number
-
-```js
-function factorial(num) {
-    if (num < 0) {
-      console.log("Please provide positive number");
-      return;
-    }
-    if (num === 0 || num === 1) {
-      return 1;
-    } else {
-      return num * factorial(num - 1);
-    }
-}
-console.log(factorial(5));
-
 ```
 
 > ### Q18 - find maximum product subarray
