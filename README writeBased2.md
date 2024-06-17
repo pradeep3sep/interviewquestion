@@ -545,7 +545,7 @@ console.log(common)
 
 <br>
 
-> ### Q19 - Given Array of size n, find all elements that appear more than k times
+> ### Q14 - Given Array of size n, find all elements that appear more than k times
 Input: arr[] = {3, 1, 2, 2, 1, 2, 3, 3}, k = 2\
 Output: {2, 3}
 
@@ -572,7 +572,7 @@ const arr = [3, 1, 2, 2, 1, 2, 3, 3];
   console.log("result", result);
 ```
 
-> ### Q21 - Find whether an array is a subset of another array
+> ### Q15 - Find whether an array is a subset of another array
 Input:\
 a1[] = {11, 1, 13, 21, 3, 7}\
 a2[] = {11, 3, 7, 1}\
@@ -605,7 +605,7 @@ if (isSubset(a1, a2)) {
 }
 ```
 
-> ### Q14 - Find factorial of a large number
+> ### Q16 - Find factorial of a large number
 
 ```js
 function factorial(num) {
@@ -624,7 +624,7 @@ console.log(factorial(5));
 ```
 <br>
 
-> ### Q15 - Rearrange array in alternating positive & negative items
+> ### Q17 - Rearrange array in alternating positive & negative items
 Input:  arr[] = {1, 2, 3, -4, -1, 4}\
 Output: arr[] = {-4, 1, -1, 2, 3, 4}
 
@@ -667,7 +667,7 @@ console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
 ```
 <br>
 
-> ### Q16 - Find if there is any subarray with sum equal to 0
+> ### Q18 - Find if there is any subarray with sum equal to 0
 
 Input:  arr[] = [4, 2, -3, 1, 6]\
 Output: [2, -3, 1] is the subarray with sum 0.
@@ -698,7 +698,7 @@ console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 ```
 <br>
 
-> ### Q17 - find maximum product subarray
+> ### Q19 - find maximum product subarray
 
 Arr[] = [ 6, -3, -10, 0, 2 ]\
 Output: 180
@@ -757,7 +757,7 @@ const arr = [6, -3, -10, 0, 2];
 
 ```
 
-> ### Q18 - Find longest consecutive subsequence
+> ### Q20 - Find longest consecutive subsequence
 a[] = {2,6,1,9,4,5,3}\
 Output:\
 6 => [1,2,3,4,5,6]
@@ -795,7 +795,7 @@ console.log(longestConsecutiveSubsequence(arr)); // Output: [1, 2, 3, 4, 5]
 
 <br>
 
-> ### Q23 - Pair elements of an array
+> ### Q21 - Pair elements of an array
 
 const arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]\
 output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
@@ -826,8 +826,9 @@ output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
 
   console.log(pairElements(arr));
 ```
+<br>
 
-> ### Q24 - Reverse a string
+> ### Q22 - Reverse a string
 
  1) using Decrementing for loop
 
@@ -852,8 +853,9 @@ output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
   }
   console.log(output);
 ```
+<br>
 
-> ### Q25 - Check whether a String is Palindrome or not
+> ### Q23 - Check whether a String is Palindrome or not
 
 1) using for loop
 ```js
@@ -878,8 +880,9 @@ const str1 = "abcba";
 const rev = str1;
 console.log(rev.split("").reverse().join("") === str1);
 ```
+<br>
 
-> ### Q26 - Find Duplicate characters in a string
+> ### Q24 - Find Duplicate characters in a string
 
 ```js
   const str = "babbar";
@@ -901,8 +904,9 @@ console.log(rev.split("").reverse().join("") === str1);
 
   console.log(map);
 ```
+<br>
 
-> ### Q27 - Write a Code to check whether one string is a rotation of another
+> ### Q25 - Write a Code to check whether one string is a rotation of another
 Input: S1 = ABCD, S2 = CDAB\
 Output: Strings are rotations of each other\
 
@@ -910,7 +914,7 @@ Input: S1 = ABCD, S2 = ACBD\
 Output: Strings are not rotations of each other
 
 ```js
-const str1 = "ABCD";
+  const str1 = "ABCD";
   const str2 = "CDAB";
 
   function checkRotation(str1, str2) {
@@ -925,8 +929,9 @@ const str1 = "ABCD";
 
   console.log(checkRotation(str1, str2));
 ```
+<br>
 
-> ### Q28 - Write a Program to check whether a string is a valid shuffle of two strings or not
+> ### Q26 - Write a Program to check whether a string is a valid shuffle of two strings or not
 
 ```js
 function isShuffle(str, str1, str2) {
@@ -957,8 +962,9 @@ console.log(isShuffle(string, string1, string2)); // Output: true
 const invalidString = "bacde";
 console.log(isShuffle(invalidString, string1, string2)); // Output: false
 ```
+<br>
 
-> ### Q29 - Balanced Parenthesis problem.
+> ### Q27 - Balanced Parenthesis problem.
 the function should return 'true' for exp = “[()]{}{[()()]()}” and 'false' for exp = “[(])”.
 
 ```js
@@ -986,8 +992,9 @@ function isBalanced(str) {
 console.log(isBalanced("[(())]{}{[()()]()}")); // Output: true
 console.log(isBalanced("[(])"));  // Output: false
 ```
+<br>
 
-> ### Q33 - Find Elements that occurred only once in the array
+> ### Q28 - Find Elements that occurred only once in the array
 
 const a = [1, 2, 3, 4, 5, 1, 2];\
 Output => [ 3, 4, 5 ]
@@ -1018,9 +1025,9 @@ const array = [1, 2, 3, 4, 5, 1, 2, 3, 4];
 console.log(findUniqueElements(array)); // Output: [5]
 
 ```
+<br>
 
-
-> ### Q34 -  Find maximum char from string.
+> ### Q29 -  Find maximum char from string.
 const str = "hello"\
 Output => l => 2
 
@@ -1045,9 +1052,9 @@ const str = "hello";
 const maxChar = findMaxChar(str);
 console.log(maxChar); // Output: l
 ```
+<br>
 
-
-> ### Q35 - Check Whether Two Strings Are Anagram Of Each Other
+> ### Q30 - Check Whether Two Strings Are Anagram Of Each Other
 
 An anagram of a string is another string that contains the same characters,\
 only the order of characters can be different. For example, “abcd” and “dabc” are an anagram of each other. 
