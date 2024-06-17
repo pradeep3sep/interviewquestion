@@ -545,7 +545,86 @@ console.log(common)
 
 <br>
 
-> ### Q14 - Rearrange array in alternating positive & negative items
+> ### Q19 - Given Array of size n, find all elements that appear more than k times
+Input: arr[] = {3, 1, 2, 2, 1, 2, 3, 3}, k = 2\
+Output: {2, 3}
+
+```js
+const arr = [3, 1, 2, 2, 1, 2, 3, 3];
+  const k = 2;
+  const map = new Map();
+  const result = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    if (map.has(arr[i])) {
+      map.set(arr[i], map.get(arr[i]) + 1);
+    } else {
+      map.set(arr[i], 1);
+    }
+  }
+
+  for (let [key, value] of map) {
+    if (value > k) {
+      result.push(key);
+    }
+  }
+
+  console.log("result", result);
+```
+
+> ### Q21 - Find whether an array is a subset of another array
+Input:\
+a1[] = {11, 1, 13, 21, 3, 7}\
+a2[] = {11, 3, 7, 1}\
+Output: Yes
+
+```js
+function isSubset(array1, array2) {
+    // Convert arrays to sets to make element lookup more efficient
+    let set1 = new Set(array1);
+    let set2 = new Set(array2);
+
+    // Check if every element in array2 exists in array1
+    for (let elem of set2) {
+        if (!set1.has(elem)) {
+            return false; // If any element doesn't exist, return false
+        }
+    }
+
+    return true; // All elements found, return true
+}
+
+// Example usage:
+let a1 = [11, 1, 13, 21, 3, 7];
+let a2 = [11, 3, 7, 1];
+
+if (isSubset(a1, a2)) {
+    console.log("Yes"); // Output: Yes
+} else {
+    console.log("No");
+}
+```
+
+> ### Q14 - Find factorial of a large number
+
+```js
+function factorial(num) {
+    if (num < 0) {
+      console.log("Please provide positive number");
+      return;
+    }
+    if (num === 0 || num === 1) {
+      return 1;
+    } else {
+      return num * factorial(num - 1);
+    }
+}
+console.log(factorial(5));
+
+```
+<br>
+
+> ### Q15 - Rearrange array in alternating positive & negative items
 Input:  arr[] = {1, 2, 3, -4, -1, 4}\
 Output: arr[] = {-4, 1, -1, 2, 3, 4}
 
@@ -585,25 +664,6 @@ function rearrange(arr) {
 const arr = [1, 2, 3, -4, -1, 4];
 const rearranged = rearrange(arr);
 console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
-```
-<br>
-
-> ### Q15 - Find factorial of a large number
-
-```js
-function factorial(num) {
-    if (num < 0) {
-      console.log("Please provide positive number");
-      return;
-    }
-    if (num === 0 || num === 1) {
-      return 1;
-    } else {
-      return num * factorial(num - 1);
-    }
-}
-console.log(factorial(5));
-
 ```
 <br>
 
@@ -697,25 +757,27 @@ const arr = [6, -3, -10, 0, 2];
 
 ```
 
-> ### Q19 - Find longest coinsecutive subsequence
+> ### Q18 - Find longest consecutive subsequence
 a[] = {2,6,1,9,4,5,3}\
 Output:\
 6 => [1,2,3,4,5,6]
 
 ```js
 function longestConsecutiveSubsequence(arr) {
-    if (arr.length === 0) {
-        return [];
-    }
+
+// currentSeq[currentSeq.length - 1]) means last added element in currentSeq
     
     arr.sort((a, b) => a - b);
+
     let longestSeq = [arr[0]];
     let currentSeq = [arr[0]];
     
     for (let i = 1; i < arr.length; i++) {
-        if (arr[i] === currentSeq[currentSeq.length - 1] + 1) {
+
+	// Checking for Consecutive Numbers
+        if (arr[i] === currentSeq[currentSeq.length - 1] + 1) {  // This condition checks if the current element (arr[i]) is one more than the last added element in the currentSeq array (currentSeq[currentSeq.length - 1]) 
             currentSeq.push(arr[i]);
-        } else if (arr[i] !== currentSeq[currentSeq.length - 1]) {
+        } else if (arr[i] !== currentSeq[currentSeq.length - 1]) {  // Handling Non-Consecutive Numbers
             currentSeq = [arr[i]];
         }
         
@@ -727,69 +789,11 @@ function longestConsecutiveSubsequence(arr) {
     return longestSeq;
 }
 
-const arr = [2, 6, 1, 9, 4, 5, 3];
-console.log(longestConsecutiveSubsequence(arr)); // Output: [1, 2, 3, 4, 5, 6]
+const arr = [66, 2, 1, 9, 4, 5, 3];
+console.log(longestConsecutiveSubsequence(arr)); // Output: [1, 2, 3, 4, 5]
 ```
 
-> ### Q20 - Given Array of size n, find all elements that appear more than k times
-Input: arr[] = {3, 1, 2, 2, 1, 2, 3, 3}, k = 2\
-Output: {2, 3}
-
-```js
-const arr = [3, 1, 2, 2, 1, 2, 3, 3];
-  const k = 2;
-  const map = new Map();
-  const result = [];
-
-  for (let i = 0; i < arr.length; i++) {
-    if (map.has(arr[i])) {
-      map.set(arr[i], map.get(arr[i]) + 1);
-    } else {
-      map.set(arr[i], 1);
-    }
-  }
-
-  for (let [key, value] of map) {
-    if (value > k) {
-      result.push(key);
-    }
-  }
-
-  console.log("result", result);
-```
-
-> ### Q21 - Find whether an array is a subset of another array
-Input:\
-a1[] = {11, 1, 13, 21, 3, 7}\
-a2[] = {11, 3, 7, 1}\
-Output: Yes
-
-```js
-function isSubset(array1, array2) {
-    // Convert arrays to sets to make element lookup more efficient
-    let set1 = new Set(array1);
-    let set2 = new Set(array2);
-
-    // Check if every element in array2 exists in array1
-    for (let elem of set2) {
-        if (!set1.has(elem)) {
-            return false; // If any element doesn't exist, return false
-        }
-    }
-
-    return true; // All elements found, return true
-}
-
-// Example usage:
-let a1 = [11, 1, 13, 21, 3, 7];
-let a2 = [11, 3, 7, 1];
-
-if (isSubset(a1, a2)) {
-    console.log("Yes"); // Output: Yes
-} else {
-    console.log("No");
-}
-```
+<br>
 
 > ### Q23 - Pair elements of an array
 
