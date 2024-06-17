@@ -1059,8 +1059,25 @@ console.log(maxChar); // Output: l
 An anagram of a string is another string that contains the same characters,\
 only the order of characters can be different. For example, “abcd” and “dabc” are an anagram of each other. 
 
-```js
+1) sorting and compare
 
+```js
+  const s1 = "listen";
+  const s2 = "silent";
+
+  const ss1 = s1.split("").sort().join("");
+  const ss2 = s2.split("").sort().join("");
+
+  if (ss1 === ss2) {
+    console.log(true);
+  } else {
+    console.log(false);
+  }
+```
+
+2) other method
+
+```js
 function areAnagrams(str1, str2) {
     // Function to count the frequency of characters in a string
     function countCharacters(str) {
@@ -1095,24 +1112,7 @@ const string2 = "dabc";
 console.log(areAnagrams(string1, string2)); // Output: true
 ```
 
-
-2) sorting and compare
-
-```js
-  const s1 = "listen";
-  const s2 = "silent";
-
-  const ss1 = s1.split("").sort().join("");
-  const ss2 = s2.split("").sort().join("");
-
-  if (ss1 === ss2) {
-    console.log(true);
-  } else {
-    console.log(false);
-  }
-```
-
-> ### Q36 - convert a array into small chunks of given size
+> ### Q31 - convert a array into small chunks of given size
 
  const arr = [1,2,3,4,5,6,7], size of chunk = 2\
  output = [[1,2], [3,4], [5,6], [7]]
