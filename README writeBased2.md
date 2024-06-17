@@ -636,35 +636,41 @@ function findZeroSumSubarray(arr) {
 
 console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 ```
+<br>
 
-> ### Q18 - find maximum product subarray
+> ### Q17 - find maximum product subarray
 
 Arr[] = [ 6, -3, -10, 0, 2 ]\
 Output: 180
 
 ```js
+function maxProduct(nums) {
+    if (nums.length === 0) return 0;
 
-function maxProductSubarray(arr) {
-    if (arr.length === 0) return 0;
+    let maxProd = nums[0];
+    let minProd = nums[0];
+    let result = nums[0];
 
-    let maxEndingHere = arr[0];
-    let minEndingHere = arr[0];
-    let maxSoFar = arr[0];
+    for (let i = 1; i < nums.length; i++) {
+        // When multiplied by a negative number, max becomes min and min becomes max
+        if (nums[i] < 0) {
+            [maxProd, minProd] = [minProd, maxProd];
+        }
 
-    for (let i = 1; i < arr.length; i++) {
-        let tempMax = Math.max(arr[i], maxEndingHere * arr[i], minEndingHere * arr[i]);
-        minEndingHere = Math.min(arr[i], maxEndingHere * arr[i], minEndingHere * arr[i]);
+        // Update the maximum and minimum product for the current number
+        maxProd = Math.max(nums[i], maxProd * nums[i]);
+        minProd = Math.min(nums[i], minProd * nums[i]);
 
-        maxEndingHere = tempMax;
-
-        maxSoFar = Math.max(maxSoFar, maxEndingHere);
+        // Update the result to the maximum product found so far
+        result = Math.max(result, maxProd);
     }
 
-    return maxSoFar;
+    return result;
 }
 
-const arr = [6, -3, -10, 0, 2];
-console.log(maxProductSubarray(arr)); // Output: 180
+// Example usage:
+let nums = [6, -3, -10, 0, 2];
+console.log(maxProduct(nums)); // Output: 180
 ```
 
 below is double loop
