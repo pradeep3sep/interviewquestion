@@ -298,6 +298,7 @@ const unionR = arr1.concat(
 );
 console.log("unionR", unionR); // [ 1, 2, 3, 4, 5, 8, 9 ]
 ```
+<br>
 
 > ### Q9 - Find the Intersection of two sorted arrays.
 arr1 = [1, 2, 3, 4, 5]
@@ -345,6 +346,8 @@ using while loop sorted array
     }
   }
 ```
+
+<br>
 
 > ### Q10 - unique from two arrays
 
@@ -419,8 +422,9 @@ for (const num in countMap) {
 
 console.log(uniqueElements); // Output: [ 3, 4, 5, 6 ]
 ```
+<br>
 
-> ### Q8 - find duplicate in an array
+> ### Q11 - find duplicate in an array
 
 arr1 = [1, 2, 2, 2, 3, 4, 4, 5]\
 output = [ 2, 4 ]\
@@ -460,11 +464,11 @@ for (let i = 0; i < sorted.length - 1; i++) {
 
 console.log("output", output);
 ```
+<br>
 
-
-
-> ### Q13 find all pairs on integer array whose sum is equal to given number
+> ### Q12 find all pairs on integer array whose sum is equal to given number
 arr[] = {1, 5, 7, 1}\
+sum=6\
 Output: 2\
 Explanation:\ 
 arr[0] + arr[1] = 1 + 5 = 6 \
@@ -486,15 +490,30 @@ const arr = [1, 5, 7, 1];
   }
   console.log("No. of Pairs", count);
 ```
+<br>
 
-
-> ### Q14 - find common elements In 3 sorted arrays
+> ### Q13 - find common elements In 3 sorted arrays
 n1 = 6; A = {1, 5, 10, 20, 40, 80}\
 n2 = 5; B = {6, 7, 20, 80, 100}\
 n3 = 8; C = {3, 4, 15, 20, 30, 70, 80, 120}\
 Output: 20 80\
 Explanation: 20 and 80 are the only\
 common elements in A, B and C.
+
+```js
+let a = [1, 5, 10, 20, 40, 80],
+b = [6, 7, 20, 80, 100],
+c = [3, 4, 15, 20, 30, 70, 80, 120],
+common = []
+
+for(i=0; i<a.length; i++){
+    if(b.includes(a[i]) && c.includes(a[i])){
+        common.push(a[i])
+    }
+}
+
+console.log(common)
+```
 
 ```js
 
@@ -523,82 +542,80 @@ common elements in A, B and C.
   console.log("result", result); // [ 20, 80 ]
 
 ```
-> ### Q15 - Rearrange array in alternating positive & negative items
+
+<br>
+
+> ### Q14 - Rearrange array in alternating positive & negative items
 Input:  arr[] = {1, 2, 3, -4, -1, 4}\
 Output: arr[] = {-4, 1, -1, 2, 3, 4}
 
-key concept - Main concept is that first do the sorting and it becomes the -ve at first and +ve at the end, so we add the first -ve frist and +ve from the end using the loop.
-
 ```js
-function rearrangeArray(arr) {
-    // Sort the array
-    arr.sort((a, b) => a - b);
+function rearrange(arr) {
+  const positive = [];
+  const negative = [];
 
-    // Create a new array to store rearranged elements
-    let rearrangedArr = [];
-
-    // Initialize indices for positive and negative numbers
-    let posIndex = 0;
-    let negIndex = arr.length - 1;
-
-    // Rearrange the elements
-    for (let i = 0; i < arr.length; i++) {
-        if (i % 2 === 0) {
-            rearrangedArr.push(arr[negIndex]);
-            negIndex--;
-        } else {
-            rearrangedArr.push(arr[posIndex]);
-            posIndex++;
-        }
+  for (const num of arr) {
+    if (num > 0) {
+      positive.push(num);
+    } else if (num < 0) {
+      negative.push(num);
     }
+  }
 
-    return rearrangedArr;
+  const result = [];
+  let i = 0;
+  let j = 0;
+
+  while (i < positive.length && j < negative.length) {
+    result.push(negative[j]);
+    result.push(positive[i]);
+    i++;
+    j++;
+  }
+
+  // Add any remaining elements
+  result.push(...positive.slice(i));
+  result.push(...negative.slice(j));
+
+  return result;
 }
+// -4, 1, -1, 2, 3, 4
 
-// Example usage:
-let arr = [1, 2, 3, -4, -1, 4];
-console.log(rearrangeArray(arr)); // Output: [-4, 1, -1, 2, 3, 4]
+// Example usage
+const arr = [1, 2, 3, -4, -1, 4];
+const rearranged = rearrange(arr);
+console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
 ```
+<br>
 
-> ### Q16 - Find if there is any subarray with sum equal to 0
+> ### Q15 - Find if there is any subarray with sum equal to 0
 
-Input:  arr[] = 4 2 -3 1 6\
-Output: 2, -3, 1 is the subarray with sum 0.
+Input:  arr[] = [4, 2, -3, 1, 6]\
+Output: [2, -3, 1] is the subarray with sum 0.
 
 ```js
 
-function findSubarrayWithZeroSum(arr) {
-    let sum = 0;
-    let map = {};
-    let result = [];
+function findZeroSumSubarray(arr) {
+  const seen = new Map(); 
+  let sum = 0;
 
-    // Traverse the array
-    for (let i = 0; i < arr.length; i++) {
-        // Add the current element to the sum
-        sum += arr[i];
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
 
-        // If the sum is zero or if it has been seen before
-        if (sum === 0 || map[sum] !== undefined) {
-            // If the sum is zero, extract the subarray from the beginning to the current index
-            if (sum === 0) {
-                result.push(arr.slice(0, i + 1));
-            } else {
-                // Otherwise, extract the subarray from the index after the previous occurrence of the sum to the current index
-                result.push(arr.slice(map[sum] + 1, i + 1));
-            }
-        } else {
-            // Store the current sum along with its index
-            map[sum] = i;
-        }
+    // Check if the current sum or a previous sum has been seen before
+    if (seen.has(sum)) {
+      return arr.slice(seen.get(sum) + 1, i + 1); // Get subarray from previous sum + 1 to current index
+    } else if (sum === 0) {
+      return arr.slice(0, i + 1); // Empty subarray with sum 0 (entire array)
     }
 
-    return result;
+    seen.set(sum, i); // Add current sum and its index to the map
+  }
+
+  return null; // No subarray with sum 0 found
 }
 
-// Example usage:
-const arr = [4, 2, -3, 1, 6];
-const subarrays = findSubarrayWithZeroSum(arr);
-console.log(subarrays); // Output: [[2, -3, 1]]
+console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 ```
 
 > ### Q17 - Find factorial of a large number
