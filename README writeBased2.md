@@ -1129,7 +1129,7 @@ console.log(areAnagrams(string1, string2)); // Output: true
   console.log(chunks); // [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7 ] ]
 ```
 
-> ### Q40 - Array Rotation by n
+> ### Q32 - Array Rotation by n
 const arr = [1,2,3,4,5,6] n=2\
 output =>   [5,6,1,2,3,4]
 
