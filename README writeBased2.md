@@ -1143,7 +1143,7 @@ const end = start + arr1.length;
 console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 ```
 
-> ### Q41 - Find all permutations of string  LOGIC
+> ### Q33 - Find all permutations of string  LOGIC
  const str = "ABC"\
  output => ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
 
