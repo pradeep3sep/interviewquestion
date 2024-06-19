@@ -1354,7 +1354,7 @@ function compress(s) {
 console.log(compress(str));
 ```
 
-> ### Q49 - Check two given strings are isomorphic in JavaScript
+> ### Q39 - Check two given strings are isomorphic in JavaScript
 Two strings are said to be isomorphic if it is possible to map every character of the first string to every character 
 of the second string. Basically, in isomorphic strings, there is a one-to-one mapping between every character of 
 the first string to every character of the second string
@@ -1402,7 +1402,7 @@ console.log(checkIsomorphic(str1, str2));
 console.log(checkIsomorphic(str3, str4));
 ```
 
-> ### Q50 - find count of given digit ( 0 to 9 ) in range 1 to 250
+> ### Q40 - find count of given digit ( 0 to 9 ) in range 1 to 250
 output => 4 -> 52, 9 -> 43
 
 ```js
@@ -1429,7 +1429,7 @@ for (let i = 1; i <= range; i++) {
 console.log(count);
 ```
 
-> ### Q51 - compare ONE-LEVEL object ( custom without JSON.stringify())
+> ### Q41 - compare ONE-LEVEL object ( custom without JSON.stringify())
 const obj1 = { a: 20, b:40 }\
 const obj2 = { a: 20, b:40 }
 
