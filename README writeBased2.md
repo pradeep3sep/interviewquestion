@@ -1159,7 +1159,7 @@ console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 
     for (let i = 0; i < str.length; i++) {
         const char = str[i];
-        // Exclude the current character and get the rest of the string
+        // Exclude the current character and get the rest of the string, can be like str.filter(e => e !== char)
         const remainingChars = str.slice(0, i) + str.slice(i + 1);
 
         // Recursively find permutations of the remaining characters
