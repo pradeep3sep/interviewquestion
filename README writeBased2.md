@@ -1180,7 +1180,7 @@ const result = permutations(inputString);
 console.log(result);
 ```
 
-> ### Q42 - Find missing number from an array 1 to n. ( sum of 1 to n and subtract all one by one to get missing number )
+> ### Q34 - Find missing number from an array 1 to n. ( sum of 1 to n and subtract all one by one to get missing number )
 
  const arr = [1,2,3,5,6]\
  output =>  missing number is 4
@@ -1212,7 +1212,7 @@ for (let i = 1; i < arr.length; i++) {
 console.log(missing);
 ```
 
-> ### Q44 - Remove duplicate items object from an array
+> ### Q35 - Remove duplicate items object from an array
 const arr = [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 5 }]\
 output => [{ id: 1 }, { id: 2 }, { id: 5 }]
 
@@ -1233,7 +1233,7 @@ for (let item of arr) {
 console.log(result); // [ { id: 1 }, { id: 2 }, { id: 5 } ]
 ```
 
-> ### Q45 - Check all the chars are unique in string
+> ### Q36 - Check all the chars are unique in string
 const str = "Jayesh"\
 output => true
 
@@ -1263,7 +1263,7 @@ console.log(checkAllCharUnique(str2)); // false
 ```
 
 
-> ### 47 - Implement Deep copy of an object ( deepClone )
+> ### Q37 - Implement Deep copy of an object ( deepClone )
 
 const obj1 = { a: 10, b: { x: 20 } };\
 const obj2 = deepClone(obj1);\
@@ -1322,7 +1322,7 @@ function cloneDeep(obj, map = new Map()) {
 }
 ```
 
-> ### Q48 - String compression
+> ### Q38 - String compression
 const str = "aaaaaabbcc"\
 output => 'a6b2c2'
 
