@@ -1459,33 +1459,35 @@ console.log(compareObj(obj1, obj2)); // true
 console.log(compareObj(obj1, obj3)); // true
 ```
 
-> ### Q52 -  Find all subsets of an array
+> ### Q42 -  Find all subsets of an array  --- nhi smjh aya
 const arr = [1, 2, 3];\
 output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
 
 ```js
-function generateSubsets(arr) {
-    const subsets = [[]];
-
-    function generate(index, currentSubset) {
-        for (let i = index; i < arr.length; i++) {
-            currentSubset.push(arr[i]);
-            subsets.push([...currentSubset]);
-            generate(i + 1, currentSubset);
-            currentSubset.pop();
+function getAllSubsets(arr) {
+    let result = [];
+    
+    function backtrack(start, subset) {
+        result.push([...subset]);
+        
+        for (let i = start; i < arr.length; i++) {
+            subset.push(arr[i]);
+            backtrack(i + 1, subset);
+            subset.pop();
         }
     }
-
-    generate(0, []);
-
-    return subsets;
+    
+    backtrack(0, []);
+    return result;
 }
 
-const arr = [1, 2, 3];
-console.log(generateSubsets(arr));
+// Example usage:
+let array = [1, 2, 3];
+let subsets = getAllSubsets(array);
+console.log(subsets);
 ```
 
-> ### 53 - Filter array of objects with exclude array
+> ### 43 - Filter array of objects with exclude array
 
 let items = [\
   { color: "red", type: "tv" },\
@@ -1556,7 +1558,7 @@ for (let i = 0; i < items.length; i++) {
 console.log(filteredItems);
 ```
 
-> ### 54 - Moving selected item at the end of an array ( move all 0 to end I.M.P )
+> ### 44 - Moving selected item at the end of an array ( move all 0 to end I.M.P )
 const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7]; selected item = 3\
 output => [1, 2, 4, 5, 6, 7, 3, 3, 3];
 
@@ -1599,7 +1601,7 @@ for (let i = 0; i < arr.length; i++) {
 console.log(arr);
 ```
 
-> ### Q55 - write a program to print the first non-repeated number in an array.
+> ### Q45 - write a program to print the first non-repeated number in an array.
 const arr = [1, 2, 3, 1, 2, 4, 5]\
 output => 3
 
@@ -1627,7 +1629,7 @@ const arr = [1, 2, 3, 1, 2, 4, 5];
 console.log(firstNonRepeated(arr)); // Output: 3
 ```
 
-> ### Q56 -  Find all the common elements from the arrays ( not sorted ) .
+> ### Q46 -  Find all the common elements from the arrays ( not sorted ) .
 const arr = [1, 100, 10, 20, 50];\
 const arr1 = [2, 30, 21, 10, 20];\
 output :- [ 10, 20 ]
@@ -1671,7 +1673,7 @@ const commonElements = findCommonElements(arr, arr1);
 console.log(commonElements); // Output: [10, 20]
 ```
 
-> ### 57 - Array of objects manipulatiion.
+> ### 47 - Array of objects manipulatiion.
 a) declare array of employees & sort them in ascending order (empId)\
 b) declare an array of employees & sort them in ascending order by name.\
 c) declare array of employees & filter the employees whose sal>6000;\
@@ -1720,7 +1722,7 @@ console.log(addIbm);
 ```
 
 
-> ### Q58 - Add Dept info for each employee.
+> ### Q48 - Add Dept info for each employee.
 
 ```js
 const employees = [
@@ -1746,7 +1748,7 @@ const updatedEmployees = employees.map((employee) => {
 console.log(updatedEmployees);
 ```
 
-> ### Q59 - WAP to print Account number
+> ### Q49 - WAP to print Account number
 input:- '12345678987'\
 output:- '12*******87'
 
@@ -1759,7 +1761,7 @@ for (let i = 2; i < accountNo.length - 2; i++) {
 console.log(accountNo.join(""));
 ```
 
-> ### Q60 - WAP to print Credit-card number
+> ### Q50 - WAP to print Credit-card number
 input:- '1111222233334444'\
 output:- '1111-2222-3333-4444'
 
@@ -1777,7 +1779,7 @@ result.push(str.slice(-4));
 console.log(result.join("-"));
 ```
 
-> ### Q61 - WAP to remove special character from a string
+> ### Q51 - WAP to remove special character from a string
 input:- 'hello@#hi&'\
 output:- 'hellohi'
 
@@ -1786,7 +1788,7 @@ const str = "hello@#hi&";
 console.log(str.replace(/[^a-zA-Z0-9 ]/g, ""));
 ```
 
-> ### Q62 - WAP to move all the special characters to the end of the string
+> ### Q52 - WAP to move all the special characters to the end of the string
 
 input:- 'hello@#hi&'\
 output:- 'hellohi@#&'
