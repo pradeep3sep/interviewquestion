@@ -1817,7 +1817,7 @@ let output = moveSpecialCharactersToEnd(input);
 console.log(output); // Output will be 'hellohi@#&'
 ```
 
-> ### Q63 - Covert char into word
+> ### Q53 - Covert char into word
 const input = ["c", "a", "k", "e", "", "e", "a", "t", "", "m", "a", "t", "e", "" ];\
 output => ["cake", "eat", "mate"];
 
@@ -1839,7 +1839,7 @@ for (let i = 0; i < input.length; i++) {
 console.log(output); // [ 'cake', 'eat', 'mate' ]
 ```
 
-> ### Q64 - String Capatalize
+> ### Q54 - String Capatalize
 
 let arr = ["jayesh choudhary", "ankit sharma"];\
 Output: JayeshChoudhary , AnkitSharma
@@ -1863,8 +1863,7 @@ for (let i = 0; i < arr.length; i++) {
 }
 ```
 
-> ### Q65 - Rearrange array of Objects
-/* 
+> ### Q55 - Rearrange array of Objects
 [ { id: '1', name: 'number1' },\
   { id: '2', name: 'number2' },\
   { id: '3', name: 'number3' },\
@@ -1878,6 +1877,15 @@ Output :-\
   { id: '3', name: 'number3' },\
   { id: '4', name: 'number4' } ]
 
+```js
+[ { id: '1', name: 'number1' },
+{ id: '2', name: 'number2' },
+{ id: '3', name: 'number3' },
+{ id: 'S1', name: 'number4' },
+{ id: '4', name: 'number4' } ].sort((a,b) =>  a.id === "S1" ? -1 :  1)
+```
+
+other also
 ```js
 const arr = [
     { id: "1", name: "number1" },
@@ -1894,7 +1902,7 @@ arr.forEach((obj) => (isNaN(obj.id) ? front.push(obj) : back.push(obj)));
 console.log([...front, ...back]);
 ```
 
-> ### Q66 - Mapping array
+> ### Q56 - Mapping array
  
 let friends = [\
   { name: "chris", age: 13, books: ["sherlock holmes", "english"] },\
@@ -1932,7 +1940,7 @@ friends.forEach((friend) => {
 console.log(result);
 ```
 
-> ### Q67 - Find peak elements from an array, An element is called a peak element if its value is not smaller than the value of its adjacent elements(if they exists).
+> ### Q57 - Find peak elements from an array, An element is called a peak element if its value is not smaller than the value of its adjacent elements(if they exists).
 
 const arr = [1, 2, 3, 77, 6, 99, 2];\
 output :- [ 77, 99 ]
