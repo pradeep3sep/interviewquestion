@@ -1962,7 +1962,7 @@ const arr = [1, 2, 3, 77, 6, 99, 2];
 console.log(findPeakElements(arr)); // Output: [77, 99]
 ```
 
-> ### Q68 - find continuous sub-array which adds up to a given number.
+> ### Q58 - find continuous sub-array which adds up to a given number.
 
 A[] = [1,2,3,7,5] , S = 12\
 Output: [ 2, 3, 7 ], [ 7, 5\ ]
