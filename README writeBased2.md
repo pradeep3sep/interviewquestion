@@ -1990,7 +1990,7 @@ console.log(subArrays); // Output: [ [ 2, 3, 7 ], [ 7, 5 ] ]
 
 ```
 
-> ### Q69 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
+> ### Q59 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
 
 Input: S = Bawds jog, flick quartz, vex nymph\
 Output: 1\
@@ -2014,7 +2014,7 @@ function checkPanagram(str) {
 console.log(checkPanagram(str));
 ```
 
-> ### Q70 - Print all subsequences of a string
+> ### Q60 - Print all subsequences of a string ---- need to see again, much similar like Q42
 
 Input : abc\
 Output : a, b, c, ab, bc, ac, abc
