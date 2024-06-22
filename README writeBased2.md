@@ -2376,12 +2376,30 @@ const result = sumOfNumbersOccurringOnce(array);
 console.log(result); // Output will be 9
 ```
 
-> ### Q80 - Find the smallest positive number missing from an unsorted array
+> ### Q69 - Find the smallest positive number missing from an unsorted array
 
 const arr1 = [2, 3, 7, 6, 8, -1, -10, 15]; // 1\
 const arr2 = [2, 3, -7, 6, 8, 1, -10, 15]; // 4\
 const arr3 = [1, 1, 0, -1, -2]; // 2\
 const arr4 = [3, 2, 1, 4, 5]; // 6
+
+
+```js
+function findSmallestMissingPositive(arr) {
+  const numSet = new Set(arr);
+  for (let i = 1; ; i++) {
+    if (!numSet.has(i)) {
+      return i;
+    }
+  }
+}
+
+// Example usage
+const arr = [3, 4, -1, 1];
+const missingNumber = findSmallestMissingPositive(arr);
+console.log(missingNumber); // Output: 2
+```
+
 
 ```js
 function smallestMissingPositive(arr) {
@@ -2418,7 +2436,7 @@ console.log(smallestMissingPositive(arr3)); // Output: 2
 console.log(smallestMissingPositive(arr4)); // Output: 6
 ```
 
-> ### Q81 - compare nested object ( custom without JSON.stringify())
+> ### Q70 - compare nested object ( custom without JSON.stringify())
 
 const obj1 = { a: 20, b: { x: 40, y: 60 } };\
 const obj2 = { a: 20, b: { x: 40, y: 60 } };
@@ -2443,7 +2461,7 @@ function compare(obj1, obj2) {
 console.log(compare(obj1, obj2));
 ```
 
-> ### Q84 - Find the 3rd min element of an array without using index and sorting
+> ### Q71 - Find the 3rd min element of an array without using index and sorting
 
 const arr = [7, 10, 4, 3, 20, 15]\
 output => 7 
@@ -2473,7 +2491,7 @@ console.log(min3);
 ```
 
 
-> ### Q85 - Given an array of string return group of anagrams string array
+> ### Q72 - Given an array of string return group of anagrams string array
 
 const arr = ["eat", "tea", "ate", "ball", "dna", "and"]\
 output => [ [ 'eat', 'tea', 'ate' ], [ 'ball' ], [ 'dna', 'and' ] ]
@@ -2497,7 +2515,7 @@ const result = groupAnagrams(arr);
 console.log(result);
 ```
 
-> ### Q87 - Given a positive integer N as input , print first N prime numbers
+> ### Q73 - Given a positive integer N as input , print first N prime numbers
 
 Input  : 5, Output : [2,3,5,7,11]\
 Input  : 0, Output : []
@@ -2567,7 +2585,7 @@ printFirstNPrimes(10); // Prints the first 10 prime numbers
 
 
 
-> ### Q88 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
+> ### Q74 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
 
 Input  : Banana, Output : Ban12\
 Input  : Jayesh, Output : Jayesh
@@ -2602,7 +2620,7 @@ console.log(removeDuplicateswithIndex(str1));
 console.log(removeDuplicateswithIndex(str2));
 ```
 
-> ### Q89 -  Implement the chessBoard pattern
+> ### Q75 -  Implement the chessBoard pattern
 W B W B W B W B\
 B W B W B W B W\
 W B W B W B W B\
@@ -2633,7 +2651,7 @@ function drawChessboard(rows, cols) {
 console.log(drawChessboard(8, 8));
 ```
 
-> ### Q90 - longest_Substring-of-two-strings.js
+> ### Q76 - longest_Substring-of-two-strings
 
 ```js
 
