@@ -2076,7 +2076,7 @@ generateSubsequences("abc");
 
 
 
-> ### Q71 -  Program to convert time from 12 hour to 24 hour format
+> ### Q61 -  Program to convert time from 12 hour to 24 hour format
 
 Input : 07:05:45PM\
 Output : 19:05:45
@@ -2112,7 +2112,7 @@ console.log("Output:", outputTime); // Output: 19:05:45
 ```
 
 
-> ### 72 -  Program to calculate the number of days between two dates
+> ### 62 -  Program to calculate the number of days between two dates
 var date1 = new Date("06/30/2019");\
 var date2 = new Date("07/30/2019");\
 output => 30 
@@ -2127,7 +2127,7 @@ const day = timeDifference / (1000 * 60 * 60 * 24);
 console.log(day);
 ```
 
-> ### Q74 - Print the middle character of the word. If the word's length is odd, return the middle character. If the word's length is even, return the middle 2 characters.
+> ### Q63 - Print the middle character of the word. If the word's length is odd, return the middle character. If the word's length is even, return the middle 2 characters.
 
 "test" => "es"\
 "testing" => "t"\
@@ -2153,7 +2153,7 @@ console.log(getMiddleCharacter("middle")); // Output: "dd"
 console.log(getMiddleCharacter("A")); // Output: "A"
 ```
 
-> ### Q75 -  Remove given character from string.
+> ### Q64 -  Remove given character from string.
 
 const str = "Jayesh";\
 const char = "a";\
@@ -2174,7 +2174,7 @@ for (let c of str) {
 console.log(result);
 ```
 
-> ### Q76 - Spell out numbers ( convert numbers which are less than 100 into words ).
+> ### Q65 - Spell out numbers ( convert numbers which are less than 100 into words ).
 
 spellNumber(50) => 'Fifty'\
 spellNumber(99) => 'Ninety Nine'\
@@ -2243,7 +2243,7 @@ console.log(spellNumber(997751076)); // Ninety Nine Crore Seventy Seven Lakh Fif
 ```
 
 
-> ### Q77 - Array of objects Manipulation
+> ### Q66 - Array of objects Manipulation
 
 const portfolio = [\
   { name: "Mark", stock: "FB" },\
@@ -2289,7 +2289,7 @@ const shareholder = Object.values(shareholderObj);
 console.log(shareholder);
 ```
 
-> ### Q78 - Finding sum of digits of a number until sum becomes single digit
+> ### Q67 - Finding sum of digits of a number until sum becomes single digit
 const "5431" => "13" => "4"
 
 ```js
@@ -2317,10 +2317,37 @@ const result = sumOfDigits(5431);
 console.log(result); // Output will be 4
 ```
 
-> ### Q79 -  Find sum of numbers occurred only once in the array ( using only one loop )
+> ### Q68 -  Find sum of numbers occurred only once in the array ( using only one loop )
 
 const array = [2, 5, 4, 4, 6, 5, 4, 7, 6];\
 output => 2 + 7 => 9
+
+```js
+function sumOfUniqueNumbers(arr) {
+    let occurrences = new Map();
+    let sum = 0;
+
+    for (let num of arr) {
+        if (occurrences.has(num)) {
+            if (occurrences.get(num) === 1) {
+                sum -= num;
+            }
+            occurrences.set(num, occurrences.get(num) + 1);
+        } else {
+            occurrences.set(num, 1);
+            sum += num;
+        }
+    }
+
+    return sum;
+}
+
+// Example usage:
+let arr = [1, 2, 3, 2, 4, 5, 3];
+console.log(sumOfUniqueNumbers(arr)); // Output should be 1 + 4 + 5 = 10
+```
+
+----------------------------------------
 
 ```js
 function sumOfNumbersOccurringOnce(array) {
