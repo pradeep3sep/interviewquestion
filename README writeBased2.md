@@ -2656,30 +2656,44 @@ console.log(drawChessboard(8, 8));
 ```js
 
 function longestCommonSubstring(str1, str2) {
-    let longestSubstring = '';
-    for (let i = 0; i < str1.length; i++) {
-        for (let j = 0; j < str2.length; j++) {
-            let k = 0;
-            while (str1[i + k] === str2[j + k]) {
-                k++;
-                if (i + k >= str1.length || j + k >= str2.length) break;
-            }
-            if (k > longestSubstring.length) {
-                longestSubstring = str1.substring(i, i + k);
+    const m = str1.length;
+    const n = str2.length;
+    
+    // Create a 2D array to store lengths of longest common suffixes of substrings
+    const dp = Array(m + 1).fill(null).map(() => Array(n + 1).fill(0));
+
+    let maxLength = 0; // Length of longest common substring
+    let endingIndex = m; // Ending index of longest common substring in str1
+
+    // Build the dp array
+    for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+            if (str1[i - 1] === str2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+                if (dp[i][j] > maxLength) {
+                    maxLength = dp[i][j];
+                    endingIndex = i;
+                }
             }
         }
     }
-    return longestSubstring;
+
+    // If no common substring found, return an empty string
+    if (maxLength === 0) {
+        return '';
+    }
+
+    // Extract the longest common substring
+    return str1.slice(endingIndex - maxLength, endingIndex);
 }
 
 // Example usage:
-const str1 = 'abcdxyz';
-const str2 = 'xyzabcd';
-console.log(longestCommonSubstring(str1, str2)); // Output: 'abcd'
-
+const str1 = "abcdxyz";
+const str2 = "xyzabcd";
+console.log(longestCommonSubstring(str1, str2)); // Output: "abcd"
 ```
 
-> ### Q91 - shift-each-letter-by-number.-of-position.js
+> ### Q77 - shift each letter by number of position in js
 
 ```js
 /* how to shift each letter in the given string N places down in the alphabet? Punctuation, spaces, and capitalization should remain intact. For example if the string is "ac" and num is 2 the output should be "ce".  */
@@ -2711,13 +2725,13 @@ const num = 5;
 console.log(CaesarCipher(str, num)); // Output: "Mjqqt, Btwqi!"
 ```
 
-> ### Q92 - Find the length of the longest substring in the given string s that is the same in reverse.
+> ### Q78 - Find the length of the longest substring in the given string s that is the same in reverse.
 As an example, if the input was “I like racecars that go fast”, the substring (racecar) length would be 7.
-If the length of the input string is 0, return value must be 0.
-Example:
-"a" -> 1
-"aab" -> 2
-"abcde" -> 1
+If the length of the input string is 0, return value must be 0.\
+Example:\
+"a" -> 1\
+"aab" -> 2\
+"abcde" -> 1\
 "zzbaabcd" -> 4
 
 ```js
@@ -2751,18 +2765,17 @@ console.log(longestPalindromeSubstring("abcde"));    // Output: 1
 console.log(longestPalindromeSubstring("zzbaabcd")); // Output: 4
 ```
 
-> ### Q93 - Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
+> ### Q79 - Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
 For example://
 uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']
 uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']
 uniqueInOrder([1,2,2,3,3])       == [1,2,3]*/
 
 ```js
-var uniqueInOrder=function(iterable){
-  var array = [],
-      len = iterable.length;
+function uniqueInOrder(iterable){
+  let array = []
 
-    for(var i = 0; i < len; i++) {
+    for(var i = 0; i < iterable.length; i++) {
       if(iterable[i] !== iterable[i+1]) {
         array.push(iterable[i]);
       };
@@ -2775,7 +2788,7 @@ console.log(uniqueInOrder('ABBCcAD'));
 console.log(uniqueInOrder([1,2,2,3,3]));
 ```
 
-> ### Q94 - Implement a function that adds two numbers together and returns their sum in binary. The conversion can be done before, or after the addition.The binary number returned should be a string.
+> ### Q80 - Implement a function that adds two numbers together and returns their sum in binary. The conversion can be done before, or after the addition.The binary number returned should be a string.
 
 ```js
 // normal
@@ -2802,20 +2815,20 @@ console.log(addBinaryAlt(5, 6));
 
 ```
 
-> ### Q95 - Your goal is to return multiplication table for number that is always an integer from 1 to 10.
+> ### Q81 - Your goal is to return multiplication table for number that is always an integer from 1 to 10.
 
 For example, a multiplication table (string) for number == 5 looks like below:
 
-1 * 5 = 5/
-2 * 5 = 10/
-3 * 5 = 15/
-4 * 5 = 20/
-5 * 5 = 25/
-6 * 5 = 30/
-7 * 5 = 35/
-8 * 5 = 40/
-9 * 5 = 45/
-10 * 5 = 50/
+1 * 5 = 5\
+2 * 5 = 10\
+3 * 5 = 15\
+4 * 5 = 20\
+5 * 5 = 25\
+6 * 5 = 30\
+7 * 5 = 35\
+8 * 5 = 40\
+9 * 5 = 45\
+10 * 5 = 50\
 P. S. You can use \n in string to jump to the next line.
 
 ```js
@@ -2840,28 +2853,32 @@ function multiTable(number) {
 
 ```
 
-
+> ### Q82 - Below is for the fibonacci number
 
 ```js
-// Below is for the fibonacci number
 // Same as above, using ternary operator - AND THIS IS THE STANDARD SOLUTION
 fibonacci = n => {
-  return n < 2 ? n : fibonacci(n - 1) + fibonacci1(n - 2)
+  return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2)
 }
+fibonacci(12)
 
+
+// Other method
 // below is without recursion
 n_th_fibonacci = n => {
   let [a, b] = [0, 1]
 
   while (--n) {
-    ;[a, b] = [b, b + a]
+    [a, b] = [b, b + a]
   }
   return b
 }
+
+n_th_fibonacci(12)
 ```
 
 
-> ### To print 1 to 5 with different cases
+> ### Q83 - To print 1 to 5 with different cases
 
 naive approach
 ```js
@@ -2948,7 +2965,9 @@ for (let i = 0; i < arr1.length; i++) {
   }, 1000 * i)
 }
 ```
-find-closest-number-in-array.js
+
+
+> ### Q84 - find-closest-number-in-array.js
 
 ```js
 // Find the number in an array that is closest to a given number
@@ -2961,7 +2980,7 @@ closestNumInArr = (arr, num) => {
 console.log(closestNumInArr([5,10,15,20,25,30,35], 22));
 ```
 
-> ### find-length-of-integer-without-converting-to-string
+> ### Q85 - find-length-of-integer-without-converting-to-string
 
 ```js
 let number = 12345
@@ -2979,7 +2998,7 @@ countDigits_1 = n => {
 console.log(countDigits_1(number));
 ```
 
-> ### flatten my deep object to one level depth.
+> ### Q86 - flatten my deep object to one level depth.
 
 ```js
 const input = {
@@ -3012,47 +3031,43 @@ const input = {
       },
     },
   },
-}
+};
 
-const flattenObject = obj => {
-  let flattened = {}
-  for (let i in obj) {
-    if (!obj.hasOwnProperty(i)) continue // ie. if the object does not have the 'i' property as its own property, ie. the object does not have any property to enumerate
-
-    if (typeof obj[i] === "object" && obj[i] !== null) {
-      var flatObject = flattenObject(obj[i])
-      for (let j in flatObject) {
-        if (!flatObject.hasOwnProperty(j)) continue
-        flattened[i + "." + j] = flatObject[j]
-      }
+function flattenObject(obj, parent = '', res = {}) {
+  for (let key in obj) {
+    let propName = parent ? parent + '.' + key : key;
+    if (typeof obj[key] == 'object' && obj[key] !== null) {
+      flattenObject(obj[key], propName, res);
     } else {
-      flattened[i] = obj[i]
+      res[propName] = obj[key];
     }
   }
-  return flattened
+  return res;
 }
 
-console.log(flattenObject(input))
+const result = flattenObject(input);
+console.log(result);
+
 ```
 
-> ### The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
+> ### Q87 - The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
 
 ```js
 maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])
 // should be 6: [4, -1, 2, 1]
-Easy case is when the list is made up of only positive numbers and the maximum sum is the sum of the whole array. If the list is made up of only negative numbers, return 0 instead.
+// Easy case is when the list is made up of only positive numbers and the maximum sum is the sum of the whole array. If the list is made up of only negative numbers, return 0 instead.
 
-Empty list is considered to have zero greatest sum. Note that the empty list or array is also a valid sublist/subarray.
-*/
+// Empty list is considered to have zero greatest sum. Note that the empty list or array is also a valid sublist/subarray.
+
 
 // My Solution
-var maxSequence = function(arr){
-var now = 0, prev = 0;
- for(var i = 0; i< arr.length; i++){
-   prev = Math.max(0, prev + arr[i]);
-   now = Math.max(prev, now);
- }
- return now;
+function maxSequence(arr){
+	let now = 0, prev = 0;
+	for(let i = 0; i< arr.length; i++){
+	   prev = Math.max(0, prev + arr[i]);
+	   now = Math.max(prev, now);
+	 }
+	 return now;
 }
 
 // Test cases
@@ -3060,7 +3075,7 @@ var now = 0, prev = 0;
 console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 ```
 
-> ### One of the differences between null and undefined is how they are treated differently in JSON.stringify().
+> ### Q88 - One of the differences between null and undefined is how they are treated differently in JSON.stringify().
 
 ``
 JSON.stringify({a: null})      // '{"a":null}'
@@ -3112,7 +3127,7 @@ function undefinedToNull(arg) {
 
 ```
 
-> ### Please implement a curry() function, which accepts a function and return a curried one.
+> ### Q89 - Please implement a curry() function, which accepts a function and return a curried one.
 
 Here is an example
 
@@ -3160,48 +3175,7 @@ console.log(curriedJoin(1)(2, 3)) // '1_2_3'
 console.log(curriedJoin(1, 2)(3)) // '1_2_3'
 ```
 
-> ### There is already Array.prototype.flat() in JavaScript (ES2019), which reduces the nesting of Array.
-
-Could you manage to implement your own one?
-
-Here is an example to illustrate
-```
-const arr = [1, [2], [3, [4]]];
-
-flat(arr)
-// [1, 2, 3, [4]]
-
-flat(arr, 1)
-// [1, 2, 3, [4]]
-
-flat(arr, 2)
-// [1, 2, 3, 4]
-```
-
-solution 
-
-```js
-function flat(arr, depth = 1) {
-    const result = [];
-
-    for (const item of arr) {
-        if (Array.isArray(item) && depth > 0) {
-            result.push(...flat(item, depth - 1));
-        } else {
-            result.push(item);
-        }
-    }
-    return result;
-}
-
-const arr = [1, [2], [3, [4]]];
-console.log(flat(arr)); // [1, 2, 3, [4]]
-console.log(flat(arr, 1)); // [1, 2, 3, [4]]
-console.log(flat(arr, 2)); // [1, 2, 3, [4]]
-```
-
-
-> ### I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
+> ### Q90 - I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
 
 For example, below chained call turns button into a black button with white text.
 
