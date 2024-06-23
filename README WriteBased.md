@@ -1160,6 +1160,27 @@ console.log(resultCustom2); // [ 'This is ', ' string with two ', ' in it.' ]
 
 
 ```
+> ### Polyfill of flat
+
+```js
+function flat(arr, depth = 1) {
+    const result = [];
+
+    for (const item of arr) {
+        if (Array.isArray(item) && depth > 0) {
+            result.push(...flat(item, depth - 1));
+        } else {
+            result.push(item);
+        }
+    }
+    return result;
+}
+
+const arr = [1, [2], [3, [4]]];
+console.log(flat(arr)); // [1, 2, 3, [4]]
+console.log(flat(arr, 1)); // [1, 2, 3, [4]]
+console.log(flat(arr, 2)); // [1, 2, 3, [4]]
+```
 
 > ### Polyfill of Unshift
 
