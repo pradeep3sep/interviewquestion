@@ -1182,6 +1182,46 @@ console.log(flat(arr, 1)); // [1, 2, 3, [4]]
 console.log(flat(arr, 2)); // [1, 2, 3, [4]]
 ```
 
+> ### Polyfill of Object.assign or so called spread operator
+
+```js
+function customAssign(target, ...sources) {
+    if (target === null || target === undefined) {
+        throw new TypeError('Cannot convert undefined or null to object');
+    }
+
+    let output = Object(target);
+
+    for (let source of sources) {
+        if (source !== null && source !== undefined) {
+            for (let key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    output[key] = source[key];
+                }
+            }
+        }
+    }
+
+    return output;
+}
+
+let obj1 = { a: 1, b: 2 };
+let obj2 = { b: 3, c: 4 };
+
+// Using customAssign
+let mergedObj = customAssign({}, obj1, obj2);
+console.log(mergedObj); // { a: 1, b: 3, c: 4 }
+
+// Equivalent to using Object.assign
+let mergedObj2 = Object.assign({}, obj1, obj2);
+console.log(mergedObj2); // { a: 1, b: 3, c: 4 }
+
+
+
+```
+
+
+
 > ### Polyfill of Unshift
 
 ```js
