@@ -3282,111 +3282,7 @@ reorderArray(A, B);
 
 console.log(A); // ['F', 'A', 'E', 'D', 'C', 'B']
 ```
-
-> ### There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
-
-You are asked to create an Event Emitter Class
-
-```js
-const emitter = new Emitter()
-```
-
-It should support event subscribing
-```js
-const sub1  = emitter.subscribe('event1', callback1)
-const sub2 = emitter.subscribe('event2', callback2)
-
-// same callback could subscribe 
-// on same event multiple times
-const sub3 = emitter.subscribe('event1', callback1)
-```
-emit(eventName, ...args) is used to trigger the callbacks, with args relayed
-
-```js
-emitter.emit('event1', 1, 2);
-// callback1 will be called twice
-```
-
-Subscription returned by subscribe() has a release() method that could be used to unsubscribe
-
-```js
-sub1.release()
-sub3.release()
-// now even if we emit 'event1' again, 
-// callback1 is not called anymore
-```
-
-**Solution**
-
-```js
-class EventEmitter {
-
-  constructor() {
-    this.subs = {};
-  }
-
-  subscribe(eventName, callback) {
-    this.subs[eventName] ??= new Map();
-
-    const key = Symbol();
-    this.subs[eventName].set(key, callback);
-
-    return {
-      release: () => {
-        this.subs[eventName].delete(key);
-      }
-    }
-  }
-  
-  emit(eventName, ...args) {
-    for(const callback of this.subs[eventName].values()) {
-      try {
-        callback(...args);
-      } catch (e) {
-        // Make sure to catch any errors - I was asked this in interview
-      }
-    }
-  }
-}
-
-```
-
-
-> ### For all the basic data types in JavaScript, how could you write a function to detect the type of arbitrary data?
-
-Besides basic types, you need to also handle also commonly used complex data type including Array, ArrayBuffer, Map, Set, Date and Function
-
-The goal is not to list up all the data types but to show us how to solve the problem when we need to.
-
-The type should be lowercase
-
-```js
-detectType(1) // 'number'
-detectType(new Map()) // 'map'
-detectType([]) // 'array'
-detectType(null) // 'null'
-
-// more in judging step
-```
-
-**Solution**
-
-```js
-function detectType(data) {
-  if (data === null) {
-    return 'null';
-  }
-
-  if (data === undefined) {
-    return 'undefined'
-  }
-
-  return data.constructor.name.toLowerCase();
-}
-```
-
-
-> ### window.setTimeout() could be used to schedule some task in the future.
+> ### Q93 - window.setTimeout() could be used to schedule some task in the future.
 
 Could you implement clearAllTimeout() to clear all the timers ? This might be useful when we want to clear things up before page transition.
 
@@ -3447,7 +3343,41 @@ function clearAllTimeout() {
 }
 ```
 
-> ### If you did unit test before, you must be familiar with Spy.
+
+> ### Q94 - For all the basic data types in JavaScript, how could you write a function to detect the type of arbitrary data?
+
+Besides basic types, you need to also handle also commonly used complex data type including Array, ArrayBuffer, Map, Set, Date and Function
+
+The goal is not to list up all the data types but to show us how to solve the problem when we need to.
+
+The type should be lowercase
+
+```js
+detectType(1) // 'number'
+detectType(new Map()) // 'map'
+detectType([]) // 'array'
+detectType(null) // 'null'
+
+// more in judging step
+```
+
+**Solution**
+
+```js
+function detectType(data) {
+  if (data === null) {
+    return 'null';
+  }
+
+  if (data === undefined) {
+    return 'undefined'
+  }
+
+  return data.constructor.name.toLowerCase();
+}
+```
+
+> ### Q95 - If you did unit test before, you must be familiar with Spy.
 
 You are asked to create a spyOn(object, methodName), which works the same as jest.spyOn().
 
@@ -3493,8 +3423,7 @@ function spyOn(obj, methodName) {
     return { calls };
 }
 ```
-
-> ### Can you create a range(from, to) which makes following work?
+> ### Q96 - Can you create a range(from, to) which makes following work?
 ```js
 for (let num of range(1, 4)) {
   console.log(num)  
@@ -3580,6 +3509,120 @@ function * range(from, to) {
 const range = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => i + from)
 ```
 
+> ### Q97 - get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.
+
+Please create your own get().
+
+```js
+const obj = {
+  a: {
+    b: {
+      c: [1,2,3]
+    }
+  }
+}
+
+get(obj, 'a.b.c') // [1,2,3]
+get(obj, 'a.b.c.0') // 1
+get(obj, 'a.b.c[1]') // 2
+get(obj, ['a', 'b', 'c', '2']) // 3
+get(obj, 'a.b.c[3]') // undefined
+get(obj, 'a.c', 'bfe') // 'bfe'
+```
+
+
+**Solutions is below**
+
+```js
+
+function get(source, path, defaultValue = undefined) {
+  // your code here
+  const props = Array.isArray(path)? path: path.replaceAll('[','.').replaceAll(']','').split('.');
+  let curNode = source;
+  for(let i=0;i<props.length;i++){
+    let k = props[i];
+    if(curNode[k] === undefined) return defaultValue;
+    if(i === props.length-1) return curNode[k];
+    else  curNode = curNode[k];
+  }
+}
+
+```
+
+
+
+
+
+
+
+> ### There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
+
+You are asked to create an Event Emitter Class
+
+```js
+const emitter = new Emitter()
+```
+
+It should support event subscribing
+```js
+const sub1  = emitter.subscribe('event1', callback1)
+const sub2 = emitter.subscribe('event2', callback2)
+
+// same callback could subscribe 
+// on same event multiple times
+const sub3 = emitter.subscribe('event1', callback1)
+```
+emit(eventName, ...args) is used to trigger the callbacks, with args relayed
+
+```js
+emitter.emit('event1', 1, 2);
+// callback1 will be called twice
+```
+
+Subscription returned by subscribe() has a release() method that could be used to unsubscribe
+
+```js
+sub1.release()
+sub3.release()
+// now even if we emit 'event1' again, 
+// callback1 is not called anymore
+```
+
+**Solution**
+
+```js
+class EventEmitter {
+
+  constructor() {
+    this.subs = {};
+  }
+
+  subscribe(eventName, callback) {
+    this.subs[eventName] ??= new Map();
+
+    const key = Symbol();
+    this.subs[eventName].set(key, callback);
+
+    return {
+      release: () => {
+        this.subs[eventName].delete(key);
+      }
+    }
+  }
+  
+  emit(eventName, ...args) {
+    for(const callback of this.subs[eventName].values()) {
+      try {
+        callback(...args);
+      } catch (e) {
+        // Make sure to catch any errors - I was asked this in interview
+      }
+    }
+  }
+}
+
+```
+
 > ### new operator is used to create new instance objects.
 
 Do you know exactly what new does?
@@ -3631,45 +3674,6 @@ console.log(hexColor); // Output: #ff8000
 ```
 
 
-> ### _.get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.
-
-Please create your own get().
-
-```js
-const obj = {
-  a: {
-    b: {
-      c: [1,2,3]
-    }
-  }
-}
-
-get(obj, 'a.b.c') // [1,2,3]
-get(obj, 'a.b.c.0') // 1
-get(obj, 'a.b.c[1]') // 2
-get(obj, ['a', 'b', 'c', '2']) // 3
-get(obj, 'a.b.c[3]') // undefined
-get(obj, 'a.c', 'bfe') // 'bfe'
-```
-
-
-**Solutions is below**
-
-```js
-
-function get(source, path, defaultValue = undefined) {
-  // your code here
-  const props = Array.isArray(path)? path: path.replaceAll('[','.').replaceAll(']','').split('.');
-  let curNode = source;
-  for(let i=0;i<props.length;i++){
-    let k = props[i];
-    if(curNode[k] === undefined) return defaultValue;
-    if(i === props.length-1) return curNode[k];
-    else  curNode = curNode[k];
-  }
-}
-
-```
 
 
 > ### longest substring with unique characters
