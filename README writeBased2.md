@@ -3050,6 +3050,170 @@ console.log(result);
 
 ```
 
+> ### Flatten Object implementation
+
+```js
+
+const person = {
+  name: "Jayesh",
+  address: {
+    state: "M.P",
+    country: "India",
+    subAdress: {
+      city: "Burhanpur",
+    },
+  },
+  skills: {
+    frontend: ["JavaScript", "React Js", "CSS"],
+    backend: ["Node Js", "Mongo Db"],
+  },
+};
+
+
+const flattenObject = (obj) => {
+  const result = {};
+  //// looping through obj
+  for (let key in obj) {
+    // checking type of key
+    if (typeof obj[key] === "object") {
+      // if object call flattenObject again
+      const temp = flattenObject(obj[key]);
+
+      for (let childKey in temp) {
+        // concatenate key with childKey => key.childKey
+        result[key + "." + childKey] = temp[childKey];
+      }
+    } else {
+      // else store obj[key] in result directly
+      result[key] = obj[key];
+    }
+  }
+
+  return result;
+};
+
+const flattenPerson = flattenObject(person);
+console.log(flattenPerson);
+//  output
+// {
+//     name: "Jayesh",
+//     address.state: "M.P",
+//     address.country: "India",
+//     address.subAdress.city: "Burhanpur",
+//     skills.frontend.0: "JavaScript",
+//     skills.frontend.1: "React Js",
+//     skills.frontend.2: "CSS",
+//     skills.backend.0: "Node Js",
+//     skills.backend.1: "Mongo Db"
+// }
+
+```
+
+> ### Flatten Array Recursive method
+
+```js
+const numbers = [1, 2, 3, [4, 5], 6, [7, [8, 9], 10]];
+
+const result1 = numbers.flat("");
+const result2 = numbers.flat("1");
+const result3 = numbers.flat();
+const result4 = numbers.flat(2);
+console.log("result1", result1);
+console.log("result2", result2);
+console.log("result3", result3);
+console.log("result4", result4);
+
+// flatten array low simple for loop
+Array.prototype.customFlat = function (depth) {
+  // If no depth, default to 1
+  if (depth === undefined) {
+    depth = 1;
+  }
+
+  const flatten = function (array, depth) {
+    let output = [];
+    // If depth is 0, return the array as it is
+    if (depth < 1) {
+      return array.slice();
+    }
+
+    // Otherwise, concatenate into the parent array
+    for (let i = 0; i < array.length; i++) {
+      if (Array.isArray(array[i])) {
+        output = output.concat(flatten(array[i], depth - 1));
+      } else {
+        output.push(array[i]);
+      }
+    }
+
+    return output;
+  };
+
+  return flatten(this, depth);
+};
+
+// flatten array medium forEach method
+Array.prototype.customFlat = function (depth) {
+  // If no depth, default to 1
+  if (depth === undefined) {
+    depth = 1;
+  }
+
+  const flatten = function (array, depth) {
+    let output = [];
+    // If depth is 0, return the array as it is
+    if (depth < 1) {
+      return array.slice();
+    }
+
+    // Otherwise, concatenate into the parent array
+    array.forEach((value) =>
+      Array.isArray(value)
+        ? (output = output.concat(flatten(value, depth - 1)))
+        : output.push(value)
+    );
+
+    return output;
+  };
+
+  return flatten(this, depth);
+};
+
+// flatten array hard reduce method
+Array.prototype.customFlat = function (depth) {
+  // If no depth, default to 1
+  if (depth === undefined) {
+    depth = 1;
+  }
+
+  const flatten = function (array, depth) {
+    // If depth is 0, return the array as it is
+    if (depth < 1) {
+      return array.slice();
+    }
+
+    // Otherwise, concatenate into the parent array
+    return array.reduce((acc, curr) => {
+      return acc.concat(Array.isArray(curr) ? flatten(curr, depth - 1) : curr);
+    }, []);
+  };
+
+  return flatten(this, depth);
+};
+
+const resultCustom1 = numbers.customFlat("");
+const resultCustom2 = numbers.customFlat("1");
+const resultCustom3 = numbers.customFlat();
+const resultCustom4 = numbers.customFlat(2);
+
+console.log("resultCustom1", resultCustom1);
+console.log("resultCustom2", resultCustom2);
+console.log("resultCustom3", resultCustom3);
+console.log("resultCustom4", resultCustom4);
+```
+
+
+
 > ### Q87 - The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
 
 ```js
@@ -4457,167 +4621,7 @@ console.log(DuplicatesRemoved); => [ 1, 2, 3, 4, 5 ]
 
 ```
 
-> ### Flatten Object implementation
 
-```js
-
-const person = {
-  name: "Jayesh",
-  address: {
-    state: "M.P",
-    country: "India",
-    subAdress: {
-      city: "Burhanpur",
-    },
-  },
-  skills: {
-    frontend: ["JavaScript", "React Js", "CSS"],
-    backend: ["Node Js", "Mongo Db"],
-  },
-};
-
-
-const flattenObject = (obj) => {
-  const result = {};
-  //// looping through obj
-  for (let key in obj) {
-    // checking type of key
-    if (typeof obj[key] === "object") {
-      // if object call flattenObject again
-      const temp = flattenObject(obj[key]);
-
-      for (let childKey in temp) {
-        // concatenate key with childKey => key.childKey
-        result[key + "." + childKey] = temp[childKey];
-      }
-    } else {
-      // else store obj[key] in result directly
-      result[key] = obj[key];
-    }
-  }
-
-  return result;
-};
-
-const flattenPerson = flattenObject(person);
-console.log(flattenPerson);
-//  output
-// {
-//     name: "Jayesh",
-//     address.state: "M.P",
-//     address.country: "India",
-//     address.subAdress.city: "Burhanpur",
-//     skills.frontend.0: "JavaScript",
-//     skills.frontend.1: "React Js",
-//     skills.frontend.2: "CSS",
-//     skills.backend.0: "Node Js",
-//     skills.backend.1: "Mongo Db"
-// }
-
-```
-
-> ### Flatten Array Recursive method
-
-```js
-const numbers = [1, 2, 3, [4, 5], 6, [7, [8, 9], 10]];
-
-const result1 = numbers.flat("");
-const result2 = numbers.flat("1");
-const result3 = numbers.flat();
-const result4 = numbers.flat(2);
-console.log("result1", result1);
-console.log("result2", result2);
-console.log("result3", result3);
-console.log("result4", result4);
-
-// flatten array low simple for loop
-Array.prototype.customFlat = function (depth) {
-  // If no depth, default to 1
-  if (depth === undefined) {
-    depth = 1;
-  }
-
-  const flatten = function (array, depth) {
-    let output = [];
-    // If depth is 0, return the array as it is
-    if (depth < 1) {
-      return array.slice();
-    }
-
-    // Otherwise, concatenate into the parent array
-    for (let i = 0; i < array.length; i++) {
-      if (Array.isArray(array[i])) {
-        output = output.concat(flatten(array[i], depth - 1));
-      } else {
-        output.push(array[i]);
-      }
-    }
-
-    return output;
-  };
-
-  return flatten(this, depth);
-};
-
-// flatten array medium forEach method
-Array.prototype.customFlat = function (depth) {
-  // If no depth, default to 1
-  if (depth === undefined) {
-    depth = 1;
-  }
-
-  const flatten = function (array, depth) {
-    let output = [];
-    // If depth is 0, return the array as it is
-    if (depth < 1) {
-      return array.slice();
-    }
-
-    // Otherwise, concatenate into the parent array
-    array.forEach((value) =>
-      Array.isArray(value)
-        ? (output = output.concat(flatten(value, depth - 1)))
-        : output.push(value)
-    );
-
-    return output;
-  };
-
-  return flatten(this, depth);
-};
-
-// flatten array hard reduce method
-Array.prototype.customFlat = function (depth) {
-  // If no depth, default to 1
-  if (depth === undefined) {
-    depth = 1;
-  }
-
-  const flatten = function (array, depth) {
-    // If depth is 0, return the array as it is
-    if (depth < 1) {
-      return array.slice();
-    }
-
-    // Otherwise, concatenate into the parent array
-    return array.reduce((acc, curr) => {
-      return acc.concat(Array.isArray(curr) ? flatten(curr, depth - 1) : curr);
-    }, []);
-  };
-
-  return flatten(this, depth);
-};
-
-const resultCustom1 = numbers.customFlat("");
-const resultCustom2 = numbers.customFlat("1");
-const resultCustom3 = numbers.customFlat();
-const resultCustom4 = numbers.customFlat(2);
-
-console.log("resultCustom1", resultCustom1);
-console.log("resultCustom2", resultCustom2);
-console.log("resultCustom3", resultCustom3);
-console.log("resultCustom4", resultCustom4);
-```
 
 > ### Now please calculate() the result of the string. You can use the tokenizer you wrote before.
 
