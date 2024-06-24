@@ -4000,6 +4000,43 @@ const result4 = numbers.flat(2); // depth 2
 console.log(result4); => [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ```
 
+> ### Q104 _.chunk() splits array into groups with the specific size.
+
+Please implement your chunk(arr: any[], size: number)
+
+```js
+chunk([1,2,3,4,5], 1)
+// [[1], [2], [3], [4], [5]]
+
+chunk([1,2,3,4,5], 2)
+// [[1, 2], [3, 4], [5]]
+
+chunk([1,2,3,4,5], 3)
+// [[1, 2, 3], [4, 5]]
+
+chunk([1,2,3,4,5], 4)
+// [[1, 2, 3, 4], [5]]
+
+chunk([1,2,3,4,5], 5)
+// [[1, 2, 3, 4, 5]]
+```
+
+for size smaller than 1, return an empty array.
+
+**Solution**
+
+```js
+function chunk(arr, size) {
+  if (size < 1) {
+    return [];
+  }
+  const result = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
+  }
+  return result;
+}
+```
 
 
 
@@ -4825,43 +4862,6 @@ function LazyMan(name, logFn) {
 ```
 
 
-> ### _.chunk() splits array into groups with the specific size.
-
-Please implement your chunk(arr: any[], size: number)
-
-```js
-chunk([1,2,3,4,5], 1)
-// [[1], [2], [3], [4], [5]]
-
-chunk([1,2,3,4,5], 2)
-// [[1, 2], [3, 4], [5]]
-
-chunk([1,2,3,4,5], 3)
-// [[1, 2, 3], [4, 5]]
-
-chunk([1,2,3,4,5], 4)
-// [[1, 2, 3, 4], [5]]
-
-chunk([1,2,3,4,5], 5)
-// [[1, 2, 3, 4, 5]]
-```
-
-for size smaller than 1, return an empty array.
-
-**Solution**
-
-```js
-function chunk(arr, size) {
-  if (size < 1) {
-    return [];
-  }
-  const result = [];
-  for (let i = 0; i < arr.length; i += size) {
-    result.push(arr.slice(i, i + size));
-  }
-  return result;
-}
-```
 
 > ### Given a time string in format HH:mm, please return the angle between hour hand and minute hand.
 
