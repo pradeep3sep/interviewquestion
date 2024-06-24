@@ -3549,8 +3549,66 @@ function get(source, path, defaultValue = undefined) {
 
 ```
 
+> ### Q98 _.set(object, path, value) is a handy method to updating an object without checking the property existence.
 
-> ### Q98 - longest substring with unique characters
+Can you create your own set()?
+
+```js
+const obj = {
+  a: {
+    b: {
+      c: [1,2,3]
+    }
+  }
+}
+set(obj, 'a.b.c', 'BFE')
+console.log(obj.a.b.c) // "BFE"
+
+set(obj, 'a.b.c.0', 'BFE')
+console.log(obj.a.b.c[0]) // "BFE"
+
+set(obj, 'a.b.c[1]', 'BFE')
+console.log(obj.a.b.c[1]) // "BFE"
+
+set(obj, ['a', 'b', 'c', '2'], 'BFE')
+console.log(obj.a.b.c[2]) // "BFE"
+
+set(obj, 'a.b.c[3]', 'BFE')
+console.log(obj.a.b.c[3]) // "BFE"
+
+set(obj, 'a.c.d[0]', 'BFE')
+// valid digits treated as array elements
+console.log(obj.a.c.d[0]) // "BFE"
+
+set(obj, 'a.c.d.01', 'BFE')
+// invalid digits treated as property string
+console.log(obj.a.c.d['01']) // "BFE"
+```
+
+**Solution**
+
+```js
+function set(obj, path, value) {
+  path = Array.isArray(path) ? path :  path.replace('[', '.').replace(']', '').split('.');
+  src = obj;
+  path.forEach((key, index, array) => {
+    if (index == path.length - 1) {
+      src[key] = value;
+    } else {
+      if (!src.hasOwnProperty(key)) { // if the key doesn't exist on object
+        const next = array[index + 1];
+        src[key] = String(Number(next)) === next ? [] : {}; // create a new object if next is item in array is not a number
+      }
+      src = src[key];
+    }
+  })
+}
+```
+
+
+
+
+> ### Q99 - longest substring with unique characters
 
 Given a string, please find the longest substring that has no repeated characters.
 
@@ -3608,7 +3666,7 @@ console.log(longestUniqueSubstr('abcabc')); // 'abc', 'bca', or 'cab'
 console.log(longestUniqueSubstr('a12#2')); // 'a12#'
 ```
 
-> ### Q99 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
+> ### Q100 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
 
 Can you write a function to get the largest difference?
 
@@ -3632,7 +3690,7 @@ function largestDiff(arr) {
 }
 ```
 
-> ### Q100 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented.
+> ### Q101 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented.
 
 ```js
 count() // 1
@@ -4118,148 +4176,6 @@ getUniqueClassName.reset = function() {
 }
 ```
 
-
-
-
-> ### _.set(object, path, value) is a handy method to updating an object without checking the property existence.
-
-Can you create your own set()?
-
-```js
-const obj = {
-  a: {
-    b: {
-      c: [1,2,3]
-    }
-  }
-}
-set(obj, 'a.b.c', 'BFE')
-console.log(obj.a.b.c) // "BFE"
-
-set(obj, 'a.b.c.0', 'BFE')
-console.log(obj.a.b.c[0]) // "BFE"
-
-set(obj, 'a.b.c[1]', 'BFE')
-console.log(obj.a.b.c[1]) // "BFE"
-
-set(obj, ['a', 'b', 'c', '2'], 'BFE')
-console.log(obj.a.b.c[2]) // "BFE"
-
-set(obj, 'a.b.c[3]', 'BFE')
-console.log(obj.a.b.c[3]) // "BFE"
-
-set(obj, 'a.c.d[0]', 'BFE')
-// valid digits treated as array elements
-console.log(obj.a.c.d[0]) // "BFE"
-
-set(obj, 'a.c.d.01', 'BFE')
-// invalid digits treated as property string
-console.log(obj.a.c.d['01']) // "BFE"
-```
-
-**Solution**
-
-```js
-function set(obj, path, value) {
-  path = Array.isArray(path) ? path :  path.replace('[', '.').replace(']', '').split('.');
-  src = obj;
-  path.forEach((key, index, array) => {
-    if (index == path.length - 1) {
-      src[key] = value;
-    } else {
-      if (!src.hasOwnProperty(key)) { // if the key doesn't exist on object
-        const next = array[index + 1];
-        src[key] = String(Number(next)) === next ? [] : {}; // create a new object if next is item in array is not a number
-      }
-      src = src[key];
-    }
-  })
-}
-```
-
-> ### Please implement a function to compare 2 semver strings.
-
-```js
-compare('12.1.0', '12.0.9')
-// 1, meaning first one is greater
-
-compare('12.1.0', '12.1.2')
-// -1, meaning latter one is greater
-
-compare('5.0.1', '5.0.1')
-// 0, meaning they are equal.
-```
-
-**Solution**
-
-```js
-const getVersion = (str) => str.split('.').map(Number);
-
-function compare(v1, v2) {
-  const version1 = getVersion(v1);
-  const version2 = getVersion(v2);
-  for (let i = 0; i < 3; i++) {
-    if (version1[i]> version2[i]) return 1;
-    if (version1[i] < version2[i]) return -1;
-  }
-  return 0;
-}
-```
-
-> ### Let's take a look at following error-first callback.
-
-```js
-const callback = (error, data) => {
-  if (error) {
-    // handle the error
-  } else {
-    // handle the data
-  }
-}
-```
-
-Now think about async functions that takes above error-first callback as last argument.
-
-```js
-const func = (arg1, arg2, callback) => {
-  // some async logic
-  if (hasError) {
-    callback(someError)
-  } else {
-    callback(null, someData)
-  }
-}
-```
-You see what needs to be done now. Please implement promisify() to make the code better.
-
-```js
-const promisedFunc = promisify(func)
-
-promisedFunc().then((data) => {
-  // handles data
-}).catch((error) => {
-  // handles error
-})
-```
-
-**Solution**
-
-```js
-function promisify(func) {
-  return function (...args) {
-    return new Promise((resolve, reject) => {
-      func.call(this, ...args, (error, data) => {
-        if (error) {
-          reject(error)
-        } else {
-          resolve(data)
-        }
-      })
-    })
-  }
-}
-```
-
 > ### Here are some simple Jest test code.
 
 ```js
@@ -4295,36 +4211,6 @@ function myExpect(input) {
     }
   }
 }
-```
-
-> ### Given an array of integers, all integers appear twice except one integer, could you quickly target it ?
-```js
-const arr = [10, 2, 2 , 1, 0, 0, 10]
-findSingle(arr) // 1
-```
-
-
-**Solution**
-
-```js
-function findSingle(arr) {
-    let seen = new Set();
-    let sumOfUniqueElements = 0;
-    let sumOfAllElements = 0;
-
-    for (let num of arr) {
-        if (!seen.has(num)) {
-            sumOfUniqueElements += num;
-            seen.add(num);
-        }
-        sumOfAllElements += num;
-    }
-
-    return 2 * sumOfUniqueElements - sumOfAllElements;
-}
-
-const arr = [10, 2, 2, 1, 0, 0, 10];
-console.log(findSingle(arr)); // Output: 1
 ```
 
 > ### Roman numerals are represented by combinations of following seven symbols, each with a fixed integer value.
