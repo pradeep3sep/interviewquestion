@@ -3550,7 +3550,63 @@ function get(source, path, defaultValue = undefined) {
 ```
 
 
+> ### Q98 - longest substring with unique characters
 
+Given a string, please find the longest substring that has no repeated characters.
+
+If there are multiple result, any one substring is fine.
+
+```js
+longestUniqueSubstr('aaaaa')
+// 'a'
+longestUniqueSubstr('abcabc')
+// 'abc', or 'bca', or 'cab'
+longestUniqueSubstr('a12#2')
+// 'a12#
+```
+
+**Solution**
+
+```js
+function longestUniqueSubstr(s) {
+    // Variables to keep track of the maximum length and the starting index of the longest substring found
+    let maxLength = 0;
+    let maxSubstring = "";
+
+    // Use a Set to keep track of characters in the current window
+    let charSet = new Set();
+
+    // Two pointers to define the sliding window: start and end
+    let start = 0;
+
+    // Loop through each character in the string using the end pointer
+    for (let end = 0; end < s.length; end++) {
+        // If the character at the end pointer is already in the set,
+        // move the start pointer to the right until we remove the duplicate character
+        while (charSet.has(s[end])) {
+            charSet.delete(s[start]);
+            start++;
+        }
+
+        // Add the current character to the set
+        charSet.add(s[end]);
+
+        // Update the maximum length and the longest substring if we found a longer one
+        if (end - start + 1 > maxLength) {
+            maxLength = end - start + 1;
+            maxSubstring = s.slice(start, end + 1);
+        }
+    }
+
+    // Return the longest substring with unique characters
+    return maxSubstring;
+}
+
+// Test cases
+console.log(longestUniqueSubstr('aaaaa')); // 'a'
+console.log(longestUniqueSubstr('abcabc')); // 'abc', 'bca', or 'cab'
+console.log(longestUniqueSubstr('a12#2')); // 'a12#'
+```
 
 
 
@@ -3672,56 +3728,6 @@ var blue = 0;
 var hexColor = rgbToHex(red, green, blue);
 console.log(hexColor); // Output: #ff8000
 ```
-
-
-
-
-> ### longest substring with unique characters
-
-Given a string, please find the longest substring that has no repeated characters.
-
-If there are multiple result, any one substring is fine.
-
-```js
-longestUniqueSubstr('aaaaa')
-// 'a'
-longestUniqueSubstr('abcabc')
-// 'abc', or 'bca', or 'cab'
-longestUniqueSubstr('a12#2')
-// 'a12#
-```
-
-**Solution**
-
-```js
-function longestUniqueSubstr(str) {
-  let maxLength = 0;
-  let maxSubstr = "";
-  let currSubstr = "";
-  let seenChars = {};
-
-  for (let i = 0; i < str.length; i++) {
-    let char = str[i];
-    if (!seenChars[char]) {
-      seenChars[char] = true;
-      currSubstr += char;
-      if (currSubstr.length > maxLength) {
-        maxLength = currSubstr.length;
-        maxSubstr = currSubstr;
-      }
-    } else {
-      let prevOccurrence = str.lastIndexOf(char, i - 1);
-      currSubstr = str.slice(prevOccurrence + 1, i + 1);
-      seenChars = {};
-      for (let j = prevOccurrence + 1; j <= i; j++) {
-        seenChars[str[j]] = true;
-      }
-    }
-  }
-  return maxSubstr;
-}
-```
-
 
 > ### throttle Promises
 
