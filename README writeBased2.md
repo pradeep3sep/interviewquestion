@@ -3608,7 +3608,56 @@ console.log(longestUniqueSubstr('abcabc')); // 'abc', 'bca', or 'cab'
 console.log(longestUniqueSubstr('a12#2')); // 'a12#'
 ```
 
+> ### Q99 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
 
+Can you write a function to get the largest difference?
+
+```js
+largestDiff([-1, 2,3,10, 9])
+// 11,  obviously Math.abs(-1 - 10) is the largest
+
+largestDiff([])
+// 0
+
+largestDiff([1])
+// 0
+```
+
+**Solution**
+
+```js
+function largestDiff(arr) {
+  if(arr.length < 2) return 0
+  return Math.max(...arr) - Math.min(...arr)
+}
+```
+
+> ### Q100 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented.
+
+```js
+count() // 1
+count() // 2
+count() // 3
+
+count.reset()
+
+count() // 1
+count() // 2
+count() // 3
+```
+
+**Solution**
+
+```js
+function count() {
+  count.val = count.val || 1
+  return count.val++
+}
+
+count.reset = function () {
+  count.val = 1
+}
+```
 
 
 > ### There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
@@ -3764,65 +3813,6 @@ function throttlePromises(funcs, max){
 }
 ```
 
-> ### Generate Fibonacci Number you are asked to create a fib(n).
-
-This could be simply done by a recursion, but it costs so much time that your browser freezes, don't try it with large numbers.
-
-const fib = (n) => {
-  if (n === 0) return 0
-  if (n === 1) return 1
-  return fib(n - 1) + fib(n - 2)
-}
-
-fib(10) // 55
-fib(1000) // timeout
-Can you improve above implementation to make it work for fib(1000) ? recursion should still be used.
-
-**Solution**
-
-```js
-const fib = (() => {
-  const memo = {};
-
-  const fibonacci = (n) => {
-    if (n === 0) return 0;
-    if (n === 1) return 1;
-    
-    if (memo[n]) {
-      return memo[n];
-    } else {
-      memo[n] = fibonacci(n - 1) + fibonacci(n - 2);
-      return memo[n];
-    }
-  };
-
-  return fibonacci;
-})();
-
-console.log(fib(10));   // 55
-console.log(fib(1000)); // 4.346655768693743e+208
-```
-
-**another method**
-
-```js
-const fib = (n) => {
-  if (n === 0) return 0;
-  if (n === 1) return 1;
-
-  const fibArray = [0, 1];
-  for (let i = 2; i <= n; i++) {
-    fibArray[i] = fibArray[i - 1] + fibArray[i - 2];
-  }
-  
-  return fibArray[n];
-};
-
-console.log(fib(10));   // 55
-console.log(fib(1000)); // 4.346655768693743e+208
-```
-
-
 > ### Math.sqrt() helps us getting the square root of a number.
 
 Can your write your own mySqrt() ? You should return the integer part only, truncating the fraction part.
@@ -3869,58 +3859,6 @@ function mySqrt(x) {
 ```
 
 
-> ### Given an array of integers, find two number that sums up to 0, return their indices.
-
-There might be multiple pairs, any of them would do. If not found, return null
-
-```js
-findTwo([1,2,3,-1])
-// [0,3]
-
-findTwo([1,2,3,-1,-2,0])
-// [0,3] or [1,4] or [5, 5]
-
-findTwo([1,2,3,4])
-// null
-```
-
-**Solution**
-
-```js
-function findTwo(arr) {
-  const obj = {};
-  for(let i in arr) obj[arr[i]] = i;
-  for(let key in obj){
-    if(obj[-key]) return [obj[key], obj[-key]]
-  }
-
-  return null;
-}
-```
-
-> ### Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
-
-Can you write a function to get the largest difference?
-
-```js
-largestDiff([-1, 2,3,10, 9])
-// 11,  obviously Math.abs(-1 - 10) is the largest
-
-largestDiff([])
-// 0
-
-largestDiff([1])
-// 0
-```
-
-**Solution**
-
-```js
-function largestDiff(arr) {
-  if(arr.length < 2) return 0
-  return Math.max(...arr) - Math.min(...arr)
-}
-```
 
 > ### You are asked to create a function that multiplies two big integers in string.
 
@@ -4181,32 +4119,7 @@ getUniqueClassName.reset = function() {
 ```
 
 
-> ### Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented.
 
-```js
-count() // 1
-count() // 2
-count() // 3
-
-count.reset()
-
-count() // 1
-count() // 2
-count() // 3
-```
-
-**Solution**
-
-```js
-function count() {
-  count.val = count.val || 1
-  return count.val++
-}
-
-count.reset = function () {
-  count.val = 1
-}
-```
 
 > ### _.set(object, path, value) is a handy method to updating an object without checking the property existence.
 
