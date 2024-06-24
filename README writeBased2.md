@@ -3718,6 +3718,127 @@ count.reset = function () {
 ```
 
 
+> ### Q102 - check 2 arrays are same or not
+
+a. when sequence matter
+```js
+
+function arraysAreEqual(arr1, arr2) {
+    if (arr1.length !== arr2.length) {
+        return false;
+    }
+    
+    for (let i = 0; i < arr1.length; i++) {
+        if (arr1[i] !== arr2[i]) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+const array1 = [1, 2, 3];
+const array2 = [1, 2, 3];
+console.log(arraysAreEqual(array1, array2)); // Output: true
+```
+
+
+b. When sequence do not matter
+
+```js
+
+function arraysHaveSameElements(array1, array2) {
+    // Check if arrays have the same length
+    if (array1.length !== array2.length) {
+        return false;
+    }
+    
+    // Create objects to count occurrences of elements in both arrays
+    const count1 = {};
+    const count2 = {};
+    
+    // Count occurrences in the first array
+    for (const element of array1) {
+        count1[element] = (count1[element] || 0) + 1;
+    }
+    
+    // Count occurrences in the second array
+    for (const element of array2) {
+        count2[element] = (count2[element] || 0) + 1;
+    }
+    
+    // Check if counts of elements in both arrays match
+    for (const key in count1) {
+        if (count1[key] !== count2[key]) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+const array1 = [1, 3, 2];
+const array2 = [1, 2, 3];
+
+console.log(arraysHaveSameElements(array1, array2)); // Output: true
+```
+
+> ### Q103 - Flatten array implementation - Non recursive approach.
+
+1) Using Stack
+
+```js
+const numbers = [1, 2, 3, [4, 5], 6, [7, [8, 9], 10]];
+
+const flatten = function (array) {
+  let stack = [...array];
+  let result = [];
+
+  while (stack.length) {
+    let last = stack.pop();
+    if (Array.isArray(last)) {
+      stack.push(...last);
+    } else {
+      result.push(last);
+    }
+  }
+  return result.reverse();
+};
+
+console.log(flatten(numbers));
+```
+
+2) Using toString()
+
+```js
+const arr = [1, 2, [3, 4], 5, [6, [7, 8], 9]];
+console.log(arr.toString()); // 1,2,3,4,5,6,7,8,9
+console.log(arr.toString().split(",")); // [ '1', '2', '3','4', '5', '6','7', '8', '9' ]
+console.log([...arr.toString().split(",")]); // [ '1', '2', '3','4', '5', '6','7', '8', '9' ]
+```
+
+Array.prototype.flat method flattens a given array up to the given depth. By default, It takes depth as 1.
+
+```js
+💡Example -
+const numbers = [1, 2, 3, [4, 5], 6, [7, [8, 9], 10]];
+
+const result1 = numbers.flat(Infinity); // depth infinity
+console.log(result1); => [ 1, 2, 3, 4, 5 , 6, 7, 8, 9 , 10 ]
+
+const result2 = numbers.flat("1"); // depth 1 type coersion
+console.log(result2); => [ 1, 2, 3, 4, 5, 6, 7, [ 8, 9 ], 10 ]
+
+const result3 = numbers.flat(); // default depth 1
+console.log(result3); => [ 1, 2, 3, 4, 5, 6, 7, [ 8, 9 ], 10 ]
+
+const result4 = numbers.flat(2); // depth 2
+console.log(result4); => [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+```
+
+
+
+
 > ### There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
 
 You are asked to create an Event Emitter Class
@@ -4320,123 +4441,6 @@ function moveZeros(list) {
   }
 
 }
-```
-
-> ### check 2 arrays are same or not
-
-a. when sequence matter
-```js
-
-function arraysAreEqual(arr1, arr2) {
-    if (arr1.length !== arr2.length) {
-        return false;
-    }
-    
-    for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i]) {
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-const array1 = [1, 2, 3];
-const array2 = [1, 2, 3];
-console.log(arraysAreEqual(array1, array2)); // Output: true
-```
-
-
-b. When sequence do not matter
-
-```js
-
-function arraysHaveSameElements(array1, array2) {
-    // Check if arrays have the same length
-    if (array1.length !== array2.length) {
-        return false;
-    }
-    
-    // Create objects to count occurrences of elements in both arrays
-    const count1 = {};
-    const count2 = {};
-    
-    // Count occurrences in the first array
-    for (const element of array1) {
-        count1[element] = (count1[element] || 0) + 1;
-    }
-    
-    // Count occurrences in the second array
-    for (const element of array2) {
-        count2[element] = (count2[element] || 0) + 1;
-    }
-    
-    // Check if counts of elements in both arrays match
-    for (const key in count1) {
-        if (count1[key] !== count2[key]) {
-            return false;
-        }
-    }
-    
-    return true;
-}
-
-const array1 = [1, 3, 2];
-const array2 = [1, 2, 3];
-
-console.log(arraysHaveSameElements(array1, array2)); // Output: true
-```
-> ### Flatten array implementation - Non recursive approach.
-
-1) Using Stack
-
-```js
-const numbers = [1, 2, 3, [4, 5], 6, [7, [8, 9], 10]];
-
-const flatten = function (array) {
-  let stack = [...array];
-  let result = [];
-
-  while (stack.length) {
-    let last = stack.pop();
-    if (Array.isArray(last)) {
-      stack.push(...last);
-    } else {
-      result.push(last);
-    }
-  }
-  return result.reverse();
-};
-
-console.log(flatten(numbers));
-```
-
-2) Using toString()
-
-```js
-const arr = [1, 2, [3, 4], 5, [6, [7, 8], 9]];
-console.log(arr.toString()); // 1,2,3,4,5,6,7,8,9
-console.log(arr.toString().split(",")); // [ '1', '2', '3','4', '5', '6','7', '8', '9' ]
-console.log([...arr.toString().split(",")]); // [ '1', '2', '3','4', '5', '6','7', '8', '9' ]
-```
-
-Array.prototype.flat method flattens a given array up to the given depth. By default, It takes depth as 1.
-
-```js
-💡Example -
-const numbers = [1, 2, 3, [4, 5], 6, [7, [8, 9], 10]];
-
-const result1 = numbers.flat(Infinity); // depth infinity
-console.log(result1); => [ 1, 2, 3, 4, 5 , 6, 7, 8, 9 , 10 ]
-
-const result2 = numbers.flat("1"); // depth 1 type coersion
-console.log(result2); => [ 1, 2, 3, 4, 5, 6, 7, [ 8, 9 ], 10 ]
-
-const result3 = numbers.flat(); // default depth 1
-console.log(result3); => [ 1, 2, 3, 4, 5, 6, 7, [ 8, 9 ], 10 ]
-
-const result4 = numbers.flat(2); // depth 2
-console.log(result4); => [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ```
 
 > ### Remove duplicate no from array using the reduce
