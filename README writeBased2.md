@@ -4322,56 +4322,6 @@ function moveZeros(list) {
 }
 ```
 
-> ###  Write a program to give second largest integer from the array without using the default method
-
-```js
-
-function findSecondLargest(arr) {
-    if (arr.length < 2) {
-        return null; // Not enough elements for second largest
-    }
-
-    let first = -Infinity;
-    let second = -Infinity;
-
-    for (let i = 0; i < arr.length; i++) {
-        if (arr[i] > first) {
-            second = first;
-            first = arr[i];
-        } else if (arr[i] > second && arr[i] !== first) {
-            second = arr[i];
-        }
-    }
-
-    return second === -Infinity ? null : second; // If there's no second largest, return null
-}
-
-// Example usage:
-const numbers = [10, 5, 8, 20, 15];
-const secondLargest = findSecondLargest(numbers);
-console.log(secondLargest); // Output should be 15
-
-```
-
-
-> ### Counting occurrences of items in an array 👇
-
-```js
-
-const names = ["Jayesh", "John", "Sam", "Sam", "Jayesh", "Jayesh"];
-
-const nameOccurrences = names.reduce((acc, currName) => {
-  return {
-    ...acc,
-    [currName]: (acc[currName] || 0) + 1,
-  };
-}, {});
-
-console.log(nameOccurrences);
-// o/p { Jayesh: 3, John: 1, Sam: 2 }
-
-```
-
 > ### check 2 arrays are same or not
 
 a. when sequence matter
