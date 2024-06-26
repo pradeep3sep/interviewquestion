@@ -4038,6 +4038,64 @@ function chunk(arr, size) {
 }
 ```
 
+> ### Q105 - Given an array of integers, move zeros to the end while keeping the order of the rest.
+
+You should make the in-place change.
+
+```js
+const list = [1,0,0,2,3]
+moveZeros(list) 
+console.log(list) // [1,2,3,0,0]
+```
+
+**Solution**
+
+```js
+function moveZeros(list) {
+
+  for (let i = list.length - 1; i >= 0; i--) {
+
+    if (!list[i]) {
+      list.splice(i, 1)
+      list.push(0)
+    }
+    
+  }
+
+}
+```
+
+> ### Q106 - Given a non-empty string, return the most frequently ocurring character.
+
+If there are multiple characters with same occurrance, return an array of them.
+```js
+count('abbccc')
+// 'c'
+
+count('abbcccddd')
+// ['c', 'd']
+```
+
+**Solution**
+
+```js
+function count(str) {
+  const countMap = {};
+  let maxCount = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str[i];
+    countMap[char] = (countMap[char] || 0) + 1;
+    maxCount = Math.max(maxCount, countMap[char]);
+  }
+  const result = [];
+  for (const char in countMap) {
+    if (countMap[char] === maxCount) {
+      result.push(char);
+    }
+  }
+  return result.length === 1 ? result[0] : result;
+}
+```
 
 
 > ### There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
@@ -4253,41 +4311,34 @@ multiply(
 **Solution is below**
 
 ```js
-function multiply(a, b) {
-  let sign = ''
+function multiply(num1, num2) {
+  const len1 = num1.length;
+  const len2 = num2.length;
+  const result = new Array(len1 + len2).fill(0);
 
-  if (a === '0' || b === '0') return '0';
+  for (let i = len1 - 1; i >= 0; i--) {
+    for (let j = len2 - 1; j >= 0; j--) {
+      const mul = (num1[i] - '0') * (num2[j] - '0');
+      const sum = mul + result[i + j + 1];
 
-  if(a[0] === '-' && b[0] !== '-') {
-    sign = '-'
-    a = a.substr(1)
-  } else if (a[0] !== '-' && b[0] === '-') {
-    sign = '-'
-    b = b.substr(1)
-  } else if (a[0] === b[0] && a[0] === '-') {
-    a = a.substr(1);
-    b = b.substr(1);
-  }
-
-  let result = new Array(a.length + b.length).fill(0)
-
-  for(let i = a.length -1; i >= 0; i --) {
-    for(let j = b.length -1; j >= 0; j--) { 
-      const m = i + j + 1
-      const n = i + j
-
-      const s = (+a[i]) * (+b[j]) + result[m] 
-      result[m] = s % 10
-      result[n] += Math.floor(s / 10)
+      result[i + j + 1] = sum % 10;
+      result[i + j] += Math.floor(sum / 10);
     }
   }
 
-  while (result[0] === 0) {
-    result.shift()
+  while (result.length > 1 && result[0] === 0) {
+    result.shift();
   }
 
-  return sign + result.join('')
+  return result.join('');
 }
+
+// Example usage
+const num1 = '1123456787654323456789';
+const num2 = '1234567887654323456';
+console.log(multiply(num1, num2)); 
+// Output: '1386983673205309924427166592431045142784'
+
 ```
 
 > ### You are asked to create a BigInt division function.
@@ -4617,33 +4668,6 @@ function removeChars(input) {
 }
 ```
 
-> ### Given an array of integers, move zeros to the end while keeping the order of the rest.
-
-You should make the in-place change.
-
-```js
-const list = [1,0,0,2,3]
-moveZeros(list) 
-console.log(list) // [1,2,3,0,0]
-```
-
-**Solution**
-
-```js
-function moveZeros(list) {
-
-  for (let i = list.length - 1; i >= 0; i--) {
-
-    if (!list[i]) {
-      list.splice(i, 1)
-      list.push(0)
-    }
-    
-  }
-
-}
-```
-
 > ### Remove duplicate no from array using the reduce
 
 ```js
@@ -4657,8 +4681,6 @@ const DuplicatesRemoved = DuplicateNumbers.reduce(
 console.log(DuplicatesRemoved); => [ 1, 2, 3, 4, 5 ]
 
 ```
-
-
 
 > ### Now please calculate() the result of the string. You can use the tokenizer you wrote before.
 
@@ -4968,38 +4990,6 @@ const median = (arr1, arr2) => {
   return merged.length % 2
     ? merged[Math.floor(merged.length / 2)]
     : (merged[merged.length / 2] + merged[merged.length / 2 - 1]) / 2
-}
-```
-
-> ### Given a non-empty string, return the most frequently ocurring character.
-
-If there are multiple characters with same occurrance, return an array of them.
-```js
-count('abbccc')
-// 'c'
-
-count('abbcccddd')
-// ['c', 'd']
-```
-
-**Solution**
-
-```js
-function count(str) {
-  const countMap = {};
-  let maxCount = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str[i];
-    countMap[char] = (countMap[char] || 0) + 1;
-    maxCount = Math.max(maxCount, countMap[char]);
-  }
-  const result = [];
-  for (const char in countMap) {
-    if (countMap[char] === maxCount) {
-      result.push(char);
-    }
-  }
-  return result.length === 1 ? result[0] : result;
 }
 ```
 
