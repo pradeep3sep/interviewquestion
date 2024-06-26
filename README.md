@@ -46,13 +46,7 @@ https://www.youtube.com/watch?v=v_fwMoTVmqw&list=PLe3J6mZBq1xUs529Z-IHiCix4KBm0u
 https://www.youtube.com/watch?v=ZrMO0bCGwFg&list=PLKhlp2qtUcSYQojD5G-ElgHezoCyq2Hgo&ab_channel=RoadsideCoder
 ```
 
-must see repo - Done
-```
-https://github.com/jayesh2906/JavaScript-with-JC/tree/master
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews
-https://github.com/sadanandpai/frontend-mini-challenges
-https://bigfrontend.dev/react
-```
+
 
 Repo for the various react package
 ```
@@ -65,7 +59,13 @@ Pending Repo
 https://github.com/pradeep3sep/frontend-interview-preparation-kit
 ```
 
-
+must see repo - Done
+```
+https://github.com/jayesh2906/JavaScript-with-JC/tree/master
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews
+https://github.com/sadanandpai/frontend-mini-challenges
+https://bigfrontend.dev/react
+```
 
 
 Done Repo
