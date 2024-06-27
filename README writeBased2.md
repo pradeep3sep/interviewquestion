@@ -40,7 +40,19 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
 
 <br>
 
+> ### swap 2 no without temp
+```js
+let a = 5;
+let b = 10;
 
+a = a + b; // a now becomes 15
+b = a - b; // b becomes 5 (original value of a)
+a = a - b; // a becomes 10 (original value of b)
+
+console.log(a); // 10
+console.log(b); // 5
+
+```
 
 > ### Q1 - Shuffle algorithm
 ```js
@@ -4097,6 +4109,41 @@ function count(str) {
 }
 ```
 
+> ### Q107 - Sum two numbers which are very large in size
+
+```js
+function addLargeNumbers(a, b) {
+    // Make sure a is the longer string
+    if (b.length > a.length) [a, b] = [b, a];
+
+    // Pad the shorter string with leading zeros
+    b = b.padStart(a.length, '0');
+
+    let carry = 0;
+    let result = '';
+
+    // Add digits from right to left
+    for (let i = a.length - 1; i >= 0; i--) {
+        let sum = parseInt(a[i]) + parseInt(b[i]) + carry;
+        carry = Math.floor(sum / 10);
+        result = (sum % 10) + result;
+    }
+
+    // If there's a carry left at the end, add it to the result
+    if (carry > 0) {
+        result = carry + result;
+    }
+
+    return result;
+}
+
+let c = "45555555555555555555555555555555555555777777772222222222222222222222222222222222222222222";
+let d = "99999998888888888888888888888888888888888888888888888888888888899";
+
+let sum = addLargeNumbers(c, d);
+console.log(sum);
+
+```
 
 > ### There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
 
