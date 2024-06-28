@@ -4292,6 +4292,63 @@ bowShapedTriangle = maxNum  => {
 bowShapedTriangle(10)
 ```
 
+> ### Q111 - Check if a given number narcissistic number
+
+Narcissistic number\
+Given N, check whether it is a Narcissistic number or not.
+
+Note:Narcissistic Number is a number that is the sum of its own digits each raised to the power of the number of digits
+
+```js
+isNarcissistic = num => {
+
+  //convert the original number to string. I can do this in the below way, or using toString()
+  // let numStr = '' + num;
+
+  let numStr = num.toString();
+
+  let numLen = numStr.length;
+
+  let narcissisticResult = 0
+
+  for (let i in numStr ) {
+    narcissisticResult += Math.pow( parseInt(numStr[i]), numLen);
+  }
+
+  return num === narcissisticResult;
+}
+
+console.log(isNarcissistic(153));
+
+// 153 is Nacrissistic number - (3 digits), you can see 153 = 1^3 + 5^3 + 3^3
+
+```
+
+> ### Q112 - The first dimension represents the activity and the second one shows the number of hours spent per day for each. calculates the percentage of the hours spent for each activity and append the percentage to the inner array.
+
+```js
+var activities = [
+    ['Work', 9],
+    ['Eat', 2],
+    ['Commute', 2],
+    ['Play Game', 2],
+    ['Sleep', 7]
+];
+
+for (let i = 0; i < activities.length; i++) {
+        let percentage = ((activities[i][1] / 24) * 100).toFixed();
+        activities[i][2] = percentage + "%";
+}
+
+console.log(activities);
+
+```
+
+
+
+
+
+
 > ### There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
 
 You are asked to create an Event Emitter Class
