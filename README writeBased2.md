@@ -84,6 +84,13 @@ function reverserArray(arr){
 }
 reverserArray(data);
 ```
+
+```js
+// ES6 version
+function reverseArray (arr) {
+   return arr.map((item, index) => arr[arr.length-1-index]);
+}
+```
 <br>
 
 > ### Q3 - Sort of array
@@ -620,20 +627,41 @@ if (isSubset(a1, a2)) {
 > ### Q16 - Find factorial of a large number
 
 ```js
-function factorial(num) {
-    if (num < 0) {
-      console.log("Please provide positive number");
-      return;
-    }
-    if (num === 0 || num === 1) {
-      return 1;
-    } else {
-      return num * factorial(num - 1);
-    }
+function factorial (num) {
+  let result = 1;
+  for (var i = 0; i < num; i++) {
+    result = result * (num - i);
+  }
+  return result;
 }
-console.log(factorial(5));
+
+// console.log(factorial(5));
+
+function factorialRecursively (n) {
+  if (n < 2) {
+    return 1;
+  } else {
+    return n * factorial (n - 1);
+  }
+}
 
 ```
+
+ > ### Find square-root of a number without using native JS function
+```js
+var squrt = function (num) {
+  var sroot = 1;
+  while (sroot < num) {
+    if ( sroot * sroot == num) {
+      return sroot;
+    } else {
+      sroot++
+    }
+  }
+};
+console.log(squrt(25));
+```
+
 <br>
 
 > ### Q17 - Rearrange array in alternating positive & negative items
@@ -3781,9 +3809,6 @@ function set(obj, path, value) {
 }
 ```
 
-
-
-
 > ### Q99 - longest substring with unique characters
 
 Given a string, please find the longest substring that has no repeated characters.
@@ -4143,6 +4168,128 @@ let d = "99999998888888888888888888888888888888888888888888888888888888899";
 let sum = addLargeNumbers(c, d);
 console.log(sum);
 
+```
+
+> ### Q108 - Calculate the sum of two integers a and b, without using the operator + and -
+
+```js
+sumWithoutOperator = (a, b) => {
+
+    let result = 0, positiveArr = [], negativeArr = [];
+
+    if (a < 0) {
+        for (let i = a; i < 0; i++) {
+            negativeArr.push(i)
+        }
+    } else {
+        for (let i = 0; i < a; i++) {
+            positiveArr.push(i)
+        }
+    }
+
+    if (b < 0) {
+        for (let i = b; i < 0; i++) {
+            negativeArr.push(i)
+        }
+    } else {
+        for (let i = 0; i < b; i++) {
+            positiveArr.push(i)
+        }
+    }
+
+
+    if (negativeArr.length > positiveArr.length) {
+        // Meaning, the sum will be negative. So, for each element of the positiveArr, remove a corresponding element from the negativeArr
+        // And then return the length of the left-over negativeArr with a minus sign
+
+        for (let i = 0; i < positiveArr.length; i++ ) {
+
+            negativeArr.splice(0, 1)
+
+            // In above, for splice() I am using the stating index to be 0, because with each iteration I will continue to reduce the size of the array. So, each time, I will hit the 0-index element of the array. Because splice() mutates the original array
+
+        }
+        result = negativeArr.length * -1
+    } else {
+        // Else the sum will be positive. So, for each element of the negativeArr, remove a corresponding element from the positiveArr
+        for (let i = 0; i < negativeArr.length; i++) {
+            positiveArr.splice(0, 1)
+        }
+        result = positiveArr.length
+    }
+    return result;
+}
+
+// console.log(sumWithoutOperator(5, -2))
+
+// SOLUTION-2 - Assuming only positive numbers and same approach as above
+
+sumWithoutOperator1 = (a, b) => {
+    const arr1 = new Array(a).fill(true);
+    const arr2 = new Array(b).fill(true);
+    return arr1.concat(arr2).length;
+}
+
+console.log(sumWithoutOperator1(5, 2))
+
+```
+
+> ### Q109 - Find power of a number without using native JS function
+
+```js
+function power (base, exponent) {
+  var result = 1;
+  for(var i=1; i<=exponent; i++) {
+    result = result * base;
+  }
+  return result;
+}
+console.log(power(2,3));
+```
+
+> ### Q110 - /* - Print the following shape, where the maximum number of stars in the middle postition is maxNum
+
+*\
+**\
+***\
+****\
+*****\
+******\
+*******\
+********\
+*********\
+**********\
+*********\
+********\
+*******\
+******\
+*****\
+****\
+***\
+**\
+*
+
+Side by triangel bow shaped
+
+```js
+bowShapedTriangle = maxNum  => {
+
+	let triangle_1 = '';
+	
+	// First build the triangle upto maxNum of rows with maxNum of *
+	for (let i = 0; i < maxNum; i++) {
+		triangle_1 += '*'
+		console.log(triangle_1);
+	}
+
+	// Then just reduce the trianlge starting from next line and and counting from maxNum - 1. As after the 10 '*' the next line should print 9 '*'
+	for (let i = maxNum - 1; i  >= 1 ; i-- ) {
+		triangle_1 = triangle_1.slice(0, -1);
+		console.log(triangle_1);
+	}
+}
+
+bowShapedTriangle(10)
 ```
 
 > ### There is Event Emitter in Node.js, Facebook once had its own implementation but now it is archived.
