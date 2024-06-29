@@ -4379,9 +4379,78 @@ for (let i = 0; i < activities.length; i++) {
 console.log(activities);
 
 ```
+> ### Q113 - Given an array of non negative integers,arrange them such that they form the largest number.
+
+Sample input: [3, 30, 34, 5, 9],
+
+Output number is 9534330.
+
+```js
+function largestNumber(nums) {
+  if (!nums || nums.length === 0) return "";
+
+  // Convert numbers to strings
+  nums = nums.map(String);
+
+  // Sort the array based on the concatenated comparison
+  nums.sort((a, b) => (b + a) - (a + b));
+
+  // Join the array to form the largest number
+  const result = nums.join('');
+
+  // Handle the edge case where the result is a sequence of zeros
+  return result[0] === '0' ? '0' : result;
+}
+
+// Sample input
+const nums = [3, 30, 34, 5, 9];
+console.log(largestNumber(nums)); // Output: "9534330"
 
 
+```
 
+> ### Q114 - find_number_appearing-twice.js
+
+```js
+// METHOD 1: runtime = O(n) & memory = O(n)
+findDup = (list, n) => {
+  let obj = {}
+  let currentElem
+
+  for (let i = 0; i < list.length; i++) {
+    currentElem = list[i]
+    if (obj[currentElem]) {
+      return currentElem
+    } else {
+      obj[currentElem] = true
+    }
+  }
+}
+// so the above function will only return the fist occuring duplicate no
+
+myList = [1, 4, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+// console.log(findDup(myList));
+
+/* METHOD 2: runtime = O(n) & memory = O(1)
+Using the arithmetic sum formulae
+Note the Arithmetic Sum formulae is (n*(n + 1))/2 i.e. (n2 + n)/2
+ */
+
+findDupAlt = (list, n) => {
+  let arithmeticSum = (n * n + n) / 2
+  let sumList = 0
+  for (let i of list) {
+    sumList += i
+  }
+  return sumList - arithmeticSum
+}
+
+console.log(findDupAlt(myList, 10))
+```
+
+
+> ### Below need to check
 ```js
 /*
 SOLUTION-1 - Quite optimum solution - 1> In this method, we can find third largest in one traversal only.. Without using an extra step of sorting the whole array
