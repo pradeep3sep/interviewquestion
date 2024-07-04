@@ -1,0 +1,8 @@
+{
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-recess-order"],
+  "rules": {
+    "selector-class-pattern": null,
+    "selector-max-type": [0, { "ignore": ["child", "compounded", "custom-elements", "descendant", "next-sibling"] }],
+    "color-function-notation": "legacy"
+  }
+}

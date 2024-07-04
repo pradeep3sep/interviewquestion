@@ -1,0 +1,68 @@
+.watch-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.watch {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 250px;
+  padding: 20px;
+  text-align: center;
+  background: #b4161b;
+  background: linear-gradient(145deg, #cacaca, #f0f0f0);
+  border-radius: 50%;
+  box-shadow: 0 0 20px #bebebe;
+}
+
+.watch-heading {
+  font-size: 30px;
+  font-weight: 900;
+  color: purple;
+}
+
+.watch-timer {
+  font-size: 30px;
+  font-weight: 900;
+  color: #b4161b;
+}
+
+.watch-btn {
+  height: 40px;
+  padding: 0 10px;
+  margin: 20px auto;
+  margin: 20px 2px 0;
+  font-weight: bold;
+  color: #fff;
+  text-transform: uppercase;
+  background: linear-gradient(-45deg, #e81cff 0%, #40c9ff 100%);
+  border: none;
+  border-radius: 12px;
+}
+
+.watch-btn:disabled {
+  cursor: not-allowed;
+  background: linear-gradient(-45deg, #e81cff80 0%, #40c9ff80 100%);
+}
+
+@media (width <= 300px) {
+  .watch {
+    width: 230px;
+    height: 230px;
+    padding: 0;
+  }
+  
+  .watch-heading {
+    font-size: 20px;
+  }
+
+  .watch-btn {
+    margin: 5px;
+  }
+}
