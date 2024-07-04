@@ -1,0 +1,37 @@
+:root {
+  --clr-bcg: #fff;
+  --clr-font: #282c35;
+  --clr-primary: #d23669;
+}
+
+.darkTheme {
+  --clr-bcg: #282c35;
+  --clr-font: #fff;
+  --clr-primary: #d23669;
+}
+
+.lightTheme {
+  --clr-bcg: #fff;
+  --clr-font: #282c35;
+  --clr-primary: #ffd7c4;
+}
+
+.main {
+  padding: 10px;
+  background-color: var(--clr-bcg);
+  transition: 0.3s linear;
+}
+
+.main h1 {
+  color: var(--clr-font);
+}
+
+.main button {
+  padding: 10px;
+  margin-top: 10px;
+  font-size: 16px;
+  color: var(--clr-font);
+  cursor: pointer;
+  background-color: var(--clr-primary);
+  border: none;
+}

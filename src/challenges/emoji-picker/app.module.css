@@ -1,0 +1,157 @@
+/* app */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* emoji component */
+.container {
+  width: 100%;
+  height: 400px;
+  padding: 10px;
+  margin: 26px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background-color: rgb(249, 249, 249);
+  border-radius: 3px;
+  box-shadow: 0 0 3px 2px rgba(201, 201, 201, 93.3%);
+}
+
+.container::-webkit-scrollbar,
+.container::-webkit-scrollbar-thumb {
+  width: 6px;
+  height: 40px;
+  border-radius: 12px;
+}
+
+.container::-webkit-scrollbar-thumb {
+  box-shadow: inset 10px 10px 10px 5px rgb(184, 184, 184);
+}
+
+.iconContainer {
+  width: 30%;
+  height: 30%;
+}
+
+.icon {
+  display: inline-block;
+  width: calc(100% / 3);
+  padding: 1px;
+  font-size: 30px;
+  text-align: center;
+  cursor: pointer;
+  border: 3px solid transparent;
+  border-radius: 10px;
+  transition: border-color 0.3s;
+}
+
+.icon:hover {
+  border-color: rgb(217, 217, 217);
+}
+
+.inputField {
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border: 2px solid rgb(80, 66, 0);
+  border-radius: 4px;
+}
+
+.inputField:hover {
+  cursor: auto;
+  border: 2px solid rgb(80, 66, 0);
+}
+
+.toast {
+  position: fixed;
+  top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;
+  height: 30px;
+  color: darkslategray;
+  text-align: center;
+  background-color: rgb(128, 238, 128);
+  border-radius: 20px;
+  box-shadow: 0 0 3px 2px rgba(201, 201, 201, 93.3%);
+}
+
+.loader {
+  width: 60px;
+  height: 60px;
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+}
+
+.loaderContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.topSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.select {
+  width: 180px;
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  border: 2px solid rgb(80, 66, 0);
+  border-radius: 5px;
+}
+
+.copyText {
+  font-size: small;
+  color: #bababa;
+  text-align: center;
+  opacity: 1;
+}
+
+.hidden {
+  opacity: 0;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@media (width <= 576px) {
+  .icon {
+    width: calc(100% / 6);
+  }
+}
+
+@media (width >= 768px) {
+  .icon {
+    width: calc(100% / 8);
+  }
+
+  .container {
+    width: 500px;
+  }
+}
+
+@media (width >= 992px) {
+  .icon {
+    width: calc(100% / 10);
+  }
+
+  .container {
+    width: 500px;
+  }
+}

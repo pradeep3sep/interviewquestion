@@ -1,0 +1,75 @@
+.app {
+  margin-top: 1rem;
+  font-size: 1.2rem;
+}
+
+.list {
+  display: flex;
+  align-items: center;
+  height: 1.5em;
+  padding-left: 0;
+  margin-bottom: 0.5em;
+  list-style-type: none;
+}
+
+.list button {
+  font-size: 1em;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.list.editList {
+  padding: 1px 6px;
+}
+
+.list input {
+  font-size: 1em;
+}
+
+.editableInputContainer {
+  position: relative;
+}
+
+.editableInputError {
+  position: absolute;
+  top: 100%;
+  background-color: #7f1d1d;
+  border: 1px solid red;
+  font-size: small;
+  color: #f87171;
+  padding: 0.5rem;
+}
+
+.editableInputError > p {
+  margin: 0;
+}
+
+.indent {
+  margin-left: 30px;
+}
+
+.controls {
+  display: flex;
+  gap: 0.5em;
+  margin-left: 2rem;
+}
+
+.controls button {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  background-color: transparent;
+  border: none;
+}
+
+.list:hover button {
+  display: block;
+}
+
+.list[data-root="true"]:hover div button:first-child,
+.list[data-root="true"]:hover div button:last-child {
+  display: none;
+}

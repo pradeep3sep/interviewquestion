@@ -1,0 +1,36 @@
+.App {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.accordion {
+  padding: 10px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  text-align: left;
+  border: 1px solid rgb(218, 212, 212);
+}
+
+.accordion-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accordion-icon {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  justify-content: center;
+  width: 2rem;
+  min-width: 2rem;
+  height: 2rem;
+  margin-left: 1rem;
+  font-size: 20px;
+  color: white;
+  cursor: pointer;
+  background: transparent;
+  background: rgb(209, 209, 209);
+  border-color: transparent;
+  border-radius: 50%;
+}

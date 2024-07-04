@@ -1,0 +1,26 @@
+.container_for_table {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  text-align: center;
+}
+
+.thead tr th {
+  padding: 4px;
+  margin: 0;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  background-color: beige;
+  border: 1px solid beige;
+}
+
+.tbody tr td {
+  padding: 4px;
+  margin: 0;
+  font-size: 1rem;
+  border-right: 1px solid beige;
+  border-bottom: 1px solid beige;
+  border-left: 1px solid beige;
+}
