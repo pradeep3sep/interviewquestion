@@ -4506,6 +4506,194 @@ function deepEqual(x, y) {
 }
 ```
 
+> ### Implement a class that can subscribe to and emit events that trigger attached callback functions.
+
+```js
+class EventEmitter {
+    constructor() {
+        this.events = {};
+    }
+
+    // Method to subscribe to an event
+    on(event, listener) {
+        if (!this.events[event]) {
+            this.events[event] = [];
+        }
+        this.events[event].push(listener);
+    }
+
+    // Method to unsubscribe from an event
+    off(event, listener) {
+        if (!this.events[event]) return;
+
+        this.events[event] = this.events[event].filter(l => l !== listener);
+    }
+
+    // Method to emit an event
+    emit(event, ...args) {
+        if (!this.events[event]) return;
+
+        this.events[event].forEach(listener => {
+            listener(...args);
+        });
+    }
+}
+
+// Example usage:
+const emitter = new EventEmitter();
+
+function onFoo(data) {
+    console.log('foo event triggered with data:', data);
+}
+
+// Subscribe to the 'foo' event
+emitter.on('foo', onFoo);
+
+// Emit the 'foo' event with some data
+emitter.emit('foo', { some: 'data' }); // Output: foo event triggered with data: { some: 'data' }
+
+// Unsubscribe from the 'foo' event
+emitter.off('foo', onFoo);
+
+// Emit the 'foo' event again to show that the listener has been removed
+emitter.emit('foo', { some: 'data' }); // No output
+
+```
+
+> ### Q117 - Implement a debounce function that comes with a cancel method to cancel delayed invocations.
+
+```js
+function debounce(func, delay) {
+    let timeoutId;
+
+    function debounced(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => {
+            func(...args);
+        }, delay);
+    }
+
+    debounced.cancel = function() {
+        clearTimeout(timeoutId);
+    };
+
+    return debounced;
+}
+
+// Example usage:
+function saveChanges(text) {
+    console.log(`Saving changes for: ${text}`);
+}
+
+const debouncedSave = debounce(saveChanges, 1000);
+
+debouncedSave('Text 1');
+debouncedSave('Text 2');
+
+// Cancelling the debounce
+debouncedSave.cancel();
+
+// This invocation will not trigger the saveChanges function because it's cancelled
+debouncedSave('Text 3');
+
+```
+
+> ### Implement a function to execute N async tasks in series. in js
+
+```js
+async function executeTasksInSeries(tasks) {
+    for (const task of tasks) {
+        await task();
+    }
+}
+
+// Example usage:
+const task1 = async () => {
+    console.log('Task 1 started');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Task 1 completed');
+};
+
+const task2 = async () => {
+    console.log('Task 2 started');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Task 2 completed');
+};
+
+const task3 = async () => {
+    console.log('Task 3 started');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Task 3 completed');
+};
+
+executeTasksInSeries([task1, task2, task3]);
+
+```
+
+
+> ### Implement a function to execute N async tasks in parallel.
+
+```js
+async function executeTasksInParallel(tasks) {
+    await Promise.all(tasks.map(task => task()));
+}
+
+// Example usage:
+const task1 = async () => {
+    console.log('Task 1 started');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Task 1 completed');
+};
+
+const task2 = async () => {
+    console.log('Task 2 started');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Task 2 completed');
+};
+
+const task3 = async () => {
+    console.log('Task 3 started');
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log('Task 3 completed');
+};
+
+executeTasksInParallel([task1, task2, task3]);
+
+```
+
+> ### Implement Lodash_.get method which gets value from the path.
+
+```js
+function get(object, path, defaultValue) {
+    const pathArray = Array.isArray(path) ? path : path.match(/([^[.\]])+/g);
+
+    let result = object;
+    for (let key of pathArray) {
+        result = (result !== null && result !== undefined) ? result[key] : undefined;
+        if (result === undefined) {
+            return defaultValue;
+        }
+    }
+    return result;
+}
+
+// Example usage:
+const obj = {
+    a: {
+        b: {
+            c: 42,
+            d: null
+        }
+    }
+};
+
+console.log(get(obj, 'a.b.c'));          // Output: 42
+console.log(get(obj, 'a.b.d'));          // Output: null
+console.log(get(obj, 'a.b.e', 'default'));// Output: 'default'
+console.log(get(obj, ['a', 'b', 'c']));  // Output: 42
+console.log(get(obj, ['a', 'b', 'e'], 'default')); // Output: 'default'
+```
+
 
 > ### Below need to check
 ```js
