@@ -4449,6 +4449,63 @@ findDupAlt = (list, n) => {
 console.log(findDupAlt(myList, 10))
 ```
 
+> ### Q115 - Implement a function that determines if two values are deep equal.
+
+```js
+function deepEqual(a, b) {
+  // Get the keys of the objects
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+
+  // Check if both a and b are objects and not null
+  const isObjectA = typeof a === 'object' && a !== null;
+  const isObjectB = typeof b === 'object' && b !== null;
+
+  // If both are objects, compare their keys and values recursively
+  if (isObjectA && isObjectB) {
+    // Check if they have the same number of keys
+    if (keysA.length !== keysB.length) return false;
+
+    // Check if all keys in a have corresponding equal values in b
+    for (const key of keysA) {
+      if (!deepEqual(a[key], b[key])) return false;
+    }
+
+    return true;
+  }
+
+  // If they are not objects or not the same object, use strict equality
+  return a === b;
+}
+
+// Example usage:
+const obj1 = { name: "Alice", address: { city: "Wonderland" } };
+const obj2 = { name: "Alice", address: { city: "Wonderland" } };
+
+console.log(deepEqual(obj1, obj2)); // Output: true
+
+const circularObj1 = {};
+circularObj1.self = circularObj1;
+
+const circularObj2 = {};
+circularObj2.self = circularObj2;
+
+console.log(deepEqual(circularObj1, circularObj2)); // Output: true
+
+```
+
+Simplified version of above
+
+```js
+function deepEqual(x, y) {
+  const ok = Object.keys, tx = typeof x, ty = typeof y;
+  return x && y && tx === 'object' && tx === ty ? (
+    ok(x).length === ok(y).length &&
+      ok(x).every(key => deepEqual(x[key], y[key]))
+  ) : (x === y);
+}
+```
+
 
 > ### Below need to check
 ```js
