@@ -4506,7 +4506,7 @@ function deepEqual(x, y) {
 }
 ```
 
-> ### Implement a class that can subscribe to and emit events that trigger attached callback functions.
+> ### Q116 - Implement a class that can subscribe to and emit events that trigger attached callback functions.
 
 ```js
 class EventEmitter {
@@ -4598,7 +4598,7 @@ debouncedSave('Text 3');
 
 ```
 
-> ### Implement a function to execute N async tasks in series. in js
+> ### Q118 - Implement a function to execute N async tasks in series. in js
 
 ```js
 async function executeTasksInSeries(tasks) {
@@ -4631,7 +4631,7 @@ executeTasksInSeries([task1, task2, task3]);
 ```
 
 
-> ### Implement a function to execute N async tasks in parallel.
+> ### Q119 - Implement a function to execute N async tasks in parallel.
 
 ```js
 async function executeTasksInParallel(tasks) {
@@ -4661,7 +4661,7 @@ executeTasksInParallel([task1, task2, task3]);
 
 ```
 
-> ### Implement Lodash_.get method which gets value from the path.
+> ### Q120 - Implement Lodash_.get method which gets value from the path.
 
 ```js
 function get(object, path, defaultValue) {
@@ -4693,6 +4693,112 @@ console.log(get(obj, 'a.b.e', 'default'));// Output: 'default'
 console.log(get(obj, ['a', 'b', 'c']));  // Output: 42
 console.log(get(obj, ['a', 'b', 'e'], 'default')); // Output: 'default'
 ```
+
+> ### Q120 -  Implement memoizing or caching identical API requests
+
+```js
+const cache = new Map();
+
+async function fetchWithCache(url) {
+  if (cache.has(url)) {
+    return cache.get(url);
+  }
+  const response = await fetch(url);
+  const data = await response.json();
+  cache.set(url, data);
+  return data;
+}
+
+// Usage
+fetchWithCache('https://api.example.com/data')
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
+```
+
+> ### Q121 - Implement a curried function with placeholders support
+
+```js
+
+function curry(func) {
+  const placeholder = Symbol('placeholder');
+  return function curried(...args) {
+    const complete = args.length >= func.length && !args.includes(placeholder);
+    if (complete) {
+      return func.apply(this, args);
+    } else {
+      return function(...nextArgs) {
+        const newArgs = args.map(arg => arg === placeholder ? nextArgs.shift() : arg).concat(nextArgs);
+        return curried.apply(this, newArgs);
+      };
+    }
+  };
+}
+
+// Usage
+const _ = curry.placeholder;
+
+const add = (a, b, c) => a + b + c;
+const curriedAdd = curry(add);
+
+console.log(curriedAdd(1)(2)(3)); // 6
+console.log(curriedAdd(_, 2)(1)(3)); // 6
+```
+
+
+> ### Q122 - Implement custom Virtual DOM I which serializes and deserializes the data in valid JavaScript objects
+
+```js
+// serializes
+class VNode {
+  constructor(tag, props, children) {
+    this.tag = tag;
+    this.props = props;
+    this.children = children;
+  }
+
+  serialize() {
+    return JSON.stringify(this);
+  }
+}
+
+// Usage
+const vnode = new VNode('div', { id: 'app' }, [
+  new VNode('h1', {}, ['Hello, World!']),
+]);
+console.log(vnode.serialize()); // {"tag":"div","props":{"id":"app"},"children":[{"tag":"h1","props":{},"children":["Hello, World!"]}]}
+
+
+// deserializes
+function deserializeVNode(json) {
+  const obj = JSON.parse(json);
+  if (typeof obj === 'string') return obj;
+  const { tag, props, children } = obj;
+  return new VNode(tag, props, children.map(deserializeVNode));
+}
+
+// Usage
+const serialized = '{"tag":"div","props":{"id":"app"},"children":[{"tag":"h1","props":{},"children":["Hello, World!"]}]}';
+const vnode = deserializeVNode(serialized);
+console.log(vnode); // VNode { tag: 'div', props: { id: 'app' }, children: [ VNode { tag: 'h1', props: {}, children: [ 'Hello, World!' ] } ] }
+```
+
+> ### Q123 -  Implement a custom function _chunk() which chunks the arrays from Lodash Library
+
+```js
+function _chunk(array, size = 1) {
+  const chunkedArray = [];
+  for (let i = 0; i < array.length; i += size) {
+    chunkedArray.push(array.slice(i, i + size));
+  }
+  return chunkedArray;
+}
+
+// Usage
+console.log(_chunk([1, 2, 3, 4, 5], 2)); // [[1, 2], [3, 4], [5]]
+console.log(_chunk([1, 2, 3, 4, 5], 3)); // [[1, 2, 3], [4, 5]]
+```
+
+> ### Q124 - 
 
 
 > ### Below need to check
