@@ -5050,6 +5050,184 @@ undefined
 */
 ```
 
+> ### LRU Cache implementation
+
+### LRU Cache: Overview
+
+**Least Recently Used (LRU) Cache** is a cache eviction algorithm that discards the least recently used items first. This is particularly useful when you have limited space, and you need to ensure that the most recently accessed items remain available.
+
+### Real-life Example
+
+Imagine you have a small desk with limited space for books. You can only keep 5 books on your desk at any given time. You frequently refer to these books for your work. However, you have a large library of books on your bookshelf. When you bring a new book to your desk and there isn't enough space, you need to decide which book to remove. Using an LRU policy, you would remove the book that you haven't referred to in the longest time.
+
+### Code in JavaScript
+
+Here's an implementation of an LRU Cache in JavaScript:
+
+```javascript
+class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map();
+  }
+
+  get(key) {
+    if (!this.cache.has(key)) {
+      return -1;
+    }
+    const value = this.cache.get(key);
+    // Move the accessed item to the end of the Map to mark it as recently used
+    this.cache.delete(key);
+    this.cache.set(key, value);
+    return value;
+  }
+
+  put(key, value) {
+    if (this.cache.has(key)) {
+      // Remove the old value
+      this.cache.delete(key);
+    } else if (this.cache.size >= this.capacity) {
+      // Remove the least recently used (first) item
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+    // Insert the new item
+    this.cache.set(key, value);
+  }
+}
+
+// Usage example
+const lruCache = new LRUCache(3);
+lruCache.put(1, 'A');
+lruCache.put(2, 'B');
+lruCache.put(3, 'C');
+
+console.log(lruCache.get(1)); // Outputs: A
+lruCache.put(4, 'D'); // This will remove key 2 as it's the least recently used
+console.log(lruCache.get(2)); // Outputs: -1 (not found)
+console.log(lruCache.get(3)); // Outputs: C
+lruCache.put(5, 'E'); // This will remove key 1 as it's the least recently used
+console.log(lruCache.get(1)); // Outputs: -1 (not found)
+console.log(lruCache.get(4)); // Outputs: D
+console.log(lruCache.get(5)); // Outputs: E
+```
+
+### Explanation
+
+1. **Constructor**: Initializes the cache with a specified capacity and a Map to store the items.
+2. **get(key)**: Retrieves the value for the given key. If the key exists, it moves the key to the end to mark it as recently used.
+3. **put(key, value)**: Adds a new item to the cache. If the cache is at capacity, it removes the least recently used item before adding the new one. If the key already exists, it updates the value and marks it as recently used.
+
+
+**Real Life example is below**
+Certainly! Let's consider a real-life scenario where an LRU Cache could be beneficial: a small e-commerce website that wants to optimize its product page loading times. We'll use the LRU Cache to store recently viewed product details.
+
+Here's how we might implement this:
+
+```javascript
+class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map();
+  }
+
+  get(key) {
+    if (!this.cache.has(key)) return null;
+    const value = this.cache.get(key);
+    this.cache.delete(key);
+    this.cache.set(key, value);
+    return value;
+  }
+
+  put(key, value) {
+    if (this.cache.has(key)) {
+      this.cache.delete(key);
+    } else if (this.cache.size >= this.capacity) {
+      const oldestKey = this.cache.keys().next().value;
+      this.cache.delete(oldestKey);
+    }
+    this.cache.set(key, value);
+  }
+}
+
+class ProductService {
+  constructor() {
+    this.cache = new LRUCache(100); // Cache last 100 viewed products
+    this.db = new Map(); // Simulating a database
+  }
+
+  async fetchProductDetails(productId) {
+    // Check if product is in cache
+    const cachedProduct = this.cache.get(productId);
+    if (cachedProduct) {
+      console.log(`Product ${productId} found in cache`);
+      return cachedProduct;
+    }
+
+    // If not in cache, fetch from "database"
+    console.log(`Product ${productId} not in cache, fetching from DB`);
+    const product = await this.fetchFromDatabase(productId);
+    
+    // Add to cache
+    this.cache.put(productId, product);
+    
+    return product;
+  }
+
+  async fetchFromDatabase(productId) {
+    // Simulate database fetch with a delay
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    return this.db.get(productId) || { id: productId, name: `Product ${productId}`, price: Math.random() * 100 };
+  }
+}
+
+// Usage example
+async function main() {
+  const productService = new ProductService();
+
+  // Simulate user viewing products
+  for (let i = 1; i <= 5; i++) {
+    await productService.fetchProductDetails(i);
+  }
+
+  // User views product 2 again
+  await productService.fetchProductDetails(2);
+
+  // User views a new product
+  await productService.fetchProductDetails(6);
+
+  // User views product 1 again
+  await productService.fetchProductDetails(1);
+}
+
+main();
+```
+
+In this example:
+
+1. We have a `ProductService` class that uses an LRU Cache to store recently viewed product details.
+
+2. The `fetchProductDetails` method first checks the cache for the product. If found, it returns the cached data immediately.
+
+3. If the product is not in the cache, it fetches the data from the "database" (simulated with a Map and a delay for realism).
+
+4. After fetching from the database, it stores the product in the cache for future quick access.
+
+5. In the `main` function, we simulate a user viewing different products:
+   - First, they view products 1 through 5.
+   - Then they view product 2 again (which should be in the cache).
+   - Next, they view a new product (6).
+   - Finally, they view product 1 again (which should still be in the cache).
+
+This setup provides several benefits:
+
+- Frequently viewed products load faster because they're cached in memory.
+- The cache has a fixed size (100 in this example), preventing unbounded memory growth.
+- Least recently viewed products are automatically evicted when the cache is full, ensuring the most relevant products stay in the cache.
+
+In a real e-commerce site, this could significantly improve the user experience by reducing load times for popular or recently viewed products, while keeping the memory usage of the server in check.
+
+
 > ### Window vs document
 
 `window` is the top-level object in the browser's JavaScript hierarchy, and it represents the browser window or tab itself. It contains properties and methods that control the behavior of the browser window, such as `alert()`, `confirm()`, `setTimeout()`, `location`, and more. The `window` object is also the global object in the browser's JavaScript environment, meaning that any variables or functions declared without the `var`, `let`, or `const` keywords are automatically added as properties of the window object.
