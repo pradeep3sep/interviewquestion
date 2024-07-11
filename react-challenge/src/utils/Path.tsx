@@ -18,6 +18,9 @@ import StarRating from '@/challenges/StarRating/StarRating';
 import TrafficLight from '@/challenges/Traffic-light/TrafficLight';
 import Circles from '@/challenges/circles/Circles';
 import Stopwatch from '@/challenges/stopwatch/stopwatch';
+import DisplayWithDelay from '@/challenges/DisplayWithDelay/DisplayWithDelay';
+import SearchBar from '@/challenges/SearchBar/SearchBar';
+import CaptureClickPosition from '@/challenges/CaptureClickPosition/CaptureClickPosition';
 
 export const reactChallengesMap: ReactChallengesMap = {
     '/': <Home />,
@@ -38,5 +41,8 @@ export const reactChallengesMap: ReactChallengesMap = {
     'star-rating': <StarRating/>,
     'Traffic-Light': <TrafficLight/>,
     'circles': <Circles/>,
-    'stopwatch': <Stopwatch/>
+    'stopwatch': <Stopwatch/>,
+    'Display-Delay': <DisplayWithDelay/>,
+    'searchBar-with-highlight': <SearchBar/>,
+    'CaptureClickPosition': <CaptureClickPosition/>
 };
