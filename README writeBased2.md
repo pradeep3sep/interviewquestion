@@ -4798,8 +4798,55 @@ console.log(_chunk([1, 2, 3, 4, 5], 2)); // [[1, 2], [3, 4], [5]]
 console.log(_chunk([1, 2, 3, 4, 5], 3)); // [[1, 2, 3], [4, 5]]
 ```
 
-> ### Q124 - 
+> ### Q124 - Creating a counter using setTimeout in JavaScript
 
+```js
+// Initialize the counter
+let count = 0;
+
+function startCounter() {
+    // Display the current count
+    console.log(count);
+    
+    // Increment count
+    count++;
+    
+    // Schedule the next iteration after 1 second (1000 milliseconds)
+    setTimeout(startCounter, 1000);
+}
+
+// Start the counter
+startCounter();
+```
+
+> ### Q125 Given an alphanumeric string, return the list of distinct numbers present in the string.
+Input: "som23era23nd56omstr23ing", output: [23,56]
+
+```js
+function extractDistinctNumbers(str) {
+  let currentNumber = '';
+  const numbers = new Set();
+
+  for (let char of str) {
+    if (char >= '0' && char <= '9') {
+      currentNumber += char;
+    } else if (currentNumber !== '') {
+      numbers.add(Number(currentNumber));
+      currentNumber = '';
+    }
+  }
+
+  if (currentNumber !== '') {
+    numbers.add(Number(currentNumber));
+  }
+
+  return Array.from(numbers);
+}
+
+// Example usage
+const input = "som23era23nd56omstr23ing";
+console.log(extractDistinctNumbers(input)); // Output: [23, 56]
+```
 
 > ### Below need to check
 ```js
