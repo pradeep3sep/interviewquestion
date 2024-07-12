@@ -3161,17 +3161,13 @@ console.log(Array.of(5)); // [5]
 console.log(Array(5)); // [ <5 empty items> ]
 ```
 
-
-
-
-
-
+<br>
 
 > ### Prototype chaining & Prototype Inheritance
 
-Prototype inheritance refers to the mechanism by which objects inherit properties and methods from their prototypes or parents.
+**Prototype inheritance** refers to the mechanism by which objects inherit properties and methods from their prototypes or parents.
 
-Prototype chaining is a mechanism in JavaScript When a property or method is accessed on an object, if that property or method does not exist on the object itself, JavaScript will look for it on the object's prototype object. If it's still not found, JavaScript will continue to search up the prototype chain, looking at the prototype's prototype, and so on, until it either finds the property or method or reaches the end of the chain.
+**Prototype chaining** is a mechanism in JavaScript When a property or method is accessed on an object, if that property or method does not exist on the object itself, JavaScript will look for it on the object's prototype object. If it's still not found, JavaScript will continue to search up the prototype chain, looking at the prototype's prototype, and so on, until it either finds the property or method or reaches the end of the chain.
 
 For example, suppose you have an object foo that has a prototype object bar, which in turn has a prototype object baz. If you try to access a property on foo that doesn't exist on foo itself, JavaScript will look for it on bar. If it's not on bar, JavaScript will then look on baz. If it's still not found, JavaScript will continue up the prototype chain until it either finds the property or reaches the end of the chain.
 
