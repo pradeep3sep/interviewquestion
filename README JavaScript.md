@@ -447,6 +447,8 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise
  
 > ### arr.sort() return the modified array, also modified base array
 
+<br>
+
 > ### How do you map the array values without using map method
 
 ```js
