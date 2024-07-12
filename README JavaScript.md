@@ -14,32 +14,32 @@ const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
 
 > ### console value
 ```js
-console.log(1 + + 2)
-console.log(1 + + + 2)
-console.log(1 + '2')
-console.log(1 + + '2')
-console.log('1' + + 2)
-console.log(1 + + true)
-console.log('1' + true)
-console.log('1' + + true)
-console.log('1' + null)
-console.log('1' + + null)
-console.log(1 + undefined)
-console.log(1 + + undefined)
-console.log('1' + undefined)
-console.log(typeof null)
-console.log(null instanceof Object)
-console.log(1 instanceof Number)
-console.log(Number(1) instanceof Object)
-console.log(new Number(1) instanceof Object)
-console.log([] instanceof Array)
-console.log([] instanceof Object)
-console.log(0 / 0)
-console.log(0 === -0)
-console.log(Object.is(0, -0))
-console.log(0 * Infinity)
-console.log(Infinity / Infinity)
-console.log(!![])
+console.log(1 + + 2)   // 3
+console.log(1 + + + 2)  // 3
+console.log(1 + '2')  // 12
+console.log(1 + + '2')  // 3
+console.log('1' + + 2)  // 12
+console.log(1 + + true) // 2
+console.log('1' + true)  // 1true
+console.log('1' + + true)  // 11
+console.log('1' + null)  // 1null
+console.log('1' + + null)  // 10
+console.log(1 + undefined)  // NaN
+console.log(1 + + undefined)  // NaN
+console.log('1' + undefined)  // 1undefined
+console.log(typeof null)   // object
+console.log(null instanceof Object)  // falsw
+console.log(1 instanceof Number) // false
+console.log(Number(1) instanceof Object)  // false
+console.log(new Number(1) instanceof Object)  // true
+console.log([] instanceof Array)  // true
+console.log([] instanceof Object)  // true
+console.log(0 / 0)  // NaN
+console.log(0 === -0)  // true
+console.log(Object.is(0, -0))  // false
+console.log(0 * Infinity)  // NaN
+console.log(Infinity / Infinity)  // NaN
+console.log(!![])  // true
 ```
 
 > ### special case
