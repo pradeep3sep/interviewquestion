@@ -2,15 +2,22 @@
 ```js
 const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
 ```
+<br>
 
 > ### To get the color picker
 ```js
 <input type="color" name="color1" value={color1} onChange={handleColorChange} />
 ```
 
-> ### Keep in mind the usage of Promise.all 
+<br>
+
+> ### Keep in mind the usage of Promise.all
+
+<br>
 
 > ### keep in mind that delete a[1] deletes the value in the array and make it empty, but the length of the array do not changes
+
+<br>
 
 > ### console value
 ```js
@@ -42,6 +49,8 @@ console.log(Infinity / Infinity)  // NaN
 console.log(!![])  // true
 ```
 
+<br>
+
 > ### special case
 The output of `console.log(['0','1'].map(parseInt))` in JavaScript might be surprising if you're not familiar with how the `map` function works in conjunction with `parseInt`.
 
@@ -60,6 +69,9 @@ Here's what's happening:
 So, the output of `console.log(['0','1'].map(parseInt))` would be `[0, NaN]`.
 
 The reason the second result is `NaN` is because when `parseInt` tries to parse `'1'` with a radix of `1` (the index of the element in the array), it fails because in base-1 numeral system, there's no representation for `1`. Therefore, `parseInt` returns `NaN` (Not-a-Number).
+
+<br>
+
 
 > ### Keep in mind below condition using the stingify
 ```js
@@ -95,6 +107,11 @@ JSON.stringify({ x: undefined, y: Object, z: Symbol("") });
 JSON.stringify({ [Symbol("foo")]: "foo" });
 // '{}'
 ```
+
+
+<br>
+
+
 > ### Arguments in function
 - Non-strict functions that only have simple parameters (that is, no rest, default, or destructured parameters) will sync the new value of parameters with the arguments object, and vice versa:
 
@@ -145,8 +162,11 @@ function log(a,b,c,d) {
 
 log(1,2,3)
 ```
+<br>
 
 ### Object k saare method
+
+<br>
 
 > ### Object.assign()
 
@@ -367,6 +387,8 @@ console.log(Object.isExtensible(newObject)); //true
 
 ### Array k sare method
 
+<br>
+
 ### Array.prototype.at()
 
 The `at()` method of Array instances takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
@@ -501,8 +523,6 @@ const list = ["sam","ram","bima"]
 list.length = 1
 console.log(list)   // gives ['sam']
 ```
-
-
 
 <br>
  
