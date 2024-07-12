@@ -10,7 +10,7 @@ const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
 
 > ### Keep in mind the usage of Promise.all 
 
-> ### keep in mind that delte a[1] deleltes the value in the array and make it empty, but the length of the array do not changes
+> ### keep in mind that delete a[1] deletes the value in the array and make it empty, but the length of the array do not changes
 
 > ### console value
 ```js
