@@ -2087,7 +2087,6 @@ const arr = [];
  Answer is C) 5, 5 because variables declared with var keyword are function-scoped or globally-scoped but not blocked scoped. 
   Inner function will form the closure and points to the updated value of i that is 5. 
   In the case of Let variable, as they are blocked scoped so inner function will hold different values of i from 0 to 4.
-</details>
 
 ```js
 /* 👇 In the case of Let variable */
@@ -2102,6 +2101,8 @@ const arr = [];
   console.log(arrBlock[0]()); // 0
   console.log(arrBlock[4]()); // 4
 ```
+</details>
+
 
 ### Question 92
 ```js
