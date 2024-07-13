@@ -927,34 +927,6 @@ console.log(myCar.make);
 </details>
 
 
-### Question 50
-
-```js
-(() => {
-  let x = (y = 10);
-})();
-
-console.log(typeof x);
-console.log(typeof y);
-```
-
-- A: "undefined", "number"
-- B: "number", "number"
-- C: "object", "number"
-- D: "number", "undefined"
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer: A</p>
-
-  `let x = (y = 10);` is actually shorthand for:
-  ```
-  y = 10;
-  let x = y;
-  ```
-</details>
-
-
 ### Question 51
 ```js
 // counter.js
