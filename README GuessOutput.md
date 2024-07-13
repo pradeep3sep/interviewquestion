@@ -576,9 +576,10 @@ if ([0]) {
 <details>
   <summary>Answer</summary>
   <p>true, I'm True</p>
+
+ In comparison operators, the expression [0] converted to Number([0].valueOf().toString()) which is resolved to false. Whereas [0] just becomes a truthy value without any conversion because there is no comparison operator.
 </details>
 
-In comparison operators, the expression [0] converted to Number([0].valueOf().toString()) which is resolved to false. Whereas [0] just becomes a truthy value without any conversion because there is no comparison operator.
 
 ### Question 34
 ```js
@@ -615,10 +616,10 @@ console.log(func());
 <details>
   <summary>Answer</summary>
   <p>Answer: 1 </p>
-</details>
 
-
+ 
 Async functions always return a promise. But even if the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise. The above async function is equivalent to below expression,
+</details>
 ```
 function func() {
   return Promise.resolve(10);
@@ -641,8 +642,6 @@ console.log(func());
 <details>
   <summary>Answer</summary>
   <p>Answer: 4 </p>
-</details>
-
 
 The await expression returns value 10 with promise resolution and the code after each await expression can be treated as existing in a .then callback. In this case, there is no return expression at the end of the function. Hence, the default return value of undefined is returned as the resolution of the promise. The above async function is equivalent to below expression,
 ```js
@@ -650,6 +649,7 @@ function func() {
   return Promise.resolve(10).then(() => undefined);
 }
 ```
+</details>
 
 
 ### Question 38
@@ -671,9 +671,9 @@ console.log(name);
 <details>
   <summary>Answer</summary>
   <p>Answer: 3 </p>
-</details>
 
-In JavaScript, primitives are immutable i.e. there is no way to change a primitive value once it gets created. So when you try to update the string's first character, there is no change in the string value and prints the same initial value Hello World!. Whereas in the later example, the concatenated value is re-assigned to the same variable which will result into creation of new memory block with the reference pointing to John Smith value and the old memory block value(John) will be garbage collected.
+ In JavaScript, primitives are immutable i.e. there is no way to change a primitive value once it gets created. So when you try to update the string's first character, there is no change in the string value and prints the same initial value Hello World!. Whereas in the later example, the concatenated value is re-assigned to the same variable which will result into creation of new memory block with the reference pointing to John Smith value and the old memory block value(John) will be garbage collected.
+</details>
 
 ### Question 39
 ```js
@@ -689,9 +689,9 @@ console.log(a == b)
 <details>
   <summary>Answer</summary>
   <p>true, true, false</p>
-</details>
 
-arrays are coerced to strings by simply joining all the values with comma(,) in between
+ arrays are coerced to strings by simply joining all the values with comma(,) in between
+</details>
 
 ### Question 40
 ```js
