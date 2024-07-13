@@ -619,12 +619,15 @@ console.log(func());
 
  
 Async functions always return a promise. But even if the return value of an async function is not explicitly a promise, it will be implicitly wrapped in a promise. The above async function is equivalent to below expression,
-</details>
+
 ```
 function func() {
   return Promise.resolve(10);
 }
 ```
+
+</details>
+
 
 ### Question 37
 ```js
