@@ -2309,14 +2309,10 @@ function show() {
 
 ```js
 for (var i = 0; i < 5; i++) {
-    setTimeout(
-      (i) => {
+    setTimeout((i) => {
         console.log(i);
-      },
-      1000,
-      i
-    );
-  }
+      },1000,i);
+}
 
   // 👍A) 0 1 2 3 4      💡B) 5 5 5 5 5
   // 💖C) 4 4 4 4 4      😀D) 0 1 2 3 4 5
