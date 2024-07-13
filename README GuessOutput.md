@@ -969,7 +969,7 @@ console.log(delete age);
 console.log(delete last);
 ```
 
-- A: false, true
+- A: false, true, false
 - B: "Lydia", 21
 - C: true, true
 - D: undefined, undefined
