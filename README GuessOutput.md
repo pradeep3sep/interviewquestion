@@ -927,7 +927,7 @@ console.log(myCar.make);
 </details>
 
 
-### Question 51
+### Question 50
 ```js
 // counter.js
 let counter = 10;
@@ -959,7 +959,7 @@ When we try to increment the value of `myCounter`, it throws an error: `myCounte
 
 </details>
 
-### Question 52
+### Question 51
 ```js
 const name = 'Lydia';
 age = 21;
@@ -986,7 +986,7 @@ The `name` variable was declared with a `const` keyword, so its deletion is not 
 </details>
 
 
-### Question 53
+### Question 52
 
 ```js
 const person = { name: 'Lydia' };
@@ -1013,7 +1013,7 @@ Properties added using the `defineProperty` method are immutable by default. You
 </details>
 
 
-### Question 54
+### Question 53
 
 ```js
 const settings = {
@@ -1045,7 +1045,7 @@ If the replacer is a function, this function gets called on every property in th
 
 
 
-### Question 55
+### Question 54
 
 ```js
 let num = 10;
@@ -1076,7 +1076,7 @@ console.log(num2);
 </details>
 
 
-### Question 56
+### Question 55
 ```js
 const value = { number: 10 };
 
@@ -1110,7 +1110,7 @@ The fourth time, we pass the value object again. x.number was previously modifie
 </details>
 
 
-### Question 57
+### Question 56
 
 ```js
 async function getData() {
@@ -1145,7 +1145,7 @@ console.log(data);
 
 </details>
 
-### Question 58
+### Question 57
 
 ```js
 const add = () => {
@@ -1180,7 +1180,7 @@ console.log(addFunction(5 * 2));
 </details>
 
 
-### Question 59
+### Question 58
 
 ```js
 class Person {
@@ -1328,8 +1328,6 @@ or
 
 `const getUser = user => { return { name: user.name, age: user.age }}`
 </details>
-
-### For understanding below question no 63, run with breakpoints in code
 
 ### Question 63.a
 
