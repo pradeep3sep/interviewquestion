@@ -556,12 +556,13 @@ console.log(10 == [[[[[[[10]]]]]]]);
 <details>
   <summary>Answer</summary>
   <p>Answer: 1</p>
-</details>
 
-As per the comparison algorithm in the ECMAScript specification(ECMA-262), the above expression converted into JS as below
+ As per the comparison algorithm in the ECMAScript specification(ECMA-262), the above expression converted into JS as below
 
 10 === Number([10].valueOf().toString()); // 10\
 So it doesn't matter about number brackets([]) around the number, it is always converted to a number in the expression.
+</details>
+
 
 ### Question 33
 ```js
