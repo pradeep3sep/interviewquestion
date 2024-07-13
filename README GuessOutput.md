@@ -398,7 +398,7 @@ let data = number.toLocaleString()
 </details>
 
 
-### Question 23 check(4)(2)(3)
+### Question 23
 ```js
 function check(num1){
     return (num2)=>{
