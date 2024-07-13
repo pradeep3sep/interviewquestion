@@ -268,6 +268,48 @@ func2()
 <details>
   <summary>Answer</summary>
   <p>1</p>
+
+
+ In JavaScript, variable scoping and closures can sometimes be tricky to understand. The reason the output is `1` instead of `2` involves understanding how JavaScript's lexical scoping and execution context work.
+
+Here's a step-by-step explanation:
+
+1. **Global Execution Context**: 
+   - When the script starts, the global execution context is created. In this context, the `count` variable is defined and initialized to `1`.
+   - The `func1` and `func2` functions are also defined in this global context.
+
+2. **Execution of `func2`**:
+   - When `func2` is called, a new execution context is created for `func2`.
+   - Within this new execution context, a local variable `count` is declared and initialized to `2`.
+
+3. **Calling `func1` from `func2`**:
+   - When `func1` is called from within `func2`, a new execution context is created for `func1`.
+   - `func1` does not have a local `count` variable, so it looks for `count` in its outer (lexical) environment, which is the global context where `func1` was originally defined.
+
+4. **Lexical Environment**:
+   - In JavaScript, functions carry along with them the scope in which they were defined, not the scope from which they were called.
+   - Since `func1` was defined in the global scope, it will look for the `count` variable in the global context, not in the local scope of `func2`.
+
+Therefore, when `func1` executes `console.log(count)`, it finds the `count` variable in the global scope, which has the value `1`, not the local `count` variable inside `func2`.
+
+Here is the relevant part of the code with comments:
+
+```javascript
+var count = 1; // Global variable
+
+var func1 = function () {
+    console.log(count); // Looks for 'count' in its lexical scope, i.e., the global scope
+};
+
+var func2 = function () {
+    var count = 2; // Local variable in func2's scope
+    func1(); // Calls func1, which uses the global scope
+};
+
+func2(); // Executes func2
+```
+
+So, the output is `1` because `func1` uses the `count` from its lexical environment (global scope) where `count` is `1`.
 </details>
 
 ### Question 19
