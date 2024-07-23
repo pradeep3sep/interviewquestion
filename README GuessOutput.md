@@ -2067,17 +2067,17 @@ Answer is A) true, false, JC because delete keyword deletes only property of an 
 ```js
 const arr = [];
 
-  for (var i = 0; i < 5; i++) {
-    arr[i] = function () {
-      return i;
+for (var i = 0; i < 5; i++) {
+    arr[i] = function() {
+        return i;
     };
-  }
+}
 
-  console.log(arr[0]());
-  console.log(arr[4]());
+console.log(arr[0]());
+console.log(arr[4]());
 
-  // 👍A) 0, 4     💡B) 4, 4
-  // 💖C) 5, 5     😀D) TypeError
+// 👍A) 0, 4     💡B) 4, 4
+// 💖C) 5, 5     😀D) TypeError
 ```
 
 <details>
@@ -2107,16 +2107,16 @@ const arr = [];
 ### Question 92
 ```js
  const user = {
-    userName: "Jayesh",
-    displayName: function () {
-      console.log(this.userName);
-    },
-  };
+     userName: "Jayesh",
+     displayName: function() {
+         console.log(this.userName);
+     },
+ };
 
-  setTimeout(user.displayName, 1000);
+ setTimeout(user.displayName, 1000);
 
-  // 👍A) Jayesh     💡B) undefined
-  // 💖C) ""         😀D) TypeError
+ // 👍A) Jayesh     💡B) undefined
+ // 💖C) ""         😀D) TypeError
 ```
 
 <details>
@@ -2187,21 +2187,21 @@ person.method(displayName);
 ```js
 var length = 4;
 
-  function callback() {
+function callback() {
     console.log(this.length);
-  }
+}
 
-  const object = {
+const object = {
     length: 5,
-    method: function () {
-      arguments[0]();
+    method: function() {
+        arguments[0]();
     },
-  };
+};
 
-  object.method(callback, 2, 3);
+object.method(callback, 2, 3);
 
-  // 👍A) 2     💡B) 3
-  // 💖C) 4     😀D) 5
+// 👍A) 2     💡B) 3
+// 💖C) 4     😀D) 5
 ```
 
 <details>
@@ -2234,19 +2234,19 @@ Answer is B) 3 because arguments keyword is an array of arguments passed to the 
 ```js
 var name = "Jayesh";
 
-  function displayName() {
+function displayName() {
     console.log(this.name);
-  }
+}
 
-  const person = {
+const person = {
     name: "JC",
     method: displayName.bind(this),
-  };
+};
 
-  person.method();
+person.method();
 
-  // 👍A) Jayesh       💡B) JC
-  // 💖C) undefined    😀D) TypeError
+// 👍A) Jayesh       💡B) JC
+// 💖C) undefined    😀D) TypeError
 ```
 
 <details>
@@ -2282,16 +2282,20 @@ var name = "Jayesh";
 
 function show() {
     console.log(this.name);
-  }
+}
 
-  const person1 = { name: "Jc" };
-  const person2 = { name: "Jayesh" };
+const person1 = {
+    name: "Jc"
+};
+const person2 = {
+    name: "Jayesh"
+};
 
-  show = show.bind(person1).bind(person2);
-  show();
+show = show.bind(person1).bind(person2);
+show();
 
-  // 👍A) Jayesh       💡B) undefined
-  // 💖C) JC           😀D) TypeError
+// 👍A) Jayesh       💡B) undefined
+// 💖C) JC           😀D) TypeError
 ```
 <details>
   <summary>Answer</summary>
@@ -2314,8 +2318,8 @@ for (var i = 0; i < 5; i++) {
       },1000,i);
 }
 
-  // 👍A) 0 1 2 3 4      💡B) 5 5 5 5 5
-  // 💖C) 4 4 4 4 4      😀D) 0 1 2 3 4 5
+// 👍A) 0 1 2 3 4      💡B) 5 5 5 5 5
+// 💖C) 4 4 4 4 4      😀D) 0 1 2 3 4 5
 ```
 
 <details>
@@ -2338,17 +2342,17 @@ for (var i = 0; i < 5; i++) {
 ```js
 console.log(1);
 
-  async function fetchData() {
+async function fetchData() {
     console.log(2);
     let result = await Promise.resolve(3);
     console.log(result);
-  }
+}
 
-  fetchData();
-  console.log(4);
+fetchData();
+console.log(4);
 
-  // 👍A) 1 2 3 4      💡B) 1 4 2 3
-  // 💖C) 1 2 4 3      😀D) 1 3 4 2
+// 👍A) 1 2 3 4      💡B) 1 4 2 3
+// 💖C) 1 2 4 3      😀D) 1 3 4 2
 
 ```
 <details>
@@ -2371,20 +2375,20 @@ Answer is C) 1 2 4 3 beacause promise is used to handle the asynchronous result 
 
  console.log("start");
 
-  const promise = new Promise((resolve) => {
-    console.log(1);
-    resolve(2);
-    console.log(3);
-  });
+ const promise = new Promise((resolve) => {
+     console.log(1);
+     resolve(2);
+     console.log(3);
+ });
 
-  promise.then((result) => {
-    console.log(result);
-  });
+ promise.then((result) => {
+     console.log(result);
+ });
 
-  console.log("end");
+ console.log("end");
 
-  // 👍A) start end 1 3 2      💡B) start 1 3 end 2
-  // 💖C) start end 1 2 3      😀D) start 1 end 2 3
+ // 👍A) start end 1 3 2      💡B) start 1 3 end 2
+ // 💖C) start end 1 2 3      😀D) start 1 end 2 3
 ```
 
 <details>
@@ -2409,25 +2413,25 @@ const promise = new Promise((resolve) => {
 ### Question 100
 
 ```js
-const fetchData = function () {
+const fetchData = function() {
     return new Promise((resolve, reject) => {
-      reject();
+        reject();
     });
-  };
+};
 
-  fetchData()
+fetchData()
     .then(() => {
-      console.log("Success 1");
+        console.log("Success 1");
     })
     .catch(() => {
-      console.log("Error 1");
+        console.log("Error 1");
     })
     .then(() => {
-      console.log("Success 2");
+        console.log("Success 2");
     });
 
-  // 👍A) Error 1 TypeError    💡B) Error 1
-  // 💖C) Error 1 Success 2    😀D) undefined
+// 👍A) Error 1 TypeError    💡B) Error 1
+// 💖C) Error 1 Success 2    😀D) undefined
 
  
 ```
@@ -2484,13 +2488,13 @@ function foo() {
     let a = (b = 0);
     a++;
     return a;
-  }
-  foo();
-  console.log(typeof a);
-  console.log(typeof b);
+}
+foo();
+console.log(typeof a);
+console.log(typeof b);
 
-  // 👍A) undefined number        💡B) ReferenceError number
-  // 💖C) undefined undefined     😀D) number number
+// 👍A) undefined number        💡B) ReferenceError number
+// 💖C) undefined undefined     😀D) number number
 
 ```
 
@@ -2514,17 +2518,17 @@ function foo() {
 ```js
 console.log("start");
 
-  async function getData() {
+async function getData() {
     console.log("JC");
     return "Jayesh";
-  }
+}
 
-  getData().then((res) => console.log(res));
+getData().then((res) => console.log(res));
 
-  console.log("end");
+console.log("end");
 
-  // 👍A) start end JC Jayesh     💡B) start JC Jayesh end
-  // 💖C) start JC end Jayesh     😀D) start Jayesh JC end
+// 👍A) start end JC Jayesh     💡B) start JC Jayesh end
+// 💖C) start JC end Jayesh     😀D) start Jayesh JC end
 ```
 
 <details>
@@ -2548,19 +2552,19 @@ console.log("start");
 const inc = async (x) => {
     x = x + (await 1);
     return x;
-  };
+};
 
-  const increment = async (x) => {
+const increment = async (x) => {
     x = x + 1;
     return x;
-  };
+};
 
-  inc(1).then((x) => {
+inc(1).then((x) => {
     increment(x).then((x) => console.log(x));
-  });
+});
 
-  // 👍A) 1    💡B) 2
-  // 💖C) 3    😀D) 4
+// 👍A) 1    💡B) 2
+// 💖C) 3    😀D) 4
 ```
 
 <details>
@@ -2582,24 +2586,24 @@ const inc = async (x) => {
 
 ```js
 
-const fetchData = function () {
+const fetchData = function() {
     return new Promise((res, reject) => {
-      reject("Error");
+        reject("Error");
     });
-  };
+};
 
-  fetchData()
+fetchData()
     .then(null, (err) => {
-      console.log("First");
-      console.log(err);
+        console.log("First");
+        console.log(err);
     })
     .catch(() => {
-      console.log("Second");
-      console.log(err);
+        console.log("Second");
+        console.log(err);
     });
 
-  // 👍A) First Error        💡B) Second Error
-  // 💖C) Second undefined   😀D) ReferenceError
+// 👍A) First Error        💡B) Second Error
+// 💖C) Second undefined   😀D) ReferenceError
 
 ```
 
@@ -2630,13 +2634,13 @@ const fetchData = function () {
 
 function resolveAfterNSeconds(time, value) {
     return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(value);
-      }, time);
+        setTimeout(() => {
+            resolve(value);
+        }, time);
     });
-  }
+}
 
-  async function doTasks() {
+async function doTasks() {
     console.time("time");
     let a = await resolveAfterNSeconds(1000, 1);
     let b = resolveAfterNSeconds(2000, 2);
@@ -2644,11 +2648,11 @@ function resolveAfterNSeconds(time, value) {
 
     console.log(a + (await b) + (await c));
     console.timeEnd("time");
-  }
-  doTasks();
+}
+doTasks();
 
-  // 👍A) 6 in 4 Sec      💡B) 6 in 3 Sec
-  // 💖C) NaN in 1 Sec    😀D) 1 in 4 Sec
+// 👍A) 6 in 4 Sec      💡B) 6 in 3 Sec
+// 💖C) NaN in 1 Sec    😀D) 1 in 4 Sec
 
 ```
 
@@ -2674,18 +2678,18 @@ function resolveAfterNSeconds(time, value) {
 ```js
  let a = true;
 
-  setTimeout(() => {
-    a = false;
-  }, 2000);
+ setTimeout(() => {
+     a = false;
+ }, 2000);
 
-  while (a) {
-    console.log("JC");
-  }
+ while (a) {
+     console.log("JC");
+ }
 
-  // 👍A) "JC" one time after 2 sec.
-  // 💡B) "JC" continously till 2 sec.
-  // 💖C) "JC" Infinite times.
-  // 😀D) Console Nothing.
+ // 👍A) "JC" one time after 2 sec.
+ // 💡B) "JC" continously till 2 sec.
+ // 💖C) "JC" Infinite times.
+ // 😀D) Console Nothing.
 ```
 
 <details>
@@ -2705,25 +2709,22 @@ function resolveAfterNSeconds(time, value) {
 
 console.log(1);
 
-  setTimeout(function () {
+setTimeout(function() {
     console.log(2);
-  }, 1000);
+}, 1000);
 
-  setTimeout(
-    (function () {
-      console.log(3);
-      return () => {};
+setTimeout(
+    (function() {
+        console.log(3);
+        return () => {};
     })(),
     2000
-  );
+);
 
-  console.log(4);
+console.log(4);
 
-  // 👍A) 1 2 3 4    💡B) 1 4 3 2
-  // 💖C) 1 4 2 3    😀D) 1 3 4 2
-
-
-  
+// 👍A) 1 2 3 4    💡B) 1 4 3 2
+// 💖C) 1 4 2 3    😀D) 1 3 4 2
 
 ```
 
@@ -2747,19 +2748,19 @@ console.log(1);
 setTimeout(() => {
     console.log(1);
     Promise.resolve().then(() => {
-      console.log(2);
+        console.log(2);
     });
-  }, 0);
+}, 0);
 
-  Promise.resolve().then(() => {
+Promise.resolve().then(() => {
     console.log(3);
     setTimeout(() => {
-      console.log(4);
+        console.log(4);
     }, 0);
-  });
+});
 
-  // 👍A) 3 1 2 4    💡B) 3 2 1 4
-  // 💖C) 1 2 3 4    😀D) 3 4 1 2
+// 👍A) 3 1 2 4    💡B) 3 2 1 4
+// 💖C) 1 2 3 4    😀D) 3 4 1 2
 
 
 ```
