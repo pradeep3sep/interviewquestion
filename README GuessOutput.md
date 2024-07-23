@@ -2790,18 +2790,18 @@ Promise.resolve().then(() => {
 ```js
 function getName1() {
     console.log(arguments[0]);
-  }
+}
 
-  getName1("Jayesh");
+getName1("Jayesh");
 
-  const getName2 = () => {
+const getName2 = () => {
     console.log(arguments[0]);
-  };
+};
 
-  getName2("JC");
+getName2("JC");
 
-  // 👍A) Jayesh ReferenceError    💡B) Jayesh undefined
-  // 💖C) ReferenceError JC        😀D) Jayesh JC
+// 👍A) Jayesh ReferenceError    💡B) Jayesh undefined
+// 💖C) ReferenceError JC        😀D) Jayesh JC
 
 ```
 
@@ -2825,22 +2825,19 @@ function getName1() {
 ```js
 const arr = [1, 2, 3];
 
-  const removeLast = function (array) {
+const removeLast = function(array) {
     array.pop();
     return array;
-  };
+};
 
-  removeLast([...arr]);
-  console.log(arr);
+removeLast([...arr]);
+console.log(arr);
 
-  removeLast(arr);
-  console.log(arr);
+removeLast(arr);
+console.log(arr);
 
-  // 👍A) [1, 2, 3] 3      💡B) [1, 2] [1, 2, 3]
-  // 💖C) [1, 2] [1]       😀D) [1, 2, 3] [1, 2]
-
-  
-
+// 👍A) [1, 2, 3] 3      💡B) [1, 2] [1, 2, 3]
+// 💖C) [1, 2] [1]       😀D) [1, 2, 3] [1, 2]
 ```
 
 <details>
@@ -2860,20 +2857,20 @@ const arr = [1, 2, 3];
 
 console.log("start");
 
-  const first = setTimeout(() => {
+const first = setTimeout(() => {
     console.log("first");
     clearTimeout(second);
-  }, 1000);
+}, 1000);
 
-  const second = setTimeout(() => {
+const second = setTimeout(() => {
     console.log("second");
     clearTimeout(first);
-  }, 2000);
+}, 2000);
 
-  console.log("end");
+console.log("end");
 
-  // 👍A) start first second end    💡B) start end first
-  // 💖C) start end first second    😀D) start second end
+// 👍A) start first second end    💡B) start end first
+// 💖C) start end first second    😀D) start second end
 ```
 
 <details>
@@ -2895,21 +2892,17 @@ function* generateNumber(i) {
     yield i * 2;
     return i * 2 * 2;
     yield i * 2 * 2 * 2;
-  }
+}
 
-  const numbers = generateNumber(10);
+const numbers = generateNumber(10);
 
-  console.log(numbers.next().value);
-  console.log(numbers.next().value);
-  console.log(numbers.next().value);
-  console.log(numbers.next().value);
+console.log(numbers.next().value);
+console.log(numbers.next().value);
+console.log(numbers.next().value);
+console.log(numbers.next().value);
 
-  // 👍A) 10 20 40 80    💡B) 10 20 undefined 40
-  // 💖C) 10 20 20 40    😀D) 10 20 40 undefined
-
-  
-  
-
+// 👍A) 10 20 40 80    💡B) 10 20 undefined 40
+// 💖C) 10 20 20 40    😀D) 10 20 40 undefined
 ```
 
 <details>
@@ -2926,25 +2919,23 @@ Answer is D) 10 20 40 undefined, Generator is a function that can be paused and 
 </details>
 
 
-### Question 112
+### Question 113
 
 ```js
 let num = 10;
 
-  const incrementNumber1 = () => num++;
+const incrementNumber1 = () => num++;
 
-  const incrementNumber2 = (num) => num++;
+const incrementNumber2 = (num) => num++;
 
-  const num1 = incrementNumber1();
-  const num2 = incrementNumber2(num1);
+const num1 = incrementNumber1();
+const num2 = incrementNumber2(num1);
 
-  console.log(num1);
-  console.log(num2);
+console.log(num1);
+console.log(num2);
 
-  // 👍A) 11 12     💡B) 10 10
-  // 💖C) 10 11     😀D) 11 11
-
-
+// 👍A) 11 12     💡B) 10 10
+// 💖C) 10 11     😀D) 11 11
 
 ```
 
@@ -2961,18 +2952,20 @@ let num = 10;
 ### Question 113
 
 ```js
- obj1 = { a: 10 };
-  const obj2 = obj1;
-  obj2.a = 20;
+ obj1 = {
+     a: 10
+ };
+ const obj2 = obj1;
+ obj2.a = 20;
 
-  console.log(obj1);
-  console.log(obj2);
-  let obj1;
+ console.log(obj1);
+ console.log(obj2);
+ let obj1;
 
-  // 👍A) { a: 10 } { a: 20 }
-  // 💡B) { a: 20 } { a: 10 }
-  // 💖C) { a: 20 } { a: 20 }
-  // 😀D) ReferenceError
+ // 👍A) { a: 10 } { a: 20 }
+ // 💡B) { a: 20 } { a: 10 }
+ // 💖C) { a: 20 } { a: 20 }
+ // 😀D) ReferenceError
 
 
 ```
@@ -2996,23 +2989,23 @@ let num = 10;
 ```js
 function Person(name) {
     this.name = name;
-  }
+}
 
-  Person.prototype.age = 24;
+Person.prototype.age = 24;
 
-  const jayesh = new Person("JC");
+const jayesh = new Person("JC");
 
-  console.log(Object.keys(jayesh));
+console.log(Object.keys(jayesh));
 
-  let keys = [];
-  for (let key in jayesh) {
+let keys = [];
+for (let key in jayesh) {
     keys.push(key);
-  }
+}
 
-  console.log(keys);
+console.log(keys);
 
-  // 👍A) ['name', 'age'] ['name', 'age']    💡B) ['name', 'age'] ['name']
-  // 💖C) ['name'] ['name', 'age']           😀D) ['name', 'age'] ['age']
+// 👍A) ['name', 'age'] ['name', 'age']    💡B) ['name', 'age'] ['name']
+// 💖C) ['name'] ['name', 'age']           😀D) ['name', 'age'] ['age']
 
 ```
 
@@ -3031,17 +3024,17 @@ function Person(name) {
 const person = {
     pName: "Jayesh",
     getInfo() {
-      function getName() {
-        console.log(this.pName);
-      }
-      getName();
+        function getName() {
+            console.log(this.pName);
+        }
+        getName();
     },
-  };
+};
 
-  person.getInfo();
+person.getInfo();
 
-  // 👍A) undefined     💡B) Jayesh
-  // 💖C) ""            😀D) Error
+// 👍A) undefined     💡B) Jayesh
+// 💖C) ""            😀D) Error
 
 ```
 
@@ -3062,25 +3055,23 @@ const person = {
 function Person(name, age) {
     this.name = name;
     this.age = age;
-  }
+}
 
-  class Player {
+class Player {
     constructor(name, age) {
-      this.name = name;
-      this.age = age;
+        this.name = name;
+        this.age = age;
     }
-  }
+}
 
-  const jayesh = new Person("JC", 24);
-  const virat = new Player("VK", 34);
+const jayesh = new Person("JC", 24);
+const virat = new Player("VK", 34);
 
-  console.log(typeof Person);
-  console.log(typeof Player);
+console.log(typeof Person);
+console.log(typeof Player);
 
-  // 👍A) "object" "object"     💡B) "function" "function"
-  // 💖C) "function" "class"    😀D) "object" "class"
-
-
+// 👍A) "object" "object"     💡B) "function" "function"
+// 💖C) "function" "class"    😀D) "object" "class"
 ```
 
 
@@ -3099,19 +3090,19 @@ function Person(name, age) {
 ```js
 function getName1() {
     return "Jayesh";
-  }
+}
 
-  const getName2 = () => {
+const getName2 = () => {
     return "JC";
-  };
+};
 
-  console.log(getName1.prototype);
-  console.log(getName2.prototype);
+console.log(getName1.prototype);
+console.log(getName2.prototype);
 
-  // 👍A) { constructor: ...} { constructor: ...}
-  // 💡B) {} { constructor: ...}
-  // 💖C) { constructor: ...} {}
-  // 😀D) { constructor: ...} undefined
+// 👍A) { constructor: ...} { constructor: ...}
+// 💡B) {} { constructor: ...}
+// 💖C) { constructor: ...} {}
+// 😀D) { constructor: ...} undefined
 ```
 
 
@@ -3136,16 +3127,14 @@ function getName1() {
 function getName() {
     name = "JC";
     console.log(name);
-  }
+}
 
-  let name = "Jayesh";
-  getName();
-  console.log(name);
+let name = "Jayesh";
+getName();
+console.log(name);
 
-  // 👍A) JC JC       💡B) JC undefined
-  // 💖C) JC Jayesh   😀D) ReferenceError
-
-  
+// 👍A) JC JC       💡B) JC undefined
+// 💖C) JC Jayesh   😀D) ReferenceError
 ```
 
 
@@ -3164,19 +3153,16 @@ function getName() {
 
 ```js
 const person = [{ name: "Jayesh" }, 24];
-  const result = person.slice();
+const result = person.slice();
 
-  result[0].name = "JC";
-  result[1] = 34;
+result[0].name = "JC";
+result[1] = 34;
 
-  console.log(person[0]);
-  console.log(person[1]);
+console.log(person[0]);
+console.log(person[1]);
 
-  // 👍A) {name: 'Jayesh'} 24     💡B) {name: 'JC'} 24
-  // 💖C) {name: 'Jayesh'} 34     😀D) {name: 'JC'} 34
-
-  
-  
+// 👍A) {name: 'Jayesh'} 24     💡B) {name: 'JC'} 24
+// 💖C) {name: 'Jayesh'} 34     😀D) {name: 'JC'} 34
 ```
 
 <details>
@@ -3193,18 +3179,15 @@ const person = [{ name: "Jayesh" }, 24];
 
 ```js
 const arr1 = new Array(3);
-  const arr2 = new Array(1, 2, 3);
+const arr2 = new Array(1, 2, 3);
 
-  console.log(arr1);
-  console.log(arr2);
+console.log(arr1);
+console.log(arr2);
 
-  // 👍A) [3] [1, 2, 3]
-  // 💡B) [empty × 3] [3]
-  // 💖C) [3] [3]
-  // 😀D) [empty × 3] [1, 2, 3]
-
-  
-  
+// 👍A) [3] [1, 2, 3]
+// 💡B) [empty × 3] [3]
+// 💖C) [3] [3]
+// 😀D) [empty × 3] [1, 2, 3]
 ```
 
 <details>
@@ -3222,14 +3205,14 @@ const arr1 = new Array(3);
 ### Question 121
 
 ```js
- const num1 = 034;
-  const num2 = 082;
+const num1 = 034;
+const num2 = 082;
 
-  console.log(num1);
-  console.log(num2);
+console.log(num1);
+console.log(num2);
 
-  // 👍A) 34 82      💡B) 28 82
-  // 💖C) 82 28      😀D) 82 34
+// 👍A) 34 82      💡B) 28 82
+// 💖C) 82 28      😀D) 82 34
 ```
 
 <details>
@@ -3248,22 +3231,26 @@ const arr1 = new Array(3);
 Ishme dhyan se dekho ki kon sa array lia h and then uska reference
 
 ```js
-const arr = ["JC", { name: "VK" }, "JC", { name: "VK" }];
+const arr = ["JC", {
+    name: "VK"
+}, "JC", {
+    name: "VK"
+}];
 
-  const res = arr.filter((item, index, array) => {
+const res = arr.filter((item, index, array) => {
     if (array.indexOf(item) === index) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
-  });
+});
 
-  console.log(res);
+console.log(res);
 
-  // 👍A) ["JC", { name: "VK" }, "JC", { name: "VK" }]
-  // 💡B) ["JC", { name: "VK" }, { name: "VK" }]
-  // 💖C) ["JC", { name: "VK" }]
-  // 😀D) ["JC", { name: "VK" }, "JC"]
+// 👍A) ["JC", { name: "VK" }, "JC", { name: "VK" }]
+// 💡B) ["JC", { name: "VK" }, { name: "VK" }]
+// 💖C) ["JC", { name: "VK" }]
+// 😀D) ["JC", { name: "VK" }, "JC"]
 ```
 
 <details>
@@ -3282,16 +3269,16 @@ Answer is B) ["JC", { name: "VK" }, { name: "VK" }] because the above code is to
 
 const map = new Map();
 
-  map.set("a", 1);
-  map.set("b", 2);
-  map.set("c", 3);
-  map.set("a", 7);
+map.set("a", 1);
+map.set("b", 2);
+map.set("c", 3);
+map.set("a", 7);
 
-  console.log(map.get("a"));
-  console.log(map.size);
+console.log(map.get("a"));
+console.log(map.size);
 
-  // 👍A) 7 4      💡B) 1 4
-  // 💖C) 1 3      😀D) 7 3
+// 👍A) 7 4      💡B) 1 4
+// 💖C) 1 3      😀D) 7 3
 ```
 
 <details>
@@ -3310,27 +3297,24 @@ const map = new Map();
 ```js
 
  const calc = {
-    total: 0,
-    add: function (num) {
-      this.total += num;
-      return this;
-    },
-    sub: function (num) {
-      this.total -= num;
-      return this;
-    },
-    mul: function (num) {
-      this.total *= num;
-      return this;
-    },
-  };
+     total: 0,
+     add: function(num) {
+         this.total += num;
+         return this;
+     },
+     sub: function(num) {
+         this.total -= num;
+         return this;
+     },
+     mul: function(num) {
+         this.total *= num;
+         return this;
+     },
+ };
 
-  console.log(calc.add(10).sub(5).mul(10).total);
+ console.log(calc.add(10).sub(5).mul(10).total);
 
-  // 👍A) 0   💡B) -50   💖C) 50   😀D) Error
-
-  
-  
+ // 👍A) 0   💡B) -50   💖C) 50   😀D) Error
 ```
 
 <details>
@@ -3347,17 +3331,14 @@ const map = new Map();
 
 ```js
  var result;
-  for (var i = 5; i > 0; i--) {
-    result = result + i;
-  }
+ for (var i = 5; i > 0; i--) {
+     result = result + i;
+ }
 
-  console.log(result);
+ console.log(result);
 
-  // 👍A) 14      💡B) 15
-  // 💖C) 10      😀D) NaN
-
-  
-  
+ // 👍A) 14      💡B) 15
+ // 💖C) 10      😀D) NaN
 ```
 
 <details>
@@ -3374,14 +3355,14 @@ const map = new Map();
 ```js
 let arr = ["Java Script", "with", "JC"];
 
-  let res = arr.flatMap((ele) => ele.split(" "));
+let res = arr.flatMap((ele) => ele.split(" "));
 
-  console.log(res);
+console.log(res);
 
-  // 👍A) ['Java', 'Script', 'with', 'JC']
-  // 💡B) ["Java Script", "with", "JC"]
-  // 💖C) ['Java', 'Script', ['with'], ['JC']]
-  // 😀D) ['Java Script', ['with'], ['JC']]
+// 👍A) ['Java', 'Script', 'with', 'JC']
+// 💡B) ["Java Script", "with", "JC"]
+// 💖C) ['Java', 'Script', ['with'], ['JC']]
+// 😀D) ['Java Script', ['with'], ['JC']]
 ```
 
 <details>
@@ -3398,12 +3379,12 @@ let arr = ["Java Script", "with", "JC"];
 ```js
 const arr = [1, 2, 3, 4];
 
-  arr.fill(0, 1, 3);
+arr.fill(0, 1, 3);
 
-  console.log(arr);
+console.log(arr);
 
-  // 👍A) [0, 0, 0, 0]   💡B) [0, 1, 3, 4]
-  // 💖C) [1, 0, 0, 4]   😀D) [1, 0, 0, 0]
+// 👍A) [0, 0, 0, 0]   💡B) [0, 1, 3, 4]
+// 💖C) [1, 0, 0, 4]   😀D) [1, 0, 0, 0]
 ```
 
 <details>
@@ -3421,13 +3402,13 @@ const arr = [1, 2, 3, 4];
 ```js
 const arr = [1, 2, 3];
 
-  let sum = arr.reduceRight((acc, curr) => {
+let sum = arr.reduceRight((acc, curr) => {
     console.log(curr);
     return acc + curr;
-  });
+});
 
-  // 👍A) 3 2 1        💡B) 2 1
-  // 💖C) 1 2 3        😀D) 1 2
+// 👍A) 3 2 1        💡B) 2 1
+// 💖C) 1 2 3        😀D) 1 2
 ```
 
 <details>
@@ -3443,25 +3424,25 @@ const arr = [1, 2, 3];
 ```js
 const person = {};
 
-  Object.defineProperties(person, {
+Object.defineProperties(person, {
     name: {
-      value: "JC",
-      writable: true,
+        value: "JC",
+        writable: true,
     },
     age: {
-      value: 24,
-      writable: false,
+        value: 24,
+        writable: false,
     },
-  });
+});
 
-  person.name = "VK";
-  person.age = 34;
+person.name = "VK";
+person.age = 34;
 
-  console.log(person.name);
-  console.log(person.age);
+console.log(person.name);
+console.log(person.age);
 
-  // 👍A) JC 34     💡B) JC 24
-  // 💖C) VK 34     😀D) VK 24
+// 👍A) JC 34     💡B) JC 24
+// 💖C) VK 34     😀D) VK 24
 
 ```
 
@@ -3480,27 +3461,27 @@ const person = {};
 
 console.log(1)
 const promise = new Promise((resolve) => {
-  console.log(2)
-  resolve()
-  console.log(3)
+    console.log(2)
+    resolve()
+    console.log(3)
 })
 
 console.log(4)
 
 promise.then(() => {
-  console.log(5)
+    console.log(5)
 }).then(() => {
-  console.log(6)
+    console.log(6)
 })
 
 console.log(7)
 
 setTimeout(() => {
-  console.log(8)
+    console.log(8)
 }, 10)
 
 setTimeout(() => {
-  console.log(9)
+    console.log(9)
 }, 0)
 ```
 ### Question 131
