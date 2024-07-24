@@ -3674,6 +3674,18 @@ const f = function e() {}
 
 console.log(typeof e)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+number\
+string\
+number\
+number
+</details>
+
+
 ### Question 137
 
 ```js
@@ -3693,6 +3705,19 @@ Promise.resolve(1)
 .then(console.log)
 .catch(console.log)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+undefined\
+error\
+undefined\
+2\
+error2
+</details>
+
+
 ### Question 138
 
 ```js
@@ -3701,6 +3726,13 @@ arr.push(3,4)
 arr.unshift(5,6)
 console.log(arr)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is [ 5, 6, 1, 2, 3, 4 ]</p>
+</details>
+
+
 ### Question 139
 
 ```js
@@ -3716,6 +3748,17 @@ function a() {
 
 a().a()
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+1\
+2\
+1
+</details>
+
+
 ### Question 140
 
 ```js
@@ -3738,7 +3781,9 @@ console.log(b.bar)
 console.log(c.bar)
 ```
 
-
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
 
 **explanation is below**
 
@@ -3789,7 +3834,7 @@ So, in summary:
 - `c` is created after `Foo.prototype` is reassigned, so it inherits from the new prototype object.
 
 I hope this clears up any confusion! Let me know if you need further clarification.
-
+</details>
 
 ### Question 141
 
