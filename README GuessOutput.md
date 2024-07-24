@@ -3887,6 +3887,10 @@ console.log(obj1 + 1)
 console.log(parseInt(obj1))
 ```
 
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
 In JavaScript, when you perform operations like addition or conversion, the language engine tries to coerce objects to primitive types. The order in which it tries to do this is: `valueOf()` first, then `toString()`.
 
 Let's analyze your code:
@@ -3916,6 +3920,10 @@ So, the output of the code will be:
 100
 ```
 
+</details>
+
+
+
 ### Question 143
 
 ```js
@@ -3929,6 +3937,10 @@ console.log(+obj3)
 console.log(obj3 + 1)
 console.log(parseInt(obj3))
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
 
 **Reason is below**
 
@@ -3962,7 +3974,7 @@ So, the outputs will be:
 1001
 100
 ```
-
+</details>
 
 ### Question 144
 
@@ -3976,6 +3988,10 @@ const obj4 = {
 console.log(obj4 + 1)
 console.log(parseInt(obj4))
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
 
 **Reason is below**
 
@@ -4005,6 +4021,7 @@ console.log(parseInt(obj4));  // Output: 1
    - In this case, `obj4`'s `valueOf()` method is called because `toString()` is not defined.
    - `valueOf()` returns `1`, so effectively `parseInt` receives `"1"` as a string argument, which it successfully parses to the integer `1`. Hence, it prints `1`.
 
+</details>
 
 ### Question 145
 
@@ -4027,6 +4044,18 @@ console.log(b.foo1)
 console.log(b.foo2)
 
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+1\
+1\
+1\
+2
+</details>
+
+
 ### Question 146
 
 ```js
