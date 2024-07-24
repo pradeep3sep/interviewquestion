@@ -3855,6 +3855,22 @@ for (const i of arr) {
 // spread
 console.log([...arr])
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+1\
+2\
+[ 2, <2 empty items>, 4 ]\
+1\
+undefined\
+undefined\
+2\
+[ 1, undefined, undefined, 2 ]
+</details>
+
+
 ### Question 142
 
 ```js
