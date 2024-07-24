@@ -3231,11 +3231,7 @@ console.log(num2);
 Ishme dhyan se dekho ki kon sa array lia h and then uska reference
 
 ```js
-const arr = ["JC", {
-    name: "VK"
-}, "JC", {
-    name: "VK"
-}];
+const arr = ["JC", { name: "VK"}, "JC", { name: "VK" }];
 
 const res = arr.filter((item, index, array) => {
     if (array.indexOf(item) === index) {
