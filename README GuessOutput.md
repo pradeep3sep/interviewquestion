@@ -4089,12 +4089,29 @@ c.foo = 2
 console.log(c.foo)
 console.log(b.foo)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+0\
+1\
+1\
+1\
+1
+</details>
+
+
 ### Question 147
 
 ```js
 const num = +((~~!+[])+(~~!+[])+[]+(~~!+[]))
 console.log(num)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
 
 solution
 
@@ -4120,8 +4137,7 @@ const num = +((~~!+[])+(~~!+[])+[]+(~~!+[]))
 
 console.log(num) // 21
 ```
-
-
+</details>
 
 ### Question 148
 
@@ -4135,6 +4151,15 @@ obj[b] = {...b}
 console.log(obj[a].name)
 console.log(obj[b].name)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+b\
+b
+</details>
+
 ### Question 149
 
 ```js
