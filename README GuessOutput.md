@@ -3569,6 +3569,24 @@ console.log(Number('number'))
 console.log(Number(null))
 console.log(Number(false))
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+true\
+false\
+31\
+2\
+1\
+6\
+1\
+NaN\
+0\
+0
+</details>
+
+
 ### Question 134
 
 ```js
@@ -3583,6 +3601,10 @@ console.log(p1 == p3)
 console.log(p3 == p4)
 console.log(p4 == p5)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
 
 Let's break down what each of these promises represents:
 
@@ -3600,6 +3622,9 @@ Now, let's evaluate the comparisons:
 - `p4 == p5`: `p5` resolves with `p4`. As with the previous comparisons, they are not strictly equal. So, this will log `false`.
 
 Therefore, all comparisons will log `false`.
+</details>
+
+
 
 
 ### Question 135
@@ -3611,6 +3636,19 @@ console.log(Math.min(1))
 console.log(Math.max(1,2))
 console.log(Math.min([1,2,3]))
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+Infinity\
+-Infinity\
+1\
+2\
+NaN
+</details>
+
+
 ### Question 136
 
 ```js
