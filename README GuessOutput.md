@@ -3505,6 +3505,12 @@ Promise.resolve(1)
 .then(Promise.resolve(4))
 .then(console.log)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is 6</p>
+</details>
+
 ### Question 132
 
 ```js
@@ -3532,6 +3538,23 @@ Promise.resolve(1)
   console.log(val)
 })
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+1\
+2\
+undefined\
+3\
+undefined\
+4\
+undefined\
+undefined
+</details>
+
+
+
 ### Question 133
 
 ```js
