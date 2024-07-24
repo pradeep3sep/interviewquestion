@@ -3453,8 +3453,6 @@ console.log(person.age);
 ### Question 130
 
 ```js
-// This is a JavaScript Quiz from BFE.dev
-
 console.log(1)
 const promise = new Promise((resolve) => {
     console.log(2)
@@ -3480,6 +3478,23 @@ setTimeout(() => {
     console.log(9)
 }, 0)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+1
+2
+3
+4
+7
+5
+6
+9
+8
+</details>
+
+
 ### Question 131
 
 ```js
