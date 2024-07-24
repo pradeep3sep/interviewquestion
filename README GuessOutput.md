@@ -4202,11 +4202,66 @@ function* gen() {
 
 console.log([...gen()])
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+Let's break down the function `gen` step by step to understand its behavior and explain the output of `console.log([...gen()])`.
+
+### Function Definition
+The function `gen` is a generator function. Generator functions are defined using the `function*` syntax and can yield multiple values, pausing and resuming their execution.
+
+```javascript
+function* gen() {
+    try {
+        yield 1;
+        yield 2;
+        return 3;
+        yield 4;
+    } finally {
+        yield 5;
+        return 6;
+        yield 7;
+    }
+}
+```
+
+### Explanation
+
+1. **`yield 1`**: The generator yields the value `1` and pauses.
+2. **`yield 2`**: When resumed, the generator yields the value `2` and pauses again.
+3. **`return 3`**: The generator returns `3`. When a generator returns a value, it terminates and no further `yield` statements are executed in the `try` block.
+4. **`finally` block**: Despite the `return` statement, the `finally` block is executed.
+    - **`yield 5`**: The `finally` block starts executing, and the generator yields the value `5`.
+    - **`return 6`**: The generator returns `6` from the `finally` block, which causes it to terminate.
+    - **`yield 7`**: This `yield` is unreachable because the generator terminates at `return 6`.
+
+### Execution Flow
+
+- First, `yield 1` produces `1`.
+- Then, `yield 2` produces `2`.
+- `return 3` stops the execution of the `try` block.
+- The `finally` block runs:
+  - `yield 5` produces `5`.
+  - `return 6` stops the execution of the `finally` block.
+
+### Output of `console.log([...gen()])`
+
+The spread operator `...` in `console.log([...gen()])` iterates through the generator, collecting all yielded values into an array. Since the generator terminates at `return 6` in the `finally` block, the sequence of yielded values collected is `[1, 2, 5]`.
+
+```javascript
+console.log([...gen()]); // Output: [1, 2, 5]
+```
+
+The value `6` is not included in the array because `return` values from generators are not part of the yielded sequence; they just indicate termination.
+
+</details>
+
+
 ### Question 151
 
 ```js
-// This is a JavaScript Quiz from BFE.dev
-
 async function async1(){
   console.log(1)
   await async2()
@@ -4235,12 +4290,25 @@ new Promise(function(resolve){
 console.log(8)
 
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+4\
+1\
+3\
+6\
+8\
+2\
+7\
+5
+</details>
+
+
 ### Question 152
 
 ```js
-
-// This is a JavaScript Quiz from BFE.dev
-
 var a = 1;
 (function() {
   console.log(a + this.a);
@@ -4255,11 +4323,22 @@ var name = 1;
   console.log(name + this.name);
 })();
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+NaN\
+2undefined\
+NaN\
+2undefined
+</details>
+
+
+
 ### Question 153
 
 ```js
-// This is a JavaScript Quiz from BFE.dev 
-
 let num
 
 for (let i = 0; i < 5; i++) {
@@ -4269,6 +4348,19 @@ for (let i = 0; i < 5; i++) {
   }, 100)
 }
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+4\
+4\
+4\
+4\
+4
+</details>
+
+
 ### Question 154
 
 ```js
@@ -4289,8 +4381,17 @@ class B extends A {
 
 B.log();
 new B().log();
-
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+BFE\
+bigfrontend
+</details>
+
+
 ### Question 155
 
 ```jsx
@@ -4488,10 +4589,7 @@ function App() {
     </div>
   )
 }
-
-
 ```
-
 
 ### Question 158 
 
