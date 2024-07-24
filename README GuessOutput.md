@@ -4175,6 +4175,15 @@ console.log(genA().next().value)
 console.log(genB().next().value)
 
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is </p>
+
+[ 1, 2, 3 ]\
+1
+</details>
+
 ### Question 150
 
 ```js
