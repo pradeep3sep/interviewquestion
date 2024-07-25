@@ -51,11 +51,6 @@ import Input from '@modules/common/components/Input'
 
 **just to know, we can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change**
 
-useState me to state update karte h wo 2 tarike se hota h, direct update and function se update,
-
-jab 2 setSate use karte h same state k liye wo bhi direct method se, then 2nd wale ko purana data hi milta,
-agr function se update karte h new data milta h
-
 > ### error boundary is used as package, because error boundries was only available in class components form but now it comes along with react
 
 > ### npm install recharts for react charts
