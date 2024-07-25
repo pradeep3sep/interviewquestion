@@ -1,4 +1,4 @@
-WE have
+> ### WE have below events in react
 
 OnClick
 
@@ -12,10 +12,14 @@ onMouseLeave
 
 onMouseOver
 
+
+
 > ### For the difference between the memo and useMemo
 ```
 https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react/
 ```
+
+
 
 > ### Imp: State vs Ref: Refs are mutable and persist between renders without causing re-renders while state do not persist value while rerender
 
@@ -35,6 +39,8 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Dev
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Development-In-General/What-happens-when-you-navigate-to-google.md
 
 ```
+
+
 ```js
 // 👎 Don't use relative paths
 import Input from '../../../modules/common/components/Input'
