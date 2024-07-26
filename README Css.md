@@ -73,7 +73,7 @@ https://www.programiz.com/css/position
 
 <br>
 
-> ### diff between visibility and d none
+> ### Diff between visibility and d none
 visibility:hidden hides the element, but it still takes up space in the layout. display:none removes the element from the document. It does not take up any space.
 
 <br>
@@ -115,9 +115,11 @@ https://www.w3schools.com/cssref/pr_class_position.php
 > ### What is a CSS Preprocessor? What are Sass, Less, and Stylus? Why do people use them?
 A CSS Preprocessor is a tool used to extend the basic functionality of default vanilla CSS through its own scripting language. It helps us to use complex logical syntax like – variables, functions, mixins, code nesting, and inheritance to name a few, supercharging your vanilla CSS.
 
+<br>
 
 > ### What is the difference between inline, inline-block, and block?
-**Block Element:** The block elements always start on a new line. They will also take space for an entire row or width. List of block elements are <div>, <p>.
+
+**Block Element:** The block elements always start on a new line. They will also take space for an entire row or width. List of block elements are `<div>`, `<p>`.
 
 **Inline Elements:** Inline elements don't start on a new line, they appear on the same line as the content and tags beside them. Some examples of inline elements are <a>, <span> , <strong>, and <img> tags. 
 
