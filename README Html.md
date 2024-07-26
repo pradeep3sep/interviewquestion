@@ -49,8 +49,8 @@ Formatting elements were designed to display special types of text:
 Below is the output of above
 
 
-<b> - Bold text\
-<strong> - Important text\
+<b> - Bold text</b>\
+<strong> - Important text</strong>\
 <i> - Italic text</i>\
 <em> - Emphasized text</em>\
 <mark> - Marked text</mark>\
