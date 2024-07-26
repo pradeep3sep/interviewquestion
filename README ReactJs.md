@@ -507,9 +507,15 @@ Below are some of the main differences between HTML and React event handling,
   };
   ```
 
+<br>
+
+
 > ### What are synthetic events in React?
 
 `SyntheticEvent` is a cross-browser wrapper around the browser's native event. Its API is same as the browser's native event, including `stopPropagation()` and `preventDefault()`, except the events work identically across all browsers. The native events can be accessed directly from synthetic events using `nativeEvent` attribute.
+
+
+<br>
 
 
 > ### trick in module.css in react
@@ -522,11 +528,18 @@ when we get the class which is not inside the component we use the global, like 
 }
 ```
 
+<br>
+
+
 > ### We can use the JSON-Server to get temp backend in our frontend project.
 
+<br>
 
 > ### What are forward refs?
 Ref forwarding is a feature that lets some components take a ref they receive, and pass it further down to a child.
+
+
+<br>
 
 
 > ### What is Virtual DOM? How Virtual DOM works?
@@ -538,6 +551,10 @@ The Virtual DOM works in three simple steps.
   1. Whenever any underlying data changes, the entire UI is re-rendered in Virtual DOM representation.
   2. Then the difference between the previous DOM representation and the new one is calculated.
   3. Once the calculations are done, the real DOM will be updated with only the things that have actually changed.
+
+
+<br>
+
 
 > ### What is the difference between Shadow DOM and Virtual DOM?
 The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components.\
@@ -626,14 +643,12 @@ ReactDOM.render(<Counter />, document.getElementById('root'));
 
 Both techniques aim to enhance performance and manageability of web applications but are used in different contexts and for different purposes. The Shadow DOM focuses on encapsulation and isolation, while the Virtual DOM aims to optimize rendering performance.
 
-
-
-
+<br>
 
 > ### What is Lifting State Up in React?
 When several components need to share the same changing data then it is recommended to lift the shared state up to their closest common ancestor. That means if two child components share the same data from its parent, then move the state to parent instead of maintaining local state in both of the child components.
 
-
+<br>
 
 
 > ### Why fragments are better than container divs?
@@ -642,6 +657,9 @@ Below are the list of reasons to prefer fragments over container DOM elements,
 - Fragments are a bit faster and use less memory by not creating an extra DOM node. This only has a real benefit on very large and deep trees.
 - Some CSS mechanisms like Flexbox and CSS Grid have a special parent-child relationships, and adding divs in the middle makes it hard to keep the desired layout.
 - The DOM Inspector is less cluttered.
+
+
+<br>
 
 
 > ### What are portals in React?
@@ -653,6 +671,9 @@ ReactDOM.createPortal(child, container);
 ```
 
 The first argument is any render-able React child, such as an element, string, or fragment. The second argument is a DOM element.
+
+
+<br>
 
 
 > ### How to use innerHTML in React?
@@ -671,16 +692,25 @@ function MyComponent() {
 ```
 
 
+<br>
+
+
 > ### Importance of Keys in React
 Keys are significant in React because they aid in determining whether items in a list have been changed, updated, or removed. This process helps React to optimize the rendering by recycling existing DOM elements.
 
 When an element's key changes, React will create a new component instance rather than update the current one. This is why keys need to be stable in a list.
 
 
+<br>
+
+
 > ### What is the impact of indexes as keys?
 Choosing the correct key can be tricky. It's often tempting to use the index as a key if the items in your list do not have a unique identifier. However, this can lead to issues if the order of items changes. This is because React uses keys to determine whether a component needs to be updated or not. If the keys are based on the index and the order changes, React might end up re-rendering more components than necessary, negatively impacting your app's performance.
 
 In the previous example of a list of posts, if we use the post's index as a key and then a post is added to the beginning of the list, all the keys will change, causing all post components to re-render. On the other hand, if each post has a unique ID and we use this ID as a key, only the new post component will re-render.
+
+
+<br>
 
 
 > ### prop-types - How to apply validation on props in React?
@@ -722,6 +752,9 @@ User.propTypes = {
   age: PropTypes.number.isRequired,
 };
 ```
+
+<br>
+
 
 
 > ### What will happen if you use props in initial state?
@@ -777,6 +810,7 @@ const MyComponent = (props) => {
 export default MyComponent;
 ```
 
+<br>
 
 > ### console of component
 
@@ -837,6 +871,7 @@ export default PrettyPrintJSON;
 
 we can also `console or use in the code` in the form of function call, it gives the almost same output, but things will be different because React now don't see as component instance,  it sees as raw react element.
 
+<br>
 
 
 > ### Logging sequence
