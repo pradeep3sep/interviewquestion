@@ -185,4 +185,75 @@ The CSS selectors you mentioned are used to target HTML elements in different wa
 Each selector allows for different levels of specificity and targeting, enabling precise control over the styling of HTML elements.
 
 
+Can you name the four types of @media properties?\
+The four types of @media properties are:
+
+All → It’s the default property. Used for all media-type devices.
+Screen → Used for computer screen, mobile screen.\
+Print → Used for printers.\
+Speech → Used for screen readers.
+
+What does the :root pseudo-class refer to?
+The :root selector allows you to target the highest-level “parent” element in the DOM, or document tree. It is defined in the CSS Selectors Level 3 specification.
+
+11. How do I restore the default value of a property?
+The keyword initial can be used to reset it to its default value.
+
+12. How does Calc work?
+The CSS3 calc() function allows us to perform mathematical operations on property values. Instead of declaring, for example, static pixel values for an element's width, we can use calc() to specify that the width is the result of the addition of two or more numeric values.
+
+.foo {
+	Width: calc(100px + 50px)
+}
+
+
+13. What do CSS Custom properties variables mean?
+Custom properties (sometimes referred to as CSS variables or cascading variables) are defined by users that contain specific values to be reused throughout a document. The value is set using -- notion. And the values are accessed using the var() function.
+
+:root {
+	--main-bg-color: brown
+}
+
+.one {
+	color: white;
+	background-color· var (--main-bg-color);
+	margin: l0px,
+	width: 50px,
+	height: 5Opx;
+	display: inline-block;
+}
+
+
+15. What does * { box-sizing: border-box; } do? What are its advantages?
+It makes every element in the document include the padding and border in the element’s inner dimension for the height and width computation.  
+In box-sizing: border-box, The height of an element is now calculated by the content's height + vertical padding + vertical border width.
+The width of an element is now calculated by the content's width + horizontal padding + horizontal border width.
+
+
+16. What does !important mean in CSS?
+The style is having the important will have the highest precedence and it overrides the cascaded property.
+
+ p {
+ 	color: red !important;
+ }
+ #thing {
+ 	color: green;
+ } 
+ <p id="thing">Will be RED.</p>
+
+ 
+17. What is specificity? How to calculate specificity?
+A process of determining which CSS rule will be applied to an element. It actually determines which rules will take precedence. Inline style usually wins then ID then the class value (or pseudo-class or attribute selector), the universal selector (*) has no specificity. ID selectors have a higher specificity than attribute selectors.
+
+
+
+21. How to determine if the browser supports a certain feature?
+The @support in CSS can be very useful to scan if the current browser has support for a certain feature.
+
+@supports (display: grid) {
+	div {
+		display: grid;
+	}
+}
+
 
