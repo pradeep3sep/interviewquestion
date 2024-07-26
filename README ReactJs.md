@@ -1426,6 +1426,9 @@ export default App;
 - Finally, in the `App` component, we use  `LogEnhancedComponent` just like any other component.
 
 
+<br>
+
+
 > ### Higher-Order Component (HOC) 
 
 In React, a Higher-Order Component (HOC) is a pattern where a function takes a component and returns a new component with additional props, state, or behavior. HOCs are a way to reuse component logic, share code between components, and enhance the capabilities of existing components.
@@ -1456,8 +1459,14 @@ ReactDOM.render(<EnhancedComponent text="Hello, World!" />, document.getElementB
 ```
 
 
+<br>
+
+
 > ### What are hooks?
 Hooks is a special JavaScript function that allows you use state and other React features without writing a class. This pattern has been introduced as a new feature in React 16.8 and helped to isolate the stateful logic from the components.
+
+
+<br>
 
 
 > ### In which scenarios error boundaries do not catch errors?
@@ -1467,6 +1476,10 @@ Below are the cases in which error boundaries doesn't work,
 - Asynchronous code using setTimeout or requestAnimationFrame callbacks
 - During Server side rendering
 - When errors thrown in the error boundary code itself
+
+
+<br>
+
 
 > ### Why do you not need error boundaries for event handlers?
 
@@ -1502,9 +1515,12 @@ class MyComponent extends React.Component {
 ```
 
 
+<br>
+
+
 > ### What is the difference between try catch block and error boundaries?
 
-Try catch block works with imperative code whereas error boundaries are meant for declarative code to render on the screen.
+`Try catch` block works with `imperative code` whereas `error boundaries` are meant for `declarative code` to render on the screen.
 
 For example, the try catch block used for below imperative code
 
@@ -1526,9 +1542,16 @@ Whereas error boundaries wrap declarative code as below,
 
 So if an error occurs in a componentDidUpdate method caused by a setState somewhere deep in the tree, it will still correctly propagate to the closest error boundary.
 
+<br>
+
+
+
 > ### What is the required method to be defined for a class component?
 
 The `render()` method is the only required method in a class component. i.e, All methods other than render method are optional for a class component.
+
+<br>
+
 
 > ### What are default props?
 
@@ -1547,6 +1570,9 @@ MyButton.defaultProps = {
 ```
 
 If props.color is not provided then it will set the default value to 'red'. i.e, Whenever you try to access the color prop it uses the default value
+
+
+<br>
 
 
 > ### What are Keyed Fragments?
@@ -1571,27 +1597,25 @@ function Glossary(props) {
 
 **Note**: key is the only attribute that can be passed to Fragment. In the future, there might be a support for additional attributes, such as event handlers.
 
+<br>
+
+
 > ### What are the limitations with HOCs?
 
-- Prop Clashing:
+- **Prop Clashing:**
 
     - HOCs introduce new props to the wrapped component, and there's a potential for naming conflicts with existing prop names in the wrapped component. This can lead to unexpected behavior if not handled carefully.
 
-- Unintentional Re-renders:
+- **Unintentional Re-renders:**
 
     - Some HOCs might cause unnecessary re-renders due to the way they handle props or state. This can impact the performance of the application, especially if not optimized.
 
-- Prop Drilling:
+- **Prop Drilling:**
 
     - If HOCs introduce props that are not used by the wrapped component but are only meant for internal functionalities, it might lead to prop drilling, where props are passed through multiple layers of components, making the code harder to maintain.
 
 
-> ### How do you pass arguments to an event handler?
-
-```jsx
-<button onClick={(e) => this.updateUser(userId, e)}>Update User details</button>
-<button onClick={this.updateUser.bind(this, userId)}>Update User details</button>
-```
+<br>
 
 > ### How to prevent component from rendering?
 You can prevent component from rendering by returning null based on specific condition. This way it can conditionally render component.
@@ -1606,6 +1630,7 @@ function Greeting(props) {
 }
 ```
 
+<br>
 
 > ### What are the conditions to safely use the index as a key?
 There are three conditions to make sure, it is safe use the index as a key.
@@ -1613,6 +1638,9 @@ There are three conditions to make sure, it is safe use the index as a key.
 - The list and items are static– they are not computed and do not change
 - The items in the list have no ids
 - The list is never reordered or filtered.
+
+
+<br>
 
 > ### Is it possible to use react without JSX?
 
@@ -1634,21 +1662,31 @@ export default MyComponent;
 
 ```
 
+<br>
+
+
 > ### What is diffing algorithm?
 
 React needs to use algorithms to find out how to efficiently update the UI to match the most recent tree.
-The diffing algorithms is generating the minimum number of operations to transform one tree into another. However, the algorithms have a complexity in the order of O(n³) where n is the number of elements in the tree.
+
+The diffing algorithms is generating the `minimum number of operations to transform one tree into another`. However, the algorithms have a complexity in the order of O(n³) where n is the number of elements in the tree.
 
 In this case, displaying 1000 elements would require in the order of one billion comparisons. This is far too expensive. Instead, React implements a heuristic O(n) algorithm based on two assumptions:
 
 - Two elements of different types will produce different trees.
 - The developer can hint at which child elements may be stable across different renders with a key prop.
 
+
+<br>
+
 > ### What is reconciliation?
 
   `Reconciliation` is the process through which React updates the Browser DOM and makes React work faster. React use a `diffing algorithm` so that component updates are predictable and faster. React would first calculate the difference between the `real DOM` and the copy of DOM `(Virtual DOM)` when there's an update of components.\
   React stores a copy of Browser DOM which is called `Virtual DOM`. When we make changes or add data, React creates a new Virtual DOM and compares it with the previous one. This comparison is done by `Diffing Algorithm`.\
   Now React compares the Virtual DOM with Real DOM. It finds out the changed nodes and updates only the changed nodes in Real DOM leaving the rest nodes as it is. This process is called _Reconciliation_.
+
+
+<br>
 
 > ### What is React Fiber?
 
@@ -1661,6 +1699,9 @@ Its main goals are:
   3. Ability to yield back and forth between parents and children to support layout in React.
   4. Ability to return multiple elements from render().
   5. Better support for error boundaries.
+
+
+<br>
 
 
 > ### What are the rules covered by diffing algorithm?
@@ -1709,10 +1750,16 @@ When diffing two trees, React first compares the two root elements. The behavior
       ```
 
 
+<br>
+
+
 > ### What is the typical use case of portals?
 React portals are very useful when a parent component has overflow: hidden or has properties that affect the stacking context (e.g. z-index, position, opacity) and you need to visually “break out” of its container.
 
 For example, dialogs, global message notifications, hovercards, and tooltips.
+
+
+<br>
 
 
 > ### How do you set default value for uncontrolled component?
@@ -1740,6 +1787,9 @@ render() {
 The same applies for `select` and `textArea` inputs. But you need to use **defaultChecked** for `checkbox` and `radio` inputs.
 
 
+<br>
+
+
 > ### What is Concurrent Rendering?
 The Concurrent rendering makes React apps to be more responsive by rendering component trees without blocking the main UI thread. It allows React to interrupt a long-running render to handle a high-priority event. i.e, When you enabled concurrent Mode, React will keep an eye on other tasks that need to be done, and if there's something with a higher priority it will pause what it is currently rendering and let the other task finish first. You can enable this in two ways,
 
@@ -1755,27 +1805,39 @@ ReactDOM.unstable_createRoot(domNode).render(<App />);
 
 
 
+<br>
+
+
 > ### What is the difference between async mode and concurrent mode?
 Both refers the same thing. Previously concurrent Mode being referred to as "Async Mode" by React team. The name has been changed to highlight React’s ability to perform work on different priority levels. So it avoids the confusion from other approaches to Async Rendering.
+
+
+<br>
 
 
 > ### What are the differences between useEffect and useLayoutEffect hooks?
 useEffect and useLayoutEffect are both React hooks that can be used to synchronize a component with an external system, such as a browser API or a third-party library. However, there are some key differences between the two:
 
-- Timing: useEffect runs after the browser has finished painting, while useLayoutEffect runs synchronously before the browser paints. This means that useLayoutEffect can be used to measure and update layout in a way that feels more synchronous to the user.
+- **Timing:** useEffect runs after the browser has finished painting, while useLayoutEffect runs synchronously before the browser paints. This means that useLayoutEffect can be used to measure and update layout in a way that feels more synchronous to the user.
 
 
-- Browser Paint: useEffect allows browser to paint the changes before running the effect, hence it may cause some visual flicker. useLayoutEffect synchronously runs the effect before browser paints and hence it will avoid visual flicker.
+- **Browser Paint:** useEffect allows browser to paint the changes before running the effect, hence it may cause some visual flicker. useLayoutEffect synchronously runs the effect before browser paints and hence it will avoid visual flicker.
 
- - Execution Order: The order in which multiple useEffect hooks are executed is determined by React and may not be predictable. However, the order in which multiple useLayoutEffect hooks are executed is determined by the order in which they were called.
+ - **Execution Order:** The order in which multiple useEffect hooks are executed is determined by React and may not be predictable. However, the order in which multiple useLayoutEffect hooks are executed is determined by the order in which they were called.
 
-- Error handling: useEffect has a built-in mechanism for handling errors that occur during the execution of the effect, so that it does not crash the entire application. useLayoutEffect does not have this mechanism, and errors that occur during the execution of the effect will crash the entire application.
+- **Error handling:** useEffect has a built-in mechanism for handling errors that occur during the execution of the effect, so that it does not crash the entire application. useLayoutEffect does not have this mechanism, and errors that occur during the execution of the effect will crash the entire application.
 
 In general, it's recommended to use useEffect as much as possible, because it is more performant and less prone to errors. useLayoutEffect should only be used when you need to measure or update layout, and you can't achieve the same result using useEffect.
+
+<br>
+
 
 > ### What is strict mode in React?
 
 `React.StrictMode` is a useful component for highlighting potential problems in an application. Just like `<Fragment>`, `<StrictMode>` does not render any extra DOM elements. It activates additional checks and warnings for its descendants. These checks apply for _development mode_ only.
+
+
+<br>
 
 
 ### Below are my understanding and lack of notes
@@ -1790,38 +1852,21 @@ export default function App() {
 }
 ```
 
+<br>
+
+
 > ### When to use a Class Component over a Function Component?
 If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries.
 
 
 
+<br>
+
+
 > ### What are error boundaries in React v16?
 Error boundaries are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.
 
-> ### What is the impact of indexes as keys?
-Keys should be stable, predictable, and unique so that React can keep track of elements.
-
-In the below code snippet each element's key will be based on ordering, rather than tied to the data that is being represented. This limits the optimizations that React can do.
-
-```jsx
-{todos.map((todo, index) =>
-  <Todo
-    {...todo}
-    key={index}
-  />
-)}
-```
-
-If you use element data for unique key, assuming todo.id is unique to this list and stable, React would be able to reorder elements without needing to reevaluate them as much.
-
-```jsx
-{todos.map((todo) =>
-  <Todo {...todo}
-    key={todo.id} />
-)}
-```
-
-sometimes agr index use hua hota h as key, to middle delete functionality pe element delete hota h middle dom me se to, index phir se update hota h, agr wahi hume id se kia hota to need nhi hoti key update ki 
+<br>
 
 > ### Why should component names start with a capital letter?
 If you are rendering your component using JSX, the name of that component has to begin with a capital letter otherwise React will throw an error as an unrecognized tag. This convention is because only HTML elements and SVG tags can begin with a lowercase letter.
@@ -1836,6 +1881,9 @@ render() {
 }
 ```
 
+<br>
+
+
 > ### How to combine multiple inline style objects?
 You can use the spread operator in regular React:
 
@@ -1843,36 +1891,19 @@ You can use the spread operator in regular React:
 <button style={{...styles.panel.button, ...styles.panel.submitButton}}>{'Submit'}</button>
 ```
 
-
-> ### How to re-render the view when the browser is resized?
-we can add eventlistner on resize
-
-
-> ### How to use https instead of http in create-react-app?
-You just need to use HTTPS=true configuration. You can edit your package.json scripts section:
-```jsx
-"scripts": {
-  "start": "set HTTPS=true && react-scripts start"
-}
-```
+<br>
 
 > ### How to avoid using relative path imports in create-react-app?
 we can use the "~" which points towards the root directory
 
-> ### How to update a component every second?
-```jsx
-const [time, setTime] = useState(Date.now());
-useEffect(() => {
-  const interval = setInterval(() => setTime(Date.now()), 1000);
-  return () => {
-    clearInterval(interval);
-  };
-}, []);
-```
 
+<br>
 
 > ### Why does React emphasize on unidirectional data flow?
 It is also known as one-way data flow, which means the data has one, and only one way to be transferred to other parts of the application. In essence, this means child components are not able to update the data that is coming from the parent component. In React, data coming from a parent is called props.
+
+
+<br>
 
 > ### What does eject do in create react app?
 The Create React App documentation characterizes this script as a “one-way operation” and warns that “once you eject, you can’t go back!” Create React App comes with an excellent configuration that helps you build your React app with the best practices in mind to optimize it.
@@ -1884,15 +1915,24 @@ Running the eject script will remove the single build dependency from your proje
 After running the eject command, it won’t be possible to run it again, because all scripts will be available except the eject one. Use this command only if you need to. Otherwise, stick with the default configuration. It’s better, anyway.
 
 
+<br>
+
+
 > ### Why to avoid using setState() after a component has been unmounted?
 
 - Calling setState() after a component has unmounted will emit a warning. The "setState warning" exists to help you catch bugs, because calling setState() on an unmounted component is an indication that your app/component has somehow failed to clean up properly.
 - Specifically, calling setState() in an unmounted component means that your app is still holding a reference to the component after the component has been unmounted - which often indicates a memory leak.
 
 
+<br>
+
+
 > ### Differentiate between stateful and stateless components?
 - Stateful and stateless components have many different names. They are also known as: `Container vs Presentational components` and `Smart vs Dumb components`.
 - The literal difference is that one has state, and the other does not. That means the stateful components are keeping track of changing data, while stateless components print out what is given to them via props, or they always render the same thing.
+
+
+<br>
 
 
 > ### What are the benefits of using HOC?
@@ -1907,6 +1947,9 @@ After running the eject command, it won’t be possible to run it again, because
 - Ensure all relevant props are passed through to the component.
 - Hoist static methods from the wrapped component.
 - It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
+
+<br>
+
 
 > ### Hook for listening click outside
 
@@ -1966,7 +2009,13 @@ export function App() {
 ```
 
 
+<br>
+
+
 > ### Best toast to use npm install react-hot-toast
+
+<br>
+
 
 > ### Compound Pattern in react
 
@@ -2019,6 +2068,9 @@ export default Counter;
 
 
 ```
+
+<br>
+
 
 > ### Below is trick to optimize the slowcomponent or we say that we prevent the rerendering of the slow component without the useMemo or useCallback
 
@@ -2079,6 +2131,9 @@ It's re-rendered is optimized, you can check it in profiler.
 It works because, The component has been passed as a children prop, and so what this means is that this component here was actually created before the Counter component re-rendered. And so therefore, there's no way in which this component could have been affected by the state change in the counter. 
 
 
+<br>
+
+
 > ### Children types
 React can render `children` from most types. In most cases it's either an `array` or a `string`.
 
@@ -2091,6 +2146,9 @@ React can render `children` from most types. In most cases it's either an `array
 ```jsx
 <div>{["Hello ", <span>World</span>, "!"]}</div>
 ```
+
+
+<br>
 
 
 > ### Array as children
