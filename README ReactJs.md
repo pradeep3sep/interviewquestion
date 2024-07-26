@@ -12,14 +12,14 @@ onMouseLeave
 
 onMouseOver
 
-
+<br>
 
 > ### For the difference between the memo and useMemo
 ```
 https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react/
 ```
 
-
+<br>
 
 > ### Imp: State vs Ref: Refs are mutable and persist between renders without causing re-renders while state do not persist value while rerender
 
@@ -40,6 +40,7 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Dev
 
 ```
 
+<br>
 
 ```js
 // 👎 Don't use relative paths
@@ -49,17 +50,35 @@ import Input from '../../../modules/common/components/Input'
 import Input from '@modules/common/components/Input'
 ```
 
+<br>
+
 **just to know, we can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change**
 
+<br>
+
 > ### error boundary is used as package, because error boundries was only available in class components form but now it comes along with react
+
+<br>
+
 
 > ### npm install recharts for react charts
 
 > ### for react icon, npm i react-icons
 
+
+<br>
+
+
 > ### Hooks are stored in number which is the sequence declared in the code, not by the name.
 
+
+<br>
+
+
 > ### In react,  we have the loaders and actions in react-router, loaders for the get and actions for the rest, action is like earlier we create the form which have action like POST,PATCH etc which work on submit button, it is replaced by action of react-router
+
+<br>
+
 
 
 > ### Component and state optimizations
@@ -73,6 +92,9 @@ const [state, setState] = React.useState(myExpensiveFn());
 const [state, setState] = React.useState(() => myExpensiveFn());
 ```
 
+
+
+<br>
 
 
 
@@ -95,7 +117,13 @@ function SomeComponent() {
 
 navigation.state has idle → loading → idle, which can be used for loader (circle wala)
 
+<br>
+
+
 > ### In react, all synthetic events like focus,blur,and change bubbles except scroll
+
+<br>
+
 
 > ### useState is async
 Multiple state updates inside an event handler function are **batched**, so they happen all at once, **causing only one re-render**. This means we can **not access a state variable immediately after updating it**. State updates are **async**. Since React 18, batching also happens in timeouts, promises, and native event handlers.
@@ -148,8 +176,6 @@ export function App() {
 
 ```
 
-
-
 > ### useState accepts the callback function
 
 ```jsx
@@ -178,6 +204,9 @@ const MyComponent = () => {
 export default MyComponent;
 
 ```
+
+<br>
+
 
 
 > ### What is React?
@@ -209,6 +238,9 @@ Apart from the advantages, there are few limitations of React too,
 - The code complexity increases with inline templating and JSX.
 - Too many smaller components leading to over engineering or boilerplate.
 
+
+
+<br>
 
 
 
@@ -255,6 +287,9 @@ Apart from the advantages, there are few limitations of React too,
   </body>
 </html>
 ```
+
+<br>
+
 
 
 > ### What is JSX?
@@ -330,6 +365,9 @@ root.render(container)
 ```
 
 
+<br>
+
+
 
 > ### What is the difference between Element and Component?
 
@@ -383,6 +421,9 @@ const Button = ({ handleLogin }) =>
   );
 ```
 
+<br>
+
+
 > ### Why should we not update the state directly?
 
 If you try to update the state directly then it won't re-render the component.
@@ -398,6 +439,9 @@ Instead use setState() method. It schedules an update to a component's state obj
 //Correct
 this.setState({ message: "Hello World" });
 ```
+
+<br>
+
 
 > ### What is the difference between HTML and React event handling?
 
@@ -436,25 +480,28 @@ Below are some of the main differences between HTML and React event handling,
   3. In HTML, you need to invoke the function by appending `()`
        Whereas in react you should not append `()` with the function name. (refer "activateLasers" function in the first point for example)
 
+<br>
+
+
 
 > ### How to pass a parameter to an event handler or callback?
 
   You can use an _arrow function_ to wrap around an _event handler_ and pass parameters:
 
-  ```jsx harmony
-  <button onClick={() => this.handleClick(id)} />
+  ```jsx
+  <button onClick={() => handleClick(id)} />
   ```
 
   This is an equivalent to calling `.bind`:
 
-  ```jsx harmony
-  <button onClick={this.handleClick.bind(this, id)} />
+  ```jsx
+  <button onClick={handleClick.bind(this, id)} />
   ```
 
   Apart from these two approaches, you can also pass arguments to a function which is defined as arrow function
 
   ```jsx harmony
-  <button onClick={this.handleClick(id)} />;
+  <button onClick={handleClick(id)} />;
   handleClick = (id) => () => {
     console.log("Hello, your ticket number is", id);
   };
