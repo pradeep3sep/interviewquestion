@@ -854,7 +854,7 @@ const PrettyPrintJSON = ({ data }) => {
 export default PrettyPrintJSON;
 ```
 
-- when we see in the console, we see all the details of the components in the foem of objects.
+- when we see in the console, we see all the details of the components in the form of objects.
 
 - we see the `$$typeof : Symbol(react.element)`, symbole is added here because the symbol can not be passed through the JSON. It prevents from XSS.
 
@@ -899,12 +899,15 @@ export function App(props) {
 }
 ```
 above code shows
-A
-B
+A\
+B\
 C
 
 this is beacuse useEffect works like mount, not like beforecreate or create. Bacially works after DOM paints in browser
 
+
+
+<br>
 
 
 > ### How you implement Server Side Rendering or SSR?
@@ -962,6 +965,9 @@ function WindowDimensions() {
 ```
 
 
+<br>
+
+
 > ### Abort controller in react
 
 ```jsx
@@ -1016,24 +1022,27 @@ export default MyComponent;
 ```
 
 
+<br>
+
+
 
 > ### Is it possible to use React without rendering HTML?
 
   It is possible. Below are the possible options:
 
-  ```jsx harmony
+  ```jsx
   render() {
     return false
   }
   ```
 
-  ```jsx harmony
+  ```jsx
   render() {
     return true
   }
   ```
 
-  ```jsx harmony
+  ```jsx
   render() {
     return null
   }
@@ -1041,13 +1050,13 @@ export default MyComponent;
 
   React version >=16.0.0:
 
-  ```jsx harmony
+  ```jsx
   render() {
     return []
   }
   ```
 
-  ```jsx harmony
+  ```jsx
   render() {
     return ""
   }
@@ -1055,13 +1064,13 @@ export default MyComponent;
 
   React version >=16.2.0:
 
-  ```jsx harmony
+  ```jsx
   render() {
     return <React.Fragment></React.Fragment>
   }
   ```
 
-  ```jsx harmony
+  ```jsx 
   render() {
     return <></>
   }
@@ -1069,11 +1078,14 @@ export default MyComponent;
 
   React version >=18.0.0:
 
-  ```jsx harmony
+  ```jsx
   render() {
     return undefined
   }
   ```
+
+
+<br>
 
 
 
@@ -1118,6 +1130,9 @@ const PrettyPrintJSON = ({ data }) => {
 export default PrettyPrintJSON;
 ```
 
+<br>
+
+
 > ### How to focus an input element on page load?
 
 ```jsx
@@ -1140,6 +1155,9 @@ const App = () => {
 
 ReactDOM.render(<App />, document.getElementById("app"));
 ```
+
+
+<br>
 
 
 > ### What are the possible ways of updating objects in state in react?
@@ -1181,6 +1199,9 @@ const updateState = () => {
 
 ```
 
+<br>
+
+
 
 > ### How can we find the version of React at runtime in the browser?
 
@@ -1194,6 +1215,9 @@ ReactDOM.render(
   document.getElementById("app")
 );
 ```
+
+<br>
+
 
 > ### How to use https instead of http in create-react-app?
 
