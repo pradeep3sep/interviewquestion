@@ -82,7 +82,6 @@ https://getbem.com/naming/
 ```
 
 ```
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/CSS/Collection-of-CSS-Questions.md
 https://www.w3schools.com/css/css_grid.asp
 https://css-tricks.com/the-css-box-model/
 https://www.w3schools.com/cssref/pr_class_position.php
@@ -348,4 +347,62 @@ Border-box consists of properties such as content, padding, and the border with 
 No. The CSS file will be downloaded via browser in order to appear on the HTML page.
 
 1. When should you use translate () instead of absolute positioning?
-Translate is a CSS transform value. On changing opacity or transform, browser reflow or repaint is not triggered. Transform requires the browser to create a GPU layer for elements but using the CPU changes absolutes positioning properties. Translate () is more efficient and results in shorter paint times. On using translate (), element occupies original space, unlike in changing absolute positioning. 
+Translate is a CSS transform value. On changing opacity or transform, browser reflow or repaint is not triggered. Transform requires the browser to create a GPU layer for elements but using the CPU changes absolutes positioning properties. Translate () is more efficient and results in shorter paint times. On using translate (), element occupies original space, unlike in changing absolute positioning.
+
+
+
+How would you approach fixing browser-specific styling issues?
+After identifying the issue and the offending browser, use a separate style sheet that only loads when that specific browser is being used. This technique requires server-side rendering though.
+Use libraries like Bootstrap that already handles these styling issues for you.
+Use autoprefixer to automatically add vendor prefixes to your code.
+Use Reset CSS or Normalize.css.
+If you're using Postcss (or a similar transpiling library), there may be plugins which allow you to opt in for using modern CSS syntax (and even W3C proposals) that will transform those sections of your code into corresponding safe code that will work in the targets you've used.
+
+
+What are the different ways to visually hide content (and make it available only for screen readers)?
+These techniques are related to accessibility (a11y).
+
+width: 0; height: 0. Make the element not take up any space on the screen at all, resulting in not showing it.
+position: absolute; left: -99999px. Position it outside of the screen.
+text-indent: -9999px. This only works on text within the block elements.
+Meta tags. For example by using Schema.org, RDF, and JSON-LD.
+WAI-ARIA. A W3C technical specification that specifies how to increase the accessibility of web pages.
+Even if WAI-ARIA is the ideal solution, I would go with the absolute positioning approach, as it has the least caveats, works for most elements and it's an easy technique.
+
+
+
+Can you give an example of an @media property other than screen?
+Yes, there are four types of @media properties (including screen):
+
+all - for all media type devices
+print - for printers
+speech - for screenreaders that "reads" the page out loud
+screen - for computer screens, tablets, smart-phones etc.
+Here is an example of print media type's usage:
+
+```
+@media print {
+  body {
+    color: black;
+  }
+}
+```
+
+Explain how a browser determines what elements match a CSS selector.
+This part is related to the above about writing efficient CSS. Browsers match selectors from rightmost (key selector) to left. Browsers filter out elements in the DOM according to the key selector and traverse up its parent elements to determine matches. The shorter the length of the selector chain, the faster the browser can determine if that element matches the selector.
+
+For example with this selector p span, browsers firstly find all the <span> elements and traverse up its parent all the way up to the root to find the <p> element. For a particular <span>, as soon as it finds a <p>, it knows that the <span> matches and can stop its matching.
+
+
+A CSS pseudo-element is a keyword added to a selector that lets you style a specific part of the selected element(s). They can be used for decoration (`::first-line`, `::first-letter`) or adding elements to the markup (combined with `content: ...`) without having to modify the markup (`:before`, `:after`).
+
+::first-line and ::first-letter can be used to decorate text.\
+Used in the `.clearfix` hack as shown above to add a zero-space element with `clear: both`.\
+Triangular arrows in tooltips use `:before` and `:after`. Encourages separation of concerns because the triangle is considered part of styling and not really the DOM.
+
+
+
+s there any reason you'd want to use translate() instead of absolute positioning, or vice-versa? And why?
+translate() is a value of CSS transform. Changing transform or opacity does not trigger browser reflow or repaint but does trigger compositions; whereas changing the absolute positioning triggers reflow. transform causes the browser to create a GPU layer for the element but changing absolute positioning properties uses the CPU. Hence translate() is more efficient and will result in shorter paint times for smoother animations.
+
+When using translate(), the element still occupies its original space (sort of like position: relative), unlike in changing the absolute positioning.
