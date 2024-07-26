@@ -257,3 +257,95 @@ The @support in CSS can be very useful to scan if the current browser has suppor
 }
 
 
+ In how many ways can we add CSS to our HTML file?
+ 1.Inline CSS
+ 2.Internal or Embedded CSS
+ 3.External CSS
+
+
+ How can we add comments in CSS?
+ /* content */
+
+
+ 17. What does margin: 40px 100px 120px 80px signify?
+     
+top = 40px\
+right = 100px\
+bottom = 120px\
+left = 80px
+
+18. What is the difference between margin and padding?
+Margin is used to create space around elements and padding is used to create space around elements inside the border.
+We can set the margin property to auto but we cannot set the padding property to auto.
+In Margin property we can allow negative or float number but in padding we cannot allow negative values.
+Margin and padding target all the 4 sides of the element. Margin and padding will work without the border property also.
+
+
+19. What is CSS Box Model?
+The CSS box model is a container that contains multiple properties including borders, margin, padding, and the content itself. It is used to create the design and layout of web pages. It can be used as a toolkit for customizing the layout of different elements. The web browser renders every element as a rectangular box according to the CSS box model.
+Box-Model has multiple properties in CSS. Some of them are given below:
+
+borders
+margins
+padding
+Content
+
+Border Area: It is the area between the box’s padding and margin. Its dimensions are given by the width and height of the border.
+Margin Area: This area consists of space between border and margin. The dimensions of the Margin area are the margin-box width and the margin-box height. It is useful to separate the element from its neighbors.
+Padding Area: It includes the element’s padding. This area is actually the space around the content area and within the border box. Its dimensions are given by the width of the padding-box and the height of the padding-box.
+Content Area: This area consists of content like text, images, or other media content. It is bounded by the content edge and its dimensions are given by content box width and height.
+
+
+20. What is the difference between CSS border and outline?
+CSS border properties allow us to set the style, color, and width of the border.
+CSS outline property allows us to draw a line around the element, outside the border.
+
+
+28. What is CSS overflow?
+The CSS overflow controls the big content. It tells whether to clip content or to add scroll bars. The overflow contains the following property:
+
+visible
+hidden
+scroll
+auto
+1. Visible: The content is not clipped and is visible outside the element box.
+
+2. Hidden: The overflow is clipped and the rest of the content is invisible.
+
+3. Scroll: The overflow is clipped but a scrollbar is added to see the rest of the content. The scrollbar can be horizontal or vertical.
+
+4. Auto: It automatically adds a scrollbar whenever it is required.
+
+Overflow-x and Overflow-y: This property specifies how to change the overflow of elements. x deals with horizontal edges and y deals with vertical edges.
+
+
+41. What does the CSS box-sizing property do?
+The box-sizing CSS property defines how the user should calculate the total width and height of an element i.e. padding and borders, are to be included or not.
+
+Syntax:
+```
+box-sizing: content-box|border-box;
+```
+
+Property Values:
+
+**content-box:** This is the default value of the box-sizing property. In this mode, the width and height properties include only the content. Border and padding are not included in it i.e if we set an element’s width to 200 pixels, then the element’s content box will be 200 pixels wide, and the width of any border or padding will be added to the final rendered width.
+**border-box:** In this mode, the width and height properties include content, padding, and borders i.e if we set an element’s width to 200 pixels, that 200 pixels will include any border or padding we added, and the content box will shrink to absorb that extra width. This typically makes it much easier to size elements.
+
+47. How case-sensitive is CSS?
+All CSS style sheets are case-insensitive, except for portions that are not under the control of CSS. For example, the case sensitivity due to values of the HTML attributes “id” and “class”, font names, and URIs lies outside the scope of this specification.
+
+21. Does margin-top or margin-bottom have an effect on inline elements?
+No, mMargin-top or margin-bottom does not have an effect on the inline elements.
+
+22. What property is used for changing the font face?
+The font-family property is used for changing the font face that is applied to the element in the DOM.
+
+25. How is the border-box different from the content box?
+Border-box consists of properties such as content, padding, and the border with respect to height and width. However, Content-box is a default value property used for the box-sizing as well as it helps to add border and padding to give proper height and width to the box without having a border and padding properties.
+
+43. Does style1.css have to be downloaded and parsed before style2.css can be fetched?
+No. The CSS file will be downloaded via browser in order to appear on the HTML page.
+
+1. When should you use translate () instead of absolute positioning?
+Translate is a CSS transform value. On changing opacity or transform, browser reflow or repaint is not triggered. Transform requires the browser to create a GPU layer for elements but using the CPU changes absolutes positioning properties. Translate () is more efficient and results in shorter paint times. On using translate (), element occupies original space, unlike in changing absolute positioning. 
