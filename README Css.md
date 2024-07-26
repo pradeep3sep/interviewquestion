@@ -7,11 +7,18 @@ There are four different combinators in CSS:
 - adjacent sibling selector (+)
 - general sibling selector (~)
 
+<br>
+
 > ### Pseudo-elements : befor and after
 A CSS pseudo-element is a keyword added to a selector that lets you style a specific part of the selected element(s). For example, ::first-line can be used to change the font of the first line of a paragraph.
 
+<br>
+
 > ### Pseudo-classes/ Pseudo selector : hover,focus,active,link,first child,last child,nth child
 A pseudo-class is used to define a special state of an element.
+
+<br>
+
 
 > ### CSS Attribute Selectors
 
@@ -32,24 +39,25 @@ a[target="_blank"] {
 }
 ```
 
-
 **Below for the selectors**
 
 ```js
 https://learning-notes.mistermicheels.com/web/css/selectors/
 ```
 
+<br>
+
 > ### Box-Sizing :
 - The box-sizing property in CSS is used to control how the total width and height of an HTML element is calculated. It has two possible values: `content-box and border-box`.
-- The default value for box-sizing is content-box. This means that the width and height of an element are calculated based on the content of the element, excluding padding and border.
-- If you set the value of box-sizing to border-box, the width and height of an element are calculated based on the content, padding, and border of the element. This can be useful in situations where you want to set a specific width for an element that includes its padding and border, rather than having to calculate the total width manually.
+- The `default value` for box-sizing is `content-box`. This means that the `width and height of an element` are calculated `based` on the `content` of the element, `excluding` `padding and border`.
+- If you set the value of box-sizing to `border-box`, the `width and height` of an element are calculated based on the `content, padding, and border` of the element. This can be useful in situations where you want to set a specific width for an element that includes its padding and border, rather than having to calculate the total width manually.
 
-```
-https://learning-notes.mistermicheels.com/web/css/box-model/
-```
+<br>
 
 > ### What is flexbox
 Flexbox is a layout module in CSS that provides a more efficient and flexible way to arrange and align elements in a container. The main idea behind Flexbox is that you can turn any container element into a flexible container,
+
+<br>
 
 > ### Position in css
 - position: static;
@@ -58,22 +66,38 @@ Flexbox is a layout module in CSS that provides a more efficient and flexible wa
 - position: fixed;
 - position: sticky;
 
-> ### Screen meaning in media queries
+Below for diagram
+```
+https://www.programiz.com/css/position
+```
+
+<br>
 
 > ### diff between visibility and d none
 visibility:hidden hides the element, but it still takes up space in the layout. display:none removes the element from the document. It does not take up any space.
 
+<br>
+
+
 > ### Advantage of CSS3 over CSS
 some are Responsiveness or Media queries,new color formats Colors, advanced Animations,Border Radius,  etc
 
+<br>
+
+
 > ### how does `clear` in CSS work?
 The clear CSS property sets whether an element must be moved below (cleared) floating elements that precede it.
+
+<br>
+
 
 > ### scss notes
 
 ```
 https://learning-notes.mistermicheels.com/web/css/sass-scss/
 ```
+
+<br>
 
 > ### BEM model for naming classes
 
@@ -83,51 +107,26 @@ https://getbem.com/naming/
 
 ```
 https://www.w3schools.com/css/css_grid.asp
-https://css-tricks.com/the-css-box-model/
 https://www.w3schools.com/cssref/pr_class_position.php
 ```
 
-7. What is a CSS Preprocessor? What are Sass, Less, and Stylus? Why do people use them?
+<br>
+
+> ### What is a CSS Preprocessor? What are Sass, Less, and Stylus? Why do people use them?
 A CSS Preprocessor is a tool used to extend the basic functionality of default vanilla CSS through its own scripting language. It helps us to use complex logical syntax like – variables, functions, mixins, code nesting, and inheritance to name a few, supercharging your vanilla CSS.
 
 
-10. What is the difference between inline, inline-block, and block?
-Block Element: The block elements always start on a new line. They will also take space for an entire row or width. List of block elements are <div>, <p>.
+> ### What is the difference between inline, inline-block, and block?
+**Block Element:** The block elements always start on a new line. They will also take space for an entire row or width. List of block elements are <div>, <p>.
 
-Inline Elements: Inline elements don't start on a new line, they appear on the same line as the content and tags beside them. Some examples of inline elements are <a>, <span> , <strong>, and <img> tags. 
+**Inline Elements:** Inline elements don't start on a new line, they appear on the same line as the content and tags beside them. Some examples of inline elements are <a>, <span> , <strong>, and <img> tags. 
 
-Inline Block Elements: Inline-block elements are similar to inline elements, except they can have padding and margins and set height and width values.
+**Inline Block Elements:** Inline-block elements are `similar` to `inline` elements, `except` they can `have padding and margins and set height and width values`.
 
-
-13. Does margin-top or margin-bottom have an effect on inline elements?
+> ### Does margin-top or margin-bottom have an effect on inline elements?
 No, it doesn’t affect the inline elements. Inline elements flow with the contents of the page.
 
-The border-box property includes the content, padding and border in the height and width properties. Consider an example as shown:
-```
-div{
-    width:300px;
-    height:200px;
-    padding:15px;
-    border: 5px solid grey;
-    margin:30px;
-    -moz-box-sizing:border-box;
-    -webkit-box-sizing:border-box;
-    box-sizing:border-box;
-}
-```
-
-Here, the box-sizing for the div element is given as border-box. That means the height and width considered for the div content will also include the padding and border. This means that the actual height of the div content will be:
-
-```
-actual height = height - 
-                padding on top and bottom - 
-                border on top and bottom
-              = 200 - (15*2) - (5*2) 
-              = 160 px
-```
-
-
-What do the following CSS selectors mean?
+> ### What do the following CSS selectors mean?
 div, p\
 div p\
 div ~ p\
