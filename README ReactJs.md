@@ -1232,6 +1232,9 @@ You just need to use `HTTPS=true` configuration. You can edit your `package.json
 or just run `set HTTPS=true && npm start`
 
 
+<br>
+
+
 > ### How to update a component every second?
 
 ```jsx
@@ -1261,8 +1264,14 @@ const MyComponent = () => {
 export default MyComponent;
 ```
 
+<br>
+
+
 > ### How to programmatically trigger click event in React?
 Same as we did for the focus, just replace focus with click
+
+<br>
+
 
 
 > ### What are render props?
@@ -1305,9 +1314,15 @@ export default ChildComponent;
 ```
 
 
+<br>
+
+
 > ### What is the purpose of push() and replace() methods of history?
 
-If you think of the history as an array of visited locations, `push()` will add a new location to the array and `replace()` will replace the current location in the array with the new one.
+If you think of the `history` as an `array of visited locations`, `push()` will add a new location to the array and `replace()` will replace the current location in the array with the new one.
+
+<br>
+
 
 > ### How to pass params to history.push method in React Router v4?
 
@@ -1360,6 +1375,9 @@ const MyComponent = () => {
   return <input ref={myInputRef} />;
 };
 ```
+
+<br>
+
 
 
 > ### What are HOC factory implementations?
