@@ -47,6 +47,65 @@ https://learning-notes.mistermicheels.com/web/css/selectors/
 
 <br>
 
+
+> ### What do the following CSS selectors mean?
+div, p\
+div p\
+div ~ p\
+div + p\
+div > p
+
+The CSS selectors you mentioned are used to target HTML elements in different ways. Here’s a breakdown of what each selector does:
+
+1. **`div, p`**
+   - This is a **group selector**. It selects all `<div>` elements and all `<p>` elements in the document.
+   - Example: It will apply the same styles to both `<div>` and `<p>` elements.
+     ```css
+     div, p {
+         color: blue;
+     }
+     ```
+
+2. **`div p`**
+   - This is a **descendant selector**. It selects all `<p>` elements that are descendants of a `<div>` element (at any level).
+   - Example: It will style `<p>` elements that are inside `<div>` elements.
+     ```css
+     div p {
+         color: red;
+     }
+     ```
+
+3. **`div ~ p`**
+   - This is a **general sibling selector**. It selects all `<p>` elements that are siblings of a `<div>` element and come after it in the document.
+   - Example: It will style `<p>` elements that follow a `<div>` element as a sibling.
+     ```css
+     div ~ p {
+         color: green;
+     }
+     ```
+
+4. **`div + p`**
+   - This is an **adjacent sibling selector**. It selects the `<p>` element that immediately follows a `<div>` element as a sibling.
+   - Example: It will style the first `<p>` element that directly follows a `<div>` element.
+     ```css
+     div + p {
+         color: orange;
+     }
+     ```
+
+5. **`div > p`**
+   - This is a **child selector**. It selects all `<p>` elements that are direct children of a `<div>` element.
+   - Example: It will style `<p>` elements that are direct children of `<div>` elements.
+     ```css
+     div > p {
+         color: purple;
+     }
+     ```
+
+Each selector allows for different levels of specificity and targeting, enabling precise control over the styling of HTML elements.
+
+<br>
+
 > ### Box-Sizing :
 - The box-sizing property in CSS is used to control how the total width and height of an HTML element is calculated. It has two possible values: `content-box and border-box`.
 - The `default value` for box-sizing is `content-box`. This means that the `width and height of an element` are calculated `based` on the `content` of the element, `excluding` `padding and border`.
@@ -121,68 +180,21 @@ A CSS Preprocessor is a tool used to extend the basic functionality of default v
 
 **Block Element:** The block elements always start on a new line. They will also take space for an entire row or width. List of block elements are `<div>`, `<p>`.
 
-**Inline Elements:** Inline elements don't start on a new line, they appear on the same line as the content and tags beside them. Some examples of inline elements are <a>, <span> , <strong>, and <img> tags. 
+**Inline Elements:** Inline elements don't start on a new line, they appear on the same line as the content and tags beside them. Some examples of inline elements are `<a>`, `<span>` , `<strong>`, and `<img>` tags. 
 
 **Inline Block Elements:** Inline-block elements are `similar` to `inline` elements, `except` they can `have padding and margins and set height and width values`.
+
+
+<br>
+
 
 > ### Does margin-top or margin-bottom have an effect on inline elements?
 No, it doesn’t affect the inline elements. Inline elements flow with the contents of the page.
 
-> ### What do the following CSS selectors mean?
-div, p\
-div p\
-div ~ p\
-div + p\
-div > p
+<br>
 
-The CSS selectors you mentioned are used to target HTML elements in different ways. Here’s a breakdown of what each selector does:
 
-1. **`div, p`**
-   - This is a **group selector**. It selects all `<div>` elements and all `<p>` elements in the document.
-   - Example: It will apply the same styles to both `<div>` and `<p>` elements.
-     ```css
-     div, p {
-         color: blue;
-     }
-     ```
 
-2. **`div p`**
-   - This is a **descendant selector**. It selects all `<p>` elements that are descendants of a `<div>` element (at any level).
-   - Example: It will style `<p>` elements that are inside `<div>` elements.
-     ```css
-     div p {
-         color: red;
-     }
-     ```
-
-3. **`div ~ p`**
-   - This is a **general sibling selector**. It selects all `<p>` elements that are siblings of a `<div>` element and come after it in the document.
-   - Example: It will style `<p>` elements that follow a `<div>` element as a sibling.
-     ```css
-     div ~ p {
-         color: green;
-     }
-     ```
-
-4. **`div + p`**
-   - This is an **adjacent sibling selector**. It selects the `<p>` element that immediately follows a `<div>` element as a sibling.
-   - Example: It will style the first `<p>` element that directly follows a `<div>` element.
-     ```css
-     div + p {
-         color: orange;
-     }
-     ```
-
-5. **`div > p`**
-   - This is a **child selector**. It selects all `<p>` elements that are direct children of a `<div>` element.
-   - Example: It will style `<p>` elements that are direct children of `<div>` elements.
-     ```css
-     div > p {
-         color: purple;
-     }
-     ```
-
-Each selector allows for different levels of specificity and targeting, enabling precise control over the styling of HTML elements.
 
 
 Can you name the four types of @media properties?\
