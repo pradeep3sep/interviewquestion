@@ -12,7 +12,6 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascr
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/git-rebase/git-rebase.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/IMPORANT-Gitignore-a-file-thats-ALREADY-PUSHED-to-Git%20.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/careercup/google-biz-trip-boardingPass.js
-https://github.com/leonardomso/33-js-concepts
 https://www.atlassian.com/git/tutorials/merging-vs-rebasing
 what is the difference between cache-control:no-cache and cache-control:no-store?
 ```
@@ -48,6 +47,11 @@ https://www.youtube.com/watch?v=ZrMO0bCGwFg&list=PLKhlp2qtUcSYQojD5G-ElgHezoCyq2
 Repo for the various react package
 ```
 https://github.com/pradeep3sep/All-react-details-AtoZ
+```
+
+If you want to understand any JS concept with help of multiple refrence website and video, refer below repo
+```
+https://github.com/leonardomso/33-js-concepts
 ```
 
 Pending Repo
