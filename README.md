@@ -12,7 +12,6 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Javascr
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/git-rebase/git-rebase.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Git-and-Github/IMPORANT-Gitignore-a-file-thats-ALREADY-PUSHED-to-Git%20.md
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Collection-of-Popular-Problems-with-Solutions/careercup/google-biz-trip-boardingPass.js
-https://github.com/ryanmcdermott/clean-code-javascript
 https://github.com/leonardomso/33-js-concepts
 https://www.atlassian.com/git/tutorials/merging-vs-rebasing
 what is the difference between cache-control:no-cache and cache-control:no-store?
@@ -63,6 +62,7 @@ https://github.com/jayesh2906/JavaScript-with-JC/tree/master
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews
 https://github.com/sadanandpai/frontend-mini-challenges
 https://bigfrontend.dev/react
+https://github.com/ryanmcdermott/clean-code-javascript
 ```
 
 
