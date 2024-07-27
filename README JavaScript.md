@@ -583,6 +583,126 @@ axios.get(‘http://www.somepage.com')
 });
 
 ```
+<br>
+
+> ### what are the various type of scope in js, explain with example and also show how they are differentiate with other with example or code
+
+In JavaScript, scope determines the visibility and accessibility of variables, functions, and objects in different parts of your code. There are mainly four types of scope:
+
+1. **Global Scope**
+2. **Function Scope**
+3. **Block Scope**
+4. **Module Scope**
+
+### 1. Global Scope
+Variables declared outside any function or block have global scope. They can be accessed from anywhere in the code.
+
+```js
+var globalVar = "I am a global variable";
+
+function showGlobalVar() {
+  console.log(globalVar); // I am a global variable
+}
+
+showGlobalVar();
+console.log(globalVar); // I am a global variable
+```
+
+### 2. Function Scope
+Variables declared within a function are accessible only within that function. JavaScript uses the `var` keyword for function-scoped variables.
+
+```js
+function showFunctionScope() {
+  var functionVar = "I am a function-scoped variable";
+  console.log(functionVar); // I am a function-scoped variable
+}
+
+showFunctionScope();
+console.log(functionVar); // ReferenceError: functionVar is not defined
+```
+
+### 3. Block Scope
+Variables declared with `let` or `const` within a block (e.g., within `{}`) are only accessible within that block. Block scope is a feature introduced in ES6.
+
+```js
+if (true) {
+  let blockVar = "I am a block-scoped variable";
+  const blockConst = "I am also a block-scoped constant";
+  console.log(blockVar); // I am a block-scoped variable
+  console.log(blockConst); // I am also a block-scoped constant
+}
+
+console.log(blockVar); // ReferenceError: blockVar is not defined
+console.log(blockConst); // ReferenceError: blockConst is not defined
+```
+
+### 4. Module Scope
+When using ES6 modules, variables, functions, and classes declared in a module are scoped to that module. They are not added to the global scope.
+
+```js
+// module1.js
+export const moduleVar = "I am a module-scoped variable";
+
+// module2.js
+import { moduleVar } from './module1.js';
+console.log(moduleVar); // I am a module-scoped variable
+
+// global scope doesn't know about moduleVar
+console.log(window.moduleVar); // undefined
+```
+
+### Differentiating Scope with Examples
+
+#### Global vs. Function Scope
+
+```js
+var globalVar = "I am global";
+
+function testScope() {
+  var functionVar = "I am local to function";
+  console.log(globalVar); // I am global
+  console.log(functionVar); // I am local to function
+}
+
+testScope();
+console.log(functionVar); // ReferenceError: functionVar is not defined
+```
+
+#### Function Scope vs. Block Scope
+
+```js
+function testFunctionScope() {
+  if (true) {
+    var functionVar = "I am function-scoped";
+    let blockVar = "I am block-scoped";
+    const blockConst = "I am also block-scoped";
+    console.log(functionVar); // I am function-scoped
+    console.log(blockVar); // I am block-scoped
+    console.log(blockConst); // I am also block-scoped
+  }
+  console.log(functionVar); // I am function-scoped
+  console.log(blockVar); // ReferenceError: blockVar is not defined
+  console.log(blockConst); // ReferenceError: blockConst is not defined
+}
+
+testFunctionScope();
+```
+
+#### Module Scope
+
+```js
+// module1.js
+export const moduleVar = "I am a module-scoped variable";
+
+// module2.js
+import { moduleVar } from './module1.js';
+console.log(moduleVar); // I am a module-scoped variable
+
+// global scope doesn't know about moduleVar
+console.log(window.moduleVar); // undefined
+```
+
+Understanding these scopes is essential for writing clean, modular, and error-free code in JavaScript. Each type of scope serves a different purpose and helps in organizing code better.
 
 <br>
  
