@@ -21,6 +21,9 @@ import Stopwatch from '@/challenges/stopwatch/stopwatch';
 import DisplayWithDelay from '@/challenges/DisplayWithDelay/DisplayWithDelay';
 import SearchBar from '@/challenges/SearchBar/SearchBar';
 import CaptureClickPosition from '@/challenges/CaptureClickPosition/CaptureClickPosition';
+import Poll from '@/challenges/Poll-widget/Poll';
+import Infinite from '@/challenges/Infinite-scroll/Infinite';
+import EventEmitter from '@/challenges/Event-emitter/EventEmitter';
 
 export const reactChallengesMap: ReactChallengesMap = {
     '/': <Home />,
@@ -44,5 +47,8 @@ export const reactChallengesMap: ReactChallengesMap = {
     'stopwatch': <Stopwatch/>,
     'Display-Delay': <DisplayWithDelay/>,
     'searchBar-with-highlight': <SearchBar/>,
-    'CaptureClickPosition': <CaptureClickPosition/>
+    'CaptureClickPosition': <CaptureClickPosition/>,
+    'Poll': <Poll />,
+    'Infinite-scroll': <Infinite />,
+    'Event-emitter': <EventEmitter/>
 };
