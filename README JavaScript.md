@@ -49,6 +49,21 @@ console.log(Infinity / Infinity)  // NaN
 console.log(!![])  // true
 ```
 
+The code `console.log(1 + +true)` results in the output `2`.
+
+Here’s why:
+
+1. `true` is a boolean value in JavaScript.
+2. The unary plus operator (`+`) is used to convert its operand to a number.
+3. Applying the unary plus operator to `true` converts it to the number `1`.
+4. So, `+true` becomes `1`.
+5. Then, the expression `1 + 1` is evaluated, which equals `2`.
+6. Finally, `console.log(2)` outputs `2` to the console.
+
+Thus, the output is `2`.
+
+
+
 <br>
 
 > ### special case
