@@ -1,3 +1,9 @@
+> ### Callback hell full code
+```
+https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise-Async-Await-Sequential-Execution/Promise-async-await-master-notes/calback-hell-resolved-with-promise.js
+```
+
+
 > ### to get the paragraph length
 ```js
 const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
@@ -35,7 +41,7 @@ console.log(1 + undefined)  // NaN
 console.log(1 + + undefined)  // NaN
 console.log('1' + undefined)  // 1undefined
 console.log(typeof null)   // object
-console.log(null instanceof Object)  // falsw
+console.log(null instanceof Object)  // false
 console.log(1 instanceof Number) // false
 console.log(Number(1) instanceof Object)  // false
 console.log(new Number(1) instanceof Object)  // true
@@ -128,7 +134,7 @@ JSON.stringify({ [Symbol("foo")]: "foo" });
 
 
 > ### Arguments in function
-- Non-strict functions that only have simple parameters (that is, no rest, default, or destructured parameters) will sync the new value of parameters with the arguments object, and vice versa:
+- Non-strict functions that only have simple parameters (that is, no `rest`, `default`, or `destructured` parameters) will sync the new value of parameters with the arguments object, and vice versa:
 
 ```js
 function func(a) {
@@ -176,6 +182,9 @@ function log(a,b,c,d) {
 }
 
 log(1,2,3)
+
+// 1 2 3 undefined
+// bfe 2 3 undefined
 ```
 <br>
 
@@ -209,7 +218,7 @@ console.log(returnedTarget === target);
 
 <br>
  
-### Object.create() 
+> ### Object.create() 
 
 The `Object.create()` static method creates a new object, using an existing object as the `prototype` of the newly created object.
 
@@ -237,7 +246,7 @@ console.log(me)
 
 <br>
  
-### Object.defineProperty()
+> ### Object.defineProperty()
 
 The Object.defineProperty() static method defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
 
@@ -259,7 +268,7 @@ console.log(object1.property1);
 
 <br>
  
-### Object.defineProperties()
+> ### Object.defineProperties()
 
 The `Object.defineProperties()` static method defines new or modifies existing properties directly on an object, returning the object.
 
@@ -284,7 +293,7 @@ console.log(object1.property1);
 
 <br>
  
-### Object.getOwnPropertyDescriptor()
+> ### Object.getOwnPropertyDescriptor()
 
 The Object.getOwnPropertyDescriptor() static method returns an object describing the configuration of a specific property on a given object (that is, one directly present on an object and not in the object's prototype chain). The object returned is mutable but mutating it has no effect on the original property's configuration.
 
@@ -312,7 +321,7 @@ console.log(descriptor1.value);
 
 <br>
  
-### Object.is()
+> ### Object.is()
 
 The Object.is() static method determines whether two values are the same value.
 
@@ -333,7 +342,7 @@ console.log(Object.is(obj, {}));
 
 <br>
  
-### Object.hasOwn()
+> ### Object.hasOwn()
 
 **Note**: `Object.hasOwn()` is intended as a `replacement` for `Object.prototype.hasOwnProperty()`.
 
@@ -357,7 +366,7 @@ console.log(Object.hasOwn(object1, 'undeclaredPropertyValue'));
 <br>
  
 
-### Object.getOwnPropertyNames()
+> ### Object.getOwnPropertyNames()
 
 The Object.getOwnPropertyNames() static method returns an array of all properties (including non-enumerable properties except for those which use Symbol) found directly in a given object.
 
@@ -404,7 +413,7 @@ console.log(Object.isExtensible(newObject)); //true
 
 <br>
 
-### Array.prototype.at()
+> ### Array.prototype.at()
 
 The `at()` method of Array instances takes an integer value and returns the item at that index, allowing for positive and negative integers. Negative integers count back from the last item in the array.
 
@@ -472,12 +481,6 @@ const result = arr1.flatMap((num) => (num === 2 ? [2, 2] : 1));
 
 console.log(result);
 // Expected output: Array [1, 2, 2, 1]
-```
-
-<br>
- 
-```
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise-Async-Await-Sequential-Execution/Promise-async-await-master-notes/calback-hell-resolved-with-promise.js
 ```
 
 <br>
@@ -577,7 +580,7 @@ Async/Await enables us to write asynchronous code in a synchronous fashion, whic
 
 <br>
  
-> ### When we retun in then of promise
+> ### When we return in then of promise
 ```js
 const axios = require(‘axios’);
 
@@ -610,7 +613,7 @@ In JavaScript, scope determines the visibility and accessibility of variables, f
 4. **Module Scope**
 
 ### 1. Global Scope
-Variables declared outside any function or block have global scope. They can be accessed from anywhere in the code.
+Variables declared `outside any function or block` have global scope. They can be accessed from anywhere in the code.
 
 ```js
 var globalVar = "I am a global variable";
@@ -624,7 +627,7 @@ console.log(globalVar); // I am a global variable
 ```
 
 ### 2. Function Scope
-Variables declared within a function are accessible only within that function. JavaScript uses the `var` keyword for function-scoped variables.
+Variables declared `within a function` are accessible only within that function. JavaScript uses the `var` keyword for function-scoped variables.
 
 ```js
 function showFunctionScope() {
@@ -634,6 +637,13 @@ function showFunctionScope() {
 
 showFunctionScope();
 console.log(functionVar); // ReferenceError: functionVar is not defined
+```
+
+```js
+if(1){
+    var a = "a"
+}
+console.log(a) // "a"
 ```
 
 ### 3. Block Scope
