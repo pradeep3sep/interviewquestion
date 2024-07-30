@@ -364,7 +364,7 @@ console.log(daya);
   <p>[1, 3, 10, 11, 12]</p>
 </details>
 
-### Question 21
+### Question 22
 ```js
 const items = [
     { name: 'Edward', value: 21 },
@@ -389,7 +389,7 @@ items.sort(function(a, b){
 console.log(items);
 ```
 
-### Question 22
+### Question 23
 ```js
 let number = 9966
 let data = number.toLocaleString()
@@ -400,7 +400,7 @@ let data = number.toLocaleString()
 </details>
 
 
-### Question 23
+### Question 24
 ```js
 function check(num1){
     return (num2)=>{
@@ -416,7 +416,7 @@ console.log(check(4)(2)(3));
   <p>24</p>
 </details>
 
-### Question 24
+### Question 25
 ```js
 let array = [2,3,[5,2,[6,[3, [4, 5, [5, 1, 3]]]],1,1],9];
 //flat without using flat
@@ -427,7 +427,7 @@ console.log(array.toString().split(','));
   <p> ['2', '3', '5', '2', '6', '3', '4', '5', '5', '1', '3', '1', '1', '9']</p>
 </details>
 
-### Question 25
+### Question 26
 ```js
 const firstname = fun()
 let name = 'ram'
@@ -443,7 +443,7 @@ console.log(firstname);
   </p>
 </details>
 
-### Question 26 , output of below code
+### Question 27 , output of below code
 ```js
 // first
 for (let i = 0; i < 5; i++) {
@@ -493,7 +493,7 @@ log for the `third`, it will show at instant
 4
 </details>
 
-### Question 27
+### Question 28
 ```js
 var num = 4;
 function outer(){
@@ -513,7 +513,7 @@ outer()
 </details>
 
 
-### Question 28
+### Question 29
 ```js
 const obj = {
   prop1: function () {
@@ -537,7 +537,7 @@ console.log(obj.prop3());
   <p>0 <br> 1 <br> 2</p>
 </details>
 
-### Question 29
+### Question 30
 ```js
 console.log(1 < 2 < 3);
 console.log(3 > 2 > 1);
@@ -548,7 +548,7 @@ console.log(3 > 2 > 1);
   <p>true,false</p>
 </details>
 
-### Question 30
+### Question 31
 ```js
 function printNumbers(first, second, first) {
   console.log(first, second, first);
@@ -560,7 +560,7 @@ printNumbers(1, 2, 3);
   <p>3, 2, 3</p>
 </details>
 
-### Question 31
+### Question 32
 ```js
 console.log(Math.max());
 ```
@@ -569,7 +569,7 @@ console.log(Math.max());
   <p>-Infinity</p>
 </details>
 
-### Question 32
+### Question 33
 ```js
 console.log(10 == [10]);
 console.log(10 == [[[[[[[10]]]]]]]);
@@ -591,7 +591,7 @@ So it doesn't matter about number brackets([]) around the number, it is always c
 </details>
 
 
-### Question 33
+### Question 34
 ```js
 console.log([0] == false);
 if ([0]) {
@@ -608,7 +608,7 @@ if ([0]) {
 </details>
 
 
-### Question 34
+### Question 35
 ```js
 console.log([1, 2] + [3, 4]);
 ```
@@ -617,7 +617,7 @@ console.log([1, 2] + [3, 4]);
   <p>1,23,4</p>
 </details>
 
-### Question 35
+### Question 36
 ```js
 let numbers = [1, 2, 3, 4, NaN];
 console.log(numbers.indexOf(NaN));
@@ -627,7 +627,7 @@ console.log(numbers.indexOf(NaN));
   <p>-1</p>
 </details>
 
-### Question 36
+### Question 37
 ```js
 async function func() {
   return 10;
@@ -656,7 +656,7 @@ function func() {
 </details>
 
 
-### Question 37
+### Question 38
 ```js
 async function func() {
   await 10;
@@ -682,7 +682,7 @@ function func() {
 </details>
 
 
-### Question 38
+### Question 39
 ```js
 let message = 'Hello World!';
 message[0] = 'J'
@@ -705,7 +705,7 @@ console.log(name);
  In JavaScript, primitives are immutable i.e. there is no way to change a primitive value once it gets created. So when you try to update the string's first character, there is no change in the string value and prints the same initial value Hello World!. Whereas in the later example, the concatenated value is re-assigned to the same variable which will result into creation of new memory block with the reference pointing to John Smith value and the old memory block value(John) will be garbage collected.
 </details>
 
-### Question 39
+### Question 40
 ```js
 var a = [1,2,3]
 var b = [1,2,3]
@@ -723,7 +723,7 @@ console.log(a == b)
  arrays are coerced to strings by simply joining all the values with comma(,) in between
 </details>
 
-### Question 40
+### Question 41
 ```js
 'a' < 'b' 
 'a' > 'b' 
@@ -741,7 +741,7 @@ console.log(a == b)
 42 > 'hh'  // gives false because the both are different data type so 'hh' are coerced to NaN and the comparison becomes 42 > NaN
 </details>
 
-### Question 41
+### Question 42
 ```js
 +true;
 !'Lydia';
@@ -751,7 +751,7 @@ console.log(a == b)
   <p>1 <br> false</p>
 </details>
 
-### Question 42
+### Question 43
 ```js
 class Chameleon {
   static colorChange(newColor) {
@@ -780,7 +780,7 @@ console.log(freddie.colorChange('orange'));
 
 </details>
 
-### Question 43
+### Question 44
 ```js
 function Person(firstName, lastName) {
   this.firstName = firstName;
@@ -811,7 +811,7 @@ We said that `this.firstName` equals `"Sarah"` and `this.lastName` equals `"Smit
 </details>
 
 
-### Question 44
+### Question 45
 ```js
 function getPersonInfo(one, two, three) {
   console.log(one);
@@ -835,7 +835,7 @@ getPersonInfo`${person} is ${age} years old`;
   <p>If you use tagged template literals, the value of the `first argument` is always an `array of the string values`. The `remaining` arguments get the `values of the passed expressions`!</p>
 </details>
 
-### Question 45
+### Question 46
 ```js
 const obj = { 1: 'a', 2: 'b', 3: 'c' };
 const set = new Set([1, 2, 3, 4, 5]);
@@ -861,7 +861,7 @@ It doesn't work that way for a set. There is no `'1'` in our set: `set.has('1')`
 </details>
 
 
-### Question 46
+### Question 47
 ```js
 function sayHi() {
   return (() => 0)();
@@ -882,7 +882,7 @@ console.log(typeof sayHi());
   The `sayHi` function returns the returned value of the immediately invoked function expression (IIFE). This function returned `0`, which is type `"number"`.
 </details>
 
-### Question 47
+### Question 48
 
 ```js
 const firstPromise = new Promise((res, rej) => {
@@ -908,7 +908,7 @@ Promise.race([firstPromise, secondPromise]).then(res => console.log(res));
   When we pass multiple promises to the `Promise.race` method, it resolves/rejects the first promise that resolves/rejects. To the `setTimeout` method, we pass a timer: 500ms for the first promise (`firstPromise`), and 100ms for the second promise (`secondPromise`). This means that the `secondPromise` resolves first with the value of `'two'`. `res` now holds the value of `'two'`, which gets logged.
 </details>
 
-### Question 48
+### Question 49
 ```js
 function getInfo(member, year) {
   member.name = 'Lydia';
@@ -939,7 +939,7 @@ The variable `birthYear` has a reference to the value `"1997"`. The argument `ye
 The value of `person` is an object. The argument `member` has a (copied) reference to the same object. When we modify a property of the object `member` has a reference to, the value of `person` will also be modified, since they both have a reference to the same object. `person's` `name` property is now equal to the value `"Lydia"`
 </details>
 
-### Question 49
+### Question 50
 
 ```js
 function Car() {
@@ -964,7 +964,7 @@ console.log(myCar.make);
 </details>
 
 
-### Question 50
+### Question 51
 ```js
 // counter.js
 let counter = 10;
@@ -996,7 +996,7 @@ When we try to increment the value of `myCounter`, it throws an error: `myCounte
 
 </details>
 
-### Question 51
+### Question 52
 ```js
 const name = 'Lydia';
 age = 21;
@@ -1023,7 +1023,7 @@ The `name` variable was declared with a `const` keyword, so its deletion is not 
 </details>
 
 
-### Question 52
+### Question 53
 
 ```js
 const person = { name: 'Lydia' };
@@ -1050,7 +1050,7 @@ Properties added using the `defineProperty` method are immutable by default. You
 </details>
 
 
-### Question 53
+### Question 54
 
 ```js
 const settings = {
@@ -1082,7 +1082,7 @@ The second argument of `JSON.stringify` is the replacer. The `replacer` can eith
 
 
 
-### Question 54
+### Question 55
 
 ```js
 let num = 10;
@@ -1113,7 +1113,7 @@ console.log(num2);
 </details>
 
 
-### Question 55
+### Question 56
 ```js
 const value = { number: 10 };
 
@@ -1147,7 +1147,7 @@ The fourth time, we pass the value object again. x.number was previously modifie
 </details>
 
 
-### Question 56
+### Question 57
 
 ```js
 async function getData() {
@@ -1184,7 +1184,7 @@ console.log(data);
 
 </details>
 
-### Question 57
+### Question 58
 
 ```js
 const add = () => {
@@ -1219,7 +1219,7 @@ console.log(addFunction(5 * 2));
 </details>
 
 
-### Question 58
+### Question 59
 
 ```js
 class Person {
@@ -1245,7 +1245,7 @@ Calling a function constructor with `new` results in the creation of an instance
 
 </details>
 
-### Question 59
+### Question 60
 
 ```js
 [1, 2, 3, 4].reduce((x, y) => console.log(x, y));
@@ -1275,7 +1275,7 @@ On the fourth call, we again don't return from the callback function. The accumu
 </details>
 
 
-### Question 60
+### Question 61
 
 ```js
 class Person {
@@ -1307,7 +1307,7 @@ console.log(member.name);
 </details>
 
 
-### Question 61
+### Question 62
 
 ```js
 const info = {
@@ -1334,7 +1334,7 @@ You can still `access symbols` using the `Object.getOwnPropertySymbols()` method
 </details>
 
 
-### Question 62
+### Question 63
 
 ```js
 const getList = ([x, ...y]) => [x, y]
@@ -1368,7 +1368,7 @@ or
 `const getUser = user => { return { name: user.name, age: user.age }}`
 </details>
 
-### Question 63.a
+### Question 64.a
 
 ```js
 const myPromise = () => Promise.resolve('I have resolved!');
@@ -1402,7 +1402,7 @@ secondFunction();
 With the await keyword in `secondFunction`, we literally pause the execution of an async function until the value has been resolved before moving to the next line.
 </details>
 
-### Question 63.b
+### Question 64.b
 
 ```js
 const myPromise = Promise.resolve(Promise.resolve('Promise'));
@@ -1436,7 +1436,7 @@ funcTwo();
 
 
 
-### Question 64
+### Question 65
 
 ```js
 let name = 'Lydia';
@@ -1462,7 +1462,7 @@ getName();
   Variables with the `let` keyword (and `const`) are hoisted, but unlike `var`, don't get initialized. They are not accessible before the line we declare (initialize) them. This is called the "temporal dead zone". When we try to access the variables before they are declared, JavaScript throws a `ReferenceError`
 </details>
 
-### Question 65
+### Question 66
 
 ```js
 function* generatorOne() {
@@ -1494,7 +1494,7 @@ console.log(two.next().value);
 </details>
 
 
-### Question 66
+### Question 67
 
 ```js
 console.log(`${(x => x)('I love')} to program`);
@@ -1514,7 +1514,7 @@ console.log(`${(x => x)('I love')} to program`);
 
 
 
-### Question 67
+### Question 68
 
 
 ```js
@@ -1575,7 +1575,7 @@ clearInterval(config.alert);
 In summary, after setting `config` to `null`, the 'Alert!' messages will continue to appear every second because `setInterval` is still running.
 </details>
 
-### Question 68
+### Question 69
 
 ```js
 const config = {
@@ -1603,7 +1603,7 @@ console.log(config.language);
 </details>
 
 
-### Question 69
+### Question 70
 
 ```js
 async function* range(start, end) {
@@ -1681,7 +1681,7 @@ In this example, `range` is an asynchronous generator function that yields promi
 </details>
 
 
-### Question 70
+### Question 71
 
 ```js
 const myFunc = ({ x, y, z }) => {
@@ -1705,7 +1705,7 @@ myFunc(1, 2, 3);
 </details>
 
 
-### Question 71
+### Question 72
 
 ```js
 class Counter {
@@ -1855,7 +1855,7 @@ console.log(updatedUser === user)
 </details>
 
 
-### Question 75
+### Question 76
 
 ```js
 const promise1 = Promise.resolve('First')
@@ -1888,7 +1888,7 @@ runPromises()
 </details>
 
 
-### Question 76
+### Question 77
 ```js
 What is value of 3 instanceof Number
 ```
@@ -1898,7 +1898,7 @@ What is value of 3 instanceof Number
 </details>
 
 
-### Question 77
+### Question 78
 
 ```js
 var foo = 'outside';
@@ -1915,7 +1915,7 @@ logIt();
 </details>
 
 
-### Question 78
+### Question 79
 Why below gives true
 ```js
 .1+.2 != .3
@@ -1930,7 +1930,7 @@ In particular only certain sums of powers of two are exactly representable. 0.5 
 </details>
 
 
-### Question 79
+### Question 80
 For which value of `x` the results of the following statements are not the same?
 
 ```js
@@ -1948,7 +1948,7 @@ The same holds true for any value of x that being converted to type Number, retu
 This is why you need to pay attention when you deal with numeric variables. `NaN` can’t be equal, less than or more than any other numeric value, so the only reliable way to check if the value is `NaN`, is to use the `isNaN()` function.
 </details>
 
-### Question 80
+### Question 81
 
 Guess the result
 
@@ -1979,7 +1979,7 @@ Outer func: this.foo = undefined\
 Outer func: self.foo = bar
 </details>
 
-### Question 81
+### Question 82
 Guess the output
 
 ```js
@@ -1999,7 +1999,7 @@ console.log(customObject.get_price())
   <p>20.99</p>
 </details>
 
-### Question 82
+### Question 83
 
 ```js
 (function (a) {
@@ -2015,7 +2015,7 @@ console.log(customObject.get_price())
 
 ### Below 3 cases must see, why having the issue
 
-### Question 83
+### Question 84
 
 ```js
 function Car(color) {
@@ -2031,7 +2031,7 @@ console.log(Car.prototype.currentGear)
   <p>2 <br> 1</p>
 </details>
 
-### Question 84
+### Question 85
 
 ```js
 var User = function () {}
@@ -2050,7 +2050,7 @@ alert(guest.attributes.isAdmin)
 </details>
 
 
-### Question 85
+### Question 86
 
 ```js
 function Person(name) {
@@ -2070,7 +2070,7 @@ console.log(bar.options.name)
   <p>bar, bar</p>
 </details>
 
-### Question 86
+### Question 87
 
 ```js
 var a = {};
@@ -2085,7 +2085,7 @@ console.log(a)
   <p>{a: 10}</p>
 </details>
 
-### Question 87
+### Question 88
 
 ```js
 var obj = {
@@ -2104,7 +2104,7 @@ console.log(obj.a)
   <p>1</p>
 </details>
 
-### Question 88
+### Question 89
 below 2 code will show different answers
 
 ```js
@@ -2202,7 +2202,7 @@ undefined
 The behavior here is due to the `var` keyword's hoisting nature, which makes the variable declaration (`var player;`) visible throughout the function but not the initialization (`player = "VK";`). Hence, the variable is declared but not initialized when accessed inside the `if` block and remains `undefined` throughout the function execution.
 </details>
 
-### Question 89
+### Question 90
 ```js
 // No Strict Mode
   name = "Jayesh"; // window.name ( property of window object )
@@ -2229,7 +2229,7 @@ Answer is A) true, false, JC because delete keyword deletes only property of an 
 </details>
 
 
-### Question 90
+### Question 91
 
 ```js
 const arr = [];
@@ -4300,7 +4300,7 @@ b\
 b
 </details>
 
-### Question 150
+### Question 149
 
 ```js
 function* gen() {
@@ -4375,7 +4375,7 @@ The value `6` is not included in the array because `return` values from generato
 </details>
 
 
-### Question 151
+### Question 150
 
 ```js
 async function async1(){
@@ -4422,7 +4422,7 @@ console.log(8)
 </details>
 
 
-### Question 152
+### Question 151
 
 ```js
 var a = 1;
@@ -4452,7 +4452,7 @@ NaN\
 
 
 
-### Question 153
+### Question 152
 
 ```js
 let num
@@ -4477,7 +4477,7 @@ for (let i = 0; i < 5; i++) {
 </details>
 
 
-### Question 154
+### Question 153
 
 ```js
 class A {
@@ -4530,7 +4530,7 @@ Here's a short explanation:
 </details>
 
 
-### Question 155
+### Question 154
 
 ```jsx
 import React, { useState, useEffect} from 'react'
@@ -4586,7 +4586,7 @@ root.render(<App/>)
  */
 
 ```
-### Question 156
+### Question 155
 
 ```jsx
 import React, { useState, useEffect, memo } from 'react'
@@ -4636,7 +4636,7 @@ A
 D*/
 ```
 
-### Question 157
+### Question 156
 
 ```js
 import React, { useState, useEffect } from 'react'
@@ -4687,7 +4687,7 @@ B
 C
 D*/
 ```
-### Question 158
+### Question 157
 
 ```js
 import React, { useState, useEffect } from 'react'
@@ -4800,60 +4800,60 @@ App
 B
 C */
 
-React Rendering Process
+// React Rendering Process
 
- - Trigger Re-render: When the state of a component changes, React schedules a re-render of that component and all of its children.
+ // - Trigger Re-render: When the state of a component changes, React schedules a re-render of that component and all of its children.
 Render in JSX Order: React renders the children in the order they appear in the JSX tree.
 
- - Context Consumers: When a context value changes, all consumers of that context will re-render, but they will still follow the rendering order defined by the parent component.
+ // - Context Consumers: When a context value changes, all consumers of that context will re-render, but they will still follow the rendering order defined by the parent component.
 ```
 
-### Question 158 
+### Question 160
 
 ```jsx
 ```
 
-### Question 158 
+### Question 161
 
 ```jsx
 ```
 
-### Question 158 
+### Question 162
 
 ```jsx
 ```
 
-### Question 158 
+### Question 163 
 
 ```jsx
 ```
 
-### Question 158 
+### Question 164 
 
 ```jsx
 ```
 
-### Question 158 
+### Question 165 
 
 ```jsx
 ```
 
-### Question 158 
+### Question 166 
 
 ```jsx
 ```
 
-### Question 158 
+### Question 167 
 
 ```jsx
 ```
 
-### Question 158 
+### Question 168 
 
 ```jsx
 ```
 
-### Question 158 
+### Question 169
 
 ```jsx
 ```
