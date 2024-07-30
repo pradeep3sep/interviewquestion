@@ -1158,10 +1158,12 @@ const data = getData();
 console.log(data);
 ```
 
+```
 - A: "I made it!"
 - B: "Promise {<resolved>: "I made it!"}"
 - C: "Promise {<pending>}"
 - D: "undefined"
+```
 
 <details>
   <summary>Answer</summary>
