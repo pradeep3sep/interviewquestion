@@ -4612,7 +4612,7 @@ function D() {
   return null
 }
 
-function App() {
+export function App() {
   const [state, setState] = useState(0)
   useEffect(() => {
     setState(state => state + 1)
@@ -4662,7 +4662,7 @@ function D() {
   return null
 }
 
-function App() {
+export function App() {
   const [state, setState] = useState(0)
   useEffect(() => {
     setState(state => state + 1)
@@ -4675,6 +4675,17 @@ function App() {
     </div>
   )
 }
+
+/*App
+A
+B
+C
+D
+App
+A
+B
+C
+D*/
 ```
 ### Question 158
 
@@ -4718,7 +4729,7 @@ function D() {
   return null
 }
 
-function App() {
+export function App() {
   console.log('App')
   return (
     <div>
