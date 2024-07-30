@@ -3993,13 +3993,20 @@ console.log([...arr])
   <summary>Answer</summary>
   <p>Answer is </p>
 
+forEach case \
 1\
 2\
+
+map case
 [ 2, <2 empty items>, 4 ]\
+
+loop case\
 1\
 undefined\
 undefined\
 2\
+
+spread case\
 [ 1, undefined, undefined, 2 ]
 </details>
 
@@ -4293,30 +4300,6 @@ b\
 b
 </details>
 
-### Question 149
-
-```js
-function* genA() {
-  yield [1, 2, 3]
-}
-
-function* genB() {
-  yield* [1, 2, 3]
-}
-
-console.log(genA().next().value)
-console.log(genB().next().value)
-
-```
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer is </p>
-
-[ 1, 2, 3 ]\
-1
-</details>
-
 ### Question 150
 
 ```js
@@ -4522,6 +4505,28 @@ new B().log();
 
 BFE\
 bigfrontend
+
+
+
+Here's a short explanation:
+
+1. **Static vs. Instance Properties**:
+   - `A.dev` is a static property (`"BFE"`).
+   - `new A().dev` is an instance property (`"bigfrontend"`).
+
+2. **Class `B` Inherits from `A`**:
+   - `B` inherits static property `dev` from `A`.
+   - `new B()` inherits instance property `dev` from `A`.
+
+3. **Static Method in `B`**:
+   - `B.log()` refers to the static property `dev` of `B`, which is `"BFE"`.
+
+4. **Instance Method in `B`**:
+   - `new B().log()` refers to the instance property `dev` of the `B` instance, which is `"bigfrontend"`.
+
+### Output
+- `B.log();` → `"BFE"`
+- `new B().log();` → `"bigfrontend"`
 </details>
 
 
