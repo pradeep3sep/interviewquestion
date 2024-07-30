@@ -1,4 +1,4 @@
-// 18,19,30,33,35,39,40,42,43 must see solution,44,49,52, full explanation of 53,56,67
+// 18,19,30,33,35,39,40,42,43 must see solution,44,49,52, full explanation of 53,56,67,83,86,90
 
 ### Question 1
 ```js
@@ -1973,32 +1973,11 @@ myObject.func()
 <details>
   <summary>Answer</summary>
 
-Outer func: this.foo = bar
-Outer func: self.foo = bar
-Outer func: this.foo = undefined
+Outer func: this.foo = bar\
+Outer func: self.foo = bar\
+Outer func: this.foo = undefined\
 Outer func: self.foo = bar
 </details>
-
-
-### Question 81
-Guess the result
-
-```js
-const number = 1
-const result = (function (number) {
-  delete number
-  return number
-})(10)
-console.log(result)
-
-```
-<details>
-  <summary>Answer</summary>
-  <p>Answer: The output of the above code is 10</p>
-
-In this code, we are passing the value 10 as the input to the function. But again inside the function number is just a local primitive type of variable so delete will not make any changes to the number and the value 10 passed to the function will be returned from the function.
-</details>
-
 
 ### Question 81
 Guess the output
@@ -2151,6 +2130,77 @@ function displayPlayer() {
 }
 displayPlayer();
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p></p>
+
+ For the first one\
+ JC\
+Jayesh
+
+For the second one\
+undefined
+
+
+**Explanation of second is below**
+
+The code you've provided illustrates the behavior of variable scope and hoisting in JavaScript. Here’s a detailed explanation of what happens when you run it:
+
+### Code Explanation
+
+```javascript
+var player = "Virat";
+
+function displayPlayer() {
+    if (player === "Virat") {
+        var player = "VK";
+        console.log(player);
+    }
+    console.log(player);
+}
+
+displayPlayer();
+```
+
+### Breakdown
+
+1. **Variable Declaration and Hoisting:**
+   - `var player = "Virat";` declares a global variable `player` with the value `"Virat"`.
+   - Inside the `displayPlayer` function, there is another declaration of `player` with `var`.
+
+2. **Function Execution:**
+   - When the `displayPlayer` function is called, JavaScript performs the following steps:
+     - **Hoisting:** JavaScript hoists the `var player` declaration to the top of the function scope. However, the initialization (the assignment `player = "VK"`) remains in place. So, the variable `player` inside the function is declared but not yet assigned a value at the start.
+     - The function's execution proceeds with the `if` block where `player` is checked.
+
+3. **Inside the `if` Block:**
+   - The `if (player === "Virat")` condition checks the value of `player` inside the function scope. At this point, due to hoisting, the `player` variable is declared but not yet initialized, so it is `undefined`.
+   - Since `undefined` is not equal to `"Virat"`, the `if` block is not executed.
+   - Therefore, the line `var player = "VK";` inside the `if` block does not run, and `console.log(player);` inside the `if` block is not executed.
+
+4. **Logging Outside the `if` Block:**
+   - After the `if` block, `console.log(player);` is executed.
+   - Since the assignment `player = "VK"` was never reached due to the `if` condition failing, `player` remains `undefined` inside the function.
+
+### Output
+
+When `displayPlayer()` is called, the output will be:
+
+```
+undefined
+undefined
+```
+
+### Why?
+
+- **First `console.log(player);`**: Inside the `if` block, the `player` variable is `undefined` due to hoisting. The assignment `player = "VK"` was never executed because the condition `player === "Virat"` was false.
+- **Second `console.log(player);`**: Outside the `if` block, `player` is still `undefined` for the same reason.
+
+### Summary
+
+The behavior here is due to the `var` keyword's hoisting nature, which makes the variable declaration (`var player;`) visible throughout the function but not the initialization (`player = "VK";`). Hence, the variable is declared but not initialized when accessed inside the `if` block and remains `undefined` throughout the function execution.
+</details>
 
 ### Question 89
 ```js
