@@ -1,4 +1,4 @@
-// 18,19,30,33,35,39,40,42,43 must see solution,44,49,52, full explanation of 53,56
+// 18,19,30,33,35,39,40,42,43 must see solution,44,49,52, full explanation of 53,56,67
 
 ### Question 1
 ```js
@@ -1537,11 +1537,42 @@ config = null;
   <p>Answer: C</p>
 
 
-  Normally when we set objects equal to `null`, those objects get garbage collected as there is no reference anymore to that object.
-  
-   However, since the callback function within `setInterval` is an arrow function (thus bound to the `config` object), the callback function still holds a reference to the config object. 
-   
-   As long as there is a reference, the object won't get garbage collected. Since this is an interval, setting `config` to `null` or `delete`-ing `config.alert` won't garbage-collect the interval, so the interval will still be called. It should be cleared with `clearInterval(config.alert)` to remove it from memory. Since it was not cleared, the setInterval callback function will still get invoked every 1000ms (1s).
+When you run the provided code snippet, here's what happens:
+
+1. **`setInterval` Setup:**
+   ```javascript
+   let config = {
+     alert: setInterval(() => {
+       console.log('Alert!');
+     }, 1000),
+   };
+   ```
+   In this part, you create an object `config` with a property `alert` set to the return value of `setInterval`. The `setInterval` function schedules a callback (in this case, a `console.log('Alert!')` statement) to be executed every 1000 milliseconds (or 1 second).
+
+2. **Changing `config` to `null`:**
+   ```javascript
+   config = null;
+   ```
+   Here, you set the `config` variable to `null`. This effectively removes the reference to the original object that contained the `setInterval` handle.
+
+### Key Points:
+
+- **Interval Continuation:**
+  The `setInterval` function continues to run every second even after you set `config` to `null`. This is because the `setInterval` itself is not tied to the `config` object; it is an independent timer running on the JavaScript event loop. The callback function will still execute every second, logging 'Alert!' to the console.
+
+- **Garbage Collection:**
+  Setting `config` to `null` removes the reference to the object containing the `setInterval` handle, but it does not stop the interval from running. If there are no other references to the `setInterval` handle, it will eventually be garbage collected after the interval is cleared. However, the interval won't be automatically cleared just because the `config` variable was set to `null`.
+
+- **Memory and Cleanup:**
+  To properly clean up the interval and stop it from running, you would need to call `clearInterval` with the handle returned by `setInterval`. Since the handle is now lost due to setting `config` to `null`, you won't be able to stop the interval cleanly.
+
+Here’s how you would normally clear the interval if you had access to the handle:
+
+```javascript
+clearInterval(config.alert);
+```
+
+In summary, after setting `config` to `null`, the 'Alert!' messages will continue to appear every second because `setInterval` is still running.
 </details>
 
 ### Question 68
@@ -1599,7 +1630,54 @@ async function* range(start, end) {
   <summary>Answer</summary>
   <p>Answer: C</p>
 
-  The generator function `range` returns an async object with promises for each item in the range we pass: `Promise{1}`, `Promise{2}`, `Promise{3}`. We set the variable `gen` equal to the async object, after which we loop over it using a `for await ... of` loop. We set the variable `item` equal to the returned Promise values: first `Promise{1}`, then `Promise{2}`, then `Promise{3}`. Since we're awaiting the value of `item`, the resolved promise, the resolved values of the promises get returned: `1`, `2`, then `3`.
+### Code Explanation
+
+1. **Asynchronous Generator Function:**
+   ```javascript
+   async function* range(start, end) {
+     for (let i = start; i <= end; i++) {
+       yield Promise.resolve(i);
+     }
+   }
+   ```
+   - **`async function* range(start, end)`**: This declares an asynchronous generator function named `range`. The `*` symbol indicates that it is a generator function, and `async` signifies that it will yield promises.
+   - **`for (let i = start; i <= end; i++)`**: This is a loop that iterates from `start` to `end` (inclusive).
+   - **`yield Promise.resolve(i)`**: Instead of yielding raw values, this function yields promises. `Promise.resolve(i)` creates a resolved promise with the value `i`. Yielding promises allows the consumer of the generator to work with asynchronous operations.
+
+2. **Executing the Generator Function:**
+   ```javascript
+   (async () => {
+     const gen = range(1, 3);
+     for await (const item of gen) {
+       console.log(item);
+     }
+   })();
+   ```
+   - **`(async () => { ... })()`**: This is an immediately invoked async function expression (IIFE). It allows the use of `await` inside an anonymous asynchronous function.
+   - **`const gen = range(1, 3)`**: This line creates an instance of the asynchronous generator by calling `range(1, 3)`. It does not execute the generator but provides a generator object that will be iterated over.
+   - **`for await (const item of gen)`**: This loop iterates over the asynchronous generator. The `for await` syntax is used to handle each value yielded by the asynchronous generator, which are promises in this case. `for await` automatically handles the resolution of each promise yielded by the generator.
+   - **`console.log(item)`**: This logs each resolved value of the promises to the console.
+
+### Execution Flow
+
+1. **Generator Initialization:** When you call `range(1, 3)`, it returns an asynchronous generator object. This object is not immediately executed but is used to manage the iteration process.
+
+2. **Iteration and Yielding:** The `for await` loop begins execution and calls the generator's `next` method, which advances the generator to the next yield. Each call to `next` causes the generator to yield a promise that resolves to the current value of `i`.
+
+3. **Handling Promises:** The `for await` loop waits for each promise yielded by the generator to resolve. Once resolved, it assigns the value to `item` and executes the loop body (logging `item` to the console).
+
+4. **Output:**
+   - The generator yields promises that resolve to 1, 2, and 3 respectively.
+   - These promises are resolved in sequence, so the output will be:
+     ```
+     1
+     2
+     3
+     ```
+
+### Summary
+
+In this example, `range` is an asynchronous generator function that yields promises, and the `for await` loop is used to handle these promises and log their resolved values. This setup is useful when you need to perform asynchronous operations while iterating over a sequence of values.
 </details>
 
 
