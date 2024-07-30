@@ -1,4 +1,4 @@
-// 18,19,30,33,35,39,40,42,43 must see solution,44,49,52, full explanation of 53,56,67,83,86,90
+// 18, 19, 30, 33, 35, 39, 40, 42, 43, 44, 49, 52, 53, 56, 59, 60, 67, 69, 83, 86, 90, 92, 93, 94, 98, 99, 102, 105, 107, 112
 
 ### Question 1
 ```js
@@ -2900,10 +2900,10 @@ console.log(4);
   <p>Answer is D)</p>
 
  Answer is D) 1 3 4 2 because at first console.log(1) will print "1", callback function attached to first setTimeout will 
-  wait for atleast 1 second.
+  wait for atleast 1 second.\
   In the 2nd setTimeout we are passing IIFE ( Immediately Invoked Function Expression ). So, IIFE will print "3" immediately 
-  and will return () => {} as callback that will wait for atleast 2 seconds. 
-  console.log(4) will print "4", callstack will be empty as all synchronous tasks completed.
+  and will return () => {} as callback that will wait for atleast 2 seconds.\
+  console.log(4) will print "4", callstack will be empty as all synchronous tasks completed.\
   After one second callback function attached to first setTimeout pushed into callstack and console.log(2) will print "2".
 </details>
 
@@ -3077,44 +3077,12 @@ console.log(numbers.next().value);
   <p>Answer is D)</p>
 
 
-Answer is D) 10 20 40 undefined, Generator is a function that can be paused and resumed from where it was paused. It is written as the function keyword followed by an asterisk (*).
-  Generator returns a Generator object that is used by calling the next method. For the first time calling numbers.next().value, we will get 10 as an output, second time 20 as an ouput.
-  While calling numbers.next().value for third time, Inside generator function we have return keyword that will return 40 and also terminate the generator function and 
-  as the generator function is finished calling numbers.next().value again for fourth time will give output as undefined. So, Final Output will be 10 20 40 undefined
+Answer is D) 10 20 40 undefined, Generator is a function that can be paused and resumed from where it was paused. It is written as the function keyword followed by an asterisk (*).\
+  Generator returns a Generator object that is used by calling the next method. For the first time calling numbers.next().value, we will get 10 as an output, second time 20 as an ouput.\
+  While calling numbers.next().value for third time, Inside generator function we have return keyword that will return 40 and also terminate the generator function and as the generator function is finished calling numbers.next().value again for fourth time will give output as undefined. So, Final Output will be 10 20 40 undefined\
 
-  Note:- A return statement in a generator, when executed, will make the generator finish ( i.e. the done property of the object returned by it will be set to true ).
+  **Note:-** A return statement in a generator, when executed, will make the generator finish ( i.e. the done property of the object returned by it will be set to true ).
 </details>
-
-
-### Question 113
-
-```js
-let num = 10;
-
-const incrementNumber1 = () => num++;
-
-const incrementNumber2 = (num) => num++;
-
-const num1 = incrementNumber1();
-const num2 = incrementNumber2(num1);
-
-console.log(num1);
-console.log(num2);
-
-// 👍A) 11 12     💡B) 10 10
-// 💖C) 10 11     😀D) 11 11
-
-```
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer is B)</p>
-
-  Answer is B) 10 10 because The unary operator ++ first returns the value of the operand, then increments the value of the operand.
-  So, incrementNumber1() will return "10" that will be assigned to "num1" and increment "num" by 1. incrementNumber2(num1) will also return "10" that will be assigned to "num2".
- 
-</details>
-
 
 ### Question 113
 
@@ -3395,8 +3363,6 @@ console.log(num2);
 
 
 ### Question 122
-Ishme dhyan se dekho ki kon sa array lia h and then uska reference
-
 ```js
 const arr = ["JC", { name: "VK"}, "JC", { name: "VK" }];
 
