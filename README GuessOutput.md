@@ -1,3 +1,5 @@
+// 18,19,30,33,35,39,40,42,43 must see solution,44,49,52, full explanation of 53,56
+
 ### Question 1
 ```js
 const numbers = [10,20,30,40,50,60]
@@ -166,7 +168,7 @@ console.log(a);
 </details>
 
 
-### Question 13(revise the concept of shallow and deep copy)
+### Question 13
 ```js
 let person = {
     name : "Lynda"
@@ -349,7 +351,7 @@ function bar(){
   </p>
 </details>
 
-### Question 21 sorting of the array
+### Question 21
 ```js
 let daya = [1,12,3,11,10]
 daya.sort((a,b)=> {
@@ -362,7 +364,7 @@ console.log(daya);
   <p>[1, 3, 10, 11, 12]</p>
 </details>
 
-### Question 21 sorting of the object
+### Question 21
 ```js
 const items = [
     { name: 'Edward', value: 21 },
@@ -387,7 +389,7 @@ items.sort(function(a, b){
 console.log(items);
 ```
 
-### Question 22 converting the number into textnumber
+### Question 22
 ```js
 let number = 9966
 let data = number.toLocaleString()
@@ -443,27 +445,52 @@ console.log(firstname);
 
 ### Question 26 , output of below code
 ```js
+// first
 for (let i = 0; i < 5; i++) {
   setTimeout(() => {
     console.log(i);
   }, i * 1000);
   
 }
+
+// second
 for (var i = 0; i < 5; i++) {
   setTimeout(() => {
     console.log(i);
   }, i * 1000);
 }
+
+// third
 for (let i = 0; i < 5; i++) {
   setTimeout(() => {
     console.log(i);
   },  1000);
-  
 }
 ```
 <details>
   <summary>Answer</summary>
   <p></p>
+
+log for the `first`, it will show value after every second
+0\
+1\
+2\
+3\
+4
+
+log for the `second`, it will show value after every second
+5\
+5\
+5\
+5\
+5
+
+log for the `third`, it will show at instant
+0\
+1\
+2\
+3\
+4
 </details>
 
 ### Question 27
@@ -698,11 +725,21 @@ console.log(a == b)
 
 ### Question 40
 ```js
+'a' < 'b' 
+'a' > 'b' 
+42 < 'hh' 
+42 > 'hh'
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>true, false, false, false</p>
+
 'a' < 'b' // gives true because a and b both are string so are converted to number 1 and 2 respectively by coercion of js
 'a' > 'b'  // gives false because a and b both are string so are converted to number 1 and 2 respectively by coercion of js
 42 < 'hh'  // gives false
 42 > 'hh'  // gives false because the both are different data type so 'hh' are coerced to NaN and the comparison becomes 42 > NaN
-```
+</details>
 
 ### Question 41
 ```js
@@ -795,7 +832,7 @@ getPersonInfo`${person} is ${age} years old`;
 <details>
   <summary>Answer</summary>
   <p>Answer: B</p>
-  <p>If you use tagged template literals, the value of the first argument is always an array of the string values. The remaining arguments get the values of the passed expressions!</p>
+  <p>If you use tagged template literals, the value of the `first argument` is always an `array of the string values`. The `remaining` arguments get the `values of the passed expressions`!</p>
 </details>
 
 ### Question 45
@@ -953,7 +990,7 @@ console.log(myCounter);
   <summary>Answer</summary>
   <p>Answer: C</p>
 
-  An imported module is read-only: you cannot modify the imported module. Only the module that exports them can change its value.
+An `imported module` is `read-only`: you cannot modify the imported module. Only the module that exports them can change its value.
 
 When we try to increment the value of `myCounter`, it throws an error: `myCounter` is read-only and cannot be modified.
 
@@ -1035,11 +1072,11 @@ console.log(data);
   <summary>Answer</summary>
   <p>Answer: A</p>
 
-The second argument of `JSON.stringify` is the replacer. The replacer can either be a function or an array, and lets you control what and how the values should be stringified.
+The second argument of `JSON.stringify` is the replacer. The `replacer` can either be a `function or an array`, and lets you control what and how the values should be stringified.
 
-If the replacer is an array, only the property names included in the array will be added to the JSON string. In this case, only the properties with the names `"level"` and `"health"` are included, `"username"` is excluded. `data` is now equal to `"{"level":19, "health":90}"`.
+`If` the `replacer` is an `array`, `only` the property `names` `included` in the array will be `added to the JSON string`. In this case, only the properties with the names `"level"` and `"health"` are included, `"username"` is excluded. `data` is now equal to `"{"level":19, "health":90}"`.
 
-If the replacer is a function, this function gets called on every property in the object you're stringifying. The value returned from this function will be the value of the property when it's added to the JSON string. If the value is `undefined`, this property is excluded from the JSON string.
+`If` the `replacer` is a `function`, this `function gets called on every property` in the object you're stringifying. The `value returned` from this function will be the `value of the property when it's added to the JSON string`. If the value is `undefined`, this property is `excluded from the JSON string`.
 
 </details>
 
@@ -1122,9 +1159,9 @@ console.log(data);
 ```
 
 - A: "I made it!"
-- B: Promise {<resolved>: "I made it!"}
-- C: Promise {<pending>}
-- D: undefined
+- B: "Promise {<resolved>: "I made it!"}"
+- C: "Promise {<pending>}"
+- D: "undefined"
 
 <details>
   <summary>Answer</summary>
@@ -1134,7 +1171,7 @@ An async function always returns a promise. The `await` still has to wait for th
 
 simply run below code you will get clear idea
 
-```
+```js
 function getData() {
   return  Promise.resolve('I made it!');
 }
