@@ -92,7 +92,111 @@ const [state, setState] = React.useState(myExpensiveFn());
 const [state, setState] = React.useState(() => myExpensiveFn());
 ```
 
+When you provide a function to initialize state in `useState`, React will call that function only once during the initial render to set the initial state. This is useful for computationally expensive initializations.
 
+Here's an example to demonstrate this:
+
+```jsx
+import React, { useState } from 'react';
+
+function generateInitialCount() {
+  console.log('Generating initial count');
+  return 10;
+}
+
+function Counter() {
+  const [count, setCount] = useState(generateInitialCount);
+
+  const increment = () => {
+    setCount(count + 1);
+  };
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={increment}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+In this example, the `generateInitialCount` function will log "Generating initial count" to the console and return `10` as the initial state for `count`. This function is called only once during the initial render. Subsequent re-renders will not call `generateInitialCount` again; they will use the existing state.
+
+If you pass a function directly to `useState` without invoking it, React will treat it as a lazy initializer and call it to get the initial state:
+
+```jsx
+const [count, setCount] = useState(() => generateInitialCount());
+```
+
+This is equivalent to:
+
+```jsx
+const [count, setCount] = useState(generateInitialCount);
+```
+
+Both approaches ensure that the initialization function runs only once during the first render. Subsequent state updates and re-renders will persist the state without calling the initialization function again.
+
+
+```
+1. const [state, setState] = React.useState(myExpensiveFn());
+
+2. const [state, setState] = React.useState(() => myExpensiveFn());
+
+why 2 is most preferred method over 1, but you said both are same
+```
+
+
+I apologize for any confusion. The two lines are not the same, and the second method is preferred for a reason.
+
+Here's the difference:
+
+1. **First method**: `const [state, setState] = React.useState(myExpensiveFn());`
+    - This immediately invokes `myExpensiveFn()` during each render and passes the result to `useState`.
+    - This means `myExpensiveFn()` runs every time the component renders, which can be inefficient if the function is expensive.
+
+2. **Second method**: `const [state, setState] = React.useState(() => myExpensiveFn());`
+    - This passes a function to `useState`, and React will only call this function to get the initial state value during the initial render.
+    - This approach ensures that `myExpensiveFn()` runs only once, making it more efficient.
+
+The preferred method (2) ensures that the expensive computation is only done once, during the initial render, and not on every re-render. Here’s a quick comparison:
+
+### Example:
+
+```jsx
+import React, { useState } from 'react';
+
+function myExpensiveFn() {
+  console.log('Running expensive computation...');
+  return 10;
+}
+
+function ExampleComponent() {
+  // Method 1
+  const [state1, setState1] = useState(myExpensiveFn());
+
+  // Method 2
+  const [state2, setState2] = useState(() => myExpensiveFn());
+
+  return (
+    <div>
+      <p>State 1: {state1}</p>
+      <p>State 2: {state2}</p>
+    </div>
+  );
+}
+
+export default ExampleComponent;
+```
+
+### When you use Method 1:
+- `myExpensiveFn()` runs every time `ExampleComponent` renders.
+
+### When you use Method 2:
+- `myExpensiveFn()` runs only once during the initial render of `ExampleComponent`.
+
+Method 2 is more efficient, especially if `myExpensiveFn()` involves heavy computations, network requests, or other expensive operations.
 
 <br>
 
