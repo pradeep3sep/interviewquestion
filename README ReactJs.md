@@ -24,9 +24,6 @@ https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react
 > ### Imp: State vs Ref: Refs are mutable and persist between renders without causing re-renders while state do not persist value while rerender
 
 ```
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Hooks/useEffect-api-call-with-async-inside-useEffect.md
-
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Hooks/useEffect-async-call-inside.md
 
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Hooks/useState-replace-componentWillReceiveProps-getDerivedStateFromProps.md
 
@@ -39,6 +36,80 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Dev
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Web-Development-In-General/What-happens-when-you-navigate-to-google.md
 
 ```
+
+> ### useEffect-api-call-with-async-inside-useEffect
+
+### Incorrect Code
+```js
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+function App() {
+  const [data, setData] = useState({ hits: [] });
+
+  useEffect(async () => {
+    const result = await axios(
+      "http://hn.algolia.com/api/v1/search?query=redux"
+    );
+
+    setData(result.data);
+  }, []); // Incorrect: async directly in useEffect
+
+  return (
+    <ul>
+      {data.hits.map(item => (
+        <li key={item.objectID}>
+          <a href={item.url}>{item.title}</a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
+
+```
+
+
+### Correct Code
+
+```js
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+function App() {
+  const [data, setData] = useState({ hits: [] });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(
+        "http://hn.algolia.com/api/v1/search?query=redux"
+      );
+
+      setData(result.data);
+    };
+
+    fetchData();
+  }, []); // Correct: async function inside useEffect
+
+  return (
+    <ul>
+      {data.hits.map(item => (
+        <li key={item.objectID}>
+          <a href={item.url}>{item.title}</a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
+```
+In the code, we are using async/await to fetch data from a third-party API. According to the documentation every function annotated with async returns an implicit promise: “The async function declaration defines an asynchronous function, which returns an AsyncFunction object. An asynchronous function is a function which operates asynchronously via the event loop, using an implicit Promise to return its result.
+
+However, an useEffect() function must not return anything besides a function, which is used for clean-up. That when useEffect() does return a function that function is ONLY used for cleaning up, like what we will do under componentWillUnmount()
+
+That’s why you may see the following warning in your developer console log: 07:41:22.910 index.js:1452 Warning: useEffect function must return a cleanup function or nothing. Promises and useEffect(async () => …) are not supported, but you can call an async function inside an effect.. That’s why using async directly in the useEffect function isn’t allowed. Let’s implement a workaround for it, by using the async function inside the effect.
 
 <br>
 
