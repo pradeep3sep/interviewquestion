@@ -21,9 +21,9 @@ https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react
 
 <br>
 
-> ### useEffect-api-call-with-async-inside-useEffect
+> ### How to use the useEffect to api call with async
 
-### Incorrect Code
+#### Incorrect Code
 ```js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -51,12 +51,10 @@ function App() {
 }
 
 export default App;
-
 ```
 
 
-### Correct Code
-
+#### Correct Code
 ```js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -97,6 +95,9 @@ That’s why you may see the following warning in your developer console log: 07
 
 <br>
 
+
+> ### Basic things for the path defination
+
 ```js
 // 👎 Don't use relative paths
 import Input from '../../../modules/common/components/Input'
@@ -107,7 +108,7 @@ import Input from '@modules/common/components/Input'
 
 <br>
 
-**just to know, we can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change**
+> ### just to know, we can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change
 
 <br>
 
@@ -137,7 +138,7 @@ import Input from '@modules/common/components/Input'
 
 
 > ### Component and state optimizations
-- If you have a piece of state that is initialized by an expensive computation, use the state initializer function instead of executing it directly because the expensive function will be run only once as it is supposed to. e.g:
+- If you have a piece of state that is initialized by an `expensive computation`, `use` the `state initializer function` `instead` of `executing it directly` because the expensive function will be run only once as it is supposed to. e.g:
 
 ```jsx
 // instead of this which would be executed on every re-render:
@@ -147,6 +148,7 @@ const [state, setState] = React.useState(myExpensiveFn());
 const [state, setState] = React.useState(() => myExpensiveFn());
 ```
 
+**Below is the further detail explanation**
 When you provide a function to initialize state in `useState`, React will call that function only once during the initial render to set the initial state. This is useful for computationally expensive initializations.
 
 Here's an example to demonstrate this:
@@ -160,7 +162,7 @@ function generateInitialCount() {
 }
 
 function Counter() {
-  const [count, setCount] = useState(generateInitialCount);
+  const [count, setCount] = useState(generateInitialCount); // keep in mind, we havn used generateInitialCount not generateInitialCount()
 
   const increment = () => {
     setCount(count + 1);
@@ -179,7 +181,9 @@ export default Counter;
 
 In this example, the `generateInitialCount` function will log "Generating initial count" to the console and return `10` as the initial state for `count`. This function is called only once during the initial render. Subsequent re-renders will not call `generateInitialCount` again; they will use the existing state.
 
-If you pass a function directly to `useState` without invoking it, React will treat it as a lazy initializer and call it to get the initial state:
+If you `pass a function directly` to `useState` `without invoking` it, React will `treat it as` a `lazy initializer` and call it to get the initial state:
+
+<br>
 
 ```jsx
 const [count, setCount] = useState(() => generateInitialCount());
@@ -193,6 +197,9 @@ const [count, setCount] = useState(generateInitialCount);
 
 Both approaches ensure that the initialization function runs only once during the first render. Subsequent state updates and re-renders will persist the state without calling the initialization function again.
 
+<br>
+
+**Below is my fruther details ask**
 
 ```
 1. const [state, setState] = React.useState(myExpensiveFn());
@@ -217,7 +224,7 @@ Here's the difference:
 
 The preferred method (2) ensures that the expensive computation is only done once, during the initial render, and not on every re-render. Here’s a quick comparison:
 
-### Example:
+#### Example:
 
 ```jsx
 import React, { useState } from 'react';
@@ -245,10 +252,10 @@ function ExampleComponent() {
 export default ExampleComponent;
 ```
 
-### When you use Method 1:
+#### When you use Method 1:
 - `myExpensiveFn()` runs every time `ExampleComponent` renders.
 
-### When you use Method 2:
+#### When you use Method 2:
 - `myExpensiveFn()` runs only once during the initial render of `ExampleComponent`.
 
 Method 2 is more efficient, especially if `myExpensiveFn()` involves heavy computations, network requests, or other expensive operations.
@@ -335,38 +342,7 @@ export function App() {
 
 ```
 
-> ### useState accepts the callback function
-
-```jsx
-import React, { useState } from 'react';
-
-const MyComponent = () => {
-  // Using an arrow function for the default value
-  const [count, setCount] = useState(() => {
-    // Some heavy computation or logic to determine the initial value
-    return computeInitialCount();
-  });
-
-  const computeInitialCount = () => {
-    // Simulating some heavy computation
-    return Math.random() * 100;
-  };
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
-};
-
-export default MyComponent;
-
-```
-
 <br>
-
-
 
 > ### What is React?
 
@@ -397,11 +373,7 @@ Apart from the advantages, there are few limitations of React too,
 - The code complexity increases with inline templating and JSX.
 - Too many smaller components leading to over engineering or boilerplate.
 
-
-
 <br>
-
-
 
 > ### Pure React in HTML file, below we haven't used the JSX
 
