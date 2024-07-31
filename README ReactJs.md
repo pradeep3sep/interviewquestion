@@ -24,9 +24,6 @@ https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react
 > ### Imp: State vs Ref: Refs are mutable and persist between renders without causing re-renders while state do not persist value while rerender
 
 ```
-
-https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Hooks/useState-replace-componentWillReceiveProps-getDerivedStateFromProps.md
-
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/Virtual-DOM-and-Reconciliation-Algorithm.md
 
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/React/pass-prop-to-component-rendered-by-React-Router.md
