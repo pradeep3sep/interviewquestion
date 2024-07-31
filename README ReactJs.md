@@ -785,9 +785,9 @@ When several components need to share the same changing data then it is recommen
 > ### Why fragments are better than container divs?
 Below are the list of reasons to prefer fragments over container DOM elements,
 
-- Fragments are a bit faster and use less memory by not creating an extra DOM node. This only has a real benefit on very large and deep trees.
-- Some CSS mechanisms like Flexbox and CSS Grid have a special parent-child relationships, and adding divs in the middle makes it hard to keep the desired layout.
-- The DOM Inspector is less cluttered.
+- Fragments are a `bit faster` and `use less memory` by not creating an extra DOM node. This only has a real benefit on very large and deep trees.
+- Some CSS mechanisms like Flexbox and CSS Grid have a special parent-child relationships, and `adding divs` in the middle makes it `hard to keep the desired layout`.
+- The `DOM Inspector` is `less cluttered`.
 
 
 <br>
@@ -812,7 +812,7 @@ The `dangerouslySetInnerHTML` attribute is React's replacement for using `innerH
 
 In this example MyComponent uses `dangerouslySetInnerHTML` attribute for setting HTML markup:
 
-```
+```js
 function createMarkup() {
   return { __html: "First &middot; Second" };
 }
@@ -913,7 +913,7 @@ In the above example, `props.initialValue` is used to set the initial state usin
 
 This leads to unexpected behaviour.
 
-This will work for the first time, state value sets to initial value, but when the component re-renders, at that time useState value of `mystate` do `not reset`. During the rerender the state preserves the previous state or value in it. So when props value from the parent changes, the child gets rerendered but it don't have the updated value in it.
+This will work for the first time, state value sets to initial value, but when the component re-renders, at that time useState value of `mystate` do `not reset`. `During the rerender` the `state preserves` the previous state or value in it. So when `props` value `from` the `parent changes`, the `child gets rerendered` but it `don't have the updated value` in it.
 
 below is the code you should better to use
 
@@ -943,7 +943,7 @@ export default MyComponent;
 
 <br>
 
-> ### console of component
+> ### console of component, also How to pretty print JSON with React?
 
 ```jsx
 import React from 'react';
@@ -1029,17 +1029,14 @@ export function App(props) {
   );
 }
 ```
-above code shows
+above code shows\
 A\
 B\
 C
 
 this is beacuse useEffect works like mount, not like beforecreate or create. Bacially works after DOM paints in browser
 
-
-
 <br>
-
 
 > ### How you implement Server Side Rendering or SSR?
 
@@ -1054,6 +1051,7 @@ ReactDOMServer.renderToString(<App />);
 
 This method will output the regular HTML as a string, which can be then placed inside a page body as part of the server response. On the client side, React detects the pre-rendered content and seamlessly picks up where it left off.
 
+<br>
 
 > ### How to loop inside JSX?
 
@@ -1065,6 +1063,7 @@ This method will output the regular HTML as a string, which can be then placed i
 </tbody>
 ```
 
+<br>
 
 > ### How to re-render the view when the browser is resized?
 
@@ -1152,10 +1151,7 @@ export default MyComponent;
 
 ```
 
-
 <br>
-
-
 
 > ### Is it possible to use React without rendering HTML?
 
@@ -1214,55 +1210,7 @@ export default MyComponent;
     return undefined
   }
   ```
-
-
 <br>
-
-
-
-> ### How to pretty print JSON with React?
-
-```jsx
-import React from 'react';
-
-export function App(props) {
-
-  const jsonData = {
-    key1: 'value1',
-    key2: 'value2',
-    key3: {
-      nestedKey1: 'nestedValue1',
-      nestedKey2: 'nestedValue2'
-    }
-  };
-
-  return (
-    <div className='App'>
-      <h1>Hello React.</h1>
-      <h2>Start editing to see some magic happen!</h2>
-      <PrettyPrintJSON data={jsonData} />
-    </div>
-  );
-}
-```
-
-```jsx
-const PrettyPrintJSON = ({ data }) => {
-  // Use JSON.stringify with third and fourth parameters for pretty printing
-  const prettyJSON = JSON.stringify(data, null, 2);
-
-  return (
-    <pre>
-      {prettyJSON}
-    </pre>
-  );
-};
-
-export default PrettyPrintJSON;
-```
-
-<br>
-
 
 > ### How to focus an input element on page load?
 
@@ -1287,9 +1235,7 @@ const App = () => {
 ReactDOM.render(<App />, document.getElementById("app"));
 ```
 
-
 <br>
-
 
 > ### What are the possible ways of updating objects in state in react?
 
@@ -1465,6 +1411,9 @@ this.props.history.push({
 });
 ```
 
+<br>
+
+
 > ### How to perform automatic redirect after login?
 
 ```jsx
@@ -1482,9 +1431,15 @@ export default class LoginComponent extends Component {
 }
 ```
 
+<br>
+
+
 > ### What are the differences between redux-saga and redux-thunk?
 
 Both _Redux Thunk_ and _Redux Saga_ take care of dealing with side effects. In most of the scenarios, Thunk uses _Promises_ to deal with them, whereas Saga uses _Generators_. Thunk is simple to use and Promises are familiar to many developers, Sagas/Generators are more powerful but you will need to learn them. But both middleware can coexist, so you can start with Thunks and introduce Sagas when/if you need them.
+
+
+<br>
 
 
 > ### Why are inline ref callbacks or functions not recommended?
@@ -1974,11 +1929,12 @@ In general, it's recommended to use useEffect as much as possible, because it is
 ### Below are my understanding and lack of notes
 
 ```jsx
-// Question 5
 // how to add "<h1>Hello World</h1>" in jsx
 export default function App() {
-     const htmlString = "<h1>Hello World</h1>";
-     return <div dangerouslySetInnerHTML={{ __html: htmlString }}>
+
+   const htmlString = "<h1>Hello World</h1>";
+
+    return <div dangerouslySetInnerHTML={{ __html: htmlString }}>
             </div>;
 }
 ```
@@ -1989,9 +1945,40 @@ export default function App() {
 > ### When to use a Class Component over a Function Component?
 If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries.
 
-
-
 <br>
+
+> ### when react has aready class based system then why they have introduced functional component
+
+**Excellent question!**
+
+While React initially relied on class-based components, the introduction of functional components with Hooks brought about a significant paradigm shift for several key reasons:
+
+### 1. Simplicity and Readability:
+* **Concise syntax:** Functional components are often shorter and easier to understand compared to their class-based counterparts.
+* **No need for `this` keyword:** This eliminates potential confusion and reduces boilerplate code.
+* **Focus on pure functions:** Functional components encourage a declarative style, making code more predictable and testable.
+
+### 2. State Management with Hooks:
+* **useState:** Provides a straightforward way to manage component state within functional components.
+* **useEffect:** Handles side effects like data fetching, subscriptions, and manual DOM manipulations.
+* **Custom Hooks:** Enables reusable stateful logic, promoting code organization and reusability.
+
+### 3. Improved Performance:
+* **Potential for optimization:** Functional components can often be optimized more easily due to their simpler structure.
+* **Reduced overhead:** In some cases, functional components can have a slight performance advantage over class components.
+
+### 4. Better Code Organization and Reusability:
+* **Custom Hooks:** Allow for encapsulating complex stateful logic, making code more modular and reusable.
+* **Improved composability:** Functional components can be easily combined and nested, leading to more flexible component structures.
+
+### 5. Community Adoption and Ecosystem:
+* **Widespread usage:** Functional components have become the preferred choice for many React developers.
+* **Rich ecosystem:** A growing number of libraries and tools are designed to work seamlessly with functional components and Hooks.
+
+**In summary,** while class-based components still have their place in certain scenarios, functional components with Hooks offer a more modern, efficient, and enjoyable way to build React applications. They have become the de facto standard for most React development due to their simplicity, flexibility, and performance benefits.
+ 
+**Would you like to delve deeper into a specific aspect of functional components or Hooks?**
+
 
 
 > ### What are error boundaries in React v16?
