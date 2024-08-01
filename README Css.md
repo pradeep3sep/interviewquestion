@@ -1,14 +1,3 @@
-> ### CSS Combinator Selectors
-
-There are four different combinators in CSS:
-
-- descendant selector (space)
-- direct child selector (>) (not the nested)
-- adjacent sibling selector (+)
-- general sibling selector (~)
-
-<br>
-
 > ### Pseudo-elements : befor and after
 A CSS pseudo-element is a keyword added to a selector that lets you style a specific part of the selected element(s). For example, ::first-line can be used to change the font of the first line of a paragraph.
 
@@ -47,6 +36,16 @@ https://learning-notes.mistermicheels.com/web/css/selectors/
 
 <br>
 
+> ### CSS Combinator Selectors
+
+There are four different combinators in CSS:
+
+- descendant selector (space)
+- direct child selector (>) (not the nested)
+- adjacent sibling selector (+)
+- general sibling selector (~)
+
+<br>
 
 > ### What do the following CSS selectors mean?
 div, p\
@@ -114,7 +113,7 @@ Each selector allows for different levels of specificity and targeting, enabling
 <br>
 
 > ### What is flexbox
-Flexbox is a layout module in CSS that provides a more efficient and flexible way to arrange and align elements in a container. The main idea behind Flexbox is that you can turn any container element into a flexible container,
+Flexbox is a `layout module in CSS` that provides a more efficient and flexible way to arrange and align elements in a container. The main idea behind Flexbox is that you can `turn` any `container element` into a `flexible container`,
 
 <br>
 
@@ -133,7 +132,8 @@ https://www.programiz.com/css/position
 <br>
 
 > ### Diff between visibility and d none
-visibility:hidden hides the element, but it still takes up space in the layout. display:none removes the element from the document. It does not take up any space.
+**visibility:hidden** hides the element, but it still takes up space in the layout.\
+**display:none** removes the element from the document. It does not take up any space.
 
 <br>
 
@@ -149,15 +149,6 @@ The clear CSS property sets whether an element must be moved below (cleared) flo
 
 <br>
 
-
-> ### scss notes
-
-```
-https://learning-notes.mistermicheels.com/web/css/sass-scss/
-```
-
-<br>
-
 > ### BEM model for naming classes
 
 ```
@@ -166,7 +157,6 @@ https://getbem.com/naming/
 
 ```
 https://www.w3schools.com/css/css_grid.asp
-https://www.w3schools.com/cssref/pr_class_position.php
 ```
 
 <br>
@@ -176,11 +166,19 @@ A CSS Preprocessor is a tool used to extend the basic functionality of default v
 
 <br>
 
+> ### scss notes
+
+```
+https://learning-notes.mistermicheels.com/web/css/sass-scss/
+```
+
+<br>
+
 > ### What is the difference between inline, inline-block, and block?
 
-**Block Element:** The block elements always start on a new line. They will also take space for an entire row or width. List of block elements are `<div>`, `<p>`.
+**Block Element:** The block elements always `start on a new line`. They will also `take space` for an `entire row or width`. List of block elements are `<div>`, `<p>`.
 
-**Inline Elements:** Inline elements don't start on a new line, they appear on the same line as the content and tags beside them. Some examples of inline elements are `<a>`, `<span>` , `<strong>`, and `<img>` tags. 
+**Inline Elements:** Inline elements `don't start on a new line`, they `appear on the same line` as the content and tags beside them. Some examples of inline elements are `<a>`, `<span>` , `<strong>`, and `<img>` tags. 
 
 **Inline Block Elements:** Inline-block elements are `similar` to `inline` elements, `except` they can `have padding and margins and set height and width values`.
 
@@ -193,21 +191,9 @@ No, it doesn’t affect the inline elements. Inline elements flow with the conte
 
 <br>
 
-> ### Can you name the four types of @media properties?
-
-The four types of @media properties are:
-
-1. `All` → It’s the default property. Used for all media-type devices.
-2. `Screen` → Used for computer screen, mobile screen.\
-3. `Print` → Used for printers.\
-4. `Speech` → Used for screen readers.
-
-<br>
-
-
 > ### What does the :root pseudo-class refer to?
 
-The :root selector allows you to target the highest-level “parent” element in the DOM, or document tree. It is defined in the CSS Selectors Level 3 specification.
+The `:root selector` allows you to `target` the `highest-level “parent” element` in the DOM, or document tree. It is defined in the CSS Selectors Level 3 specification.
 
 <br>
 
@@ -255,7 +241,7 @@ Custom properties are defined by users that contain specific values to be reused
 
 
 > ### What does !important mean in CSS?
-The style is having the important will have the highest precedence and it overrides the cascaded property.
+The style is having the important will have the `highest precedence` and it overrides the cascaded property.
 
 ```css
  p {
@@ -286,9 +272,9 @@ The `@support` in CSS can be very useful to scan if the current browser has supp
 
 ```css
 @supports (display: grid) {
-	div {
-		display: grid;
-	}
+  div {
+     display: grid;
+   }
 }
 ```
 
@@ -326,9 +312,9 @@ left = 80px
 
 > ### What is the difference between margin and padding?
 
-- Margin is used to create space around elements and padding is used to create space around elements inside the border.\
-- We can set the margin property to auto but we cannot set the padding property to auto.\
-- In Margin property we can allow negative or float number but in padding we cannot allow negative values.\
+- `Margin` is used to `create space` `around elements` and `padding` is used to `create space` around elements `inside the border`.\
+- We can set the `margin property to auto` but we `cannot` set the `padding property to auto`.\
+- In `Margin property` we can `allow negative` or float number but in `padding` we `cannot` allow negative values.\
 - Margin and padding target all the 4 sides of the element. Margin and padding will work without the border property also.
 
 
@@ -337,8 +323,8 @@ left = 80px
 
 > ### What is the difference between CSS border and outline?
 
-- `CSS border` properties allow us to set the style, color, and width of the border.
-- `CSS outline` property allows us to draw a line around the element, outside the border.
+- `CSS border` properties allow us to `set the style, color, and width of the border`.
+- `CSS outline` property allows us to `draw a line` around the element, `outside the border`.
 
 
 <br>
@@ -397,11 +383,11 @@ Translate is a CSS transform value. On changing opacity or transform, browser re
 
 > ### How would you approach fixing browser-specific styling issues?
 
-After identifying the issue and the offending browser, use a separate style sheet that only loads when that specific browser is being used. This technique requires server-side rendering though.\
-Use libraries like Bootstrap that already handles these styling issues for you.\
-Use autoprefixer to automatically add vendor prefixes to your code.
-Use Reset CSS or Normalize.css.\
-If you're using Postcss (or a similar transpiling library), there may be plugins which allow you to opt in for using modern CSS syntax (and even W3C proposals) that will transform those sections of your code into corresponding safe code that will work in the targets you've used.
+- After identifying the issue and the offending browser, use a separate style sheet that only loads when that specific browser is being used. This technique requires server-side rendering though.
+- Use libraries like Bootstrap that already handles these styling issues for you.
+- Use autoprefixer to automatically add vendor prefixes to your code.
+- Use Reset CSS or Normalize.css.
+- If you're using Postcss (or a similar transpiling library), there may be plugins which allow you to opt in for using modern CSS syntax (and even W3C proposals) that will transform those sections of your code into corresponding safe code that will work in the targets you've used.
 
 
 <br>
@@ -461,11 +447,3 @@ A CSS pseudo-element is a keyword added to a selector that lets you style a spec
 Used in the `.clearfix` hack as shown above to add a zero-space element with `clear: both`.
 
 Triangular arrows in tooltips use `:before` and `:after`. Encourages separation of concerns because the triangle is considered part of styling and not really the DOM.
-
-
-
-> ### There any reason you'd want to use translate() instead of absolute positioning, or vice-versa? And why?
-
-translate() is a value of CSS transform. Changing transform or opacity does not trigger browser reflow or repaint but does trigger compositions; whereas changing the absolute positioning triggers reflow. transform causes the browser to create a GPU layer for the element but changing absolute positioning properties uses the CPU. Hence translate() is more efficient and will result in shorter paint times for smoother animations.
-
-When using translate(), the element still occupies its original space (sort of like position: relative), unlike in changing the absolute positioning.
