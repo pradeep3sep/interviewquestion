@@ -126,4 +126,4 @@ For example, tags like `<header>`, `<article>`, and `<footer>` are semantic HTML
 
 > ### Difference between `<b>` and `<strong>` Elements
 
-The HTML `<b>` element defines bold text, without any extra importance. The HTML `<strong>` element defines text with strong importance. The content inside is typically displayed in bold.
+The HTML `<b>` element defines `bold text`, `without any extra importance`. The HTML `<strong>` element defines `text with strong importance`. The content inside is typically displayed in bold.
