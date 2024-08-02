@@ -1,6 +1,6 @@
 Refer full code in - https://github.com/jayesh2906/JavaScript-with-JC/blob/master/DSA.js
 
-- 20,21
+- 20,21,22,27,33,35
 
 > ### To generate random no
 ```js
@@ -827,7 +827,7 @@ console.log(maxProductOfThreeeElem([-4,-2,-3,1]));  // => 12
 ```
 
 > ### Q22 - Find longest consecutive subsequence
-a[] = {2,6,1,9,4,5,3}\
+a[] = [2,6,1,9,4,5,3]\
 Output:\
 6 => [1,2,3,4,5,6]
 
@@ -975,7 +975,7 @@ console.log(rev.split("").reverse().join("") === str1);
 ```
 <br>
 
-> ### Q257- Write a Code to check whether one string is a rotation of another
+> ### Q27- Write a Code to check whether one string is a rotation of another
 Input: S1 = ABCD, S2 = CDAB\
 Output: Strings are rotations of each other\
 
@@ -1212,7 +1212,7 @@ const end = start + arr1.length;
 console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 ```
 
-> ### Q33 - Find all permutations of string  LOGIC
+> ### Q35 - Find all permutations of string  LOGIC
  const str = "ABC"\
  output => ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
 
@@ -1249,7 +1249,7 @@ const result = permutations(inputString);
 console.log(result);
 ```
 
-> ### Q35 - Find missing number from an array 1 to n. ( sum of 1 to n and subtract all one by one to get missing number )
+> ### Q36 - Find missing number from an array 1 to n. ( sum of 1 to n and subtract all one by one to get missing number )
 
  const arr = [1,2,3,5,6]\
  output =>  missing number is 4
@@ -1281,7 +1281,7 @@ for (let i = 1; i < arr.length; i++) {
 console.log(missing);
 ```
 
-> ### Q36 - Remove duplicate items object from an array
+> ### Q37 - Remove duplicate items object from an array
 const arr = [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 5 }]\
 output => [{ id: 1 }, { id: 2 }, { id: 5 }]
 
@@ -1302,7 +1302,7 @@ for (let item of arr) {
 console.log(result); // [ { id: 1 }, { id: 2 }, { id: 5 } ]
 ```
 
-> ### Q37 - Check all the chars are unique in string
+> ### Q38 - Check all the chars are unique in string
 const str = "Jayesh"\
 output => true
 
@@ -1332,7 +1332,7 @@ console.log(checkAllCharUnique(str2)); // false
 ```
 
 
-> ### Q38 - Implement Deep copy of an object ( deepClone )
+> ### Q39 - Implement Deep copy of an object ( deepClone )
 
 const obj1 = { a: 10, b: { x: 20 } };\
 const obj2 = deepClone(obj1);\
@@ -1391,7 +1391,7 @@ function cloneDeep(obj, map = new Map()) {
 }
 ```
 
-> ### Q39 - String compression
+> ### Q40 - String compression
 const str = "aaaaaabbcc"\
 output => 'a6b2c2'
 
@@ -1423,7 +1423,7 @@ function compress(s) {
 console.log(compress(str));
 ```
 
-> ### Q40 - Check two given strings are isomorphic in JavaScript
+> ### Q41 - Check two given strings are isomorphic in JavaScript
 Two strings are said to be isomorphic if it is possible to map every character of the first string to every character 
 of the second string. Basically, in isomorphic strings, there is a one-to-one mapping between every character of 
 the first string to every character of the second string
@@ -1471,7 +1471,7 @@ console.log(checkIsomorphic(str1, str2));
 console.log(checkIsomorphic(str3, str4));
 ```
 
-> ### Q41 - find count of given digit ( 0 to 9 ) in range 1 to 250
+> ### Q42 - find count of given digit ( 0 to 9 ) in range 1 to 250
 output => 4 -> 52, 9 -> 43
 
 ```js
@@ -1498,7 +1498,7 @@ for (let i = 1; i <= range; i++) {
 console.log(count);
 ```
 
-> ### Q42 - compare ONE-LEVEL object ( custom without JSON.stringify())
+> ### Q43 - compare ONE-LEVEL object ( custom without JSON.stringify())
 const obj1 = { a: 20, b:40 }\
 const obj2 = { a: 20, b:40 }
 
@@ -1528,7 +1528,7 @@ console.log(compareObj(obj1, obj2)); // true
 console.log(compareObj(obj1, obj3)); // true
 ```
 
-> ### Q43 -  Find all subsets of an array  --- nhi smjh aya
+> ### Q44 -  Find all subsets of an array  --- nhi smjh aya
 const arr = [1, 2, 3];\
 output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
 
@@ -1556,7 +1556,7 @@ let subsets = getAllSubsets(array);
 console.log(subsets);
 ```
 
-> ### 44 - Filter array of objects with exclude array
+> ### Q45 - Filter array of objects with exclude array
 
 let items = [\
   { color: "red", type: "tv" },\
@@ -1627,7 +1627,7 @@ for (let i = 0; i < items.length; i++) {
 console.log(filteredItems);
 ```
 
-> ### 45 - Moving selected item at the end of an array ( move all 0 to end I.M.P )
+> ### Q46 - Moving selected item at the end of an array ( move all 0 to end I.M.P )
 const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7]; selected item = 3\
 output => [1, 2, 4, 5, 6, 7, 3, 3, 3];
 
@@ -1670,7 +1670,7 @@ for (let i = 0; i < arr.length; i++) {
 console.log(arr);
 ```
 
-> ### Q46 - write a program to print the first non-repeated number in an array.
+> ### Q47 - write a program to print the first non-repeated number in an array.
 const arr = [1, 2, 3, 1, 2, 4, 5]\
 output => 3
 
@@ -1698,7 +1698,7 @@ const arr = [1, 2, 3, 1, 2, 4, 5];
 console.log(firstNonRepeated(arr)); // Output: 3
 ```
 
-> ### Q47 -  Find all the common elements from the arrays ( not sorted ) .
+> ### Q48 -  Find all the common elements from the arrays ( not sorted ) .
 const arr = [1, 100, 10, 20, 50];\
 const arr1 = [2, 30, 21, 10, 20];\
 output :- [ 10, 20 ]
@@ -1742,7 +1742,7 @@ const commonElements = findCommonElements(arr, arr1);
 console.log(commonElements); // Output: [10, 20]
 ```
 
-> ### 48 - Array of objects manipulatiion.
+> ### Q49 - Array of objects manipulatiion.
 a) declare array of employees & sort them in ascending order (empId)\
 b) declare an array of employees & sort them in ascending order by name.\
 c) declare array of employees & filter the employees whose sal>6000;\
@@ -1791,7 +1791,7 @@ console.log(addIbm);
 ```
 
 
-> ### Q49 - Add Dept info for each employee.
+> ### Q50 - Add Dept info for each employee.
 
 ```js
 const employees = [
