@@ -117,6 +117,8 @@ sortArray(array)
 
 > ### Q4 - Remove duplicate from array.
 ```js
+const array = [1, 2, 3, 3, 4, 5, 5];
+
 function removeDuplicates(array) {
     const uniqueArray = [];
     for (let i = 0; i < array.length; i++) {
@@ -124,12 +126,10 @@ function removeDuplicates(array) {
             uniqueArray.push(array[i]);
         }
     }
-    return uniqueArray;
+    console.log(uniqueArray)
 }
 
-const array = [1, 2, 3, 3, 4, 5, 5];
-const uniqueArray = removeDuplicates(array);
-console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
+removeDuplicates(array); // Output: [1, 2, 3, 4, 5]
 ```
 
 ```js
