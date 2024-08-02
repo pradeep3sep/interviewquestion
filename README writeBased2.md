@@ -1,5 +1,7 @@
 Refer full code in - https://github.com/jayesh2906/JavaScript-with-JC/blob/master/DSA.js
 
+- 
+
 > ### To generate random no
 ```js
 const x = Math.floor(Math.random() * 12 ) // Number between 0 to 11
@@ -40,7 +42,7 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
 
 <br>
 
-> ### swap 2 no without temp
+> ### Q1 - Swap 2 no without temp
 ```js
 let a = 5;
 let b = 10;
@@ -54,7 +56,7 @@ console.log(b); // 5
 
 ```
 
-> ### Q1 - Shuffle algorithm
+> ### Q2 - Shuffle algorithm
 ```js
 function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -70,7 +72,7 @@ console.log(arr);
 ```
 <br>
 
-> ### Q2 - Reverse an array
+> ### Q3 - Reverse an array
 
 ```js
 const data = [1,2,3,4,5,6]
@@ -93,7 +95,7 @@ function reverseArray (arr) {
 ```
 <br>
 
-> ### Q3 - Sort of array
+> ### Q4 - Sort of array
 
 ```js
 const array = [7, 10, 4, 3, 20, 15];
@@ -115,7 +117,7 @@ sortArray(array)
 ```
 <br>
 
-> ### Q4 - Remove duplicate from array.
+> ### Q5 - Remove duplicate from array.
 ```js
 const array = [1, 2, 3, 3, 4, 5, 5];
 
@@ -138,7 +140,8 @@ const uniqueArray = array.filter((value, index) => array.indexOf(value) === inde
 console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 ```
 
-if array is sorted
+**if array is sorted**
+
 ```js
 function removeDuplicates(array) {
     // Sort the array
@@ -159,19 +162,9 @@ const uniqueArray = removeDuplicates(array);
 console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 ```
 
-```js
-const array = [1, 2, 3, 3, 4, 5, 5];
-const uniqueArray = [];
-array.forEach(item => {
-    if (!uniqueArray.includes(item)) {
-        uniqueArray.push(item);
-    }
-});
-console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
-```
 <br>
 
-> ### Q5 - Maximum and minimum of an array using minimum number of comparisons
+> ### Q6 - Maximum and minimum of an array using minimum number of comparisons
 
 Input: arr = [3, 5, 4, 1, 9]
 Output: Minimum element is: 1
@@ -220,7 +213,7 @@ console.log(Math.max.apply(null, numbers)); // 9
 ```
 <br>
 
-> ### Q6 - Find the "Kth" max and min element of an array
+> ### Q7 - Find the "Kth" max and min element of an array
 arr[] = 7 10 4 3 20 15\
 K = 3;\
 Output: kth Min - 7, kth Max - 10
@@ -245,7 +238,7 @@ console.log(max); // 10
 ```
 <br>
 
-> ### Q7 - Given an array of size N containing only 0s, 1s, and 2s; sort the array in ascending order without sort.
+> ### Q8 - Given an array of size N containing only 0s, 1s, and 2s; sort the array in ascending order without sort.
 arr = [0, 2, 1, 2, 0]
 Output: [0, 0, 1, 2, 2]
 
@@ -279,7 +272,7 @@ console.log("Sorted array:", sortArray(arr));
 ```
 <br>
 
-> ### Q8 - Find the Union of two sorted arrays.
+> ### Q9 - Find the Union of two sorted arrays.
 arr1 = [1, 2, 3, 4, 5]
 arr2 = [1, 2, 3, 8, 9]
 output = [ 1, 2, 3, 4, 5, 8, 9 ]
@@ -319,7 +312,7 @@ console.log("unionR", unionR); // [ 1, 2, 3, 4, 5, 8, 9 ]
 ```
 <br>
 
-> ### Q9 - Find the Intersection of two sorted arrays.
+> ### Q10 - Find the Intersection of two sorted arrays.
 arr1 = [1, 2, 3, 4, 5]
 arr2 = [1, 2, 3, 8, 9]
 output = [ 1, 2, 3]
@@ -368,7 +361,7 @@ using while loop sorted array
 
 <br>
 
-> ### Q10 - unique from two arrays
+> ### Q11 - unique from two arrays
 
 const arr3 = [1, 2, 3, 4];
 const arr4 = [1, 2, 5, 6];
@@ -443,7 +436,7 @@ console.log(uniqueElements); // Output: [ 3, 4, 5, 6 ]
 ```
 <br>
 
-> ### Q11 - find duplicate in an array
+> ### Q12 - find duplicate in an array
 
 arr1 = [1, 2, 2, 2, 3, 4, 4, 5]\
 output = [ 2, 4 ]\
@@ -485,11 +478,11 @@ console.log("output", output);
 ```
 <br>
 
-> ### Q12 find all pairs on integer array whose sum is equal to given number
+> ### Q13 find all pairs on integer array whose sum is equal to given number
 arr[] = {1, 5, 7, 1}\
 sum=6\
 Output: 2\
-Explanation:\ 
+Explanation: \
 arr[0] + arr[1] = 1 + 5 = 6 \
 and arr[1] + arr[3] = 5 + 1 = 6.
 
@@ -511,7 +504,7 @@ const arr = [1, 5, 7, 1];
 ```
 <br>
 
-> ### Q13 - find common elements In 3 sorted arrays
+> ### Q14 - find common elements In 3 sorted arrays
 n1 = 6; A = {1, 5, 10, 20, 40, 80}\
 n2 = 5; B = {6, 7, 20, 80, 100}\
 n3 = 8; C = {3, 4, 15, 20, 30, 70, 80, 120}\
@@ -564,9 +557,9 @@ console.log(common)
 
 <br>
 
-> ### Q14 - Given Array of size n, find all elements that appear more than k times
-Input: arr[] = {3, 1, 2, 2, 1, 2, 3, 3}, k = 2\
-Output: {2, 3}
+> ### Q15 - Given Array of size n, find all elements that appear more than k times
+Input: arr = [3, 1, 2, 2, 1, 2, 3, 3], k = 2\
+Output: [2, 3]
 
 ```js
 const arr = [3, 1, 2, 2, 1, 2, 3, 3];
@@ -591,10 +584,10 @@ const arr = [3, 1, 2, 2, 1, 2, 3, 3];
   console.log("result", result);
 ```
 
-> ### Q15 - Find whether an array is a subset of another array
+> ### Q16 - Find whether an array is a subset of another array
 Input:\
-a1[] = {11, 1, 13, 21, 3, 7}\
-a2[] = {11, 3, 7, 1}\
+a1 = [11, 1, 13, 21, 3, 7]\
+a2 = [11, 3, 7, 1]\
 Output: Yes
 
 ```js
@@ -624,7 +617,7 @@ if (isSubset(a1, a2)) {
 }
 ```
 
-> ### Q16 - Find factorial of a large number
+> ### Q17 - Find factorial of a large number
 
 ```js
 function factorial (num) {
@@ -647,7 +640,7 @@ function factorialRecursively (n) {
 
 ```
 
- > ### Find square-root of a number without using native JS function
+ > ### Q18 - Find square-root of a number without using native JS function
 ```js
 var squrt = function (num) {
   var sroot = 1;
@@ -664,9 +657,9 @@ console.log(squrt(25));
 
 <br>
 
-> ### Q17 - Rearrange array in alternating positive & negative items
-Input:  arr[] = {1, 2, 3, -4, -1, 4}\
-Output: arr[] = {-4, 1, -1, 2, 3, 4}
+> ### Q19 - Rearrange array in alternating positive & negative items
+Input:  arr = [1, 2, 3, -4, -1, 4]\
+Output: arr = [-4, 1, -1, 2, 3, 4]
 
 ```js
 function rearrange(arr) {
@@ -707,9 +700,9 @@ console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
 ```
 <br>
 
-> ### Q18 - Find if there is any subarray with sum equal to 0
+> ### Q20 - Find if there is any subarray with sum equal to 0
 
-Input:  arr[] = [4, 2, -3, 1, 6]\
+Input:  arr = [4, 2, -3, 1, 6]\
 Output: [2, -3, 1] is the subarray with sum 0.
 
 ```js
