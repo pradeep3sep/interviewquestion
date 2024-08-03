@@ -1830,7 +1830,7 @@ for (let i = 2; i < accountNo.length - 2; i++) {
 console.log(accountNo.join(""));
 ```
 
-> ### Q50 - WAP to print Credit-card number
+> ### Q51 - WAP to print Credit-card number
 input:- '1111222233334444'\
 output:- '1111-2222-3333-4444'
 
@@ -1848,7 +1848,7 @@ result.push(str.slice(-4));
 console.log(result.join("-"));
 ```
 
-> ### Q51 - WAP to remove special character from a string
+> ### Q52 - WAP to remove special character from a string
 input:- 'hello@#hi&'\
 output:- 'hellohi'
 
@@ -1857,7 +1857,7 @@ const str = "hello@#hi&";
 console.log(str.replace(/[^a-zA-Z0-9 ]/g, ""));
 ```
 
-> ### Q52 - WAP to move all the special characters to the end of the string
+> ### Q53 - WAP to move all the special characters to the end of the string
 
 input:- 'hello@#hi&'\
 output:- 'hellohi@#&'
@@ -1886,7 +1886,7 @@ let output = moveSpecialCharactersToEnd(input);
 console.log(output); // Output will be 'hellohi@#&'
 ```
 
-> ### Q53 - Covert char into word
+> ### Q54 - Covert char into word
 const input = ["c", "a", "k", "e", "", "e", "a", "t", "", "m", "a", "t", "e", "" ];\
 output => ["cake", "eat", "mate"];
 
@@ -1908,7 +1908,7 @@ for (let i = 0; i < input.length; i++) {
 console.log(output); // [ 'cake', 'eat', 'mate' ]
 ```
 
-> ### Q54 - String Capatalize
+> ### Q55 - String Capatalize
 
 let arr = ["jayesh choudhary", "ankit sharma"];\
 Output: JayeshChoudhary , AnkitSharma
@@ -1932,7 +1932,7 @@ for (let i = 0; i < arr.length; i++) {
 }
 ```
 
-> ### Q55 - Rearrange array of Objects
+> ### Q56 - Rearrange array of Objects
 [ { id: '1', name: 'number1' },\
   { id: '2', name: 'number2' },\
   { id: '3', name: 'number3' },\
@@ -1971,7 +1971,7 @@ arr.forEach((obj) => (isNaN(obj.id) ? front.push(obj) : back.push(obj)));
 console.log([...front, ...back]);
 ```
 
-> ### Q56 - Mapping array
+> ### Q57 - Mapping array
  
 let friends = [\
   { name: "chris", age: 13, books: ["sherlock holmes", "english"] },\
@@ -2009,7 +2009,7 @@ friends.forEach((friend) => {
 console.log(result);
 ```
 
-> ### Q57 - Find peak elements from an array, An element is called a peak element if its value is not smaller than the value of its adjacent elements(if they exists).
+> ### Q58 - Find peak elements from an array, An element is called a peak element if its value is not smaller than the value of its adjacent elements(if they exists).
 
 const arr = [1, 2, 3, 77, 6, 99, 2];\
 output :- [ 77, 99 ]
@@ -2031,7 +2031,7 @@ const arr = [1, 2, 3, 77, 6, 99, 2];
 console.log(findPeakElements(arr)); // Output: [77, 99]
 ```
 
-> ### Q58 - find continuous sub-array which adds up to a given number.
+> ### Q59 - find continuous sub-array which adds up to a given number.
 
 A[] = [1,2,3,7,5] , S = 12\
 Output: [ 2, 3, 7 ], [ 7, 5\ ]
@@ -2059,7 +2059,7 @@ console.log(subArrays); // Output: [ [ 2, 3, 7 ], [ 7, 5 ] ]
 
 ```
 
-> ### Q59 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
+> ### Q60 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
 
 Input: S = Bawds jog, flick quartz, vex nymph\
 Output: 1\
@@ -2083,7 +2083,7 @@ function checkPanagram(str) {
 console.log(checkPanagram(str));
 ```
 
-> ### Q60 - Print all subsequences of a string ---- need to see again, much similar like Q42
+> ### Q61 - Print all subsequences of a string ---- need to see again, much similar like Q42
 
 Input : abc\
 Output : a, b, c, ab, bc, ac, abc
@@ -2145,7 +2145,7 @@ generateSubsequences("abc");
 
 
 
-> ### Q61 -  Program to convert time from 12 hour to 24 hour format
+> ### Q62 -  Program to convert time from 12 hour to 24 hour format
 
 Input : 07:05:45PM\
 Output : 19:05:45
@@ -2181,7 +2181,7 @@ console.log("Output:", outputTime); // Output: 19:05:45
 ```
 
 
-> ### 62 -  Program to calculate the number of days between two dates
+> ### 63 -  Program to calculate the number of days between two dates
 var date1 = new Date("06/30/2019");\
 var date2 = new Date("07/30/2019");\
 output => 30 
@@ -2196,7 +2196,7 @@ const day = timeDifference / (1000 * 60 * 60 * 24);
 console.log(day);
 ```
 
-> ### Q63 - Print the middle character of the word. If the word's length is odd, return the middle character. If the word's length is even, return the middle 2 characters.
+> ### Q64 - Print the middle character of the word. If the word's length is odd, return the middle character. If the word's length is even, return the middle 2 characters.
 
 "test" => "es"\
 "testing" => "t"\
@@ -2222,7 +2222,7 @@ console.log(getMiddleCharacter("middle")); // Output: "dd"
 console.log(getMiddleCharacter("A")); // Output: "A"
 ```
 
-> ### Q64 -  Remove given character from string.
+> ### Q65 -  Remove given character from string.
 
 const str = "Jayesh";\
 const char = "a";\
@@ -2243,7 +2243,7 @@ for (let c of str) {
 console.log(result);
 ```
 
-> ### Q65 - Spell out numbers ( convert numbers which are less than 100 into words ).
+> ### Q66 - Spell out numbers ( convert numbers which are less than 100 into words ).
 
 spellNumber(50) => 'Fifty'\
 spellNumber(99) => 'Ninety Nine'\
@@ -2312,7 +2312,7 @@ console.log(spellNumber(997751076)); // Ninety Nine Crore Seventy Seven Lakh Fif
 ```
 
 
-> ### Q66 - Array of objects Manipulation
+> ### Q67 - Array of objects Manipulation
 
 const portfolio = [\
   { name: "Mark", stock: "FB" },\
@@ -2358,7 +2358,7 @@ const shareholder = Object.values(shareholderObj);
 console.log(shareholder);
 ```
 
-> ### Q67 - Finding sum of digits of a number until sum becomes single digit
+> ### Q68 - Finding sum of digits of a number until sum becomes single digit
 const "5431" => "13" => "4"
 
 ```js
@@ -2386,7 +2386,7 @@ const result = sumOfDigits(5431);
 console.log(result); // Output will be 4
 ```
 
-> ### Q68 -  Find sum of numbers occurred only once in the array ( using only one loop )
+> ### Q69 -  Find sum of numbers occurred only once in the array ( using only one loop )
 
 const array = [2, 5, 4, 4, 6, 5, 4, 7, 6];\
 output => 2 + 7 => 9
@@ -2445,7 +2445,7 @@ const result = sumOfNumbersOccurringOnce(array);
 console.log(result); // Output will be 9
 ```
 
-> ### Q69 - Find the smallest positive number missing from an unsorted array
+> ### Q70 - Find the smallest positive number missing from an unsorted array
 
 const arr1 = [2, 3, 7, 6, 8, -1, -10, 15]; // 1\
 const arr2 = [2, 3, -7, 6, 8, 1, -10, 15]; // 4\
@@ -2505,7 +2505,7 @@ console.log(smallestMissingPositive(arr3)); // Output: 2
 console.log(smallestMissingPositive(arr4)); // Output: 6
 ```
 
-> ### Q70 - compare nested object ( custom without JSON.stringify())
+> ### Q71 - compare nested object ( custom without JSON.stringify())
 
 const obj1 = { a: 20, b: { x: 40, y: 60 } };\
 const obj2 = { a: 20, b: { x: 40, y: 60 } };
@@ -2530,7 +2530,7 @@ function compare(obj1, obj2) {
 console.log(compare(obj1, obj2));
 ```
 
-> ### Q71 - Find the 3rd min element of an array without using index and sorting
+> ### Q72 - Find the 3rd min element of an array without using index and sorting
 
 const arr = [7, 10, 4, 3, 20, 15]\
 output => 7 
@@ -2560,7 +2560,7 @@ console.log(min3);
 ```
 
 
-> ### Q72 - Given an array of string return group of anagrams string array
+> ### Q73 - Given an array of string return group of anagrams string array
 
 const arr = ["eat", "tea", "ate", "ball", "dna", "and"]\
 output => [ [ 'eat', 'tea', 'ate' ], [ 'ball' ], [ 'dna', 'and' ] ]
@@ -2584,7 +2584,7 @@ const result = groupAnagrams(arr);
 console.log(result);
 ```
 
-> ### Q73 - Given a positive integer N as input , print first N prime numbers
+> ### Q74 - Given a positive integer N as input , print first N prime numbers
 
 Input  : 5, Output : [2,3,5,7,11]\
 Input  : 0, Output : []
@@ -2654,7 +2654,7 @@ printFirstNPrimes(10); // Prints the first 10 prime numbers
 
 
 
-> ### Q74 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
+> ### Q75 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
 
 Input  : Banana, Output : Ban12\
 Input  : Jayesh, Output : Jayesh
@@ -2689,7 +2689,7 @@ console.log(removeDuplicateswithIndex(str1));
 console.log(removeDuplicateswithIndex(str2));
 ```
 
-> ### Q75 -  Implement the chessBoard pattern
+> ### Q76 -  Implement the chessBoard pattern
 W B W B W B W B\
 B W B W B W B W\
 W B W B W B W B\
@@ -2720,7 +2720,7 @@ function drawChessboard(rows, cols) {
 console.log(drawChessboard(8, 8));
 ```
 
-> ### Q76 - longest_Substring-of-two-strings
+> ### Q77 - longest_Substring-of-two-strings
 
 ```js
 
@@ -2762,7 +2762,7 @@ const str2 = "xyzabcd";
 console.log(longestCommonSubstring(str1, str2)); // Output: "abcd"
 ```
 
-> ### Q77 - shift each letter by number of position in js
+> ### Q78 - shift each letter by number of position in js
 
 ```js
 /* how to shift each letter in the given string N places down in the alphabet? Punctuation, spaces, and capitalization should remain intact. For example if the string is "ac" and num is 2 the output should be "ce".  */
@@ -2794,7 +2794,7 @@ const num = 5;
 console.log(CaesarCipher(str, num)); // Output: "Mjqqt, Btwqi!"
 ```
 
-> ### Q78 - Find the length of the longest substring in the given string s that is the same in reverse.
+> ### Q79 - Find the length of the longest substring in the given string s that is the same in reverse.
 As an example, if the input was “I like racecars that go fast”, the substring (racecar) length would be 7.
 If the length of the input string is 0, return value must be 0.\
 Example:\
@@ -2834,7 +2834,7 @@ console.log(longestPalindromeSubstring("abcde"));    // Output: 1
 console.log(longestPalindromeSubstring("zzbaabcd")); // Output: 4
 ```
 
-> ### Q79 - Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
+> ### Q80 - Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
 For example://
 uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']
 uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']
@@ -2857,7 +2857,7 @@ console.log(uniqueInOrder('ABBCcAD'));
 console.log(uniqueInOrder([1,2,2,3,3]));
 ```
 
-> ### Q80 - Implement a function that adds two numbers together and returns their sum in binary. The conversion can be done before, or after the addition.The binary number returned should be a string.
+> ### Q81 - Implement a function that adds two numbers together and returns their sum in binary. The conversion can be done before, or after the addition.The binary number returned should be a string.
 
 ```js
 // normal
@@ -2884,7 +2884,7 @@ console.log(addBinaryAlt(5, 6));
 
 ```
 
-> ### Q81 - Your goal is to return multiplication table for number that is always an integer from 1 to 10.
+> ### Q82 - Your goal is to return multiplication table for number that is always an integer from 1 to 10.
 
 For example, a multiplication table (string) for number == 5 looks like below:
 
@@ -2922,7 +2922,7 @@ function multiTable(number) {
 
 ```
 
-> ### Q82 - Below is for the fibonacci number
+> ### Q83 - Below is for the fibonacci number
 
 ```js
 // Same as above, using ternary operator - AND THIS IS THE STANDARD SOLUTION
@@ -2947,7 +2947,7 @@ n_th_fibonacci(12)
 ```
 
 
-> ### Q83 - To print 1 to 5 with different cases
+> ### Q84 - To print 1 to 5 with different cases
 
 naive approach
 ```js
@@ -3036,7 +3036,7 @@ for (let i = 0; i < arr1.length; i++) {
 ```
 
 
-> ### Q84 - find-closest-number-in-array.js
+> ### Q85 - find-closest-number-in-array.js
 
 ```js
 // Find the number in an array that is closest to a given number
@@ -3049,7 +3049,7 @@ closestNumInArr = (arr, num) => {
 console.log(closestNumInArr([5,10,15,20,25,30,35], 22));
 ```
 
-> ### Q85 - find-length-of-integer-without-converting-to-string
+> ### Q86 - find-length-of-integer-without-converting-to-string
 
 ```js
 let number = 12345
@@ -3067,7 +3067,7 @@ countDigits_1 = n => {
 console.log(countDigits_1(number));
 ```
 
-> ### Q86 - flatten my deep object to one level depth.
+> ### Q87 - flatten my deep object to one level depth.
 
 ```js
 const input = {
@@ -3283,7 +3283,7 @@ console.log("resultCustom4", resultCustom4);
 
 
 
-> ### Q87 - The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
+> ### Q88 - The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
 
 ```js
 maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])
@@ -3308,7 +3308,7 @@ function maxSequence(arr){
 console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 ```
 
-> ### Q88 - One of the differences between null and undefined is how they are treated differently in JSON.stringify().
+> ### Q89 - One of the differences between null and undefined is how they are treated differently in JSON.stringify().
 
 ``
 JSON.stringify({a: null})      // '{"a":null}'
@@ -3360,7 +3360,7 @@ function undefinedToNull(arg) {
 
 ```
 
-> ### Q89 - Please implement a curry() function, which accepts a function and return a curried one.
+> ### Q90 - Please implement a curry() function, which accepts a function and return a curried one.
 
 Here is an example
 
@@ -3408,7 +3408,7 @@ console.log(curriedJoin(1)(2, 3)) // '1_2_3'
 console.log(curriedJoin(1, 2)(3)) // '1_2_3'
 ```
 
-> ### Q90 - I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
+> ### Q91 - I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
 
 For example, below chained call turns button into a black button with white text.
 
@@ -3443,7 +3443,7 @@ function $(el) {
 $('#button').css('color', '#fff').css('backgroundColor', '#000').css('fontWeight', 'bold')
 ```
 
-> ### Q91 - Create a sum(), which makes following possible
+> ### Q92 - Create a sum(), which makes following possible
 
 ```js
 const sum1 = sum(1)
@@ -3479,7 +3479,7 @@ sum(5)(-1)(2) == 6 // true
 
 In simple words, in curry we have  sum(1)(2)(), but in above we have sum(1)(2), so for this we have used func.valueOf = () => num; the valueof is directly called by js itself due to which we do not need to use call function in end
 
-> ### Q92 - Suppose we have an array of items - A, and another array of indexes in numbers - B
+> ### Q93 - Suppose we have an array of items - A, and another array of indexes in numbers - B
 
 ```js
 const A = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -3515,7 +3515,7 @@ reorderArray(A, B);
 
 console.log(A); // ['F', 'A', 'E', 'D', 'C', 'B']
 ```
-> ### Q93 - window.setTimeout() could be used to schedule some task in the future.
+> ### Q94 - window.setTimeout() could be used to schedule some task in the future.
 
 Could you implement clearAllTimeout() to clear all the timers ? This might be useful when we want to clear things up before page transition.
 
@@ -3577,7 +3577,7 @@ function clearAllTimeout() {
 ```
 
 
-> ### Q94 - For all the basic data types in JavaScript, how could you write a function to detect the type of arbitrary data?
+> ### Q95 - For all the basic data types in JavaScript, how could you write a function to detect the type of arbitrary data?
 
 Besides basic types, you need to also handle also commonly used complex data type including Array, ArrayBuffer, Map, Set, Date and Function
 
@@ -3610,7 +3610,7 @@ function detectType(data) {
 }
 ```
 
-> ### Q95 - If you did unit test before, you must be familiar with Spy.
+> ### Q96 - If you did unit test before, you must be familiar with Spy.
 
 You are asked to create a spyOn(object, methodName), which works the same as jest.spyOn().
 
@@ -3656,7 +3656,7 @@ function spyOn(obj, methodName) {
     return { calls };
 }
 ```
-> ### Q96 - Can you create a range(from, to) which makes following work?
+> ### Q97 - Can you create a range(from, to) which makes following work?
 ```js
 for (let num of range(1, 4)) {
   console.log(num)  
@@ -3742,7 +3742,7 @@ function * range(from, to) {
 const range = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => i + from)
 ```
 
-> ### Q97 - get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.
+> ### Q98 - get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.
 
 Please create your own get().
 
@@ -3782,7 +3782,7 @@ function get(source, path, defaultValue = undefined) {
 
 ```
 
-> ### Q98 _.set(object, path, value) is a handy method to updating an object without checking the property existence.
+> ### Q99 _.set(object, path, value) is a handy method to updating an object without checking the property existence.
 
 Can you create your own set()?
 
@@ -3838,7 +3838,7 @@ function set(obj, path, value) {
 }
 ```
 
-> ### Q99 - longest substring with unique characters
+> ### Q100 - longest substring with unique characters
 
 Given a string, please find the longest substring that has no repeated characters.
 
