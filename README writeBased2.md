@@ -3049,6 +3049,32 @@ closestNumInArr = (arr, num) => {
 console.log(closestNumInArr([5,10,15,20,25,30,35], 22));
 ```
 
+
+```js
+function findClosestNumber(arr, target) {
+  
+    let closest = arr[0];
+    let closestDiff = Math.abs(target - closest);
+
+    for (let i = 1; i < arr.length; i++) {
+        let currentDiff = Math.abs(target - arr[i]);
+
+        if (currentDiff < closestDiff) {
+            closestDiff = currentDiff;
+            closest = arr[i];
+        }
+    }
+
+    return closest;
+}
+
+// Example usage:
+const array = [5,10,15,20,25,30,35];
+const target = 22;
+console.log(findClosestNumber(array, target)); // Output: 20
+```
+
+
 > ### Q86 - find-length-of-integer-without-converting-to-string
 
 ```js
