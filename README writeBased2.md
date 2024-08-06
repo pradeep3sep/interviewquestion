@@ -1,6 +1,6 @@
 Refer full code in - https://github.com/jayesh2906/JavaScript-with-JC/blob/master/DSA.js
 
-- 20,21,22,27,33,35
+- 20,21,22,27,33,35,39,42,44,45,59,61,70,71,74,76,77,79,87
 
 > ### To generate random no
 ```js
@@ -3531,6 +3531,8 @@ function reorderArray(A, B) {
   for (let i = 0; i < A.length; i++) {
     C[B[i]] = A[i];
   }
+
+  // now is C = [ 'F', 'A', 'E', 'D', 'C', 'B' ]
 
   // Copy the elements back to A to modify it inline
   for (let i = 0; i < A.length; i++) {
