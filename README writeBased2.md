@@ -3336,7 +3336,7 @@ console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 
 > ### Q89 - One of the differences between null and undefined is how they are treated differently in JSON.stringify().
 
-```
+```js
 JSON.stringify({a: null})      // '{"a":null}'
 JSON.stringify({a: undefined}) // '{}'
 
@@ -3347,12 +3347,13 @@ This difference might create troubles if there are missing alignments between cl
 
 You are asked to implement `undefinedToNull()` to return a copy that has all undefined replaced with null.
 
+```js
 undefinedToNull({a: undefined, b: 'BFE.dev'})\
 // {a: null, b: 'BFE.dev'}
 
 undefinedToNull({a: ['BFE.dev', undefined, 'bigfrontend.dev']})\
 // {a: ['BFE.dev', null, 'bigfrontend.dev']}
-
+```
 
 solution
 
