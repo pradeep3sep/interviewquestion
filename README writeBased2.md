@@ -3336,7 +3336,7 @@ console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 
 > ### Q89 - One of the differences between null and undefined is how they are treated differently in JSON.stringify().
 
-``
+```
 JSON.stringify({a: null})      // '{"a":null}'
 JSON.stringify({a: undefined}) // '{}'
 
