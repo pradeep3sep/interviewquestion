@@ -3800,6 +3800,9 @@ get(obj, 'a.c', 'bfe') // 'bfe'
 function get(source, path, defaultValue = undefined) {
   // your code here
   const props = Array.isArray(path)? path: path.replaceAll('[','.').replaceAll(']','').split('.');
+
+  // sabsko [ 'a', 'b', 'c', '1' ] or [ 'a', 'b', 'c' ] ish format me convert karna h
+
   let curNode = source;
   for(let i=0;i<props.length;i++){
     let k = props[i];
