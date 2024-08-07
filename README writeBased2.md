@@ -5116,27 +5116,7 @@ console.log(vnode); // VNode { tag: 'div', props: { id: 'app' }, children: [ VNo
 
 <br>
 
-
-> ### Q125 -  Implement a custom function _chunk() which chunks the arrays from Lodash Library
-
-```js
-function _chunk(array, size = 1) {
-  const chunkedArray = [];
-  for (let i = 0; i < array.length; i += size) {
-    chunkedArray.push(array.slice(i, i + size));
-  }
-  return chunkedArray;
-}
-
-// Usage
-console.log(_chunk([1, 2, 3, 4, 5], 2)); // [[1, 2], [3, 4], [5]]
-console.log(_chunk([1, 2, 3, 4, 5], 3)); // [[1, 2, 3], [4, 5]]
-```
-
-<br>
-
-
-> ### Q126 - Creating a counter using setTimeout in JavaScript
+> ### Q125 - Creating a counter using setTimeout in JavaScript
 
 ```js
 // Initialize the counter
@@ -5160,7 +5140,7 @@ startCounter();
 <br>
 
 
-> ### Q127 Given an alphanumeric string, return the list of distinct numbers present in the string.
+> ### Q126 Given an alphanumeric string, return the list of distinct numbers present in the string.
 Input: "som23era23nd56omstr23ing", output: [23,56]
 
 ```js
