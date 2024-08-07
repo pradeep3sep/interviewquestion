@@ -4697,9 +4697,56 @@ function largestNumber(nums) {
 // Sample input
 const nums = [3, 30, 34, 5, 9];
 console.log(largestNumber(nums)); // Output: "9534330"
-
-
 ```
+
+The provided code snippet is a custom sorting function in JavaScript used with the `Array.prototype.sort()` method. It sorts an array of numbers (or strings that represent numbers) in a specific order based on the concatenation of the elements. Here's a detailed breakdown:
+
+```javascript
+nums.sort((a, b) => (b + a) - (a + b));
+```
+
+- `nums.sort(...)`: This calls the `sort` method on the `nums` array.
+- `(a, b) => ...`: This is an arrow function that defines the comparison logic between two elements, `a` and `b`.
+
+### Comparison Logic
+
+1. **Concatenation of Elements**:
+   - `b + a`: Concatenates `b` and `a` as strings.
+   - `a + b`: Concatenates `a` and `b` as strings.
+
+2. **Subtraction**:
+   - `(b + a) - (a + b)`: Compares the two concatenated strings by their numeric values.
+
+### Example
+
+Let's say `nums` is an array of numbers represented as strings:
+
+```javascript
+let nums = ["3", "30", "34", "5", "9"];
+```
+
+- For `a = "3"` and `b = "30"`:
+  - `b + a` results in `"303"`
+  - `a + b` results in `"330"`
+  - `"303" - "330"` results in a negative value, so `"3"` comes after `"30"`.
+
+This custom comparator sorts the numbers such that the concatenation results in the largest possible combined number.
+
+### Purpose
+
+The purpose of this sorting function is to order the numbers in such a way that when they are concatenated, they form the largest possible number. This kind of problem is commonly encountered in coding challenges and interviews, often referred to as the "largest number" problem.
+
+### Full Example
+
+Here's how you might use this sorting function:
+
+```javascript
+let nums = ["3", "30", "34", "5", "9"];
+nums.sort((a, b) => (b + a) - (a + b));
+console.log(nums.join('')); // Outputs: "9534330"
+```
+
+In this example, the sorted array results in the string `"9534330"`, which is the largest possible number formed by concatenating the elements of the array.
 
 <br>
 
