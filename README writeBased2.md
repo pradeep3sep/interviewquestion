@@ -2,6 +2,8 @@ Refer full code in - https://github.com/jayesh2906/JavaScript-with-JC/blob/maste
 
 - 20,21,22,27,33,35,39,42,44,45,59,61,70,71,74,76,77,79,87
 
+<br>
+
 > ### To generate random no
 ```js
 const x = Math.floor(Math.random() * 12 ) // Number between 0 to 11
@@ -55,6 +57,9 @@ console.log(a); // 10
 console.log(b); // 5
 
 ```
+
+<br>
+
 
 > ### Q2 - Shuffle algorithm
 ```js
@@ -584,6 +589,9 @@ const arr = [3, 1, 2, 2, 1, 2, 3, 3];
   console.log("result", result);
 ```
 
+<br>
+
+
 > ### Q16 - Find whether an array is a subset of another array
 Input:\
 a1 = [11, 1, 13, 21, 3, 7]\
@@ -617,6 +625,9 @@ if (isSubset(a1, a2)) {
 }
 ```
 
+<br>
+
+
 > ### Q17 - Find factorial of a large number
 
 ```js
@@ -639,6 +650,9 @@ function factorialRecursively (n) {
 }
 
 ```
+
+<br>
+
 
  > ### Q18 - Find square-root of a number without using native JS function
 ```js
@@ -826,6 +840,9 @@ console.log(maxProductOfThreeeElem([-4,-2,-3,1]));  // => 12
 
 ```
 
+<br>
+
+
 > ### Q22 - Find longest consecutive subsequence
 a[] = [2,6,1,9,4,5,3]\
 Output:\
@@ -949,6 +966,7 @@ const str1 = "abcba";
 const rev = str1;
 console.log(rev.split("").reverse().join("") === str1);
 ```
+
 <br>
 
 > ### Q26 - Find Duplicate characters in a string
@@ -973,6 +991,7 @@ console.log(rev.split("").reverse().join("") === str1);
 
   console.log(map);
 ```
+
 <br>
 
 > ### Q27- Write a Code to check whether one string is a rotation of another
@@ -998,6 +1017,7 @@ Output: Strings are not rotations of each other
 
   console.log(checkRotation(str1, str2));
 ```
+
 <br>
 
 > ### Q28 - Write a Program to check whether a string is a valid shuffle of two strings or not
@@ -1031,6 +1051,7 @@ console.log(isShuffle(string, string1, string2)); // Output: true
 const invalidString = "bacde";
 console.log(isShuffle(invalidString, string1, string2)); // Output: false
 ```
+
 <br>
 
 > ### Q29 - Balanced Parenthesis problem.
@@ -1061,6 +1082,7 @@ function isBalanced(str) {
 console.log(isBalanced("[(())]{}{[()()]()}")); // Output: true
 console.log(isBalanced("[(])"));  // Output: false
 ```
+
 <br>
 
 > ### Q30 - Find Elements that occurred only once in the array
@@ -1094,6 +1116,7 @@ const array = [1, 2, 3, 4, 5, 1, 2, 3, 4];
 console.log(findUniqueElements(array)); // Output: [5]
 
 ```
+
 <br>
 
 > ### Q31 -  Find maximum char from string.
@@ -1121,6 +1144,7 @@ const str = "hello";
 const maxChar = findMaxChar(str);
 console.log(maxChar); // Output: l
 ```
+
 <br>
 
 > ### Q32 - Check Whether Two Strings Are Anagram Of Each Other
@@ -1181,6 +1205,9 @@ const string2 = "dabc";
 console.log(areAnagrams(string1, string2)); // Output: true
 ```
 
+<br>
+
+
 > ### Q33 - convert a array into small chunks of given size
 
  const arr = [1,2,3,4,5,6,7], size of chunk = 2\
@@ -1198,6 +1225,9 @@ console.log(areAnagrams(string1, string2)); // Output: true
   console.log(chunks); // [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7 ] ]
 ```
 
+<br>
+
+
 > ### Q34 - Array Rotation by n
 const arr = [1,2,3,4,5,6] n=2\
 output =>   [5,6,1,2,3,4]
@@ -1211,6 +1241,9 @@ const end = start + arr1.length;
 
 console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 ```
+
+<br>
+
 
 > ### Q35 - Find all permutations of string  LOGIC
  const str = "ABC"\
@@ -1249,6 +1282,9 @@ const result = permutations(inputString);
 console.log(result);
 ```
 
+<br>
+
+
 > ### Q36 - Find missing number from an array 1 to n. ( sum of 1 to n and subtract all one by one to get missing number )
 
  const arr = [1,2,3,5,6]\
@@ -1281,6 +1317,9 @@ for (let i = 1; i < arr.length; i++) {
 console.log(missing);
 ```
 
+<br>
+
+
 > ### Q37 - Remove duplicate items object from an array
 const arr = [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 5 }]\
 output => [{ id: 1 }, { id: 2 }, { id: 5 }]
@@ -1301,6 +1340,9 @@ for (let item of arr) {
 
 console.log(result); // [ { id: 1 }, { id: 2 }, { id: 5 } ]
 ```
+
+<br>
+
 
 > ### Q38 - Check all the chars are unique in string
 const str = "Jayesh"\
@@ -1330,6 +1372,9 @@ function checkAllCharUnique(s) {
 console.log(checkAllCharUnique(str)); // true
 console.log(checkAllCharUnique(str2)); // false
 ```
+
+<br>
+
 
 
 > ### Q39 - Implement Deep copy of an object ( deepClone )
@@ -1391,6 +1436,9 @@ function cloneDeep(obj, map = new Map()) {
 }
 ```
 
+<br>
+
+
 > ### Q40 - String compression
 const str = "aaaaaabbcc"\
 output => 'a6b2c2'
@@ -1422,6 +1470,9 @@ function compress(s) {
 
 console.log(compress(str));
 ```
+
+<br>
+
 
 > ### Q41 - Check two given strings are isomorphic in JavaScript
 Two strings are said to be isomorphic if it is possible to map every character of the first string to every character 
@@ -1471,6 +1522,9 @@ console.log(checkIsomorphic(str1, str2));
 console.log(checkIsomorphic(str3, str4));
 ```
 
+<br>
+
+
 > ### Q42 - find count of given digit ( 0 to 9 ) in range 1 to 250
 output => 4 -> 52, 9 -> 43
 
@@ -1497,6 +1551,9 @@ for (let i = 1; i <= range; i++) {
 }
 console.log(count);
 ```
+
+<br>
+
 
 > ### Q43 - compare ONE-LEVEL object ( custom without JSON.stringify())
 const obj1 = { a: 20, b:40 }\
@@ -1528,6 +1585,9 @@ console.log(compareObj(obj1, obj2)); // true
 console.log(compareObj(obj1, obj3)); // true
 ```
 
+<br>
+
+
 > ### Q44 -  Find all subsets of an array  --- nhi smjh aya
 const arr = [1, 2, 3];\
 output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
@@ -1555,6 +1615,9 @@ let array = [1, 2, 3];
 let subsets = getAllSubsets(array);
 console.log(subsets);
 ```
+
+<br>
+
 
 > ### Q45 - Filter array of objects with exclude array
 
@@ -1627,6 +1690,9 @@ for (let i = 0; i < items.length; i++) {
 console.log(filteredItems);
 ```
 
+<br>
+
+
 > ### Q46 - Moving selected item at the end of an array ( move all 0 to end I.M.P )
 const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7]; selected item = 3\
 output => [1, 2, 4, 5, 6, 7, 3, 3, 3];
@@ -1670,6 +1736,9 @@ for (let i = 0; i < arr.length; i++) {
 console.log(arr);
 ```
 
+<br>
+
+
 > ### Q47 - write a program to print the first non-repeated number in an array.
 const arr = [1, 2, 3, 1, 2, 4, 5]\
 output => 3
@@ -1697,6 +1766,9 @@ function firstNonRepeated(arr) {
 const arr = [1, 2, 3, 1, 2, 4, 5];
 console.log(firstNonRepeated(arr)); // Output: 3
 ```
+
+<br>
+
 
 > ### Q48 -  Find all the common elements from the arrays ( not sorted ) .
 const arr = [1, 100, 10, 20, 50];\
@@ -1741,6 +1813,9 @@ const arr1 = [2, 30, 21, 10, 20];
 const commonElements = findCommonElements(arr, arr1);
 console.log(commonElements); // Output: [10, 20]
 ```
+
+<br>
+
 
 > ### Q49 - Array of objects manipulatiion.
 a) declare array of employees & sort them in ascending order (empId)\
@@ -1790,6 +1865,8 @@ const addIbm = employees.map((employee) => ({ ...employee, comp: "IBM" }));
 console.log(addIbm);
 ```
 
+<br>
+
 
 > ### Q50 - Add Dept info for each employee.
 
@@ -1817,7 +1894,10 @@ const updatedEmployees = employees.map((employee) => {
 console.log(updatedEmployees);
 ```
 
-> ### Q50 - WAP to print Account number
+<br>
+
+
+> ### Q51 - WAP to print Account number
 input:- '12345678987'\
 output:- '12*******87'
 
@@ -1830,7 +1910,10 @@ for (let i = 2; i < accountNo.length - 2; i++) {
 console.log(accountNo.join(""));
 ```
 
-> ### Q51 - WAP to print Credit-card number
+<br>
+
+
+> ### Q52 - WAP to print Credit-card number
 input:- '1111222233334444'\
 output:- '1111-2222-3333-4444'
 
@@ -1848,7 +1931,10 @@ result.push(str.slice(-4));
 console.log(result.join("-"));
 ```
 
-> ### Q52 - WAP to remove special character from a string
+<br>
+
+
+> ### Q53 - WAP to remove special character from a string
 input:- 'hello@#hi&'\
 output:- 'hellohi'
 
@@ -1857,7 +1943,10 @@ const str = "hello@#hi&";
 console.log(str.replace(/[^a-zA-Z0-9 ]/g, ""));
 ```
 
-> ### Q53 - WAP to move all the special characters to the end of the string
+<br>
+
+
+> ### Q54 - WAP to move all the special characters to the end of the string
 
 input:- 'hello@#hi&'\
 output:- 'hellohi@#&'
@@ -1886,7 +1975,10 @@ let output = moveSpecialCharactersToEnd(input);
 console.log(output); // Output will be 'hellohi@#&'
 ```
 
-> ### Q54 - Covert char into word
+<br>
+
+
+> ### Q55 - Covert char into word
 const input = ["c", "a", "k", "e", "", "e", "a", "t", "", "m", "a", "t", "e", "" ];\
 output => ["cake", "eat", "mate"];
 
@@ -1908,7 +2000,10 @@ for (let i = 0; i < input.length; i++) {
 console.log(output); // [ 'cake', 'eat', 'mate' ]
 ```
 
-> ### Q55 - String Capatalize
+<br>
+
+
+> ### Q56 - String Capatalize
 
 let arr = ["jayesh choudhary", "ankit sharma"];\
 Output: JayeshChoudhary , AnkitSharma
@@ -1932,7 +2027,10 @@ for (let i = 0; i < arr.length; i++) {
 }
 ```
 
-> ### Q56 - Rearrange array of Objects
+<br>
+
+
+> ### Q57 - Rearrange array of Objects
 [ { id: '1', name: 'number1' },\
   { id: '2', name: 'number2' },\
   { id: '3', name: 'number3' },\
@@ -1971,7 +2069,10 @@ arr.forEach((obj) => (isNaN(obj.id) ? front.push(obj) : back.push(obj)));
 console.log([...front, ...back]);
 ```
 
-> ### Q57 - Mapping array
+<br>
+
+
+> ### Q58 - Mapping array
  
 let friends = [\
   { name: "chris", age: 13, books: ["sherlock holmes", "english"] },\
@@ -2009,7 +2110,10 @@ friends.forEach((friend) => {
 console.log(result);
 ```
 
-> ### Q58 - Find peak elements from an array, An element is called a peak element if its value is not smaller than the value of its adjacent elements(if they exists).
+<br>
+
+
+> ### Q59 - Find peak elements from an array, An element is called a peak element if its value is not smaller than the value of its adjacent elements(if they exists).
 
 const arr = [1, 2, 3, 77, 6, 99, 2];\
 output :- [ 77, 99 ]
@@ -2031,7 +2135,10 @@ const arr = [1, 2, 3, 77, 6, 99, 2];
 console.log(findPeakElements(arr)); // Output: [77, 99]
 ```
 
-> ### Q59 - find continuous sub-array which adds up to a given number.
+<br>
+
+
+> ### Q60 - find continuous sub-array which adds up to a given number.
 
 A[] = [1,2,3,7,5] , S = 12\
 Output: [ 2, 3, 7 ], [ 7, 5\ ]
@@ -2059,7 +2166,10 @@ console.log(subArrays); // Output: [ [ 2, 3, 7 ], [ 7, 5 ] ]
 
 ```
 
-> ### Q60 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
+<br>
+
+
+> ### Q61 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
 
 Input: S = Bawds jog, flick quartz, vex nymph\
 Output: 1\
@@ -2083,7 +2193,10 @@ function checkPanagram(str) {
 console.log(checkPanagram(str));
 ```
 
-> ### Q61 - Print all subsequences of a string ---- need to see again, much similar like Q42
+<br>
+
+
+> ### Q62 - Print all subsequences of a string ---- need to see again, much similar like Q42
 
 Input : abc\
 Output : a, b, c, ab, bc, ac, abc
@@ -2143,9 +2256,9 @@ generateSubsequences("abc");
 
 ```
 
+<br>
 
-
-> ### Q62 -  Program to convert time from 12 hour to 24 hour format
+> ### Q63 -  Program to convert time from 12 hour to 24 hour format
 
 Input : 07:05:45PM\
 Output : 19:05:45
@@ -2181,7 +2294,10 @@ console.log("Output:", outputTime); // Output: 19:05:45
 ```
 
 
-> ### 63 -  Program to calculate the number of days between two dates
+<br>
+
+
+> ### 64 -  Program to calculate the number of days between two dates
 var date1 = new Date("06/30/2019");\
 var date2 = new Date("07/30/2019");\
 output => 30 
@@ -2196,7 +2312,10 @@ const day = timeDifference / (1000 * 60 * 60 * 24);
 console.log(day);
 ```
 
-> ### Q64 - Print the middle character of the word. If the word's length is odd, return the middle character. If the word's length is even, return the middle 2 characters.
+<br>
+
+
+> ### Q65 - Print the middle character of the word. If the word's length is odd, return the middle character. If the word's length is even, return the middle 2 characters.
 
 "test" => "es"\
 "testing" => "t"\
@@ -2222,7 +2341,10 @@ console.log(getMiddleCharacter("middle")); // Output: "dd"
 console.log(getMiddleCharacter("A")); // Output: "A"
 ```
 
-> ### Q65 -  Remove given character from string.
+<br>
+
+
+> ### Q66 -  Remove given character from string.
 
 const str = "Jayesh";\
 const char = "a";\
@@ -3926,6 +4048,7 @@ function longestUniqueSubstr(s) {
 console.log(longestUniqueSubstr('aaaaa')); // 'a'
 console.log(longestUniqueSubstr('abcabc')); // 'abc', 'bca', or 'cab'
 console.log(longestUniqueSubstr('a12#2')); // 'a12#'
+console.log(longestUniqueSubstr('pwwkew')); // Output: 'wke'
 ```
 
 > ### Q100 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
