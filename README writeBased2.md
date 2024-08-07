@@ -2365,7 +2365,10 @@ for (let c of str) {
 console.log(result);
 ```
 
-> ### Q66 - Spell out numbers ( convert numbers which are less than 100 into words ).
+<br>
+
+
+> ### Q67 - Spell out numbers ( convert numbers which are less than 100 into words ).
 
 spellNumber(50) => 'Fifty'\
 spellNumber(99) => 'Ninety Nine'\
@@ -2434,7 +2437,9 @@ console.log(spellNumber(997751076)); // Ninety Nine Crore Seventy Seven Lakh Fif
 ```
 
 
-> ### Q67 - Array of objects Manipulation
+<br>
+
+> ### Q68 - Array of objects Manipulation
 
 const portfolio = [\
   { name: "Mark", stock: "FB" },\
@@ -2480,7 +2485,10 @@ const shareholder = Object.values(shareholderObj);
 console.log(shareholder);
 ```
 
-> ### Q68 - Finding sum of digits of a number until sum becomes single digit
+<br>
+
+
+> ### Q69 - Finding sum of digits of a number until sum becomes single digit
 const "5431" => "13" => "4"
 
 ```js
@@ -2508,7 +2516,10 @@ const result = sumOfDigits(5431);
 console.log(result); // Output will be 4
 ```
 
-> ### Q69 -  Find sum of numbers occurred only once in the array ( using only one loop )
+<br>
+
+
+> ### Q70 -  Find sum of numbers occurred only once in the array ( using only one loop )
 
 const array = [2, 5, 4, 4, 6, 5, 4, 7, 6];\
 output => 2 + 7 => 9
@@ -2567,7 +2578,10 @@ const result = sumOfNumbersOccurringOnce(array);
 console.log(result); // Output will be 9
 ```
 
-> ### Q70 - Find the smallest positive number missing from an unsorted array
+<br>
+
+
+> ### Q71 - Find the smallest positive number missing from an unsorted array
 
 const arr1 = [2, 3, 7, 6, 8, -1, -10, 15]; // 1\
 const arr2 = [2, 3, -7, 6, 8, 1, -10, 15]; // 4\
@@ -2627,7 +2641,10 @@ console.log(smallestMissingPositive(arr3)); // Output: 2
 console.log(smallestMissingPositive(arr4)); // Output: 6
 ```
 
-> ### Q71 - compare nested object ( custom without JSON.stringify())
+<br>
+
+
+> ### Q72 - compare nested object ( custom without JSON.stringify())
 
 const obj1 = { a: 20, b: { x: 40, y: 60 } };\
 const obj2 = { a: 20, b: { x: 40, y: 60 } };
@@ -2652,7 +2669,10 @@ function compare(obj1, obj2) {
 console.log(compare(obj1, obj2));
 ```
 
-> ### Q72 - Find the 3rd min element of an array without using index and sorting
+<br>
+
+
+> ### Q73 - Find the 3rd min element of an array without using index and sorting
 
 const arr = [7, 10, 4, 3, 20, 15]\
 output => 7 
@@ -2681,8 +2701,11 @@ for (let num of arr) {
 console.log(min3);
 ```
 
+<br>
 
-> ### Q73 - Given an array of string return group of anagrams string array
+
+
+> ### Q74 - Given an array of string return group of anagrams string array
 
 const arr = ["eat", "tea", "ate", "ball", "dna", "and"]\
 output => [ [ 'eat', 'tea', 'ate' ], [ 'ball' ], [ 'dna', 'and' ] ]
@@ -2706,7 +2729,10 @@ const result = groupAnagrams(arr);
 console.log(result);
 ```
 
-> ### Q74 - Given a positive integer N as input , print first N prime numbers
+<br>
+
+
+> ### Q75 - Given a positive integer N as input , print first N prime numbers
 
 Input  : 5, Output : [2,3,5,7,11]\
 Input  : 0, Output : []
@@ -2774,9 +2800,9 @@ function printFirstNPrimes(N) {
 printFirstNPrimes(10); // Prints the first 10 prime numbers
 ```
 
+<br>
 
-
-> ### Q75 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
+> ### Q76 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
 
 Input  : Banana, Output : Ban12\
 Input  : Jayesh, Output : Jayesh
@@ -2811,7 +2837,10 @@ console.log(removeDuplicateswithIndex(str1));
 console.log(removeDuplicateswithIndex(str2));
 ```
 
-> ### Q76 -  Implement the chessBoard pattern
+<br>
+
+
+> ### Q77 -  Implement the chessBoard pattern
 W B W B W B W B\
 B W B W B W B W\
 W B W B W B W B\
@@ -2842,7 +2871,10 @@ function drawChessboard(rows, cols) {
 console.log(drawChessboard(8, 8));
 ```
 
-> ### Q77 - longest_Substring-of-two-strings
+<br>
+
+
+> ### Q78 - longest_Substring-of-two-strings
 
 ```js
 
@@ -2884,7 +2916,10 @@ const str2 = "xyzabcd";
 console.log(longestCommonSubstring(str1, str2)); // Output: "abcd"
 ```
 
-> ### Q78 - shift each letter by number of position in js
+<br>
+
+
+> ### Q79 - shift each letter by number of position in js
 
 ```js
 /* how to shift each letter in the given string N places down in the alphabet? Punctuation, spaces, and capitalization should remain intact. For example if the string is "ac" and num is 2 the output should be "ce".  */
@@ -2916,7 +2951,10 @@ const num = 5;
 console.log(CaesarCipher(str, num)); // Output: "Mjqqt, Btwqi!"
 ```
 
-> ### Q79 - Find the length of the longest substring in the given string s that is the same in reverse.
+<br>
+
+
+> ### Q80 - Find the length of the longest substring in the given string s that is the same in reverse.
 As an example, if the input was “I like racecars that go fast”, the substring (racecar) length would be 7.
 If the length of the input string is 0, return value must be 0.\
 Example:\
@@ -2956,7 +2994,10 @@ console.log(longestPalindromeSubstring("abcde"));    // Output: 1
 console.log(longestPalindromeSubstring("zzbaabcd")); // Output: 4
 ```
 
-> ### Q80 - Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
+<br>
+
+
+> ### Q81 - Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
 For example://
 uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']
 uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']
@@ -2979,7 +3020,10 @@ console.log(uniqueInOrder('ABBCcAD'));
 console.log(uniqueInOrder([1,2,2,3,3]));
 ```
 
-> ### Q81 - Implement a function that adds two numbers together and returns their sum in binary. The conversion can be done before, or after the addition.The binary number returned should be a string.
+<br>
+
+
+> ### Q82 - Implement a function that adds two numbers together and returns their sum in binary. The conversion can be done before, or after the addition.The binary number returned should be a string.
 
 ```js
 // normal
@@ -3006,7 +3050,10 @@ console.log(addBinaryAlt(5, 6));
 
 ```
 
-> ### Q82 - Your goal is to return multiplication table for number that is always an integer from 1 to 10.
+<br>
+
+
+> ### Q83 - Your goal is to return multiplication table for number that is always an integer from 1 to 10.
 
 For example, a multiplication table (string) for number == 5 looks like below:
 
@@ -3044,7 +3091,10 @@ function multiTable(number) {
 
 ```
 
-> ### Q83 - Below is for the fibonacci number
+<br>
+
+
+> ### Q84 - Below is for the fibonacci number
 
 ```js
 // Same as above, using ternary operator - AND THIS IS THE STANDARD SOLUTION
@@ -3069,7 +3119,10 @@ n_th_fibonacci(12)
 ```
 
 
-> ### Q84 - To print 1 to 5 with different cases
+<br>
+
+
+> ### Q85 - To print 1 to 5 with different cases
 
 naive approach
 ```js
@@ -3158,7 +3211,10 @@ for (let i = 0; i < arr1.length; i++) {
 ```
 
 
-> ### Q85 - find-closest-number-in-array.js
+<br>
+
+
+> ### Q86 - find-closest-number-in-array.js
 
 ```js
 // Find the number in an array that is closest to a given number
@@ -3196,8 +3252,11 @@ const target = 22;
 console.log(findClosestNumber(array, target)); // Output: 20
 ```
 
+<br>
 
-> ### Q86 - find-length-of-integer-without-converting-to-string
+
+
+> ### Q87 - find-length-of-integer-without-converting-to-string
 
 ```js
 let number = 12345
@@ -3215,7 +3274,10 @@ countDigits_1 = n => {
 console.log(countDigits_1(number));
 ```
 
-> ### Q87 - flatten my deep object to one level depth.
+<br>
+
+
+> ### Q88 - flatten my deep object to one level depth.
 
 ```js
 const input = {
@@ -3429,9 +3491,10 @@ console.log("resultCustom3", resultCustom3);
 console.log("resultCustom4", resultCustom4);
 ```
 
+<br>
 
 
-> ### Q88 - The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
+> ### Q89 - The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
 
 ```js
 maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])
@@ -3456,7 +3519,10 @@ function maxSequence(arr){
 console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
 ```
 
-> ### Q89 - One of the differences between null and undefined is how they are treated differently in JSON.stringify().
+
+<br>
+
+> ### Q90 - One of the differences between null and undefined is how they are treated differently in JSON.stringify().
 
 ```js
 JSON.stringify({a: null})      // '{"a":null}'
@@ -3509,7 +3575,10 @@ function undefinedToNull(arg) {
 
 ```
 
-> ### Q90 - Please implement a curry() function, which accepts a function and return a curried one.
+<br>
+
+
+> ### Q91 - Please implement a curry() function, which accepts a function and return a curried one.
 
 Here is an example
 
@@ -3557,7 +3626,10 @@ console.log(curriedJoin(1)(2, 3)) // '1_2_3'
 console.log(curriedJoin(1, 2)(3)) // '1_2_3'
 ```
 
-> ### Q91 - I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
+<br>
+
+
+> ### Q92 - I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
 
 For example, below chained call turns button into a black button with white text.
 
@@ -3592,7 +3664,10 @@ function $(el) {
 $('#button').css('color', '#fff').css('backgroundColor', '#000').css('fontWeight', 'bold')
 ```
 
-> ### Q92 - Create a sum(), which makes following possible
+<br>
+
+
+> ### Q93 - Create a sum(), which makes following possible
 
 ```js
 const sum1 = sum(1)
@@ -3628,7 +3703,10 @@ sum(5)(-1)(2) == 6 // true
 
 In simple words, in curry we have  sum(1)(2)(), but in above we have sum(1)(2), so for this we have used func.valueOf = () => num; the valueof is directly called by js itself due to which we do not need to use call function in end
 
-> ### Q93 - Suppose we have an array of items - A, and another array of indexes in numbers - B
+<br>
+
+
+> ### Q94 - Suppose we have an array of items - A, and another array of indexes in numbers - B
 
 ```js
 const A = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -3666,7 +3744,11 @@ reorderArray(A, B);
 
 console.log(A); // ['F', 'A', 'E', 'D', 'C', 'B']
 ```
-> ### Q94 - window.setTimeout() could be used to schedule some task in the future.
+
+<br>
+
+
+> ### Q95 - window.setTimeout() could be used to schedule some task in the future.
 
 Could you implement clearAllTimeout() to clear all the timers ? This might be useful when we want to clear things up before page transition.
 
@@ -3727,8 +3809,11 @@ function clearAllTimeout() {
 }
 ```
 
+<br>
 
-> ### Q95 - For all the basic data types in JavaScript, how could you write a function to detect the type of arbitrary data?
+
+
+> ### Q96 - For all the basic data types in JavaScript, how could you write a function to detect the type of arbitrary data?
 
 Besides basic types, you need to also handle also commonly used complex data type including Array, ArrayBuffer, Map, Set, Date and Function
 
@@ -3761,7 +3846,10 @@ function detectType(data) {
 }
 ```
 
-> ### Q96 - If you did unit test before, you must be familiar with Spy.
+<br>
+
+
+> ### Q97 - If you did unit test before, you must be familiar with Spy.
 
 You are asked to create a spyOn(object, methodName), which works the same as jest.spyOn().
 
@@ -3807,7 +3895,11 @@ function spyOn(obj, methodName) {
     return { calls };
 }
 ```
-> ### Q97 - Can you create a range(from, to) which makes following work?
+
+<br>
+
+
+> ### Q98 - Can you create a range(from, to) which makes following work?
 ```js
 for (let num of range(1, 4)) {
   console.log(num)  
@@ -3893,7 +3985,10 @@ function * range(from, to) {
 const range = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => i + from)
 ```
 
-> ### Q98 - get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.
+<br>
+
+
+> ### Q99 - get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.
 
 Please create your own get().
 
@@ -3936,7 +4031,10 @@ function get(source, path, defaultValue = undefined) {
 
 ```
 
-> ### Q99 _.set(object, path, value) is a handy method to updating an object without checking the property existence.
+<br>
+
+
+> ### Q100 _.set(object, path, value) is a handy method to updating an object without checking the property existence.
 
 Can you create your own set()?
 
@@ -3992,7 +4090,10 @@ function set(obj, path, value) {
 }
 ```
 
-> ### Q100 - longest substring with unique characters
+<br>
+
+
+> ### Q101 - longest substring with unique characters
 
 Given a string, please find the longest substring that has no repeated characters.
 
@@ -4051,7 +4152,10 @@ console.log(longestUniqueSubstr('a12#2')); // 'a12#'
 console.log(longestUniqueSubstr('pwwkew')); // Output: 'wke'
 ```
 
-> ### Q100 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
+<br>
+
+
+> ### Q102 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
 
 Can you write a function to get the largest difference?
 
@@ -4075,7 +4179,10 @@ function largestDiff(arr) {
 }
 ```
 
-> ### Q101 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented.
+<br>
+
+
+> ### Q103 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented.
 
 ```js
 count() // 1
@@ -4103,7 +4210,10 @@ count.reset = function () {
 ```
 
 
-> ### Q102 - check 2 arrays are same or not
+<br>
+
+
+> ### Q104 - check 2 arrays are same or not
 
 a. when sequence matter
 ```js
@@ -4168,7 +4278,10 @@ const array2 = [1, 2, 3];
 console.log(arraysHaveSameElements(array1, array2)); // Output: true
 ```
 
-> ### Q103 - Flatten array implementation - Non recursive approach.
+<br>
+
+
+> ### Q105 - Flatten array implementation - Non recursive approach.
 
 1) Using Stack
 
@@ -4221,7 +4334,10 @@ const result4 = numbers.flat(2); // depth 2
 console.log(result4); => [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ```
 
-> ### Q104 _.chunk() splits array into groups with the specific size.
+<br>
+
+
+> ### Q106 _.chunk() splits array into groups with the specific size.
 
 Please implement your chunk(arr: any[], size: number)
 
@@ -4259,7 +4375,10 @@ function chunk(arr, size) {
 }
 ```
 
-> ### Q105 - Given an array of integers, move zeros to the end while keeping the order of the rest.
+<br>
+
+
+> ### Q107 - Given an array of integers, move zeros to the end while keeping the order of the rest.
 
 You should make the in-place change.
 
@@ -4286,7 +4405,10 @@ function moveZeros(list) {
 }
 ```
 
-> ### Q106 - Given a non-empty string, return the most frequently ocurring character.
+<br>
+
+
+> ### Q108 - Given a non-empty string, return the most frequently ocurring character.
 
 If there are multiple characters with same occurrance, return an array of them.
 ```js
@@ -4318,7 +4440,10 @@ function count(str) {
 }
 ```
 
-> ### Q107 - Sum two numbers which are very large in size
+<br>
+
+
+> ### Q109 - Sum two numbers which are very large in size
 
 ```js
 function addLargeNumbers(a, b) {
@@ -4354,7 +4479,10 @@ console.log(sum);
 
 ```
 
-> ### Q108 - Calculate the sum of two integers a and b, without using the operator + and -
+<br>
+
+
+> ### Q110 - Calculate the sum of two integers a and b, without using the operator + and -
 
 ```js
 sumWithoutOperator = (a, b) => {
@@ -4418,7 +4546,10 @@ console.log(sumWithoutOperator1(5, 2))
 
 ```
 
-> ### Q109 - Find power of a number without using native JS function
+<br>
+
+
+> ### Q111 - Find power of a number without using native JS function
 
 ```js
 function power (base, exponent) {
@@ -4431,7 +4562,10 @@ function power (base, exponent) {
 console.log(power(2,3));
 ```
 
-> ### Q110 - /* - Print the following shape, where the maximum number of stars in the middle postition is maxNum
+<br>
+
+
+> ### Q112 - /* - Print the following shape, where the maximum number of stars in the middle postition is maxNum
 
 *\
 **\
@@ -4476,7 +4610,10 @@ bowShapedTriangle = maxNum  => {
 bowShapedTriangle(10)
 ```
 
-> ### Q111 - Check if a given number narcissistic number
+<br>
+
+
+> ### Q113 - Check if a given number narcissistic number
 
 Narcissistic number\
 Given N, check whether it is a Narcissistic number or not.
@@ -4508,7 +4645,10 @@ console.log(isNarcissistic(153));
 
 ```
 
-> ### Q112 - The first dimension represents the activity and the second one shows the number of hours spent per day for each. calculates the percentage of the hours spent for each activity and append the percentage to the inner array.
+<br>
+
+
+> ### Q114 - The first dimension represents the activity and the second one shows the number of hours spent per day for each. calculates the percentage of the hours spent for each activity and append the percentage to the inner array.
 
 ```js
 var activities = [
@@ -4527,7 +4667,11 @@ for (let i = 0; i < activities.length; i++) {
 console.log(activities);
 
 ```
-> ### Q113 - Given an array of non negative integers,arrange them such that they form the largest number.
+
+<br>
+
+
+> ### Q115 - Given an array of non negative integers,arrange them such that they form the largest number.
 
 Sample input: [3, 30, 34, 5, 9],
 
@@ -4557,7 +4701,10 @@ console.log(largestNumber(nums)); // Output: "9534330"
 
 ```
 
-> ### Q114 - find_number_appearing-twice.js
+<br>
+
+
+> ### Q116 - find_number_appearing-twice.js
 
 ```js
 // METHOD 1: runtime = O(n) & memory = O(n)
@@ -4597,7 +4744,10 @@ findDupAlt = (list, n) => {
 console.log(findDupAlt(myList, 10))
 ```
 
-> ### Q115 - Implement a function that determines if two values are deep equal.
+<br>
+
+
+> ### Q117 - Implement a function that determines if two values are deep equal.
 
 ```js
 function deepEqual(a, b) {
@@ -4654,7 +4804,10 @@ function deepEqual(x, y) {
 }
 ```
 
-> ### Q116 - Implement a class that can subscribe to and emit events that trigger attached callback functions.
+<br>
+
+
+> ### Q118 - Implement a class that can subscribe to and emit events that trigger attached callback functions.
 
 ```js
 class EventEmitter {
@@ -4708,7 +4861,10 @@ emitter.emit('foo', { some: 'data' }); // No output
 
 ```
 
-> ### Q117 - Implement a debounce function that comes with a cancel method to cancel delayed invocations.
+<br>
+
+
+> ### Q119 - Implement a debounce function that comes with a cancel method to cancel delayed invocations.
 
 ```js
 function debounce(func, delay) {
@@ -4746,7 +4902,10 @@ debouncedSave('Text 3');
 
 ```
 
-> ### Q118 - Implement a function to execute N async tasks in series. in js
+<br>
+
+
+> ### Q120 - Implement a function to execute N async tasks in series. in js
 
 ```js
 async function executeTasksInSeries(tasks) {
@@ -4779,7 +4938,10 @@ executeTasksInSeries([task1, task2, task3]);
 ```
 
 
-> ### Q119 - Implement a function to execute N async tasks in parallel.
+<br>
+
+
+> ### Q121 - Implement a function to execute N async tasks in parallel.
 
 ```js
 async function executeTasksInParallel(tasks) {
@@ -4809,7 +4971,10 @@ executeTasksInParallel([task1, task2, task3]);
 
 ```
 
-> ### Q120 - Implement Lodash_.get method which gets value from the path.
+<br>
+
+
+> ### Q122 - Implement Lodash_.get method which gets value from the path.
 
 ```js
 function get(object, path, defaultValue) {
@@ -4842,7 +5007,10 @@ console.log(get(obj, ['a', 'b', 'c']));  // Output: 42
 console.log(get(obj, ['a', 'b', 'e'], 'default')); // Output: 'default'
 ```
 
-> ### Q120 -  Implement memoizing or caching identical API requests
+<br>
+
+
+> ### Q123 -  Implement memoizing or caching identical API requests
 
 ```js
 const cache = new Map();
@@ -4863,7 +5031,10 @@ fetchWithCache('https://api.example.com/data')
   .catch(err => console.error(err));
 ```
 
-> ### Q121 - Implement a curried function with placeholders support
+<br>
+
+
+> ### Q124 - Implement a curried function with placeholders support
 
 ```js
 
@@ -4892,8 +5063,11 @@ console.log(curriedAdd(1)(2)(3)); // 6
 console.log(curriedAdd(_, 2)(1)(3)); // 6
 ```
 
+<br>
 
-> ### Q122 - Implement custom Virtual DOM I which serializes and deserializes the data in valid JavaScript objects
+
+
+> ### Q125 - Implement custom Virtual DOM I which serializes and deserializes the data in valid JavaScript objects
 
 ```js
 // serializes
@@ -4930,7 +5104,10 @@ const vnode = deserializeVNode(serialized);
 console.log(vnode); // VNode { tag: 'div', props: { id: 'app' }, children: [ VNode { tag: 'h1', props: {}, children: [ 'Hello, World!' ] } ] }
 ```
 
-> ### Q123 -  Implement a custom function _chunk() which chunks the arrays from Lodash Library
+<br>
+
+
+> ### Q126 -  Implement a custom function _chunk() which chunks the arrays from Lodash Library
 
 ```js
 function _chunk(array, size = 1) {
@@ -4946,7 +5123,10 @@ console.log(_chunk([1, 2, 3, 4, 5], 2)); // [[1, 2], [3, 4], [5]]
 console.log(_chunk([1, 2, 3, 4, 5], 3)); // [[1, 2, 3], [4, 5]]
 ```
 
-> ### Q124 - Creating a counter using setTimeout in JavaScript
+<br>
+
+
+> ### Q127 - Creating a counter using setTimeout in JavaScript
 
 ```js
 // Initialize the counter
@@ -4967,7 +5147,10 @@ function startCounter() {
 startCounter();
 ```
 
-> ### Q125 Given an alphanumeric string, return the list of distinct numbers present in the string.
+<br>
+
+
+> ### Q128 Given an alphanumeric string, return the list of distinct numbers present in the string.
 Input: "som23era23nd56omstr23ing", output: [23,56]
 
 ```js
