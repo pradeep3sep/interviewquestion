@@ -1,6 +1,6 @@
 Refer full code in - https://github.com/jayesh2906/JavaScript-with-JC/blob/master/DSA.js
 
-- 20,21,22,27,33,35,39,42,44,45,59,61,70,71,74,76,77,79,87
+- 20,21,22,27,33,35,39,42,44,45,59,61,70,71,74,76,77,79,87,96,101,109,114,115,117,119,120,121,
 
 <br>
 
@@ -5020,44 +5020,7 @@ executeTasksInParallel([task1, task2, task3]);
 
 <br>
 
-
-> ### Q122 - Implement Lodash_.get method which gets value from the path.
-
-```js
-function get(object, path, defaultValue) {
-    const pathArray = Array.isArray(path) ? path : path.match(/([^[.\]])+/g);
-
-    let result = object;
-    for (let key of pathArray) {
-        result = (result !== null && result !== undefined) ? result[key] : undefined;
-        if (result === undefined) {
-            return defaultValue;
-        }
-    }
-    return result;
-}
-
-// Example usage:
-const obj = {
-    a: {
-        b: {
-            c: 42,
-            d: null
-        }
-    }
-};
-
-console.log(get(obj, 'a.b.c'));          // Output: 42
-console.log(get(obj, 'a.b.d'));          // Output: null
-console.log(get(obj, 'a.b.e', 'default'));// Output: 'default'
-console.log(get(obj, ['a', 'b', 'c']));  // Output: 42
-console.log(get(obj, ['a', 'b', 'e'], 'default')); // Output: 'default'
-```
-
-<br>
-
-
-> ### Q123 -  Implement memoizing or caching identical API requests
+> ### Q122 -  Implement memoizing or caching identical API requests
 
 ```js
 const cache = new Map();
@@ -5081,7 +5044,7 @@ fetchWithCache('https://api.example.com/data')
 <br>
 
 
-> ### Q124 - Implement a curried function with placeholders support
+> ### Q123 - Implement a curried function with placeholders support
 
 ```js
 
@@ -5114,7 +5077,7 @@ console.log(curriedAdd(_, 2)(1)(3)); // 6
 
 
 
-> ### Q125 - Implement custom Virtual DOM I which serializes and deserializes the data in valid JavaScript objects
+> ### Q124 - Implement custom Virtual DOM I which serializes and deserializes the data in valid JavaScript objects
 
 ```js
 // serializes
@@ -5154,7 +5117,7 @@ console.log(vnode); // VNode { tag: 'div', props: { id: 'app' }, children: [ VNo
 <br>
 
 
-> ### Q126 -  Implement a custom function _chunk() which chunks the arrays from Lodash Library
+> ### Q125 -  Implement a custom function _chunk() which chunks the arrays from Lodash Library
 
 ```js
 function _chunk(array, size = 1) {
@@ -5173,7 +5136,7 @@ console.log(_chunk([1, 2, 3, 4, 5], 3)); // [[1, 2, 3], [4, 5]]
 <br>
 
 
-> ### Q127 - Creating a counter using setTimeout in JavaScript
+> ### Q126 - Creating a counter using setTimeout in JavaScript
 
 ```js
 // Initialize the counter
@@ -5197,7 +5160,7 @@ startCounter();
 <br>
 
 
-> ### Q128 Given an alphanumeric string, return the list of distinct numbers present in the string.
+> ### Q127 Given an alphanumeric string, return the list of distinct numbers present in the string.
 Input: "som23era23nd56omstr23ing", output: [23,56]
 
 ```js
