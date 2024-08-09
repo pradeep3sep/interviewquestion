@@ -1658,6 +1658,26 @@ let filteredItems = items.filter(item => {
 console.log(filteredItems);
 ```
 
+
+Below is another simple my way
+```js
+const d = items.filter(unit => {
+    for(let ex of excludes){
+        
+        if(unit[ex.k] == ex.v){
+            return false
+        }
+        
+    }
+    return true
+})
+
+console.log(d)
+```
+
+
+
+
 below is without in-built
 ```js
 let items = [
