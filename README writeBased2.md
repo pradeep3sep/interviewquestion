@@ -444,7 +444,7 @@ console.log(uniqueElements); // Output: [ 3, 4, 5, 6 ]
 > ### Q12 - find duplicate in an array
 
 arr1 = [1, 2, 2, 2, 3, 4, 4, 5]\
-output = [ 2, 4 ]\
+output = [ 2, 4 ]
 
 using object and for loop
 
@@ -484,10 +484,11 @@ console.log("output", output);
 <br>
 
 > ### Q13 find all pairs on integer array whose sum is equal to given number
-arr[] = {1, 5, 7, 1}\
+arr = [1, 5, 7, 1]\
 sum=6\
-Output: 2\
-Explanation: \
+Output: 2
+
+**Explanation:** \
 arr[0] + arr[1] = 1 + 5 = 6 \
 and arr[1] + arr[3] = 5 + 1 = 6.
 
@@ -510,11 +511,12 @@ const arr = [1, 5, 7, 1];
 <br>
 
 > ### Q14 - find common elements In 3 sorted arrays
-n1 = 6; A = {1, 5, 10, 20, 40, 80}\
-n2 = 5; B = {6, 7, 20, 80, 100}\
-n3 = 8; C = {3, 4, 15, 20, 30, 70, 80, 120}\
-Output: 20 80\
-Explanation: 20 and 80 are the only\
+n1 = 6; A = [1, 5, 10, 20, 40, 80]\
+n2 = 5; B = [6, 7, 20, 80, 100]\
+n3 = 8; C = [3, 4, 15, 20, 30, 70, 80, 120]\
+Output: 20 80
+
+**Explanation:** 20 and 80 are the only\
 common elements in A, B and C.
 
 ```js
@@ -747,7 +749,7 @@ console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 
 > ### Q21 - find maximum product subarray
 
-Arr[] = [ 6, -3, -10, 0, 2 ]\
+arr = [ 6, -3, -10, 0, 2 ]\
 Output: 180
 
 ```js
@@ -844,7 +846,7 @@ console.log(maxProductOfThreeeElem([-4,-2,-3,1]));  // => 12
 
 
 > ### Q22 - Find longest consecutive subsequence
-a[] = [2,6,1,9,4,5,3]\
+a = [2,6,1,9,4,5,3]\
 Output:\
 6 => [1,2,3,4,5,6]
 
