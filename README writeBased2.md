@@ -1791,54 +1791,6 @@ console.log(firstNonRepeated(arr)); // Output: 3
 
 <br>
 
-
-> ### Q48 -  Find all the common elements from the arrays ( not sorted ) .
-const arr = [1, 100, 10, 20, 50];\
-const arr1 = [2, 30, 21, 10, 20];\
-output :- [ 10, 20 ]
-
-```js
-const arr = [1, 100, 10, 20, 50];
-const arr1 = [2, 30, 21, 10, 20];
-
-const set = new Set(arr);
-const commonElements = arr1.filter(item => set.has(item));
-
-console.log(commonElements); // Output: [10, 20]
-```
-
-```js
-function findCommonElements(arr1, arr2) {
-    const common = [];
-    const map = {};
-    
-    // Populate map with elements from arr1
-    for (const num of arr1) {
-        map[num] = true;
-    }
-    
-    // Iterate through arr2 and check if elements exist in the map
-    for (const num of arr2) {
-        if (map[num]) {
-            common.push(num);
-            // Remove the element from map to avoid duplicates
-            delete map[num];
-        }
-    }
-    
-    return common;
-}
-
-const arr = [1, 100, 10, 20, 50];
-const arr1 = [2, 30, 21, 10, 20];
-
-const commonElements = findCommonElements(arr, arr1);
-console.log(commonElements); // Output: [10, 20]
-```
-
-<br>
-
-
 > ### Q49 - Array of objects manipulatiion.
 a) declare array of employees & sort them in ascending order (empId)\
 b) declare an array of employees & sort them in ascending order by name.\
@@ -2218,7 +2170,7 @@ console.log(checkPanagram(str));
 <br>
 
 
-> ### Q62 - Print all subsequences of a string ---- need to see again, much similar like Q42
+> ### Q62 - Print all subsequences of a string ---- much similar like Q44
 
 Input : abc\
 Output : a, b, c, ab, bc, ac, abc
@@ -3020,10 +2972,10 @@ console.log(longestPalindromeSubstring("zzbaabcd")); // Output: 4
 
 
 > ### Q81 - Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
-For example://
-uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']
-uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']
-uniqueInOrder([1,2,2,3,3])       == [1,2,3]*/
+For example:\
+uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']\
+uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']\
+uniqueInOrder([1,2,2,3,3])       == [1,2,3]
 
 ```js
 function uniqueInOrder(iterable){
@@ -3053,7 +3005,8 @@ function addBinary(a,b){
   let decSum = a + b;
   return decSum.toString(2);
 }
-
+```
+```js
 // without inbuilt
 function addBinaryAlt(a,b) {
   var c = a + b;
@@ -3067,7 +3020,6 @@ function addBinaryAlt(a,b) {
   return res;
 }
 
-// console.log(addBinaryAlt(5, 6));
 console.log(addBinaryAlt(5, 6));
 
 ```
@@ -3103,8 +3055,9 @@ function multiTable(number) {
 }
 
 console.log(multiTable(5));
+```
 
-
+```js
 // other
 
 function multiTable(number) {
