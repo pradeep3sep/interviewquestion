@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from '../TransferListApp.module.css';
 import ListItem from './ListItem';
 

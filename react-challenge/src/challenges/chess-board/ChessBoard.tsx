@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import styles from './chess-board.module.scss';
-import { colorTile } from './utils';
+import { colorTile } from './utilsnw';
+
 
 const ChessBoard: FC = () => {
   //instead of using an object here we can use Map too
