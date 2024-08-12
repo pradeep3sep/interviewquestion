@@ -12,6 +12,12 @@ onMouseLeave
 
 onMouseOver
 
+onDragStart
+
+onDragOver
+
+onDrop
+
 <br>
 
 > ### For the difference between the memo and useMemo
