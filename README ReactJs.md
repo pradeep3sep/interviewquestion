@@ -1,4 +1,7 @@
 > ### WE have below events in react
+onKeyDown
+
+onPaste
 
 OnClick
 
