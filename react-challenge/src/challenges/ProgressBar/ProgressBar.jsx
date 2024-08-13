@@ -39,7 +39,7 @@ const ProgressBar = () => {
             <div className="progress-controller">
                 <button
                     id="start"
-                    className="btn btn-primary"
+                    className="btn btn-primary buttonMain"
                     onClick={startProgress}
                     disabled={isInProgress}
                 >
@@ -47,13 +47,13 @@ const ProgressBar = () => {
                 </button>
                 <button
                     id="stop"
-                    className="btn btn-primary"
+                    className="btn btn-primary buttonMain"
                     onClick={stopProgress}
                     disabled={!isInProgress}
                 >
                     Stop
                 </button>
-                <button id="reset" className="btn btn-primary" onClick={resetProgress}>
+                <button id="reset" className="btn btn-primary buttonMain" onClick={resetProgress}>
                     Reset
                 </button>
             </div>
