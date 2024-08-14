@@ -1,81 +1,59 @@
 import React, { useState } from 'react';
-import './SearchBar.css'; // Ensure you have this CSS file
 
-const data = [
-  "apple",
-  "banana",
-  "cherry",
-  "date",
-  "fig",
-  "grape",
-  "kiwi",
-  // Add more data as needed
-];
-
-const SearchBar = () => {
+const SearchHighlight = () => {
   const [query, setQuery] = useState('');
-  const [suggestions, setSuggestions] = useState([]);
+  
+  const data = [
+    'React',
+    'Angular',
+    'Vue',
+    'Svelte',
+    'Ember',
+    'Backbone',
+    'Nuxt',
+    'Next'
+  ];
 
   const handleChange = (e) => {
-    const value = e.target.value;
-    setQuery(value);
-
-    if (value.length > 0) {
-      const filteredData = data.filter(item => 
-        item.toLowerCase().includes(value.toLowerCase())
-      );
-      setSuggestions(filteredData);
-    } else {
-      setSuggestions([]);
-    }
+    setQuery(e.target.value);
   };
 
   const highlightText = (text, highlight) => {
-    const lowerText = text.toLowerCase();
-    const lowerHighlight = highlight.toLowerCase();
-
-    const startIndex = lowerText.indexOf(lowerHighlight);
-    if (startIndex === -1) {
-      return text;
-    }
-
-    const endIndex = startIndex + highlight.length;
-
+    const parts = text.split(new RegExp(`(${highlight})`, 'gi'));
     return (
-      <span>
-        {text.substring(0, startIndex)}
-        <span className="highlight">
-          {text.substring(startIndex, endIndex)}
-        </span>
-        {text.substring(endIndex)}
-      </span>
+      <>
+        {parts.map((part, index) =>
+          part.toLowerCase() === highlight.toLowerCase() ? (
+            <span key={index} style={{ backgroundColor: 'yellow' }}>{part}</span>
+          ) : (
+            part
+          )
+        )}
+      </>
     );
   };
 
-  const handleSuggestionClick = (suggestion) => {
-    setQuery(suggestion);
-    setSuggestions([]);
-  };
+  const filteredData = data.filter(item =>
+    item.toLowerCase().includes(query.toLowerCase())
+  );
 
   return (
-    <div className="search-bar">
+    <div>
       <input 
-        type="text"
-        value={query}
-        onChange={handleChange}
-        placeholder="Search..."
+        type="text" 
+        value={query} 
+        onChange={handleChange} 
+        placeholder="Search..." 
       />
-      {suggestions.length > 0 && (
-        <ul className="suggestions">
-          {suggestions.map((suggestion, index) => (
-            <li key={index} onClick={() => handleSuggestionClick(suggestion)}>
-              {highlightText(suggestion, query)}
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul>
+        {filteredData.map((item, index) => (
+          <li key={index}>
+            {highlightText(item, query)}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
 
-export default SearchBar;
+export default SearchHighlight;
