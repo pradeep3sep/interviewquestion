@@ -1922,7 +1922,7 @@ Why below gives true
 ```
 <details>
   <summary>Answer</summary>
-  <p>Answer: </p>
+  <p>Answer: true</p>
 
  This is not a javascript only limitation, it applies to all floating point calculations. The problem is that 0.1 and 0.2 and 0.3 are not exactly representable as javascript (or C or Java etc) floats. Thus the output you are seeing is due to that inaccuracy.
 
