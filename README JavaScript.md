@@ -4916,6 +4916,7 @@ new function(){console.log("Hi I'm IIFE 10")}();
 - 👉 Rule 4) simple function ( this refers to window object, undefined in strict mode )
 - 👉 Rule 5) multiple rules ( Higher rule has given priority )
 - 👉 Rule 6) arrow function ( inherits "this" from its outer function )
+- 👉 Rule 7) IFFE ( inherits "this" of global object )
 - 👉 Miscellaneous important things about "this"
 
 
@@ -5054,6 +5055,54 @@ Rule 6) arrow function :- arrow function does not create its own execution conte
     }
     new OuterFunction();
   ```
+
+Rule 7) IFFE ( inherits "this" of global object )
+
+In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves differently depending on how the IIFE is invoked and the execution context. Here's a breakdown:
+
+### 1. **Global Context (Non-strict mode)**
+   - When an IIFE is executed in the global context in non-strict mode, `this` refers to the global object (`window` in browsers, `global` in Node.js).
+   - Example:
+     ```javascript
+     (function() {
+       console.log(this); // In a browser, this will log the global window object
+     })();
+     ```
+
+### 2. **Global Context (Strict mode)**
+   - In strict mode, `this` inside an IIFE is `undefined` when not bound to any object.
+   - Example:
+     ```javascript
+     (function() {
+       'use strict';
+       console.log(this); // Logs: undefined
+     })();
+     ```
+
+### 3. **Object Context**
+   - If an IIFE is invoked as a method of an object, `this` refers to the object itself.
+   - Example:
+     ```javascript
+     const obj = {
+       value: 42,
+       method: (function() {
+         console.log(this); // Logs: obj
+       })
+     };
+
+     obj.method(); // 'this' refers to 'obj'
+     ```
+
+### 4. **Explicit Binding with `call`, `apply`, or `bind`**
+   - You can explicitly set the value of `this` using `call`, `apply`, or `bind`.
+   - Example:
+     ```javascript
+     (function() {
+       console.log(this); // Logs: { custom: 'context' }
+     }).call({ custom: 'context' });
+     ```
+
+In summary, the value of `this` in an IIFE depends on how the IIFE is invoked and whether strict mode is enabled.
 
 Miscellaneous important things about "this"
 
