@@ -819,6 +819,20 @@ Well, since the statement var a = b = 3; is shorthand for the statements b = 3; 
 b ends up being a global variable (since it is not preceded by the var keyword) and is therefore still in scope even outside of the enclosing function.
 
 <br>
+
+class Person {
+  constructor() {
+    this.name = 'Lydia';
+  }
+}
+
+console.log(typeof Person) // function
+
+const d = new Person()
+
+console.log(typeof d) // object, object becuse new instance create blank object ie {}
+
+<br>
  
 > ### NaN
 There are several ways in which NaN can happen:
