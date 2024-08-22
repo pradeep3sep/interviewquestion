@@ -802,20 +802,6 @@ Below are the list of reasons to prefer fragments over container DOM elements,
 <br>
 
 
-> ### What are portals in React?
-
-_Portal_ is a recommended way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
-
-```javascript
-ReactDOM.createPortal(child, container);
-```
-
-The first argument is any render-able React child, such as an element, string, or fragment. The second argument is a DOM element.
-
-
-<br>
-
-
 > ### How to use innerHTML in React?
 The `dangerouslySetInnerHTML` attribute is React's replacement for using `innerHTML` in the browser DOM. Just like `innerHTML`, it is risky to use this attribute considering cross-site scripting (XSS) attacks. You just need to pass a `__html` object as key and HTML text as value.
 
@@ -856,7 +842,7 @@ In the previous example of a list of posts, if we use the post's index as a key 
 > ### prop-types - How to apply validation on props in React?
 We don't need to install separate package for defining the type of props. We can do it by default installed prop-types package
 
-When the application is running in development mode, React will automatically check all props that we set on components to make sure they have correct type. If the type is incorrect, React will generate warning messages in the console. It's disabled in production mode due to performance impact. The mandatory props are defined with `isRequired`.
+When the application is running in development mode, React will automatically check all props that we set on components to make sure they have correct type. If the `type is incorrect`, `React will generate warning messages in the console`. It's disabled in production mode due to performance impact. The `mandatory props` are defined with `isRequired`.
 
 The set of predefined prop types:
 
@@ -1856,6 +1842,18 @@ For example, dialogs, global message notifications, hovercards, and tooltips.
 
 <br>
 
+> ### What are portals in React?
+
+_Portal_ is a recommended way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
+
+```javascript
+ReactDOM.createPortal(child, container);
+```
+
+The first argument is any render-able React child, such as an element, string, or fragment. The second argument is a DOM element.
+
+
+<br>
 
 > ### How do you set default value for uncontrolled component?
 
@@ -1933,23 +1931,6 @@ In general, it's recommended to use useEffect as much as possible, because it is
 
 
 <br>
-
-
-### Below are my understanding and lack of notes
-
-```jsx
-// how to add "<h1>Hello World</h1>" in jsx
-export default function App() {
-
-   const htmlString = "<h1>Hello World</h1>";
-
-    return <div dangerouslySetInnerHTML={{ __html: htmlString }}>
-            </div>;
-}
-```
-
-<br>
-
 
 > ### When to use a Class Component over a Function Component?
 If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries.
@@ -2048,7 +2029,7 @@ After running the eject command, it won’t be possible to run it again, because
 > ### Why to avoid using setState() after a component has been unmounted?
 
 - Calling setState() after a component has unmounted will emit a warning. The "setState warning" exists to help you catch bugs, because calling setState() on an unmounted component is an indication that your app/component has somehow failed to clean up properly.
-- Specifically, calling setState() in an unmounted component means that your app is still holding a reference to the component after the component has been unmounted - which often indicates a memory leak.
+- Specifically, calling setState() in an unmounted component `means` that your `app is still holding a reference to the component after the component has been unmounted` - which often `indicates a memory leak`.
 
 
 <br>
