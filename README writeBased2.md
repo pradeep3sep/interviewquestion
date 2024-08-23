@@ -1556,40 +1556,6 @@ console.log(count);
 
 <br>
 
-
-> ### Q43 - compare ONE-LEVEL object ( custom without JSON.stringify())
-const obj1 = { a: 20, b:40 }\
-const obj2 = { a: 20, b:40 }
-
-```js
-const obj1 = { a: 20, b: 40 };
-const obj2 = { a: 20, b: 40 };
-const obj3 = { a: 20, b: 50 };
-
-function compareObj(o1, o2) {
-    let props1 = Object.keys(o1);
-    let props2 = Object.keys(o2);
-
-    if (props1.length !== props2.length) {
-        return false;
-    }
-
-    for (let prop of props1) {
-        if (o1[prop] !== o2[prop]) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-console.log(compareObj(obj1, obj2)); // true
-console.log(compareObj(obj1, obj3)); // true
-```
-
-<br>
-
-
 > ### Q44 -  Find all subsets of an array  --- nhi smjh aya
 const arr = [1, 2, 3];\
 output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
