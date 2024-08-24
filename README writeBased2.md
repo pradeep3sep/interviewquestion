@@ -724,26 +724,29 @@ Output: [2, -3, 1] is the subarray with sum 0.
 ```js
 
 function findZeroSumSubarray(arr) {
-  const seen = new Map(); 
-  let sum = 0;
+    const seen = {};
+    let sum = 0;
 
-  for (let i = 0; i < arr.length; i++) {
-    sum += arr[i];
+    for (let i = 0; i < arr.length; i++) {
+        sum += arr[i];
 
-    // Check if the current sum or a previous sum has been seen before
-    if (seen.has(sum)) {
-      return arr.slice(seen.get(sum) + 1, i + 1); // Get subarray from previous sum + 1 to current index
-    } else if (sum === 0) {
-      return arr.slice(0, i + 1); // Empty subarray with sum 0 (entire array)
+        // Check if the current sum or a previous sum exists in the object
+        if (sum in seen) {
+            return arr.slice(seen[sum] + 1, i + 1); // Get subarray from previous sum + 1 to current index
+        } else if (sum === 0) {
+            return arr.slice(0, i + 1); // Subarray from the start to current index with sum 0
+        }
+
+        seen[sum] = i; // Add current sum and its index to the object
+        console.log(seen);
     }
+    
 
-    seen.set(sum, i); // Add current sum and its index to the map
-  }
-
-  return null; // No subarray with sum 0 found
+    return null; // No subarray with sum 0 found
 }
 
 console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
+
 ```
 <br>
 
