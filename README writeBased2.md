@@ -1088,6 +1088,38 @@ console.log(isBalanced("[(())]{}{[()()]()}")); // Output: true
 console.log(isBalanced("[(])"));  // Output: false
 ```
 
+**Same is below**
+
+```js
+const pairs = {
+    '(': ')',
+    '[': ']',
+    '{': '}'
+};
+
+const check = "[()]{}{()()}"
+
+function balanceSign(){
+    
+    let temp = []
+
+    for(let i=0; i<check.length; i++){
+        if(pairs[check[i]]){
+            temp.push(pairs[check[i]])
+        } else {
+            if(check[i] !== temp.pop()){
+                return false
+            }
+        }
+        
+    }   
+    return true 
+}
+
+console.log(balanceSign());
+
+
+```
 <br>
 
 > ### Q30 - Find Elements that occurred only once in the array
