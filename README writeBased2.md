@@ -1582,9 +1582,41 @@ console.log(count);
 
 <br>
 
-> ### Q44 -  Find all subsets of an array  --- nhi smjh aya
+> ### Q44 -  Find all subsets of an array
 const arr = [1, 2, 3];\
 output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
+
+```js
+function getAllSubsets(arr) {
+    debugger
+    let result = [[]]; // Start with an empty subset
+
+    for (let i = 0; i < arr.length; i++) {
+        debugger
+        const currentElement = arr[i];
+        const length = result.length; // here we have created separated becuse while in loop we are updating the result array it cause loop to be infinte
+
+        // For each existing subset, create a new subset that includes the current element
+        for (let j = 0; j < length; j++) {
+            debugger
+            const newSubset = [...result[j],currentElement];
+            result.push(newSubset);
+        }
+    }
+
+    return result;
+}
+
+// Example usage:
+let array = [1, 2, 3];
+let subsets = getAllSubsets(array);
+console.log(subsets);
+
+```
+
+
+
+**Below is same but more optimized**
 
 ```js
 function getAllSubsets(arr) {
