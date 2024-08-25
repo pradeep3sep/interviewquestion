@@ -1570,23 +1570,14 @@ let digit = 4;
 let range = 250;
 let count = 0;
 
-function checkNumber(num) {
-    while (num !== 0) {
-        let r = num % 10;
-        num = parseInt(num / 10);
-        if (r === digit) {
-            return true;
-        }
-    }
-    return false;
-}
-
 for (let i = 1; i <= range; i++) {
-    if (checkNumber(i)) {
+    if (i.toString().includes(digit.toString())) {
         count++;
     }
 }
+
 console.log(count);
+
 ```
 
 <br>
