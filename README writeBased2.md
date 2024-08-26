@@ -2842,7 +2842,13 @@ function removeDuplicateswithIndex(str) {
             obj[str[i]] = { firstIndex: i, count: 1 };
         }
     }
-
+    console.log(obj);
+    // {
+    //     B: { firstIndex: 0, count: 1 },
+    //     a: { firstIndex: 1, count: 3 },
+    //     n: { firstIndex: 2, count: 2 }
+    // }
+    
     for (let [key, value] of Object.entries(obj)) {
         if (value.count > 1) {
             result += value.firstIndex;
