@@ -2138,8 +2138,9 @@ console.log(findPeakElements(arr)); // Output: [77, 99]
 
 > ### Q60 - find continuous sub-array which adds up to a given number.
 
-A[] = [1,2,3,7,5] , S = 12\
-Output: [ 2, 3, 7 ], [ 7, 5\ ]
+A = [1,2,3,7,5]\
+S = 12\
+Output: [ 2, 3, 7 ], [ 7, 5 ]\
 Explanation: The sum of elements from 2nd position to 4th position is 12. 
 
 ```js
