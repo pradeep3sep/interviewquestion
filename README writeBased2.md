@@ -2592,6 +2592,23 @@ const arr4 = [3, 2, 1, 4, 5]; // 6
 
 
 ```js
+const arr1 = [3, 2, 1, 4, 5];
+
+// Find the maximum value in the array
+let max = Math.max(...arr1);
+
+// Loop from 1 to max + 1 to find the first missing integer
+for (let i = 1; i <= max + 1; i++) {
+    if (!arr1.includes(i)) {
+        console.log(i);
+        break;
+    }
+}
+
+```
+
+
+```js
 function findSmallestMissingPositive(arr) {
   const numSet = new Set(arr);
   for (let i = 1; ; i++) {
