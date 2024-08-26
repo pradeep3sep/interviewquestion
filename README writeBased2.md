@@ -2902,6 +2902,8 @@ console.log(drawChessboard(8, 8));
 > ### Q78 - longest_Substring-of-two-strings
 
 ```js
+// https://www.youtube.com/watch?v=ps_eAvR9R10&t=396s
+
 
 function longestCommonSubstring(str1, str2) {
     const m = str1.length;
