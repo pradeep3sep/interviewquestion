@@ -2458,30 +2458,33 @@ const shareholder = [\
 
 ```js
 const portfolio = [
-  { name: "Mark", stock: "FB" },
-  { name: "Steve", stock: "AAPL" },
-  { name: "Tim", stock: "AAPL" },
-  { name: "Steve", stock: "MSFT" },
-  { name: "Bill", stock: "MSFT" },
-  { name: "Bill", stock: "AAPL" },
+    { name: "Mark", stock: "FB" },
+    { name: "Steve", stock: "AAPL" },
+    { name: "Tim", stock: "AAPL" },
+    { name: "Steve", stock: "MSFT" },
+    { name: "Bill", stock: "MSFT" },
+    { name: "Bill", stock: "AAPL" },
 ];
 
 const shareholderObj = {};
 
-portfolio.forEach(({ name, stock }) => {
-  if (!shareholderObj[stock]) {
-    shareholderObj[stock] = { stock, name: [name], count: 1 };
-  } else {
-    if (!shareholderObj[stock].name.includes(name)) {
-      shareholderObj[stock].name.push(name);
-      shareholderObj[stock].count++;
+for (let i = 0; i < portfolio.length; i++) {
+    const { name, stock } = portfolio[i];
+
+    if (!shareholderObj[stock]) {
+        shareholderObj[stock] = { stock, name: [name], count: 1 };
+    } else {
+        if (!shareholderObj[stock].name.includes(name)) {
+            shareholderObj[stock].name.push(name);
+            shareholderObj[stock].count++;
+        }
     }
-  }
-});
+}
 
 const shareholder = Object.values(shareholderObj);
 
 console.log(shareholder);
+
 ```
 
 <br>
