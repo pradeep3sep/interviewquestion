@@ -718,22 +718,6 @@ function testFunctionScope() {
 testFunctionScope();
 ```
 
-#### Module Scope
-
-```js
-// module1.js
-export const moduleVar = "I am a module-scoped variable";
-
-// module2.js
-import { moduleVar } from './module1.js';
-console.log(moduleVar); // I am a module-scoped variable
-
-// global scope doesn't know about moduleVar
-console.log(window.moduleVar); // undefined
-```
-
-Understanding these scopes is essential for writing clean, modular, and error-free code in JavaScript. Each type of scope serves a different purpose and helps in organizing code better.
-
 <br>
 
 > ### Scope chain
