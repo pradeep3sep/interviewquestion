@@ -726,7 +726,7 @@ testFunctionScope();
 - `Parent` `don't have access` of `child scope`\
 - Scope chain has nothing to do with order in which functions were called. It depends on order in which function are written in the code.
 
-
+<br>
  
 > ### NaN is a falsy value
 ```js
@@ -817,6 +817,8 @@ b ends up being a global variable (since it is not preceded by the var keyword) 
 
 <br>
 
+> ### Some points to consider
+```js
 class Person {
   constructor() {
     this.name = 'Lydia';
@@ -828,7 +830,7 @@ console.log(typeof Person) // function
 const d = new Person()
 
 console.log(typeof d) // object, object becuse new instance create blank object ie {}
-
+```
 <br>
  
 > ### NaN
