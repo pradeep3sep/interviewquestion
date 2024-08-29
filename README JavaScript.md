@@ -1024,7 +1024,7 @@ SyntaxError: Unexpected token .
 > ### 42 . toString()
 42
 
-<be>
+<br>
 
 > ### Pipe and Compose Implementation
 Pipe and Compose functions are higher order functions that are used for writing a well structured and 
