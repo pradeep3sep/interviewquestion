@@ -1146,7 +1146,7 @@ console.log(hobbies, rest.age)  // => music 25
 <br>
 
 > ### What is the difference between classical inheritance and prototypal inheritance?
-**Class Inheritance**: instances inherit from classes (like a blueprint - a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the new keyword. Class inheritance may or may not use the class keyword from ES6.
+**Class Inheritance**: instances inherit from classes (like a blueprint - a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the new keyword. Class inheritance may or may not use the class keyword from ES6.\
 **Prototypal Inheritance**: instances inherit directly from other objects. Instances are typically instantiated via factory functions or Object.create(). Instances may be composed from many different objects, allowing for easy selective inheritance.
 
 
@@ -1346,25 +1346,20 @@ console.log(frozen);
 > ### If we want the nested object to be freezed, we can use below code
 ```js
 function deepFreeze(obj) {
-  // Retrieve the property names defined on obj
-  var propNames = Object.getOwnPropertyNames(obj);
-
-  // Freeze properties before freezing self
-  propNames.forEach(function(name) {
-    var prop = obj[name];
-
-    // Freeze prop if it is an object
-    if (typeof prop == 'object' && prop !== null) {
-      deepFreeze(prop);
+  // Use Object.entries to get [key, value] pairs
+  for (const [key, value] of Object.entries(obj)) {
+    // Recursively freeze the value if it is an object
+    if (value && typeof value === 'object') {
+      deepFreeze(value);
     }
-  });
+  }
 
-  // Freeze self
+  // Freeze the object itself and return it
   return Object.freeze(obj);
 }
 
 // Example nested object
-var nestedObj = {
+const nestedObj = {
   a: 1,
   b: {
     c: 2,
@@ -1375,10 +1370,9 @@ var nestedObj = {
 };
 
 // Deep freeze the nested object
-var frozenObj = deepFreeze(nestedObj);
+const frozenObj = deepFreeze(nestedObj);
 
-// Try to modify a property of the nested object
-// This will throw an error in strict mode
+// Attempting to modify a frozen property will throw an error in strict mode
 // In non-strict mode, the assignment will fail silently
 frozenObj.b.c = 5; // Throws an error
 ```
@@ -1431,6 +1425,8 @@ console.log("c" in p, p.c); // false, 100
 
 In the above code, it uses get handler which define the behavior of the proxy when an operation is performed on it
 
+<br>
+
 > ### Object.entries(newObj), Object.keys(newObj), Object.values(newObj) 
 
 
@@ -1443,22 +1439,16 @@ The mouseEvent `getModifierState()` is used to return a boolean value that indic
 
 Let's take an input element to detect the CapsLock on/off behavior with an example,
 
-```html
-<input type="password" onmousedown="enterInput(event)" />
-
-<p id="feedback"></p>
-
-<script>
-  function enterInput(e) {
-    var flag = e.getModifierState("CapsLock");
-    if (flag) {
-      document.getElementById("feedback").innerHTML = "CapsLock activated";
-    } else {
-      document.getElementById("feedback").innerHTML =
-        "CapsLock not activated";
-    }
+```js
+document.addEventListener('keydown', function (event) {
+  const isCapsLockOn = event.getModifierState('CapsLock');
+  
+  if (isCapsLockOn) {
+    console.log('Caps Lock is ON');
+  } else {
+    console.log('Caps Lock is OFF');
   }
-</script>
+});
 ```
 
 
@@ -1548,7 +1538,9 @@ loop1: for (i = 0; i < 3; i++) {
 Synchronous iteration was introduced in ES6 and it works with below set of components,
 
 **Iterable**: It is an object which can be iterated over via a method whose key is Symbol.iterator.\
-Iterator: It is an object returned by invoking `[Symbol.iterator]()` on an iterable. This iterator object wraps each iterated element in an object and returns it via `next()` method one by one. **IteratorResult**: It is an object returned by `next()` method. The object contains two properties; the `value` property contains an iterated element and the done property determines whether the element is the last element or not.
+Iterator: It is an object returned by invoking `[Symbol.iterator]()` on an iterable. This iterator object wraps each iterated element in an object and returns it via `next()` method one by one. 
+
+**IteratorResult**: It is an object returned by `next()` method. The object contains two properties; the `value` property contains an iterated element and the done property determines whether the element is the last element or not.
 
 Let's demonstrate synchronous iteration with an array as below,
 
