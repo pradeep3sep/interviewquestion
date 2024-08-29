@@ -605,6 +605,8 @@ axios.get(‘http://www.somepage.com')
 
 > ### what are the various type of scope in js, explain with example and also show how they are differentiate with other with example or code
 
+**Scope** The scope is the place where variables are declared
+
 In JavaScript, scope determines the visibility and accessibility of variables, functions, and objects in different parts of your code. There are mainly four types of scope:
 
 1. **Global Scope**
@@ -627,7 +629,7 @@ console.log(globalVar); // I am a global variable
 ```
 
 ### 2. Function Scope
-Variables declared `within a function` are accessible only within that function. JavaScript uses the `var` keyword for function-scoped variables.
+Variables declared `within a function` are `accessible` only `within that function`. JavaScript uses the `var` keyword for function-scoped variables.
 
 ```js
 function showFunctionScope() {
@@ -647,7 +649,7 @@ console.log(a) // "a"
 ```
 
 ### 3. Block Scope
-Variables declared with `let` or `const` within a block (e.g., within `{}`) are only accessible within that block. Block scope is a feature introduced in ES6.
+Variables declared with `let` or `const` within a block (e.g., within `{}` , like if block, for loop block but not function {}) are only accessible within that block. Block scope is a feature introduced in ES6.
 
 ```js
 if (true) {
@@ -660,6 +662,9 @@ if (true) {
 console.log(blockVar); // ReferenceError: blockVar is not defined
 console.log(blockConst); // ReferenceError: blockConst is not defined
 ```
+
+- only let and const are blocked scope. variable declared with var end up in the closest function scope.
+
 
 ### 4. Module Scope
 When using ES6 modules, variables, functions, and classes declared in a module are scoped to that module. They are not added to the global scope.
@@ -730,6 +735,14 @@ console.log(window.moduleVar); // undefined
 Understanding these scopes is essential for writing clean, modular, and error-free code in JavaScript. Each type of scope serves a different purpose and helps in organizing code better.
 
 <br>
+
+> ### Scope chain
+
+- `Grandchild` has `access` of `parent scope`, `parent` have `acces` of `global scope`, so `grandchild` has `access` of `global scope`. This is `scope chain`.\
+- `Parent` `don't have access` of `child scope`\
+- Scope chain has nothing to do with order in which functions were called. It depends on order in which function are written in the code.
+
+
  
 > ### NaN is a falsy value
 ```js
