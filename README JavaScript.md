@@ -2475,6 +2475,8 @@ What happens next is that `parseInt` scans the input `"Infinity"` to find which 
 
 Therefore it behaves as if you called `parseInt("I", 19)`, which converts to decimal 18 by the table above.
 
+<br>
+ 
 > ### Why does ++[[]][+[]]+[+[]] return the string “10”?
 
 ```js
@@ -2485,6 +2487,8 @@ Therefore it behaves as if you called `parseInt("I", 19)`, which converts to dec
     [+[]] => [0]
 ```
 
+<br>
+ 
 
 > ### How do you create custom HTML element?
 The creation of custom HTML elements involves two main steps,
@@ -2557,14 +2561,6 @@ function isPromise(obj) {
 }
 ```
 
-
-<br>
- 
-
-
- 
-> ### What is scope in javascript
-Scope is the `accessibility of variables, functions, and objects` in some particular part of your code during runtime. In other words, scope determines the visibility of variables and other resources in areas of your code.
 
 <br>
  
@@ -2871,6 +2867,8 @@ console.log(players); // Map(0) {}
 **We can loop over the set as we have done in the map**
 
 
+<br>
+ 
 
 > ### map and weakMap
 
@@ -2919,7 +2917,7 @@ https://javascript.info/weakmap-weakset
 
 Map  | WeakMap
 ------------- | -------------
-A Map is an unordered list of key-value pairs where the key and the value can be of any type like string, boolean, number, etc.  | In a Weak Map, every key can only be an object and function. It used to store weak object references.
+A Map is an unordered list of key-value pairs where the `key and the value` can `be` of `any type` like string, boolean, number, etc.  | In a Weak Map, every `key` can only be an `object and function`. It used to store weak object references.
 Maps are iterable.  | WeakMaps are not iterable.
 Maps will keep everything even if you don’t use them. | WeakMaps holds the reference to the key, not the key itself.
 The garbage collector doesn’t remove a key pointer from “Map” and also doesn’t remove the key from memory. | The garbage collector goes ahead and removes the key pointer from “WeakMap” and also removes the key from memory. WeakMap allows the garbage collector to do its task but not the Map.
@@ -2964,6 +2962,9 @@ console.log(employees);
 0: value: {name: 'Steve', experience: '8 years'}
 */
 ```
+
+<br>
+ 
 > ### illegal shadowing
 If you create a variable in a global scope with the let keyword and another variable with the var keyword in a block scope but the exact same name, it will throw an error. This is called illegal shadowing.
 
@@ -2980,10 +2981,14 @@ console.log(fruit)
 ```
 
 
+<br>
+ 
 
 > ### What is a pure function
 A Pure function is a function where the return value is only determined by its arguments without any side effects. i.e, If you call a function with the same arguments 'n' number of times and 'n' number of places in the application then it will always return the same value.
 
+<br>
+ 
 > ### How do you redeclare variables in switch block without an error
 ```js
 let counter = 1;
@@ -2998,6 +3003,11 @@ switch (x) {
   }
 }
 ```
+
+
+<br>
+ 
+
 > ### What is the Temporal Dead Zone
 
 Time since when the let variable was hoisted until it is initialized some value.
@@ -3014,6 +3024,8 @@ console.log(window.a); // undefined
 console.log(window.b); // 15
 ```
 
+<br>
+ 
 >### Hoisting
 Hoisting is a concept which enables us to extract values of variables and functions even before initialising/assigning value without getting error 
 
@@ -3040,6 +3052,8 @@ console.log(name); // undefined
 var name = "Jayesh";
 console.log(name); // Jayesh
 
+
+
 // case 2:- let and const variables ( Temporal Dead Zone :- Technically they are also hoisted )
 // What is TDZ ? :- time frame between let and const varibles are hoisted to they are initialized
 // let and const are allocated in diffrent memory space ( script scope ) than global scope
@@ -3054,10 +3068,17 @@ console.log(language); // Uncaught ReferenceError: Cannot access 'language' befo
 const language = "javaScript";
 console.log(language); // javaScript
 
+
+
+
 // case 3:- global variables
 console.log(a); // Uncaught ReferenceError: a is not defined
 a = 4;
 console.log(a); // 4
+
+
+
+
 
 // Hoisting of functions ?
 
@@ -3097,6 +3118,10 @@ const getNameArrowTDZ = () => {
   console.log("Jayesh");
 };
 getNameArrowTDZ(); // Jayesh
+
+
+
+
 
 // Hoisting of Classes ?
 
@@ -3144,6 +3169,9 @@ console.log(cat); // Animal { name: 'cat' }
 ```
 
 
+<br>
+
+ 
 > ### What is webpack
 Webpack is a module bundler for JavaScript applications
 * Uses
@@ -3154,9 +3182,11 @@ Webpack is a module bundler for JavaScript applications
 > ### What is loader and plugin in Webpack?
 
 
+<br>
+ 
 
 > ### What is Array-Like Objects in JavaScript?
-An Array-Like object is an object that has properties and methods similar to a regular Array object but does not possess all the functionalities of a regular array, such as the methods like push(), pop(), and splice(). These objects can be indexed like an array, and their property values can be accessed with bracket notation.
+An Array-Like object is an object that has properties and methods similar to a regular Array object but `does not possess` all the functionalities of a regular array, such as the `methods like push(), pop(), and splice()`. These objects can be `indexed like an array`, and their `property` values can be `accessed` with `bracket notation`.
 
 To loop through Array-Like Objects, we can use a for loop or forEach method, just like we do for regular arrays. Here is an example of using a for loop to loop through a NodeList object:
 
@@ -3174,8 +3204,13 @@ Note: They may lack some of the array methods like `push, pop, or forEach` but r
 Array-Like Object it is an usual object - {}, keys are numbers and has a length property. It doesn't have any specific methods, and doesn't support array's methods.
 
 
+<br>
+ 
 > ### What is the difference between ES6 Class and ES5 implementation?
-ES6 classes provide a more concise and readable syntax for creating objects and handling inheritance in JavaScript compared to the ES5 implementation. ES6 uses the `class` keyword, `constructor` for initialization, and `extends` and `super` for inheritance, making the code more intuitive. Methods are defined directly within the class body, while ES5 relies on function constructors and manually manipulating the prototype chain. ES6 also introduces static methods and the `new.target` meta-property, enhancing functionality and ease of use. Overall, ES6 classes simplify object-oriented programming in JavaScript, addressing the verbosity and complexity of ES5.
+- ES6 classes provide a more concise and readable syntax for creating objects and handling inheritance in JavaScript compared to the ES5 implementation.
+- ES6 uses the `class` keyword, `constructor` for initialization, and `extends` and `super` for inheritance, making the code more intuitive.
+-  Methods are defined directly within the class body, while ES5 relies on function constructors and manually manipulating the prototype chain.
+-   ES6 also introduces static methods and the `new.target` meta-property, enhancing functionality and ease of use. Overall, ES6 classes simplify object-oriented programming in JavaScript, addressing the verbosity and complexity of ES5.
 
 ```js
 // ES6 Class
@@ -3229,6 +3264,8 @@ d.speak(); // Mitzie barks.
 
 ```
 
+<br>
+ 
 > ### What are the possible ways to create objects in JavaScript
 * Object constructor
  ```js
@@ -3270,6 +3307,8 @@ class Person {
 var object = new Person("Sudheer");
 ```
 
+<br>
+ 
 > ### What are the possible ways to create array in JavaScript
 - ONLY ONE(NUMBER) ARGUMENT:
 ```js
@@ -3425,6 +3464,8 @@ for (let key in jayesh) {
 ```
 
 
+<br>
+ 
 
 > ### Some cases of === or ==
 ```js
@@ -3456,9 +3497,13 @@ NaN == NaN  // false
 ```
 
 
+<br>
+ 
 > ### What is a unary function
 Unary function (i.e. monadic) is a function that accepts exactly one argument. It stands for a single argument accepted by a function
 
+<br>
+ 
 > ### How do you decode or encode a URL in JavaScript?
 In JavaScript, you can encode or decode a URL using the encodeURIComponent() and decodeURIComponent() functions, respectively.
 The encodeURIComponent() function encodes a string by replacing special characters with their corresponding escape sequences. This is useful when you want to include special characters, such as spaces or non-ASCII characters, in a URL.
@@ -3484,6 +3529,8 @@ console.log(decodedUrl);
 ```
 Note that encodeURI() and decodeURI() functions are also available in JavaScript, which are similar to encodeURIComponent() and decodeURIComponent() respectively, but with slightly different encoding rules.
 
+<br>
+ 
 > ### What are classes in ES6
 Classes are a template ( a blueprint ) for creating objects.
 
@@ -3547,6 +3594,8 @@ animal.speak(); // Animal makes a noise.
 dog.speak(); // Buddy barks!
 ```
 
+<br>
+ 
 💡 9 Things you should know about Classes and Objects.
 1) Ways to define a class ( Class Declaration, Class Expression).
 2) Do Classes get Hoisted ? 
@@ -3558,10 +3607,14 @@ dog.speak(); // Buddy barks!
 8) Classes getters and setters.
 9) 8 Ways to create objects in javascript.
 
+<br>
+ 
 Two ways to define class in javascript
 1) Class Declaration
 2) Class Expression
 
+<br>
+ 
 1) Let's take an example Class Declaration
 
 ```js
@@ -3986,6 +4039,8 @@ console.log(obj8); // { name: 'Jc', age: 24 }
 
 
 
+<br>
+ 
 
 > ### What happens if you write constructor more than once in a class
 The "constructor" in a class is a special method and it should be defined only once in a class. i.e, If you write a constructor method more than once in a class it will throw a `SyntaxError` error.
@@ -4005,8 +4060,10 @@ The "constructor" in a class is a special method and it should be defined only o
  console.log(employeeObject.name);
  ```
 
+<br>
+ 
  > ### How do you call the constructor of a parent class
- You can use the super keyword to call the constructor of a parent class. Remember that super() must be called before using 'this' reference. Otherwise it will cause a reference error. Let's the usage of it,
+ You can use the `super keyword` to call the constructor of a parent class. Remember that `super()` must be `called before` using `'this' reference`. `Otherwise` it will `cause a reference error`. Let's the usage of it,
 
 
  ```js
@@ -4099,6 +4156,8 @@ console.log(firstFooBar);
 ```
 
 
+<br>
+ 
 
 > ### What are the differences between cookie, local storage and session storage
 Below are some of the differences between cookie, local storage and session storage,
@@ -4110,25 +4169,9 @@ Lifetime |	As configured using Expires option |	until deleted |	until tab is clo
 SSL support |	Supported |	Not supported |	Not supported
 Maximum data size |	4KB	| 5 MB |	5MB
 
-> ### What is a storage event and its event handler
-The StorageEvent is an event that fires when a storage area has been changed in the context of another document. Whereas onstorage property is an EventHandler for processing storage events. The syntax would be as below
-```js
-window.onstorage = functionRef;
-```
-Let's take the example usage of onstorage event handler which logs the storage key and it's values
-```js
-window.onstorage = function (e) {
-  console.log(
-    "The " +
-      e.key +
-      " key has been changed from " +
-      e.oldValue +
-      " to " +
-      e.newValue +
-      "."
-  );
-};
-```
+
+<br>
+ 
 
 > ### What is the purpose of double exclamation
 The double exclamation or negation(!!) ensures the resulting type is a boolean. If it was falsey (e.g. 0, null, undefined, etc.), it will be false, otherwise, true. For example, you can test IE version using this expression as below,
@@ -4139,6 +4182,8 @@ console.log(isIE8); // returns true or false
 ```
 
 
+<br>
+ 
 > ### What is the difference between null and undefined
 Null |	Undefined
 ----- | -----------
@@ -4148,6 +4193,8 @@ The null value is a primitive value that represents the null, empty, or non-exis
 Indicates the absence of a value for a variable  | 	Indicates absence of variable itself
 Converted to zero (0) while performing primitive operations  | 	Converted to NaN while performing primitive operations
 
+<br>
+ 
 > ### What is eval
 The eval() function evaluates JavaScript code represented as a string. The string can be a JavaScript expression, variable, statement, or sequence of statements.
 isko hum calculator me use kar sakte h, '10+3' as a string pass kar do ye 13 return karega.
@@ -4155,6 +4202,8 @@ isko hum calculator me use kar sakte h, '10+3' as a string pass kar do ye 13 ret
 console.log(eval("1 + 2")); //  3
 ```
 
+<br>
+ 
 > ### Is it recommended to use eval
 No, it allows arbitrary code to be run which causes a security problem. As we know that the eval() function is used to run text as code. In most of the cases, it should not be necessary to use it.
 
@@ -4185,6 +4234,8 @@ So how bad is this:
 - You slow down your code's performance
 
 
+<br>
+ 
 > ### What is isNaN
 The isNaN() function is used to determine whether a value is an illegal number (Not-a-Number) or not. i.e, This function returns true if the value equates to NaN. Otherwise it returns false.
 ```js
@@ -4192,12 +4243,16 @@ isNaN("Hello"); //true
 isNaN("100"); //false
 ```
 
+<br>
+ 
 
 > ### What is the difference between native, host and user objects
 `Native objects` are objects that are part of the JavaScript language defined by the ECMAScript specification. For example, String, Math, RegExp, Object, Function etc core objects defined in the ECMAScript spec.
 `Host objects` are objects provided by the browser or runtime environment (Node). For example, window, XmlHttpRequest, DOM nodes etc are considered as host objects.
 `User objects` are objects defined in the javascript code. For example, User objects created for profile information.
 
+<br>
+ 
 > ### What are the pros and cons of promises over callbacks
 Below are the list of pros and cons of promises over callbacks,
 
@@ -4214,11 +4269,15 @@ Cons:
 * You need to load a polyfill if ES6 is not supported
 
 
+<br>
+ 
 > ### What is the difference between an attribute and a property
-Attributes are defined on the HTML markup whereas properties are defined on the DOM. For example, the below HTML element has 2 attributes type and value,
+`Attributes` are defined on the `HTML markup` whereas `properties` are `defined on the DOM`. For example, the below HTML element has 2 attributes type and value,
+
 ```html
 <input type="text" value="Name:">
 ```
+
 You can retrieve the attribute value as below,
 ```js
 const input = document.querySelector("input");
@@ -4233,6 +4292,8 @@ console.log(input.getAttribute("value")); // Good evening
 console.log(input.value); // Good evening
 ```
 
+<br>
+ 
 > ### What is the purpose of void 0
 Void(0) is used to prevent the page from refreshing.
 ```html
@@ -4241,14 +4302,20 @@ Void(0) is used to prevent the page from refreshing.
 </a>
 ```
 
+<br>
+ 
 > ### What is the use of preventDefault method
 The preventDefault() method cancels the event if it is cancelable, meaning that the default action or behaviour that belongs to the event will not occur. For example, prevent form submission when clicking on submit button and prevent opening the page URL when clicking on hyperlink are some common use cases.
 
+<br>
+ 
 > ### What is BOM
 The Browser Object Model (BOM) allows JavaScript to "talk to" the browser. It consists of the objects navigator, history, screen, location and document which are children of the window. The Browser Object Model is not standardized and can change based on different browsers.
 
 ![BOM](/images/bom.png)
 
+<br>
+ 
 > ### How do you redirect new page in javascript
 ```js
 function redirect() {
@@ -4256,10 +4323,14 @@ function redirect() {
 }
 ```
 
+<br>
+ 
 > ### How do get query string values in javascript
 `window.location.search`
 Basically use te window.location to get all things related to url
 
+<br>
+ 
 > ### Can we define properties for functions
 Yes, We can define properties for functions because functions are also objects.
 ```js
@@ -4274,6 +4345,8 @@ fn.profile = function (y) {
 };
 ```
 
+<br>
+ 
 > ### What is the way to find the number of parameters expected by a function
 You can use function.length syntax to find the number of parameters expected by a function. Let's take an example of sum function to calculate the sum of numbers,
 
@@ -4284,20 +4357,14 @@ function sum(num1, num2, num3, num4) {
 sum.length; // 4 is the number of parameters expected.
 ```
 
+<br>
+ 
 > ### What is a polyfill
 A polyfill is a piece of JS code used to provide modern functionality on older browsers that do not natively support it. For example, Silverlight plugin polyfill can be used to mimic the functionality of an HTML Canvas element on Microsoft Internet Explorer 7.
 
 
-
-> ### Can you write a random integers function to print integers with in a range
-```js
-function randomInteger(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-randomInteger(1, 100); // returns a random integer from 1 to 100
-randomInteger(1, 1000); // returns a random integer from 1 to 1000
-```
-
+<br>
+ 
 > ### How do you get the image width and height using JS
 You can programmatically get the image and check the dimensions(width and height) using Javascript.
 ```js
@@ -4308,12 +4375,16 @@ img.onload = function () {
 img.src = "http://www.google.com/intl/en_ALL/images/logo.gif";
 ```
 
+<br>
+ 
 > ### How do you convert date to another timezone in javascript
 You can use the toLocaleString() method to convert dates in one timezone to another. For example, let's convert current date to British English timezone as below,
 ```js
 console.log(event.toLocaleString("en-GB", { timeZone: "UTC" })); //29/06/2019, 09:56:00
 ```
 
+<br>
+ 
 > ### What are the properties used to get size of window
 You can use innerWidth, innerHeight, clientWidth, clientHeight properties of windows, document element and document body objects to find the size of a window. Let's use them combination of these properties to calculate the size of a window or document,
 ```js
@@ -4328,6 +4399,8 @@ var height =
   document.body.clientHeight;
 ```
 
+<br>
+ 
 > ### Can you apply chaining on conditional operator
 ```js
 function traceValue(someParam) {
@@ -4355,6 +4428,8 @@ function traceValue(someParam) {
 }
 ```
 
+<br>
+ 
 > ###  Method chaining
 Method chaining, also known as named parameter idiom, is a common syntax for invoking multiple method calls in object-oriented programming languages. Each method returns an object allowing the calls to be chained together in a single statement without requiring variables to store the intermediate results.
 
@@ -4391,8 +4466,8 @@ obj { i: 0, add: [Function], subtract: [Function], print: [Function] }
 */
 ```
 
-
-
+<br>
+ 
 > ### Calling a function when it exist
 
 ```js
@@ -4400,6 +4475,8 @@ callingFunction?.()
 ```
 
 
+<br>
+ 
 > ### What happens if you do not use rest parameter as a last argument
 The rest parameter should be the last argument, as its job is to collect all the remaining arguments into an array. For example, if you define a function like below it doesn’t make any sense and will throw an error.
 ```js
@@ -4409,6 +4486,8 @@ return;
 }
 ```
 
+<br>
+ 
 > ### How do you create an object with prototype
 The Object.create() method is used to create a new object with the specified prototype object and properties. i.e, It uses an existing object as the prototype of the newly created object. It returns a new object with the specified prototype object and properties.
 ```js
@@ -4426,12 +4505,16 @@ admin.name = "Nick"; // Remember that "name" is a property set on "admin" but no
 admin.printInfo(); // My name is Nick
 ```
 
+<br>
+ 
 > ### What is call stack
 Call Stack is a data structure for javascript interpreters to keep track of function calls(creates execution context) in the program. It has two major actions,
 
 * Whenever you call a function for its execution, you are pushing it to the stack.
 * Whenever the execution is completed, the function is popped out of the stack.
 
+<br>
+ 
 > ### What is the purpose of compareFunction while sorting arrays
 The compareFunction is used to define the sort order. If omitted, the array elements are converted to strings, then sorted according to each character's Unicode code point value. Let's take an example to see the usage of compareFunction,
 
