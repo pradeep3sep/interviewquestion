@@ -4537,6 +4537,8 @@ console.log(d);
 ```
 
 
+<br>
+ 
 
 > ### What happens If I pass string type for getPrototype method
 In ES5, it will throw a TypeError exception if the obj parameter isn't an object. Whereas in ES2015, the parameter will be coerced to an Object.
@@ -4548,6 +4550,8 @@ Object.getPrototypeOf("James"); // String.prototype
 ```
 
 
+<br>
+ 
 
 > ### How do you prevent an object to extend
 The `Object.preventExtensions()` method is used to prevent new properties from ever being added to an object. In other words, it prevents future extensions to the object. Let's see the usage of this property,
@@ -4567,6 +4571,9 @@ try {
 ```
 
 
+<br>
+ 
+
 > ### What are the different ways to make an object non-extensible
 You can mark an object non-extensible in 3 ways,
 
@@ -4574,8 +4581,11 @@ You can mark an object non-extensible in 3 ways,
 * Object.seal
 * Object.freeze
 
+
+<br>
+ 
 > ### What Is Obfuscation in javascript
-Obfuscation is the deliberate act of creating obfuscated javascript code(i.e, source or machine code) that is difficult for humans to understand. It is something similar to encryption, but a machine can understand the code and execute it. Let's see the below function before Obfuscation,
+Obfuscation is the deliberate act of creating obfuscated `javascript code`(i.e, source or machine code) that is `difficult for humans to understand`. It is something similar to encryption, but a machine can understand the code and execute it. Let's see the below function before Obfuscation,
 
 ```js
 function greeting() {
@@ -4620,6 +4630,8 @@ eval(
 );
 ```
 
+<br>
+ 
 > ### Why do you need Obfuscation
 Below are the few reasons for Obfuscation,
 
@@ -4629,20 +4641,30 @@ Below are the few reasons for Obfuscation,
 * The download time will be reduced
 
 
+<br>
+ 
 > ### typeof `new Number(3)` is object not number because of class but Number(3) is number
 
+<br>
+ 
 > ### What is the purpose of double tilde operator
 The double tilde operator(~~) is known as double NOT bitwise operator. This operator is going to be a quicker substitute for Math.floor().
 
+<br>
+ 
 > ### Do all objects have prototypes
 No. All objects have prototypes except for the base object which is created by the user, or an object that is created using the new keyword.
 
+<br>
+ 
 > ### How do you create specific number of copies of a string
 The `repeat()` method is used to construct and return a new string which contains the specified number of copies of the string on which it was called, concatenated together. Remember that this method has been added to the ECMAScript 2015 specification. Let's take an example of Hello string to repeat it 4 times,
 ```js
 "Hello".repeat(4); // 'HelloHelloHelloHello'
 ```
 
+<br>
+ 
 > ### How do you empty an array
 You can empty an array quickly by setting the array length to zero.
 ```js
@@ -4653,10 +4675,14 @@ cities.length = 0; // cities becomes []
 cities = []
 ```
 
+<br>
+ 
 > ### Is it possible to add CSS to console messages
 Yes, you can apply CSS styles to console messages similar to html text on the web page.
 
 
+<br>
+ 
 > ### How do you capture browser back button
 The window.onbeforeunload method is used to capture browser back button events. This is helpful to warn users about losing the current data.
 ```js
@@ -4665,6 +4691,8 @@ window.onbeforeunload = function () {
 };
 ```
 
+<br>
+ 
 > ### What are the differences between for...of and for...in statements
 Both for...in and for...of statements iterate over js data structures. The only difference is over what they iterate:
 
@@ -4690,6 +4718,8 @@ for (let value of arr) {
 Since for..in loop iterates over the keys of the object, the first loop logs 0, 1, 2 and newProp while iterating over the array object. The for..of loop iterates over the values of a arr data structure and logs a, b, c in the console.
 
 
+<br>
+ 
 > ### What are the differences between primitives and non-primitives?
 Primitives | 	Non-primitives
 -----------  | -----------------
@@ -4700,6 +4730,8 @@ Stored in Stack | 	Stored in heap
 Contain certain value | 	Can contain NULL too
 
 
+<br>
+ 
 
 > ### debouncing vs throttling
 1st one is diff b/w to type value time and second one is the time difference between two function call
@@ -4707,10 +4739,10 @@ Contain certain value | 	Can contain NULL too
 * Throttling is a technique where a function is executed at a regular interval, no matter how frequently it is called.
 *  Debouncing, on the other hand, is a technique where a function is only executed after a certain amount of time has passed since the last time it was called.
 
-debounce
+**debounce**
 
-💡Other use cases :-
-👉 Continous button click event function call can be delay.
+💡Other use cases :-\
+👉 Continous button click event function call can be delay.\
 👉 Resize of window event function call can be delay.
 
 ```js
@@ -4738,7 +4770,7 @@ window.addEventListener('scroll', debouncedFunction);
 
 ```
 
-Throttle
+**Throttle**
 
 ```js
 function throttle(func, delay) {
@@ -4774,12 +4806,19 @@ Explanation by use case:
 * Search bar- Don't want to search every time user presses key? Want to search when user stopped typing for 1 sec. Use debounce 1 sec on key press.
 * Shooting game- Pistol take 1 sec time between each shot but user click mouse multiple times. Use throttle on mouse click.
 
+<br>
+ 
 > ### Event Loop
-The event loop is a process that continuously monitors both the call stack and the event queue and checks whether or not the call stack is empty. If the call stack is empty and there are pending events in the event queue, the event loop dequeues the event from the event queue and pushes it to the call stack. The call stack executes the event, and any additional events generated during the execution are added to the end of the event queue.
+The event loop is a process that continuously monitors both the call stack and the event queue and checks whether or not the call stack is empty.\
+If the call stack is empty and there are pending events in the event queue, the event loop dequeues the event from the event queue and pushes it to the call stack. The call stack executes the event, and any additional events generated during the execution are added to the end of the event queue.
 
----
+```
 event loop sequence microtask - https://www.jsv9000.app/
----
+```
+
+
+<br>
+ 
 
 > ### http methods
 * GET: GET request is used to read/retrieve data from a web server. 
@@ -4788,15 +4827,22 @@ event loop sequence microtask - https://www.jsv9000.app/
 * PATCH: PATCH is similar to PUT request, but the only difference is, it modifies a part of the data. It will only replace the content that you want to update.
 * DELETE: A DELETE request is used to delete the data on the server at a specified location.
 
+<br>
+ 
 > ### how to stop all the console log at onec console.log = function (){}
 
-> ### async vs differ  === see this image for answer  https://i.stack.imgur.com/wfL82.png
+<br>
+ 
+> ### async vs differ  === see this image for answer  https://media.licdn.com/dms/image/v2/C5112AQFW3cKEhP9AkQ/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1520214760879?e=2147483647&v=beta&t=vDdQPieyUHqIdU8HjtKncTHxoPLeLa_KCVF630yzE_I
 
-> ###   2 + undefined gives NaN, not gives any error
 
+<br>
+ 
 ### There are 8 falsy values:
 undefined, null, NaN, false,'' (empty string),0,-0,0n (BigInt(0))
 
+<br>
+ 
 ### how to call two api when second one depend on first response in js
 ```js
 async function fetchData() {
@@ -4850,12 +4896,19 @@ axios.get(...)
     console.log('Response', response);
   });
 ```
-> ### Can you name two programming paradigms important for JavaScript app developers?
-JavaScript is a multi-paradigm language, supporting imperative/procedural programming along with OOP (Object-Oriented Programming) and functional programming. JavaScript supports OOP with prototypal inheritance.
 
+<br>
+ 
+> ### Can you name two programming paradigms important for JavaScript app developers?
+JavaScript is a multi-paradigm language, supporting imperative/procedural programming along with `OOP (Object-Oriented Programming)` and `functional programming`. JavaScript supports OOP with prototypal inheritance.
+
+<br>
+ 
 > ### Es6(ECMAScript 2015)
 let and const, Arrow Functions, Template Literals, rest and spread operator,  Default Parameters in functions, classes
 
+<br>
+ 
 > ### To delete a property in object
 ```js
 const myObject = {
@@ -4879,6 +4932,8 @@ const myObject = {
 const { key2, ...newObject } = myObject;
 ```
 
+<br>
+ 
 > ### Shallow Copy vs Deep copy
 * `Shallow copy`: means that only the first level of the object is copied. Deeper levels are referenced.
 
@@ -4910,18 +4965,22 @@ An Intersection Observer API provides a way to observe the visibility and positi
 
 💡Note - Intersection Observer API is asynchronous, Performs operations in the Microtask queue.
 
-💡Use Cases :-
-👉 1) Implementation of infinite scrolling. 
-👉 2) lazy-loading images on scroll. 
+💡Use Cases :-\
+👉 1) Implementation of infinite scrolling. \
+👉 2) lazy-loading images on scroll. \
 👉 3) Auto-pause video when it’s out of view
 
 
+<br>
+ 
 > ### Mutation Observer
 
-The MutationObserver API allows you to continuously monitor the changes being made to the DOM tree. 
+The MutationObserver API allows you to continuously monitor the changes being made to the DOM tree. \
 When the DOM nodes change, you can invoke a callback function to detect the changes.
 
 
+<br>
+ 
 > ### normal function vs arrow function
 
 - Arguments objects are not available in arrow functions, but are available in regular functions.
@@ -4945,6 +5004,7 @@ let user = {
 user.show_ar(1, 2, 3)    // arguments is not defined
 ```
 
+
 - Can NOT Use new keyword with arrow function
 
 Regular functions created using function declarations or expressions are ‘constructible’ and ‘callable’. Since regular functions are constructible, they can be called using the ‘new’ keyword. However, the arrow functions are only ‘callable’ and not constructible. Thus, we will get a run-time error on trying to construct a non-constructible arrow functions using the new keyword.
@@ -4966,6 +5026,8 @@ new x(1, 2, 3) // => TypeError: x is not a constructor
 - arrow can not be called before defined in code.
 
 
+<br>
+ 
 > ### IIFE-10-ways
 
 ```js
@@ -4981,6 +5043,8 @@ new function(){console.log("Hi I'm IIFE 9")};
 new function(){console.log("Hi I'm IIFE 10")}();
 ```
 
+<br>
+ 
 > ### Rule of this
 
 💡 7 Things you should know about "this"
@@ -4994,7 +5058,9 @@ new function(){console.log("Hi I'm IIFE 10")}();
 - 👉 Miscellaneous important things about "this"
 
 
-Rule 1) function with new keyword ( this refers to the function object )
+<br>
+ 
+**Rule 1)** function with new keyword ( this refers to the function object )
 
 ```js
 function Person() {
@@ -5007,7 +5073,9 @@ function Person() {
 new Person();
 ```
 
-Rule 2) call, apply, bind ( this refers to the obj passed to methods)
+<br>
+ 
+**Rule 2)** call, apply, bind ( this refers to the obj passed to methods)
 
 ```js
 
@@ -5025,7 +5093,9 @@ const getPlayerInfo = function (country) {
 getPlayerInfo.call(player, "India"); // here, player borrowing getPlayerInfo function
 ```
 
-Rule 3) method in object ( this refers to the object )
+<br>
+ 
+**Rule 3)** method in object ( this refers to the object )
 
 ```js
 const obj = {
@@ -5039,7 +5109,9 @@ const obj = {
 obj.displayName();
 ```
 
-Rule 4) simple function ( undefined in strict mode)
+<br>
+ 
+**Rule 4)** simple function ( undefined in strict mode)
 
 ```js
 function simpleFunc() {
@@ -5049,7 +5121,9 @@ function simpleFunc() {
 simpleFunc(); // or window.simpleFunc()
 ```
 
-Rule 5) multiple rules :- Higher rule has more priority
+<br>
+ 
+**Rule 5)** multiple rules :- Higher rule has more priority
 
 ```js
 const obj1 = {
@@ -5065,7 +5139,9 @@ const obj2 = {
 obj1.showName.call(obj2); // Jc precedence of Rule 2) Call method > Rule 3) method in object
 ```
 
-Rule 6) arrow function :- arrow function does not create its own execution context, inherits "this" from its outer function.
+<br>
+ 
+**Rule 6)** arrow function :- arrow function does not create its own execution context, inherits "this" from its outer function.
 
   - case 1:- arrow function without any parent function
   ```js
@@ -5130,11 +5206,11 @@ Rule 6) arrow function :- arrow function does not create its own execution conte
     new OuterFunction();
   ```
 
-Rule 7) IFFE ( inherits "this" of global object )
+**Rule 7)** IFFE ( inherits "this" of global object )
 
 In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves differently depending on how the IIFE is invoked and the execution context. Here's a breakdown:
 
-### 1. **Global Context (Non-strict mode)**
+1. **Global Context (Non-strict mode)**
    - When an IIFE is executed in the global context in non-strict mode, `this` refers to the global object (`window` in browsers, `global` in Node.js).
    - Example:
      ```javascript
@@ -5143,7 +5219,7 @@ In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves
      })();
      ```
 
-### 2. **Global Context (Strict mode)**
+2. **Global Context (Strict mode)**
    - In strict mode, `this` inside an IIFE is `undefined` when not bound to any object.
    - Example:
      ```javascript
@@ -5153,7 +5229,7 @@ In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves
      })();
      ```
 
-### 3. **Object Context**
+3. **Object Context**
    - If an IIFE is invoked as a method of an object, `this` refers to the object itself.
    - Example:
      ```javascript
@@ -5167,7 +5243,7 @@ In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves
      obj.method(); // 'this' refers to 'obj'
      ```
 
-### 4. **Explicit Binding with `call`, `apply`, or `bind`**
+4. **Explicit Binding with `call`, `apply`, or `bind`**
    - You can explicitly set the value of `this` using `call`, `apply`, or `bind`.
    - Example:
      ```javascript
@@ -5178,7 +5254,9 @@ In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves
 
 In summary, the value of `this` in an IIFE depends on how the IIFE is invoked and whether strict mode is enabled.
 
-Miscellaneous important things about "this"
+<br>
+ 
+**Miscellaneous important things about "this"**
 
 
 - "this" inside nested normal function
@@ -5239,26 +5317,7 @@ console.log(obj.b)
 ```
 
 
-Below is the storage by reference
-```js
-let person = { name: "Jayesh" };
-  const personArray = [person];
-  person = null;
-  console.log(personArray);
-
-  personArray = [];
-  console.log(personArray);
-
-  // 👍A) [ { name: "Jayesh" } ], []
-  // 💡B) [ { name: "Jayesh" } ] , TyperError
-  // 💖C) [ null ], TypeError
-  // 😀D) [ {} ], []
-
-  /*
-  Answer is B) [ { name: "Jayesh" } ] , TyperError because person = null will only disconnect the person variable from value { name: "Jayesh"} which is stored in memory, personArray[0] will still point to same value { name: "Jayesh"}.
-  and personArray = [] at this line TyperError as const variable can't be redeclared and throws Uncaught TypeError: Assignment to constant variable.  
- */
-```
+<br>
 
 ```js
 let obj_1 = {
@@ -5292,11 +5351,14 @@ undefined
 
 
 /* EXPLANATION -
-The reason for outputting 'undefined' is that the value of this in a function depends on how the function is called. If its called as obj.sayLater(), the value of this is the calling context which in this case is obj.
+The reason for outputting 'undefined' is that the value of this in a function depends on how the function is called.
+If its called as obj.sayLater(), the value of this is the calling context which in this case is obj.
 
 However the calling context (what 'this' will point to) for the anonymous function inside setTimeout is either of ...
    
-   A) In the browser it’s either undefined or the global object depending on if you are running in strict mode or not. or B) In node it’s an internal timeout object.
+   A) In the browser it’s either undefined or the global object depending on if you are running in strict mode or not.
+
+   or B) In node it’s an internal timeout object.
 
    C) In all cases however it isn’t going to be obj, so this.name is not going to return 'asim', it’s going to return undefined or raise an error.
 
@@ -5349,6 +5411,8 @@ undefined
 */
 ```
 
+<br>
+ 
 > ### LRU Cache implementation
 
 ### LRU Cache: Overview
@@ -5526,7 +5590,9 @@ This setup provides several benefits:
 
 In a real e-commerce site, this could significantly improve the user experience by reducing load times for popular or recently viewed products, while keeping the memory usage of the server in check.
 
-# What happens when you navigate to an URL
+<br>
+ 
+> ### What happens when you navigate to an URL
 
 This is a classical question in an interview. We can concatenate the topics all above in this theme:
 
@@ -5541,6 +5607,8 @@ This is a classical question in an interview. We can concatenate the topics all 
 9. The Render tree will be constructed following the CSSOM and the DOM tree, in which the layout of page elements, styles and so on will be calculated.
 10. In the process of constructing the Render tree, the browser will call the GPU to paint, composite the layers and display the contents on the screen.
 
+<br>
+ 
 > ### Window vs document
 
 `window` is the top-level object in the browser's JavaScript hierarchy, and it represents the browser window or tab itself. It contains properties and methods that control the behavior of the browser window, such as `alert()`, `confirm()`, `setTimeout()`, `location`, and more. The `window` object is also the global object in the browser's JavaScript environment, meaning that any variables or functions declared without the `var`, `let`, or `const` keywords are automatically added as properties of the window object.
@@ -5549,14 +5617,24 @@ On the other hand, `document` is an object that represents the web page displaye
 
 In summary, `window` is used to interact with the browser window, while `document` is used to interact with the content of the web page displayed in that window.
 
+<br>
+ 
 
 > ### Math function in js
-Math.ceil(x)	Returns x rounded up next integer
+Math.ceil(x) Returns x rounded up next integer
 ```js
 console.log(Math.ceil(4.9)) //5
 console.log(Math.ceil(4.5))  //5
 console.log(Math.ceil(4.1))  //5
 console.log(Math.ceil(-4.1))  //-4
+```
+
+Math.floor(x) returns the value of x rounded down to its nearest integer
+```js
+console.log(Math.floor(4.9))    //4
+console.log(Math.floor(4.5))    //4
+console.log(Math.floor(4.1))    //4
+console.log(Math.floor(-4.1))   //-5
 ```
 
 Math.round(x)	Returns x rounded to its nearest integer
@@ -5567,13 +5645,6 @@ console.log(Math.round(4.1))    //4
 console.log(Math.round(-4.1))   //-4
 ```
 
-Math.floor(x) returns the value of x rounded down to its nearest integer
-```js
-console.log(Math.floor(4.9))    //4
-console.log(Math.floor(4.5))    //4
-console.log(Math.floor(4.1))    //4
-console.log(Math.floor(-4.1))   //-5
-```
 Math.trunc(x) returns the integer part of x
 
 ```js
@@ -5600,6 +5671,8 @@ Math.min(0, 150, 30, 20, -8, -200); //-200
 console.log(Math.max(0, 150, 30, 20, -8, -200)) //150
 ```
 
+<br>
+ 
 > ### How to invoke an IIFE without any extra brackets?
 ```js
 !function() {
@@ -5607,8 +5680,12 @@ console.log(Math.max(0, 150, 30, 20, -8, -200)) //150
 }();
 ```
 
+<br>
+ 
 > ### What is the difference between setTimeout, setImmediate and process.nextTick?
 
+<br>
+ 
 > ### What is an empty statement and purpose of it
 In JavaScript, an empty statement is a statement that consists solely of a semicolon (;) and nothing else. It serves as a no-operation (no-op) or a placeholder where a statement is syntactically required but no action needs to be performed.
 
@@ -5617,6 +5694,9 @@ Here's an example of an empty statement:
 ```javascript
 ;
 ```
+
+<br>
+ 
 > ### what is a comma operator
 
 In JavaScript, the comma operator (`,`) is used to evaluate multiple expressions sequentially and return the value of the last expression. It allows you to combine multiple expressions into a single statement.
@@ -5639,6 +5719,8 @@ In this example:
 - After the comma operator is evaluated, `a`, `b`, and `c` are incremented by 1, so their values become 2, 3, and 4 respectively.
 - The variable `result` holds the value of the last expression evaluated by the comma operator, which is `c++`, resulting in `3`.
 
+<br>
+ 
 > ### What is the different between '^1.2.3' and '~1.2.3' in package.json
 
 **Caret (^) Range**: allows updates to the package up to the next major version.
@@ -5650,20 +5732,8 @@ In this example:
 ~1.2.3 specifies a minimum version of 1.2.3 and allows any version up to, but not including, 1.3.0
 
 
-> ### What is Virtual DOM? How does it work?
-**Virtual DOM:**
-
-The Virtual DOM is an abstraction of the Real DOM created and managed by a JavaScript library or framework (e.g., React).
-
-It is a lightweight in-memory representation of the Real DOM. When any change occurs in the application, a new Virtual DOM tree is created.
-
-**Diffing and Reconciliation:**
-
-After creating a new Virtual tree, the framework performs "diffing" to identify the differences between the new and the previous Virtual trees. Once identified, the framework calculates the minimal set of changes needed to update the Real DOM
-
-This process is efficient because manipulating the Virtual DOM in memory is faster than manipulating the Real DOM in the browser.
-
-
+<br>
+ 
 > ### What is the difference between Function constructor and function declaration
 
 1. **Function Constructor**:
@@ -5738,10 +5808,9 @@ What are the attributes provided by a property descriptor\
 How to cancel a fetch request\
 What is minimum timeout throttling\
 
-```
-React.memo() is a higher-order component that we can use to wrap components that we do not want to re-render unless props within them change
-useMemo() is a React Hook that we can use to wrap functions within a component. We can use this to ensure that the values within that function are re-computed only when one of its dependencies change
-```
+
+<br>
+ 
 > ### Strict Mode
 use strict is a pragma that enables a strict mode of operation in your code. It's used to catch common coding mistakes and "unsafe" actions, making your code more reliable and secure. 
 
@@ -5749,6 +5818,7 @@ use strict is a pragma that enables a strict mode of operation in your code. It'
 Please make sure that "use strict" is at the top of your scripts, otherwise strict mode may not be enabled.
 
 Strict mode isn’t enabled here:
+
 ```js
 alert("some code");
 // "use strict" below is ignored--it must be at the top
@@ -5757,12 +5827,18 @@ alert("some code");
 
 // strict mode is not activated
 ```
-There’s no way to cancel use strict\
-There is no directive like "no use strict" that reverts the engine to old behavior.\
-Once we enter strict mode, there’s no going back.
 
+- There’s `no way to cancel use strict`
+- There is `no directive like"no use strict"` that reverts the engine to old behavior.
+- Once we enter strict mode, there’s no going back.
+
+<br>
+ 
 > ### variables
-What’s interesting – the dollar sign '$' and the underscore '_' can also be used in names. They are regular symbols, just like letters, without any special meaning.\
+**What’s interesting**
+the dollar sign '$' and the underscore '_' can also be used in names. They are regular symbols, just like letters, without any special meaning.\
+
+
 These names are valid:
 ```js
 let $ = 1; // declared a variable with the name "$"
@@ -5782,10 +5858,6 @@ let имя = '...';
 let 我 = '...';
 ```
 
-> ### Data Types
-Besides regular numbers, there are so-called “special numeric values” which also belong to this data type: Infinity, -Infinity and NaN.
-
-
 <br>
 
 url: https://javascript.info/cross-window-communication
@@ -5794,13 +5866,16 @@ url: https://javascript.info/cross-window-communication
 
 <br>
 
-An `<iframe>` tag hosts a separate embedded window, with its own separate document and window objects.
-We can access them using properties:
-iframe.contentWindow to get the window inside the `<iframe>`.
+> ### Iframe
+An `<iframe>` tag hosts a separate embedded window, with its own separate document and window objects.\
+We can access them using properties:\
+iframe.contentWindow to get the window inside the `<iframe>`.\
 iframe.contentDocument to get the document inside the `<iframe>`, shorthand for iframe.contentWindow.document.
 
 
 
+<br>
+ 
 must read attack - 
 - The clickjacking attack - https://javascript.info/clickjacking  
 - also see https://www.geeksforgeeks.org/http-headers-set-cookie/,
@@ -5811,13 +5886,4 @@ No idea -
 - https://javascript.info/arraybuffer-binary-arrays
 - https://javascript.info/text-decoder
 
-
-
-###blob
-
-
 Axios upload progress with progress bar tutorial --- https://www.youtube.com/watch?v=nC3ntJUQrAM
-
-
-> ### to copy the text
-navigator.clipboard.writeText(copy_text)  . We can do according to promise resolve
