@@ -1448,7 +1448,7 @@ Both _Redux Thunk_ and _Redux Saga_ take care of dealing with side effects. In m
 
 > ### Why are inline ref callbacks or functions not recommended?
 
-If the ref callback is defined as an inline function, it will get called twice during updates, first with null and then again with the DOM element. This is because a new instance of the function is created with each render, so React needs to clear the old ref and set up the new one.
+If the ref callback is defined as an inline function, it `will get` `called twice` during updates, `first with null` and then `again with the DOM element`. This is because a new instance of the function is created with each render, so React needs to clear the old ref and set up the new one.
 
 ```jsx
 // Less performant (creates a new function on every render)
@@ -1515,42 +1515,7 @@ export default App;
 - The `LogEnhancedComponent` is the result of using the `withLogger` HOC factory with the original `MyComponent`.
 - Finally, in the `App` component, we use  `LogEnhancedComponent` just like any other component.
 
-
 <br>
-
-
-> ### Higher-Order Component (HOC) 
-
-In React, a Higher-Order Component (HOC) is a pattern where a function takes a component and returns a new component with additional props, state, or behavior. HOCs are a way to reuse component logic, share code between components, and enhance the capabilities of existing components.
-
-```jsx
-// HOC
-const withUpperCase = (WrappedComponent) => {
-  return (props) => {
-    const modifiedProps = {
-      ...props,
-      text: props.text.toUpperCase(),
-    };
-
-    return <WrappedComponent {...modifiedProps} />;
-  };
-};
-
-// Component
-const MyComponent = ({ text }) => {
-  return <div>{text}</div>;
-};
-
-// Using the HOC
-const EnhancedComponent = withUpperCase(MyComponent);
-
-// Render the enhanced component
-ReactDOM.render(<EnhancedComponent text="Hello, World!" />, document.getElementById('root'));
-```
-
-
-<br>
-
 
 > ### What are hooks?
 Hooks is a special JavaScript function that allows you use state and other React features without writing a class. This pattern has been introduced as a new feature in React 16.8 and helped to isolate the stateful logic from the components.
@@ -1976,7 +1941,9 @@ While React initially relied on class-based components, the introduction of func
 
 **In summary,** while class-based components still have their place in certain scenarios, functional components with Hooks offer a more modern, efficient, and enjoyable way to build React applications. They have become the de facto standard for most React development due to their simplicity, flexibility, and performance benefits.
  
-**Would you like to delve deeper into a specific aspect of functional components or Hooks?**
+
+
+<br>
 
 
 
@@ -2127,12 +2094,6 @@ export function App() {
 
 
 <br>
-
-
-> ### Best toast to use npm install react-hot-toast
-
-<br>
-
 
 > ### Compound Pattern in react
 
