@@ -271,8 +271,6 @@ Method 2 is more efficient, especially if `myExpensiveFn()` involves heavy compu
 
 <br>
 
-
-
 > ### useNavigation can be used, 
 ```jsx
 import { useNavigation } from "react-router-dom";
@@ -303,6 +301,9 @@ navigation.state has idle → loading → idle, which can be used for loader (ci
 > ### useState is async
 Multiple state updates inside an event handler function are **batched**, so they happen all at once, **causing only one re-render**. This means we can **not access a state variable immediately after updating it**. State updates are **async**. Since React 18, batching also happens in timeouts, promises, and native event handlers.
 referenc is video no 136: state update batching in pratice
+
+
+<br>
 
 
 > ### How usestate is async
@@ -357,11 +358,16 @@ export function App() {
 
 React is an `open-source front-end JavaScript library` that is used for building user interfaces, especially for `single-page applications`
 
+<br>
+
+
 > ### What are the major features of React?
 - JSX syntax, a syntax extension of JS that allows developers to write HTML in their JS code.
 - VirtualDOM
 - reusable/composable
 
+
+<br>
 
 > ### What are the advantages of React?
 Below are the list of main advantages of React,
@@ -371,6 +377,9 @@ Below are the list of main advantages of React,
 - It renders both on client and server side (SSR).
 - Easy to integrate with frameworks (Angular, Backbone) since it is only a view library.
 - Easy to write unit and integration tests with tools such as Jest.
+
+
+<br>
 
 
 > ### What are the limitations of React?
