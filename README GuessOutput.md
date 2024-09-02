@@ -2331,10 +2331,8 @@ person.method(displayName);
 
 <details>
   <summary>Answer</summary>
-  <p>Answer is B)</p>
+  <p>Answer is C)</p>
 
- Answer is B) Jayesh because displayName function is passed to person object method as a callback function.
-  "this" keyword in displayName function will refer to window object and window object has a property "name" with value "Jayesh". Hence, It will console Jayesh as an output.
 
 ```js
   // 👇 We can get JC as an output by attaching call method with fn() inside person method :-
