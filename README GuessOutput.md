@@ -673,6 +673,8 @@ console.log(func());
   <summary>Answer</summary>
   <p>Answer: 4 </p>
 
+**Keep in mind that in 37, we do return certain value so Promise {<fulfilled>: 10} but in above we are not returning anything(ie undefined) so Promise {<resolved>: undefined}**
+
 The await expression returns value 10 with promise resolution and the code after each await expression can be treated as existing in a .then callback. In this case, there is no return expression at the end of the function. Hence, the default return value of undefined is returned as the resolution of the promise. The above async function is equivalent to below expression,
 ```js
 function func() {
