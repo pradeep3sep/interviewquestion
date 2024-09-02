@@ -2376,23 +2376,7 @@ object.method(callback, 2, 3);
   <p>Answer is B)</p>
 
 ```js
-Answer is B) 3 because arguments keyword is an array of arguments passed to the function. 
-  Here while calling object.method(), we are passing three arguments callback fn(), 2 and 3.
-  If we try to console arguments it will look like this 👇
-
-  Arguments(3) [ƒ, 2, 3, callee: ƒ, Symbol(Symbol.iterator): ƒ]
-  0: ƒ callback()
-  1: 2
-  2: 3
-  callee: ƒ ()
-  length: 3
-  Symbol(Symbol.iterator): ƒ values()
-  [[Prototype]]: Object
-
-  As we can clearly see, arguments is having length property that is equal to number of arguments passed to function.
-  So, arguments[0] is nothing but the first argument passed to function that is callback function in this case.
-  As we know, Everything in JavaScript is an object ( arguments is also an object which has length property with value 3 )
-  arguments[0]() function's "this" will refer to arguments object. Hence, It will console 3 as an output
+In non-strict mode, when a regular function is called, `this` refers to the global object (`window` in browsers), and in the global scope, `length` refers to the number of arguments passed to the function (`arguments.length`).
 ```
 </details>
 
