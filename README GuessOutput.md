@@ -2510,12 +2510,18 @@ console.log(4);
   <summary>Answer</summary>
   <p>Answer is C)</p>
 
- ```js
-Answer is C) 1 2 4 3 beacause promise is used to handle the asynchronous result of an operation and 
-  callback functions attached to the promises are stored into microtask queue. 
-  So, first synchronous code will be executed i.e 1,2,4 and once callstack is empty, event loop pushes the microtask queue's task into callstack
-  callstack will start executing the task and It will console 3 at last.
-```
+The correct answer is **C) 1 2 4 3**.
+
+### Explanation:
+1. **`console.log(1);`** - This line executes first, so `1` is printed.
+2. **`async function fetchData() { ... }`** - The `fetchData` function is declared, but it doesn't run until it's called.
+3. **`fetchData();`** - This calls the `fetchData` function.
+   - **`console.log(2);`** inside `fetchData` executes, so `2` is printed.
+   - **`await Promise.resolve(3);`** pauses the execution of the function until the promise resolves. However, it allows the rest of the code outside the `async` function to continue executing.
+4. **`console.log(4);`** - While `fetchData` is awaiting the promise resolution, this line executes, so `4` is printed.
+5. Once the promise resolves, **`console.log(result);`** inside `fetchData` executes, printing `3`.
+
+Thus, the output order is `1 2 4 3`.
 </details>
 
 
