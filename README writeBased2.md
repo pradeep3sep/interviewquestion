@@ -4415,48 +4415,6 @@ console.log(result4); => [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 <br>
 
-
-> ### Q106 _.chunk() splits array into groups with the specific size.
-
-Please implement your chunk(arr: any[], size: number)
-
-```js
-chunk([1,2,3,4,5], 1)
-// [[1], [2], [3], [4], [5]]
-
-chunk([1,2,3,4,5], 2)
-// [[1, 2], [3, 4], [5]]
-
-chunk([1,2,3,4,5], 3)
-// [[1, 2, 3], [4, 5]]
-
-chunk([1,2,3,4,5], 4)
-// [[1, 2, 3, 4], [5]]
-
-chunk([1,2,3,4,5], 5)
-// [[1, 2, 3, 4, 5]]
-```
-
-for size smaller than 1, return an empty array.
-
-**Solution**
-
-```js
-function chunk(arr, size) {
-  if (size < 1) {
-    return [];
-  }
-  const result = [];
-  for (let i = 0; i < arr.length; i += size) {
-    result.push(arr.slice(i, i + size));
-  }
-  return result;
-}
-```
-
-<br>
-
-
 > ### Q107 - Given an array of integers, move zeros to the end while keeping the order of the rest.
 
 You should make the in-place change.
