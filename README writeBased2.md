@@ -2902,6 +2902,41 @@ console.log(drawChessboard(8, 8));
 > ### Q78 - longest_Substring-of-two-strings
 
 ```js
+function longestCommonSubstring(str1, str2) {
+    let maxLength = 0; // To keep track of the maximum length of common substring
+    let longestSubstring = ""; // To store the longest common substring
+
+    for (let i = 0; i < str1.length; i++) {
+        for (let j = i; j < str1.length; j++) {
+            debugger
+            // Get the substring from str1 starting at index i to j
+            let subStr = str1.slice(i, j + 1);
+
+            // Check if this substring exists in str2
+            if (str2.includes(subStr)) {
+                // Update maxLength and longestSubstring if a longer common substring is found
+                if (subStr.length > maxLength) {
+                    maxLength = subStr.length;
+                    longestSubstring = subStr;
+                }
+            }
+        }
+    }
+
+    return longestSubstring;
+}
+
+// Example usage
+const str1 = "ABABC";
+const str2 = "BABCA";
+const result = longestCommonSubstring(str1, str2);
+console.log(result); // Output: "BABC"
+```
+
+
+**Below is the optimized DSA version**
+
+```js
 // https://www.youtube.com/watch?v=ps_eAvR9R10&t=396s
 
 
