@@ -3762,9 +3762,25 @@ sum(5)(-1)(2) == 6 // true
 
 ```
 
-`func.valueOf = () => num;` This line adds a custom valueOf method to the func function object. The valueOf method is a default method in JavaScript that is called when the object is to be converted to a primitive value. In this case, it simply returns the num value associated with the func function.
+The line `func.valueOf = () => num;` is overriding the default behavior of JavaScript's `valueOf` method for the `func` object.
 
-In simple words, in curry we have  sum(1)(2)(), but in above we have sum(1)(2), so for this we have used func.valueOf = () => num; the valueof is directly called by js itself due to which we do not need to use call function in end
+### Detailed Explanation:
+
+1. **What is `valueOf`?**
+   - In JavaScript, the `valueOf` method is used to convert an object to a primitive value. This method is automatically called by JavaScript when an object is compared with a primitive value using operators like `==`, `<`, `>`, etc.
+
+2. **Overriding `valueOf`:**
+   - By default, when you compare a function object with a number (e.g., `sum(1) == 1`), JavaScript would attempt to convert the function to a primitive value. If `valueOf` isn't overridden, the comparison would typically not work as expected because a function is not directly comparable to a number.
+   - By overriding `func.valueOf` to return `num`, you're telling JavaScript, "When you need to compare this function object to a number, use the value stored in `num`."
+
+3. **How It Works in Context:**
+   - `sum(1)` returns the function `func`.
+   - When you do `sum(1) == 1`, JavaScript calls `func.valueOf()`, which returns `1`.
+   - The comparison `1 == 1` is `true`, so the statement evaluates to `true`.
+
+   Similarly, when you call `sum1(2) == 3`, `sum1(2)` returns a new function where `num` is `3` (since `1 + 2 = 3`). The overridden `valueOf` method returns `3`, so the comparison `3 == 3` is `true`.
+
+This technique allows the function to "accumulate" values through repeated calls and then be compared directly to a primitive number.
 
 <br>
 
