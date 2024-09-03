@@ -4415,36 +4415,6 @@ console.log(result4); => [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 
 <br>
 
-> ### Q107 - Given an array of integers, move zeros to the end while keeping the order of the rest.
-
-You should make the in-place change.
-
-```js
-const list = [1,0,0,2,3]
-moveZeros(list) 
-console.log(list) // [1,2,3,0,0]
-```
-
-**Solution**
-
-```js
-function moveZeros(list) {
-
-  for (let i = list.length - 1; i >= 0; i--) {
-
-    if (!list[i]) {
-      list.splice(i, 1)
-      list.push(0)
-    }
-    
-  }
-
-}
-```
-
-<br>
-
-
 > ### Q108 - Given a non-empty string, return the most frequently ocurring character.
 
 If there are multiple characters with same occurrance, return an array of them.
