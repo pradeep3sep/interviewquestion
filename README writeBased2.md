@@ -755,6 +755,8 @@ console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 arr = [ 6, -3, -10, 0, 2 ]\
 Output: 180
 
+**Note:** Here we started loop from 1
+
 ```js
 function maxProduct(nums) {
     if (nums.length === 0) return 0;
