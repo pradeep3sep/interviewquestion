@@ -11,7 +11,15 @@ A page.js file is required to make a route segment publicly accessible.
 Pages are Server Components by default, but can be set to a Client Component.
 
 
-### https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates#root-layout-required
+### https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates
+
+### https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#2-prefetching
+
+### https://nextjs.org/docs/app/building-your-application/routing/linking-and-navigating#4-partial-rendering
+
+### https://nextjs.org/docs/app/building-your-application/routing/error-handling#using-error-boundaries
+
+### https://nextjs.org/docs/app/building-your-application/routing/error-handling#handling-global-errors
 
 ### Only the root layout can contain `<html>` and `<body>` tags.
 
