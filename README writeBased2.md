@@ -893,6 +893,28 @@ console.log(longestConsecutiveSubsequence(arr)); // Output: [1, 2, 3, 4, 5]
 const arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]\
 output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
 
+```js
+let arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]
+
+function pairElement(arr){
+    arr.sort()
+    let final = []
+    let temp = [arr[0]]
+    
+    for(let i=1; i<arr.length; i++){
+        debugger
+        if(temp.includes(arr[i])){
+            temp.push(arr[i])
+        } else {
+            final.push(temp)
+            temp = [arr[i]]
+        }
+    }
+    final.push(temp)
+    console.log(final)
+}
+pairElement(arr)
+```
 
 ```js
 
