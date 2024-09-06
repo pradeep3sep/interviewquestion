@@ -721,6 +721,25 @@ console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
 Input:  arr = [4, 2, -3, 1, 6]\
 Output: [2, -3, 1] is the subarray with sum 0.
 
+**Below code is multipurpose code if neede more DSA from then consider answer after below**
+```
+let arr = [4, 2, -3, 1, 6]
+let checkSum = 0
+
+for(let i=0; i<arr.length; i++ ){
+    
+    let sum = arr[i]
+    for(let j = i+1; j<arr.length; j++){
+        sum += arr[j]
+        if(sum == checkSum){
+            console.log(arr.slice(i, j+1))
+        }
+    }
+    
+}
+```
+
+
 ```js
 
 function findZeroSumSubarray(arr) {
@@ -2166,6 +2185,24 @@ A = [1,2,3,7,5]\
 S = 12\
 Output: [ 2, 3, 7 ], [ 7, 5 ]\
 Explanation: The sum of elements from 2nd position to 4th position is 12. 
+
+**Below is my short answer if needed we have full code example after below code**
+```js
+let arr = [1,2,3,7,5]
+let checkSum = 12
+
+for(let i=0; i<arr.length; i++ ){
+    
+    let sum = arr[i]
+    for(let j = i+1; j<arr.length; j++){
+        sum += arr[j]
+        if(sum == checkSum){
+            console.log(arr.slice(i, j+1))
+        }
+    }
+    
+}
+```
 
 ```js
 function findSubArrayWithSum(arr, targetSum) {
