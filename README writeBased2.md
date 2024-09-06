@@ -1630,6 +1630,22 @@ const arr = [1, 2, 3];\
 output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
 
 ```js
+const arr = [1, 2, 3];
+const result = [[]]; // Start with an empty set
+
+for (let i = 0; i < arr.length; i++) {
+  const currentLength = result.length;
+  
+  // Loop over each element in the result and add the current element to each subset
+  for (let j = 0; j < currentLength; j++) {
+    result.push([...result[j], arr[i]]);
+  }
+}
+
+console.log(result);
+```
+
+```js
 function getAllSubsets(arr) {
     debugger
     let result = [[]]; // Start with an empty subset
