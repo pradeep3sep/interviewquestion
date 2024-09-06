@@ -2518,19 +2518,19 @@ console.log(spellNumber(997751076)); // Ninety Nine Crore Seventy Seven Lakh Fif
 > ### Q68 - Array of objects Manipulation
 
 const portfolio = [\
-  { name: "Mark", stock: "FB" },\
-  { name: "Steve", stock: "AAPL" },\
-  { name: "Tim", stock: "AAPL" },\
-  { name: "Steve", stock: "MSFT" },\
-  { name: "Bill", stock: "MSFT" },\
-  { name: "Bill", stock: "AAPL" },\
+&nbsp; { name: "Mark", stock: "FB" },\
+&nbsp; { name: "Steve", stock: "AAPL" },\
+&nbsp; { name: "Tim", stock: "AAPL" },\
+&nbsp; { name: "Steve", stock: "MSFT" },\
+&nbsp; { name: "Bill", stock: "MSFT" },\
+&nbsp; { name: "Bill", stock: "AAPL" },\
 ];
 
 Output \
 const shareholder = [\
-  { stock: "AAPL", name: ["Steve", "Bill", "Tim"], count: 3 },\
-  { stock: "MSFT", name: ["Steve", "Bill"], count: 2 },\
-  { stock: "FB", name: ["Mark"], count: 1 },\
+&nbsp; { stock: "AAPL", name: ["Steve", "Bill", "Tim"], count: 3 },\
+&nbsp; { stock: "MSFT", name: ["Steve", "Bill"], count: 2 },\
+&nbsp; { stock: "FB", name: ["Mark"], count: 1 },\
 ];
 
 ```js
