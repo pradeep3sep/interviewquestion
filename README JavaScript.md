@@ -5078,6 +5078,7 @@ new function(){console.log("Hi I'm IIFE 10")}();
 - 👉 Rule 5) multiple rules ( Higher rule has given priority )
 - 👉 Rule 6) arrow function ( inherits "this" from its outer function )
 - 👉 Rule 7) IFFE ( inherits "this" of global object )
+- 👉 Rule 8) Event listner ( Dom element that the handler is attached )
 - 👉 Miscellaneous important things about "this"
 
 
