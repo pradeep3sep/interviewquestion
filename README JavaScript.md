@@ -68,7 +68,28 @@ Here’s why:
 
 Thus, the output is `2`.
 
+<br>
 
+> ### Immediately Invoked function
+These are the function which we need only one time. when we write function and called immedialtely
+
+Example
+
+```js
+(function(){
+    console.log("This will never run again")
+})()
+```
+
+**Primary reason** to use IIFE to obtain data privacy because any variable declared within the IIFE cannot be accessed by outside world, if you try will show error
+
+```js
+(function(){
+    var message = "IIFE"
+    console.log(message)
+})()
+console.log(message) // Error: message is not defined
+```
 
 <br>
 
