@@ -743,8 +743,8 @@ testFunctionScope();
 
 > ### Scope chain
 
-- `Grandchild` has `access` of `parent scope`, `parent` have `acces` of `global scope`, so `grandchild` has `access` of `global scope`. This is `scope chain`.\
-- `Parent` `don't have access` of `child scope`\
+- `Grandchild` has `access` of `parent scope`, `parent` have `acces` of `global scope`, so `grandchild` has `access` of `global scope`. This is `scope chain`.
+- `Parent` `don't have access` of `child scope`
 - Scope chain has nothing to do with order in which functions were called. It depends on order in which function are written in the code.
 
 <br>
@@ -1342,6 +1342,9 @@ console.log(person)
 - `Object.freeze()` is a method which accepts an object and returns the same object. Now the object cannot have any of its properties removed or any new properties added.
 
 
+<br>
+
+
 
 > ### Data structures which are assigned to const can be mutated
 ```js
@@ -1357,6 +1360,9 @@ console.log(person)
 ```
 
 In this example we declare a variable using the `const` keyword and assign an object to it. Although we can't reassign to this variable called object, we can mutate the object itself. If we change existing properties or add new properties this will this have effect. To disable any changes to the object we need `Object.freeze()`.
+
+
+<br>
 
 
 > ### Objects with references aren't fully frozen
@@ -1377,6 +1383,11 @@ frozen.nestedObj.nestedProp1 = 5; //will update because the nestedObject isn't f
 
 console.log(frozen);
 ```
+
+
+<br>
+
+
 
 > ### If we want the nested object to be freezed, we can use below code
 ```js
