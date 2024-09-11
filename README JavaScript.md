@@ -1045,6 +1045,20 @@ SyntaxError: Unexpected token .
 > ### 42 . toString()
 42
 
+In JavaScript, the `toString()` method is available for all objects, including primitive types like numbers. When you call `42..toString()`, JavaScript interprets the first dot as part of the number literal (i.e., `42.` is treated as `42.0`), and the second dot is treated as a method call.
+
+Here’s what’s happening:
+- `42..toString()` is essentially the same as `(42).toString()`.
+- The first dot makes `42` a floating-point number (like `42.0`), and the second dot calls the `toString()` method on that number.
+
+If you use only one dot (e.g., `42.toString()`), it results in a syntax error because JavaScript tries to parse `42.` as an incomplete number literal, expecting more digits or a method call.
+
+In other words:
+- `42.toString()` → Syntax error.
+- `42..toString()` → Works fine because the first dot is interpreted as part of the number.
+
+To avoid confusion, it's often clearer to wrap the number in parentheses: `(42).toString()`.
+
 <br>
 
 > ### Pipe and Compose Implementation
