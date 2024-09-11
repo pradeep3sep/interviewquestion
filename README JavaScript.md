@@ -5626,17 +5626,6 @@ This is a classical question in an interview. We can concatenate the topics all 
 10. In the process of constructing the Render tree, the browser will call the GPU to paint, composite the layers and display the contents on the screen.
 
 <br>
- 
-> ### Window vs document
-
-`window` is the top-level object in the browser's JavaScript hierarchy, and it represents the browser window or tab itself. It contains properties and methods that control the behavior of the browser window, such as `alert()`, `confirm()`, `setTimeout()`, `location`, and more. The `window` object is also the global object in the browser's JavaScript environment, meaning that any variables or functions declared without the `var`, `let`, or `const` keywords are automatically added as properties of the window object.
-
-On the other hand, `document` is an object that represents the web page displayed in the browser window. It contains properties and methods that allow you to manipulate the content and structure of the web page, such as `getElementById()`, `createElement()`, `querySelector()`, `innerHTML`, and more. The `document` object is a property of the window object, so you can access it as `window.document` or simply document.
-
-In summary, `window` is used to interact with the browser window, while `document` is used to interact with the content of the web page displayed in that window.
-
-<br>
- 
 
 > ### Math function in js
 Math.ceil(x) Returns x rounded up next integer
