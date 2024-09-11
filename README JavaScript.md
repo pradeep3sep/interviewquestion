@@ -3333,45 +3333,91 @@ d.speak(); // Mitzie barks.
 <br>
  
 > ### What are the possible ways to create objects in JavaScript
-* Object constructor
- ```js
- var object = new Object();
- ```
- * Object's create method:
- ```js
- var object = Object.create(null);
- ```
- * Object literal syntax:
- ```js
- var object = {
-     name: "Sudheer",
-     age: 34
+8 Ways to create object in javascript
+
+1) using new keyword ( object constructor )
+
+```js
+const obj1 = new Object();
+obj1.name = "Jc";
+obj1.age = 24;
+console.log(obj1); // { name: 'Jc', age: 24  }
+```
+
+2) using object literals
+```js
+const obj2 = {
+  name: "Jc",
+  age: 24,
 };
+console.log(obj2); // { name: 'Jc', age: 24  }
 ```
-* Function constructor:
+
+
+3) using function constructor
+
 ```js
-function Person(name) {
+function Person3(name, age) {
   this.name = name;
-  this.age = 21;
+  this.age = age;
 }
-var object = new Person("Sudheer");
+const obj3 = new Person3("Jc", 24);
+console.log(obj3); // Person3 { name: 'Jc', age: 24 }
 ```
-* Function constructor with prototype: 
+
+
+4) using class and constructor
+
 ```js
-function Person() {}
-Person.prototype.name = "Sudheer";
-var object = new Person();
-```
-* ES6 Class syntax:
-```js
-class Person {
-  constructor(name) {
+class Person4 {
+  constructor(name, age) {
     this.name = name;
+    this.age = age;
   }
 }
-
-var object = new Person("Sudheer");
+const obj4 = new Person4("Jc", 24);
+console.log(obj4); // Person4 { name: 'Jc', age: 24 }
 ```
+
+5) using Object.create()
+
+```js
+const obj5 = Object.create({ name: "Jc", age: 24 });
+console.log(obj5.name); // Jc
+console.log(obj5.age); // 24
+```
+
+6) using Object.assign()
+
+```js
+const obj6 = Object.assign({}, { name: "Jc", age: 24 });
+console.log(obj6); // { name: 'Jc', age: 24 }
+```
+
+7) using singleton pattern
+
+```js
+const obj7 = new (function (name, age) {
+  this.name = name;
+  this.age = age;
+})("Jc", 24);
+console.log(obj7); // { name: 'Jc', age: 24 }
+```
+
+
+8) using factory function
+
+```js
+function Person8(name, age) {
+  return {
+    name: name,
+    age: age,
+  };
+}
+const obj8 = Person8("Jc", 24);
+console.log(obj8); // { name: 'Jc', age: 24 }
+```
+
 
 <br>
  
@@ -4011,102 +4057,7 @@ user.lang = "fr";
 console.log(user.lang); // setter used to set lang as "fr"
 ```
 
-<br>
-
-
-
-
----
-
-8 Ways to create object in javascript
-
-1) using new keyword ( object constructor )
-
-```js
-const obj1 = new Object();
-obj1.name = "Jc";
-obj1.age = 24;
-console.log(obj1); // { name: 'Jc', age: 24  }
-```
-
-2) using object literals
-```js
-const obj2 = {
-  name: "Jc",
-  age: 24,
-};
-console.log(obj2); // { name: 'Jc', age: 24  }
-```
-
-
-3) using function constructor
-
-```js
-function Person3(name, age) {
-  this.name = name;
-  this.age = age;
-}
-const obj3 = new Person3("Jc", 24);
-console.log(obj3); // Person3 { name: 'Jc', age: 24 }
-```
-
-
-4) using class and constructor
-
-```js
-class Person4 {
-  constructor(name, age) {
-    this.name = name;
-    this.age = age;
-  }
-}
-const obj4 = new Person4("Jc", 24);
-console.log(obj4); // Person4 { name: 'Jc', age: 24 }
-```
-
-5) using Object.create()
-
-```js
-const obj5 = Object.create({ name: "Jc", age: 24 });
-console.log(obj5.name); // Jc
-console.log(obj5.age); // 24
-```
-
-6) using Object.assign()
-
-```js
-const obj6 = Object.assign({}, { name: "Jc", age: 24 });
-console.log(obj6); // { name: 'Jc', age: 24 }
-```
-
-7) using singleton pattern
-
-```js
-const obj7 = new (function (name, age) {
-  this.name = name;
-  this.age = age;
-})("Jc", 24);
-console.log(obj7); // { name: 'Jc', age: 24 }
-```
-
-
-8) using factory function
-
-```js
-function Person8(name, age) {
-  return {
-    name: name,
-    age: age,
-  };
-}
-const obj8 = Person8("Jc", 24);
-console.log(obj8); // { name: 'Jc', age: 24 }
-```
-
-
-
-<br>
- 
+<br> 
 
 > ### What happens if you write constructor more than once in a class
 The "constructor" in a class is a special method and it should be defined only once in a class. i.e, If you write a constructor method more than once in a class it will throw a `SyntaxError` error.
