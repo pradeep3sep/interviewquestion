@@ -3085,96 +3085,111 @@ Each context in callstack has two phases:-
 1) Memory Creation
 2) Code Execution
 
+
+
+💡 3 Things you should know about "Hoisting"\
+👉 Hoisting of Variables ( var, let, const and global )\
+👉 Hoisting of Functions ( declaration and expression ) \
+👉 Hoisting of Classes ( declaration and expression )
+
+
+**Hoisting of Variables**
+
+**case 1:-** varibles declared with var keyword
 ```js
-/*
-💡 3 Things you should know about "Hoisting"
-👉 Hoisting of Variables ( var, let, const and global ) ?
-👉 Hoisting of Functions ( declaration and expression ) ?
-👉 Hoisting of Classes ( declaration and expression ) ?
-*/
-
-// Hoisting of Variables ?
-
-// case 1:- varibles declared with var keyword
 console.log(name); // undefined
 var name = "Jayesh";
 console.log(name); // Jayesh
+```
 
 
+**case 2:-** let and const variables ( Temporal Dead Zone :- Technically they are also hoisted )\
 
-// case 2:- let and const variables ( Temporal Dead Zone :- Technically they are also hoisted )
-// What is TDZ ? :- time frame between let and const varibles are hoisted to they are initialized
-// let and const are allocated in diffrent memory space ( script scope ) than global scope
+**What is TDZ** :- time frame between let and const varibles are hoisted to they are initialized\
+let and const are allocated in diffrent memory space ( script scope ) than global scope
 
-// let example
+let example
+```js
 console.log(age); // Uncaught ReferenceError: Cannot access 'age' before initialization
 let age = 24;
 console.log(age); // 24
+```
 
-// const example
+const example
+```js
 console.log(language); // Uncaught ReferenceError: Cannot access 'language' before initialization
 const language = "javaScript";
 console.log(language); // javaScript
+```
 
-
-
-
-// case 3:- global variables
+**case 3:-** global variables
+```js
 console.log(a); // Uncaught ReferenceError: a is not defined
 a = 4;
 console.log(a); // 4
+```
 
+<br>
 
+**Hoisting of functions**
 
-
-
-// Hoisting of functions ?
-
-// case 1:- function declaration
+**case 1:-** function declaration
+```js
 displayName(); // Jc
 function displayName() {
   console.log("Jc");
 }
 displayName(); // Jc
+```
 
-// case 2:- function expression
-// with "var" keyword
+**case 2:-** function expression
+
+with "var" keyword
+```js
 getName(); // Uncaught TypeError: getName is not a function ( getName is undefined here )
 var getName = function () {
   console.log("Jayesh");
 };
 getName(); // Jayesh
+```
 
-// with "let" or "const" keyword
+
+with "let" or "const" keyword
+```js
 getNameTDZ(); // Uncaught ReferenceError: Cannot access 'getNameTDZ' before initialization
 const getNameTDZ = function () {
   console.log("Jayesh");
 };
 getNameTDZ(); // Jayesh
+```
 
-// case 3:- Arrow function ( similar to function expression )
-// with "var" keyword
+**case 3:-** Arrow function ( similar to function expression )
+
+with "var" keyword
+```js
 getNameArrow(); // Uncaught TypeError: getNameArrow is not a function ( getNameArrow is undefined here )
 var getNameArrow = () => {
   console.log("Jayesh");
 };
 getNameArrow(); // Jayesh
+```
 
-// with "let" or "const" keyword
+
+with "let" or "const" keyword
+```js
 getNameArrowTDZ(); // Uncaught ReferenceError: Cannot access 'getNameArrowTDZ' before initialization
 const getNameArrowTDZ = () => {
   console.log("Jayesh");
 };
 getNameArrowTDZ(); // Jayesh
+```
 
+<br>
 
+**Hoisting of Classes**
 
-
-
-// Hoisting of Classes ?
-
-// case 1:- class declaration
-
+**case 1:-** class declaration
+```js
 var jayesh = new Person("jayesh", 24); // Uncaught ReferenceError: Cannot access 'Person' before initialization ( TDZ )
 
 class Person {
@@ -3186,10 +3201,13 @@ class Person {
 
 const jc = new Person("jc", 24);
 console.log(jc); // Person { name: 'jc', age: 24 }
+```
 
-// case 2:- class expression
 
-// with "var" keyword
+**case 2:-** class expression
+
+with "var" keyword
+```js
 var viru = new Player("viru"); // Uncaught TypeError: Player is not a constructor ( Player is undefined here )
 
 var Player = class {
@@ -3200,9 +3218,12 @@ var Player = class {
 
 var virat = new Player("virat");
 console.log(virat); // Player { name: 'virat' }
+```
 
-// with "let" or "const" keyword
 
+with "let" or "const" keyword
+
+```js
 const meow = new Animal("meow"); // Uncaught ReferenceError: Cannot access 'Animal' before initialization ( TDZ )
 
 const Animal = class {
@@ -3213,12 +3234,9 @@ const Animal = class {
 
 const cat = new Animal("cat");
 console.log(cat); // Animal { name: 'cat' }
-
 ```
 
-
 <br>
-
  
 > ### What is webpack
 Webpack is a module bundler for JavaScript applications
