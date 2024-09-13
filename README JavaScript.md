@@ -17,7 +17,7 @@ const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
 
 <br>
 
-> ### Keep in mind the usage of Promise.all
+> ### Keep in mind the usage of Promise.all vs Promise.allSettled
 
 <br>
 
