@@ -2629,6 +2629,10 @@ Therefore it behaves as if you called `parseInt("I", 19)`, which converts to dec
  
 
 > ### How do you create custom HTML element?
+```js
+https://javascript.info/custom-elements
+```
+
 The creation of custom HTML elements involves two main steps,
 
   1. **Define your custom HTML element:** First you need to define some custom class by extending HTMLElement class.\
@@ -2636,20 +2640,44 @@ The creation of custom HTML elements involves two main steps,
 
   ```js
   class ProdcutCard extends HTMLElement {
-    constructor(){
-      super()
-      this.innerHTML = '<h2>Hi from product card</h2>'
+    constructor() {
+        super()
+        this.innerHTML = this.getAttribute('passedData') || '<h2>Hi from product card</h2>'
     }
-  }
 
-  window.customElements.define('product-card', ProdcutCard)
+    // Below are the lifecycle
+    connectedCallback() {
+        // browser calls this method when the element is added to the document
+        // (can be called many times if an element is repeatedly added/removed)
+    }
+
+    disconnectedCallback() {
+        // browser calls this method when the element is removed from the document
+        // (can be called many times if an element is repeatedly added/removed)
+    }
+
+    static get observedAttributes() {
+        return [ /* array of attribute names to monitor for changes */ ];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        // called when one of attributes listed above is modified
+    }
+
+    adoptedCallback() {
+        // called when the element is moved to a new document
+        // (happens in document.adoptNode, very rarely used)
+    }
+}
+
+window.customElements.define('product-card', ProdcutCard)
   ```
 
   2. Use custome element just like other HTML element: Declare your custom element as a HTML tag.
 
   ```html
     <body>
-      <product-card />
+       <product-card passedData="<h1>hi this pass data </h1>"/>
     </body>
   ```
 
