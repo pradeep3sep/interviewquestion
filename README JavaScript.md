@@ -15,6 +15,44 @@ const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
 <input type="color" name="color1" value={color1} onChange={handleColorChange} />
 ```
 
+> ### What is the purpose of template tag in html
+
+Use `<template>` to hold some content that will be hidden when the page loads. Use JavaScript to display it: we clone the node and then append in the required location.
+
+```html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>The Template Tag</h1>
+  <button onclick="show()">Show</button>
+  <div id="login"></div>
+
+  <template id="tmp">
+    <div>
+      <label>Login</label>
+      <input type="text">
+    </div>
+  </template>
+
+  <script>
+    function show(){
+      const login = document.getElementById('login')
+      const template = document.getElementById('tmp')
+      const clone = template.content.cloneNode(true)
+      login.appendChild(clone)
+    }
+  </script>
+</body>
+</html>
+```
+
+
 <br>
 
 > ### Keep in mind the usage of Promise.all vs Promise.allSettled
