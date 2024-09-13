@@ -2593,22 +2593,25 @@ Therefore it behaves as if you called `parseInt("I", 19)`, which converts to dec
 > ### How do you create custom HTML element?
 The creation of custom HTML elements involves two main steps,
 
-  1. Define your custom HTML element: First you need to define some custom class by extending HTMLElement class. After that define your component properties (styles,text etc) using connectedCallback method. Note: The browser exposes a function called customElements.define inorder to reuse the element.
+  1. **Define your custom HTML element:** First you need to define some custom class by extending HTMLElement class.\
+     **Note:** The browser exposes a function called customElements.define inorder to reuse the element.
 
   ```js
-  class CustomElement extends HTMLElement {
-    connectedCallback() {
-      this.innerHTML = "This is a custom element";
+  class ProdcutCard extends HTMLElement {
+    constructor(){
+      super()
+      this.innerHTML = '<h2>Hi from product card</h2>'
     }
   }
-  customElements.define("custom-element", CustomElement);
+
+  window.customElements.define('product-card', ProdcutCard)
   ```
 
   2. Use custome element just like other HTML element: Declare your custom element as a HTML tag.
 
   ```html
     <body>
-      <custom-element>
+      <product-card />
     </body>
   ```
 
