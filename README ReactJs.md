@@ -714,7 +714,9 @@ The Shadow DOM and Virtual DOM are two different concepts used to manage and ren
 
 ### Shadow DOM
 
-The Shadow DOM is a part of the Web Components standard, providing encapsulation for DOM and CSS. It allows developers to create components with their own isolated DOM tree and styles, preventing style and script interference from the rest of the document.
+The Shadow DOM is a part of the Web Components standard, providing `encapsulation for DOM and CSS` or `separate environment dom, css from global environment`. It allows developers to create components with their own isolated DOM tree and styles, preventing style and script interference from the rest of the document.
+
+**Note:** Keep in mind that, agr custom component hum bnate h to uski css global css ko pollute/overwrite kr sakti h, so separete environment bnate h jo global environment or css ko pollute nhi karti.
 
 #### Key Features:
 - Encapsulation: Styles and scripts in a shadow DOM do not affect the rest of the document.
@@ -729,8 +731,12 @@ The Shadow DOM is a part of the Web Components standard, providing encapsulation
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Shadow DOM Example</title>
+  <style>
+
+  <style
 </head>
 <body>
+  <p> Hi, im global p </p>
   <my-component></my-component>
 
   <script>
@@ -754,6 +760,9 @@ The Shadow DOM is a part of the Web Components standard, providing encapsulation
 </body>
 </html>
 ```
+
+**In above example p of shadow colors will change only**
+
 
 ### Virtual DOM
 
