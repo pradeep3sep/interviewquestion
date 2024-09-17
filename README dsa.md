@@ -9,11 +9,11 @@ The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\),
    - Example: Accessing an element in an array by index, such as `arr[5]`.
 
 2. **\(O(\log n)\) - Logarithmic Time Complexity**:
-   - The runtime grows logarithmically as the input size increases. This often occurs in divide-and-conquer algorithms, where the problem is split into smaller chunks.
+   - The runtime grows logarithmically as the input size increases. This often occurs in `divide-and-conquer` algorithms, where the problem is split into smaller chunks.
    - Example: Binary search on a sorted array.
 
 3. **\(O(n)\) - Linear Time Complexity**:
-   - The runtime increases linearly with the input size. If \(n\) doubles, the time taken also doubles.
+   - The runtime `increases linearly` with the input size. If \(n\) doubles, the time taken also doubles.
    - Example: Iterating over an array of size \(n\).
 
 4. **\(O(n \log n)\) - Linearithmic Time Complexity**:
@@ -21,7 +21,7 @@ The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\),
    - Example: Merge Sort, Quick Sort (average case).
 
 5. **\(O(n^2)\) - Quadratic Time Complexity**:
-   - The runtime grows quadratically as the input size increases. If \(n\) doubles, the time taken increases by a factor of four. This happens when you have nested loops over the same input.
+   - The runtime grows quadratically as the input size increases. If \(n\) doubles, the time taken increases by a factor of four. This happens when you have `nested loops` over the same input.
    - Example: Bubble Sort, Selection Sort.
 
 ### Summary of Growth:
