@@ -1,3 +1,7 @@
+> ### The Big O
+The Big O is basically `worst-case` running `time` of an `algorithm` as the input size increases
+
+#### The difference between various notations
 The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\), \(O(n \log n)\), and \(O(n^2)\) describe how the runtime of an algorithm scales with the size of the input \(n\). Here's a breakdown of each:
 
 1. **\(O(1)\) - Constant Time Complexity**:
