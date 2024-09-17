@@ -5,6 +5,8 @@ The Big O is basically `worst-case` running `time` of an `algorithm` as the inpu
 https://www.bigocheatsheet.com/
 ```
 
+<br>
+
 > ### The difference between various notations
 The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\), \(O(n \log n)\), and \(O(n^2)\) describe how the runtime of an algorithm scales with the size of the input \(n\). Here's a breakdown of each:
 
@@ -34,6 +36,9 @@ The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\),
 As the input size \(n\) increases, algorithms with better time complexity (lower \(O()\)) will perform more efficiently.
 
 Let me know if you'd like specific examples or further clarifications on any of these!
+
+
+<br>
 
 
 > ### array vs linked list table in terms of BIG O
