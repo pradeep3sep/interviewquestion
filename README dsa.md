@@ -47,13 +47,14 @@ Sure, here’s a comparison of arrays and linked lists in terms of Big O notatio
 
 | **Operation**          | **Array**                      | **Linked List**                 |
 |------------------------|--------------------------------|---------------------------------|
-| **Access (by index)**  | \(O(1)\)                        | \(O(n)\)                         |
-| **Search (by value)**  | \(O(n)\)                        | \(O(n)\)                         |
-| **Insertion (at end)** | \(O(1)\) (amortized)            | \(O(1)\) (if pointer to end)     |
-| **Insertion (at start)**| \(O(n)\)                       | \(O(1)\)                         |
-| **Insertion (at index)**| \(O(n)\)                       | \(O(n)\)                         |
-| **Deletion (by index)** | \(O(n)\)                       | \(O(n)\)                         |
-| **Deletion (by value)** | \(O(n)\)                       | \(O(n)\)                         |
+| **Access (by index)**  | \O(1)\                          | \(O(n)\)                         |
+| **Search (by value)**  | \O(n)\                          | \(O(n)\)                         |
+| **Insertion (at end)** | \O(1)\ (amortized)            | \(O(1)\) (if pointer to end)     |
+| **Insertion (at start)**| \O(n)\                       | \(O(1)\)                         |
+| **Insertion (at index)**| \O(n)\                       | \(O(n)\)                         |
+| **Deletion (by index)** | \O(n)\                       | \(O(n)\)                         |
+| **Deletion (by value)** | \O(n)\                       | \(O(n)\)                         |
+| **Removing from beginning** | \O(n)\                   | \O(1)\                           |
 
 ### Explanation:
 
