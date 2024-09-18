@@ -87,3 +87,198 @@ Sure, here’s a comparison of arrays and linked lists in terms of Big O notatio
    - **Linked List**: Requires traversal to find the element and then adjusting pointers, which is \(O(n)\).
 
 These complexities highlight the trade-offs between arrays and linked lists, with arrays typically offering better performance for random access and linked lists providing efficient insertion and deletion operations.
+
+
+> ### Single linked list
+
+> ### Linked List node
+
+In linked list we have basic unit called `node` and below is the basic structure for the same
+
+```js
+// let node is 4
+
+{
+    value: 4,
+    next: null
+}
+```
+
+Each linked list have the `head node`,`tail node`, along with `length` property.
+
+
+```js
+class Node {
+    constructor(value){
+        this.value = value
+        this.next = null
+    }
+}
+
+class LinkedList {
+    constructor(value){
+        const newNode = new Node(value)
+        this.head = newNode
+        this.tail = this.head
+        this.length = 1
+    }
+
+    push(value){
+        const newNode = new Node(value)
+        
+        if(!this.head){
+            this.head = newNode
+            this.tail = newNode
+        } else {
+            this.tail.next = newNode
+            this.tail = newNode
+        }
+        this.length++
+
+        return this
+    }
+
+    pop(){
+        // When there is no head
+        if(!this.head) return undefined
+
+        // when there is head in linked LinkedList
+        let temp = this.head
+        let pre = this.head
+
+        while(temp.next){
+            pre = temp
+            temp = temp.next
+        }
+
+        this.tail = pre
+        this.tail.next = null
+        this.length--
+
+        // for handling if deleting node, it empties the linked list
+        if(this.length === 0){
+            this.head = null
+            this.tail = null
+        }
+
+        return temp
+    }
+
+    unshift(value){
+        const newNode = new Node(value)
+
+        // when there is no head
+        if(!this.head){
+            this.head = newNode
+            this.tail = newNode
+        } else {
+            newNode.next = this.head
+            this.head = newNode
+        }
+        this.length++
+        return this
+    }
+
+    shift(){
+        
+        // When there is no head
+        if(!this.head) return undefined
+
+        let temp = this.head
+        this.head = this.head.next
+        temp.next = null
+        this.length--
+
+        // below is for, if we are removing the last node of linked list
+        if(this.length === 0){
+            this.tail = null
+        }
+
+        // below is for returning the delted value
+        return temp
+    }
+
+    get(index){
+        // for handling the value whose index is not in the range
+        if(index < 0 || index >= this.length){
+            return undefined
+        }
+
+        let temp = this.head
+        for(let i=0; i<index; i++){
+            temp = temp.next
+        }
+        return temp
+    }
+
+    set(index, value){
+        let temp = this.get(index)
+        if(temp){
+            temp.value = value
+            return true
+        }
+        return false
+    }
+
+    insert(index, value){
+        // for handling if added to initial or starting position
+        if(index === 0) return this.unshift(value)
+
+        // for handling, if added to end of linked list
+        if(index === this.length) return this.push(value)
+
+        // for handling, if index passed which is out of range of linked list
+        if(index < 0 || index > this.length) return false
+
+        const newNode = new Node(value)
+        const temp = this.get(index-1)
+
+        newNode.next = temp.next
+        temp.next = newNode
+        this.length++
+        return true
+    }
+
+    remove(index){
+        // for handling if added to initial or starting position
+        if(index === 0) return this.shift()
+
+        // for handling, if added to end of linked list
+        if(index === this.length) return this.pop()
+
+        // for handling, if index passed which is out of range of linked list
+        if(index < 0 || index > this.length) return false
+
+        const before = this.get(index - 1)
+        const temp = before.next()
+
+        before.next = temp.next
+        temp.next = null
+        this.length--
+
+        return temp
+    }
+
+    reverse(){
+        let temp = this.head
+        this.head = this.tail
+        this.tail = temp
+
+        let next = temp.next
+        let prev = null
+
+        for(let i=0; i<this.length; i++){
+            next = temp.next
+            temp.next = prev
+            prev = temp
+            temp = next
+        }
+
+        return this
+    }
+}
+
+let myLinkedList = new LinkedList(1)
+myLinkedList.push(2)
+
+```
