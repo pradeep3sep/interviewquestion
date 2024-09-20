@@ -516,3 +516,98 @@ class Queue {
 let myQueue = new Queue(4)
 myQueue
 ```
+
+
+> ### Binary search tree
+
+```js
+// Trees
+
+// Full Tree - Every item either points to two nodes or zero nodes
+
+// Leaf nodes - there the nodes which do not have parents
+
+// In binary search tree - if child is greater than parent it goes to right else goes to left.
+// when we add any node we start comparing from the top.
+
+// When traversing(lookup, insert,remove) through the BST, it is O(logn), it is because in BST, the right side is always greater than the left side,
+// so it will be divide and conquere(diving in half in each level) so becomes the O(log n)
+// sometime in BST, every node is added in right side means always it is bigger than parent, in that scenario it will become O(n)
+
+
+class Node(value){
+    constructor(value){
+        this.value = value
+        this.left = null
+        this.right = null
+    }
+}
+
+class BST {
+    constructor(){
+        this.root = null
+    }
+
+    insert(value){
+        const newNode = new Node(value)
+
+        // If BST do not have any node or root node
+        if(this.root === null){ 
+            this.root = newNode
+            return this
+        }
+
+        // travesing the node
+        let temp = this.root
+        while(true){
+
+            // for handling, adding duplicate node
+            if(newNode.value === temp.value) return undefined
+
+            if(newNode.value < temp.value){
+                
+                // if left side has no value
+                if(temp.left === null){
+                    temp.left = newNode
+                    return this
+                }
+
+                // if left side has value
+                temp = temp.left
+            } else {
+
+                // if right side has no value
+                if(temp.right === null){
+                    temp.right = newNode
+                    return this
+                }
+
+                // if right side has value
+                temp = temp.right
+            }
+        }
+    }
+
+    contains(value){
+        // for handling if there is no root node
+        if(this.root === null) return false
+
+        let temp = this.root
+        while(temp){
+            if(value < temp.value){
+                temp = temp.left
+            } else if(value > temp.value){
+                temp = temp.right
+            } else {
+                return true
+            }
+        }
+
+        return false
+    }
+}
+
+let myTree = new BST()
+myTree
+
+```
