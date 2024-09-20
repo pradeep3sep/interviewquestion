@@ -611,3 +611,86 @@ let myTree = new BST()
 myTree
 
 ```
+
+
+> ###  Hash Table
+
+```js
+// A hash table uses a hash function to compute an index, also called a hash code, into an array of buckets or slots, from which the desired value can be found.
+// common example of hash table is object in JS.
+
+
+// charactristics of hashes
+// 1. They are one way
+// 2. Hashes are deterministic, means if you run nails through this equation and it produces the number, the next time you run nails it will produce same number
+
+// collision - It is a situation when we have an item that maps to that same spot in memory
+
+// hash function always give the same number when same input is passed through it
+
+// If we have a prime number. we get a more randomized distribution of the items, which is optimal.
+
+// Big O of hash table
+
+// - Access    => O(1) || O(n). (keep in we are here considering key not the value lookup)
+// - Insert    => O(1).
+// - Delete    => O(1).
+
+class HashTable {
+    constructor(size = 7){
+        this.dataMap = new Array(size)
+    }
+
+    _hash(key){
+        let hash = 0
+        for (let i = 0; i < key.length; i++) {
+            hash = (hash + key.charCodeAt(i) * 23) % this.dataMap.length
+        }
+        return hash
+    }
+
+    // O(1)
+    set(key, value){
+        let index = this._hash(key)
+        if(!this.dataMap[index]){
+            this.dataMap[index] = []  // O(1)
+        }
+        this.dataMap[index].push([key, value]) // O(1)
+        return this
+    }
+
+    // O(1) || O(n)
+    get(key) {
+        // we get the index position in table
+        let index = this._hash(key) // O(1)
+    
+        if (this.dataMap(index)) {
+
+            // Here we are looping becuse at particular index we have two or more data
+            for (let i = 0; i < this.dataMap[index].length; i++) { // O(1) || O(n)
+                if (this.dataMap[index][i][0] === key) {
+                    return this.dataMap[index][i][1]
+                }
+            }
+            return undefined // O(1)
+        }
+    }
+
+    keys(){
+        let allKeys = []
+
+        for (let i = 0; i < this.dataMap.length; i++) {
+            if(this.dataMap[i]){
+                for (let j = 0; j < this.dataMap[i].length; j++) {
+                    allKeys.push(this.dataMap[i][j][0])
+                }
+            }
+        }
+        return allKeys
+    }
+}
+
+let myHashtable = new HashTable()
+myHashtable
+
+```
