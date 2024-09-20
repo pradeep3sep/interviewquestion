@@ -43,50 +43,28 @@ Let me know if you'd like specific examples or further clarifications on any of 
 
 > ### array vs linked list table in terms of BIG O
 
-Sure, here’s a comparison of arrays and linked lists in terms of Big O notation for various common operations:
+Here is a comparison of the time complexity (Big O) of common operations (`pop`, `push`, `shift`, `unshift`, `reverse`, `insert`, and `update`) for arrays and linked lists:
 
-| **Operation**          | **Array**                      | **Linked List**                 |
-|------------------------|--------------------------------|---------------------------------|
-| **Access (by index)**  | \O(1)\                          | \(O(n)\)                         |
-| **Search (by value)**  | \O(n)\                          | \(O(n)\)                         |
-| **Insertion (at end)** | \O(1)\ (amortized)            | \(O(1)\) (if pointer to end)     |
-| **Insertion (at start)**| \O(n)\                       | \(O(1)\)                         |
-| **Insertion (at index)**| \O(n)\                       | \(O(n)\)                         |
-| **Deletion (by index)** | \O(n)\                       | \(O(n)\)                         |
-| **Deletion (by value)** | \O(n)\                       | \(O(n)\)                         |
-| **Removing from beginning** | \O(n)\                   | \O(1)\                           |
+| Operation  | Array (Big O) | Linked List (Big O) |
+|------------|---------------|---------------------|
+| **Pop**    | O(1)          | O(1) (tail)         |
+| **Push**   | O(1)          | O(1) (tail)         |
+| **Shift**  | O(n)          | O(1) (head)         |
+| **Unshift**| O(n)          | O(1) (head)         |
+| **Reverse**| O(n)          | O(n)                |
+| **Insert** | O(n)          | O(n)                |
+| **Update** | O(1)          | O(n)                |
 
 ### Explanation:
+- **Pop**: Removing the last element. In an array, this is constant time as long as the array does not need resizing. For a linked list, if you have a reference to the tail, this is also O(1).
+- **Push**: Adding an element at the end of the structure. In both arrays and linked lists, this is O(1), assuming no array resizing is necessary and for linked lists with a tail reference.
+- **Shift**: Removing the first element. In arrays, this requires shifting all elements, making it O(n), but in linked lists, it is O(1) as only the head pointer needs to be updated.
+- **Unshift**: Adding an element at the beginning. This requires shifting all elements in an array, making it O(n), while in a linked list, it is O(1) as it involves changing the head pointer.
+- **Reverse**: Reversing all elements. This operation is O(n) for both structures because all elements must be traversed.
+- **Insert**: Inserting an element at a specific index requires shifting elements in arrays or traversing the list to the correct location, both O(n).
+- **Update**: Updating an element by index is O(1) in arrays since elements are indexed, but it is O(n) in a linked list as traversal is needed.
 
-1. **Access (by index)**:
-   - **Array**: Direct access to elements by index, which is \(O(1)\).
-   - **Linked List**: Requires traversal from the head to the desired index, which is \(O(n)\).
-
-2. **Search (by value)**:
-   - **Array**: Requires scanning through elements in the worst case, which is \(O(n)\).
-   - **Linked List**: Also requires scanning through nodes, which is \(O(n)\).
-
-3. **Insertion (at end)**:
-   - **Array**: If there's space, insertion is \(O(1)\). If resizing is required, it’s \(O(n)\) but amortized time is \(O(1)\).
-   - **Linked List**: Insertion at the end is \(O(1)\) if a tail pointer is maintained.
-
-4. **Insertion (at start)**:
-   - **Array**: Requires shifting elements to accommodate the new element, which is \(O(n)\).
-   - **Linked List**: Insertion at the start is \(O(1)\).
-
-5. **Insertion (at index)**:
-   - **Array**: Requires shifting elements to accommodate the new element, which is \(O(n)\).
-   - **Linked List**: Requires traversal to the insertion point, which is \(O(n)\).
-
-6. **Deletion (by index)**:
-   - **Array**: Requires shifting elements to fill the gap left by the deleted element, which is \(O(n)\).
-   - **Linked List**: Requires traversal to the deletion point, which is \(O(n)\).
-
-7. **Deletion (by value)**:
-   - **Array**: Requires finding the element and then shifting elements to fill the gap, which is \(O(n)\).
-   - **Linked List**: Requires traversal to find the element and then adjusting pointers, which is \(O(n)\).
-
-These complexities highlight the trade-offs between arrays and linked lists, with arrays typically offering better performance for random access and linked lists providing efficient insertion and deletion operations.
+Let me know if you'd like more details on any specific operation.
 
 
 > ### Single linked list
