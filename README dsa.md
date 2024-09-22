@@ -8,13 +8,13 @@ https://www.bigocheatsheet.com/
 <br>
 
 > ### The difference between various notations
-The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\), \(O(n \log n)\), and \(O(n^2)\) describe how the runtime of an algorithm scales with the size of the input \(n\). Here's a breakdown of each:
+The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\), \(O(nlog n)\), and \(O(n^2)\) describe how the runtime of an algorithm scales with the size of the input \(n\). Here's a breakdown of each:
 
 1. **\(O(1)\) - Constant Time Complexity**:
    - The runtime of the algorithm does not depend on the input size. No matter how large \(n\) is, it always takes a constant amount of time to complete.
    - Example: Accessing an element in an array by index, such as `arr[5]`.
 
-2. **\(O(\log n)\) - Logarithmic Time Complexity**:
+2. **\(O(log n)\) - Logarithmic Time Complexity**:
    - The runtime grows logarithmically as the input size increases. This often occurs in `divide-and-conquer` algorithms, where the problem is split into smaller chunks.
    - Example: Binary search on a sorted array.
 
@@ -22,7 +22,7 @@ The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\),
    - The runtime `increases linearly` with the input size. If \(n\) doubles, the time taken also doubles.
    - Example: Iterating over an array of size \(n\).
 
-4. **\(O(n \log n)\) - Linearithmic Time Complexity**:
+4. **\(O(n log n)\) - Linearithmic Time Complexity**:
    - The runtime grows faster than linear but slower than quadratic. This time complexity often appears in more efficient sorting algorithms.
    - Example: Merge Sort, Quick Sort (average case).
 
@@ -31,19 +31,12 @@ The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\),
    - Example: Bubble Sort, Selection Sort.
 
 ### Summary of Growth:
-- \(O(1)\) < \(O(\log n)\) < \(O(n)\) < \(O(n \log n)\) < \(O(n^2)\)
-
-As the input size \(n\) increases, algorithms with better time complexity (lower \(O()\)) will perform more efficiently.
-
-Let me know if you'd like specific examples or further clarifications on any of these!
-
+- \(O(1)\) < \(O(log n)\) < \(O(n)\) < \(O(n log n)\) < \(O(n^2)\)
 
 <br>
 
 
-> ### array vs linked list table in terms of BIG O
-
-Here is a comparison of the time complexity (Big O) of common operations (`pop`, `push`, `shift`, `unshift`, `reverse`, `insert`, and `update`) for arrays and linked lists:
+> ### Array vs Linked list table in terms of BIG O
 
 | Operation  | Array (Big O) | Linked List (Big O) |
 |------------|---------------|---------------------|
@@ -55,19 +48,9 @@ Here is a comparison of the time complexity (Big O) of common operations (`pop`,
 | **Insert** | O(n)          | O(n)                |
 | **Update** | O(1)          | O(n)                |
 
-### Explanation:
-- **Pop**: Removing the last element. In an array, this is constant time as long as the array does not need resizing. For a linked list, if you have a reference to the tail, this is also O(1).
-- **Push**: Adding an element at the end of the structure. In both arrays and linked lists, this is O(1), assuming no array resizing is necessary and for linked lists with a tail reference.
-- **Shift**: Removing the first element. In arrays, this requires shifting all elements, making it O(n), but in linked lists, it is O(1) as only the head pointer needs to be updated.
-- **Unshift**: Adding an element at the beginning. This requires shifting all elements in an array, making it O(n), while in a linked list, it is O(1) as it involves changing the head pointer.
-- **Reverse**: Reversing all elements. This operation is O(n) for both structures because all elements must be traversed.
-- **Insert**: Inserting an element at a specific index requires shifting elements in arrays or traversing the list to the correct location, both O(n).
-- **Update**: Updating an element by index is O(1) in arrays since elements are indexed, but it is O(n) in a linked list as traversal is needed.
+<br>
 
-Let me know if you'd like more details on any specific operation.
-
-
-> ### Single linked list
+> ## Single linked list
 
 > ### Linked List node
 
