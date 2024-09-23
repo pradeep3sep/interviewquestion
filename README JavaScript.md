@@ -1,3 +1,5 @@
+> Core web vitals and lighthouse interview question
+
 > ### Callback hell full code
 ```
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise-Async-Await-Sequential-Execution/Promise-async-await-master-notes/calback-hell-resolved-with-promise.js
