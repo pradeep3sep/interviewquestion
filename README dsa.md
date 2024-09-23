@@ -677,3 +677,340 @@ let myHashtable = new HashTable()
 myHashtable
 
 ```
+
+
+```js
+
+// Graphs are bifirectional,
+// when adjacency matrix is formed in graps, it is symmetrical in shape
+// we create the adjacency list in object form.
+// adjacency list is much more easy to maintain and much efficient so we will use this
+
+// Below is basic structure
+{
+    vertex: [edge1, edge2]
+}
+
+
+// Graph code is below
+
+class Graph {
+    constructor(){
+        this.adjacencyList = {}
+    }
+
+    addVertex(vertex){
+        if(!this.adjacencyList[vertex]){
+            this.adjacencyList[vertex] = []
+            return true
+        }
+        return false
+    }
+
+    addEdge(vertex1, vertex2){
+        if(this.adjacencyList[vertex1] && this.adjacencyList[vertex2]){
+            this.adjacencyList[vertex1].push(vertex2)
+            this.adjacencyList[vertex2].push(vertex1)
+            return true
+        }
+        return false
+    }
+
+    removeEdge(vertex1, vertex2){
+        if(this.adjacencyList[vertex1] && this.adjacencyList[vertex2]){
+            this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(v => v !== vertex2)
+            this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(v => v !== vertex1)
+            return true
+        }
+        return false
+    }
+
+    removeVertex(vertex){
+        if(!this.adjacencyList[vertex]) return undefined
+
+        while(this.adjacencyList[vertex].length){
+            let temp = this.adjacencyList[vertex].pop()
+            this.removeEdge(vertex, temp)
+        }
+
+        delete this.adjacencyList[vertex]
+        return this
+        
+    }
+}
+
+let myGraph = new Graph()
+myGraph
+
+
+// Heaps
+// Heap is like binary tree, but numbers are laid out in a different way
+// Each node has a value that is greater than each of its descendants, max value is at top.
+// heap can have duplicate node while binary tree do not.
+// when we add any value in heap, we add left to right and then we bubble up the heap, means repositioning so that highest be at the top
+
+
+class Heap {
+    #heap = [];
+
+    insert(value){
+        // here we added value
+        this.#heap.push(value)
+
+        // below we are bubbling up
+
+        let current = this.#heap.length - 1  // it is index
+
+        while(current > 0 && this.#heap[current] > this.#heap[this.#parent(current)]){
+            this.#swap(current, this.#parent(current))
+            current = this.#parent(current)
+        }
+    }
+
+    remove(){
+        if(this.#heap.length === 0){
+            return null
+        }
+
+        if(this.#heap.length === 1){
+            return this.#heap.pop()
+        }
+
+        const maxValue = this.#heap[0]
+        this.#heap[0] = this.#heap.pop()
+        this.#sinkDown(0)
+
+        return maxValue
+    }
+
+    // sinkdown is rearranging the value in downward direction
+    #sinkDown(index) {
+        let maxIndex = index;
+        let size = this.#heap.length;
+        
+        while (true) {
+            let leftIndex = this.#leftChild(index);
+            let rightIndex = this.#rightChild(index);
+            
+            if (leftIndex < size && this.#heap[leftIndex] > this.#heap[maxIndex]) {
+                maxIndex = leftIndex;
+            }
+            
+            if (rightIndex < size && this.#heap[rightIndex] > this.#heap[maxIndex]) {
+                maxIndex = rightIndex;
+            }
+            
+            if (maxIndex !== index) {
+                this.#swap(index, maxIndex);
+                index = maxIndex;
+            } else {
+                return;
+            }
+        }
+    
+    }
+
+    
+
+    getHeap(){
+        return [...this.#heap]
+    }
+    
+    #leftChild(index){
+        return 2 * index + 1
+    }
+
+    #rightChild(index){
+        return 2 * index + 2
+    }
+
+    #parent(index){
+        return Math.floor((index - 1) / 2)
+    }
+
+    #swap(index1, index2){
+        [this.#heap[index1], this.#heap[index2]] = [this.#heap[index2], this.#heap[index1]]
+    }
+}
+
+
+// Tree Traversal
+
+// BFS - Breadth First Search - is a vertex-based technique for finding the shortest path in the graph. 
+// It uses a `Queue data structure` that follows `first in first out`. 
+// In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h, jisko push kia h uske left and right ko Queue me add kr dete h 
+// It is slower than DFS.
+
+BFS() {
+    let currentNode = this.root;
+    let queue = [];
+    let results = [];
+
+    queue.push(currentNode);
+
+    while (queue.length) {
+        currentNode = queue.shift();
+        results.push(currentNode.value);
+
+        if (currentNode.left) queue.push(currentNode.left);
+        if (currentNode.right) queue.push(currentNode.right);
+    }
+
+    return results;
+}
+
+
+// DFS - Depth First Search - is an an edge-based technique. 
+// It uses the Stack data structure and performs two stages, first visited vertices are pushed into the stack, and second if there are no vertices then visited vertices are popped.
+
+// DFS is of 3 types - Preorder Traversal, Inorder Traversal, Postorder Traversal
+
+
+// Algorithm for Preorder Traversal:
+
+// Visit the root.
+// Traverse the left subtree, i.e., call Preorder(left->subtree)
+// Traverse the right subtree, i.e., call Preorder(right->subtree)
+
+DFSPreOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        results.push(currentNode.value);
+
+        if (currentNode.left) traverse(currentNode.left);
+        if (currentNode.right) traverse(currentNode.right);
+    }
+
+    traverse(this.root);
+    return results;
+}
+
+
+// Algorithm for Postorder Traversal:
+
+// Traverse the left subtree, i.e., call Postorder(left->subtree)
+// Traverse the right subtree, i.e., call Postorder(right->subtree)
+// Visit the root
+
+DFSPostOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        if (currentNode.left) traverse(currentNode.left);
+        if (currentNode.right) traverse(currentNode.right);
+
+        results.push(currentNode.value);
+    }
+
+    traverse(this.root);
+    return results;
+}
+
+// Algorithm for Inorder Traversal:
+
+// Traverse the left subtree, i.e., call Inorder(left->subtree)
+// Visit the root.
+// Traverse the right subtree, i.e., call Inorder(right->subtree)
+
+DFSInOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        if (currentNode.left) traverse(currentNode.left);
+        
+        results.push(currentNode.value);
+        
+        if (currentNode.right) traverse(currentNode.right);   
+    }
+
+    traverse(this.root);
+    return results;
+}
+
+
+// Dynamic Programming or DP
+
+// Dynamic Programming is a method used in mathematics and computer science to solve complex problems by breaking them down into simpler subproblems. 
+// By solving each `subproblem only once and storing the results`, it `avoids redundant computations`, leading to more efficient solutions for a wide range of problems.
+
+// How Does Dynamic Programming (DP) Work?
+// - Identify Subproblems: Divide the main problem into smaller, independent subproblems.
+// - Store Solutions: Solve each subproblem and store the solution in a table or array.
+// - Build Up Solutions: Use the stored solutions to build up the solution to the main problem.
+// - Avoid Redundancy: By storing solutions, DP ensures that each subproblem is solved only once, reducing computation time.
+
+// When to Use Dynamic Programming (DP)?
+// 1. Optimal Substructure: Optimal substructure means that we combine the optimal results of subproblems to achieve the optimal result of the bigger problem
+// 2. Overlapping Subproblems: The same subproblems are solved repeatedly in different parts of the problem.
+
+
+// example: 
+// if we have taken example for fibnanchi series, then below code will be O(2^n).
+// fib of 20 gives 6765 function calls
+
+// https://www.geeksforgeeks.org/dynamic-programming/
+
+let counter = 0
+function fib(n){
+    counter++
+
+    if(n === 0 || n === 1){
+        return n
+    }
+    return fib(n-1) + fib(n-2)
+}
+fib(20)
+
+
+// now we optimzed through DP(using memoization), fib of 20 gives 39 function calls
+let memo = [];
+let counter = 0;
+
+function fib(n) {
+    counter++;
+    if (memo[n] !== undefined) {
+        return memo[n];
+    }
+    if (n === 0 || n === 1) {
+        return n;
+    }
+    memo[n] = fib(n - 1) + fib(n - 2);
+    return memo[n];
+}
+
+let n = 20;
+
+console.log('\nFib of', n, '=', fib(n));
+console.log('\nCounter:', counter);
+
+
+
+// In above case we are filling the array from the right side to left side, but below code fills from left to right side, which is much more optimized
+// fib of 20 gives 19 function calls
+let counter = 0;
+
+function fib(n) {
+    let fibList = [];
+    fibList[0] = 0;
+    fibList[1] = 1;
+
+    for (let index = 2; index <= n; index++) {
+        counter++;
+        fibList[index] = fibList[index - 1] + fibList[index - 2];
+    }
+
+    return fibList[n];
+}
+
+let n = 7;
+
+console.log('\nFib of', n, '=', fib(n));
+
+console.log('\nCounter:', counter);
+
+
+
+
+
+```
