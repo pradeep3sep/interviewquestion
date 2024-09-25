@@ -1008,9 +1008,48 @@ let n = 7;
 console.log('\nFib of', n, '=', fib(n));
 
 console.log('\nCounter:', counter);
+```
+
+```js
+// Below are the basic sorts( bubble sort, selection sort, insertion sort)
 
 
+// Bubble sort
+// Bubble sort algorithm is an algorithm that sorts an array by comparing two adjacent elements and swapping them if they are not in the intended order. 
+// Here order can be anything like increasing or decreasing.
+// Bubble sort compares the element from index 0 and if the 0th index value is greater than 1st index value, then the values get swapped and if the 0th index value is less than the 1st index value, then nothing happens.
+
+// Next, the 1st index value compares to the 2nd index value, and then the 2nd index value compares to the 3rd index value, and so on…
 
 
+function bubbleSort(array) {
+  const n = array.length;
+  for (let i = n - 1; i > 0; i--) {
+    for (let j = 0; j < i; j++) {
+      if (array[j] > array[j + 1]) {
+        [array[j], array[j + 1]] = [array[j + 1], array[j]]; // Destructuring to swap
+      }
+    }
+  }
+  return array;
+}
 
+
+// Selection sort
+// The algorithm repeatedly selects the smallest (or largest) element from the unsorted portion of the list and swaps it with the first element of the unsorted part. This process is repeated for the remaining unsorted portion until the entire list is sorted.
+
+
+function selectionSort(array) {
+  const n = array.length;
+  for (let i = 0; i < n - 1; i++) {
+    let min = i;
+    for (let j = i + 1; j < n; j++) {
+      if (array[j] < array[min]) min = j;
+    }
+    if (i !== min) {
+      [array[i], array[min]] = [array[min], array[i]]; // Destructuring to swap
+    }
+  }
+  return array;
+}
 ```
