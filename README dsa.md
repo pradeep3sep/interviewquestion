@@ -40,10 +40,10 @@ The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\),
 
 | Operation  | Array (Big O) | Linked List (Big O) |
 |------------|---------------|---------------------|
-| **Pop**    | O(1)          | O(1) (tail)         |
-| **Push**   | O(1)          | O(n) (tail)         |
-| **Shift**  | O(n)          | O(1) (head)         |
-| **Unshift**| O(n)          | O(1) (head)         |
+| **Pop**    | O(1)          | O(n)                |
+| **Push**   | O(1)          | O(n)                |
+| **Shift**  | O(n)          | O(1)                |
+| **Unshift**| O(n)          | O(1)                |
 | **Reverse**| O(n)          | O(n)                |
 | **Insert** | O(n)          | O(n)                |
 | **Update** | O(1)          | O(n)                |
