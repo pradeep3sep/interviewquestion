@@ -458,6 +458,47 @@ const resultCustom2 = numbers.customFindIndex(valueEqualto8);
 console.log("resultCustom2", resultCustom2); // -1
 ```
 
+> ### Polyfill for the Promise
+
+```js
+function PromisePolyFill(executor) {
+  let onResolve;
+  let fulfilled = false,
+    called = false,
+    value;
+
+  function resolve(val) {
+    fulfilled = true;
+    value = val;
+
+    if (typeof onResolve === "function") {
+      onResolve(val);
+      called = true;
+    }
+  }
+
+  this.then = function (callback) {
+    onResolve = callback;
+
+    if (fulfilled && !called) {
+      called = true;
+      onResolve(value);
+    }
+    return this;
+  };
+
+  this.catch = function (callback) {
+    // TODO: Complete the impl
+    return this;
+  };
+
+  executor(resolve);
+}
+
+//new PromisePolyFill((resolve) => setTimeout(() => resolve(1000), 0)).then(val => console.log(val));
+new PromisePolyFill((resolve) => resolve(1000)).then(val => console.log(val));
+```
+
 > ### Polyfill for the Promise.all()
 
 Promise.all() Cases :-
