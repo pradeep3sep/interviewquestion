@@ -186,10 +186,10 @@ class LinkedList {
         if(index === 0) return this.unshift(value)
 
         // for handling, if added to end of linked list
-        if(index === this.length) return this.push(value)
+        if(index === this.length-1) return this.push(value)
 
         // for handling, if index passed which is out of range of linked list
-        if(index < 0 || index > this.length) return false
+        if(index < 0 || index >= this.length) return false
 
         const newNode = new Node(value)
         const temp = this.get(index-1)
@@ -200,25 +200,30 @@ class LinkedList {
         return true
     }
 
-    remove(index){
-        // for handling if added to initial or starting position
-        if(index === 0) return this.shift()
+    remove(index) {
+       // Handle index out of range
+       if (index < 0 || index >= this.length) return null;
+   
+       // Handle removing the first node
+       if (index === 0) return this.shift();
+   
+       // Handle removing the last node
+       if (index === this.length - 1) return this.pop();
+   
+       // Get the node before the one we want to remove
+       const before = this.get(index - 1);
+       const temp = before.next;  // Corrected: no parentheses since next is a property
+   
+       // Remove the node by adjusting pointers
+       before.next = temp.next;
+       temp.next = null;
+   
+       // Decrease the length
+       this.length--;
+   
+       return temp;  // Return the removed node
+   }
 
-        // for handling, if added to end of linked list
-        if(index === this.length) return this.pop()
-
-        // for handling, if index passed which is out of range of linked list
-        if(index < 0 || index > this.length) return false
-
-        const before = this.get(index - 1)
-        const temp = before.next()
-
-        before.next = temp.next
-        temp.next = null
-        this.length--
-
-        return temp
-    }
 
     reverse(){
         let temp = this.head
