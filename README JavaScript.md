@@ -1,5 +1,32 @@
 > Core web vitals and lighthouse interview question
 
+> ### forEach Method
+- forEach() always returns undefined
+- It is not invoked for empty slots in sparse arrays.
+- There is no way to stop or break a forEach() loop other than by throwing an exception. If you need such behavior, the forEach() method is the wrong tool.
+- forEach do not modify array on return, you have to intentionally modify the aaray
+
+```js
+// not modified the array
+const d = [1,2,3,4]
+
+console.log(d.forEach((el) => el * 2));
+console.log(d);
+```
+
+```js
+// here we modified the array
+const d = [1, 2, 3, 4];
+
+d.forEach((el, index, arr) => {
+  arr[index] = el * 2;  // explicitly modify the original array
+});
+
+console.log(d);  // [2, 4, 6, 8]
+```
+
+
+
 > ### Callback hell full code
 ```
 https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise-Async-Await-Sequential-Execution/Promise-async-await-master-notes/calback-hell-resolved-with-promise.js
