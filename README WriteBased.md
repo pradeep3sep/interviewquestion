@@ -1,64 +1,3 @@
-> ### Polyfill for the call,apply and bind
-
-```js
-getPlayerInfo = function (role, country) {
-    return `${this.firstName} ${this.lastName}, ${role} from ${country}`;
-};
-
-const player1 = {
-    firstName: "Virat",
-    lastName: "Kohli",
-};
-
-const player2 = {
-    firstName: "Hardik",
-    lastName: "Pandya",
-};
-
-console.log(getPlayerInfo.call(player1, "Batsman", "India"));
-console.log(getPlayerInfo.bind(player1, "All-Rounder", "India")());
-console.log(getPlayerInfo.apply(player1, ["All-Rounder", "India"]));
-
-Function.prototype.myBind = function(scope, ...args){
-    scope._this = this
-    console.log("nn",scope);
-    return function(){
-        return scope._this(...args)
-    }
-}
-
-
-Function.prototype.myCall = function(scope, ...args){
-    scope._this = this
-    return scope._this(...args)
-}
-
-
-Function.prototype.myApply = function(scope, args){
-    scope._this = this
-    return scope._this(...args)
-}
-
-console.log(getPlayerInfo.myCall(player2, "Batsman", "India"));
-console.log(getPlayerInfo.myBind(player2, "All-Rounder", "India")());
-console.log(getPlayerInfo.myApply(player2, ["All-Rounder", "India"]));
-```
-
-> ### How do you create your own bind method using either call or apply method?
-
-```js
-Function.prototype.myOwnBind = function (whoIsCallingMe) {
-  if (typeof this !== "function") {
-    throw new Error(this + "cannot be bound as it's not callable");
-  }
-  const boundTargetFunction = this;
-  return function () {
-    boundTargetFunction.apply(whoIsCallingMe, arguments);
-  };
-};
-```
-
-
 > ### Polyfill for the includes
 
 ```js
@@ -383,14 +322,7 @@ Go to Office
 Watch Netflix
 Go to Gym
 Go for Movie */
-
-
-
-
 ```
-
-
-
 
 > ### Polyfill for the Find
 
@@ -456,6 +388,66 @@ console.log("resultCustom1", resultCustom1); // 2
 
 const resultCustom2 = numbers.customFindIndex(valueEqualto8);
 console.log("resultCustom2", resultCustom2); // -1
+```
+
+> ### Polyfill for the call,apply and bind
+
+```js
+getPlayerInfo = function (role, country) {
+    return `${this.firstName} ${this.lastName}, ${role} from ${country}`;
+};
+
+const player1 = {
+    firstName: "Virat",
+    lastName: "Kohli",
+};
+
+const player2 = {
+    firstName: "Hardik",
+    lastName: "Pandya",
+};
+
+console.log(getPlayerInfo.call(player1, "Batsman", "India"));
+console.log(getPlayerInfo.bind(player1, "All-Rounder", "India")());
+console.log(getPlayerInfo.apply(player1, ["All-Rounder", "India"]));
+
+Function.prototype.myBind = function(scope, ...args){
+    scope._this = this
+    console.log("nn",scope);
+    return function(){
+        return scope._this(...args)
+    }
+}
+
+
+Function.prototype.myCall = function(scope, ...args){
+    scope._this = this
+    return scope._this(...args)
+}
+
+
+Function.prototype.myApply = function(scope, args){
+    scope._this = this
+    return scope._this(...args)
+}
+
+console.log(getPlayerInfo.myCall(player2, "Batsman", "India"));
+console.log(getPlayerInfo.myBind(player2, "All-Rounder", "India")());
+console.log(getPlayerInfo.myApply(player2, ["All-Rounder", "India"]));
+```
+
+> ### How do you create your own bind method using either call or apply method?
+
+```js
+Function.prototype.myOwnBind = function (whoIsCallingMe) {
+  if (typeof this !== "function") {
+    throw new Error(this + "cannot be bound as it's not callable");
+  }
+  const boundTargetFunction = this;
+  return function () {
+    boundTargetFunction.apply(whoIsCallingMe, arguments);
+  };
+};
 ```
 
 > ### Polyfill for the Promise
