@@ -1,3 +1,7 @@
+## Polyfills of the Array
+
+<br>
+
 > ### Polyfill for the includes
 
 ```js
@@ -35,6 +39,8 @@ console.log("resultCustom4", resultCustom4); // true
 const resultCustom5 = numbers.customIncludes("5");
 console.log("resultCustom5", resultCustom5); // false
 ```
+
+<br>
 
 
 > ### Polyfill of Index-of
@@ -75,6 +81,9 @@ console.log("resultCustom5", resultCustom5); // -1
 
 ```
 
+<br>
+
+
 > ### Polyfill to Join
 
 The join() method creates and returns a new string by concatenating all of the elements in an array, separated by commas or a specified separator string.
@@ -112,6 +121,9 @@ const resultCustom3 = names?.customJoin("-");
 console.log("resultCustom3", resultCustom3); // jay-sam-john
 
 ```
+
+<br>
+
 
 > ### Polyfill for concat
 
@@ -161,6 +173,9 @@ Array.prototype.myConcat = function() {
   console.log(result);
 ```
 
+<br>
+
+
 > ### Polyfill for the lastIndexof
 
 The lastIndexOf() method returns the last index at which a given element is found in an array, or -1 if it is not present, array is searched backwards, starting at fromIndex.
@@ -203,9 +218,9 @@ console.log("resultCustom4", resultCustom4); // 5
 
 const resultCustom5 = numbers.customLastIndexOf("5");
 console.log("resultCustom5", resultCustom5); // -1
-
-
 ```
+
+<br>
 
 
 > ### Polyfill for the Every of array
@@ -233,6 +248,9 @@ const resultCustom = numbers.customEvery(isGreaterThan5);
 console.log("resultCustom", resultCustom); // false
 ``` 
 
+<br>
+
+
 > ### Polyfill for the Map of the array
 
 ```js
@@ -254,6 +272,8 @@ Array.prototype.customMap = function (callback) {
 const doubleNumbersCustom = numbers.customMap(square);
 console.log("doubleNumbersCustom", doubleNumbersCustom); // [ 2, 4, 6, 8, 10 ]
 ```
+
+<br>
 
 
 > ### Polyfill for the Filter of the array
@@ -288,6 +308,9 @@ const oddNumbersCustom = numbers.customFilter(isOddNumber);
 console.log("oddNumbersCustom", oddNumbersCustom); // [ 1, 3, 5 ]
 
 ```
+
+<br>
+
 
 > ### Polyfill for the forEach
 
@@ -324,6 +347,9 @@ Go to Gym
 Go for Movie */
 ```
 
+<br>
+
+
 > ### Polyfill for the Find
 
 ```js
@@ -354,6 +380,9 @@ const findFirstOddCustom = numbers.customFind(isOddNumber);
 console.log(findFirstOddCustom); // 5
 
 ```
+
+<br>
+
 
 > ### Polyfill for findindex
 
@@ -390,7 +419,366 @@ const resultCustom2 = numbers.customFindIndex(valueEqualto8);
 console.log("resultCustom2", resultCustom2); // -1
 ```
 
-> ### Polyfill for the call,apply and bind
+<br>
+
+> ### Polyfill for the some of array
+
+```js
+
+const numbers = [1, 2, 3, 4, 5, 6];
+
+const isGreaterThan5 = (value, index, array) => {
+  return value > 5;
+};
+
+const result = numbers.some(isGreaterThan5);
+console.log("result", result); // true
+
+Array.prototype.customSome = function (callback) {
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i], i, this)) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const resultCustom = numbers.customSome(isGreaterThan5);
+console.log("resultCustom", resultCustom); // true
+```
+
+<br>
+
+
+> ### Polyfill for the slice
+
+```js
+Array.prototype.customSlice = function (start, end) {
+  let array = this;
+  let temp = [];
+
+  if (start === undefined && end === undefined) {
+    return [...array];
+  }
+  if (end === undefined) {
+    end = array.length;
+  }
+  if (start < 0) {
+    start = array.length + start;
+  }
+  if (end < 0) {
+    end = array.length + end;
+  }
+
+  for (let i = parseInt(+start); i < parseInt(+end); i++) {
+    temp.push(array[i]);
+  }
+  return temp;
+};
+
+const result1 = numbers.customSlice(2, 5);
+console.log(result1); // [ 12, 13, 14 ]
+
+const result2 = numbers.customSlice(-4, -1);
+console.log(result2); // [ 13, 14, 15 ]
+
+const result3 = numbers.customSlice();
+console.log(result3); // [ 10, 11, 12, 13, 14, 15, 16 ]
+
+const result4 = numbers.customSlice(false, true); // 0 to 1
+console.log(result4); // [ 10 ] implicit type coercion 👆
+
+
+```
+
+<br>
+
+
+> ### Polyfill of shift
+
+```js
+
+const numbers = [1, 2, 3, 4, 5];
+
+Array.prototype.customShift = function () {
+  let array = this;
+  let result = array[0];
+
+  for (let i = 0; i < this.length; i++) {
+    array[i] = array[i + 1];
+  }
+  array.length = array.length - 1;
+  return result;
+};
+
+const numbersCustom = [1, 2, 3, 4, 5];
+
+const resultCustom = numbersCustom.customShift();
+
+console.log("resultCustom", resultCustom); // 1
+console.log("numbersCustom", numbersCustom); // [ 2, 3, 4, 5 ]
+
+```
+
+<br>
+
+
+> ### Polyfill of the reverse
+
+```js
+
+Array.prototype.customReverse = function () {
+  let array = this;
+  let j = array.length - 1;
+
+  for (let i = 0; i < array.length / 2; i++) {
+    let temp = array[i];
+    array[i] = array[j];
+    array[j] = temp;
+    j--;
+  }
+
+  return array;
+};
+
+const numbersCustom = [1, 2, 3, 4, 5];
+
+const resultCustom = numbersCustom.customReverse();
+
+console.log("resultCustom", resultCustom); // [ 5, 4, 3, 2, 1 ]
+console.log("numbersCustom", numbersCustom); // [ 5, 4, 3, 2, 1 ]
+```
+
+<br>
+
+
+> ### Polyfill of Unshift
+
+```js
+
+const numbers = [1, 2, 3, 4, 5];
+
+const result = numbers.unshift("88", "99");
+
+console.log("result", result); // 7
+console.log("numbers", numbers); // ["88", "99", 1, 2, 3, 4, 5];
+
+Array.prototype.customUnshift = function () {
+  let array = this;
+  let temp = [];
+
+  for (let i = 0; i < array.length; i++) {
+    temp.push(array[i]);
+  }
+
+  const arrLength = arguments.length + array.length;
+
+  for (i = 0; i < arrLength; i++) {
+    if (arguments[i]) {
+      array[i] = arguments[i];
+    } else {
+      array[i] = temp[i - arguments.length];
+    }
+  }
+
+  return arrLength;
+};
+
+const numbersCustom = [1, 2, 3, 4, 5];
+
+const resultCustom = numbersCustom.customUnshift("88", "99");
+
+console.log("resultCustom", resultCustom); // 7
+console.log("numbersCustom", numbersCustom); // ["88", "99", 1, 2, 3, 4, 5];
+
+```
+
+<br>
+
+
+> ### Polyfill of flat
+
+```js
+function flat(arr, depth = 1) {
+    const result = [];
+
+    for (const item of arr) {
+        if (Array.isArray(item) && depth > 0) {
+            result.push(...flat(item, depth - 1));
+        } else {
+            result.push(item);
+        }
+    }
+    return result;
+}
+
+const arr = [1, [2], [3, [4]]];
+console.log(flat(arr)); // [1, 2, 3, [4]]
+console.log(flat(arr, 1)); // [1, 2, 3, [4]]
+console.log(flat(arr, 2)); // [1, 2, 3, [4]]
+```
+
+<br>
+
+
+> ### Polyfill for the Split
+
+In the following example, split() looks for spaces in a string and returns the first 3 splits that it finds.
+
+```js
+
+const myString = "Hello World. How are you doing?";
+const splits = myString.split(" ", 3);
+
+console.log(splits); // [ "Hello", "World.", "How" ]
+
+
+```
+
+below is the polyfill
+```js
+
+String.prototype.customSplit = function (separator, limit) {
+  const string = this;
+  const result = [];
+
+  if (separator === "") {
+    return Array.from(string);
+  }
+
+  const splitString = (str) => {
+    if (result.length >= limit) {
+      return;
+    }
+    const index = str.indexOf(separator);
+    if (index >= 0) {
+      result.push(str.substring(0, index));
+      splitString(str.substring(index + separator.length));
+    } else {
+      result.push(str);
+    }
+  };
+
+  splitString(string);
+  return result;
+};
+
+const resultCustom1 = message.customSplit(" ", 4);
+console.log(message); // This is the string with two the in it.
+console.log(resultCustom1); // [ 'This', 'is', 'the',  'string' ]
+
+const resultCustom2 = message.customSplit("the");
+console.log(resultCustom2); // [ 'This is ', ' string with two ', ' in it.' ]
+
+```
+
+<br>
+
+
+> ### Reduce and Its Polyfill
+
+```js
+const numbers = [1, 2, 3, 4, 5, 6];
+
+const summation = (acc, curr, index, array) => {
+  acc = acc + curr;
+  return acc;
+};
+
+Array.prototype.customReduce = function (callback, initial) {
+  let result = initial;
+
+  // this is pointing to numbers array here,
+  // If initial value is not passed then callback skips first iteration as initial value is undefined.
+  for (let i = 0; i < this.length; i++) {
+    result =
+      result !== undefined ? callback(result, this[i], i, this) : this[i];
+  }
+  return result;
+};
+
+const totalCustom = numbers.customReduce(summation, 0);
+console.log("totalCustom", totalCustom); // 21
+```
+
+<br>
+
+
+> ### Polyfill of Splice
+
+Array.prototype.splice modifies an original array and returns deleted values array.Polyfill of the reverse of the array
+
+splice method takes (start, howManyDelete, newAdd1, newAdd2, newAddN), If no argument  is passed then original array remains as it is and it returns an empty array [].
+
+```js
+
+const numbers = [10, 11, 12, 13, 14, 15];
+
+Array.prototype.customSplice = function (start, deleteCount) {
+  let array = this;
+
+  if (start !== undefined && deleteCount === undefined) {
+    deleteCount = array.length;
+  }
+  start = Number(start);
+  if (start < 0) {
+    start = array.length + start;
+  }
+  if (isNaN(start)) {
+    start = 0;
+  }
+  if (isNaN(deleteCount) || deleteCount < 0) {
+    deleteCount = 0;
+  }
+
+  let end = start + Number(deleteCount);
+
+  let valuesBeforeStart = [];
+  let SplicedArray = [];
+  let valuesAfterSplice = [];
+
+  for (let i = 0; i < array.length; i++) {
+    if (i < start) {
+      valuesBeforeStart.push(array[i]);
+    }
+    if (i >= start && i < end) {
+      SplicedArray.push(array[i]);
+    }
+    if (i >= end && i < array.length) {
+      valuesAfterSplice.push(array[i]);
+    }
+  }
+
+  for (let i = 2; i < arguments.length; i++) {
+    valuesBeforeStart.push(arguments[i]);
+  }
+
+  let result = valuesBeforeStart.concat(valuesAfterSplice);
+  let len = Math.max(array.length, result.length);
+
+  for (i = 0; i < len; i++) {
+    if (result.length > i) {
+      array[i] = result[i];
+    } else {
+      array.pop();
+    }
+  }
+  return SplicedArray;
+};
+
+const customNumbers = [10, 11, 12, 13, 14, 15];
+
+const deletedCustomNums = customNumbers.customSplice(2, 3, 77, 88);
+
+console.log(customNumbers); // [10, 11, 77, 88, 15]
+console.log(deletedCustomNums); // [12, 13, 14]
+
+```
+
+<br>
+
+
+## Polyfill for the call,apply and bind
 
 ```js
 getPlayerInfo = function (role, country) {
@@ -436,6 +824,9 @@ console.log(getPlayerInfo.myBind(player2, "All-Rounder", "India")());
 console.log(getPlayerInfo.myApply(player2, ["All-Rounder", "India"]));
 ```
 
+<br>
+
+
 > ### How do you create your own bind method using either call or apply method?
 
 ```js
@@ -449,6 +840,11 @@ Function.prototype.myOwnBind = function (whoIsCallingMe) {
   };
 };
 ```
+
+<br>
+
+
+## Polyfill of all type of promise 
 
 > ### Polyfill for the Promise
 
@@ -490,6 +886,9 @@ function PromisePolyFill(executor) {
 //new PromisePolyFill((resolve) => setTimeout(() => resolve(1000), 0)).then(val => console.log(val));
 new PromisePolyFill((resolve) => resolve(1000)).then(val => console.log(val));
 ```
+
+<br>
+
 
 > ### Polyfill for the Promise.all()
 
@@ -575,6 +974,9 @@ Promise.customAll([p1, p2, p3, p4])
  ]; */
 
 ```
+
+
+<br>
 
 
 > ### Polyfill for the Promise.allSettled()
@@ -686,6 +1088,8 @@ Promise.customAllSettled2 = function (promisesArray) {
 
 ```
 
+<br>
+
 
 > ### Polyfill for Promise.any()
 
@@ -766,6 +1170,7 @@ Promise.customAny([p1, p2, p3])
 
 ```
 
+<br>
 
 > ### Polyfill for the Promise.race()
 
@@ -825,35 +1230,10 @@ Promise.customRace([p1, p2, p3, p4])
 
 ```
 
-
-> ### Reduce and Its Polyfill
-
-```js
-const numbers = [1, 2, 3, 4, 5, 6];
-
-const summation = (acc, curr, index, array) => {
-  acc = acc + curr;
-  return acc;
-};
-
-Array.prototype.customReduce = function (callback, initial) {
-  let result = initial;
-
-  // this is pointing to numbers array here,
-  // If initial value is not passed then callback skips first iteration as initial value is undefined.
-  for (let i = 0; i < this.length; i++) {
-    result =
-      result !== undefined ? callback(result, this[i], i, this) : this[i];
-  }
-  return result;
-};
-
-const totalCustom = numbers.customReduce(summation, 0);
-console.log("totalCustom", totalCustom); // 21
-```
+<br>
 
 
-> ### re-build forEach(), some(), find() and every() method using reduce
+## re-build various function using reduce
 
 1. Implementation of forEach() using reduce method
 
@@ -949,354 +1329,9 @@ const reduceEveryResult = everyNumbers.reduce((acc, curr, index, array) => {
 console.log("reduceEveryResult", reduceEveryResult); // true
 ```
 
-> ### Polyfill of the reverse of the array
 
-```js
 
-Array.prototype.customReverse = function () {
-  let array = this;
-  let j = array.length - 1;
-
-  for (let i = 0; i < array.length / 2; i++) {
-    let temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-    j--;
-  }
-
-  return array;
-};
-
-const numbersCustom = [1, 2, 3, 4, 5];
-
-const resultCustom = numbersCustom.customReverse();
-
-console.log("resultCustom", resultCustom); // [ 5, 4, 3, 2, 1 ]
-console.log("numbersCustom", numbersCustom); // [ 5, 4, 3, 2, 1 ]
-```
-
-> ### Polyfill of shift
-
-```js
-
-const numbers = [1, 2, 3, 4, 5];
-
-Array.prototype.customShift = function () {
-  let array = this;
-  let result = array[0];
-
-  for (let i = 0; i < this.length; i++) {
-    array[i] = array[i + 1];
-  }
-  array.length = array.length - 1;
-  return result;
-};
-
-const numbersCustom = [1, 2, 3, 4, 5];
-
-const resultCustom = numbersCustom.customShift();
-
-console.log("resultCustom", resultCustom); // 1
-console.log("numbersCustom", numbersCustom); // [ 2, 3, 4, 5 ]
-
-```
-
-
-> ### Polyfill for the slice
-
-```js
-Array.prototype.customSlice = function (start, end) {
-  let array = this;
-  let temp = [];
-
-  if (start === undefined && end === undefined) {
-    return [...array];
-  }
-  if (end === undefined) {
-    end = array.length;
-  }
-  if (start < 0) {
-    start = array.length + start;
-  }
-  if (end < 0) {
-    end = array.length + end;
-  }
-
-  for (let i = parseInt(+start); i < parseInt(+end); i++) {
-    temp.push(array[i]);
-  }
-  return temp;
-};
-
-const result1 = numbers.customSlice(2, 5);
-console.log(result1); // [ 12, 13, 14 ]
-
-const result2 = numbers.customSlice(-4, -1);
-console.log(result2); // [ 13, 14, 15 ]
-
-const result3 = numbers.customSlice();
-console.log(result3); // [ 10, 11, 12, 13, 14, 15, 16 ]
-
-const result4 = numbers.customSlice(false, true); // 0 to 1
-console.log(result4); // [ 10 ] implicit type coercion 👆
-
-
-```
-
-
-> ### Polyfill for the some of array
-
-```js
-
-const numbers = [1, 2, 3, 4, 5, 6];
-
-const isGreaterThan5 = (value, index, array) => {
-  return value > 5;
-};
-
-const result = numbers.some(isGreaterThan5);
-console.log("result", result); // true
-
-Array.prototype.customSome = function (callback) {
-  for (let i = 0; i < this.length; i++) {
-    if (callback(this[i], i, this)) {
-      return true;
-    }
-  }
-  return false;
-};
-
-const resultCustom = numbers.customSome(isGreaterThan5);
-console.log("resultCustom", resultCustom); // true
-```
-
-> ### Polyfill of Splice
-
-Array.prototype.splice modifies an original array and returns deleted values array.
-
-splice method takes (start, howManyDelete, newAdd1, newAdd2, newAddN), If no argument  is passed then original array remains as it is and it returns an empty array [].
-
-```js
-
-const numbers = [10, 11, 12, 13, 14, 15];
-
-Array.prototype.customSplice = function (start, deleteCount) {
-  let array = this;
-
-  if (start !== undefined && deleteCount === undefined) {
-    deleteCount = array.length;
-  }
-  start = Number(start);
-  if (start < 0) {
-    start = array.length + start;
-  }
-  if (isNaN(start)) {
-    start = 0;
-  }
-  if (isNaN(deleteCount) || deleteCount < 0) {
-    deleteCount = 0;
-  }
-
-  let end = start + Number(deleteCount);
-
-  let valuesBeforeStart = [];
-  let SplicedArray = [];
-  let valuesAfterSplice = [];
-
-  for (let i = 0; i < array.length; i++) {
-    if (i < start) {
-      valuesBeforeStart.push(array[i]);
-    }
-    if (i >= start && i < end) {
-      SplicedArray.push(array[i]);
-    }
-    if (i >= end && i < array.length) {
-      valuesAfterSplice.push(array[i]);
-    }
-  }
-
-  for (let i = 2; i < arguments.length; i++) {
-    valuesBeforeStart.push(arguments[i]);
-  }
-
-  let result = valuesBeforeStart.concat(valuesAfterSplice);
-  let len = Math.max(array.length, result.length);
-
-  for (i = 0; i < len; i++) {
-    if (result.length > i) {
-      array[i] = result[i];
-    } else {
-      array.pop();
-    }
-  }
-  return SplicedArray;
-};
-
-const customNumbers = [10, 11, 12, 13, 14, 15];
-
-const deletedCustomNums = customNumbers.customSplice(2, 3, 77, 88);
-
-console.log(customNumbers); // [10, 11, 77, 88, 15]
-console.log(deletedCustomNums); // [12, 13, 14]
-
-```
-
-
-> ### Polyfill for the Split
-
-In the following example, split() looks for spaces in a string and returns the first 3 splits that it finds.
-
-```js
-
-const myString = "Hello World. How are you doing?";
-const splits = myString.split(" ", 3);
-
-console.log(splits); // [ "Hello", "World.", "How" ]
-
-
-```
-
-below is the polyfill
-```js
-
-String.prototype.customSplit = function (separator, limit) {
-  const string = this;
-  const result = [];
-
-  if (separator === "") {
-    return Array.from(string);
-  }
-
-  const splitString = (str) => {
-    if (result.length >= limit) {
-      return;
-    }
-    const index = str.indexOf(separator);
-    if (index >= 0) {
-      result.push(str.substring(0, index));
-      splitString(str.substring(index + separator.length));
-    } else {
-      result.push(str);
-    }
-  };
-
-  splitString(string);
-  return result;
-};
-
-const resultCustom1 = message.customSplit(" ", 4);
-console.log(message); // This is the string with two the in it.
-console.log(resultCustom1); // [ 'This', 'is', 'the',  'string' ]
-
-const resultCustom2 = message.customSplit("the");
-console.log(resultCustom2); // [ 'This is ', ' string with two ', ' in it.' ]
-
-
-```
-> ### Polyfill of flat
-
-```js
-function flat(arr, depth = 1) {
-    const result = [];
-
-    for (const item of arr) {
-        if (Array.isArray(item) && depth > 0) {
-            result.push(...flat(item, depth - 1));
-        } else {
-            result.push(item);
-        }
-    }
-    return result;
-}
-
-const arr = [1, [2], [3, [4]]];
-console.log(flat(arr)); // [1, 2, 3, [4]]
-console.log(flat(arr, 1)); // [1, 2, 3, [4]]
-console.log(flat(arr, 2)); // [1, 2, 3, [4]]
-```
-
-> ### Polyfill of Object.assign or so called spread operator
-
-```js
-function customAssign(target, ...sources) {
-    if (target === null || target === undefined) {
-        throw new TypeError('Cannot convert undefined or null to object');
-    }
-
-    let output = Object(target);
-
-    for (let source of sources) {
-        if (source !== null && source !== undefined) {
-            for (let key in source) {
-                if (Object.prototype.hasOwnProperty.call(source, key)) {
-                    output[key] = source[key];
-                }
-            }
-        }
-    }
-
-    return output;
-}
-
-let obj1 = { a: 1, b: 2 };
-let obj2 = { b: 3, c: 4 };
-
-// Using customAssign
-let mergedObj = customAssign({}, obj1, obj2);
-console.log(mergedObj); // { a: 1, b: 3, c: 4 }
-
-// Equivalent to using Object.assign
-let mergedObj2 = Object.assign({}, obj1, obj2);
-console.log(mergedObj2); // { a: 1, b: 3, c: 4 }
-
-
-
-```
-
-
-
-> ### Polyfill of Unshift
-
-```js
-
-const numbers = [1, 2, 3, 4, 5];
-
-const result = numbers.unshift("88", "99");
-
-console.log("result", result); // 7
-console.log("numbers", numbers); // ["88", "99", 1, 2, 3, 4, 5];
-
-Array.prototype.customUnshift = function () {
-  let array = this;
-  let temp = [];
-
-  for (let i = 0; i < array.length; i++) {
-    temp.push(array[i]);
-  }
-
-  const arrLength = arguments.length + array.length;
-
-  for (i = 0; i < arrLength; i++) {
-    if (arguments[i]) {
-      array[i] = arguments[i];
-    } else {
-      array[i] = temp[i - arguments.length];
-    }
-  }
-
-  return arrLength;
-};
-
-const numbersCustom = [1, 2, 3, 4, 5];
-
-const resultCustom = numbersCustom.customUnshift("88", "99");
-
-console.log("resultCustom", resultCustom); // 7
-console.log("numbersCustom", numbersCustom); // ["88", "99", 1, 2, 3, 4, 5];
-
-```
-
-> ### Implement filter using the reduce method
+> ### 5. Implement filter using the reduce method
 
 1. array of numbers
 
@@ -1398,4 +1433,42 @@ const reduceResultTodos = todos.reduce((acc, curr, index, array) => {
 }, []);
 console.log("reduceResultTodos", reduceResultTodos);
 
+```
+
+<br>
+
+
+> ### Polyfill of Object.assign or so called spread operator
+
+```js
+function customAssign(target, ...sources) {
+    if (target === null || target === undefined) {
+        throw new TypeError('Cannot convert undefined or null to object');
+    }
+
+    let output = Object(target);
+
+    for (let source of sources) {
+        if (source !== null && source !== undefined) {
+            for (let key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                    output[key] = source[key];
+                }
+            }
+        }
+    }
+
+    return output;
+}
+
+let obj1 = { a: 1, b: 2 };
+let obj2 = { b: 3, c: 4 };
+
+// Using customAssign
+let mergedObj = customAssign({}, obj1, obj2);
+console.log(mergedObj); // { a: 1, b: 3, c: 4 }
+
+// Equivalent to using Object.assign
+let mergedObj2 = Object.assign({}, obj1, obj2);
+console.log(mergedObj2); // { a: 1, b: 3, c: 4 }
 ```
