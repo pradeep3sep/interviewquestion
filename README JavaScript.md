@@ -1,5 +1,9 @@
 > Core web vitals and lighthouse interview question
 
+> ### Difference between subsring and slice
+- `substring()` `doesn't` support `negative indices`.
+- `slice()` `supports` negative indices.
+
 > ### forEach Method
 - forEach() always returns undefined
 - It is not invoked for empty slots in sparse arrays.
