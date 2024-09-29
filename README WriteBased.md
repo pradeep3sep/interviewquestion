@@ -1,8 +1,29 @@
+> ### Main steps to code the polyfill
+1. Pehle dekho custom function kya kya value le rha h
+2. "this" hamesa point karega kis pe custom function attach kia h
+
+
 ## Polyfills of the Array
 
-<br>
+
+**-------Easy---------**
 
 > ### Polyfill for the includes
+
+```js
+// Self easy
+const numbers = [1, 2, 5, 3, 4, 5, 6]
+console.log(numbers.includes(2));
+
+Array.prototype.cusIncludes = function (val){
+    for(let unit of this){
+        if(unit === val) return true
+    }
+    return false
+}
+console.log(numbers.cusIncludes(2));
+```
+
 
 ```js
 
@@ -44,6 +65,21 @@ console.log("resultCustom5", resultCustom5); // false
 
 
 > ### Polyfill of Index-of
+
+```js
+// self easy
+const numbers = [1, 2, 5, 3, 4, 5, 6];
+console.log(numbers.indexOf(5));
+
+Array.prototype.cusIndexof = function (val){
+    for(let i=0; i<this.length; i++){
+        if(this[i] === val) return i
+    }
+    return -1
+}
+console.log(numbers.cusIndexof(5));
+```
+
 
 ```js
 
@@ -89,6 +125,25 @@ console.log("resultCustom5", resultCustom5); // -1
 The join() method creates and returns a new string by concatenating all of the elements in an array, separated by commas or a specified separator string.
 
 ```js
+// Self easy
+const names = ["jay", "sam", "john"];
+console.log(names.join(" "));
+console.log(names.join("-"));
+
+Array.prototype.cusJoin = function (val = ","){
+    let d="";
+    for(let unit of this){
+        d = d + val + unit
+    }
+    return d.slice(1)
+}
+
+console.log(names.cusJoin(" "));
+console.log(names.cusJoin("-"));
+```
+
+
+```js
 
 const names = ["jay", "sam", "john"];
 
@@ -126,6 +181,20 @@ console.log("resultCustom3", resultCustom3); // jay-sam-john
 
 
 > ### Polyfill for concat
+
+```js
+// self easy
+const numbers1 = [1, 2, 3];
+const numbers2 = [4, 5, 6];
+console.log(numbers1.concat(numbers2));
+
+
+Array.prototype.cusConc = function (val){
+    return [...this,...val]
+}
+
+console.log(numbers1.cusConc(numbers2));
+```
 
 ```js
 Array.prototype.myConcat = function() {
@@ -176,325 +245,133 @@ Array.prototype.myConcat = function() {
 <br>
 
 
-> ### Polyfill for the lastIndexof
+**-------Medium---------**
 
-The lastIndexOf() method returns the last index at which a given element is found in an array, or -1 if it is not present, array is searched backwards, starting at fromIndex.
+> ### Polyfill for the Split
 
-Note - It does not mutate the original array, and returns an index or -1.
-
+**Good Question**
 ```js
+const myString = "Hello World. How are you doing?";
+const splits = myString.split(" ", 3);
+console.log(splits); // [ "Hello", "World.", "How" ]
 
-const numbers = [1, 2, 5, 3, 4, 5, 6];
-
-Array.prototype.customLastIndexOf = function (value, fromIndex) {
-  if (fromIndex === undefined) {
-    fromIndex = this.length - 1;
-  }
-  if (isNaN(fromIndex)) {
-    return -1;
-  }
-  if (fromIndex < 0) {
-    fromIndex += this.length;
-  }
-  for (let i = fromIndex; i >= 0; i--) {
-    if (this[i] === value) {
-      return i;
+String.prototype.customSplit = function (separator, limit) {
+    debugger
+    const string = this;
+    const result = [];
+  
+    if (separator === "") {
+      return Array.from(string);
     }
-  }
-  return -1;
+  
+    const splitString = (str) => {
+        debugger
+      if (result.length >= limit) {
+        return;
+      }
+      const index = str.indexOf(separator);
+      if (index >= 0) {
+        result.push(str.substring(0, index));
+        splitString(str.substring(index + separator.length));
+      } else {
+        result.push(str);
+      }
+    };
+  
+    splitString(string);
+    return result;
 };
 
-const resultCustom1 = numbers.customLastIndexOf(5);
-console.log("resultCustom1", resultCustom1); // 5
-
-const resultCustom2 = numbers.customLastIndexOf();
-console.log("resultCustom2", resultCustom2); // -1
-
-const resultCustom3 = numbers.customLastIndexOf(5, 1);
-console.log("resultCustom3", resultCustom3); // -1
-
-const resultCustom4 = numbers.customLastIndexOf(5, -2);
-console.log("resultCustom4", resultCustom4); // 5
-
-const resultCustom5 = numbers.customLastIndexOf("5");
-console.log("resultCustom5", resultCustom5); // -1
+let d = "This is the string with two the in it."
+console.log(d.customSplit(" ", 4)); // [ 'This', 'is', 'the',  'string' ]
+console.log(d.customSplit("the")); // [ 'This is ', ' string with two ', ' in it.']
 ```
 
 <br>
 
-
-> ### Polyfill for the Every of array
-
+**Good Question**
+> ### Polyfill of flat
 ```js
-const numbers = [1, 2, 3, 4, 5, 6];
+let d = [1,[2,3,[5,6]]]
+console.log(d.flat(1)); // [ 1, 2, 3, [ 5, 6 ] ]
+console.log(d);
 
-const isGreaterThan5 = (value, index, array) => {
-  return value > 5;
-};
+Array.prototype.cusFlat = function (depth = 1) {
+    const result = [];
 
-const result = numbers.every(isGreaterThan5);
-console.log("result", result); // false
-
-Array.prototype.customEvery = function (callback) {
-  for (let i = 0; i < this.length; i++) {
-    if (!callback(this[i], i, this)) {
-      return false;
+    for (const item of this) {
+        if (Array.isArray(item) && depth > 0) {
+            result.push(...item.cusFlat(depth - 1));
+        } else {
+            result.push(item);
+        }
     }
-  }
-  return true;
+    
+    return result;
 };
 
-const resultCustom = numbers.customEvery(isGreaterThan5);
-console.log("resultCustom", resultCustom); // false
-``` 
-
-<br>
-
-
-> ### Polyfill for the Map of the array
-
-```js
-const numbers = [1, 2, 3, 4, 5];
-
-const square = (element, index, array) => {
-  return element * 2;
-};
-
-Array.prototype.customMap = function (callback) {
-  //this is pointing to numbers array here
-  let temp = [];
-  for (let i = 0; i < this.length; i++) {
-    temp.push(callback(this[i], i, this));
-  }
-  return temp;
-};
-
-const doubleNumbersCustom = numbers.customMap(square);
-console.log("doubleNumbersCustom", doubleNumbersCustom); // [ 2, 4, 6, 8, 10 ]
+console.log(d.cusFlat(1));
 ```
 
-<br>
 
+**Good Question**
 
-> ### Polyfill for the Filter of the array
+> ### Polyfill of Unshift
 
 ```js
+let arr = [1, 2, 3];
+console.log(arr.unshift(0, -1)); // 5
+console.log(arr); // [0,-1, 1, 2, 3]
 
-const numbers = [1, 2, 3, 4, 5, 6];
+Array.prototype.cusUnshift = function (...values) {
 
-const isOddNumber = (element, index, array) => {
-  if (element % 2) {
-    return true;
-  }
-  return false;
-};
-
-const oddNumbers = numbers.filter(isOddNumber);
-console.log("oddNumbers", oddNumbers); // [ 1, 3, 5 ]
-
-// Polyfill of filter
-Array.prototype.customFilter = function (callback) {
-  // this is pointing to numbers array here
-  let temp = [];
-  for (let i = 0; i < this.length; i++) {
-    if (callback(this[i], i, this)) {
-      temp.push(this[i]);
+    // Shift existing elements to the right
+    for (let i = this.length + values.length - 1; i >= 0; i--) {
+        this[i] = this[i - values.length]; // Move elements to the right
     }
-  }
-  return temp;
-};
 
-const oddNumbersCustom = numbers.customFilter(isOddNumber);
-console.log("oddNumbersCustom", oddNumbersCustom); // [ 1, 3, 5 ]
-
-```
-
-<br>
-
-
-> ### Polyfill for the forEach
-
-```js
-
-const todos = [
-  { id: 1, todo: "Morning Walk" },
-  { id: 2, todo: "Go to Office" },
-  { id: 3, todo: "Watch Netflix" },
-  { id: 4, todo: "Go to Gym" },
-  { id: 5, todo: "Go for Movie" },
-];
-
-const display = ({ todo }, index, array) => {
-  console.log(todo);
-};
-
-todos.forEach(display);
-
-// 👉 Polyfill of forEach
-Array.prototype.customForEach = function (callback) {
-  // 👉 this is pointing to todos array here
-  for (let i = 0; i < this.length; i++) {
-    callback(this[i], i, this);
-  }
-};
-todos.customForEach(display);
-
-/* output 👇
-Morning Walk
-Go to Office
-Watch Netflix
-Go to Gym
-Go for Movie */
-```
-
-<br>
-
-
-> ### Polyfill for the Find
-
-```js
-
-const numbers = [2, 4, 5, 6, 7, 9];
-
-const isOddNumber = (number, index, array) => {
-  if (number % 2) {
-    return true;
-  }
-  return false;
-};
-
-const findFirstOdd = numbers.find(isOddNumber);
-console.log(findFirstOdd); // 5
-
-// 👉 Polyfill of find
-Array.prototype.customFind = function (callback) {
-  // 👉 this is pointing to numbers array here
-  for (let i = 0; i < this.length; i++) {
-    if (callback(this[i], i, this)) {
-      return this[i];
+    // Add new elements at the beginning
+    for (let i = 0; i < values.length; i++) {
+        this[i] = values[i];  // Insert new elements
     }
-  }
+
+    return this.length;
 };
 
-const findFirstOddCustom = numbers.customFind(isOddNumber);
-console.log(findFirstOddCustom); // 5
-
+console.log(arr.cusUnshift(0, -1)); // 5
+console.log(arr); // [0,-1, 1, 2, 3]
 ```
 
 <br>
 
 
-> ### Polyfill for findindex
-
-```js
-const numbers = [1, 2, 5, 3, 4, 5, 6];
-
-const valueEqualto5 = (value, index, array) => {
-  return value === 5;
-};
-
-const valueEqualto8 = (value, index, array) => {
-  return value === 8;
-};
-
-const result1 = numbers.findIndex(valueEqualto5);
-console.log("result1", result1); // 2
-
-const result2 = numbers.findIndex(valueEqualto8);
-console.log("result2", result2); // -1
-
-Array.prototype.customFindIndex = function (callback) {
-  for (let i = 0; i < this.length; i++) {
-    if (callback(this[i], i, this)) {
-      return i;
-    }
-  }
-  return -1;
-};
-
-const resultCustom1 = numbers.customFindIndex(valueEqualto5);
-console.log("resultCustom1", resultCustom1); // 2
-
-const resultCustom2 = numbers.customFindIndex(valueEqualto8);
-console.log("resultCustom2", resultCustom2); // -1
-```
-
-<br>
-
-> ### Polyfill for the some of array
-
-```js
-
-const numbers = [1, 2, 3, 4, 5, 6];
-
-const isGreaterThan5 = (value, index, array) => {
-  return value > 5;
-};
-
-const result = numbers.some(isGreaterThan5);
-console.log("result", result); // true
-
-Array.prototype.customSome = function (callback) {
-  for (let i = 0; i < this.length; i++) {
-    if (callback(this[i], i, this)) {
-      return true;
-    }
-  }
-  return false;
-};
-
-const resultCustom = numbers.customSome(isGreaterThan5);
-console.log("resultCustom", resultCustom); // true
-```
-
-<br>
 
 
-> ### Polyfill for the slice
-
-```js
-Array.prototype.customSlice = function (start, end) {
-  let array = this;
-  let temp = [];
-
-  if (start === undefined && end === undefined) {
-    return [...array];
-  }
-  if (end === undefined) {
-    end = array.length;
-  }
-  if (start < 0) {
-    start = array.length + start;
-  }
-  if (end < 0) {
-    end = array.length + end;
-  }
-
-  for (let i = parseInt(+start); i < parseInt(+end); i++) {
-    temp.push(array[i]);
-  }
-  return temp;
-};
-
-const result1 = numbers.customSlice(2, 5);
-console.log(result1); // [ 12, 13, 14 ]
-
-const result2 = numbers.customSlice(-4, -1);
-console.log(result2); // [ 13, 14, 15 ]
-
-const result3 = numbers.customSlice();
-console.log(result3); // [ 10, 11, 12, 13, 14, 15, 16 ]
-
-const result4 = numbers.customSlice(false, true); // 0 to 1
-console.log(result4); // [ 10 ] implicit type coercion 👆
-
-
-```
-
-<br>
-
+**Good Question**
 
 > ### Polyfill of shift
+
+```js
+const d = [1, 2, 3, 4];
+console.log(d);
+console.log(d.shift());
+console.log(d);
+
+Array.prototype.cusShift = function (){
+    let firstElement = this[0]
+    let referencCopy = this 
+
+    for(let i=0; i<this.length; i++ ){
+        referencCopy[i] = referencCopy[i+1]
+    }
+    referencCopy.length--
+    
+    return firstElement
+}
+console.log(d);
+console.log(d.cusShift());
+console.log(d);
+```
 
 ```js
 
@@ -522,183 +399,202 @@ console.log("numbersCustom", numbersCustom); // [ 2, 3, 4, 5 ]
 
 <br>
 
+**Good Question**
 
 > ### Polyfill of the reverse
 
 ```js
+let d = [1,2,3,4,5]
+console.log(d.reverse());
+console.log(d);
 
-Array.prototype.customReverse = function () {
-  let array = this;
-  let j = array.length - 1;
+Array.prototype.cusReverse = function() {
+    let left = 0;
+    let right = this.length - 1;
 
-  for (let i = 0; i < array.length / 2; i++) {
-    let temp = array[i];
-    array[i] = array[j];
-    array[j] = temp;
-    j--;
-  }
-
-  return array;
-};
-
-const numbersCustom = [1, 2, 3, 4, 5];
-
-const resultCustom = numbersCustom.customReverse();
-
-console.log("resultCustom", resultCustom); // [ 5, 4, 3, 2, 1 ]
-console.log("numbersCustom", numbersCustom); // [ 5, 4, 3, 2, 1 ]
-```
-
-<br>
-
-
-> ### Polyfill of Unshift
-
-```js
-
-const numbers = [1, 2, 3, 4, 5];
-
-const result = numbers.unshift("88", "99");
-
-console.log("result", result); // 7
-console.log("numbers", numbers); // ["88", "99", 1, 2, 3, 4, 5];
-
-Array.prototype.customUnshift = function () {
-  let array = this;
-  let temp = [];
-
-  for (let i = 0; i < array.length; i++) {
-    temp.push(array[i]);
-  }
-
-  const arrLength = arguments.length + array.length;
-
-  for (i = 0; i < arrLength; i++) {
-    if (arguments[i]) {
-      array[i] = arguments[i];
-    } else {
-      array[i] = temp[i - arguments.length];
+    while (left < right) {
+      // Swap elements at the left and right indices
+      [this[left],this[right]] = [this[right], this[left]]
+      
+      left++;
+      right--;
     }
-  }
+    
+    return this;
+  };
+console.log(d.cusReverse());
+console.log(d);
+```
 
-  return arrLength;
-};
+<br>
 
-const numbersCustom = [1, 2, 3, 4, 5];
+> ### Polyfill for the Every of array
 
-const resultCustom = numbersCustom.customUnshift("88", "99");
+```js
+const d = [1,2,3,4,5]
+console.log(d.every((el) => el > 0));
 
-console.log("resultCustom", resultCustom); // 7
-console.log("numbersCustom", numbersCustom); // ["88", "99", 1, 2, 3, 4, 5];
+Array.prototype.customEvery = function (cb){
+    for(let unit of this){
+        if(!cb(unit)) return false
+    }
+    return true
+}
+console.log(d.customEvery((el)=> el > 0));
+``` 
 
+<br>
+
+> ### Polyfill for the Map of the array
+
+```js
+const d = [1,2,3,4,5]
+console.log(d.map((el) => el * 2));
+
+Array.prototype.customMap = function (cb){
+    let temp = []
+    for(let unit of this){
+        temp.push(cb(unit))
+    }
+    return temp
+}
+console.log(d.customMap((el) => el * 2));
 ```
 
 <br>
 
 
-> ### Polyfill of flat
+> ### Polyfill for the Filter of the array
 
 ```js
-function flat(arr, depth = 1) {
-    const result = [];
+const d = [1,2,3,4,5]
+console.log(d.filter((el) => el>2));
 
-    for (const item of arr) {
-        if (Array.isArray(item) && depth > 0) {
-            result.push(...flat(item, depth - 1));
-        } else {
-            result.push(item);
+Array.prototype.cusFilter = function (cb){
+    const p = []
+    for(let unit of this){
+        if(cb(unit)){
+            p.push(unit)
         }
     }
-    return result;
+    return p
 }
 
-const arr = [1, [2], [3, [4]]];
-console.log(flat(arr)); // [1, 2, 3, [4]]
-console.log(flat(arr, 1)); // [1, 2, 3, [4]]
-console.log(flat(arr, 2)); // [1, 2, 3, [4]]
+console.log(d.cusFilter((el) => el>2));
 ```
 
 <br>
 
 
-> ### Polyfill for the Split
-
-In the following example, split() looks for spaces in a string and returns the first 3 splits that it finds.
+> ### Polyfill for the forEach
 
 ```js
+const d = [1, 2, 3, 4];
 
-const myString = "Hello World. How are you doing?";
-const splits = myString.split(" ", 3);
+d.forEach((el, index, arr) => {
+  arr[index] = el * 2;
+});
 
-console.log(splits); // [ "Hello", "World.", "How" ]
 
-
-```
-
-below is the polyfill
-```js
-
-String.prototype.customSplit = function (separator, limit) {
-  const string = this;
-  const result = [];
-
-  if (separator === "") {
-    return Array.from(string);
-  }
-
-  const splitString = (str) => {
-    if (result.length >= limit) {
-      return;
+Array.prototype.cusForEach  = function (cb){
+    for(let i=0; i <this.length; i++){
+        cb(this[i], i, this)
     }
-    const index = str.indexOf(separator);
-    if (index >= 0) {
-      result.push(str.substring(0, index));
-      splitString(str.substring(index + separator.length));
-    } else {
-      result.push(str);
-    }
-  };
-
-  splitString(string);
-  return result;
-};
-
-const resultCustom1 = message.customSplit(" ", 4);
-console.log(message); // This is the string with two the in it.
-console.log(resultCustom1); // [ 'This', 'is', 'the',  'string' ]
-
-const resultCustom2 = message.customSplit("the");
-console.log(resultCustom2); // [ 'This is ', ' string with two ', ' in it.' ]
-
+}
+d.cusForEach((el,index, arr) => {
+    arr[index] = el * 2
+})
+console.log(d);
 ```
 
 <br>
 
+
+> ### Polyfill for the Find
+```js
+
+const d = [1, 2, 3, 4];
+
+console.log(d.find(el => el > 2));
+
+Array.prototype.cusFind = function (cb){
+    for(let unit of this){
+        if(cb(unit)) return unit
+    }
+}
+
+console.log(d.cusFind((el) => el > 0));
+```
+
+<br>
+
+
+
+
+> ### Polyfill for the some of array
+
+```js
+const d = [1, 2, 3, 4];
+console.log(d.some((el) => el > 2));
+
+Array.prototype.cusSome = function (cb){
+    for(let unit of this){
+        if(cb(unit)) return true
+    }
+    return false
+}
+
+console.log(d.cusSome((el => el > 2)));
+```
+
+<br>
+
+
+> ### Polyfill for the slice
+
+```js
+const d = [1, 2, 3, 4];
+
+console.log(d.slice());
+console.log(d.slice(2));
+console.log(d.slice(2,3));
+
+Array.prototype.cusSlice = function (from=0, to){
+    to = to-1 || this.length-1
+    let data = []
+    for(let i=from; i <= to; i++){
+        data.push(this[i])
+    }
+    return data
+}
+console.log(d.cusSlice());
+console.log(d.cusSlice(2));
+console.log(d.cusSlice(2,3));
+```
+
+<br>
 
 > ### Reduce and Its Polyfill
 
 ```js
-const numbers = [1, 2, 3, 4, 5, 6];
+let d = [1,2,3,4]
 
-const summation = (acc, curr, index, array) => {
-  acc = acc + curr;
-  return acc;
-};
+console.log(d.reduce((sum, unit) => {
+    return sum + unit
+},3));
 
-Array.prototype.customReduce = function (callback, initial) {
-  let result = initial;
+Array.prototype.cusReduce = function (cb, initialValue){
+    
+    let result = initialValue
+    
+    for(let i=0; i<this.length; i++){
+        // If initial value is not passed then callback skips first iteration as initial value is undefined.
+        result = result != undefined ? cb( result, this[i]) : this[i]
+    }
 
-  // this is pointing to numbers array here,
-  // If initial value is not passed then callback skips first iteration as initial value is undefined.
-  for (let i = 0; i < this.length; i++) {
-    result =
-      result !== undefined ? callback(result, this[i], i, this) : this[i];
-  }
-  return result;
-};
-
-const totalCustom = numbers.customReduce(summation, 0);
-console.log("totalCustom", totalCustom); // 21
+    return result
+}
+console.log(d.cusReduce((sum, unit) => sum + unit,3));
 ```
 
 <br>
@@ -1472,3 +1368,86 @@ console.log(mergedObj); // { a: 1, b: 3, c: 4 }
 let mergedObj2 = Object.assign({}, obj1, obj2);
 console.log(mergedObj2); // { a: 1, b: 3, c: 4 }
 ```
+
+> ### Polyfill for the lastIndexof
+
+The lastIndexOf() method returns the last index at which a given element is found in an array, or -1 if it is not present, array is searched backwards, starting at fromIndex.
+
+Note - It does not mutate the original array, and returns an index or -1.
+
+```js
+
+const numbers = [1, 2, 5, 3, 4, 5, 6];
+
+Array.prototype.customLastIndexOf = function (value, fromIndex) {
+  if (fromIndex === undefined) {
+    fromIndex = this.length - 1;
+  }
+  if (isNaN(fromIndex)) {
+    return -1;
+  }
+  if (fromIndex < 0) {
+    fromIndex += this.length;
+  }
+  for (let i = fromIndex; i >= 0; i--) {
+    if (this[i] === value) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+const resultCustom1 = numbers.customLastIndexOf(5);
+console.log("resultCustom1", resultCustom1); // 5
+
+const resultCustom2 = numbers.customLastIndexOf();
+console.log("resultCustom2", resultCustom2); // -1
+
+const resultCustom3 = numbers.customLastIndexOf(5, 1);
+console.log("resultCustom3", resultCustom3); // -1
+
+const resultCustom4 = numbers.customLastIndexOf(5, -2);
+console.log("resultCustom4", resultCustom4); // 5
+
+const resultCustom5 = numbers.customLastIndexOf("5");
+console.log("resultCustom5", resultCustom5); // -1
+```
+
+<br>
+
+> ### Polyfill for findindex
+
+```js
+const numbers = [1, 2, 5, 3, 4, 5, 6];
+
+const valueEqualto5 = (value, index, array) => {
+  return value === 5;
+};
+
+const valueEqualto8 = (value, index, array) => {
+  return value === 8;
+};
+
+const result1 = numbers.findIndex(valueEqualto5);
+console.log("result1", result1); // 2
+
+const result2 = numbers.findIndex(valueEqualto8);
+console.log("result2", result2); // -1
+
+Array.prototype.customFindIndex = function (callback) {
+  for (let i = 0; i < this.length; i++) {
+    if (callback(this[i], i, this)) {
+      return i;
+    }
+  }
+  return -1;
+};
+
+const resultCustom1 = numbers.customFindIndex(valueEqualto5);
+console.log("resultCustom1", resultCustom1); // 2
+
+const resultCustom2 = numbers.customFindIndex(valueEqualto8);
+console.log("resultCustom2", resultCustom2); // -1
+```
+
+<br>
