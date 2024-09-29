@@ -697,7 +697,6 @@ console.log(getPlayerInfo.apply(player1, ["All-Rounder", "India"]));
 
 Function.prototype.myBind = function(scope, ...args){
     scope._this = this
-    console.log("nn",scope);
     return function(){
         return scope._this(...args)
     }
@@ -738,7 +737,6 @@ Function.prototype.myOwnBind = function (whoIsCallingMe) {
 ```
 
 <br>
-
 
 ## Polyfill of all type of promise 
 
@@ -1129,6 +1127,7 @@ Promise.customRace([p1, p2, p3, p4])
 <br>
 
 
+
 ## re-build various function using reduce
 
 1. Implementation of forEach() using reduce method
@@ -1150,6 +1149,10 @@ numbers.reduce((acc, curr, index, array) => {
 }, undefined);
 
 ```
+
+<br>
+
+
 
 2. Implementation of some() using reduce method
 
@@ -1175,6 +1178,10 @@ const reduceSomeResult = someNumbers.reduce((acc, curr, index, array) => {
 console.log("reduceSomeResult", reduceSomeResult); // true
 
 ```
+
+<br>
+
+
 
 3. Implementation of find() using reduce method
 
@@ -1206,6 +1213,9 @@ console.log(reduceFindFirstOdd); // 5
 ```
 
 
+<br>
+
+
 4. Implementation of every() using reduce method
 
 ```js
@@ -1224,6 +1234,9 @@ const reduceEveryResult = everyNumbers.reduce((acc, curr, index, array) => {
 }, true);
 console.log("reduceEveryResult", reduceEveryResult); // true
 ```
+
+
+<br>
 
 
 
@@ -1280,6 +1293,9 @@ const reduceResultTodos = todos.reduce((acc, curr, index, array) => {
 }, []);
 console.log("reduceResultTodos", reduceResultTodos);
 ```
+
+<br>
+
 
 > ### Implementation of map method using reduce
 
