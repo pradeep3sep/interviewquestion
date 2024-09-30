@@ -1058,3 +1058,46 @@ function selectionSort(array) {
   return array;
 }
 ```
+
+## Bit Manipulation ( [Youtube video](https://www.youtube.com/watch?v=PP2d0dG1rRY) )
+
+Bit manipulation refers to the process of converting number into individual bits within a binary number. Since all data in computers is represented in binary (0s and 1s)
+
+![screenshot](images/bitManupulation1.png)
+
+> ### Represenation of number in binary form
+
+We just add the bit from right side, try to make it equal to number. then add 1 under the bit which we used.
+
+![screenshot](images/bitManupulation2.png)
+
+
+### Common Bitwise Operations:
+1. **AND (`&`)**: Both bits must be 1 to return 1. (1 + 1 gives 1, but 0+1 or 1+0 gives 0)
+   
+![screenshot](images/bitManupulation3.png)
+   
+2. **OR (`|`)**: At least one bit must be 1 to return 1.
+
+![screenshot](images/bitManupulation4.png)
+
+3. **XOR (`^`)**: Returns 1 only if the bits are different.\
+   0 + 0 = 0\
+   0 + 1 = 1\
+   1 + 0 = 1\
+   1 + 1 = 0
+
+![screenshot](images/bitManupulation5.png)
+
+
+4. **NOT (`~`)**: Inverts the bits.
+  
+
+5. **Left Shift (`<<`)**: Shifts bits to the left, filling with 0s.
+   
+![screenshot](images/bitManupulation6.png)
+
+
+6. **Right Shift (`>>`)**: Shifts bits to the right.
+   
+![screenshot](images/bitManupulation7.png)
