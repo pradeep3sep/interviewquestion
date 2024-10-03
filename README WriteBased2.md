@@ -1054,13 +1054,13 @@ Output: Strings are not rotations of each other
   const str2 = "CDAB";
 
   function checkRotation(str1, str2) {
+    if(str1.length !== str2.length) return false
+
     const str3 = str1 + str1;
 
-    if (str3.includes(str2)) {
-      return true;
-    } else {
-      return false;
-    }
+    return str3.includes(str2)
+    // return str3.indexOf(str2) >= 0
+  
   }
 
   console.log(checkRotation(str1, str2));
@@ -4105,6 +4105,13 @@ longestUniqueSubstr('abcabc')
 longestUniqueSubstr('a12#2')
 // 'a12#
 ```
+
+Mechanism : Sliding window mechanism\
+Time complexity: O(n)
+
+
+The inner while loop removes elements from the set (charSet) by moving the start pointer until there are no duplicates. Each element is added to and removed from the set at most once, so the total work done by the inner loop across the entire execution of the algorithm is also O(n)
+
 
 **Solution**
 
