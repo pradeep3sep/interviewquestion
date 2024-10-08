@@ -1106,6 +1106,7 @@ console.log(isShuffle(invalidString, string1, string2)); // Output: false
 the function should return 'true' for exp = “[()]{}{[()()]()}” and 'false' for exp = “[(])”.
 
 ```js
+// the solution  is of stack approach
 function isBalanced(str) {
     const stack = [];
     const pairs = {
