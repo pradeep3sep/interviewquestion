@@ -45,7 +45,7 @@ Subsequence - It is sequence of characters that appear in the same order as in t
 
 > ### Check if a String is Subsequence of Other
 
-To check if a string is a subsequence of another string in JavaScript, you can use a two-pointer technique. This is a common DSA (Data Structures and Algorithms) approach. Here's the code:
+To check if a string is a subsequence of another string in JavaScript, you can use a two-pointer technique. 
 
 ```js
 function isSubsequence(s1, s2) {
@@ -156,7 +156,131 @@ This algorithm is efficient because it leverages a hash map (or object in JavaSc
 
 
 
-> ### Check for leftmost repeating character 
+> ### Anagram Substring Search (Or Search for all permutations) ( [Youtube video](https://youtu.be/fYgU6Bi2fRg?si=HoRG7uxp0GCmxlCA&t=83) )
+
+Example:
+
+Input: txt = “BACDGABCDA”,  pat = “ABCD”\
+Output: [0, 5, 6]\
+Explanation: “BACD” is at 0, “ABCD” at 5 and “BCDA” at 6
+
+Input: txt = “AAABABAA”, pat = “AABA”   \
+Output:  [0, 1, 4]\
+Explanation: “AAAB” is at 0, “AABA” at 5 and “ABAA” at 6
+
+Anagram search is a problem where you need to find all the positions in a string where an anagram (or permutation) of a given pattern exists as a substring. 
+
+### Problem Statement:
+Given a **text** and a **pattern**, you need to find all the starting indices in the text where the pattern's anagram (permutation) appears.
+
+### Example:
+**Input:**
+- Text: `"cbaebabacd"`
+- Pattern: `"abc"`
+
+**Output:**
+- `[0, 6]`
+
+Explanation:
+- The substring starting at index 0 is `"cba"`, which is an anagram of `"abc"`.
+- The substring starting at index 6 is `"bac"`, which is also an anagram of `"abc"`.
+
+### Approach: Sliding Window + Frequency Count
+To solve this efficiently, we can use the **sliding window technique** with **frequency count** of characters. The key idea is:
+1. Maintain a frequency count of the characters in the pattern.
+2. Slide a window of the same length as the pattern over the text.
+3. At each step, compare the frequency of characters in the current window with the frequency count of the pattern.
+
+### Steps:
+1. Use two arrays (or hashmaps) to store the frequency of characters in the pattern and the current window of text.
+2. Slide the window over the text and update the frequency array.
+3. If the frequency of characters in the current window matches the frequency in the pattern, store the starting index of the window.
+
+### Code Implementation in JavaScript:
+
+```javascript
+// Function to find all anagram start indices in the text
+function findAnagrams(text, pattern) {
+    let result = [];
+    let patternLength = pattern.length;
+    let textLength = text.length;
+
+    if (textLength < patternLength) {
+        return result; // No possible anagram
+    }
+
+    // Arrays to store frequency of characters in pattern and current window
+    let patternCount = Array(26).fill(0);  // For 'a' to 'z'
+    let windowCount = Array(26).fill(0);   // For 'a' to 'z'
+
+    // Helper function to convert a character to its index (0 for 'a', 1 for 'b', etc.)
+    const charToIndex = (char) => char.charCodeAt(0) - 'a'.charCodeAt(0);
+
+    // Build the frequency count for the pattern
+    for (let i = 0; i < patternLength; i++) {
+        patternCount[charToIndex(pattern[i])]++;
+        windowCount[charToIndex(text[i])]++;
+    }
+
+    // Slide the window over the text
+    for (let i = patternLength; i < textLength; i++) {
+        // If the current window matches the pattern, add the start index
+        if (patternCount.toString() === windowCount.toString()) {
+            result.push(i - patternLength);
+        }
+
+        // Move the window: remove the count of the first character of the previous window
+        windowCount[charToIndex(text[i - patternLength])]--;
+
+        // Add the count of the new character in the current window
+        windowCount[charToIndex(text[i])]++;
+    }
+
+    // Check the last window (since the loop above ends one step early)
+    if (patternCount.toString() === windowCount.toString()) {
+        result.push(textLength - patternLength);
+    }
+
+    return result;
+}
+
+// Example usage:
+let text = "cbaebabacd";
+let pattern = "abc";
+let indices = findAnagrams(text, pattern);
+console.log("Anagram start indices:", indices);
+```
+
+### Explanation:
+- We convert each character to an index (`0` for `'a'`, `1` for `'b'`, etc.) using the `charToIndex` function.
+- We create two frequency arrays (`patternCount` and `windowCount`):
+  - `patternCount` stores the frequency of characters in the pattern.
+  - `windowCount` stores the frequency of characters in the current sliding window of the text.
+- We slide a window of length equal to the pattern's length across the text:
+  - If the frequency arrays match, the current window is an anagram of the pattern, so we store the starting index.
+  - After moving the window, we update the frequency of the characters in the window.
+- Finally, we check the last window for a match.
+
+### Output:
+For the input:
+```javascript
+let text = "cbaebabacd";
+let pattern = "abc";
+```
+The output will be:
+```
+Anagram start indices: [0, 6]
+```
+
+### Time Complexity:
+- **O(n)** where `n` is the length of the text. We visit each character of the text only once while sliding the window.
+
+### Space Complexity:
+- **O(1)**, because we are using fixed-size arrays for the frequency count (26 elements for lowercase English letters).
+
+
+
+> ### Check for leftmost repeating character (when we start from left find which character repeats, then give its index)
 
 - Algoname - Hashing
 
@@ -257,7 +381,91 @@ The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\),
 
 <br>
 
+> ### Pattern searching algoritm in string ( [Youtube video](https://youtu.be/V5-7GzOfADQ?si=Al1GgXyjbLyC2zEz&t=460) )
 
+To implement a pattern searching algorithm in JavaScript, one of the most common algorithms is the **Knuth-Morris-Pratt (KMP)** algorithm. It efficiently searches for occurrences of a word within a text and improves performance by avoiding rechecking characters that have already been checked.
+
+Here’s how you can implement the KMP pattern searching algorithm in JavaScript:
+
+### Steps for KMP Algorithm:
+1. **Preprocess the pattern** to create the longest prefix which is also a suffix (LPS) array.
+2. **Search the pattern** in the given text using the LPS array to skip unnecessary comparisons.
+
+### Code Implementation:
+
+```javascript
+// Function to create the LPS array (longest prefix suffix)  ( [Youtube video](https://www.youtube.com/watch?v=9kgWwkgXTGM&ab_channel=CollegeWalaDost) )
+function computeLPSArray(pattern) {
+  const lps = Array(pattern.length).fill(0);
+  let len = 0;
+  let i = 1;
+
+  while (i < pattern.length) {
+    if (pattern[i] === pattern[len]) {
+      len++;
+      lps[i] = len;
+      i++;
+    } else {
+      if (len !== 0) {
+        len = lps[len - 1];
+      } else {
+        lps[i] = 0;
+        i++;
+      }
+    }
+  }
+  return lps;
+}
+
+// Function to perform KMP search
+function KMPSearch(text, pattern) {
+  const lps = computeLPSArray(pattern);
+  const result = [];
+  let i = 0; // index for text
+  let j = 0; // index for pattern
+
+  while (i < text.length) {
+    if (pattern[j] === text[i]) {
+      i++;
+      j++;
+    }
+
+    if (j === pattern.length) {
+      // Pattern found at index i-j
+      result.push(i - j);
+      j = lps[j - 1];
+    } else if (i < text.length && pattern[j] !== text[i]) {
+      if (j !== 0) {
+        j = lps[j - 1];
+      } else {
+        i++;
+      }
+    }
+  }
+
+  return result; // Returns indices where the pattern is found
+}
+
+// Example usage
+const text = "ABABDABACDABABCABAB";
+const pattern = "ABABCABAB";
+const occurrences = KMPSearch(text, pattern);
+console.log("Pattern found at index:", occurrences);
+```
+
+### Explanation:
+- **computeLPSArray**: Prepares the LPS array to optimize the search by storing the length of the previous longest prefix that is also a suffix.
+- **KMPSearch**: This function uses the LPS array to perform the actual search, skipping unnecessary comparisons based on the LPS values.
+
+### Example Output:
+```
+Pattern found at index: [10]
+```
+
+This code will find all the positions of the pattern in the given text efficiently.
+
+
+<br>
 ## Various alogorith used in DSA
 
 > ### Prefix sum algorithm [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
