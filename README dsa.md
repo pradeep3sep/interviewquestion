@@ -5,9 +5,67 @@ The Big O is basically `worst-case` running `time` of an `algorithm` as the inpu
 https://www.bigocheatsheet.com/
 ```
 
+### Measuring Space Complexity in Practice
 
-> ### Space complexity of array and object are O(n), string are O(1)
+- **Variables**: Consider the memory used by variables you create. For example:
+  ```js
+  let x = 42; // O(1), fixed space for a number
+  let arr = [1, 2, 3, 4]; // O(n), space depends on array size
+  ```
 
+- **Functions**: Track the memory used by functions, especially if they store data or call other functions recursively:
+  ```js
+  function sum(arr) {
+      if (arr.length === 0) return 0;
+      return arr[0] + sum(arr.slice(1));
+  }
+  // Each recursive call adds to the call stack: O(n) space
+  ```
+
+- **Data Structures**: Take note of how much space collections (arrays, objects) use:
+  ```js
+  let obj = { a: 1, b: 2, c: 3 }; // O(m), where m is the number of keys
+  ```
+
+### Example: Analyzing Space Complexity
+
+#### Iterative Algorithm (constant space):
+```js
+function sum(arr) {
+    let total = 0; // O(1) space
+    for (let i = 0; i < arr.length; i++) { // O(1) space for i
+        total += arr[i]; // O(1)
+    }
+    return total;
+}
+// Space Complexity: O(1), since no additional space grows with input size
+```
+
+#### Recursive Algorithm (linear space):
+```js
+function factorial(n) {
+    if (n === 0) return 1;
+    return n * factorial(n - 1); // O(n) space for the call stack
+}
+// Space Complexity: O(n), since each recursive call adds to the stack
+```
+
+> ### Big O of various operations in data structure
+
+| **Operation / Data Structure** | **Unsorted Array** | **Sorted Array** | **Linked List** | **BST (Balanced)** | **Hash Table** |
+|-------------------------------|--------------------|------------------|-----------------|--------------------|---------------|
+| **Search**                     | O(n)               | O(log n)         | O(n)            | O(log n)            | O(1)          |
+| **Insert**                     | O(1)               | O(n)             | O(1)            | O(log n)            | O(1)          |
+| **Delete**                     | O(n)               | O(n)             | O(n)            | O(log n)            | O(1)          |
+| **Find Closest**               | O(n)               | O(log n)         | O(n)            | O(log n)            | O(n)          |
+| **Sorted Traversal**           | O(n log n)         | O(n)             | O(n log n)      | O(n)                | O(n log n)    |
+
+### Notes:
+- **Unsorted Array**: Insertions are O(1) because they can be done at the end. Searching, deleting, and finding the closest element require scanning the entire array, which takes O(n).
+- **Sorted Array**: Binary search (O(log n)) is used for search and finding the closest element. However, insertion and deletion take O(n) due to shifting elements.
+- **Linked List**: Searching, deleting, and finding the closest element require traversing the list (O(n)), but insertions at the head take O(1).
+- **Balanced BST**: All operations take O(log n) due to the tree's balanced nature, ensuring logarithmic time complexity.
+- **Hash Table**: Average-case performance for search, insert, and delete is O(1), but finding the closest element (since it’s unordered) and sorted traversal would take O(n) or O(n log n) for sorting.
 
 
 ## Strings
@@ -278,6 +336,133 @@ Anagram start indices: [0, 6]
 ### Space Complexity:
 - **O(1)**, because we are using fixed-size arrays for the frequency count (26 elements for lowercase English letters).
 
+
+> ### Lexicographic Rank of a String ( [Youtube video](https://youtu.be/uUN8fVPrJn0?si=Ege3okmmRJvxt331) )
+
+**If needed, can refer the GFG code also https://www.geeksforgeeks.org/lexicographic-rank-of-a-string/**
+
+To solve the **Lexicographic Rank of a String** in **O(n)** time complexity, we need to improve the algorithm by avoiding the costly inner loop (which checks for smaller characters). We can accomplish this by:
+
+1. **Precomputing Factorials**: Instead of recalculating the factorial each time, we can precompute the factorial values up to the length of the string.
+  
+2. **Frequency Array**: We maintain a frequency array of characters. This array allows us to efficiently track and update the number of characters smaller than the current character in constant time.
+
+### Optimized Approach:
+
+1. **Precompute Factorials**: Store the factorials of numbers from 0 to `n`.
+  
+2. **Frequency Array**: Maintain a frequency count of all characters in the string. This will help in determining how many characters are smaller than the current character in constant time.
+
+3. **Update Frequency**: After processing each character, update the frequency array.
+
+### Detailed Steps:
+
+1. **Factorial Precomputation**: Precompute factorials of numbers from `0` to `n` (length of the string).
+  
+2. **Count Frequency of Characters**: Count how often each character appears in the string (we assume ASCII characters, so we use a frequency array of size 256).
+
+3. **Calculate Rank**: For each character in the string, calculate how many permutations start with a smaller character. Use the frequency array to determine how many smaller characters exist and multiply by the factorial of the remaining length.
+
+4. **Adjust Frequency**: After processing each character, reduce its frequency by 1 to account for it being fixed in place.
+
+### Code Implementation in O(n) Time Complexity:
+
+```javascript
+// Function to calculate factorials up to 'n'
+function precomputeFactorials(n) {
+    let fact = Array(n + 1).fill(1);
+    for (let i = 2; i <= n; i++) {
+        fact[i] = fact[i - 1] * i;
+    }
+    return fact;
+}
+
+// Function to find the lexicographic rank of a string in O(n) time
+function lexicographicRank(str) {
+    const n = str.length;
+
+    // Precompute factorials up to n
+    let fact = precomputeFactorials(n);
+
+    // Create a frequency array for all characters
+    let charCount = Array(256).fill(0); // 256 for extended ASCII
+
+    // Populate the frequency array with the count of each character
+    for (let i = 0; i < n; i++) {
+        charCount[str.charCodeAt(i)]++;
+    }
+
+    // Check for duplicate characters (if any)
+    for (let i = 0; i < 256; i++) {
+        if (charCount[i] > 1) {
+            console.log("Error: The string contains duplicate characters.");
+            return -1;
+        }
+    }
+
+    // Initialize rank to 1 (since ranks start from 1)
+    let rank = 1;
+
+    // Traverse each character in the string
+    for (let i = 0; i < n; i++) {
+        // Calculate how many permutations would be generated by smaller characters
+        for (let j = 0; j < str.charCodeAt(i); j++) {
+            if (charCount[j] > 0) {
+                rank += fact[n - i - 1]; // Add factorial of remaining length
+            }
+        }
+
+        // Reduce the frequency of the current character
+        charCount[str.charCodeAt(i)]--;
+    }
+
+    return rank;
+}
+
+// Example usage
+let str = "STRING";
+let rank = lexicographicRank(str);
+console.log(`Lexicographic rank of "${str}" is: ${rank}`);
+```
+
+### Explanation:
+
+1. **Precompute Factorials**:
+   - The `precomputeFactorials` function precomputes the factorial values for numbers from 0 to `n`. This reduces the time spent on calculating factorials during the rank calculation.
+  
+2. **Frequency Array**:
+   - A frequency array (`charCount`) is used to store the frequency of each character in the string. Since the problem assumes unique characters, this will just serve as a way to track how many characters are smaller than the current character as we process the string.
+
+3. **Calculate Rank**:
+   - For each character, we calculate how many permutations would be generated by all characters smaller than the current character, and then add this count to the rank.
+   - After processing each character, we decrement its count in the `charCount` array.
+
+### Example:
+
+For the string `"STRING"`:
+
+1. Precompute factorials for the length of the string.
+2. Populate the frequency array with character counts.
+3. Traverse each character:
+   - For `'S'`, there are `3!` permutations of characters smaller than `'S'`, like `'R'`, `'N'`, etc.
+   - For `'T'`, count smaller characters and add corresponding permutations.
+4. Sum the contributions of all characters to get the lexicographic rank.
+
+### Output:
+
+For the input `"STRING"`:
+
+```
+Lexicographic rank of "STRING" is: 598
+```
+
+### Time Complexity:
+
+- **O(n)**: We are precomputing the factorials in O(n) and calculating the rank by iterating over the string once. Accessing and updating the frequency array takes constant time (`O(1)` for each character).
+  
+### Space Complexity:
+
+- **O(1)** (if we ignore the factorial array and frequency array). Otherwise, it is **O(256)** for the frequency array and **O(n)** for the factorial array.
 
 
 > ### Check for leftmost repeating character (when we start from left find which character repeats, then give its index)
@@ -1697,6 +1882,267 @@ let myDoublyLinkedList = new DoublyLinkedList(7)
 myDoublyLinkedList
 ```
 
+> ### Reverse K Nodes in a Linked List ( [Youtube video](https://www.youtube.com/watch?v=LCRGV8avvUY&t=176s&ab_channel=ApnaCollege) )
+
+To **reverse K nodes in a linked list**, the idea is to reverse every block of `K` nodes in the list. If the remaining nodes are fewer than `K`, they can be left as they are.
+
+Here's the step-by-step approach to solve this problem:
+
+### Approach:
+
+1. **Traverse K Nodes**: First, reverse the first `K` nodes of the linked list. After reversing, the `K-th` node becomes the new head of that part.
+
+2. **Recursive Call or Loop**: Then, recursively process the remaining part of the linked list, and link the last node of the reversed segment to the head of the next segment.
+
+3. **Return the New Head**: Once all segments are reversed, return the new head of the entire list.
+
+### Example:
+
+For the linked list: `1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9` and `K = 3`, the result will be:
+```
+3 -> 2 -> 1 -> 6 -> 5 -> 4 -> 9 -> 8 -> 7
+```
+
+### Code Implementation in JavaScript:
+
+```javascript
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+    }
+}
+
+// Function to reverse K nodes in a linked list
+function reverseKNodes(head, K) {
+    if (head === null || K === 1) return head;
+
+    let current = head;
+    let next = null;
+    let prev = null;
+    let count = 0;
+
+    // Reverse the first K nodes of the linked list
+    while (current !== null && count < K) {
+        next = current.next;
+        current.next = prev;
+        prev = current;
+        current = next;
+        count++;
+    }
+
+    // next is now pointing to (K+1)th node. Recursively reverse the rest of the list
+    if (next !== null) {
+        head.next = reverseKNodes(next, K);
+    }
+
+    // prev is the new head of the reversed group
+    return prev;
+}
+
+// Utility function to print the linked list
+function printList(head) {
+    let temp = head;
+    while (temp !== null) {
+        console.log(temp.value + " -> ");
+        temp = temp.next;
+    }
+    console.log("null");
+}
+
+// Driver code
+const K = 3;
+
+// Creating a linked list: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9
+let head = new Node(1);
+head.next = new Node(2);
+head.next.next = new Node(3);
+head.next.next.next = new Node(4);
+head.next.next.next.next = new Node(5);
+head.next.next.next.next.next = new Node(6);
+head.next.next.next.next.next.next = new Node(7);
+head.next.next.next.next.next.next.next = new Node(8);
+head.next.next.next.next.next.next.next.next = new Node(9);
+
+console.log("Original List:");
+printList(head);
+
+// Reverse every K nodes
+head = reverseKNodes(head, K);
+
+console.log("Reversed List in groups of K:");
+printList(head);
+```
+
+### Explanation:
+
+1. **Reverse First K Nodes**: In the first loop, we reverse the first `K` nodes by keeping track of the previous node (`prev`), the current node (`current`), and the next node (`next`). This process continues for `K` nodes.
+
+2. **Recursive Call**: Once the first `K` nodes are reversed, we recursively call `reverseKNodes` for the next segment of `K` nodes. The head of the original segment (`head`) is then linked to the result of the next recursive call.
+
+3. **Returning the New Head**: After reversing each group of `K` nodes, the new head of the segment is returned (`prev`).
+
+### Time Complexity:
+- **O(n)**: Each node is visited once, so the time complexity is linear.
+
+### Space Complexity:
+- **O(1)**: The solution uses constant extra space except for the recursion stack, which can go up to **O(n/K)** levels.
+
+### Example:
+
+For the input list `1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9` with `K = 3`, the reversed list will be:
+
+```
+3 -> 2 -> 1 -> 6 -> 5 -> 4 -> 9 -> 8 -> 7 -> null
+```
+
+
+
+> ### Clone a linked list using a random pointer
+
+Cloning a linked list with both a **next pointer** and a **random pointer** is an interesting problem. The challenge here is to create a deep copy of the linked list such that each node's **next** and **random** pointers in the cloned list point to the correct nodes, mirroring the original list.
+
+### Problem Breakdown:
+- Each node in the linked list has two pointers:
+  - **Next pointer**: Points to the next node in the linked list.
+  - **Random pointer**: Points to any arbitrary node within the list (or `null`).
+
+The goal is to clone this list in **O(n)** time and **O(1)** space.
+
+### Steps to Solve the Problem:
+
+1. **Step 1**: Insert each cloned node just after the original node in the linked list. For example, if the list is `A -> B -> C`, transform it to `A -> A' -> B -> B' -> C -> C'`.
+
+2. **Step 2**: Assign the correct random pointers for the cloned nodes. Since the cloned nodes are adjacent to their originals, we can set `A'.random = A.random.next` (i.e., the random pointer of `A'` will point to the clone of `A.random`).
+
+3. **Step 3**: Separate the cloned list from the original list.
+
+### Code Implementation in JavaScript:
+
+```javascript
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.next = null;
+        this.random = null;
+    }
+}
+
+function cloneLinkedListWithRandomPointer(head) {
+    if (!head) return null;
+
+    // Step 1: Create cloned nodes and place them next to original nodes
+    let current = head;
+    while (current) {
+        let newNode = new Node(current.value);
+        newNode.next = current.next;
+        current.next = newNode;
+        current = newNode.next;
+    }
+
+    // Step 2: Update the random pointers of the cloned nodes
+    current = head;
+    while (current) {
+        if (current.random) {
+            current.next.random = current.random.next;
+        }
+        current = current.next.next; // Move to the next original node
+    }
+
+    // Step 3: Separate the cloned nodes to form the new cloned list
+    current = head;
+    let clonedHead = head.next;
+    let clonedCurrent = clonedHead;
+    
+    while (current) {
+        current.next = current.next.next; // Restore the original list
+        if (clonedCurrent.next) {
+            clonedCurrent.next = clonedCurrent.next.next; // Set next for the cloned list
+        }
+        current = current.next;
+        clonedCurrent = clonedCurrent.next;
+    }
+
+    return clonedHead; // Return the head of the cloned list
+}
+
+// Utility function to print the list along with random pointers
+function printListWithRandom(head) {
+    let current = head;
+    while (current) {
+        const randomVal = current.random ? current.random.value : 'null';
+        console.log(`Node value: ${current.value}, Random points to: ${randomVal}`);
+        current = current.next;
+    }
+}
+
+// Driver code
+
+// Creating a linked list: 1 -> 2 -> 3 -> 4 -> 5
+let head = new Node(1);
+head.next = new Node(2);
+head.next.next = new Node(3);
+head.next.next.next = new Node(4);
+head.next.next.next.next = new Node(5);
+
+// Setting up random pointers
+head.random = head.next.next; // 1's random -> 3
+head.next.random = head; // 2's random -> 1
+head.next.next.random = head.next.next.next.next; // 3's random -> 5
+head.next.next.next.random = head.next.next; // 4's random -> 3
+head.next.next.next.next.random = head.next; // 5's random -> 2
+
+console.log("Original List with Random Pointers:");
+printListWithRandom(head);
+
+// Clone the linked list
+let clonedHead = cloneLinkedListWithRandomPointer(head);
+
+console.log("Cloned List with Random Pointers:");
+printListWithRandom(clonedHead);
+```
+
+### Explanation:
+
+1. **Step 1: Clone nodes and link them next to the original nodes**:
+   - For each node in the original list, a new cloned node is created and inserted right after the original node. This step creates interleaved original and cloned nodes.
+
+2. **Step 2: Set the random pointers**:
+   - The cloned node's random pointer is set by using the original node's random pointer. Since the cloned nodes are right next to the originals, we can access the corresponding cloned node using `current.next`.
+
+3. **Step 3: Separate the cloned list**:
+   - Finally, we restore the original list by reconnecting its next pointers and also create the next links for the cloned list by connecting every second node (the cloned nodes).
+
+### Time Complexity:
+- **O(n)**: Each node is visited three times — once for cloning, once for setting the random pointer, and once for separating the cloned list from the original.
+
+### Space Complexity:
+- **O(1)**: We only use constant extra space (ignoring the output list), which makes this solution space-efficient.
+
+### Example:
+
+For a list like this:
+
+```
+1 -> 2 -> 3 -> 4 -> 5
+```
+With random pointers:
+- 1's random -> 3
+- 2's random -> 1
+- 3's random -> 5
+- 4's random -> 3
+- 5's random -> 2
+
+After cloning, the cloned list will have exactly the same structure and random pointers:
+
+```
+1' -> 2' -> 3' -> 4' -> 5'
+```
+Where the cloned random pointers mirror the original random pointers.
+
+This method efficiently clones a linked list with both next and random pointers.
+
+
 
 > ### Stacks and Queues
 
@@ -1859,6 +2305,10 @@ twoStacks.printStack1();  // Output: Stack 1: 5 -> 10
 twoStacks.printStack2();  // Output: Stack 2: 30 -> 25
 
 ```
+
+> ### Implement K stack in an array
+
+
 
 > ### Stock span problem ( [Youtube video](https://www.youtube.com/watch?v=vOqNBU7ipIk) )
 The **Stock Span Problem** is a classic problem that can be solved using a stack. The task is to find the span of stock’s price for all days. The span of a stock’s price on a given day is defined as the maximum number of consecutive days just before the given day, where the price of the stock on those days is less than or equal to the price on the given day.
@@ -3704,88 +4154,715 @@ myTree
 
 ```
 
+> ### Delete a node in BST ( [Youtube video](https://www.youtube.com/watch?v=petKaikRiIA&ab_channel=AnujBhaiya) )
 
-> ###  Hash Table
+In a Binary Search Tree (BST), deletion of a node requires three different cases to handle:
+
+1. **Case 1: Node to be deleted is a leaf node** (no children):
+   - Simply remove the node from the tree.
+   
+2. **Case 2: Node to be deleted has one child**:
+   - Replace the node with its child.
+   
+3. **Case 3: Node to be deleted has two children**:
+   - Replace the node with its in-order successor (smallest node in the right subtree) or in-order predecessor (largest node in the left subtree) and delete the in-order successor/predecessor from its original position.
+
+Here is the JavaScript code for deleting a node in a BST:
+
+### Code for Deletion in a Binary Search Tree (BST): 
 
 ```js
-// A hash table uses a hash function to compute an index, also called a hash code, into an array of buckets or slots, from which the desired value can be found.
-// common example of hash table is object in JS.
-
-
-// charactristics of hashes
-// 1. They are one way
-// 2. Hashes are deterministic, means if you run nails through this equation and it produces the number, the next time you run nails it will produce same number
-
-// collision - It is a situation when we have an item that maps to that same spot in memory
-
-// hash function always give the same number when same input is passed through it
-
-// If we have a prime number. we get a more randomized distribution of the items, which is optimal.
-
-// Big O of hash table
-
-// - Access    => O(1) || O(n). (keep in we are here considering key not the value lookup)
-// - Insert    => O(1).
-// - Delete    => O(1).
-
-class HashTable {
-    constructor(size = 7){
-        this.dataMap = new Array(size)
-    }
-
-    _hash(key){
-        let hash = 0
-        for (let i = 0; i < key.length; i++) {
-            hash = (hash + key.charCodeAt(i) * 23) % this.dataMap.length
-        }
-        return hash
-    }
-
-    // O(1)
-    set(key, value){
-        let index = this._hash(key)
-        if(!this.dataMap[index]){
-            this.dataMap[index] = []  // O(1)
-        }
-        this.dataMap[index].push([key, value]) // O(1)
-        return this
-    }
-
-    // O(1) || O(n)
-    get(key) {
-        // we get the index position in table
-        let index = this._hash(key) // O(1)
-    
-        if (this.dataMap(index)) {
-
-            // Here we are looping becuse at particular index we have two or more data
-            for (let i = 0; i < this.dataMap[index].length; i++) { // O(1) || O(n)
-                if (this.dataMap[index][i][0] === key) {
-                    return this.dataMap[index][i][1]
-                }
-            }
-            return undefined // O(1)
-        }
-    }
-
-    keys(){
-        let allKeys = []
-
-        for (let i = 0; i < this.dataMap.length; i++) {
-            if(this.dataMap[i]){
-                for (let j = 0; j < this.dataMap[i].length; j++) {
-                    allKeys.push(this.dataMap[i][j][0])
-                }
-            }
-        }
-        return allKeys
+// Definition for a Binary Search Tree Node
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
     }
 }
 
-let myHashtable = new HashTable()
-myHashtable
+// Function to delete a node from a BST
+function deleteNode(root, key) {
+    // Base case: if the tree is empty
+    if (root === null) return root;
+
+    // Recur down the tree to find the node to be deleted
+    if (key < root.value) {
+        root.left = deleteNode(root.left, key); // The key to be deleted is in the left subtree
+    } else if (key > root.value) {
+        root.right = deleteNode(root.right, key); // The key to be deleted is in the right subtree
+    } else {
+        // Node to be deleted is found
+
+        // Case 1: Node with only one child or no child
+        if (root.left === null) {
+            let temp = root.right;
+            root = null; // Free the current node
+            return temp; // Return the right subtree as the new subtree
+        } else if (root.right === null) {
+            let temp = root.left;
+            root = null; // Free the current node
+            return temp; // Return the left subtree as the new subtree
+        }
+
+        // Case 2: Node with two children
+        // Get the inorder successor (smallest in the right subtree)
+        let temp = findMin(root.right);
+
+        // Copy the inorder successor's value to the current node
+        root.value = temp.value;
+
+        // Delete the inorder successor
+        root.right = deleteNode(root.right, temp.value);
+    }
+
+    return root;
+}
+
+// Function to find the node with the minimum value (in-order successor)
+function findMin(node) {
+    let current = node;
+    while (current.left !== null) {
+        current = current.left;
+    }
+    return current;
+}
+
+// Example Usage:
+let root = new Node(50);
+root.left = new Node(30);
+root.right = new Node(70);
+root.left.left = new Node(20);
+root.left.right = new Node(40);
+root.right.left = new Node(60);
+root.right.right = new Node(80);
+
+console.log("Before deletion:");
+console.log(JSON.stringify(root, null, 2));
+
+// Delete node with key 70
+root = deleteNode(root, 70);
+
+console.log("After deletion:");
+console.log(JSON.stringify(root, null, 2));
+```
+
+### Explanation:
+
+- **Case 1 (Leaf Node)**: When the node has no children, the node is set to `null`.
+- **Case 2 (One Child)**: When the node has only one child, the node is replaced by its child.
+- **Case 3 (Two Children)**: The in-order successor (the smallest node in the right subtree) is found and replaces the node to be deleted. Then the in-order successor is deleted from its original position.
+
+### Example Output (before and after deletion of 70):
+
+**Before Deletion:**
 
 ```
+        50
+       /  \
+     30    70
+    /  \   /  \
+   20  40 60  80
+```
+
+**After Deletion of 70:**
+
+```
+        50
+       /  \
+     30    80
+    /  \   /
+   20  40 60
+```
+
+The node `70` is replaced with its in-order successor `80`, and the BST is updated accordingly.
+
+> ### floor and ceil in BST  ( [Youtube video](https://www.youtube.com/watch?v=Sgz3SF_0wOw&ab_channel=AnujBhaiya) )
+
+To find the floor and ceiling of a given value in a Binary Search Tree (BST), we can use a recursive approach. Let's define what the "floor" and "ceiling" mean in the context of a BST:
+
+- **Floor** of a value `x` is the greatest value in the BST that is less than or equal to `x`.
+- **Ceiling** of a value `x` is the smallest value in the BST that is greater than or equal to `x`.
+
+### BST Node Structure
+```js
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.left = null;
+    this.right = null;
+  }
+}
+```
+
+### Inserting Nodes into the BST
+```js
+class BST {
+  constructor() {
+    this.root = null;
+  }
+
+  insert(data) {
+    const newNode = new Node(data);
+    if (this.root === null) {
+      this.root = newNode;
+      return;
+    }
+
+    let current = this.root;
+    while (true) {
+      if (data < current.data) {
+        if (current.left === null) {
+          current.left = newNode;
+          break;
+        }
+        current = current.left;
+      } else {
+        if (current.right === null) {
+          current.right = newNode;
+          break;
+        }
+        current = current.right;
+      }
+    }
+  }
+}
+```
+
+### Floor and Ceil Functions
+The basic idea for both `floor` and `ceil` functions is to traverse the tree and keep track of the possible values while moving through the tree.
+
+#### Finding the Floor
+```js
+function findFloor(root, key) {
+  let floor = null;
+  let current = root;
+
+  while (current !== null) {
+    if (current.data === key) {
+      return current.data;
+    }
+    if (current.data < key) {
+      floor = current.data;
+      current = current.right;
+    } else {
+      current = current.left;
+    }
+  }
+
+  return floor;
+}
+```
+
+#### Finding the Ceiling
+```js
+function findCeil(root, key) {
+  let ceil = null;
+  let current = root;
+
+  while (current !== null) {
+    if (current.data === key) {
+      return current.data;
+    }
+    if (current.data > key) {
+      ceil = current.data;
+      current = current.left;
+    } else {
+      current = current.right;
+    }
+  }
+
+  return ceil;
+}
+```
+
+### Example Usage
+```js
+let bst = new BST();
+bst.insert(10);
+bst.insert(5);
+bst.insert(15);
+bst.insert(3);
+bst.insert(7);
+bst.insert(12);
+bst.insert(18);
+
+let key = 6;
+console.log("Floor of", key, "is", findFloor(bst.root, key)); // Floor of 6 is 5
+console.log("Ceiling of", key, "is", findCeil(bst.root, key)); // Ceiling of 6 is 7
+```
+
+### Explanation:
+- **Floor**: Traverse the tree, and if you find a node that is less than or equal to the target, move right, but keep track of the most recent value that meets this condition.
+- **Ceiling**: Traverse the tree, and if you find a node greater than or equal to the target, move left, but keep track of the most recent value that meets this condition.
+
+This solution runs in **O(h)** time complexity, where **h** is the height of the tree. For balanced trees, it would be **O(log n)**.
+
+> ### AVL tree ( [Youtube video](https://www.youtube.com/watch?v=jDM6_TnYIqE&ab_channel=AbdulBari) )
+
+An **AVL tree** is a type of `self-balancing binary search tree (BST)`. In an AVL tree, the `difference in height`s (balance factor) between the `left and right` subtrees of any node is `at most(<=) 1`. If at any point this condition is violated, the tree performs rotations to restore balance.
+
+The height of an AVL tree is kept in check, ensuring that the time complexity for operations like insertion, deletion, and lookup is O(log n), where **n** is the number of nodes.
+
+### Key Operations in an AVL Tree:
+1. **Insertion**: Insert the node as in a normal BST and then check if the tree is balanced. If not, perform rotations to balance it.
+2. **Rotation**: There are four types of rotations that can be used to balance the tree after insertion or deletion:
+   - Left rotation
+   - Right rotation
+   - Left-Right rotation
+   - Right-Left rotation
+3. **Balancing**: After every insertion or deletion, the balance factor (difference between the heights of left and right subtrees) of each node is checked. If it violates the AVL property (i.e., balance factor > 1 or < -1), the tree is rebalanced using rotations.
+
+### Balance Factor
+For each node, the **balance factor** is calculated as:
+```
+balance_factor = height(left subtree) - height(right subtree)
+```
+The AVL property requires that the balance factor of every node should be in the range of [-1, 1].
+
+### AVL Tree Rotations
+
+#### 1. **Left Rotation**:
+Left rotation is performed when a node's right subtree becomes taller, causing the tree to become unbalanced.
+```text
+      z                            y
+     / \                          / \
+    T1  y      Left Rotate(z)     z   T3
+       / \   ---------------->   / \
+      T2  T3                    T1  T2
+```
+
+#### 2. **Right Rotation**:
+Right rotation is performed when a node's left subtree becomes taller, causing the tree to become unbalanced.
+```text
+      z                            y
+     / \                          / \
+    y   T4      Right Rotate(z)   x   z
+   / \        ---------------->     / \
+  x   T3                          T3  T4
+```
+
+#### 3. **Left-Right Rotation**:
+A left-right rotation is a combination of a left rotation followed by a right rotation. This is used when the tree becomes unbalanced because of a left-right case.
+
+#### 4. **Right-Left Rotation**:
+A right-left rotation is a combination of a right rotation followed by a left rotation. This is used when the tree becomes unbalanced because of a right-left case.
+
+### JavaScript Implementation of an AVL Tree
+
+```js
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.left = null;
+    this.right = null;
+    this.height = 1; // height of the node
+  }
+}
+
+class AVLTree {
+  constructor() {
+    this.root = null;
+  }
+
+  // Get the height of a node
+  getHeight(node) {
+    if (node === null) return 0;
+    return node.height;
+  }
+
+  // Calculate balance factor
+  getBalance(node) {
+    if (node === null) return 0;
+    return this.getHeight(node.left) - this.getHeight(node.right);
+  }
+
+  // Right rotation
+  rightRotate(y) {
+    const x = y.left;
+    const T2 = x.right;
+
+    // Perform rotation
+    x.right = y;
+    y.left = T2;
+
+    // Update heights
+    y.height = Math.max(this.getHeight(y.left), this.getHeight(y.right)) + 1;
+    x.height = Math.max(this.getHeight(x.left), this.getHeight(x.right)) + 1;
+
+    // Return new root
+    return x;
+  }
+
+  // Left rotation
+  leftRotate(x) {
+    const y = x.right;
+    const T2 = y.left;
+
+    // Perform rotation
+    y.left = x;
+    x.right = T2;
+
+    // Update heights
+    x.height = Math.max(this.getHeight(x.left), this.getHeight(x.right)) + 1;
+    y.height = Math.max(this.getHeight(y.left), this.getHeight(y.right)) + 1;
+
+    // Return new root
+    return y;
+  }
+
+  // Insert a node
+  insert(node, key) {
+    // Perform normal BST insertion
+    if (node === null) {
+      return new Node(key);
+    }
+
+    if (key < node.data) {
+      node.left = this.insert(node.left, key);
+    } else if (key > node.data) {
+      node.right = this.insert(node.right, key);
+    } else {
+      return node; // Duplicate keys not allowed
+    }
+
+    // Update the height of the ancestor node
+    node.height = 1 + Math.max(this.getHeight(node.left), this.getHeight(node.right));
+
+    // Get the balance factor
+    const balance = this.getBalance(node);
+
+    // Balance the node if it's unbalanced
+    // Left Left Case
+    if (balance > 1 && key < node.left.data) {
+      return this.rightRotate(node);
+    }
+
+    // Right Right Case
+    if (balance < -1 && key > node.right.data) {
+      return this.leftRotate(node);
+    }
+
+    // Left Right Case
+    if (balance > 1 && key > node.left.data) {
+      node.left = this.leftRotate(node.left);
+      return this.rightRotate(node);
+    }
+
+    // Right Left Case
+    if (balance < -1 && key < node.right.data) {
+      node.right = this.rightRotate(node.right);
+      return this.leftRotate(node);
+    }
+
+    return node; // Return the unchanged node pointer
+  }
+
+  // In-order traversal
+  inOrder(node) {
+    if (node !== null) {
+      this.inOrder(node.left);
+      console.log(node.data);
+      this.inOrder(node.right);
+    }
+  }
+}
+
+// Example Usage
+const avl = new AVLTree();
+avl.root = avl.insert(avl.root, 10);
+avl.root = avl.insert(avl.root, 20);
+avl.root = avl.insert(avl.root, 30);
+avl.root = avl.insert(avl.root, 40);
+avl.root = avl.insert(avl.root, 50);
+avl.root = avl.insert(avl.root, 25);
+
+console.log("In-order traversal of the balanced AVL tree:");
+avl.inOrder(avl.root);  // Output will be in sorted order
+```
+
+### Explanation:
+1. **Insertion**: The `insert` function inserts a node like in a regular BST, but after every insertion, it checks if the tree has become unbalanced. If it has, appropriate rotations (right, left, left-right, or right-left) are performed to balance the tree.
+2. **Rotation**: Right and left rotations are performed to restore balance when necessary.
+
+### Time Complexity:
+- **Insertion**: O(log n) because the tree is kept balanced after every insertion.
+- **Rotation**: O(1) because rotations only involve changing a few pointers and heights.
+- **In-order Traversal**: O(n), where **n** is the number of nodes.
+
+AVL trees ensure efficient searching, insertion, and deletion operations, with guaranteed logarithmic time complexity.
+
+
+
+
+> ### find kth smallest element, we tried here using the BST ( [Youtube video](https://www.youtube.com/watch?v=9TJYWh0adfk&ab_channel=takeUforward) )
+
+To achieve an **O(log n)** time complexity for finding the k-th smallest element, you can use a **Balanced Binary Search Tree (BST)**, such as an **Augmented BST** that keeps track of the size of the subtree rooted at each node.
+
+### Key Idea:
+- Each node in the BST stores:
+  1. The value.
+  2. A pointer to the left and right children.
+  3. The size of the subtree rooted at that node (including the node itself).
+
+With this additional information, you can efficiently find the k-th smallest element by comparing the size of the left subtree to `k`.
+
+### Operations:
+- Insert: **O(log n)** (in a balanced BST like AVL or Red-Black tree).
+- Find k-th smallest: **O(log n)** due to the additional size information maintained at each node.
+
+### JavaScript Code (Augmented BST):
+
+```javascript
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.left = null;
+        this.right = null;
+        this.size = 1; // Keeps track of the size of the subtree rooted at this node
+    }
+}
+
+class AugmentedBST {
+    constructor() {
+        this.root = null;
+    }
+
+    insert(data) {
+        this.root = this._insert(this.root, data);
+    }
+
+    _insert(node, data) {
+        if (node === null) {
+            return new Node(data);
+        }
+
+        if (data < node.data) {
+            node.left = this._insert(node.left, data);
+        } else {
+            node.right = this._insert(node.right, data);
+        }
+
+        node.size = 1 + this._getSize(node.left) + this._getSize(node.right);
+        return node;
+    }
+
+    _getSize(node) {
+        return node ? node.size : 0;
+    }
+
+    findKthSmallest(k) {
+        if (k < 1 || k > this._getSize(this.root)) {
+            return null; // k is out of bounds
+        }
+        return this._findKthSmallest(this.root, k);
+    }
+
+    _findKthSmallest(node, k) {
+        const leftSize = this._getSize(node.left);
+
+        if (k === leftSize + 1) {
+            return node.data; // Found the k-th smallest element
+        } else if (k <= leftSize) {
+            return this._findKthSmallest(node.left, k); // Search in the left subtree
+        } else {
+            return this._findKthSmallest(node.right, k - leftSize - 1); // Search in the right subtree
+        }
+    }
+}
+
+// Example usage
+let bst = new AugmentedBST();
+let arr = [7, 10, 4, 3, 20, 15];
+arr.forEach(num => bst.insert(num));
+
+let k = 3;
+let result = bst.findKthSmallest(k);
+console.log(`The ${k}th smallest element is ${result}`);
+```
+
+### Explanation:
+1. **Node class**:
+   - Each node stores the value `data`, pointers to `left` and `right` children, and a `size` attribute that represents the size of the subtree rooted at the current node.
+   
+2. **AugmentedBST class**:
+   - **insert(data)**: Inserts a new element into the BST, updating the subtree sizes during the insertion process. This ensures that every node knows the size of the subtree rooted at itself.
+   - **findKthSmallest(k)**: Recursively finds the k-th smallest element by comparing the size of the left subtree with `k`.
+     - If `k` equals the size of the left subtree plus 1, the current node is the k-th smallest element.
+     - If `k` is smaller than or equal to the size of the left subtree, we recursively search in the left subtree.
+     - If `k` is larger, we search in the right subtree, adjusting `k` to account for the size of the left subtree.
+
+### Time Complexity:
+- **Insertion**: O(log n) in a balanced BST like an AVL tree or Red-Black tree.
+- **Find k-th smallest**: O(log n) due to the size information maintained at each node.
+
+### Example:
+
+For the array `[7, 10, 4, 3, 20, 15]`, the tree is built as follows:
+```
+        7 (size: 6)
+       / \
+   4 (2)  10 (3)
+   /      /  \
+3 (1)   15 (1) 20 (1)
+```
+- To find the 3rd smallest element, it looks at the root (7) and checks that the left subtree size is 2. Since `k = 3`, the root (7) is the 3rd smallest element.
+
+### Benefits:
+- **Balanced BSTs** like AVL or Red-Black trees guarantee **O(log n)** time complexity for both insertion and querying for the k-th smallest element.
+
+This approach is optimal for dynamic data (insertion, deletion) where maintaining sorted order is critical, and efficient querying is required.
+
+Let me know if you'd like further details or clarification!
+
+
+
+> ### Check BST is valid or not ( [Youtube video](https://www.youtube.com/watch?v=9btwHI_84DM&ab_channel=AnujBhaiya) )
+
+A Binary Search Tree (BST) is a data structure where each node has at most two children. The left child node's value is smaller than the parent's, and the right child node's value is larger.
+
+To check if a tree is a valid BST in JavaScript, you can perform an in-order traversal and ensure that the values of the nodes are in increasing order. Here's a sample function to check if a tree is a valid BST:
+
+```js
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function isValidBST(node, min = null, max = null) {
+  // Base case: an empty node is a valid BST
+  if (!node) return true;
+
+  // Check if the current node violates the BST property
+  if ((min !== null && node.value <= min) || (max !== null && node.value >= max)) {
+    return false;
+  }
+
+  // Recursively check the left and right subtrees
+  return isValidBST(node.left, min, node.value) && isValidBST(node.right, node.value, max);
+}
+
+// Example usage:
+
+let root = new TreeNode(10);
+root.left = new TreeNode(5);
+root.right = new TreeNode(15);
+root.left.left = new TreeNode(2);
+root.left.right = new TreeNode(7);
+root.right.right = new TreeNode(20);
+
+console.log(isValidBST(root)); // Output: true
+```
+
+### Explanation:
+1. The function `isValidBST` takes three arguments: the current node (`node`), and optional `min` and `max` bounds.
+2. For each node, it checks if the node's value lies within the valid range defined by `min` and `max`.
+3. The function is called recursively for both left and right subtrees, updating the bounds accordingly.
+4. If any node violates the BST property, it returns `false`; otherwise, it returns `true`.
+
+
+> ### fix a BST with two nodes swapped
+
+When two nodes in a Binary Search Tree (BST) are swapped by mistake, the tree no longer satisfies the BST property. To fix this, you need to identify the two swapped nodes and swap them back to restore the tree's properties.
+
+Here's a solution to fix a BST with two swapped nodes in JavaScript. The approach leverages an in-order traversal to identify the two nodes that were swapped, since the in-order traversal of a valid BST should yield a sorted sequence of values.
+
+### Steps:
+1. Perform an in-order traversal of the tree.
+2. During the traversal, identify two swapped nodes:
+   - The first node is the first node where the value decreases (i.e., `prev > current`).
+   - The second node is the node where the value is less than the previous node later in the traversal.
+3. Swap their values to fix the tree.
+
+### Code:
+
+```js
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function fixBST(root) {
+  let first = null;
+  let second = null;
+  let prev = new TreeNode(-Infinity); // Initialize previous node to -Infinity
+
+  function inorderTraversal(node) {
+    if (!node) return;
+
+    // Traverse left subtree
+    inorderTraversal(node.left);
+
+    // Find the two nodes that are swapped
+    if (prev && node.value < prev.value) {
+      // The first time we encounter the anomaly
+      if (!first) {
+        first = prev; // The first node that's out of order
+      }
+      // The second time we encounter the anomaly
+      second = node; // The second node that's out of order
+    }
+
+    // Move the previous pointer to the current node
+    prev = node;
+
+    // Traverse right subtree
+    inorderTraversal(node.right);
+  }
+
+  // Perform in-order traversal to find swapped nodes
+  inorderTraversal(root);
+
+  // Swap values of the two nodes to correct the BST
+  if (first && second) {
+    const temp = first.value;
+    first.value = second.value;
+    second.value = temp;
+  }
+}
+
+// Example usage:
+
+let root = new TreeNode(10);
+root.left = new TreeNode(5);
+root.right = new TreeNode(8); // This should be 15
+root.left.left = new TreeNode(2);
+root.left.right = new TreeNode(7);
+root.right.right = new TreeNode(20); // This should be 8
+
+// The tree is now invalid because nodes 8 and 15 are swapped
+fixBST(root);
+
+// After fixing, the tree should now be valid
+function inorderPrint(node) {
+  if (!node) return;
+  inorderPrint(node.left);
+  console.log(node.value);
+  inorderPrint(node.right);
+}
+
+inorderPrint(root); // Output should be: 2, 5, 7, 10, 15, 20
+```
+
+### Explanation:
+- **In-order Traversal**: The tree is traversed in-order (left -> node -> right). For a valid BST, the in-order traversal will result in values in increasing order.
+- **Identify Swapped Nodes**: The algorithm detects two nodes that violate this order.
+  - The first node (`first`) is identified when the current node value is less than the previous node value.
+  - The second node (`second`) is identified later when the anomaly appears again.
+- **Swap Values**: Once the two nodes are identified, their values are swapped to restore the BST property.
+
+This solution ensures that the BST is corrected in `O(n)` time, where `n` is the number of nodes in the tree, and uses `O(h)` space, where `h` is the height of the tree.
+
+
+
+
+
 
 > ### height of binary tree
 
@@ -3933,6 +5010,89 @@ Given the following binary tree:
 
 ### Space Complexity:
 - **O(h)**, where `h` is the height of the tree due to the recursive call stack. In the worst case (for a skewed tree), this could be **O(n)**, but for a balanced tree, it would be **O(log n)**.
+
+
+> ###  Hash Table
+
+```js
+// A hash table uses a hash function to compute an index, also called a hash code, into an array of buckets or slots, from which the desired value can be found.
+// common example of hash table is object in JS.
+
+
+// charactristics of hashes
+// 1. They are one way
+// 2. Hashes are deterministic, means if you run nails through this equation and it produces the number, the next time you run nails it will produce same number
+
+// collision - It is a situation when we have an item that maps to that same spot in memory
+
+// hash function always give the same number when same input is passed through it
+
+// If we have a prime number. we get a more randomized distribution of the items, which is optimal.
+
+// Big O of hash table
+
+// - Access    => O(1) || O(n). (keep in we are here considering key not the value lookup)
+// - Insert    => O(1).
+// - Delete    => O(1).
+
+class HashTable {
+    constructor(size = 7){
+        this.dataMap = new Array(size)
+    }
+
+    _hash(key){
+        let hash = 0
+        for (let i = 0; i < key.length; i++) {
+            hash = (hash + key.charCodeAt(i) * 23) % this.dataMap.length
+        }
+        return hash
+    }
+
+    // O(1)
+    set(key, value){
+        let index = this._hash(key)
+        if(!this.dataMap[index]){
+            this.dataMap[index] = []  // O(1)
+        }
+        this.dataMap[index].push([key, value]) // O(1)
+        return this
+    }
+
+    // O(1) || O(n)
+    get(key) {
+        // we get the index position in table
+        let index = this._hash(key) // O(1)
+    
+        if (this.dataMap(index)) {
+
+            // Here we are looping becuse at particular index we have two or more data
+            for (let i = 0; i < this.dataMap[index].length; i++) { // O(1) || O(n)
+                if (this.dataMap[index][i][0] === key) {
+                    return this.dataMap[index][i][1]
+                }
+            }
+            return undefined // O(1)
+        }
+    }
+
+    keys(){
+        let allKeys = []
+
+        for (let i = 0; i < this.dataMap.length; i++) {
+            if(this.dataMap[i]){
+                for (let j = 0; j < this.dataMap[i].length; j++) {
+                    allKeys.push(this.dataMap[i][j][0])
+                }
+            }
+        }
+        return allKeys
+    }
+}
+
+let myHashtable = new HashTable()
+myHashtable
+
+```
 
 
 ```js
