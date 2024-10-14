@@ -4860,7 +4860,133 @@ inorderPrint(root); // Output should be: 2, 5, 7, 10, 15, 20
 This solution ensures that the BST is corrected in `O(n)` time, where `n` is the number of nodes in the tree, and uses `O(h)` space, where `h` is the height of the tree.
 
 
+> ### Pair with given sum in BST
 
+To find if there exists a pair of nodes in a Binary Search Tree (BST) that sums to a given value, you can take advantage of the BST property, which allows you to traverse the tree in sorted order. Here are two possible approaches:
+
+### 1. In-order Traversal + Two Pointers (Optimal Solution)
+
+This approach uses in-order traversal to convert the BST into a sorted array, and then uses a two-pointer technique to find the pair that adds up to the target sum.
+
+### Steps:
+1. Perform an in-order traversal to extract the values of the BST in a sorted array.
+2. Use the two-pointer technique on this array to find the pair with the given sum.
+
+### Code:
+
+```js
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+function findPairWithSumBST(root, target) {
+  const inorder = [];
+
+  // In-order traversal to collect node values in sorted order
+  function inorderTraversal(node) {
+    if (!node) return;
+    inorderTraversal(node.left);
+    inorder.push(node.value);
+    inorderTraversal(node.right);
+  }
+
+  inorderTraversal(root);
+
+  // Use two-pointer technique to find a pair with the given sum
+  let left = 0;
+  let right = inorder.length - 1;
+
+  while (left < right) {
+    const sum = inorder[left] + inorder[right];
+
+    if (sum === target) {
+      return [inorder[left], inorder[right]]; // Return the pair
+    } else if (sum < target) {
+      left++; // Move left pointer to increase sum
+    } else {
+      right--; // Move right pointer to decrease sum
+    }
+  }
+
+  return null; // No pair found
+}
+
+// Example usage:
+
+let root = new TreeNode(10);
+root.left = new TreeNode(5);
+root.right = new TreeNode(15);
+root.left.left = new TreeNode(3);
+root.left.right = new TreeNode(7);
+root.right.left = new TreeNode(12);
+root.right.right = new TreeNode(18);
+
+const targetSum = 22;
+const result = findPairWithSumBST(root, targetSum);
+
+if (result) {
+  console.log(`Pair found: ${result[0]} and ${result[1]}`);
+} else {
+  console.log('No pair found');
+}
+```
+
+### Explanation:
+1. **In-order Traversal**: We traverse the tree in-order, which guarantees that the values will be sorted in ascending order.
+2. **Two-pointer Technique**: Once we have the sorted array, we use two pointers (`left` and `right`). The `left` pointer starts from the beginning, and the `right` pointer starts from the end. We move them based on the sum of the values they point to:
+   - If the sum is equal to the target, we return the pair.
+   - If the sum is less than the target, we increment the `left` pointer to get a larger sum.
+   - If the sum is greater than the target, we decrement the `right` pointer to get a smaller sum.
+
+This approach runs in `O(n)` time for both the traversal and the two-pointer search, where `n` is the number of nodes in the tree. It also requires `O(n)` space for the array storing the in-order traversal.
+
+### 2. Using HashSet (Alternative Approach)
+Alternatively, you can use a HashSet to store the values you've seen so far as you traverse the tree. For each node, check if `target - currentNodeValue` exists in the set. If it does, you have found a pair.
+
+Here's a code example for this approach:
+
+```js
+function findPairWithSumBSTUsingSet(root, target) {
+  const set = new Set();
+
+  function findPair(node) {
+    if (!node) return false;
+
+    // Check if the complement (target - node.value) exists in the set
+    if (set.has(target - node.value)) {
+      console.log(`Pair found: ${target - node.value} and ${node.value}`);
+      return true;
+    }
+
+    // Add current node value to the set
+    set.add(node.value);
+
+    // Recursively check left and right subtrees
+    return findPair(node.left) || findPair(node.right);
+  }
+
+  return findPair(root);
+}
+
+// Example usage:
+
+const found = findPairWithSumBSTUsingSet(root, targetSum);
+
+if (!found) {
+  console.log('No pair found');
+}
+```
+
+### Explanation:
+- As you traverse the tree, you store each value in the set.
+- For each node, you check if its complement (`target - node.value`) exists in the set. If it does, you have found a pair.
+- This approach runs in `O(n)` time and uses `O(n)` space for the set.
+
+Both approaches are efficient for finding a pair with a given sum in a BST, with the first approach being more structured for sorted traversal and the second being more direct.
 
 
 
@@ -5097,7 +5223,8 @@ myHashtable
 
 ```js
 
-// Graphs are bifirectional,
+// Graphs are bidirectional,
+// edge is line while vertics is point.
 // when adjacency matrix is formed in graps, it is symmetrical in shape
 // we create the adjacency list in object form.
 // adjacency list is much more easy to maintain and much efficient so we will use this
@@ -5161,7 +5288,7 @@ myGraph
 
 // Heaps
 // Heap is like binary tree, but numbers are laid out in a different way
-// Each node has a value that is greater than each of its descendants, max value is at top.
+// Each node has a value that is greater than each of its descendants, max value is at top.(ie Max heap, in min heap its is reverse)
 // heap can have duplicate node while binary tree do not.
 // when we add any value in heap, we add left to right and then we bubble up the heap, means repositioning so that highest be at the top
 
@@ -5197,6 +5324,50 @@ class Heap {
         this.#sinkDown(0)
 
         return maxValue
+    }
+
+    deleteKey(index) {
+        if (index < 0 || index >= this.#heap.length) {
+            throw new Error('Index out of bounds');
+        }
+
+        // Swap the element to be deleted with the last element
+        this.#swap(index, this.#heap.length - 1);
+        
+        // Remove the last element (the one to be deleted)
+        this.#heap.pop();
+        
+        // If there are remaining elements, adjust the heap
+        if (index < this.#heap.length) {
+            // Try to sink down or bubble up to maintain the heap property
+            this.#sinkDown(index);
+            if (index > 0 && this.#heap[index] > this.#heap[this.#parent(index)]) {
+                this.#bubbleUp(index);
+            }
+        }
+    }
+
+    #bubbleUp(index) {
+        while (index > 0 && this.#heap[index] > this.#heap[this.#parent(index)]) {
+            this.#swap(index, this.#parent(index));
+            index = this.#parent(index);
+        }
+    }
+
+    decreaseKey(index, newValue){
+        if (index < 0 || index >= this.#heap.length) {
+            throw new Error('Index out of bounds');
+        }
+
+        if (newValue > this.#heap[index]) {
+            throw new Error('New value is greater than the current value');
+        }
+
+        // Update the value at the given index
+        this.#heap[index] = newValue;
+
+        // Sink down the value to restore the heap property
+        this.#sinkDown(index);
     }
 
     // sinkdown is rearranging the value in downward direction
@@ -5248,8 +5419,570 @@ class Heap {
         [this.#heap[index1], this.#heap[index2]] = [this.#heap[index2], this.#heap[index1]]
     }
 }
+```
+
+> ### given random array, rearrange array to form the heap
+
+To rearrange a given random array into a heap, you can use the **heapify** algorithm. Heapifying transforms an unordered array into a valid binary heap. For a max-heap, each parent node should be greater than or equal to its children. This can be achieved by starting from the bottom-most non-leaf node and applying the **sink down** operation up to the root.
+
+The process involves:
+1. Identifying the last non-leaf node (the parent of the last element).
+2. Applying the sink down operation (also known as "heapify") on each node starting from the last non-leaf node up to the root.
+
+Here’s how you can implement this in the `Heap` class:
+
+### Heapify Function:
+
+```javascript
+class Heap {
+    #heap = [];
+
+    // Construct heap from an array
+    constructor(arr) {
+        this.#heap = arr;
+        this.heapify();
+    }
+
+    // Insert function remains the same
+    insert(value){
+        this.#heap.push(value);
+        let current = this.#heap.length - 1;
+
+        while(current > 0 && this.#heap[current] > this.#heap[this.#parent(current)]){
+            this.#swap(current, this.#parent(current));
+            current = this.#parent(current);
+        }
+    }
+
+    // Remove function remains the same
+    remove(){
+        if(this.#heap.length === 0){
+            return null;
+        }
+
+        if(this.#heap.length === 1){
+            return this.#heap.pop();
+        }
+
+        const maxValue = this.#heap[0];
+        this.#heap[0] = this.#heap.pop();
+        this.#sinkDown(0);
+
+        return maxValue;
+    }
+
+    // Heapify function to rearrange the array into a heap
+    heapify() {
+        let n = this.#heap.length;
+        // Start from the last non-leaf node and go upwards
+        for (let i = this.#parent(n - 1); i >= 0; i--) {
+            this.#sinkDown(i);
+        }
+    }
+
+    #sinkDown(index) {
+        let maxIndex = index;
+        let size = this.#heap.length;
+        
+        while (true) {
+            let leftIndex = this.#leftChild(index);
+            let rightIndex = this.#rightChild(index);
+            
+            if (leftIndex < size && this.#heap[leftIndex] > this.#heap[maxIndex]) {
+                maxIndex = leftIndex;
+            }
+            
+            if (rightIndex < size && this.#heap[rightIndex] > this.#heap[maxIndex]) {
+                maxIndex = rightIndex;
+            }
+            
+            if (maxIndex !== index) {
+                this.#swap(index, maxIndex);
+                index = maxIndex;
+            } else {
+                return;
+            }
+        }
+    }
+
+    getHeap(){
+        return [...this.#heap];
+    }
+
+    #leftChild(index){
+        return 2 * index + 1;
+    }
+
+    #rightChild(index){
+        return 2 * index + 2;
+    }
+
+    #parent(index){
+        return Math.floor((index - 1) / 2);
+    }
+
+    #swap(index1, index2){
+        [this.#heap[index1], this.#heap[index2]] = [this.#heap[index2], this.#heap[index1]];
+    }
+}
+```
+
+### Explanation:
+1. **`heapify()`**: The `heapify` function starts from the last non-leaf node (the parent of the last element) and performs the sink down operation on every node up to the root. This ensures that the entire array satisfies the heap property.
+   - The last non-leaf node is at index `Math.floor((n - 1) / 2)`, where `n` is the size of the heap (or array).
+2. **`#sinkDown()`**: This is the same as before and ensures that each node satisfies the heap property by swapping the current node with its larger child if necessary.
+
+### Usage:
+Now, you can create a heap from any random array by passing it to the constructor:
+
+```javascript
+let randomArray = [3, 9, 2, 1, 4, 5];
+let heap = new Heap(randomArray);
+
+console.log(heap.getHeap());  // Output: The array rearranged as a valid max-heap
+```
+
+If you run this, the `randomArray` will be rearranged to form a valid max-heap.
 
 
+> ### Heap Sort
+
+
+Heap sort is a comparison-based sorting algorithm that uses the properties of a binary heap to efficiently sort an array. It works in two main steps:
+
+1. **Heapify the array**: Convert the input array into a max-heap.
+2. **Sort the array**:
+   - Repeatedly swap the root (maximum value) of the heap with the last element.
+   - Reduce the heap size and call `sinkDown` (heapify) on the new root to maintain the heap property.
+   - Repeat this process until the array is sorted.
+
+### Steps for Heap Sort:
+1. **Heapify the entire array**.
+2. **Extract the maximum element** (which is at the root of the max-heap) and place it at the end of the array.
+3. **Reduce the heap size by 1** and repeat the process for the remaining heap.
+
+Here’s how you can implement heap sort in the `Heap` class:
+
+### Heap Sort Implementation:
+
+```javascript
+class Heap {
+    #heap = [];
+
+    // Construct heap from an array
+    constructor(arr) {
+        this.#heap = arr;
+        this.heapify();
+    }
+
+    // Insert function (not required for heap sort, but keeping it for completeness)
+    insert(value){
+        this.#heap.push(value);
+        let current = this.#heap.length - 1;
+
+        while(current > 0 && this.#heap[current] > this.#heap[this.#parent(current)]){
+            this.#swap(current, this.#parent(current));
+            current = this.#parent(current);
+        }
+    }
+
+    // Remove function (also not required for heap sort)
+    remove(){
+        if(this.#heap.length === 0){
+            return null;
+        }
+
+        if(this.#heap.length === 1){
+            return this.#heap.pop();
+        }
+
+        const maxValue = this.#heap[0];
+        this.#heap[0] = this.#heap.pop();
+        this.#sinkDown(0);
+
+        return maxValue;
+    }
+
+    // Heapify the array to build a valid max-heap
+    heapify() {
+        let n = this.#heap.length;
+        for (let i = this.#parent(n - 1); i >= 0; i--) {
+            this.#sinkDown(i);
+        }
+    }
+
+    // Heap sort function
+    heapSort() {
+        let n = this.#heap.length;
+
+        // First step: Heapify the array (already done in constructor)
+        // Second step: Repeatedly extract the maximum element and restore the heap
+        for (let i = n - 1; i > 0; i--) {
+            // Move the current max (root of heap) to the end of the array
+            this.#swap(0, i);
+            // Reduce the heap size and heapify the root element
+            this.#sinkDown(0, i);  // Pass 'i' to limit the heap size
+        }
+
+        return this.#heap;  // The sorted array
+    }
+
+    // Sink down function (modified to allow limiting the heap size for heap sort)
+    #sinkDown(index, size = this.#heap.length) {
+        let maxIndex = index;
+        
+        while (true) {
+            let leftIndex = this.#leftChild(index);
+            let rightIndex = this.#rightChild(index);
+            
+            if (leftIndex < size && this.#heap[leftIndex] > this.#heap[maxIndex]) {
+                maxIndex = leftIndex;
+            }
+            
+            if (rightIndex < size && this.#heap[rightIndex] > this.#heap[maxIndex]) {
+                maxIndex = rightIndex;
+            }
+            
+            if (maxIndex !== index) {
+                this.#swap(index, maxIndex);
+                index = maxIndex;
+            } else {
+                return;
+            }
+        }
+    }
+
+    getHeap(){
+        return [...this.#heap];
+    }
+
+    #leftChild(index){
+        return 2 * index + 1;
+    }
+
+    #rightChild(index){
+        return 2 * index + 2;
+    }
+
+    #parent(index){
+        return Math.floor((index - 1) / 2);
+    }
+
+    #swap(index1, index2){
+        [this.#heap[index1], this.#heap[index2]] = [this.#heap[index2], this.#heap[index1]];
+    }
+}
+```
+
+### Explanation:
+
+1. **Heapify**: The array is first heapified using the `heapify()` function.
+2. **Heap Sort**:
+   - In the `heapSort()` function, we start by swapping the root (the largest element in a max-heap) with the last element of the array.
+   - Then, we reduce the size of the heap by one and apply `#sinkDown()` to the root to maintain the heap property.
+   - This process is repeated until the entire array is sorted.
+
+### Usage:
+
+You can now perform heap sort on any array as follows:
+
+```javascript
+let randomArray = [3, 9, 2, 1, 4, 5];
+let heap = new Heap(randomArray);
+
+console.log("Unsorted array:", heap.getHeap());
+
+heap.heapSort();
+
+console.log("Sorted array:", heap.getHeap());
+```
+
+### Time Complexity:
+- **Heapify**: O(n)
+- **Heap Sort**: O(n log n)
+
+Heap sort is efficient, and in-place, and has a time complexity of **O(n log n)** for sorting an array. This implementation sorts the array in descending order because we are using a **max-heap**. If you want to sort in ascending order, simply reverse the result at the end.
+
+
+> ### Priority queue
+
+A **priority queue** is a special type of queue where each element is assigned a priority, and elements are dequeued in order of their priority rather than the order in which they were added. In the case of a **max-priority queue**, the highest priority (or the largest element) is dequeued first. In a **min-priority queue**, the smallest element is dequeued first.
+
+A **heap** is commonly used to implement a priority queue because heaps efficiently support the insertion and removal of elements with a time complexity of **O(log n)**.
+
+Let's extend the `Heap` class to implement a **priority queue**.
+
+### Priority Queue Implementation
+
+We will:
+1. **Insert** elements with priority.
+2. **Extract** elements based on their priority (i.e., either maximum or minimum depending on the type of heap).
+
+Here’s a max-priority queue (using a max-heap) implementation:
+
+```javascript
+class PriorityQueue {
+    #heap = [];
+
+    // Insert a new element with its priority
+    insert(value) {
+        this.#heap.push(value);
+        let current = this.#heap.length - 1;
+
+        // Bubble up to maintain the heap property
+        while (current > 0 && this.#heap[current] > this.#heap[this.#parent(current)]) {
+            this.#swap(current, this.#parent(current));
+            current = this.#parent(current);
+        }
+    }
+
+    // Remove and return the element with the highest priority (max element)
+    extractMax() {
+        if (this.#heap.length === 0) {
+            return null;  // If the heap is empty
+        }
+
+        if (this.#heap.length === 1) {
+            return this.#heap.pop();  // If there's only one element
+        }
+
+        const maxValue = this.#heap[0];  // The max element (root of the heap)
+        this.#heap[0] = this.#heap.pop();  // Move the last element to the root
+        this.#sinkDown(0);  // Sink down the new root to maintain heap property
+
+        return maxValue;  // Return the max element
+    }
+
+    // Peek at the highest priority element without removing it
+    peek() {
+        if (this.#heap.length === 0) {
+            return null;
+        }
+        return this.#heap[0];  // The root contains the highest priority element
+    }
+
+    // Sink down to maintain the heap property after removal
+    #sinkDown(index) {
+        let maxIndex = index;
+        let size = this.#heap.length;
+        
+        while (true) {
+            let leftIndex = this.#leftChild(index);
+            let rightIndex = this.#rightChild(index);
+            
+            if (leftIndex < size && this.#heap[leftIndex] > this.#heap[maxIndex]) {
+                maxIndex = leftIndex;
+            }
+            
+            if (rightIndex < size && this.#heap[rightIndex] > this.#heap[maxIndex]) {
+                maxIndex = rightIndex;
+            }
+            
+            if (maxIndex !== index) {
+                this.#swap(index, maxIndex);
+                index = maxIndex;
+            } else {
+                break;
+            }
+        }
+    }
+
+    // Get the current heap (optional for debugging purposes)
+    getHeap() {
+        return [...this.#heap];
+    }
+
+    #leftChild(index) {
+        return 2 * index + 1;
+    }
+
+    #rightChild(index) {
+        return 2 * index + 2;
+    }
+
+    #parent(index) {
+        return Math.floor((index - 1) / 2);
+    }
+
+    #swap(index1, index2) {
+        [this.#heap[index1], this.#heap[index2]] = [this.#heap[index2], this.#heap[index1]];
+    }
+}
+```
+
+### Explanation:
+
+1. **Insert**: When inserting an element, we add it to the end of the heap (array) and then "bubble up" to ensure the heap property is maintained (i.e., parents are larger than children for a max-heap).
+   
+2. **ExtractMax**: The highest-priority element (root) is extracted by swapping it with the last element, removing the last element, and then applying the `sinkDown` operation to restore the heap property.
+
+3. **Peek**: You can peek at the highest priority element (the root) without removing it.
+
+### Usage:
+
+```javascript
+let pq = new PriorityQueue();
+
+// Insert elements with priority
+pq.insert(10);
+pq.insert(20);
+pq.insert(5);
+pq.insert(30);
+
+console.log("Priority Queue:", pq.getHeap());  // [30, 20, 5, 10]
+
+// Extract max priority elements
+console.log("Extract Max:", pq.extractMax());  // 30
+console.log("Priority Queue after extract:", pq.getHeap());  // [20, 10, 5]
+
+// Peek at the highest priority element
+console.log("Peek Max:", pq.peek());  // 20
+```
+
+### Time Complexity:
+- **Insert**: O(log n)
+- **Extract Max**: O(log n)
+- **Peek**: O(1)
+
+### Min-Priority Queue:
+If you want to implement a **min-priority queue**, where the smallest element has the highest priority, you simply need to modify the `insert` and `extractMin` functions to compare elements in the opposite way. Specifically:
+- Change comparisons in `insert` and `sinkDown` so that smaller elements are moved upwards (for `bubbleUp`) and downwards (for `sinkDown`).
+
+
+
+> ### Sort a K Sorted Array ( [Youtube video](https://www.youtube.com/watch?v=dYfM6J1y0mU&ab_channel=AdityaVerma) )
+
+A **K-sorted array** (also known as a nearly sorted array) is an array where each element is at most `K` positions away from its target position. The goal is to efficiently sort this array.
+
+To solve this problem, we can take advantage of a **min-heap**. The idea is to:
+1. Use a heap of size `K+1` to keep track of the next `K+1` elements. Since every element is at most `K` positions away, the minimum element among the first `K+1` elements is guaranteed to be in its correct position.
+2. As we move through the array, we extract the minimum element from the heap (which is in its correct position) and insert the next element from the array into the heap.
+
+### Algorithm Steps:
+1. Initialize a min-heap and insert the first `K+1` elements from the array into it.
+2. Pop the minimum element from the heap (this will be the smallest element and in the correct position) and insert the next element from the array into the heap.
+3. Repeat this process until you reach the end of the array.
+4. Once the array has been traversed, continue to extract the remaining elements from the heap and place them in the array.
+
+### Time Complexity:
+- Building the initial heap with `K+1` elements takes **O(K)**.
+- Extracting the minimum element and inserting a new element both take **O(log K)**, and since you do this for each element, the overall complexity is **O(n log K)**, where `n` is the total number of elements in the array.
+
+### Code Implementation:
+
+```javascript
+class MinHeap {
+    constructor() {
+        this.heap = [];
+    }
+
+    // Insert an element into the min-heap
+    insert(value) {
+        this.heap.push(value);
+        this.bubbleUp();
+    }
+
+    // Extract the minimum element from the heap
+    extractMin() {
+        if (this.heap.length === 0) return null;
+        if (this.heap.length === 1) return this.heap.pop();
+
+        const minValue = this.heap[0];
+        this.heap[0] = this.heap.pop();
+        this.sinkDown(0);
+
+        return minValue;
+    }
+
+    // Bubble up the last element to maintain heap property
+    bubbleUp() {
+        let index = this.heap.length - 1;
+        while (index > 0) {
+            let parentIndex = Math.floor((index - 1) / 2);
+            if (this.heap[index] >= this.heap[parentIndex]) break;
+
+            // Swap with parent
+            [this.heap[index], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[index]];
+            index = parentIndex;
+        }
+    }
+
+    // Sink down the root element to maintain heap property
+    sinkDown(index) {
+        let size = this.heap.length;
+        let leftChild = 2 * index + 1;
+        let rightChild = 2 * index + 2;
+        let smallest = index;
+
+        if (leftChild < size && this.heap[leftChild] < this.heap[smallest]) {
+            smallest = leftChild;
+        }
+        if (rightChild < size && this.heap[rightChild] < this.heap[smallest]) {
+            smallest = rightChild;
+        }
+
+        if (smallest !== index) {
+            // Swap and continue sinking down
+            [this.heap[index], this.heap[smallest]] = [this.heap[smallest], this.heap[index]];
+            this.sinkDown(smallest);
+        }
+    }
+}
+
+function sortKSortedArray(arr, k) {
+    let heap = new MinHeap();
+    let result = [];
+    let n = arr.length;
+
+    // Insert the first K+1 elements into the heap
+    for (let i = 0; i < Math.min(k + 1, n); i++) {
+        heap.insert(arr[i]);
+    }
+
+    // Process the remaining elements in the array
+    for (let i = k + 1; i < n; i++) {
+        result.push(heap.extractMin());  // Extract min element and place it in result
+        heap.insert(arr[i]);  // Insert next element from the array into the heap
+    }
+
+    // Extract the remaining elements from the heap
+    while (heap.heap.length > 0) {
+        result.push(heap.extractMin());
+    }
+
+    return result;
+}
+
+// Example usage:
+let arr = [6, 5, 3, 2, 8, 10, 9];
+let k = 3;
+
+console.log("Original K-sorted array:", arr);
+let sortedArray = sortKSortedArray(arr, k);
+console.log("Sorted array:", sortedArray);
+```
+
+### Explanation:
+
+1. **MinHeap Class**: This is a standard min-heap implementation with methods to `insert`, `extractMin`, `bubbleUp`, and `sinkDown` to maintain the heap property.
+2. **sortKSortedArray Function**:
+   - First, we insert the first `K+1` elements into the heap.
+   - We then go through the rest of the array, always extracting the minimum element and inserting the next element from the array into the heap.
+   - After processing all the elements, the remaining elements in the heap are extracted.
+
+### Example:
+
+For the array `[6, 5, 3, 2, 8, 10, 9]` with `K = 3`, the sorted array will be:
+
+```
+Original K-sorted array: [6, 5, 3, 2, 8, 10, 9]
+Sorted array: [2, 3, 5, 6, 8, 9, 10]
+```
+
+This algorithm efficiently sorts the array while leveraging the property that each element is at most `K` positions away from its target position.
+
+
+```js
 // Tree Traversal
 
 // BFS - Breadth First Search - is a vertex-based technique for finding the shortest path in the graph. 
