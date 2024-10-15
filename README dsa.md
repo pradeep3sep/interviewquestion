@@ -5220,12 +5220,34 @@ myHashtable
 
 ```
 
+> ### Below is for the GRAPH
+
+
+> ### Tree vs Graph
+![screenshot](images/treevsgraph.png)
+
+> ### Direct vs Indirect Graph
+
+![screenshot](images/directVSindirect.png)
+
+> ### Weight VS Unweighted Graph
+
+![screenshot](images/wightVSunweight.png)
+
+> ### Graph Represenation  -  Adjacency Matrix
+![screenshot](images/adjacencyMatrix.png)
+
+
+> ### Graph Represenation  -  Adjacency List
+![screenshot](images/adjacencyList.png)
+
 
 ```js
 
 // Graphs are bidirectional,
 // edge is line while vertics is point.
 // when adjacency matrix is formed in graps, it is symmetrical in shape
+// we have both type ie adjacency list and matrix, but for the code purpose and efficiency we use the adjacency List
 // we create the adjacency list in object form.
 // adjacency list is much more easy to maintain and much efficient so we will use this
 
@@ -5280,12 +5302,783 @@ class Graph {
         return this
         
     }
+
+    // https://youtu.be/dCvnjapI6ik?si=osd_nk716OwzbxA_
+    // https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+    bfs(start) {  
+        const queue = [start]; // Initialize queue with the starting vertex
+        const result = []; // To store the BFS traversal result
+        const visited = {}; // To keep track of visited vertices
+        visited[start] = true; // Mark the start vertex as visited
+
+        while (queue.length) {
+            let vertex = queue.shift(); // Dequeue a vertex
+            result.push(vertex); // Add it to the result list
+
+            this.adjacencyList[vertex].forEach(neighbor => {
+                if (!visited[neighbor]) { // If the neighbor hasn't been visited
+                    visited[neighbor] = true; // Mark it as visited
+                    queue.push(neighbor); // Enqueue the neighbor
+                }
+            });
+        }
+
+        return result;
+    }
+
+    // Recursive DFS
+    // https://www.youtube.com/watch?v=0ql7lZS2qt0&ab_channel=AnujBhaiya
+    // https://www.geeksforgeeks.org/depth-first-search-or-dfs-for-a-graph/
+    dfsRecursive(start) {
+        const result = []; // Store DFS result
+        const visited = {}; // Track visited nodes
+
+        const dfs = (vertex) => {
+            if (!vertex) return null;
+            visited[vertex] = true; // Mark as visited
+            result.push(vertex); // Add to result
+
+            // Recursively visit all neighbors
+            this.adjacencyList[vertex].forEach(neighbor => {
+                if (!visited[neighbor]) {
+                    dfs(neighbor);
+                }
+            });
+        };
+
+        dfs(start); // Start DFS from the starting vertex
+        return result;
+    }
+
+    // Iterative DFS
+    dfsIterative(start) {
+        const stack = [start]; // Use stack instead of queue
+        const result = []; // Store DFS result
+        const visited = {}; // Track visited nodes
+        visited[start] = true;
+
+        while (stack.length) {
+            let vertex = stack.pop(); // Pop the vertex from the stack
+            result.push(vertex);
+
+            // Push all unvisited neighbors onto the stack
+            this.adjacencyList[vertex].forEach(neighbor => {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true; 
+                    stack.push(neighbor);
+                }
+            });
+        }
+
+        return result;
+    }
+
+
+    // Display the graph
+    display() {
+        for (let vertex in this.adjacencyList) {
+            console.log(vertex, ":", this.adjacencyList[vertex]);
+        }
+    }
 }
 
-let myGraph = new Graph()
-myGraph
+// Example usage
+let myGraph = new Graph();
+myGraph.addVertex(0);
+myGraph.addVertex(1);
+myGraph.addVertex(2);
+myGraph.addVertex(3);
+myGraph.addVertex(4);
+myGraph.addVertex(5);
+
+myGraph.addEdge(0, 1);
+myGraph.addEdge(0, 2);
+myGraph.addEdge(1, 3);
+myGraph.addEdge(1, 4);
+myGraph.addEdge(4, 5);
+
+console.log("Graph display:");
+myGraph.display();
+
+console.log("DFS Recursive:", myGraph.dfsRecursive(0)); // Expected Output: [0, 1, 3, 4, 5, 2]
+console.log("DFS Iterative:", myGraph.dfsIterative(0)); // Expected Output: [0, 2, 1, 4, 5, 3]
 
 
+```
+
+> ### shortest path in unweight graph ( [Youtube video](https://www.youtube.com/watch?v=yysA7ZM2jjA&ab_channel=HelloWorld) )
+
+```
+https://www.youtube.com/watch?v=abIEXKFpLNE&ab_channel=CodeHelp-byBabbar
+```
+
+To find the **shortest path in an unweighted graph**, you can use **Breadth-First Search (BFS)**. Since all edges in an unweighted graph have the same weight, BFS guarantees the shortest path by visiting nodes layer by layer.
+
+### BFS for Shortest Path
+
+Here’s how you can modify your existing `Graph` class to implement the shortest path using BFS:
+
+```javascript
+class Graph {
+    constructor(){
+        this.adjacencyList = {};
+    }
+
+    addVertex(vertex) {
+        if (!this.adjacencyList[vertex]) {
+            this.adjacencyList[vertex] = [];
+        }
+    }
+
+    addEdge(vertex1, vertex2) {
+        if (this.adjacencyList[vertex1] && this.adjacencyList[vertex2]) {
+            this.adjacencyList[vertex1].push(vertex2);
+            this.adjacencyList[vertex2].push(vertex1);
+        }
+    }
+
+    // BFS for Shortest Path
+    shortestPath(start, target) {
+        const queue = [[start]];  // Initialize queue with the start vertex as a path
+        const visited = new Set();  // To track visited vertices
+        visited.add(start);
+
+        while (queue.length) {
+            const path = queue.shift();  // Get the first path from the queue
+            const vertex = path[path.length - 1];  // Get the last vertex from the path
+
+            // If the last vertex is the target, return the path (shortest path)
+            if (vertex === target) {
+                return path;
+            }
+
+            // Loop through the neighbors of the current vertex
+            this.adjacencyList[vertex].forEach(neighbor => {
+                if (!visited.has(neighbor)) {  // If neighbor hasn't been visited
+                    visited.add(neighbor);  // Mark it as visited
+                    const newPath = [...path, neighbor];  // Create a new path with this neighbor
+                    queue.push(newPath);  // Add the new path to the queue
+                }
+            });
+        }
+
+        return null;  // Return null if no path found
+    }
+
+    // Display the graph
+    display() {
+        for (let vertex in this.adjacencyList) {
+            console.log(vertex, ":", this.adjacencyList[vertex]);
+        }
+    }
+}
+
+// Example usage
+let myGraph = new Graph();
+myGraph.addVertex(0);
+myGraph.addVertex(1);
+myGraph.addVertex(2);
+myGraph.addVertex(3);
+myGraph.addVertex(4);
+myGraph.addVertex(5);
+
+myGraph.addEdge(0, 1);
+myGraph.addEdge(0, 2);
+myGraph.addEdge(1, 3);
+myGraph.addEdge(1, 4);
+myGraph.addEdge(4, 5);
+
+console.log("Graph display:");
+myGraph.display();
+
+console.log("Shortest path from 0 to 5:", myGraph.shortestPath(0, 5));  // Expected Output: [0, 1, 4, 5]
+```
+
+### Explanation:
+1. **`queue = [[start]]`**: The queue holds paths, not just vertices. Initially, the path only contains the start vertex.
+2. **Visited Set**: Keeps track of visited vertices to avoid cycles.
+3. **BFS Process**: 
+   - Dequeue a path, check its last vertex.
+   - If this vertex is the target, the path is returned as it represents the shortest path.
+   - Otherwise, for each neighbor, a new path is created and added to the queue.
+4. **Termination**: The algorithm stops once the target is found, ensuring the shortest path is returned. If no path is found, it returns `null`.
+
+This BFS-based approach ensures that the first time the target vertex is found, you get the shortest path in terms of the number of edges.
+
+
+> ### Topological sort of graph using DFS  ( [Youtube video](https://www.youtube.com/watch?v=T_boOrr0rvk&ab_channel=CodeHelp-byBabbar) )
+
+**Topological sorting** is an algorithm used for **Directed Acyclic Graphs (DAGs)**. It orders the vertices in such a way that for every directed edge `u -> v`, vertex `u` comes before vertex `v`. A common way to perform topological sorting is through **DFS** (Depth-First Search).
+
+Here’s how you can implement **topological sorting** in your `Graph` class using DFS:
+
+### Topological Sort Using DFS:
+
+```javascript
+class Graph {
+    constructor(){
+        this.adjacencyList = {};
+    }
+
+    addVertex(vertex) {
+        if (!this.adjacencyList[vertex]) {
+            this.adjacencyList[vertex] = [];
+        }
+    }
+
+    addEdge(vertex1, vertex2) {
+        if (this.adjacencyList[vertex1] && this.adjacencyList[vertex2]) {
+            this.adjacencyList[vertex1].push(vertex2); // Directed edge from vertex1 to vertex2
+        }
+    }
+
+    // Topological Sort using DFS
+    topologicalSort() {
+        const visited = new Set();  // Track visited nodes
+        const stack = [];  // To store the topologically sorted elements
+
+        const dfs = (vertex) => {
+            visited.add(vertex);  // Mark the vertex as visited
+
+            // Visit all its neighbors (adjacent vertices)
+            this.adjacencyList[vertex].forEach(neighbor => {
+                if (!visited.has(neighbor)) {
+                    dfs(neighbor);  // Recursively visit unvisited neighbors
+                }
+            });
+
+            stack.push(vertex);  // Push the vertex onto the stack after visiting its neighbors
+        };
+
+        // Perform DFS on each vertex
+        for (let vertex in this.adjacencyList) {
+            if (!visited.has(vertex)) {
+                dfs(vertex);
+            }
+        }
+
+        // The stack contains the topological order in reverse
+        return stack.reverse();  // Reverse to get the correct topological order
+    }
+
+    // Display the graph
+    display() {
+        for (let vertex in this.adjacencyList) {
+            console.log(vertex, ":", this.adjacencyList[vertex]);
+        }
+    }
+}
+
+// Example usage
+let myGraph = new Graph();
+myGraph.addVertex("A");
+myGraph.addVertex("B");
+myGraph.addVertex("C");
+myGraph.addVertex("D");
+myGraph.addVertex("E");
+myGraph.addVertex("F");
+
+myGraph.addEdge("A", "D");
+myGraph.addEdge("F", "B");
+myGraph.addEdge("B", "D");
+myGraph.addEdge("F", "A");
+myGraph.addEdge("D", "C");
+
+console.log("Graph display:");
+myGraph.display();
+
+console.log("Topological Sort:", myGraph.topologicalSort());  // Expected Output: [ 'F', 'A', 'B', 'D', 'C' ]
+```
+
+### Explanation:
+1. **Graph Representation**: The graph is represented as an adjacency list, where each vertex has a directed edge pointing to its neighbors.
+2. **DFS for Topological Sort**:
+   - **Visited Set**: A set is used to track visited vertices.
+   - **Stack**: The stack keeps track of the vertices in reverse order of their completion (i.e., when all neighbors have been processed).
+   - For each vertex, if it hasn’t been visited, perform DFS on it, and once its neighbors are processed, push it onto the stack.
+   - After visiting all vertices, the stack contains the vertices in topological order (but in reverse, so we reverse it at the end).
+3. **Cycle Handling**: This method works for **Directed Acyclic Graphs (DAGs)**. If there's a cycle in the graph, topological sorting is not possible, and the algorithm should be adjusted to detect cycles in such cases (can be done by checking for back edges).
+
+### Example:
+In the above example, the graph has the following structure:
+
+```
+F → A → D → C
+    ↓    ↑
+    B ← F
+```
+
+The topological sort outputs a valid order like `[ 'F', 'A', 'B', 'D', 'C' ]`, which respects the directed edges in the graph.
+
+### Time Complexity:
+- The time complexity is \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges, as it performs DFS for each vertex and processes each edge once.
+
+
+
+> ### Topological sorting using kahn's alogorithm ie BFS alogrithm approach ( [Youtube video](https://www.youtube.com/watch?v=6XmzL04mlgQ&ab_channel=CodeHelp-byBabbar) )
+
+
+### Kahn's Algorithm for Topological Sorting
+
+**Kahn's Algorithm** is a method to perform **topological sorting** of a **Directed Acyclic Graph (DAG)** using **BFS (Breadth-First Search)**. The algorithm works by repeatedly removing vertices with no incoming edges (in-degree = 0) and adding them to the topological order. This guarantees that for every directed edge `u -> v`, vertex `u` appears before vertex `v` in the topological order.
+
+### Steps in Kahn's Algorithm:
+1. **Calculate In-degree**: For each vertex in the graph, calculate its in-degree (the number of incoming edges).
+   
+2. **Initialize Queue**: Enqueue all vertices with an in-degree of `0` (these are the starting points that don't depend on any other vertices).
+
+3. **Process Queue**: While the queue is not empty:
+   - Dequeue a vertex and add it to the topological ordering.
+   - For each neighbor (vertex pointed to by the dequeued vertex), reduce its in-degree by 1. If the in-degree of any neighbor becomes `0`, enqueue that neighbor.
+
+4. **Check for Cycles**: Once the queue is empty, if the topological order contains all vertices, the graph is a DAG and the order is valid. If not, the graph contains a cycle (as some vertices will still have non-zero in-degrees).
+
+### Example
+
+```javascript
+class Graph {
+    constructor() {
+        this.adjacencyList = {};
+    }
+
+    addVertex(vertex) {
+        if (!this.adjacencyList[vertex]) {
+            this.adjacencyList[vertex] = [];
+        }
+    }
+
+    addEdge(vertex1, vertex2) {
+        if (this.adjacencyList[vertex1]) {
+            this.adjacencyList[vertex1].push(vertex2); // Directed edge from vertex1 to vertex2
+        }
+    }
+
+    // Kahn's Algorithm for Topological Sorting
+    topologicalSort() {
+        const inDegree = {};  // Stores the in-degree of each vertex
+        const queue = [];  // Queue for vertices with in-degree 0
+        const topologicalOrder = [];  // Result array
+
+        // Initialize in-degree of each vertex to 0
+        for (let vertex in this.adjacencyList) {
+            inDegree[vertex] = 0;
+        }
+
+        // Calculate in-degree of each vertex
+        for (let vertex in this.adjacencyList) {
+            this.adjacencyList[vertex].forEach(neighbor => {
+                inDegree[neighbor] = (inDegree[neighbor] || 0) + 1;
+            });
+        }
+
+        // Enqueue vertices with in-degree 0
+        for (let vertex in inDegree) {
+            if (inDegree[vertex] === 0) {
+                queue.push(vertex);
+            }
+        }
+
+        // Process the queue
+        while (queue.length > 0) {
+            const currentVertex = queue.shift();  // Dequeue a vertex with in-degree 0
+            topologicalOrder.push(currentVertex);  // Add it to the topological order
+
+            // For each neighbor, reduce its in-degree by 1
+            this.adjacencyList[currentVertex].forEach(neighbor => {
+                inDegree[neighbor] -= 1;
+                // If in-degree becomes 0, add the neighbor to the queue
+                if (inDegree[neighbor] === 0) {
+                    queue.push(neighbor);
+                }
+            });
+        }
+
+        // If the topological order doesn't contain all vertices, there is a cycle
+        if (topologicalOrder.length !== Object.keys(this.adjacencyList).length) {
+            return "Graph has a cycle!";
+        }
+
+        return topologicalOrder;
+    }
+}
+
+// Example usage
+let myGraph = new Graph();
+myGraph.addVertex("A");
+myGraph.addVertex("B");
+myGraph.addVertex("C");
+myGraph.addVertex("D");
+myGraph.addVertex("E");
+myGraph.addVertex("F");
+
+myGraph.addEdge("A", "D");
+myGraph.addEdge("F", "B");
+myGraph.addEdge("B", "D");
+myGraph.addEdge("F", "A");
+myGraph.addEdge("D", "C");
+
+console.log("Graph display:");
+myGraph.display();
+
+console.log("Topological Sort:", myGraph.topologicalSort());  // Expected Output: [ 'F', 'A', 'B', 'D', 'C' ]
+```
+
+### Explanation:
+1. **In-degree Calculation**:
+   - For each vertex, the in-degree is calculated by counting how many incoming edges it has. This is stored in the `inDegree` object.
+   - Vertices with no incoming edges (in-degree = 0) are the ones that can be processed immediately.
+   
+2. **Queue Initialization**:
+   - A queue is initialized with all vertices that have an in-degree of `0`, meaning they do not depend on any other vertex.
+
+3. **Processing Vertices**:
+   - Vertices are dequeued one by one, and for each dequeued vertex, its neighbors’ in-degrees are reduced by 1 (as their incoming edges are effectively "removed").
+   - If a neighbor’s in-degree becomes 0, it is enqueued since it can now be processed.
+
+4. **Cycle Detection**:
+   - If the topological sort contains fewer vertices than the total number of vertices in the graph, there is a cycle, meaning that not all vertices could be sorted.
+
+### Time Complexity:
+- **Time Complexity**: \( O(V + E) \), where \( V \) is the number of vertices and \( E \) is the number of edges. The algorithm visits every vertex and edge once.
+  
+### Space Complexity:
+- **Space Complexity**: \( O(V) \), since we store the in-degree for each vertex and use a queue for vertices with in-degree 0.
+
+### Key Points:
+- Kahn's Algorithm is used to perform topological sorting of a **DAG** using **BFS**.
+- It ensures that for every directed edge `u -> v`, vertex `u` comes before vertex `v` in the topological order.
+- It can also detect cycles, as a cycle in the graph will prevent some vertices from having in-degree 0, causing the algorithm to fail.
+
+
+> ### Detect Cycle in Undirected Graph  ( [Youtube video](https://www.youtube.com/watch?v=UPfUFoWjk5w&t=402s&ab_channel=AnujBhaiya) )
+
+To detect a cycle in an **undirected graph**, you can use either **Depth-First Search (DFS)** or **Union-Find (Disjoint Set)** methods. Below, I will explain both approaches for cycle detection in undirected graphs.
+
+### 1. **Cycle Detection Using DFS**
+
+The idea behind using **DFS** for cycle detection is that if you revisit a vertex that has already been visited and it is not the parent of the current vertex, then a cycle exists.
+
+#### Steps:
+- Perform DFS traversal.
+- Keep track of visited nodes.
+- If you find a neighbor that has been visited and is not the parent of the current node, a cycle is detected.
+
+#### Code:
+
+```javascript
+class Graph {
+    constructor() {
+        this.adjacencyList = {};
+    }
+
+    addVertex(vertex) {
+        if (!this.adjacencyList[vertex]) {
+            this.adjacencyList[vertex] = [];
+        }
+    }
+
+    addEdge(vertex1, vertex2) {
+        if (this.adjacencyList[vertex1] && this.adjacencyList[vertex2]) {
+            this.adjacencyList[vertex1].push(vertex2);
+            this.adjacencyList[vertex2].push(vertex1);  // Undirected graph, so add edge in both directions
+        }
+    }
+
+    // Detect cycle using DFS
+    hasCycleDFS() {
+        const visited = new Set();  // Track visited vertices
+
+        const dfs = (vertex, parent) => {
+            visited.add(vertex);  // Mark the current vertex as visited
+
+            // Traverse neighbors
+            for (let neighbor of this.adjacencyList[vertex]) {
+                if (!visited.has(neighbor)) {
+                    if (dfs(neighbor, vertex)) return true;  // Recursively visit unvisited neighbors
+                }
+                // If the neighbor is visited and it's not the parent, we have a cycle
+                else if (neighbor !== parent) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        // Loop through all vertices to handle disconnected components
+        for (let vertex in this.adjacencyList) {
+            if (!visited.has(vertex)) {
+                if (dfs(vertex, null)) return true;  // Start DFS from unvisited vertex
+            }
+        }
+
+        return false;  // No cycle found
+    }
+
+    // Display the graph
+    display() {
+        for (let vertex in this.adjacencyList) {
+            console.log(vertex, ":", this.adjacencyList[vertex]);
+        }
+    }
+}
+
+// Example usage
+let myGraph = new Graph();
+myGraph.addVertex("0");
+myGraph.addVertex("1");
+myGraph.addVertex("2");
+myGraph.addVertex("3");
+
+myGraph.addEdge("0", "1");
+myGraph.addEdge("1", "2");
+myGraph.addEdge("2", "0");  // Creates a cycle
+myGraph.addEdge("1", "3");
+
+console.log("Graph display:");
+myGraph.display();
+
+console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected Output: true
+```
+
+### Explanation:
+1. **DFS Traversal**: The DFS traversal starts from a vertex, marks it as visited, and then recursively explores its neighbors.
+2. **Cycle Detection**: During traversal, if you encounter a visited vertex that is not the parent of the current vertex, it indicates a cycle.
+3. **Handling Disconnected Graphs**: The algorithm checks each component in case the graph is disconnected.
+
+### Time Complexity:
+- **Time Complexity**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges, because we visit each vertex and edge once.
+
+
+> ### Detect Cycle in directed Graph ( [Youtube video](https://www.youtube.com/watch?v=GLxfoaZlRqs&t=64s&ab_channel=AnujBhaiya) )
+
+To detect a cycle in a **directed graph**, there are two common methods:
+
+1. **Depth-First Search (DFS) with Recursion Stack**
+2. **Kahn's Algorithm (Using Topological Sorting)**
+
+### 1. **Cycle Detection Using DFS (Recursion Stack)**
+
+In this method, we use a modified DFS traversal where we keep track of the recursion stack (the vertices currently being explored). If we revisit a vertex that is already in the recursion stack, it means there is a back edge, and hence a cycle exists.
+
+#### Steps:
+1. Perform DFS traversal of the graph.
+2. Maintain a `visited` array to track whether a vertex has been visited.
+3. Maintain a `recStack` (recursion stack) array to track vertices in the current path of recursion.
+4. If you find a vertex that is already in the recursion stack, a cycle is detected.
+
+#### Code:
+
+```javascript
+class Graph {
+    constructor() {
+        this.adjacencyList = {};
+    }
+
+    addVertex(vertex) {
+        if (!this.adjacencyList[vertex]) {
+            this.adjacencyList[vertex] = [];
+        }
+    }
+
+    addEdge(vertex1, vertex2) {
+        if (this.adjacencyList[vertex1]) {
+            this.adjacencyList[vertex1].push(vertex2);  // Directed edge from vertex1 to vertex2
+        }
+    }
+
+    // Detect cycle using DFS
+    hasCycleDFS() {
+        const visited = {};  // Track visited vertices
+        const recStack = {}; // Track vertices in the current recursion stack
+
+        // Helper function for DFS traversal
+        const dfs = (vertex) => {
+            if (!visited[vertex]) {
+                visited[vertex] = true;
+                recStack[vertex] = true;
+
+                // Traverse neighbors
+                for (let neighbor of this.adjacencyList[vertex]) {
+                    // If the neighbor is not visited, recursively visit it
+                    if (!visited[neighbor] && dfs(neighbor)) {
+                        return true;
+                    }
+                    // If the neighbor is in the recursion stack, we found a cycle
+                    else if (recStack[neighbor]) {
+                        return true;
+                    }
+                }
+            }
+
+            recStack[vertex] = false;  // Remove vertex from recursion stack when done
+            return false;
+        };
+
+        // Check each vertex for a cycle
+        for (let vertex in this.adjacencyList) {
+            if (dfs(vertex)) return true;
+        }
+
+        return false;  // No cycle found
+    }
+
+    // Display the graph
+    display() {
+        for (let vertex in this.adjacencyList) {
+            console.log(vertex, ":", this.adjacencyList[vertex]);
+        }
+    }
+}
+
+// Example usage
+let myGraph = new Graph();
+myGraph.addVertex("A");
+myGraph.addVertex("B");
+myGraph.addVertex("C");
+myGraph.addVertex("D");
+
+myGraph.addEdge("A", "B");
+myGraph.addEdge("B", "C");
+myGraph.addEdge("C", "A");  // This edge creates a cycle
+myGraph.addEdge("B", "D");
+
+console.log("Graph display:");
+myGraph.display();
+
+console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected Output: true
+```
+
+### Explanation:
+1. **DFS Traversal**: For each vertex, the algorithm performs a DFS to explore all its neighbors recursively.
+2. **Recursion Stack**: The recursion stack helps keep track of the vertices currently being visited. If a back edge is found (i.e., revisiting a vertex that’s still in the recursion stack), a cycle is detected.
+3. **Cycle Detection**: If any back edge is found during DFS traversal, a cycle exists in the graph.
+
+### Time Complexity:
+- **Time Complexity**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges. The graph is traversed once for DFS.
+  
+---
+
+### 2. **Cycle Detection Using Kahn's Algorithm (Topological Sorting)**
+
+Another approach is to use **Kahn's Algorithm**, which is based on topological sorting. The idea is that if the graph contains a cycle, it is **impossible** to create a valid topological order. So, if you cannot sort all the vertices, a cycle exists.
+
+#### Steps:
+1. **In-degree Calculation**: Calculate the in-degree (number of incoming edges) of each vertex.
+2. **Queue Initialization**: Enqueue all vertices with in-degree 0 (starting points).
+3. **Process Queue**: Dequeue a vertex, reduce the in-degree of its neighbors by 1, and enqueue any neighbors whose in-degree becomes 0.
+4. **Cycle Detection**: If not all vertices can be processed (i.e., if the topological order doesn’t include all vertices), a cycle exists.
+
+#### Code:
+
+```javascript
+class Graph {
+    constructor() {
+        this.adjacencyList = {};
+    }
+
+    addVertex(vertex) {
+        if (!this.adjacencyList[vertex]) {
+            this.adjacencyList[vertex] = [];
+        }
+    }
+
+    addEdge(vertex1, vertex2) {
+        if (this.adjacencyList[vertex1]) {
+            this.adjacencyList[vertex1].push(vertex2);  // Directed edge from vertex1 to vertex2
+        }
+    }
+
+    // Detect cycle using Kahn's Algorithm (Topological Sort)
+    hasCycleKahns() {
+        const inDegree = {};  // Track in-degree of each vertex
+        const queue = [];     // Queue for vertices with in-degree 0
+        let visitedCount = 0; // Count of vertices added to the topological sort
+
+        // Initialize in-degree of each vertex
+        for (let vertex in this.adjacencyList) {
+            inDegree[vertex] = 0;
+        }
+
+        // Calculate in-degree of each vertex
+        for (let vertex in this.adjacencyList) {
+            this.adjacencyList[vertex].forEach(neighbor => {
+                inDegree[neighbor] = (inDegree[neighbor] || 0) + 1;
+            });
+        }
+
+        // Enqueue all vertices with in-degree 0
+        for (let vertex in inDegree) {
+            if (inDegree[vertex] === 0) {
+                queue.push(vertex);
+            }
+        }
+
+        // Process the vertices in the queue
+        while (queue.length > 0) {
+            const currentVertex = queue.shift();
+            visitedCount++;
+
+            // Reduce in-degree of neighbors and enqueue if their in-degree becomes 0
+            this.adjacencyList[currentVertex].forEach(neighbor => {
+                inDegree[neighbor]--;
+                if (inDegree[neighbor] === 0) {
+                    queue.push(neighbor);
+                }
+            });
+        }
+
+        // If not all vertices are visited, the graph has a cycle
+        return visitedCount !== Object.keys(this.adjacencyList).length;
+    }
+
+    // Display the graph
+    display() {
+        for (let vertex in this.adjacencyList) {
+            console.log(vertex, ":", this.adjacencyList[vertex]);
+        }
+    }
+}
+
+// Example usage
+let myGraph = new Graph();
+myGraph.addVertex("A");
+myGraph.addVertex("B");
+myGraph.addVertex("C");
+myGraph.addVertex("D");
+
+myGraph.addEdge("A", "B");
+myGraph.addEdge("B", "C");
+myGraph.addEdge("C", "A");  // This edge creates a cycle
+myGraph.addEdge("B", "D");
+
+console.log("Graph display:");
+myGraph.display();
+
+console.log("Cycle detected using Kahn's Algorithm:", myGraph.hasCycleKahns());  // Expected Output: true
+```
+
+### Explanation:
+1. **In-degree Calculation**: First, the in-degree (number of incoming edges) of each vertex is calculated.
+2. **Processing Queue**: All vertices with in-degree 0 are enqueued. These are vertices with no dependencies, so they can be safely processed.
+3. **Cycle Detection**: As you process vertices, you reduce the in-degrees of their neighbors. If you cannot process all vertices, it means there are some vertices with in-degrees that never reached 0, indicating a cycle.
+
+### Time Complexity:
+- **Time Complexity**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
+
+---
+
+### Summary:
+
+- **DFS with Recursion Stack**: Detects a cycle by tracking vertices in the current recursion stack. It’s easier to understand and implement.
+- **Kahn's Algorithm (Topological Sort)**: Uses in-degree calculations and topological sorting to detect cycles. If not all vertices can be processed, a cycle exists.
+
+Both methods are effective for detecting cycles in **directed graphs**, but they work differently depending on the context of your problem.
+
+
+
+
+
+```js
 // Heaps
 // Heap is like binary tree, but numbers are laid out in a different way
 // Each node has a value that is greater than each of its descendants, max value is at top.(ie Max heap, in min heap its is reverse)
