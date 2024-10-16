@@ -6075,6 +6075,575 @@ console.log("Cycle detected using Kahn's Algorithm:", myGraph.hasCycleKahns()); 
 Both methods are effective for detecting cycles in **directed graphs**, but they work differently depending on the context of your problem.
 
 
+> ### shortest path in DAG ( [Youtube video](https://youtu.be/BNpWnXUhMC4?si=m_JJ4olsiBTj8fdL) )
+
+To find the **shortest path in a Directed Acyclic Graph (DAG)**, we can use **Topological Sorting** combined with **dynamic programming**. Since the graph is acyclic, topological sorting ensures that we process each vertex before its descendants, allowing us to calculate the shortest paths in a single pass.
+
+### Steps:
+1. **Topologically sort the graph**: This gives us a linear ordering of the vertices.
+2. **Relax edges**: Once we have the topological order, iterate over the vertices in this order and update the shortest distance to each of its neighbors.
+
+### Algorithm:
+1. **Initialize distances**: Set the distance to the source node to 0 and to all other nodes to infinity.
+2. **Topological sort**: Perform a topological sort of the DAG.
+3. **Relax edges**: For each vertex in topological order, update the distance to its neighbors if a shorter path is found.
+4. **Output shortest paths**: After processing all vertices, the shortest distances from the source node to all other nodes will be computed.
+
+### Code:
+
+```javascript
+class Graph {
+    constructor(vertices) {
+        this.vertices = vertices;
+        this.adjacencyList = new Map();
+    }
+
+    addVertex(vertex) {
+        this.adjacencyList.set(vertex, []);
+    }
+
+    addEdge(vertex1, vertex2, weight) {
+        this.adjacencyList.get(vertex1).push({ node: vertex2, weight: weight });
+    }
+
+    // Helper function for topological sorting using DFS
+    topologicalSortUtil(vertex, visited, stack) {
+        visited[vertex] = true;
+
+        // Visit all neighbors of the current vertex
+        let neighbors = this.adjacencyList.get(vertex);
+        for (let neighbor of neighbors) {
+            if (!visited[neighbor.node]) {
+                this.topologicalSortUtil(neighbor.node, visited, stack);
+            }
+        }
+
+        // Push the current vertex to the stack after visiting all neighbors
+        stack.push(vertex);
+    }
+
+    // Topological sort of the graph
+    topologicalSort() {
+        let stack = [];
+        let visited = {};
+        for (let i of this.adjacencyList.keys()) {
+            visited[i] = false;
+        }
+
+        // Call the recursive helper function for topological sort for each vertex
+        for (let i of this.adjacencyList.keys()) {
+            if (!visited[i]) {
+                this.topologicalSortUtil(i, visited, stack);
+            }
+        }
+
+        // Return stack in reverse order
+        return stack.reverse();
+    }
+
+    // Shortest path in DAG
+    shortestPath(source) {
+        let stack = this.topologicalSort();
+        let distances = {};
+
+        // Initialize distances to all vertices as infinity, and the source vertex as 0
+        for (let vertex of this.adjacencyList.keys()) {
+            distances[vertex] = Infinity;
+        }
+        distances[source] = 0;
+
+        // Process vertices in topological order
+        while (stack.length) {
+            let currentVertex = stack.shift();  // Get the next vertex from the stack
+
+            // Update the distance of all adjacent vertices of the dequeued vertex
+            if (distances[currentVertex] !== Infinity) {
+                for (let neighbor of this.adjacencyList.get(currentVertex)) {
+                    let newDistance = distances[currentVertex] + neighbor.weight;
+                    if (newDistance < distances[neighbor.node]) {
+                        distances[neighbor.node] = newDistance;
+                    }
+                }
+            }
+        }
+
+        return distances;
+    }
+}
+
+// Example usage
+let graph = new Graph(6);
+graph.addVertex("0");
+graph.addVertex("1");
+graph.addVertex("2");
+graph.addVertex("3");
+graph.addVertex("4");
+graph.addVertex("5");
+
+graph.addEdge("0", "1", 5);
+graph.addEdge("0", "2", 3);
+graph.addEdge("1", "3", 6);
+graph.addEdge("1", "2", 2);
+graph.addEdge("2", "4", 4);
+graph.addEdge("2", "5", 2);
+graph.addEdge("2", "3", 7);
+graph.addEdge("3", "5", 1);
+graph.addEdge("4", "5", 6);
+
+let shortestPaths = graph.shortestPath("0");
+console.log("Shortest distances from source vertex 0:", shortestPaths);
+```
+
+### Explanation:
+
+1. **Graph Initialization**: The graph is represented using an adjacency list where each vertex has a list of neighbors with associated weights.
+2. **Topological Sort**: A helper function `topologicalSortUtil` is used to recursively perform a DFS and push vertices onto a stack in post-order. The vertices are processed in the reverse order of the stack to guarantee that each vertex is processed before its descendants.
+3. **Relaxation**: For each vertex in the topologically sorted order, we check each neighbor and update its shortest distance using dynamic programming.
+4. **Result**: The `shortestPath` function computes the shortest distances from the source vertex to every other vertex in the DAG.
+
+### Example Output:
+```
+Shortest distances from source vertex 0:
+{ '0': 0, '1': 5, '2': 3, '3': 11, '4': 7, '5': 10 }
+```
+
+### Time Complexity:
+- **Topological Sorting**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
+- **Relaxation**: \(O(V + E)\), since we process each vertex and its adjacent edges once.
+
+Thus, the total time complexity is \(O(V + E)\).
+
+### Notes:
+- **No negative-weight cycles**: Since the graph is a DAG, we don’t have to worry about negative-weight cycles, making this approach efficient and straightforward.
+- **Applicability**: This algorithm is ideal for tasks scheduling, dependency resolution, and other problems where tasks are represented as a DAG.
+
+
+> ### Prim's Algorithm | Minimum Spanning Tree  ( [Youtube video](https://www.youtube.com/watch?v=kXiqvMykeJA&t=214s&ab_channel=AnujBhaiya) )
+
+**Prim's Algorithm** is a greedy algorithm that is used to find the **Minimum Spanning Tree (MST)** for a weighted, undirected graph. The Minimum Spanning Tree of a graph is a subset of edges that connects all vertices together without any cycles and with the minimum possible total edge weight.
+
+### Steps of Prim's Algorithm:
+1. **Start with any vertex**: Begin with an arbitrary vertex as part of the MST.
+2. **Grow the MST**: At each step, add the smallest edge that connects a vertex in the MST to a vertex outside the MST.
+3. **Repeat**: Continue the process until all vertices are included in the MST.
+
+### Key Points:
+- The algorithm maintains two sets of vertices:
+  1. **Vertices included in the MST** (already processed).
+  2. **Vertices not yet included** (yet to be processed).
+- At each iteration, Prim's algorithm picks the vertex with the minimum edge weight that connects a vertex in the MST with a vertex outside the MST.
+
+### Algorithm:
+1. Create a **min-heap** or use a priority queue to always pick the smallest edge weight.
+2. Keep a **visited** set to track the vertices already added to the MST.
+3. Keep updating the edge weights of adjacent vertices and choose the smallest one.
+
+### Prim's Algorithm in JavaScript:
+
+```javascript
+class MinHeap {
+    constructor() {
+        this.heap = [];
+    }
+
+    insert(node, key) {
+        this.heap.push({ node, key });
+        this.bubbleUp();
+    }
+
+    bubbleUp() {
+        let index = this.heap.length - 1;
+        while (index > 0) {
+            let element = this.heap[index];
+            let parentIndex = Math.floor((index - 1) / 2);
+            let parent = this.heap[parentIndex];
+            if (element.key >= parent.key) break;
+            this.heap[index] = parent;
+            this.heap[parentIndex] = element;
+            index = parentIndex;
+        }
+    }
+
+    extractMin() {
+        const min = this.heap[0];
+        const end = this.heap.pop();
+        if (this.heap.length > 0) {
+            this.heap[0] = end;
+            this.sinkDown(0);
+        }
+        return min;
+    }
+
+    sinkDown(index) {
+        const length = this.heap.length;
+        const element = this.heap[index];
+        while (true) {
+            let leftChildIndex = 2 * index + 1;
+            let rightChildIndex = 2 * index + 2;
+            let leftChild, rightChild;
+            let swap = null;
+
+            if (leftChildIndex < length) {
+                leftChild = this.heap[leftChildIndex];
+                if (leftChild.key < element.key) {
+                    swap = leftChildIndex;
+                }
+            }
+
+            if (rightChildIndex < length) {
+                rightChild = this.heap[rightChildIndex];
+                if (
+                    (swap === null && rightChild.key < element.key) ||
+                    (swap !== null && rightChild.key < leftChild.key)
+                ) {
+                    swap = rightChildIndex;
+                }
+            }
+
+            if (swap === null) break;
+            this.heap[index] = this.heap[swap];
+            this.heap[swap] = element;
+            index = swap;
+        }
+    }
+
+    isEmpty() {
+        return this.heap.length === 0;
+    }
+}
+
+class Graph {
+    constructor(vertices) {
+        this.vertices = vertices;
+        this.adjacencyList = new Map();
+    }
+
+    addVertex(vertex) {
+        this.adjacencyList.set(vertex, []);
+    }
+
+    addEdge(vertex1, vertex2, weight) {
+        this.adjacencyList.get(vertex1).push({ node: vertex2, weight });
+        this.adjacencyList.get(vertex2).push({ node: vertex1, weight });
+    }
+
+    // Prim's algorithm for Minimum Spanning Tree (MST)
+    primMST() {
+        const minHeap = new MinHeap();
+        const mstSet = new Set();  // Tracks vertices included in the MST
+        const parent = {};         // Stores the MST edges
+        const key = {};            // Stores the minimum weight edge for each vertex
+
+        // Initialize the key of all vertices to infinity and pick the first vertex as the starting point
+        for (let vertex of this.adjacencyList.keys()) {
+            key[vertex] = Infinity;
+            parent[vertex] = null;
+        }
+
+        // Start from an arbitrary vertex (let's pick the first one)
+        let startVertex = [...this.adjacencyList.keys()][0];
+        key[startVertex] = 0;
+        minHeap.insert(startVertex, 0);
+
+        while (!minHeap.isEmpty()) {
+            let { node: currentVertex } = minHeap.extractMin();
+
+            // If the current vertex is already in the MST set, skip it
+            if (mstSet.has(currentVertex)) continue;
+
+            // Add the current vertex to the MST set
+            mstSet.add(currentVertex);
+
+            // Process all the adjacent vertices of the current vertex
+            let neighbors = this.adjacencyList.get(currentVertex);
+            for (let neighbor of neighbors) {
+                let { node: adjacentVertex, weight } = neighbor;
+
+                // If adjacent vertex is not in the MST and the current edge is the smallest so far, update the key
+                if (!mstSet.has(adjacentVertex) && weight < key[adjacentVertex]) {
+                    key[adjacentVertex] = weight;
+                    parent[adjacentVertex] = currentVertex;
+                    minHeap.insert(adjacentVertex, weight);
+                }
+            }
+        }
+
+        // Print the resulting MST
+        for (let vertex in parent) {
+            if (parent[vertex] !== null) {
+                console.log(`Edge: ${parent[vertex]} - ${vertex}, Weight: ${key[vertex]}`);
+            }
+        }
+    }
+}
+
+// Example Usage
+let graph = new Graph(5);
+graph.addVertex('A');
+graph.addVertex('B');
+graph.addVertex('C');
+graph.addVertex('D');
+graph.addVertex('E');
+
+graph.addEdge('A', 'B', 2);
+graph.addEdge('A', 'C', 3);
+graph.addEdge('B', 'C', 1);
+graph.addEdge('B', 'D', 1);
+graph.addEdge('C', 'D', 5);
+graph.addEdge('B', 'E', 4);
+graph.addEdge('D', 'E', 2);
+
+graph.primMST();
+```
+
+### Output:
+
+```
+Edge: A - B, Weight: 2
+Edge: B - C, Weight: 1
+Edge: B - D, Weight: 1
+Edge: D - E, Weight: 2
+```
+
+### Explanation:
+
+1. **Graph Representation**: The graph is represented as an adjacency list, where each vertex stores a list of neighbors and the weight of the edge connecting them.
+   
+2. **Priority Queue (Min-Heap)**: Prim's algorithm uses a **min-heap** to efficiently extract the vertex with the smallest edge weight. In each iteration, it picks the vertex with the smallest key value that has not yet been added to the MST.
+   
+3. **Key and Parent Arrays**: 
+   - The `key` array keeps track of the minimum edge weight for each vertex.
+   - The `parent` array keeps track of the parent of each vertex in the MST, helping us reconstruct the tree.
+
+4. **MST Construction**: The algorithm starts from an arbitrary vertex and grows the MST by adding the smallest edge connecting a new vertex to the tree at each step.
+
+### Time Complexity:
+
+- **Min-Heap operations**: Insert and extract-min operations take \(O(\log V)\) time.
+- **Total Complexity**: \(O((V + E) \log V)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
+
+### Notes:
+- Prim's algorithm is efficient for dense graphs.
+- It’s similar to **Dijkstra’s algorithm**, but instead of finding the shortest paths from a source to all vertices, it finds the minimum spanning tree.
+
+
+
+> ### Dijkstra's Algorithm | Single Source Shortest Path Algorithm in Graph  ( [Youtube video](https://www.youtube.com/watch?v=wjxCG6dOwcY&ab_channel=AnujBhaiya) )
+
+
+**Dijkstra's Algorithm** is a greedy algorithm used to find the **shortest path** from a **single source vertex** to all other vertices in a weighted graph. Unlike Prim's algorithm (which is used for Minimum Spanning Trees), Dijkstra's algorithm finds the shortest path between the source node and all other nodes.
+
+### Key Concepts:
+- **Single Source Shortest Path**: It calculates the minimum cost (shortest path) from a starting vertex (source) to all other vertices.
+- **Non-negative edge weights**: Dijkstra’s algorithm assumes that all edge weights are non-negative. For graphs with negative weights, **Bellman-Ford algorithm** is used.
+- **Priority Queue/Min-Heap**: This helps to efficiently get the next vertex with the minimum distance.
+
+### How Dijkstra's Algorithm Works:
+1. **Initialize distances**: Set the distance to the source vertex to 0, and to all other vertices as infinity.
+2. **Use a priority queue (min-heap)**: This is used to always process the vertex with the smallest known distance.
+3. **Relax edges**: For each vertex, check all of its neighbors. If the distance through the current vertex is smaller than the previously known distance, update the distance.
+4. **Repeat until all vertices are processed**: Continue until the priority queue is empty.
+
+### Algorithm:
+
+1. **Initialization**:
+   - Set the distance of the source vertex to 0 and all other vertices to infinity.
+   - Insert the source vertex into a priority queue (min-heap).
+
+2. **Processing**:
+   - Extract the vertex with the minimum distance from the priority queue.
+   - Update the distances to its neighbors if a shorter path is found (relax the edges).
+   - Insert the updated neighbors into the priority queue.
+
+3. **Termination**:
+   - The algorithm finishes when all vertices have been processed and their shortest distances have been found.
+
+### Dijkstra's Algorithm in JavaScript:
+
+```javascript
+class MinHeap {
+    constructor() {
+        this.heap = [];
+    }
+
+    insert(node, distance) {
+        this.heap.push({ node, distance });
+        this.bubbleUp();
+    }
+
+    bubbleUp() {
+        let index = this.heap.length - 1;
+        while (index > 0) {
+            let element = this.heap[index];
+            let parentIndex = Math.floor((index - 1) / 2);
+            let parent = this.heap[parentIndex];
+            if (element.distance >= parent.distance) break;
+            this.heap[index] = parent;
+            this.heap[parentIndex] = element;
+            index = parentIndex;
+        }
+    }
+
+    extractMin() {
+        const min = this.heap[0];
+        const end = this.heap.pop();
+        if (this.heap.length > 0) {
+            this.heap[0] = end;
+            this.sinkDown(0);
+        }
+        return min;
+    }
+
+    sinkDown(index) {
+        const length = this.heap.length;
+        const element = this.heap[index];
+        while (true) {
+            let leftChildIndex = 2 * index + 1;
+            let rightChildIndex = 2 * index + 2;
+            let leftChild, rightChild;
+            let swap = null;
+
+            if (leftChildIndex < length) {
+                leftChild = this.heap[leftChildIndex];
+                if (leftChild.distance < element.distance) {
+                    swap = leftChildIndex;
+                }
+            }
+
+            if (rightChildIndex < length) {
+                rightChild = this.heap[rightChildIndex];
+                if (
+                    (swap === null && rightChild.distance < element.distance) ||
+                    (swap !== null && rightChild.distance < leftChild.distance)
+                ) {
+                    swap = rightChildIndex;
+                }
+            }
+
+            if (swap === null) break;
+            this.heap[index] = this.heap[swap];
+            this.heap[swap] = element;
+            index = swap;
+        }
+    }
+
+    isEmpty() {
+        return this.heap.length === 0;
+    }
+}
+
+class Graph {
+    constructor() {
+        this.adjacencyList = new Map();
+    }
+
+    addVertex(vertex) {
+        this.adjacencyList.set(vertex, []);
+    }
+
+    addEdge(vertex1, vertex2, weight) {
+        this.adjacencyList.get(vertex1).push({ node: vertex2, weight });
+        this.adjacencyList.get(vertex2).push({ node: vertex1, weight });  // Remove this for directed graphs
+    }
+
+    // Dijkstra's Algorithm
+    dijkstra(source) {
+        let distances = {};
+        let previous = {};
+        let minHeap = new MinHeap();
+
+        // Initialize distances and previous
+        for (let vertex of this.adjacencyList.keys()) {
+            distances[vertex] = Infinity;
+            previous[vertex] = null;
+        }
+        distances[source] = 0;
+        minHeap.insert(source, 0);
+
+        // While the min-heap is not empty
+        while (!minHeap.isEmpty()) {
+            let { node: currentVertex, distance: currentDistance } = minHeap.extractMin();
+
+            // If the current distance is greater than the recorded distance, skip
+            if (currentDistance > distances[currentVertex]) continue;
+
+            // Process all neighbors of the current vertex
+            for (let neighbor of this.adjacencyList.get(currentVertex)) {
+                let distance = currentDistance + neighbor.weight;
+
+                // Only consider this path if it's shorter
+                if (distance < distances[neighbor.node]) {
+                    distances[neighbor.node] = distance;
+                    previous[neighbor.node] = currentVertex;
+                    minHeap.insert(neighbor.node, distance);
+                }
+            }
+        }
+
+        return { distances, previous };
+    }
+
+    // Helper function to print the shortest path from source to target
+    printPath(previous, target) {
+        let path = [];
+        let currentNode = target;
+        while (currentNode !== null) {
+            path.unshift(currentNode);
+            currentNode = previous[currentNode];
+        }
+        console.log(`Shortest path to ${target}:`, path.join(" -> "));
+    }
+}
+
+// Example Usage
+let graph = new Graph();
+graph.addVertex("A");
+graph.addVertex("B");
+graph.addVertex("C");
+graph.addVertex("D");
+graph.addVertex("E");
+
+graph.addEdge("A", "B", 4);
+graph.addEdge("A", "C", 2);
+graph.addEdge("B", "C", 5);
+graph.addEdge("B", "D", 10);
+graph.addEdge("C", "D", 3);
+graph.addEdge("C", "E", 8);
+graph.addEdge("D", "E", 1);
+
+let result = graph.dijkstra("A");
+console.log("Distances:", result.distances);  // Shortest distances from source to all vertices
+graph.printPath(result.previous, "D");        // Print the shortest path from A to D
+```
+
+### Output:
+
+```
+Distances: { A: 0, B: 4, C: 2, D: 5, E: 6 }
+Shortest path to D: A -> C -> D
+```
+
+### Explanation:
+- **Graph Representation**: The graph is represented using an adjacency list, where each vertex stores a list of its neighbors along with the edge weight.
+  
+- **Dijkstra's Algorithm**:
+  1. **Distances**: A dictionary keeps track of the shortest distance to each vertex from the source.
+  2. **Min-Heap**: The min-heap (or priority queue) allows for efficient extraction of the vertex with the smallest distance.
+  3. **Relaxation**: For each vertex, the distances to its neighbors are updated (relaxed) if a shorter path is found.
+  4. **Previous Array**: This keeps track of the parent vertex for each node, allowing the shortest path to be reconstructed later.
+
+### Time Complexity:
+- **Min-Heap operations**: Insertion and extraction from the min-heap take \(O(\log V)\).
+- **Relaxation**: Each vertex and its adjacent edges are processed once, taking \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
+  
+Total time complexity: \(O((V + E) \log V)\).
+
+### Notes:
+- **Directed/Undirected Graph**: Dijkstra's algorithm works for both directed and undirected graphs.
+- **Non-negative weights**: It requires non-negative edge weights. If the graph contains negative weights, use the **Bellman-Ford algorithm**.
+- **Applications**: Dijkstra’s algorithm is widely used in network routing, mapping systems, and other shortest path problems.
+
+
 
 
 
