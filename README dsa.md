@@ -6644,7 +6644,697 @@ Total time complexity: \(O((V + E) \log V)\).
 - **Applications**: Dijkstra’s algorithm is widely used in network routing, mapping systems, and other shortest path problems.
 
 
+> ### Kosaraju's Algorithm for Strongly Connected Components   ( [Youtube video](https://www.youtube.com/watch?v=ndfjV_yHpgQ&ab_channel=CodeHelp-byBabbar) )
 
+
+**Kosaraju's Algorithm** is an efficient method for finding **Strongly Connected Components (SCCs)** in a directed graph. A **Strongly Connected Component** is a subgraph in which every vertex is reachable from every other vertex. The algorithm works in **O(V + E)** time, where \(V\) is the number of vertices and \(E\) is the number of edges.
+
+### Steps of Kosaraju's Algorithm:
+
+1. **Perform a Depth First Search (DFS)** on the original graph** and maintain a stack** of vertices in the order of their **finishing times** (when DFS finishes processing a vertex, push it to the stack). This ensures that vertices are processed in a decreasing order of their finishing times.
+   
+2. **Transpose the graph** (reverse the direction of all edges). This step creates a new graph where all edges are reversed.
+
+3. **Perform DFS on the transposed graph** in the order of the vertices in the stack. The vertices processed together during this DFS form a Strongly Connected Component (SCC).
+
+### Kosaraju's Algorithm Steps in Detail:
+
+1. **DFS on Original Graph**:
+   - Run a DFS on the original graph to compute the **finishing order** of vertices. This is done by pushing the vertices onto a stack when their DFS finishes.
+
+2. **Transpose the Graph**:
+   - Reverse the directions of all edges in the graph. This allows us to explore the SCCs in the reversed graph.
+
+3. **DFS on Transposed Graph**:
+   - Run DFS on the transposed graph, but in the **order defined by the stack** from the first step. Each DFS call that starts will find one SCC.
+
+### Kosaraju's Algorithm in JavaScript:
+
+```javascript
+class Graph {
+    constructor(vertices) {
+        this.vertices = vertices;
+        this.adjacencyList = new Map();
+    }
+
+    addVertex(vertex) {
+        this.adjacencyList.set(vertex, []);
+    }
+
+    addEdge(v, w) {
+        this.adjacencyList.get(v).push(w);
+    }
+
+    // Step 1: Perform DFS and push vertices in the stack in order of finishing time
+    fillOrder(v, visited, stack) {
+        visited[v] = true;
+        for (let neighbor of this.adjacencyList.get(v)) {
+            if (!visited[neighbor]) {
+                this.fillOrder(neighbor, visited, stack);
+            }
+        }
+        stack.push(v);  // Push vertex to the stack after it's fully processed
+    }
+
+    // Step 2: Create a transposed graph (reverse all edges)
+    getTranspose() {
+        let g = new Graph(this.vertices);
+        for (let vertex of this.adjacencyList.keys()) {
+            g.addVertex(vertex);
+        }
+        for (let vertex of this.adjacencyList.keys()) {
+            for (let neighbor of this.adjacencyList.get(vertex)) {
+                g.addEdge(neighbor, vertex);  // Reverse the edge
+            }
+        }
+        return g;
+    }
+
+    // Step 3: Perform DFS for each component in the transposed graph
+    dfs(v, visited, component) {
+        visited[v] = true;
+        component.push(v);  // Collect vertices of this SCC
+        for (let neighbor of this.adjacencyList.get(v)) {
+            if (!visited[neighbor]) {
+                this.dfs(neighbor, visited, component);
+            }
+        }
+    }
+
+    // Main function to find and print all strongly connected components (SCCs)
+    kosaraju() {
+        let stack = [];
+        let visited = {};
+
+        // Step 1: Mark all vertices as not visited
+        for (let vertex of this.adjacencyList.keys()) {
+            visited[vertex] = false;
+        }
+
+        // Step 1: Perform DFS to fill the stack with vertices in finishing order
+        for (let vertex of this.adjacencyList.keys()) {
+            if (!visited[vertex]) {
+                this.fillOrder(vertex, visited, stack);
+            }
+        }
+
+        // Step 2: Create the transposed graph
+        let transposedGraph = this.getTranspose();
+
+        // Step 3: Mark all vertices as not visited for DFS on the transposed graph
+        for (let vertex of this.adjacencyList.keys()) {
+            visited[vertex] = false;
+        }
+
+        // Step 4: Now process all vertices in the order defined by the stack
+        let stronglyConnectedComponents = [];
+        while (stack.length > 0) {
+            let vertex = stack.pop();
+
+            if (!visited[vertex]) {
+                let component = [];
+                transposedGraph.dfs(vertex, visited, component);
+                stronglyConnectedComponents.push(component);
+            }
+        }
+
+        return stronglyConnectedComponents;
+    }
+}
+
+// Example usage:
+let g = new Graph(5);
+g.addVertex(0);
+g.addVertex(1);
+g.addVertex(2);
+g.addVertex(3);
+g.addVertex(4);
+
+g.addEdge(0, 2);
+g.addEdge(2, 1);
+g.addEdge(1, 0);
+g.addEdge(0, 3);
+g.addEdge(3, 4);
+
+let sccs = g.kosaraju();
+console.log("Strongly Connected Components:", sccs);
+```
+
+### Output:
+
+```
+Strongly Connected Components: [ [ 4 ], [ 3 ], [ 0, 1, 2 ] ]
+```
+
+### Explanation:
+
+1. **Original DFS (fillOrder)**:
+   - We start by performing a DFS on the original graph. As each vertex finishes, we push it onto the stack. This ensures that vertices with no outgoing edges are processed first.
+   
+2. **Transpose the Graph**:
+   - In the second step, we reverse the direction of all edges. This step is crucial because it helps us "walk back" the graph and discover the SCCs.
+
+3. **DFS on the Transposed Graph**:
+   - We perform a DFS on the transposed graph, processing vertices in the reverse finishing order (from the stack). Each DFS traversal finds a strongly connected component.
+
+### Kosaraju’s Algorithm Time Complexity:
+
+- **First DFS**: \(O(V + E)\) where \(V\) is the number of vertices and \(E\) is the number of edges.
+- **Transpose the graph**: \(O(V + E)\), since reversing all edges takes linear time.
+- **Second DFS on the transposed graph**: \(O(V + E)\).
+
+Thus, the overall time complexity of Kosaraju's algorithm is **O(V + E)**.
+
+### Advantages:
+- Kosaraju’s algorithm is simple and efficient for finding all SCCs in a directed graph.
+  
+### Applications:
+- **Web crawlers**: Finding groups of interconnected websites.
+- **Graph theory problems**: Identifying modules or circular dependencies in large graphs.
+- **Social networks**: Analyzing groups of users who frequently interact with each other.
+
+Kosaraju's algorithm is an elegant solution for decomposing a directed graph into strongly connected components and can be easily implemented using depth-first search.
+
+
+> ### Bellman Ford Algorithm | Negative Weight Cycle Detection  ( [Youtube video](https://www.youtube.com/watch?v=RiWE52X5wdQ&ab_channel=AnujBhaiya) )
+
+**Bellman-Ford Algorithm** is a single-source shortest path algorithm that computes the shortest paths from a source vertex to all other vertices in a graph. It is more versatile than Dijkstra's algorithm because it can handle **graphs with negative weight edges**. However, it is slower with a time complexity of \(O(V \cdot E)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
+
+### Key Features:
+- **Negative weights**: Bellman-Ford can handle graphs with negative weights, which makes it suitable for graphs where the cost of an edge can decrease the total path length.
+- **Negative weight cycles**: If a graph contains a **negative weight cycle**, Bellman-Ford can detect it. A negative weight cycle is a cycle whose total weight (sum of edge weights) is negative, and in such cases, the shortest path is not well-defined.
+
+### Steps of Bellman-Ford Algorithm:
+1. **Initialize distances**: Set the distance to the source vertex to 0 and all other vertices to infinity.
+2. **Relax all edges \(V - 1\) times**: For each vertex, iterate over all edges and update the distance if a shorter path is found.
+3. **Detect negative weight cycles**: After \(V - 1\) iterations, check one more time to see if any distance can still be updated. If any edge can still be relaxed, it means there is a negative weight cycle in the graph.
+
+### Bellman-Ford Algorithm in JavaScript:
+
+```javascript
+class Graph {
+    constructor(vertices) {
+        this.vertices = vertices;
+        this.edges = [];
+    }
+
+    // Add an edge from vertex u to vertex v with weight w
+    addEdge(u, v, w) {
+        this.edges.push([u, v, w]);
+    }
+
+    // Bellman-Ford Algorithm to find the shortest path from source vertex to all others
+    bellmanFord(source) {
+        let distances = Array(this.vertices).fill(Infinity);
+        distances[source] = 0;
+
+        // Step 2: Relax all edges V-1 times
+        for (let i = 1; i < this.vertices; i++) {
+            for (let [u, v, w] of this.edges) {
+                if (distances[u] !== Infinity && distances[u] + w < distances[v]) {
+                    distances[v] = distances[u] + w;
+                }
+            }
+        }
+
+        // Step 3: Check for negative weight cycles
+        for (let [u, v, w] of this.edges) {
+            if (distances[u] !== Infinity && distances[u] + w < distances[v]) {
+                console.log("Graph contains a negative weight cycle.");
+                return;
+            }
+        }
+
+        // Print shortest distances
+        this.printDistances(distances);
+    }
+
+    // Helper function to print the distance array
+    printDistances(distances) {
+        console.log("Vertex   Distance from Source");
+        for (let i = 0; i < this.vertices; i++) {
+            console.log(`${i} \t\t ${distances[i]}`);
+        }
+    }
+}
+
+// Example usage:
+let g = new Graph(5);
+g.addEdge(0, 1, -1);
+g.addEdge(0, 2, 4);
+g.addEdge(1, 2, 3);
+g.addEdge(1, 3, 2);
+g.addEdge(1, 4, 2);
+g.addEdge(3, 2, 5);
+g.addEdge(3, 1, 1);
+g.addEdge(4, 3, -3);
+
+g.bellmanFord(0);
+```
+
+### Output:
+
+```
+Vertex   Distance from Source
+0         0
+1         -1
+2         2
+3         -2
+4         1
+```
+
+### Explanation:
+- **Graph Representation**: The graph is represented using an edge list. Each edge is stored as a tuple \([u, v, w]\), where \(u\) is the start vertex, \(v\) is the end vertex, and \(w\) is the edge weight.
+  
+- **Bellman-Ford Algorithm**:
+  1. **Initialization**: The distance to the source vertex is set to 0, and all other distances are initialized to infinity.
+  2. **Relaxation**: In each iteration, we loop through all edges and attempt to "relax" them. If the current known distance to vertex \(v\) through \(u\) is shorter than the known distance, we update the distance for \(v\).
+  3. **Negative Cycle Detection**: After \(V - 1\) iterations, we perform one more iteration over all edges. If any edge can still be relaxed, it means there is a negative weight cycle.
+
+### Time Complexity:
+- **Relaxation**: The algorithm performs \(V - 1\) iterations over all \(E\) edges. Each iteration takes \(O(E)\), making the time complexity **O(V \cdot E)**.
+
+### Applications:
+- **Routing Algorithms**: Bellman-Ford is used in network routing protocols like **Routing Information Protocol (RIP)**.
+- **Currency Arbitrage**: In financial systems, Bellman-Ford can be used to detect arbitrage opportunities (which can be modeled as negative weight cycles).
+- **Graphs with Negative Weights**: When the graph contains negative weights, Bellman-Ford is a better option than Dijkstra’s algorithm.
+
+### Notes:
+- **Negative Weight Cycles**: If the graph contains a negative weight cycle, the algorithm will detect it. The presence of such a cycle makes it impossible to define the shortest path because distances can keep decreasing indefinitely.
+
+### Example of Negative Weight Cycle:
+
+If we add an edge to create a negative weight cycle, such as:
+
+```javascript
+g.addEdge(2, 4, -6);
+```
+
+Now running the algorithm would output:
+
+```
+Graph contains a negative weight cycle.
+```
+
+This indicates the presence of a negative weight cycle that makes the shortest path undefined.
+
+> ### Articulation Point   ( [Youtube video](https://www.youtube.com/watch?v=jFZsDDB0-vo&ab_channel=AbdulBari) )
+
+https://www.geeksforgeeks.org/articulation-points-or-cut-vertices-in-a-graph/
+
+
+> ### Bridges in Graph
+
+In graph theory, **Bridges** (also called **cut-edges**) are edges that, when removed, increase the number of connected components in the graph. In other words, removing a bridge disconnects part of the graph, making it an important concept in network analysis for identifying vulnerable connections.
+
+### Key Concepts:
+- A **bridge** is an edge in a graph whose removal makes the graph disconnected.
+- In an undirected graph, a bridge is an edge that, if removed, increases the number of connected components.
+- Like articulation points, bridges are critical in ensuring the structural integrity of the graph.
+
+### Example:
+Consider the following graph:
+```
+   0 ---- 1 ---- 2
+    \      |
+     \     3
+      \    |
+       \   4
+        \  |
+         \ 5
+```
+In this graph:
+- The edge between vertices **1** and **2** is a bridge, because removing it will disconnect vertex 2 from the rest of the graph.
+- The edge between vertices **0** and **1** is **not** a bridge, because removing it will not disconnect the graph, as there is still a path between vertices 0 and 1 via vertex 4.
+
+### Finding Bridges Using DFS:
+
+To find all the bridges in a graph, we use a **Depth-First Search (DFS)** and the concepts of **discovery time** and **low values**. The basic idea is to perform a DFS traversal and, during the process, identify edges that, if removed, would disconnect the graph.
+
+### DFS Properties:
+- **Discovery time**: The time when a node is first visited during the DFS traversal.
+- **Low value**: The lowest discovery time reachable from a node's subtree (including back edges).
+
+### Conditions for a Bridge:
+- An edge \((u, v)\) is a bridge if there is no way to reach any of the ancestors of \(u\) from \(v\) or its descendants (i.e., if \(low[v] > disc[u]\)).
+
+### Steps to Find Bridges:
+1. **DFS Tree Construction**: Perform DFS traversal, marking discovery times and low values for each vertex.
+2. **Bridge Detection**: During the DFS, check the condition \(low[v] > disc[u]\) for each edge \((u, v)\). If true, the edge is a bridge.
+
+### Bridge Algorithm in JavaScript:
+
+```javascript
+class Graph {
+    constructor(vertices) {
+        this.vertices = vertices;
+        this.adjacencyList = new Map();
+        this.time = 0; // Track time in DFS traversal
+    }
+
+    addVertex(v) {
+        this.adjacencyList.set(v, []);
+    }
+
+    addEdge(v, w) {
+        this.adjacencyList.get(v).push(w);
+        this.adjacencyList.get(w).push(v);  // Undirected graph
+    }
+
+    // DFS based function to find all bridges
+    findBridges() {
+        let visited = Array(this.vertices).fill(false);
+        let disc = Array(this.vertices).fill(-1);  // Discovery times of visited vertices
+        let low = Array(this.vertices).fill(-1);   // Lowest discovery times reachable
+        let parent = Array(this.vertices).fill(-1);  // Parent vertices
+
+        // List to store bridges
+        let bridges = [];
+
+        // Call the recursive helper function to find bridges
+        for (let i = 0; i < this.vertices; i++) {
+            if (!visited[i]) {
+                this.dfs(i, visited, disc, low, parent, bridges);
+            }
+        }
+
+        // Output the bridges
+        console.log("Bridges in the graph:");
+        for (let [u, v] of bridges) {
+            console.log(`Bridge between vertices ${u} and ${v}`);
+        }
+    }
+
+    // Recursive DFS function to find bridges
+    dfs(u, visited, disc, low, parent, bridges) {
+        // Mark the current node as visited and set discovery time and low value
+        visited[u] = true;
+        disc[u] = low[u] = ++this.time;
+
+        // Go through all vertices adjacent to this vertex
+        for (let v of this.adjacencyList.get(u)) {
+            if (!visited[v]) {  // If v is not visited, make it a child of u in DFS tree
+                parent[v] = u;
+
+                // Recur for the child vertex
+                this.dfs(v, visited, disc, low, parent, bridges);
+
+                // Check if the subtree rooted at v has a connection back to one of u's ancestors
+                low[u] = Math.min(low[u], low[v]);
+
+                // Condition for bridge: if no back edge from subtree rooted at v
+                if (low[v] > disc[u]) {
+                    bridges.push([u, v]);
+                }
+
+            } else if (v !== parent[u]) {
+                // Update low value of u for parent function calls
+                low[u] = Math.min(low[u], disc[v]);
+            }
+        }
+    }
+}
+
+// Example usage:
+let g = new Graph(6);
+g.addVertex(0);
+g.addVertex(1);
+g.addVertex(2);
+g.addVertex(3);
+g.addVertex(4);
+g.addVertex(5);
+
+g.addEdge(0, 1);
+g.addEdge(1, 2);
+g.addEdge(1, 3);
+g.addEdge(3, 4);
+g.addEdge(4, 5);
+g.addEdge(0, 4);
+
+g.findBridges();
+```
+
+### Output:
+
+```
+Bridges in the graph:
+Bridge between vertices 1 and 2
+Bridge between vertices 3 and 4
+Bridge between vertices 4 and 5
+```
+
+### Explanation:
+- **Edge (1, 2)** is a bridge because removing it will disconnect vertex 2 from the rest of the graph.
+- **Edge (3, 4)** is a bridge because removing it will disconnect vertices 4 and 5 from the rest of the graph.
+- **Edge (4, 5)** is a bridge because removing it will disconnect vertex 5.
+
+### Time Complexity:
+- The time complexity of finding all the bridges is **O(V + E)**, where \(V\) is the number of vertices and \(E\) is the number of edges. This is because the algorithm performs a DFS traversal, visiting every vertex and edge exactly once.
+
+### Applications of Bridges:
+1. **Network Analysis**: Bridges help identify critical connections in computer networks or social networks, where the failure of certain connections can cause the network to split.
+2. **Road and Traffic Systems**: In a road network, bridges can represent critical roads whose failure or closure would disrupt traffic flow.
+3. **Communication Networks**: In telecommunications, bridges represent links between different parts of the network, and their failure could isolate sections of the network.
+4. **Vulnerability Analysis**: In system design or critical infrastructure, bridges are points where failures could cause significant disruptions, and identifying these can guide redundancy and reinforcement efforts.
+
+### Summary:
+Bridges in a graph are important structural components that, if removed, can split the graph into disconnected parts. By using DFS with discovery times and low values, we can efficiently find all the bridges in a graph in linear time, making this technique invaluable for network analysis and robustness studies.
+
+> ### Greedy Algorithm
+
+**Below is GFG defination**
+Greedy algorithms are a class of algorithms that make locally optimal choices at each step with the hope of finding a global optimum solution. In these algorithms, decisions are made based on the information available at the current moment without considering the consequences of these decisions in the future. The key idea is to select the best possible choice at each step, leading to a solution that may not always be the most optimal but is often good enough for many problems.
+
+Steps for Creating a Greedy Algorithm
+The steps to define a greedy algorithm are:
+
+1. Define the problem: Clearly state the problem to be solved and the objective to be optimized.
+2. Identify the greedy choice: Determine the locally optimal choice at each step based on the current state.
+3. Make the greedy choice: Select the greedy choice and update the current state.
+4. Repeat: Continue making greedy choices until a solution is reached.
+
+> ### Activity Selection Problem using Greedy Method  ( [Youtube video](https://www.youtube.com/watch?v=U4UoR9vq238&ab_channel=AnujBhaiya) )
+
+The **Activity Selection Problem** is a classic problem in which we are given a set of activities, each defined by a start and finish time, and the goal is to select the maximum number of non-overlapping activities that can be performed by a single person or machine. The **greedy method** is a popular approach to solve this problem optimally.
+
+### Problem Definition:
+You are given \( n \) activities with their start and finish times. Your goal is to select the maximum number of activities such that no two selected activities overlap. Each activity has a start time \( s[i] \) and a finish time \( f[i] \).
+
+### Greedy Strategy:
+The idea behind the greedy approach is to always select the activity that finishes the earliest, as this leaves the most room for other activities.
+
+### Steps of the Greedy Algorithm:
+1. **Sort activities** by their finish times in non-decreasing order.
+2. **Select the first activity** (the one that finishes the earliest).
+3. For each subsequent activity, if its start time is greater than or equal to the finish time of the previously selected activity, **select the activity**.
+4. Continue this process until all activities have been considered.
+
+### Example:
+
+Let's say we have the following activities with their start and finish times:
+
+| Activity | Start Time | Finish Time |
+|----------|------------|-------------|
+| A1       | 1          | 3           |
+| A2       | 2          | 5           |
+| A3       | 4          | 6           |
+| A4       | 6          | 8           |
+| A5       | 5          | 7           |
+| A6       | 8          | 9           |
+
+### Step-by-Step Process:
+1. **Sort by finish times**:
+
+   Sorted activities by finish time:
+
+   | Activity | Start Time | Finish Time |
+   |----------|------------|-------------|
+   | A1       | 1          | 3           |
+   | A3       | 4          | 6           |
+   | A2       | 2          | 5           |
+   | A5       | 5          | 7           |
+   | A4       | 6          | 8           |
+   | A6       | 8          | 9           |
+
+2. **Select the first activity** (A1).
+3. Now, select the next activity that starts after A1 finishes. The next non-overlapping activity is A3.
+4. Continue to select activities in this manner. The next activity after A3 is A4, and then A6.
+
+The selected activities are **A1, A3, A4, and A6**, with no overlap.
+
+### Greedy Algorithm Implementation in JavaScript:
+
+```javascript
+function activitySelection(activities) {
+    // Sort activities based on their finish times
+    activities.sort((a, b) => a[1] - b[1]);
+
+    let selectedActivities = [];
+    let lastFinishTime = 0;
+
+    // Select the first activity and then the next non-overlapping ones
+    for (let i = 0; i < activities.length; i++) {
+        let [start, finish] = activities[i];
+
+        if (start >= lastFinishTime) {
+            selectedActivities.push(activities[i]);
+            lastFinishTime = finish;  // Update the finish time
+        }
+    }
+
+    return selectedActivities;
+}
+
+// Example usage:
+const activities = [
+    [1, 3], // A1: Start = 1, Finish = 3
+    [2, 5], // A2: Start = 2, Finish = 5
+    [4, 6], // A3: Start = 4, Finish = 6
+    [6, 8], // A4: Start = 6, Finish = 8
+    [5, 7], // A5: Start = 5, Finish = 7
+    [8, 9], // A6: Start = 8, Finish = 9
+];
+
+const result = activitySelection(activities);
+console.log("Selected activities:", result);
+```
+
+### Output:
+
+```
+Selected activities: [ [ 1, 3 ], [ 4, 6 ], [ 6, 8 ], [ 8, 9 ] ]
+```
+
+### Explanation:
+- The sorted activities based on finish time are: \([1,3]\), \([4,6]\), \([2,5]\), \([5,7]\), \([6,8]\), \([8,9]\).
+- The selected activities are: \([1,3]\), \([4,6]\), \([6,8]\), \([8,9]\), ensuring maximum activity selection without any overlaps.
+
+### Time Complexity:
+- Sorting the activities takes **O(n log n)**, where \(n\) is the number of activities.
+- After sorting, selecting activities takes **O(n)**.
+Thus, the overall time complexity is **O(n log n)**.
+
+### Greedy Choice Property:
+The key idea is that by selecting the activity that finishes the earliest, we maximize the remaining time for future activities. This "greedy" choice ensures that we can always make the best possible decisions moving forward, leading to an optimal solution.
+
+### Applications:
+1. **Scheduling**: Allocating resources (such as meeting rooms) efficiently in time-scheduling problems.
+2. **Project Planning**: Ensuring tasks or projects are completed in the shortest time without conflicts.
+3. **CPU Scheduling**: Selecting processes in a way that maximizes CPU utilization while avoiding conflicts.
+
+### Summary:
+The **Activity Selection Problem** using the **Greedy Method** is an efficient way to select the maximum number of non-overlapping activities by always choosing the activity that finishes first. This approach ensures an optimal solution and is widely applicable in scheduling and resource allocation problems.
+
+
+> ### Fractional Knapsack - Greedy Algorithm  ( [Youtube video](https://www.youtube.com/watch?v=2i5pclQprGk&ab_channel=ApnaCollege) )
+
+The **Fractional Knapsack Problem** is a classic **greedy algorithm** problem where you are given a set of items, each with a weight and a value, and you need to determine the maximum value you can carry in a knapsack with a weight limit. In this variation of the knapsack problem, you can take fractions of an item, meaning you can split the item if needed to maximize the total value.
+
+### Problem Statement:
+- You have a knapsack that can carry a maximum weight \( W \).
+- You are given \( n \) items, where each item \( i \) has a weight \( w[i] \) and a value \( v[i] \).
+- Your goal is to maximize the value of the items you can fit in the knapsack by potentially taking fractional amounts of the items.
+
+### Greedy Strategy:
+To solve the fractional knapsack problem, the greedy approach suggests picking items based on their **value-to-weight ratio** \( \frac{v[i]}{w[i]} \). The idea is to take as much of the item with the highest value per weight unit first, then the next, and so on until the knapsack is full.
+
+### Steps of the Greedy Algorithm:
+1. **Calculate the value-to-weight ratio** \( \frac{v[i]}{w[i]} \) for each item.
+2. **Sort the items** in descending order of their value-to-weight ratio.
+3. Start with an empty knapsack. For each item in the sorted list:
+   - If the entire item can fit into the knapsack, add it.
+   - If the item cannot fit, take the fraction of the item that will fill the knapsack to capacity.
+4. Continue until the knapsack is full or all items have been considered.
+
+### Example:
+Let's say we have 3 items with the following weights and values:
+
+- Item 1: weight = 10, value = 60
+- Item 2: weight = 20, value = 100
+- Item 3: weight = 30, value = 120
+
+And the knapsack capacity \( W \) is 50.
+
+### Steps:
+
+1. Compute the value-to-weight ratio for each item:
+   - Item 1: \( \frac{60}{10} = 6 \)
+   - Item 2: \( \frac{100}{20} = 5 \)
+   - Item 3: \( \frac{120}{30} = 4 \)
+
+2. Sort the items by the value-to-weight ratio in descending order:
+   - Item 1 (6), Item 2 (5), Item 3 (4)
+
+3. Select items for the knapsack:
+   - First, take all of Item 1 (weight 10, value 60), remaining capacity: \( 50 - 10 = 40 \)
+   - Then, take all of Item 2 (weight 20, value 100), remaining capacity: \( 40 - 20 = 20 \)
+   - Finally, take \( \frac{20}{30} \) (two-thirds) of Item 3, which gives a value of \( \frac{2}{3} \times 120 = 80 \)
+
+Total value: \( 60 + 100 + 80 = 240 \)
+
+### Fractional Knapsack Algorithm in JavaScript:
+
+```javascript
+function fractionalKnapsack(items, capacity) {
+    // Sort items by value-to-weight ratio in descending order
+    items.sort((a, b) => (b.value / b.weight) - (a.value / a.weight));
+
+    let totalValue = 0;
+
+    for (let i = 0; i < items.length; i++) {
+        let { weight, value } = items[i];
+
+        if (capacity >= weight) {
+            // If the item can be taken fully
+            totalValue += value;
+            capacity -= weight;
+        } else {
+            // Take the fraction of the remaining capacity
+            totalValue += (value / weight) * capacity;
+            break; // Knapsack is full
+        }
+    }
+
+    return totalValue;
+}
+
+// Example usage:
+const items = [
+    { weight: 10, value: 60 },  // Item 1
+    { weight: 20, value: 100 }, // Item 2
+    { weight: 30, value: 120 }, // Item 3
+];
+
+const capacity = 50;
+const maxValue = fractionalKnapsack(items, capacity);
+console.log("Maximum value in knapsack:", maxValue);
+```
+
+### Output:
+```
+Maximum value in knapsack: 240
+```
+
+### Explanation:
+- The items are sorted by their value-to-weight ratio.
+- The algorithm adds full Item 1 and Item 2 to the knapsack and then takes a fraction (two-thirds) of Item 3 to fill the remaining capacity.
+- The total value is 240, which is the maximum value that can be obtained for the given knapsack capacity.
+
+### Time Complexity:
+- Sorting the items by value-to-weight ratio takes \( O(n \log n) \).
+- The loop to add items to the knapsack takes \( O(n) \).
+Thus, the overall time complexity is **\( O(n \log n) \)**.
+
+### Greedy Choice Property:
+The greedy algorithm works because we always make the choice that maximizes the value per unit of weight, which ensures that we are optimizing at each step.
+
+### Applications:
+1. **Resource Allocation**: Allocating limited resources (like time, space, or bandwidth) where you can take fractions of each resource.
+2. **Investment Decisions**: When allocating funds to investments that can be fractionalized, and you want to maximize the return.
+3. **Cargo Loading**: In transport systems where fractional items can be loaded into containers, the aim is to maximize the value carried.
+
+### Summary:
+The **Fractional Knapsack Problem** is a variation of the knapsack problem where fractions of items can be taken. The **greedy method** efficiently solves this problem by always selecting the item (or fraction) with the highest value-to-weight ratio until the knapsack is full. This approach guarantees an optimal solution for the fractional variant of the knapsack problem.
 
 
 ```js
