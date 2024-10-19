@@ -7337,6 +7337,817 @@ The greedy algorithm works because we always make the choice that maximizes the 
 The **Fractional Knapsack Problem** is a variation of the knapsack problem where fractions of items can be taken. The **greedy method** efficiently solves this problem by always selecting the item (or fraction) with the highest value-to-weight ratio until the knapsack is full. This approach guarantees an optimal solution for the fractional variant of the knapsack problem.
 
 
+> ### Job Sequencing Algorithm  ( [Youtube video](https://www.youtube.com/watch?v=Tpp7o0jQ-8w&ab_channel=GateSmashers) )
+
+The **Job Sequencing Problem** is a popular problem in **greedy algorithms** where you are given a set of jobs, each having a deadline and a profit associated with it. The objective is to schedule the jobs in such a way that you can maximize the total profit while ensuring that no more than one job is executed at a time, and each job is completed before its deadline.
+
+### Problem Statement:
+- You are given \( n \) jobs, each having a **deadline** and a **profit**.
+- Each job takes **one unit of time** to complete.
+- The objective is to find the maximum profit by scheduling jobs such that:
+  - No two jobs overlap.
+  - Each job is completed before or on its deadline.
+
+### Greedy Approach:
+To solve this problem optimally, a greedy approach is used where jobs are scheduled in descending order of their profits, and each job is assigned to the latest available time slot before its deadline (if available).
+
+### Algorithm Steps:
+1. **Sort the jobs** in descending order of their profit.
+2. **Iterate over each job** and try to schedule it in the latest available time slot before its deadline.
+3. If a slot is available, schedule the job; otherwise, skip it.
+
+### Example:
+
+Let's say we have the following jobs:
+
+| Job   | Deadline | Profit |
+|-------|----------|--------|
+| J1    | 2        | 100    |
+| J2    | 1        | 19     |
+| J3    | 2        | 27     |
+| J4    | 1        | 25     |
+| J5    | 3        | 15     |
+
+### Step-by-Step Process:
+1. **Sort jobs by profit**:
+   Sorted order: J1, J3, J4, J2, J5.
+
+2. **Create a time slot array**: Assume that there are \( t \) available slots (from 1 to max deadline).
+
+   For this example, the maximum deadline is 3, so we create 3 slots: \( [\_, \_, \_] \).
+
+3. **Schedule jobs**:
+   - **J1**: Deadline is 2. Place J1 in the latest available slot before or on 2. So, place J1 in slot 2.
+   - **J3**: Deadline is 2. Place J3 in the latest available slot before or on 2. Slot 2 is occupied, so place J3 in slot 1.
+   - **J4**: Deadline is 1. Slot 1 is already occupied, so J4 cannot be scheduled.
+   - **J2**: Deadline is 1. Slot 1 is occupied, so J2 cannot be scheduled.
+   - **J5**: Deadline is 3. Place J5 in the latest available slot before or on 3. So, place J5 in slot 3.
+
+Final schedule: \( [J3, J1, J5] \).
+
+The total profit is \( 27 + 100 + 15 = 142 \).
+
+### Job Sequencing Algorithm Implementation in JavaScript:
+
+```javascript
+function JobSequencing(jobs) {
+    // Sort the jobs based on their profit in descending order
+    jobs.sort((a, b) => b.profit - a.profit);
+
+    let maxDeadline = Math.max(...jobs.map(job => job.deadline));
+    let timeSlots = Array(maxDeadline).fill(null); // Array to store job schedule
+    let totalProfit = 0;
+
+    for (let i = 0; i < jobs.length; i++) {
+        // Find a free slot for the job (starting from the last possible slot)
+        for (let j = jobs[i].deadline - 1; j >= 0; j--) {
+            if (timeSlots[j] === null) {
+                timeSlots[j] = jobs[i];  // Schedule the job
+                totalProfit += jobs[i].profit; // Add to total profit
+                break; // Move to the next job after scheduling
+            }
+        }
+    }
+
+    return {
+        timeSlots: timeSlots.filter(job => job !== null), // Jobs that are scheduled
+        totalProfit
+    };
+}
+
+// Example usage
+const jobs = [
+    { id: "J1", deadline: 2, profit: 100 }, // Job 1
+    { id: "J2", deadline: 1, profit: 19 },  // Job 2
+    { id: "J3", deadline: 2, profit: 27 },  // Job 3
+    { id: "J4", deadline: 1, profit: 25 },  // Job 4
+    { id: "J5", deadline: 3, profit: 15 }   // Job 5
+];
+
+const result = JobSequencing(jobs);
+console.log("Scheduled jobs:", result.timeSlots);
+console.log("Total profit:", result.totalProfit);
+```
+
+### Output:
+```
+Scheduled jobs: [ { id: 'J3', deadline: 2, profit: 27 }, { id: 'J1', deadline: 2, profit: 100 }, { id: 'J5', deadline: 3, profit: 15 } ]
+Total profit: 142
+```
+
+### Explanation:
+- The algorithm schedules the jobs with the highest profit in the latest available time slots.
+- The final job sequence is \( J3, J1, J5 \), and the total profit is 142.
+
+### Time Complexity:
+1. **Sorting the jobs** based on their profit takes \( O(n \log n) \), where \( n \) is the number of jobs.
+2. **Finding a slot** for each job takes \( O(n \times d) \), where \( d \) is the maximum deadline.
+
+Thus, the total time complexity is \( O(n \log n + n \times d) \), where \( n \) is the number of jobs and \( d \) is the maximum deadline.
+
+### Greedy Choice Property:
+The greedy approach works for the job sequencing problem because:
+- At each step, the algorithm makes a choice that seems to offer the most profit by selecting the job with the highest profit.
+- By doing so, it ensures that we don't miss any high-profit job that could fit within the remaining slots.
+
+### Applications:
+1. **Scheduling**: Optimal scheduling of jobs in manufacturing or computing to maximize profit or minimize cost.
+2. **Project Management**: Selecting the most profitable projects to undertake within given deadlines.
+3. **Task Assignment**: Assigning tasks to workers in a way that maximizes overall efficiency and profit.
+
+### Summary:
+The **Job Sequencing Problem** is solved optimally using a **greedy algorithm** that sorts jobs by their profit and assigns them to the latest available time slot before their deadline. This approach ensures the maximum profit can be obtained, and is widely applicable in scheduling and resource management problems.
+
+> ### Permutations of a String ( [Youtube video](https://youtu.be/mEBEw_xScsE?si=ExivZgmnO9MfF2J-&t=884) )
+
+To generate **all permutations** of a given string, we can use a **recursive approach**. The idea is to swap each character with every other character in the string and recursively generate the permutations for the rest of the string.
+
+### Key Concepts:
+1. For each character in the string, place it in the first position and then recursively permute the rest of the characters.
+2. This is done by swapping the current character with every character after it, including itself.
+3. When the recursion reaches the end of the string (base case), the permutation is stored.
+
+### Example:
+If the input string is `"ABC"`, the permutations are:
+- ABC
+- ACB
+- BAC
+- BCA
+- CAB
+- CBA
+
+### Algorithm:
+
+1. Start with the first character and swap it with each character, including itself.
+2. Recursively call the function to generate permutations for the rest of the string.
+3. Once the base case (end of the string) is reached, add the generated permutation to the result.
+
+### Permutations of a String using Recursion in JavaScript:
+
+```javascript
+function permute(str) {
+    const result = [];
+
+    // Helper function to generate permutations
+    function generatePermutations(chars, index) {
+        if (index === chars.length - 1) {
+            result.push(chars.join('')); // When a permutation is ready
+            return;
+        }
+
+        for (let i = index; i < chars.length; i++) {
+            // Swap characters at index and i
+            [chars[index], chars[i]] = [chars[i], chars[index]];
+            
+            // Recurse for the next index
+            generatePermutations(chars, index + 1);
+            
+            // Backtrack: Swap back the characters
+            [chars[index], chars[i]] = [chars[i], chars[index]];
+        }
+    }
+
+    generatePermutations(str.split(''), 0); // Split the string into an array of characters
+    return result;
+}
+
+// Example usage:
+const input = "ABC";
+const permutations = permute(input);
+console.log(permutations);
+```
+
+### Output:
+```
+[ 'ABC', 'ACB', 'BAC', 'BCA', 'CBA', 'CAB' ]
+```
+
+### Explanation:
+- The recursive function `generatePermutations` works by fixing one character at a time and swapping it with the remaining characters to explore all possible arrangements.
+- The **base case** of the recursion occurs when `index` reaches the end of the string (i.e., the last character), and we add the current arrangement (permutation) to the result list.
+- After exploring one arrangement, the function **backtracks** by undoing the swap, allowing the function to explore the next possible permutation.
+
+### Time Complexity:
+- The time complexity is **O(n!)**, where \( n \) is the length of the string. This is because there are \( n! \) permutations for a string of length \( n \).
+
+### Summary:
+- The above algorithm efficiently generates all permutations of a string by recursively swapping characters.
+- This approach is commonly used in solving problems related to permutations and combinations.
+
+
+
+> ### Rat In a Maze   ( [Youtube video](https://youtu.be/wjqSZy4pMT4?si=fFRwK9Xcp2Uq_XO5) )
+
+The **Rat in a Maze** problem is another classic **backtracking problem** where we need to find a path from the start to the destination in a maze (grid). The maze consists of cells that are either blocked (`0`) or open (`1`), and the objective is to move the rat from the top-left corner to the bottom-right corner by moving only in allowed directions (commonly right and down).
+
+### Problem:
+
+Given a maze represented by a \(N \times N\) grid, the rat can start at the top-left corner (0,0) and needs to reach the bottom-right corner (N-1, N-1). The rat can move **right**, **down**, **left**, or **up**. The goal is to find one possible path for the rat, ensuring it only moves through open cells (`1`) and doesn't move into blocked cells (`0`).
+
+### Approach:
+
+- The backtracking approach tries to move the rat in all possible directions (right, down, left, up).
+- If the rat reaches the destination, the path is valid.
+- If a move leads to an invalid position (out of bounds, blocked cell, or already visited cell), the algorithm backtracks and tries another direction.
+
+### JavaScript Code for **Rat in a Maze**:
+
+```javascript
+function solveMaze(maze) {
+    const N = maze.length;
+    const solution = Array.from({ length: N }, () => Array(N).fill(0)); // To store the solution path
+
+    // Helper function to check if the move is valid
+    function isSafe(maze, x, y) {
+        return (x >= 0 && x < N && y >= 0 && y < N && maze[x][y] === 1);
+    }
+
+    // Backtracking function to solve the maze
+    function solveMazeUtil(maze, x, y, solution) {
+        // If the rat reaches the destination (bottom-right corner)
+        if (x === N - 1 && y === N - 1 && maze[x][y] === 1) {
+            solution[x][y] = 1;
+            return true;
+        }
+
+        // Check if the current position is valid
+        if (isSafe(maze, x, y)) {
+            // Mark the current cell as part of the solution path
+            solution[x][y] = 1;
+
+            // Move to the right (x, y+1)
+            if (solveMazeUtil(maze, x, y + 1, solution)) {
+                return true;
+            }
+
+            // Move down (x+1, y)
+            if (solveMazeUtil(maze, x + 1, y, solution)) {
+                return true;
+            }
+
+            // Move to the left (x, y-1)
+            if (solveMazeUtil(maze, x, y - 1, solution)) {
+                return true;
+            }
+
+            // Move up (x-1, y)
+            if (solveMazeUtil(maze, x - 1, y, solution)) {
+                return true;
+            }
+
+            // If none of the above movements work, backtrack: unmark the current cell
+            solution[x][y] = 0;
+            return false;
+        }
+
+        return false; // Return false if the cell is not valid
+    }
+
+    // Main function to solve the maze
+    if (!solveMazeUtil(maze, 0, 0, solution)) {
+        console.log("No solution exists");
+        return false;
+    }
+
+    console.log("One possible solution:");
+    console.log(solution);
+    return solution;
+}
+
+// Example usage:
+const maze = [
+    [1, 0, 0, 0],
+    [1, 1, 0, 1],
+    [0, 1, 0, 0],
+    [1, 1, 1, 1]
+];
+
+solveMaze(maze);
+```
+
+### Example Output:
+
+For the given `maze`:
+
+```javascript
+[
+    [1, 0, 0, 0],
+    [1, 1, 0, 1],
+    [0, 1, 0, 0],
+    [1, 1, 1, 1]
+]
+```
+
+The possible output path will be:
+
+```
+One possible solution:
+[
+    [1, 0, 0, 0],
+    [1, 1, 0, 0],
+    [0, 1, 0, 0],
+    [0, 1, 1, 1]
+]
+```
+
+This path takes the rat from the top-left corner to the bottom-right corner by following open cells (1).
+
+### Explanation:
+
+1. **isSafe function**:
+   - Checks if the move is valid by ensuring the position is within bounds and the cell is not blocked (`1`).
+
+2. **solveMazeUtil function**:
+   - This is the recursive backtracking function that tries to move the rat in all four possible directions (right, down, left, up) from the current cell `(x, y)`.
+   - It marks the current cell as part of the solution (`solution[x][y] = 1`) and continues to explore further.
+   - If no valid move exists, it backtracks by unmarking the cell (`solution[x][y] = 0`).
+
+3. **Base Case**:
+   - The algorithm stops when the rat reaches the bottom-right corner `(N-1, N-1)`, indicating that the solution has been found.
+
+### Time Complexity:
+
+- The time complexity of this algorithm is \(O(2^{N^2})\) in the worst case, as each cell can potentially have multiple moves to explore and may involve a lot of backtracking.
+
+### Space Complexity:
+
+- The space complexity is \(O(N^2)\), which is the size of the solution array used to store the path.
+
+### Conclusion:
+This solution finds **one possible path** for the rat to reach the destination in the maze using a **backtracking** approach. If no path exists, it prints a message indicating that no solution is possible.
+
+
+
+
+> ### N-Queen Problem   ( [Youtube video](https://www.youtube.com/watch?v=MHXR4PCY8c0&ab_channel=AnujBhaiya) )
+The **N-Queen Problem** is a classic problem in combinatorial optimization and a well-known example of **backtracking**. The task is to place **N queens** on an \( N \times N \) chessboard such that no two queens threaten each other. This means:
+
+1. No two queens can share the same **row**.
+2. No two queens can share the same **column**.
+3. No two queens can share the same **diagonal**.
+
+### Problem Definition:
+Given a chessboard of size \( N \times N \), the goal is to place N queens on the board such that:
+- No two queens can attack each other (no two queens should be on the same row, column, or diagonal).
+
+### Approach:
+
+The **backtracking approach** is used to solve the N-Queen problem efficiently. The idea is to place queens one by one in different columns of a row, and for each placement, check whether it leads to a solution. If it does not lead to a solution, the queen is removed, and we backtrack to the previous step to try another placement.
+
+### Steps:
+
+1. Start with the first row and place a queen in the first column.
+2. Move to the next row and try placing a queen in each column, one by one.
+3. For each placement, check if it is valid (i.e., no queens are placed in the same column or diagonal).
+4. If placing the queen in a particular column leads to a valid solution, move on to the next row. Otherwise, backtrack and try placing the queen in a different column.
+5. Repeat until queens are placed in all rows or no valid configuration is possible.
+
+### Algorithm:
+
+- The **base case** is when all queens are placed, meaning we’ve successfully placed a queen in each row.
+- The **backtracking** step involves trying all possible positions in the current row and then recursively trying to place queens in subsequent rows. If no valid placement is found in the current configuration, we backtrack to the previous row and try a different configuration.
+
+### Code Implementation (JavaScript):
+
+```javascript
+function solveNQueens(N) {
+    const result = [];
+    const board = Array.from({ length: N }, () => Array(N).fill('.'));
+
+    function isSafe(board, row, col, N) {
+        // Check the same column
+        for (let i = 0; i < row; i++) {
+            if (board[i][col] === 'Q') return false;
+        }
+
+        // Check the upper left diagonal
+        for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+            if (board[i][j] === 'Q') return false;
+        }
+
+        // Check the upper right diagonal
+        for (let i = row, j = col; i >= 0 && j < N; i--, j++) {
+            if (board[i][j] === 'Q') return false;
+        }
+
+        return true;
+    }
+
+    function placeQueens(board, row, N) {
+        if (row === N) {
+            // All queens are placed successfully, add the board configuration to the result
+            const copy = board.map((row) => row.join(''));
+            result.push(copy);
+            return;
+        }
+
+        for (let col = 0; col < N; col++) {
+            if (isSafe(board, row, col, N)) {
+                // Place the queen
+                board[row][col] = 'Q';
+                
+                // Recur to place the rest of the queens
+                placeQueens(board, row + 1, N);
+
+                // Backtrack: remove the queen and try another column
+                board[row][col] = '.';
+            }
+        }
+    }
+
+    placeQueens(board, 0, N);
+    return result;
+}
+
+// Example usage:
+const N = 4;
+const solutions = solveNQueens(N);
+console.log(`Number of solutions for N = ${N}: ${solutions.length}`);
+console.log("Solutions:");
+solutions.forEach((solution) => console.log(solution.join("\n"), "\n"));
+```
+
+### Explanation:
+
+1. **isSafe function**:
+   - It checks if placing a queen at `board[row][col]` is valid by checking:
+     - No other queen exists in the same column.
+     - No other queen exists in the upper left diagonal.
+     - No other queen exists in the upper right diagonal.
+
+2. **placeQueens function**:
+   - It is the main backtracking function that attempts to place queens row by row.
+   - If it successfully places a queen in the current row, it recursively moves to the next row.
+   - If placing a queen leads to a solution, it records the solution in `result`.
+   - If no valid placement is possible, it backtracks by removing the queen and trying other placements.
+
+3. **Result**:
+   - Each valid configuration of the board is stored in the `result` array, where each row is represented as a string.
+
+### Output Example for \( N = 4 \):
+
+```
+Number of solutions for N = 4: 2
+Solutions:
+.Q..
+...Q
+Q...
+..Q. 
+
+..Q.
+Q...
+...Q
+.Q..
+```
+
+These two solutions represent valid configurations where no two queens can attack each other.
+
+### Time Complexity:
+
+- The time complexity is **O(N!)** due to the factorial growth in the number of possible configurations as the size of the board increases. Each row has \( N \) options, and we try every possible arrangement.
+  
+### Space Complexity:
+
+- The space complexity is **O(N^2)** because we use a board of size \( N \times N \) to store the placements, and additional space is required for the recursion stack, which could go up to depth \( N \).
+
+### Conclusion:
+The **N-Queen Problem** is an excellent example of using backtracking to solve a problem with constraints. The solution explores every possible configuration of queens on the board, backtracks when an invalid configuration is found, and finds all the valid solutions.
+
+
+> ### sudoku problem   ( [Youtube video](https://www.youtube.com/watch?v=MHXR4PCY8c0&ab_channel=AnujBhaiya) )
+
+The **Sudoku problem** is a classic example of a **constraint satisfaction problem** that can be solved using **backtracking**. The objective is to fill a \(9 \times 9\) grid with digits from 1 to 9 so that:
+
+1. Each row contains all digits from 1 to 9 without repetition.
+2. Each column contains all digits from 1 to 9 without repetition.
+3. Each of the nine \(3 \times 3\) sub-grids contains all digits from 1 to 9 without repetition.
+
+### Approach:
+
+The backtracking algorithm tries to place digits in empty cells one by one, checking if the placement is valid. If a valid placement is found, it moves to the next empty cell. If a placement leads to an invalid state (where the rules of Sudoku are violated), the algorithm backtracks by removing the last placed digit and trying the next possibility.
+
+### Steps:
+
+1. **Identify an empty cell** (i.e., a cell with a 0).
+2. **Try placing digits** from 1 to 9 in the empty cell.
+3. **Check if placing a digit is valid**:
+   - The digit should not already exist in the current row, column, or the \(3 \times 3\) sub-grid.
+4. If a valid digit is placed, **recur** to solve the rest of the grid.
+5. If placing any digit leads to an invalid solution, **backtrack** by resetting the current cell and trying the next digit.
+6. The algorithm stops when the entire grid is filled with valid digits.
+
+### JavaScript Code for Sudoku Solver:
+
+```javascript
+function solveSudoku(board) {
+    // Helper function to check if a digit can be placed in board[row][col]
+    function isValid(board, row, col, num) {
+        // Check if 'num' is not in the current row, column, or 3x3 box
+        for (let i = 0; i < 9; i++) {
+            // Check the row
+            if (board[row][i] === num) return false;
+
+            // Check the column
+            if (board[i][col] === num) return false;
+
+            // Check the 3x3 sub-grid
+            const boxRow = 3 * Math.floor(row / 3) + Math.floor(i / 3);
+            const boxCol = 3 * Math.floor(col / 3) + (i % 3);
+            if (board[boxRow][boxCol] === num) return false;
+        }
+        return true;
+    }
+
+    // Backtracking function to solve the board
+    function solve(board) {
+        for (let row = 0; row < 9; row++) {
+            for (let col = 0; col < 9; col++) {
+                if (board[row][col] === 0) { // Find an empty cell
+                    for (let num = 1; num <= 9; num++) { // Try digits 1 to 9
+                        if (isValid(board, row, col, num)) { // Check if valid
+                            board[row][col] = num; // Place the digit
+                            
+                            if (solve(board)) { // Recur to solve the rest of the grid
+                                return true; // Return true if the board is solved
+                            }
+
+                            board[row][col] = 0; // Backtrack by resetting the cell
+                        }
+                    }
+                    return false; // If no valid digit is found, return false
+                }
+            }
+        }
+        return true; // If the entire board is filled, return true
+    }
+
+    solve(board);
+    return board;
+}
+
+// Example usage:
+let board = [
+    [5, 3, 0, 0, 7, 0, 0, 0, 0],
+    [6, 0, 0, 1, 9, 5, 0, 0, 0],
+    [0, 9, 8, 0, 0, 0, 0, 6, 0],
+    [8, 0, 0, 0, 6, 0, 0, 0, 3],
+    [4, 0, 0, 8, 0, 3, 0, 0, 1],
+    [7, 0, 0, 0, 2, 0, 0, 0, 6],
+    [0, 6, 0, 0, 0, 0, 2, 8, 0],
+    [0, 0, 0, 4, 1, 9, 0, 0, 5],
+    [0, 0, 0, 0, 8, 0, 0, 7, 9]
+];
+
+solveSudoku(board);
+console.log(board);
+```
+
+### Example Output:
+
+For the given initial `board`, the output will be a valid solved Sudoku:
+
+```javascript
+[
+  [5, 3, 4, 6, 7, 8, 9, 1, 2],
+  [6, 7, 2, 1, 9, 5, 3, 4, 8],
+  [1, 9, 8, 3, 4, 2, 5, 6, 7],
+  [8, 5, 9, 7, 6, 1, 4, 2, 3],
+  [4, 2, 6, 8, 5, 3, 7, 9, 1],
+  [7, 1, 3, 9, 2, 4, 8, 5, 6],
+  [9, 6, 1, 5, 3, 7, 2, 8, 4],
+  [2, 8, 7, 4, 1, 9, 6, 3, 5],
+  [3, 4, 5, 2, 8, 6, 1, 7, 9]
+]
+```
+
+### Explanation:
+
+1. **isValid function**:
+   - This function checks if placing the number `num` in the position `board[row][col]` is valid by ensuring that:
+     - The number does not already exist in the current row.
+     - The number does not exist in the current column.
+     - The number does not exist in the \(3 \times 3\) sub-grid that contains the cell.
+
+2. **solve function (Backtracking)**:
+   - It iterates through the board to find an empty cell (i.e., `0`).
+   - For each empty cell, it tries placing digits from 1 to 9.
+   - If placing a digit is valid, it recurses to fill the rest of the board.
+   - If a valid solution is found, the function returns `true`. Otherwise, it backtracks by resetting the cell to `0`.
+
+3. **Base Case**:
+   - The algorithm stops when there are no empty cells left on the board, meaning a valid solution is found.
+
+### Time Complexity:
+
+- The time complexity of the backtracking algorithm is **exponential** in the worst case: \( O(9^M) \), where \( M \) is the number of empty cells on the board. Each empty cell can potentially take any digit from 1 to 9, making the search space large.
+
+### Space Complexity:
+
+- The space complexity is \( O(1) \) as we solve the problem in place using the given board, although the recursion stack may grow up to \( O(M) \) due to backtracking.
+
+### Conclusion:
+This is a backtracking-based approach to solve the **Sudoku problem**. It tries to fill the grid one cell at a time, validating each placement according to Sudoku rules and backtracking when a conflict arises, ensuring that a valid solution is found.
+
+
+> ### Dynamic Programming
+Dynamic Programming is an algorithmic approach to solve some complex problems easily and save time and number of comparisons by storing the results of past computations. The basic idea of dynamic programming is to store the results of previous calculation and reuse it in future instead of recalculating them.
+
+In simple words, it is an optimiztion over plain ecursion
+
+The idea is to reuse the solution of sub-problems when there are overlapping sub-problems
+1. Memoization (Top Down)
+    - Recursive approach with memoization.
+    - Solve the problem recursively but store the results of subproblems so that they can be reused without recalculating them.
+2. Tabulation (Bottom Up)
+
+
+
+**Fibonacci Sequence**:
+   - One of the simplest examples of DP.
+   - The Fibonacci sequence is defined as:
+     \[
+     F(n) = F(n-1) + F(n-2)
+     \]
+     where \(F(0) = 0\) and \(F(1) = 1\).
+
+If we use the traditional recusive approach, its time complexity will be O(2ⁿ), where n is the input number.
+
+```js
+fibonacci = n => {
+  return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2)
+}
+fibonacci(12)
+```
+
+But if we use the DP, considering both type which is below, then it will be O(n)
+
+**Fibonacci using DP (Memoization):**
+
+```javascript
+function fib(n, memo = {}) {
+    if (n <= 1) return n; // Base case
+
+    if (memo[n]) return memo[n]; // Check if already solved
+
+    memo[n] = fib(n - 1, memo) + fib(n - 2, memo); // Store the result
+    return memo[n];
+}
+
+console.log(fib(10)); // Output: 55
+```
+
+**Fibonacci using DP (Tabulation):**
+
+```javascript
+function fib(n) {
+    if (n <= 1) return n;
+
+    const dp = new Array(n + 1);
+    dp[0] = 0;
+    dp[1] = 1;
+
+    for (let i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+
+    return dp[n];
+}
+
+console.log(fib(10)); // Output: 55
+```
+
+
+
+
+
+
+
+
+
+
+
+2. **0/1 Knapsack Problem**:
+   - Given a set of items, each with a weight and a value, determine the maximum value that can be obtained from selecting items without exceeding the given weight capacity.
+
+**0/1 Knapsack using DP:**
+
+```javascript
+function knapsack(weights, values, W) {
+    const n = values.length;
+    const dp = Array.from({ length: n + 1 }, () => Array(W + 1).fill(0));
+
+    for (let i = 1; i <= n; i++) {
+        for (let w = 0; w <= W; w++) {
+            if (weights[i - 1] <= w) {
+                dp[i][w] = Math.max(dp[i - 1][w], dp[i - 1][w - weights[i - 1]] + values[i - 1]);
+            } else {
+                dp[i][w] = dp[i - 1][w];
+            }
+        }
+    }
+
+    return dp[n][W];
+}
+
+const weights = [1, 3, 4, 5];
+const values = [1, 4, 5, 7];
+const W = 7;
+
+console.log(knapsack(weights, values, W)); // Output: 9
+```
+
+3. **Longest Common Subsequence (LCS)**:
+   - Given two strings, find the length of their longest subsequence that appears in both strings.
+
+**LCS using DP:**
+
+```javascript
+function lcs(str1, str2) {
+    const m = str1.length;
+    const n = str2.length;
+    const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+    for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+            if (str1[i - 1] === str2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+
+    return dp[m][n];
+}
+
+console.log(lcs("abcde", "ace")); // Output: 3 (The LCS is "ace")
+```
+
+4. **Longest Increasing Subsequence (LIS)**:
+   - Given an array of integers, find the length of the longest subsequence where the numbers are in increasing order.
+
+**LIS using DP:**
+
+```javascript
+function lis(arr) {
+    const n = arr.length;
+    const dp = Array(n).fill(1); // Each element is a subsequence of length 1
+
+    for (let i = 1; i < n; i++) {
+        for (let j = 0; j < i; j++) {
+            if (arr[i] > arr[j]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1);
+            }
+        }
+    }
+
+    return Math.max(...dp); // Longest subsequence
+}
+
+const arr = [10, 22, 9, 33, 21, 50, 41, 60, 80];
+console.log(lis(arr)); // Output: 6 (The LIS is [10, 22, 33, 50, 60, 80])
+```
+
+5. **Edit Distance**:
+   - The edit distance between two strings is the minimum number of operations required to convert one string into another (using insertions, deletions, or substitutions).
+
+**Edit Distance using DP:**
+
+```javascript
+function editDistance(str1, str2) {
+    const m = str1.length;
+    const n = str2.length;
+    const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+
+    for (let i = 0; i <= m; i++) {
+        for (let j = 0; j <= n; j++) {
+            if (i === 0) {
+                dp[i][j] = j; // Insert all characters of str2
+            } else if (j === 0) {
+                dp[i][j] = i; // Remove all characters of str1
+            } else if (str1[i - 1] === str2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1]; // Characters match
+            } else {
+                dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], dp[i - 1][j], dp[i][j - 1]); // Minimum of replace, remove, insert
+            }
+        }
+    }
+
+    return dp[m][n];
+}
+
+console.log(editDistance("kitten", "sitting")); // Output: 3
+```
+
+### Key Points of Dynamic Programming:
+
+- **Optimal Substructure**: The optimal solution of the problem can be constructed from the solutions of its subproblems.
+- **Overlapping Subproblems**: The same subproblems are solved multiple times, which is why memoization or tabulation helps in reducing redundant computations.
+- **Memoization (Top-Down)** vs **Tabulation (Bottom-Up)**: Memoization is typically recursive and stores results as they are computed. Tabulation builds up the solution iteratively from the smallest subproblem.
+  
+Dynamic programming is widely used in algorithm design, especially when brute-force approaches are inefficient due to redundant work. It provides a systematic approach to solving problems with overlapping subproblems and optimal substructure.
+
+
 ```js
 // Heaps
 // Heap is like binary tree, but numbers are laid out in a different way
