@@ -7950,6 +7950,9 @@ This is a backtracking-based approach to solve the **Sudoku problem**. It tries 
 
 
 > ### Dynamic Programming
+
+**It is like recursion with memory use or cache**
+
 Dynamic Programming is an algorithmic approach to solve some complex problems easily and save time and number of comparisons by storing the results of past computations. The basic idea of dynamic programming is to store the results of previous calculation and reuse it in future instead of recalculating them.
 
 In simple words, it is an optimiztion over plain ecursion
@@ -8021,11 +8024,6 @@ console.log(fib(10)); // Output: 55
 
 
 
-
-
-
-
-
 2. **0/1 Knapsack Problem**:
    - Given a set of items, each with a weight and a value, determine the maximum value that can be obtained from selecting items without exceeding the given weight capacity.
 
@@ -8056,7 +8054,7 @@ const W = 7;
 console.log(knapsack(weights, values, W)); // Output: 9
 ```
 
-3. **Longest Common Subsequence (LCS)**:
+3. **Longest Common Subsequence (LCS)**:   ( [Youtube video](https://www.youtube.com/watch?v=0yvOxPwe3Dg&ab_channel=AnujBhaiya) )
    - Given two strings, find the length of their longest subsequence that appears in both strings.
 
 **LCS using DP:**
@@ -8080,10 +8078,10 @@ function lcs(str1, str2) {
     return dp[m][n];
 }
 
-console.log(lcs("abcde", "ace")); // Output: 3 (The LCS is "ace")
+console.log(lcs("abcdgh", "aedfhr")); // Output: 3 (The LCS is "adh")
 ```
 
-4. **Longest Increasing Subsequence (LIS)**:
+4. **Longest Increasing Subsequence (LIS)**:     ( [Youtube video](https://www.youtube.com/watch?v=okgM58Tv9jQ&ab_channel=ApnaCollege) )
    - Given an array of integers, find the length of the longest subsequence where the numbers are in increasing order.
 
 **LIS using DP:**
@@ -8108,7 +8106,75 @@ const arr = [10, 22, 9, 33, 21, 50, 41, 60, 80];
 console.log(lis(arr)); // Output: 6 (The LIS is [10, 22, 33, 50, 60, 80])
 ```
 
-5. **Edit Distance**:
+#### maximum sum increasing subsequence
+The **Maximum Sum Increasing Subsequence** (MSIS) problem is a variation of the classic **Longest Increasing Subsequence** (LIS) problem. The goal is to find the increasing subsequence in an array where the sum of its elements is maximized.
+
+### Problem Statement:
+Given an array of integers, find the sum of the maximum sum subsequence that is strictly increasing.
+
+### Example:
+- Input: `[1, 101, 2, 3, 100, 4, 5]`
+- Output: `106`
+  - Explanation: The subsequence with the maximum sum is `[1, 2, 3, 100]` which sums to `106`.
+
+### Dynamic Programming Approach:
+
+#### Approach:
+1. Create a `dp[]` array where `dp[i]` represents the maximum sum of the increasing subsequence that ends with the element `arr[i]`.
+2. Initialize `dp[i]` with `arr[i]` itself for all `i` since the smallest subsequence is the element itself.
+3. For each element `arr[i]`, check all previous elements `arr[j]` where `j < i` and if `arr[j] < arr[i]`, update `dp[i]` by checking if the subsequence sum ending at `arr[i]` can be increased by adding `arr[i]` to the subsequence ending at `arr[j]`.
+
+#### Recurrence Relation:
+- For each element `arr[i]`, `dp[i] = max(dp[i], dp[j] + arr[i])` for all `j` where `arr[j] < arr[i]` and `j < i`.
+
+#### JavaScript Code:
+
+```javascript
+function maxSumIncreasingSubsequence(arr) {
+    const n = arr.length;
+    const dp = [...arr]; // Initialize dp with the array values since each element is a subsequence by itself
+
+    // Fill the dp array using the recurrence relation
+    for (let i = 1; i < n; i++) {
+        for (let j = 0; j < i; j++) {
+            if (arr[i] > arr[j] && dp[i] < dp[j] + arr[i]) {
+                dp[i] = dp[j] + arr[i];
+            }
+        }
+    }
+
+    // The result will be the maximum value in the dp array
+    return Math.max(...dp);
+}
+
+// Example usage:
+const arr = [1, 101, 2, 3, 100, 4, 5];
+console.log(maxSumIncreasingSubsequence(arr)); // Output: 106
+```
+
+### Explanation:
+
+1. **Initialization**: The `dp` array is initialized with the same values as the input array since the minimum subsequence ending at each index is the element itself.
+2. **Update the dp array**:
+   - For each element `arr[i]`, check all previous elements `arr[j]` where `j < i`. If `arr[j]` is smaller than `arr[i]`, calculate if adding `arr[i]` to the subsequence ending at `arr[j]` gives a larger sum than the current subsequence ending at `arr[i]`.
+   - Update `dp[i]` accordingly.
+3. **Final Answer**: The maximum value in the `dp[]` array represents the sum of the maximum sum increasing subsequence.
+
+### Time Complexity:
+- **Time Complexity**: \(O(n^2)\), where `n` is the length of the input array. The two nested loops iterate through the array to calculate the maximum subsequence sum.
+- **Space Complexity**: \(O(n)\), for storing the `dp[]` array.
+
+### Optimized Approach:
+The above approach is already efficient for most cases, but if the array is very large, the time complexity \(O(n^2)\) might be an issue. Optimizing this problem further usually involves more advanced techniques, such as using data structures like binary indexed trees or segment trees, but the quadratic solution works well for standard problem sizes.
+
+### Summary:
+- **Maximum Sum Increasing Subsequence (MSIS)** problem is about finding an increasing subsequence with the maximum sum.
+- Using **Dynamic Programming**, we store the maximum sum at each position and build the solution iteratively.
+- The solution has a time complexity of \(O(n^2)\) with \(O(n)\) space.
+
+
+
+5. **Edit Distance**:   ( [Youtube video](https://www.youtube.com/watch?v=eMnyEDYGobA&ab_channel=AnujBhaiya) )
    - The edit distance between two strings is the minimum number of operations required to convert one string into another (using insertions, deletions, or substitutions).
 
 **Edit Distance using DP:**
@@ -8138,6 +8204,252 @@ function editDistance(str1, str2) {
 
 console.log(editDistance("kitten", "sitting")); // Output: 3
 ```
+
+> ### coin change problem using DP   ( [Youtube video](https://www.youtube.com/watch?v=-NTaXJ7BBXs&ab_channel=AnujBhaiya) )
+
+https://www.geeksforgeeks.org/coin-change-dp-7/
+
+The **Coin Change Problem** is a classic dynamic programming problem where the goal is to find the fewest number of coins needed to make up a given amount, or count the number of possible ways to make the amount using available coins.
+
+### Problem:
+Given an array of coins of different denominations and a total amount, find:
+1. The **minimum number of coins** needed to make up the total.
+2. The **number of ways** to make up the total.
+
+### Approach 1: **Minimum Number of Coins (Fewest Coins)**
+The problem asks for the minimum number of coins that sum up to a given amount.
+
+#### Example:
+- Coins: `[1, 2, 5]`
+- Amount: `11`
+- We need to find the fewest coins required to make up `11`.
+
+#### Dynamic Programming Solution (Minimum Coins):
+
+1. We define a `dp[]` array where `dp[i]` represents the minimum number of coins needed to make up amount `i`.
+2. Initialize the `dp` array with a value larger than the possible minimum (infinity or a large number) since we'll be taking the minimum.
+3. Set `dp[0] = 0`, because no coins are needed to make an amount of 0.
+4. For each amount, check every coin and update `dp[amount]` based on the coins available.
+
+#### JavaScript Code (Fewest Coins using tabular):
+
+```javascript
+function coinChange(coins, amount) {
+    const dp = Array(amount + 1).fill(Infinity); // Initialize dp array with a large value (Infinity)
+    dp[0] = 0; // Base case: 0 coins are needed to make amount 0
+
+    for (let i = 1; i <= amount; i++) {
+        for (let coin of coins) {
+            if (i - coin >= 0) {
+                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
+            }
+        }
+    }
+
+    return dp[amount] === Infinity ? -1 : dp[amount]; // Return -1 if it's not possible to make the amount
+}
+
+// Example usage:
+const coins = [1, 2, 5];
+const amount = 11;
+console.log(coinChange(coins, amount)); // Output: 3 (5 + 5 + 1)
+```
+
+### Explanation:
+
+- The `dp[]` array stores the minimum number of coins required to make each amount.
+- For every amount `i`, we loop through the list of coins. If the coin can contribute to the current amount (`i - coin >= 0`), we update the value of `dp[i]` by comparing the current value of `dp[i]` and `dp[i - coin] + 1` (where `+1` is for including the current coin).
+
+### Time Complexity:
+- **Time Complexity**: \(O(n \times m)\), where `n` is the total amount and `m` is the number of coins.
+- **Space Complexity**: \(O(n)\), where `n` is the size of the `dp[]` array.
+
+---
+
+### Approach 2: **Number of Ways to Make the Amount**
+The problem asks to find out how many different ways we can make a given amount using the coins.
+
+#### Example:
+- Coins: `[1, 2, 5]`
+- Amount: `5`
+- Output: `4` (The combinations are `[1,1,1,1,1]`, `[1,1,1,2]`, `[1,2,2]`, and `[5]`).
+
+#### Dynamic Programming Solution (Number of Ways):
+
+1. Define a `dp[]` array where `dp[i]` represents the number of ways to make the amount `i`.
+2. Initialize `dp[0] = 1`, because there's 1 way to make an amount of 0 (by not using any coins).
+3. For each coin, iterate through all possible amounts and update the `dp[]` array.
+
+#### JavaScript Code (Number of Ways):
+
+```javascript
+function countWays(coins, amount) {
+    const dp = Array(amount + 1).fill(0); // Initialize dp array with 0
+    dp[0] = 1; // Base case: There is 1 way to make amount 0 (by using no coins)
+
+    for (let coin of coins) {
+        for (let i = coin; i <= amount; i++) {
+            dp[i] += dp[i - coin];
+        }
+    }
+
+    return dp[amount];
+}
+
+// Example usage:
+const coins = [1, 2, 5];
+const amount = 5;
+console.log(countWays(coins, amount)); // Output: 4
+```
+
+### Explanation:
+
+- The `dp[]` array stores the number of ways to make each amount.
+- For each coin, we update all amounts that can be made using that coin.
+- The idea is to add the number of ways to make amount `i - coin` to `dp[i]` because each way to make `i - coin` can be turned into a way to make `i` by adding the current coin.
+
+### Time Complexity:
+- **Time Complexity**: \(O(n \times m)\), where `n` is the total amount and `m` is the number of coins.
+- **Space Complexity**: \(O(n)\), where `n` is the size of the `dp[]` array.
+
+---
+
+### Key Differences Between the Two Approaches:
+1. **Fewest Coins**: Finds the minimum number of coins required to make the amount.
+   - If it's impossible to make the amount with the given coins, it returns `-1`.
+2. **Number of Ways**: Counts the total number of ways to make the amount using the coins.
+   - It returns the total possible combinations to make the amount.
+
+### Summary:
+- Both approaches use **Dynamic Programming**.
+- In **minimum coins**, we are looking for the smallest number of coins that sum to the target.
+- In **number of ways**, we are counting how many possible combinations sum to the target.
+
+
+> ### Minimum Jumps to Reach End - Dynamic Programming
+
+The **Minimum Jumps to Reach End** problem is a variation of the dynamic programming problems where we need to find the minimum number of jumps needed to reach the end of an array, starting from the first element.
+
+Each element in the array represents the maximum number of steps that can be taken forward from that element. The goal is to reach the last index of the array in the minimum number of jumps.
+
+### Problem Statement:
+Given an array of integers `arr[]` where each element represents the maximum number of steps that can be taken forward from that element, you need to find the **minimum number of jumps** to reach the end of the array, starting from the first element.
+
+### Example:
+- Input: `[2, 3, 1, 1, 2, 4, 2, 0, 1, 1]`
+- Output: `4`
+  - Explanation: The minimum jumps to reach the end are `2 → 3 → 4 → end`.
+
+### Dynamic Programming Approach:
+
+#### Approach:
+1. Create a `dp[]` array where `dp[i]` represents the minimum number of jumps needed to reach index `i` from index `0`.
+2. Initialize `dp[0] = 0` because no jumps are needed to stay at the starting point.
+3. For each index `i`, check if it is possible to jump to any of the next indices from `i` and update their corresponding `dp[]` values.
+   - If `i + arr[i] >= j`, update `dp[j] = min(dp[j], dp[i] + 1)`.
+
+#### Recurrence Relation:
+- For each index `i`, for all `j` where `i < j <= i + arr[i]`, we can update the number of jumps as:
+  - `dp[j] = min(dp[j], dp[i] + 1)`.
+
+#### JavaScript Code:
+
+```javascript
+function minJumps(arr) {
+    const n = arr.length;
+    if (n == 0 || arr[0] == 0) return -1; // If first element is 0, you can't move anywhere
+
+    const dp = Array(n).fill(Infinity); // Initialize dp array with Infinity
+    dp[0] = 0; // It takes 0 jumps to reach the first index
+
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j <= i + arr[i] && j < n; j++) {
+            dp[j] = Math.min(dp[j], dp[i] + 1);
+        }
+    }
+
+    return dp[n - 1] === Infinity ? -1 : dp[n - 1]; // Return the minimum jumps to reach the end
+}
+
+// Example usage:
+const arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1];
+console.log(minJumps(arr)); // Output: 4
+```
+
+### Explanation:
+
+1. **Initialization**:
+   - The `dp[]` array is initialized with `Infinity`, except for `dp[0]` which is `0` because no jumps are needed to reach the first index.
+  
+2. **Updating the dp array**:
+   - For each index `i`, we check if it's possible to reach any of the subsequent indices (up to `i + arr[i]`).
+   - If it is possible, we update the `dp[j]` for each of those indices with the minimum jumps required to reach them from index `i`.
+  
+3. **Final Answer**:
+   - After the loop, `dp[n-1]` will contain the minimum number of jumps needed to reach the last index.
+   - If `dp[n-1]` is still `Infinity`, it means it's not possible to reach the end of the array, so return `-1`.
+
+### Time Complexity:
+- **Time Complexity**: \(O(n^2)\), where `n` is the length of the input array. For each element, we are iterating over all reachable elements from that index.
+- **Space Complexity**: \(O(n)\), due to the space required for the `dp[]` array.
+
+---
+
+### Optimized Greedy Approach:
+The dynamic programming solution works, but it can be further optimized using a greedy approach, which works in \(O(n)\) time.
+
+#### Greedy Approach:
+- The idea is to use a greedy technique to keep track of the **farthest index** that can be reached and the number of jumps needed.
+- Maintain two variables: `farthest` (the farthest index that can be reached so far) and `jumps` (the number of jumps made).
+- Each time you move beyond the current range of reachability, increment the jump count.
+
+#### JavaScript Code (Greedy):
+
+```javascript
+function minJumps(arr) {
+    const n = arr.length;
+    if (n <= 1) return 0; // If array has 1 element, no jumps needed
+    if (arr[0] == 0) return -1; // If first element is 0, can't move anywhere
+
+    let jumps = 1; // At least one jump is needed
+    let maxReach = arr[0]; // The maximum index reachable so far
+    let steps = arr[0]; // Steps left to make the next jump
+
+    for (let i = 1; i < n; i++) {
+        if (i == n - 1) return jumps; // If we have reached the last index
+
+        maxReach = Math.max(maxReach, i + arr[i]); // Update the maximum reach
+        steps--; // Use a step to move to the next index
+
+        if (steps == 0) { // If no more steps are left, we need to make a jump
+            jumps++; // Increment the jump count
+
+            if (i >= maxReach) return -1; // If we can't move further, return -1
+
+            steps = maxReach - i; // Reset the steps to the number of steps to reach the farthest point
+        }
+    }
+
+    return -1;
+}
+
+// Example usage:
+const arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1];
+console.log(minJumps(arr)); // Output: 4
+```
+
+### Explanation of Greedy Approach:
+1. Start with the number of `steps` available at the first index, and keep track of `maxReach`, which is the farthest point we can reach at any point.
+2. Whenever the number of `steps` becomes `0`, a jump is necessary, so increment the `jumps` counter.
+3. The process continues until we reach the last index.
+
+### Time Complexity (Greedy):
+- **Time Complexity**: \(O(n)\), where `n` is the length of the array, as we traverse the array once.
+- **Space Complexity**: \(O(1)\), as only a constant amount of extra space is used.
+
+### Summary:
+- **Dynamic Programming Approach**: \(O(n^2)\) time complexity but is easier to understand.
+- **Greedy Approach**: \(O(n)\) time complexity and is more efficient for larger arrays.
 
 ### Key Points of Dynamic Programming:
 
