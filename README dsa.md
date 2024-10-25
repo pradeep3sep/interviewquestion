@@ -1,11 +1,11 @@
-> ### The Big O
+## The Big O
 The Big O is basically `worst-case` running `time` of an `algorithm` as the input size increases
 
 ```
 https://www.bigocheatsheet.com/
 ```
 
-### Measuring Space Complexity in Practice
+> ### Measuring Space Complexity in Practice
 
 - **Variables**: Consider the memory used by variables you create. For example:
   ```js
@@ -27,7 +27,9 @@ https://www.bigocheatsheet.com/
   let obj = { a: 1, b: 2, c: 3 }; // O(m), where m is the number of keys
   ```
 
-### Example: Analyzing Space Complexity
+<br>
+
+> ### Example: Analyzing Space Complexity
 
 #### Iterative Algorithm (constant space):
 ```js
@@ -50,7 +52,10 @@ function factorial(n) {
 // Space Complexity: O(n), since each recursive call adds to the stack
 ```
 
-> ### Big O of various operations in data structure
+<br>
+
+
+## Big O of various operations in data structure
 
 | **Operation / Data Structure** | **Unsorted Array** | **Sorted Array** | **Linked List** | **BST (Balanced)** | **Hash Table** |
 |-------------------------------|--------------------|------------------|-----------------|--------------------|---------------|
@@ -67,6 +72,7 @@ function factorial(n) {
 - **Balanced BST**: All operations take O(log n) due to the tree's balanced nature, ensuring logarithmic time complexity.
 - **Hash Table**: Average-case performance for search, insert, and delete is O(1), but finding the closest element (since it’s unordered) and sorted traversal would take O(n) or O(n log n) for sorting.
 
+<br>
 
 ## Strings
 
@@ -96,14 +102,14 @@ Subsequence of "abc" are  a, b, c, ab, bc, ac, abc. Keep in mind order matter be
 count of subsequence is 2^n, where n is length of string.
 
 
-Substring - All characters in substring appear consecutively in the original string. eg "abcdef", abc and def are substring\
-Subsequence - It is sequence of characters that appear in the same order as in the original string, but not necessarily consecutivaly. you can skip character but order must remain remain same. eg -"abcdef", ace and bdf are subsequence
+**Substring** - All characters in substring appear consecutively in the original string. eg `"abcdef"`, `abc` and `def` are `substring`.\
+**Subsequence** - It is sequence of characters that appear in the same order as in the original string, but not necessarily consecutivaly. you can skip character but order must remain remain same. eg -`"abcdef"`, `ace` and `bdf` are `subsequence`.
 
-
+<br>
 
 > ### Check if a String is Subsequence of Other
 
-To check if a string is a subsequence of another string in JavaScript, you can use a two-pointer technique. 
+To check if a string is a subsequence of another string in JavaScript, you can use a `two-pointer` technique. 
 
 ```js
 function isSubsequence(s1, s2) {
@@ -135,6 +141,7 @@ console.log(isSubsequence("axc", "ahbgdc")); // false
 
 This approach runs in O(n) time complexity, where `n` is the length of `s2`.
 
+<br>
 
 > ### Check for anagram
 
@@ -212,39 +219,22 @@ The algorithm used in the code can be classified as a **"Hash Table Frequency Co
 
 This algorithm is efficient because it leverages a hash map (or object in JavaScript) to maintain counts and performs all character balancing in a single pass over the strings.
 
-
+<br>
 
 > ### Anagram Substring Search (Or Search for all permutations) ( [Youtube video](https://youtu.be/fYgU6Bi2fRg?si=HoRG7uxp0GCmxlCA&t=83) )
 
-Example:
+**Example**:
 
-Input: txt = “BACDGABCDA”,  pat = “ABCD”\
-Output: [0, 5, 6]\
-Explanation: “BACD” is at 0, “ABCD” at 5 and “BCDA” at 6
+**Input**: txt = “BACDGABCDA”,  **pat** = “ABCD”\
+**Output**: [0, 5, 6]\
+**Explanation**: “BACD” is at 0, “ABCD” at 5 and “BCDA” at 6
 
-Input: txt = “AAABABAA”, pat = “AABA”   \
-Output:  [0, 1, 4]\
-Explanation: “AAAB” is at 0, “AABA” at 5 and “ABAA” at 6
-
-Anagram search is a problem where you need to find all the positions in a string where an anagram (or permutation) of a given pattern exists as a substring. 
-
-### Problem Statement:
-Given a **text** and a **pattern**, you need to find all the starting indices in the text where the pattern's anagram (permutation) appears.
-
-### Example:
-**Input:**
-- Text: `"cbaebabacd"`
-- Pattern: `"abc"`
-
-**Output:**
-- `[0, 6]`
-
-Explanation:
-- The substring starting at index 0 is `"cba"`, which is an anagram of `"abc"`.
-- The substring starting at index 6 is `"bac"`, which is also an anagram of `"abc"`.
+**Input**: txt = “AAABABAA”, **pat** = “AABA”   \
+**Output**:  [0, 1, 4]\
+**Explanation**: “AAAB” is at 0, “AABA” at 5 and “ABAA” at 6
 
 ### Approach: Sliding Window + Frequency Count
-To solve this efficiently, we can use the **sliding window technique** with **frequency count** of characters. The key idea is:
+To solve this efficiently, we can use the `sliding window technique` with `frequency count` of characters. The key idea is:
 1. Maintain a frequency count of the characters in the pattern.
 2. Slide a window of the same length as the pattern over the text.
 3. At each step, compare the frequency of characters in the current window with the frequency count of the pattern.
@@ -336,6 +326,7 @@ Anagram start indices: [0, 6]
 ### Space Complexity:
 - **O(1)**, because we are using fixed-size arrays for the frequency count (26 elements for lowercase English letters).
 
+<br>
 
 > ### Lexicographic Rank of a String ( [Youtube video](https://youtu.be/uUN8fVPrJn0?si=Ege3okmmRJvxt331) )
 
