@@ -669,3 +669,64 @@ Access-Control-Allow-Headers: Content-Type, Authorization, X-Custom-Header
 ```
 
 This setup allows requests to the server from `https://example.com` with specific headers and methods, making cross-origin requests safe and controlled.
+
+
+> ###  Subresource Integrity (SRI)
+
+```
+https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
+```
+
+Let say you are using any third part script like bootstrap cdn, and you are loading its content, but somehow hacker load mailicous script in bootstrap or its security gets compromised, then your website will be very much vulnerable. so thats why we use the SRI.
+
+Subresource Integrity (SRI) is a security feature that allows browsers to verify that resources (such as scripts or stylesheets) loaded from a third-party source have not been tampered with. This is done by including a cryptographic hash in the HTML `<script>` or `<link>` tags for the resource. If the resource’s content doesn’t match the specified hash, the browser blocks it, helping to prevent attacks such as code injection.
+
+### How It Works
+
+When you include an SRI hash in a `<script>` or `<link>` tag, the browser:
+1. Downloads the resource.
+2. Calculates its hash.
+3. Compares the calculated hash to the hash provided in the SRI attribute.
+4. Loads the resource only if the hashes match.
+
+### Example of SRI in HTML
+
+For a CDN-hosted JavaScript file:
+
+```html
+<<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+```
+
+In this example:
+- The `integrity` attribute contains the hash (`sha384` here), which the browser uses to verify the file’s integrity.
+- The `crossorigin="anonymous"` attribute allows cross-origin requests without credentials. This is typically required for SRI to work when loading resources from a different origin.
+
+### Commonly Used Hash Algorithms
+SRI hashes are usually created using either:
+- **sha256**: Secure Hash Algorithm 256-bit
+- **sha384**: Secure Hash Algorithm 384-bit
+- **sha512**: Secure Hash Algorithm 512-bit
+
+### Benefits of SRI
+- **Security**: Prevents attackers from injecting malicious code into third-party resources.
+- **Content Authenticity**: Ensures that the exact version of the resource you intended to load is what’s actually loaded.
+  
+### Limitations
+- **CDN Updates**: If the third-party resource changes (e.g., the CDN updates it), the hash will no longer match, and the resource won’t load.
+- **Hash Generation**: Requires generating and updating hashes whenever the resource changes.
+
+### How to Generate an SRI Hash
+You can generate an SRI hash using command-line tools like `openssl` or online tools. For example:
+
+```bash
+# Generate an SRI hash for a local file using sha384
+openssl dgst -sha384 -binary file.js | openssl base64 -A
+```
+
+```
+// website url
+
+https://www.srihash.org/
+```
+
+Visit above site and paste bootstrap url in it ie 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', select hash, it wil generate the hash from the url take the genrated integrity, compare it with the hash provided in the integrity in above bootstrap cdn, if it matches then content gets loaded otherwise not loaded. 

@@ -5140,7 +5140,7 @@ Given the following binary tree:
 // 1. They are one way
 // 2. Hashes are deterministic, means if you run nails through this equation and it produces the number, the next time you run nails it will produce same number
 
-// collision - It is a situation when we have an item that maps to that same spot in memory
+// collision - It is a situation when we have an item that maps to that same spot in memory basically hash function generate same no for two different key.
 
 // hash function always give the same number when same input is passed through it
 
@@ -5210,6 +5210,384 @@ let myHashtable = new HashTable()
 myHashtable
 
 ```
+
+> ### Count Distinct Elements
+
+If we with other langueges then we have have hashset, in js we have set, which is similar to hashset
+
+```js
+function countDistinctElements(arr) {
+    // Use a Set to store unique elements from the array
+    const uniqueElements = new Set(arr);
+    
+    // Return the size of the Set, which is the count of distinct elements
+    return uniqueElements.size;
+}
+
+// Example usage:
+const array = [1, 2, 3, 4, 1, 2, 5];
+console.log(countDistinctElements(array)); // Output: 5
+```
+
+This solution has a time complexity of 𝑂(𝑛) because inserting elements into a Set and checking for duplicates is efficient.
+
+
+> ### Frequencies of array elements 
+
+I/P : [10, 12, 10, 15, 10, 20, 12, 12]
+
+O/P : 10 : 3
+      12 : 3
+      15 : 1
+      20 : 1
+
+
+If we with other langueges then we have have hashmap, in js we have map, which is similar to hashmap
+
+```javascript
+function elementFrequencies(arr) {
+    const frequencyMap = new Map();
+
+    // Loop through the array and update the frequency in the map
+    for (const element of arr) {
+        frequencyMap.set(element, (frequencyMap.get(element) || 0) + 1);
+    }
+
+    return frequencyMap;
+}
+
+// Example usage:
+const array = [1, 2, 3, 4, 1, 2, 5];
+console.log(Object.fromEntries(elementFrequencies(array))); // Output: {1: 2, 2: 2, 3: 1, 4: 1, 5: 1}
+```
+
+### Explanation:
+1. **Map**: We use a `Map` to store each unique element and its frequency.
+2. **Loop and Count**: For each element in the array, we check if it exists in the `Map`. If it does, we increment its count; otherwise, we initialize it with `1`.
+3. **Output**: The function returns a `Map`, where each key is an element, and the corresponding value is its frequency.
+
+This solution has a time complexity of \(O(n)\), as we are only looping through the array once.
+
+
+> ### Intersection of two arrays 
+
+To find the intersection of two arrays (i.e., the elements that appear in both arrays), you can use a `Set` in JavaScript to make the process more efficient. Here’s a solution:
+
+### Code:
+```javascript
+function arrayIntersection(arr1, arr2) {
+    // Convert the first array to a Set to remove duplicates and allow efficient lookups
+    const set1 = new Set(arr1);
+
+    // Use another Set to store the intersection to ensure unique elements in the result
+    const intersection = new Set();
+
+    // Loop through the second array and check if each element is in set1
+    for (const element of arr2) {
+        if (set1.has(element)) {
+            intersection.add(element);
+        }
+    }
+
+    // Convert the Set back to an array for the final result
+    return Array.from(intersection);
+}
+
+// Example usage:
+const array1 = [1, 2, 3, 4, 5];
+const array2 = [4, 5, 6, 7, 8];
+console.log(arrayIntersection(array1, array2)); // Output: [4, 5]
+```
+
+### Explanation:
+1. **Convert to Set**: We convert `arr1` to a `Set` (`set1`) to make lookups for elements in `arr2` efficient.
+2. **Intersection Set**: We create another `Set` to store elements found in both arrays, ensuring that each element is added only once.
+3. **Convert Back to Array**: Finally, we convert the `Set` back to an array to return the result.
+
+### Complexity:
+- **Time Complexity**: \(O(n + m)\), where \(n\) and \(m\) are the lengths of `arr1` and `arr2`, respectively. The Set operations allow efficient lookups and ensure each element is checked only once.
+
+
+> ### Union of two unsorted arrays
+
+To find the union of two unsorted arrays (i.e., all unique elements that appear in either array), you can use JavaScript's `Set` to handle duplicates efficiently. Here’s how to do it:
+
+### Code:
+```javascript
+function arrayUnion(arr1, arr2) {
+    // Combine both arrays and use Set to remove duplicates
+    const unionSet = new Set([...arr1, ...arr2]);
+
+    // Convert the Set back to an array for the final result
+    return Array.from(unionSet);
+}
+
+// Example usage:
+const array1 = [1, 2, 3, 4, 5];
+const array2 = [4, 5, 6, 7, 8];
+console.log(arrayUnion(array1, array2)); // Output: [1, 2, 3, 4, 5, 6, 7, 8]
+```
+
+### Explanation:
+1. **Combine Arrays**: Use the spread operator `...` to merge `arr1` and `arr2` into a single array.
+2. **Remove Duplicates**: Pass the combined array into a `Set`, which will automatically remove duplicates, resulting in the unique union of both arrays.
+3. **Convert Back to Array**: Finally, convert the `Set` back to an array for the final result.
+
+### Complexity:
+- **Time Complexity**: \(O(n + m)\), where \(n\) and \(m\) are the lengths of `arr1` and `arr2`, since inserting elements into a `Set` and removing duplicates is efficient.
+
+
+> ### Pair with given sum in unsorted array
+
+To find a pair of elements in an unsorted array that adds up to a given sum, you can use a `Set` for efficient lookups. This method is more optimal than using nested loops.
+
+### Code:
+```javascript
+function findPairWithSum(arr, targetSum) {
+    const seenNumbers = new Set();
+
+    for (const num of arr) {
+        // Calculate the required pair number to reach targetSum
+        const complement = targetSum - num;
+
+        // Check if the complement exists in the set
+        if (seenNumbers.has(complement)) {
+            return [complement, num]; // Return the pair
+        }
+
+        // Add the current number to the set
+        seenNumbers.add(num);
+    }
+
+    // Return null if no pair is found
+    return null;
+}
+
+// Example usage:
+const array = [3, 5, 2, -4, 8, 11];
+const target = 7;
+console.log(findPairWithSum(array, target)); // Output: [5, 2]
+```
+
+### Explanation:
+1. **Set for Lookups**: We use a `Set` called `seenNumbers` to store numbers we’ve already encountered.
+2. **Calculate Complement**: For each element `num`, calculate the `complement` as `targetSum - num`.
+3. **Check in Set**: If the `complement` is already in `seenNumbers`, we’ve found the pair `[complement, num]` that adds up to `targetSum`.
+4. **Add to Set**: If no pair is found yet, add `num` to the `Set` and continue.
+5. **Return Pair or Null**: Return the pair if found, or `null` if no such pair exists.
+
+### Complexity:
+- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, because checking for complements and adding elements to the `Set` both have an average time complexity of \(O(1)\).
+- **Space Complexity**: \(O(n)\) for the `Set`, which stores the elements we've seen so far.
+
+
+> ### Subarray with zero sum : keep in mind subarray means contineous
+
+To find a subarray with a zero sum in an unsorted array, we can use a `Set` to track cumulative sums. If the same cumulative sum appears twice, it means that the elements between these two occurrences sum to zero.
+
+### Code:
+```javascript
+function hasZeroSumSubarray(arr) {
+    const cumulativeSumSet = new Set();
+    let cumulativeSum = 0;
+
+    for (const num of arr) {
+        cumulativeSum += num;
+
+        // Check if cumulative sum is zero or it already exists in the set
+        if (cumulativeSum === 0 || cumulativeSumSet.has(cumulativeSum)) {
+            return true; // Found a subarray with zero sum
+        }
+
+        // Add the current cumulative sum to the set
+        cumulativeSumSet.add(cumulativeSum);
+    }
+
+    return false; // No subarray with zero sum found
+}
+
+// Example usage:
+const array = [4, 2, -3, 1, 6];
+console.log(hasZeroSumSubarray(array)); // Output: true
+```
+
+### Explanation:
+1. **Cumulative Sum**: We keep a running total, `cumulativeSum`, as we iterate through the array.
+2. **Check for Zero Sum**: 
+   - If `cumulativeSum` is `0`, a subarray from the start to the current index has a zero sum.
+   - If `cumulativeSum` has been seen before in `cumulativeSumSet`, it means the subarray between the two indices where this sum first appeared and the current index has a sum of zero.
+3. **Add to Set**: If neither condition is met, add `cumulativeSum` to the set and continue.
+4. **Return Result**: If we find a zero-sum subarray, return `true`; otherwise, return `false`.
+
+### Complexity:
+- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, as we are only iterating through the array once.
+- **Space Complexity**: \(O(n)\) for storing cumulative sums in the `Set`.
+
+
+
+> ### Subarray with given sum   https://www.youtube.com/watch?v=Ofl4KgFhLsM&ab_channel=Techdose
+
+To find a subarray with a given sum in an unsorted array of positive integers, you can use a sliding window technique with two pointers. If the array contains both positive and negative integers, we can use a cumulative sum approach with a `Map`.
+
+### Solution for Array with Positive Integers
+
+When all elements are positive, a sliding window technique is efficient.
+
+#### Code:
+```javascript
+function subarrayWithGivenSum(arr, targetSum) {
+    let start = 0;
+    let currentSum = 0;
+
+    for (let end = 0; end < arr.length; end++) {
+        // Add the current element to currentSum
+        currentSum += arr[end];
+
+        // Shrink the window as long as currentSum is greater than targetSum
+        while (currentSum > targetSum && start <= end) {
+            currentSum -= arr[start];
+            start++;
+        }
+
+        // Check if we found the target sum
+        if (currentSum === targetSum) {
+            return arr.slice(start, end + 1); // Return the subarray
+        }
+    }
+
+    return null; // No subarray found with the target sum
+}
+
+// Example usage:
+const array = [1, 4, 20, 3, 10, 5];
+const target = 33;
+console.log(subarrayWithGivenSum(array, target)); // Output: [20, 3, 10]
+```
+
+### Explanation:
+1. **Sliding Window**: We use two pointers, `start` and `end`, to represent the current subarray.
+2. **Expand and Shrink Window**: 
+   - Add elements to `currentSum` by moving `end`.
+   - If `currentSum` exceeds `targetSum`, remove elements from the start of the window by moving `start`.
+3. **Check for Target Sum**: If `currentSum` equals `targetSum`, return the subarray.
+4. **Return Null if Not Found**: If no subarray matches, return `null`.
+
+### Complexity:
+- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, because each element is added and removed from `currentSum` at most once.
+- **Space Complexity**: \(O(1)\), if only the indices are returned; otherwise, \(O(n)\) for the returned subarray.
+
+---
+
+### Solution for Array with Positive and Negative Integers
+
+When the array contains both positive and negative integers, we use a `Map` to track cumulative sums.
+
+#### Code:
+```javascript
+function subarrayWithGivenSumMixed(arr, targetSum) {
+    const cumulativeSumMap = new Map();
+    let cumulativeSum = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        cumulativeSum += arr[i];
+
+        // Check if current cumulative sum equals targetSum
+        if (cumulativeSum === targetSum) {
+            return arr.slice(0, i + 1); // Subarray from the start to the current index
+        }
+
+        // Check if there's a previous cumulative sum that matches (currentSum - targetSum)
+        if (cumulativeSumMap.has(cumulativeSum - targetSum)) {
+            const start = cumulativeSumMap.get(cumulativeSum - targetSum) + 1;
+            return arr.slice(start, i + 1); // Subarray from start to current index
+        }
+
+        // Store cumulative sum and index
+        cumulativeSumMap.set(cumulativeSum, i);
+    }
+
+    return null; // No subarray found with the target sum
+}
+
+// Example usage:
+const arrayMixed = [10, 2, -2, -20, 10];
+const targetMixed = -10;
+console.log(subarrayWithGivenSumMixed(arrayMixed, targetMixed)); // Output: [10, 2, -2, -20]
+```
+
+### Explanation:
+1. **Cumulative Sum**: We maintain a cumulative sum as we iterate through the array.
+2. **Check for Target Sum**:
+   - If `cumulativeSum` equals `targetSum`, we have found a subarray from the start.
+   - If `cumulativeSum - targetSum` exists in the map, the elements between the two cumulative sums form a subarray with the target sum.
+3. **Store in Map**: Add the current `cumulativeSum` and its index to the map.
+4. **Return Result**: If no subarray matches, return `null`.
+
+### Complexity:
+- **Time Complexity**: \(O(n)\), because we iterate through the array once.
+- **Space Complexity**: \(O(n)\), for storing cumulative sums in the `Map`.
+
+
+> ### Longest subarray with given sum
+
+To find the longest subarray with a given sum in an unsorted array, we can use a cumulative sum approach with a `Map`. This solution works efficiently for arrays containing both positive and negative integers.
+
+### Approach
+1. Use a cumulative sum variable to keep track of the sum of elements as we iterate through the array.
+2. Use a `Map` to store the first occurrence of each cumulative sum.
+3. For each element, calculate the cumulative sum up to that index.
+   - If the cumulative sum equals the target sum, the subarray from the start to the current index has the target sum.
+   - If `(cumulativeSum - targetSum)` exists in the map, it means there’s a subarray between the indices where this difference was first found and the current index that sums up to the target sum.
+   - Track the maximum length of such subarrays.
+
+### Code
+```javascript
+function longestSubarrayWithGivenSum(arr, targetSum) {
+    const cumulativeSumMap = new Map();
+    let cumulativeSum = 0;
+    let maxLength = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        cumulativeSum += arr[i];
+
+        // Check if cumulative sum is equal to targetSum
+        if (cumulativeSum === targetSum) {
+            maxLength = i + 1; // Subarray from start to current index
+        }
+
+        // Check if cumulativeSum - targetSum is in the map
+        if (cumulativeSumMap.has(cumulativeSum - targetSum)) {
+            const previousIndex = cumulativeSumMap.get(cumulativeSum - targetSum);
+            maxLength = Math.max(maxLength, i - previousIndex);
+        }
+
+        // Store cumulative sum if not already present
+        if (!cumulativeSumMap.has(cumulativeSum)) {
+            cumulativeSumMap.set(cumulativeSum, i);
+        }
+    }
+
+    return maxLength;
+}
+
+// Example usage:
+const array = [10, 5, 2, 7, 1, 9];
+const target = 15;
+console.log(longestSubarrayWithGivenSum(array, target)); // Output: 4 ([5, 2, 7, 1])
+```
+
+### Explanation
+1. **Cumulative Sum**: We maintain a cumulative sum as we iterate through the array.
+2. **Check for Target Sum**:
+   - If `cumulativeSum` equals `targetSum`, we’ve found a subarray from the start of the array to the current index with the target sum.
+   - If `cumulativeSum - targetSum` exists in `cumulativeSumMap`, it means there is a subarray with the target sum between the previous occurrence of this difference and the current index.
+3. **Track Max Length**: For each matching subarray, calculate its length and update `maxLength` if it’s the longest found so far.
+4. **Store in Map**: We store each cumulative sum’s first occurrence index in the map to check for potential subarrays starting from that index.
+
+### Complexity
+- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, since we’re iterating through the array once.
+- **Space Complexity**: \(O(n)\), for storing cumulative sums in the map.
+
 
 > ### Below is for the GRAPH
 
