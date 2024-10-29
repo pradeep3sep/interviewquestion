@@ -730,3 +730,354 @@ https://www.srihash.org/
 ```
 
 Visit above site and paste bootstrap url in it ie 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', select hash, it wil generate the hash from the url take the genrated integrity, compare it with the hash provided in the integrity in above bootstrap cdn, if it matches then content gets loaded otherwise not loaded. 
+
+
+## How does the web works
+
+![screenshot](images/webworks.png)
+
+### So what happens, exactly?
+
+note: ip address defines the as the main address of any website.
+
+When you type a web address into your browser (for our analogy that's like walking to the shop):
+
+1. The browser goes to the DNS server, and finds the real address(ip address) of the server that the website lives on (you find the address of the shop).
+2. The browser sends an HTTP request message to the server(hits that ip address from the browser), asking it to send a copy of the website to the client (you go to the shop and order your goods). This message, and all other data sent between the client and the server, is sent across your internet connection using TCP/IP.
+3. If the server approves the client's request, the server sends the client a "200 OK" message, which means "Of course you can look at that website! Here it is", and then starts sending the website's files to the browser as a series of small `chunks` called data packets (the shop gives you your goods, and you bring them back to your house).
+4. The browser assembles the small chunks into a complete web page and displays it to you (the goods arrive at your door — new shiny stuff, awesome!).
+
+
+### Order in which component files are parsed
+When browsers send requests to servers for HTML files, those HTML files often contain `<link>` elements referencing external CSS stylesheets and `<script>` elements referencing external JavaScript scripts. It's important to know the order in which those files are parsed by the browser as the browser loads the page:
+
+- The browser parses the HTML file first, and that leads to the browser recognizing any `<link>` - element references to external CSS stylesheets and any `<script>`- element references to scripts.
+- As the browser parses the HTML, it sends requests back to the server for any CSS files it has found from `<link>` elements, and any JavaScript files it has found from `<script>` elements, and from those, then parses the CSS and JavaScript.
+- The browser generates an in-memory DOM tree from the parsed HTML, generates an in-memory CSSOM structure from the parsed CSS, and compiles and executes the parsed JavaScript.
+- As the browser builds the DOM tree and applies the styles from the CSSOM tree and executes the JavaScript, a visual representation of the page is painted to the screen, and the user sees the page content and can begin to interact with it.
+
+**The CSS Object Model (CSSOM) is a set of APIs that allows JavaScript to read and manipulate CSS styles dynamically in the browser.**
+
+## DNS explained
+Real web addresses aren't the nice, memorable strings you type into your address bar to find your favorite websites. They are special numbers that look like this: 192.0.2.172.
+
+This is called an IP address, and it represents a unique location on the web. However, it's not very easy to remember, is it? That's why the Domain Name System was invented. This system uses special servers that match up a web address you type into your browser (like "mozilla.org") to the website's real (IP) address.
+
+Websites can be reached directly via their IP addresses. You can use a [DNS lookup tool](https://www.nslookup.io/website-to-ip-lookup/) to find the IP address of a website.
+
+
+
+> ### To get all the details of any domain visit below, enter the url in search and you will see when this doamin was first registered and when it was last updated or renewed.
+
+[url](https://www.whois.com/whois/tataaig.com)
+
+**Now we have connected server with the browser, we will se how they transfer data from server to browser**
+
+
+
+## Communication Protocols
+
+Communication protocols are essential rules and conventions for data transfer between network devices. These protocols define how data is formatted, transmitted, and received, enabling reliable communication across networks. Here are some common types of communication protocols:
+
+### 1. **Network Protocols**
+   - **TCP/IP (Transmission Control Protocol/Internet Protocol):** The foundation of the internet, governing how data is divided into packets, transmitted, and reassembled at the destination. TCP ensures reliability, while IP handles addressing.
+   - **UDP (User Datagram Protocol):** A faster but less reliable alternative to TCP, often used for real-time applications like video streaming and gaming, where speed is prioritized over guaranteed delivery.
+   - **HTTP/HTTPS (Hypertext Transfer Protocol):** A protocol for transmitting web pages. HTTPS is the secure version, adding encryption for secure communication.
+   - **FTP (File Transfer Protocol):** Used for transferring files between a client and server, commonly for file sharing and website management.
+
+### 2. **Email Protocols**
+   - **SMTP (Simple Mail Transfer Protocol):** Used for sending emails from clients to servers and between servers.
+   - **IMAP (Internet Message Access Protocol):** Allows users to access emails on a remote server, keeping the email on the server and syncing it across devices.
+   - **POP3 (Post Office Protocol):** Downloads emails to a local client and usually deletes them from the server, suitable for accessing email from a single device.
+
+### 3. **Wireless and Mobile Protocols**
+   - **Wi-Fi (Wireless Fidelity):** Based on IEEE 802.11 standards, it allows devices to connect to a LAN without cables.
+   - **Bluetooth:** A short-range protocol enabling communication between devices like phones, laptops, and accessories.
+   - **5G/4G LTE (Long-Term Evolution):** Cellular protocols for high-speed data transfer on mobile networks, offering improved speed and connectivity.
+
+### 4. **Data Link Layer Protocols**
+   - **Ethernet:** A widely used protocol in LAN environments, based on IEEE 802.3, managing data transmission over wired networks.
+   - **PPP (Point-to-Point Protocol):** Often used for establishing direct connections between network nodes, commonly used in DSL connections.
+
+### 5. **Application Layer Protocols**
+   - **DNS (Domain Name System):** Resolves human-readable domain names (like openai.com) into IP addresses.
+   - **DHCP (Dynamic Host Configuration Protocol):** Assigns IP addresses dynamically to devices on a network, simplifying device configuration.
+   - **SNMP (Simple Network Management Protocol):** Used for network management, it monitors network devices and handles alerts.
+
+Each protocol plays a specific role in enabling reliable, efficient, and secure communication between devices across various types of networks. These protocols can operate at different layers of the OSI (Open Systems Interconnection) model, from the physical transfer of data to application-level interactions.
+
+Explaining 8 Popular Network Protocols in 1 Diagram. The method to download the high-resolution PDF is available at the end.
+
+Network protocols are standard methods of transferring data between two computers in a network.
+
+1. HTTP (HyperText Transfer Protocol)
+HTTP is a protocol for fetching resources such as HTML documents. It is the foundation of any data exchange on the Web and it is a client-server protocol.
+
+2. HTTP/3
+HTTP/3 is the next major revision of the HTTP. It runs on QUIC, a new transport protocol designed for mobile-heavy internet usage. It relies on UDP instead of TCP, which enables faster web page responsiveness. VR applications demand more bandwidth to render intricate details of a virtual scene and will likely benefit from migrating to HTTP/3 powered by QUIC.
+
+3. HTTPS (HyperText Transfer Protocol Secure)
+HTTPS extends HTTP and uses encryption for secure communications.
+
+4. WebSocket
+WebSocket is a protocol that provides full-duplex communications over TCP. Clients establish WebSockets to receive real-time updates from the back-end services. Unlike REST, which always “pulls” data, WebSocket enables data to be “pushed”. Applications, like online gaming, stock trading, and messaging apps leverage WebSocket for real-time communication.
+
+5. TCP (Transmission Control Protocol)
+TCP is is designed to send packets across the internet and ensure the successful delivery of data and messages over networks. Many application-layer protocols build on top of TCP.
+
+6. UDP (User Datagram Protocol)
+UDP sends packets directly to a target computer, without establishing a connection first. UDP is commonly used in time-sensitive communications where occasionally dropping packets is better than waiting. Voice and video traffic are often sent using this protocol.
+
+7. SMTP (Simple Mail Transfer Protocol)
+SMTP is a standard protocol to transfer electronic mail from one user to another.
+
+8. FTP (File Transfer Protocol)
+FTP is used to transfer computer files between client and server. It has separate connections for the control channel and data channel.
+
+
+![common network protocols](images/protocol.jpg)
+
+
+## Rest API
+
+1 Tier architecture - frontend and backend are on same
+2 Tier architecture - frontend and backend are manage separately
+3 Tier architecture - frontend, backend and database, we managing separately
+
+For communicationg between the frontend, backend and database, we need api,
+
+A REST (Representational State Transfer) API is a widely-used web service architecture that allows clients and servers to `communicate over HTTP protocol` using standard HTTP methods like GET, POST, PUT, DELETE, and PATCH. RESTful APIs are stateless, meaning each request from the client to the server must contain all the information needed to understand and process the request.
+
+Here’s a quick overview of REST API principles and best practices:
+
+### Key Principles
+1. **Statelessness**: Each request is independent and does not rely on previous requests. This makes the API more scalable.
+2. **Client-Server Separation**: The client and server interact only through requests and responses, keeping the client interface separate from server data management.
+3. **Uniform Interface**: REST defines a standard set of methods (HTTP verbs) for interaction.
+4. **Cacheability**: Responses should define whether they are cacheable, improving performance on the client side.
+5. **Layered System**: An API can have multiple layers, improving scalability, load balancing, and security.
+
+### Common HTTP Methods
+- **GET**: Retrieve information from the server (e.g., a list of users or a specific user).
+- **POST**: Send data to the server, often to create a new resource.
+- **PUT**: Update an existing resource or create one if it doesn’t exist.
+- **DELETE**: Remove a resource.
+- **PATCH**: Partially update a resource.
+
+### RESTful API Example
+Assume you’re building an API for a blog application.
+
+- **Endpoint**: `/posts`
+  - `GET /posts` – Fetch all blog posts
+  - `POST /posts` – Create a new blog post
+  - `GET /posts/{id}` – Retrieve a specific blog post by ID
+  - `PUT /posts/{id}` – Update a specific post by ID
+  - `DELETE /posts/{id}` – Delete a specific post by ID
+
+### Best Practices
+- **Use Nouns for Endpoints**: Name endpoints as resources (e.g., `/users` instead of `/getUsers`).
+- **Handle Errors Gracefully**: Use proper HTTP status codes (e.g., 404 for "Not Found," 400 for "Bad Request").
+- **Document the API**: Use tools like Swagger or OpenAPI to provide easy-to-understand documentation.
+- **Version Your API**: To handle changes, version the API (e.g., `/api/v1/posts`).
+
+The REST (Representational State Transfer) architectural style offers several benefits that make it a popular choice for building APIs. Here are some key advantages:
+
+### 1. **Simplicity and Scalability**
+   - **Simple Structure**: REST APIs use HTTP methods (GET, POST, PUT, DELETE, PATCH), making them straightforward to implement and understand.
+   - **Stateless**: Each request is independent, so the server does not need to store client context between requests, enhancing scalability and allowing the server to handle large volumes of requests easily.
+
+### 2. **Flexibility and Extensibility**
+   - **Language-Agnostic**: REST APIs are protocol-based and can be used with any programming language that supports HTTP (like JavaScript, Python, Java, etc.), providing flexibility in both client and server technologies.
+   - **Modular**: REST allows for flexible data handling, making it possible to add or modify resources and methods without disrupting the whole system.
+
+### 3. **Reusability and Interoperability**
+   - **Reusable Endpoints**: With REST, the same endpoint can be used across various applications and client devices, such as web, mobile, IoT, etc.
+   - **Interoperability**: REST APIs are accessible over HTTP, which is universally supported, allowing different systems to easily interact, regardless of platform or language.
+
+### 4. **Performance and Caching**
+   - **Caching**: REST APIs can use HTTP caching, where responses can be stored on the client or intermediary servers, reducing the load on the backend and improving performance.
+   - **Lightweight**: REST typically transmits data in formats like JSON or XML, which are lightweight and easy to parse, resulting in faster data transfer over the network.
+
+### 5. **Easy Integration and Adoption**
+   - **Standard Protocols**: REST uses standard HTTP methods and status codes, which are widely recognized and understood, making it easier for developers to integrate and adopt REST APIs without a steep learning curve.
+   - **Wide Ecosystem Support**: Many libraries, tools, and frameworks are available for working with REST, such as Axios for JavaScript, Retrofit for Android, or Flask for Python, which speed up development.
+
+### 6. **Scalable Development and Maintenance**
+   - **Separation of Concerns**: REST’s client-server model ensures that the client and server are independent of each other, allowing teams to work on client and server components separately.
+   - **Modular Design**: REST’s resource-based approach allows different parts of the API to evolve independently, making it easier to maintain and extend.
+
+### 7. **Consistency and Usability**
+   - **Uniform Interface**: REST’s standardized approach (using nouns for resources and HTTP verbs for actions) creates a predictable structure, making APIs more intuitive to use and understand.
+
+REST’s simplicity, flexibility, and broad support make it ideal for building scalable, reliable, and maintainable APIs across various applications and industries.
+
+
+
+
+
+
+
+
+> ### Various headers used in api   https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+
+### **1. Authentication & Authorization Headers**
+   - **Authorization**: Used for client authentication. Includes tokens or credentials.
+     - Example: `Authorization: Bearer {token}`
+   - **WWW-Authenticate**: Sent by the server when an `Authorization` is missing or invalid.
+     - Example: `WWW-Authenticate: Basic realm="Access to the site"`
+
+### **2. Content & Encoding Headers**
+   - **Content-Type**: Indicates the media type of the request/response body.
+     - Example: `Content-Type: application/json`
+   - **Content-Length**: Specifies the size (in bytes) of the body in a request or response.
+     - Example: `Content-Length: 348`
+   - **Content-Encoding**: Specifies the encoding applied to the body, like gzip, deflate, or br (Brotli).
+     - Example: `Content-Encoding: gzip`
+   - **Transfer-Encoding**: Indicates that the message body uses chunked encoding (data sent in smaller chunks).
+     - Example: `Transfer-Encoding: chunked`
+   - **Accept**: Tells the server which response formats the client can handle.
+     - Example: `Accept: application/json`
+   - **Accept-Encoding**: Specifies the content encoding types the client supports for compressed data (e.g., gzip).
+     - Example: `Accept-Encoding: gzip, deflate, br`
+
+### **3. Caching & Conditional Headers**
+   - **Cache-Control**: Specifies caching policies to control data freshness and caching.
+     - Example: `Cache-Control: no-store, must-revalidate`
+   - **ETag**: Provides a unique identifier for a version of a resource to help with cache validation.
+     - Example: `ETag: "33a64df551425fcc55e"`
+   - **Last-Modified**: Specifies the last time the resource was modified, helping clients cache responses.
+     - Example: `Last-Modified: Wed, 21 Oct 2023 07:28:00 GMT`
+   - **Expires**: Indicates the date/time after which the response is considered stale.
+     - Example: `Expires: Thu, 01 Dec 2023 16:00:00 GMT`
+
+### **4. Connection Management Headers**
+   - **Connection**: Controls whether the network connection stays open after the transaction.
+     - Example: `Connection: keep-alive`
+   - **Keep-Alive**: Provides parameters for how long a connection should remain open (used with `Connection: keep-alive`).
+     - Example: `Keep-Alive: timeout=5, max=100`
+
+### **5. Security Headers**
+   - **X-Content-Type-Options**: Prevents MIME-type sniffing by specifying content type.
+     - Example: `X-Content-Type-Options: nosniff`
+   - **Strict-Transport-Security (HSTS)**: Enforces HTTPS by instructing browsers to only connect securely.
+     - Example: `Strict-Transport-Security: max-age=31536000; includeSubDomains`
+   - **X-Frame-Options**: Controls whether a site can be embedded in an `<iframe>`.
+     - Example: `X-Frame-Options: DENY`
+   - **X-XSS-Protection**: Activates cross-site scripting filters in browsers.
+     - Example: `X-XSS-Protection: 1; mode=block`
+
+### **6. Client Metadata Headers**
+   - **User-Agent**: Identifies the client (browser or app) making the request.
+     - Example: `User-Agent: Mozilla/5.0`
+   - **Referer**: Specifies the URL of the page that referred the client to the current page.
+     - Example: `Referer: https://example.com/page`
+   - **Origin**: Specifies the origin (protocol, host, port) of the request, essential for CORS.
+     - Example: `Origin: https://example.com`
+   - **Host**: Identifies the domain name of the server (useful for virtual hosting).
+     - Example: `Host: api.example.com`
+   - **Accept-Language**: Specifies the language expected in the response, useful for localization..
+     - Example: `Accept-Language: en-US`
+
+### **7. CORS (Cross-Origin Resource Sharing) Headers**
+   - **Access-Control-Allow-Origin**: Indicates which domains are allowed to access resources.
+     - Example: `Access-Control-Allow-Origin: https://example.com`
+   - **Access-Control-Allow-Methods**: Specifies allowed HTTP methods (GET, POST, etc.) for cross-origin requests.
+     - Example: `Access-Control-Allow-Methods: GET, POST`
+   - **Access-Control-Allow-Headers**: Lists allowed headers in the actual request.
+     - Example: `Access-Control-Allow-Headers: Content-Type, Authorization`
+
+### **8. Rate Limiting Headers**
+   - **X-RateLimit-Limit**: Maximum number of requests allowed within a period.
+     - Example: `X-RateLimit-Limit: 1000`
+   - **X-RateLimit-Remaining**: Number of requests remaining in the period.
+     - Example: `X-RateLimit-Remaining: 499`
+   - **X-RateLimit-Reset**: Time (in seconds) until the rate limit resets.
+     - Example: `X-RateLimit-Reset: 3600`
+
+### **9. Session & Cookie Headers**
+   - **Set-Cookie**: Used to set a cookie on the client’s browser.
+     - Example: `Set-Cookie: sessionId=abc123; Secure; HttpOnly`
+   - **Cookie**: Contains cookie data to be sent back to the server.
+     - Example: `Cookie: sessionId=abc123`
+
+### **10. Custom Headers**
+   - **X-Requested-With**: Common in AJAX requests to signal the request was made with JavaScript.
+     - Example: `X-Requested-With: XMLHttpRequest`
+   - **X-Forwarded-For**: Identifies the originating IP address of a client connecting through a proxy or load balancer.
+     - Example: `X-Forwarded-For: 192.168.1.1`
+   - **X-Correlation-ID**: Unique identifier for a request, useful for tracing requests across services.
+     - Example: `X-Correlation-ID: 12345abcde`
+
+
+> ### Etag is used for ?
+
+The **ETag** (Entity Tag) header is used in HTTP responses for caching and conditional requests. It serves as a unique identifier for a specific version of a resource. When the resource changes, the ETag value changes as well. This is particularly useful for optimizing performance and bandwidth usage.
+
+### **How ETag Works**
+
+1. **Server Response with ETag**: When a server responds to a request for a resource (e.g., an image, JSON data, or a webpage), it may include an `ETag` header with a unique identifier for the current version of that resource.
+
+   ```plaintext
+   HTTP/1.1 200 OK
+   ETag: "34a64df551429fcc55e4d42a148795d9f25f89d4"
+   Content-Type: application/json
+   ```
+
+2. **Client Caching and Revalidation**: The client (browser or other HTTP client) caches the response along with the ETag. On subsequent requests for the same resource, the client can include an `If-None-Match` header with the cached ETag value.
+
+   ```plaintext
+   GET /resource HTTP/1.1
+   If-None-Match: "34a64df551429fcc55e4d42a148795d9f25f89d4"
+   ```
+
+3. **Server Comparison**:
+   - **If the ETag matches** the current version of the resource, the server responds with a `304 Not Modified` status code, meaning the cached version on the client is still valid. This saves bandwidth by not resending the full resource.
+   - **If the ETag does not match**, the server sends the new version of the resource with a new ETag.
+
+### **Benefits of ETag**
+
+- **Reduced Bandwidth**: Avoids resending unchanged resources, saving bandwidth and speeding up the loading time.
+- **Improved Performance**: Reduces latency by allowing clients to validate cached resources instead of fully re-downloading them.
+- **Cache Control**: Ensures that clients always have the most recent version of the resource, avoiding outdated cache issues.
+
+### **Example with ETag**
+
+**Initial Response:**
+
+```plaintext
+HTTP/1.1 200 OK
+ETag: "v1.0"
+Content-Type: application/json
+```
+
+**Client Subsequent Request:**
+
+```plaintext
+GET /resource HTTP/1.1
+If-None-Match: "v1.0"
+```
+
+**Server Response If Resource Unchanged:**
+
+```plaintext
+HTTP/1.1 304 Not Modified
+```
+
+**Server Response If Resource Changed:**
+
+```plaintext
+HTTP/1.1 200 OK
+ETag: "v2.0"
+Content-Type: application/json
+``` 
+
+In this way, `ETag` helps maintain up-to-date data while optimizing server-client communication.
+
+
+> ### Status code and category
+
+1XX - Information
+2XX - Success
+3XX - Redirection
+4XX - Client Error
+5XX - Server Error
