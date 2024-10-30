@@ -1081,3 +1081,514 @@ In this way, `ETag` helps maintain up-to-date data while optimizing server-clien
 3XX - Redirection
 4XX - Client Error
 5XX - Server Error
+
+
+> ### what is GRAPHQL
+
+GraphQL is a query language for APIs, developed by Facebook in 2012 and open-sourced in 2015. It’s designed to provide a more efficient, powerful, and flexible alternative to REST by enabling clients to request only the data they need, exactly in the shape they need it.
+
+### Key Features:
+
+1. **Declarative Data Fetching**: Clients define the structure of the data they need, and the server responds with that exact structure. This minimizes over-fetching or under-fetching data.
+  
+2. **Single Endpoint**: Unlike REST, where each resource typically has a separate endpoint, a GraphQL server exposes a single endpoint that processes various types of queries and mutations.
+  
+3. **Schema-Driven**: The server uses a schema to define the data types, relationships, and operations available. Clients can introspect this schema to understand what’s available and how to request it.
+
+4. **Real-Time Data**: GraphQL subscriptions enable real-time data updates, which is great for applications requiring live updates (e.g., chat apps).
+
+### Basic Concepts:
+
+- **Queries**: Used to retrieve data from the server.
+- **Mutations**: Used to modify data on the server (create, update, delete).
+  
+### Example of a GraphQL Query:
+
+```graphql
+query {
+  user(id: "1") {
+    id
+    name
+    email
+    posts {
+      title
+      content
+    }
+  }
+}
+```
+
+In this example, a client requests only specific fields (e.g., `name`, `email`, `posts`) from the `user` resource with `id: 1`, reducing unnecessary data transfer.
+
+> ### Advantages of GraphQL
+
+GraphQL offers several advantages over traditional REST APIs, making it popular for modern application development. Here’s a rundown of its primary benefits:
+
+### 1. **Efficient Data Fetching (No Over-fetching or Under-fetching)**
+
+   - GraphQL lets clients request only the data they need, reducing the amount of data transferred over the network. client change the payload in same endpoint and get the data in required format, same endpoint pe payload change kr different form me output mil jayega.
+   - This is particularly useful for mobile or low-bandwidth applications where minimizing data usage is essential.
+
+### 2. **Single Endpoint**
+
+   - Unlike REST, where each resource typically has its own endpoint, a GraphQL server exposes a single endpoint for all requests.
+   - This simplifies API calls, as clients don’t need to manage multiple endpoints for different resources.
+
+### 3. **Strongly Typed Schema**
+
+   - GraphQL uses a schema to define types and relationships, making APIs more predictable and discoverable.
+   - This schema serves as a contract between the client and server, helping developers understand exactly what data is available and what format to expect.
+
+### 4. **Real-Time Data with Subscriptions**
+
+   - GraphQL supports real-time updates via subscriptions, allowing clients to listen to data changes as they happen.
+   - This feature is valuable for apps that need live updates, such as chat applications, live sports scores, or collaborative tools.
+
+### 5. **Reduced Network Requests**
+
+   - With REST, clients often need to make multiple requests to different endpoints to get all the data they need. In GraphQL, a single query can pull data from multiple resources.
+   - This can simplify the client’s code and reduce the load on the network.
+
+### 6. **Improved Developer Experience**
+
+   - Tools like GraphiQL or Apollo Explorer allow developers to introspect the schema, autocomplete queries, and get real-time feedback.
+   - This improves the development workflow and makes it easier to troubleshoot and optimize API queries.
+
+### 7. **Easier Evolution of APIs**
+
+   - GraphQL’s flexibility allows for evolving APIs without breaking existing clients. By controlling what data is exposed in the schema, new fields can be added or deprecated without impacting existing queries.
+   - This enables smoother API versioning and long-term maintenance.
+
+### 8. **Enhanced Query Capabilities**
+
+   - Clients have complete control over how they shape their requests, including filtering, pagination, and nested querying.
+   - This flexibility allows for complex data retrieval in a single query that would otherwise require complex REST endpoint designs.
+
+### 9. **Better Error Handling**
+
+   - GraphQL responses include details about both successful and failed parts of the request. This helps clients handle errors more precisely and recover more gracefully.
+
+### 10. **Platform-Agnostic**
+
+   - GraphQL can work with any data source and is not restricted to specific databases or backend architectures.
+   - This means it can unify data from multiple microservices, databases, or even third-party APIs into a single, cohesive API layer.
+
+These advantages make GraphQL a strong choice for building scalable, performant, and flexible APIs, especially for applications with complex data requirements.
+
+
+
+> ### Rest vs GraphQL
+
+REST and GraphQL are two distinct approaches for building APIs, each with its own strengths and trade-offs. Here’s a comparison between the two:
+
+### 1. **Data Fetching Efficiency**
+
+   - **REST**: Typically results in over-fetching or under-fetching data because each endpoint is tied to a specific resource structure. For example, if you need data from multiple resources, you might need to make multiple requests or get extra data that isn’t needed.
+   - **GraphQL**: Allows clients to request only the specific data they need. A single query can retrieve related data across multiple resources, reducing the number of requests and payload size.
+
+### 2. **Endpoints**
+
+   - **REST**: Uses multiple endpoints, with each endpoint usually mapped to a single resource (e.g., `/users`, `/posts`, `/comments`).
+   - **GraphQL**: Has a single endpoint that handles all queries and mutations. The structure of the request determines what data is returned, not the endpoint.
+
+### 3. **Schema and Strong Typing**
+
+   - **REST**: Doesn’t inherently enforce types; the data structure is usually documented but isn’t strongly typed by default. Changes to the response structure can require new versions of endpoints.
+   - **GraphQL**: Uses a schema to define the data structure, types, and relationships in a strongly typed system. This schema serves as a contract between the server and client and can be introspected by the client to understand available data.
+
+### 4. **Data Manipulation (Mutations)**
+
+   - **REST**: Uses standard HTTP methods (GET, POST, PUT, DELETE) to perform actions on resources. This convention makes it easy to understand, but complex operations may require multiple calls or convoluted endpoints.
+   - **GraphQL**: Uses “mutations” for any data changes (create, update, delete). This allows clients to perform complex actions in a single request and specify exactly what data should be returned after the operation.
+
+### 5. **Real-Time Updates**
+
+   - **REST**: Real-time updates typically require using techniques like WebSockets, polling, or Server-Sent Events. Real-time capabilities are not inherently part of REST.
+   - **GraphQL**: Supports real-time updates through “subscriptions.” This makes it easier to implement live data features directly within the GraphQL system.
+
+### 6. **Error Handling**
+
+   - **REST**: Errors are usually handled through HTTP status codes (e.g., 404 for not found, 500 for server error). Each response indicates the success or failure of the entire request.
+   - **GraphQL**: Provides detailed error handling within a single response. It returns partial results with errors for specific fields, enabling clients to handle errors more precisely for complex queries.
+
+### 7. **Caching**
+
+   - **REST**: Leverages HTTP caching (using headers like ETag and Last-Modified), which is straightforward and easy to set up at the endpoint level.
+   - **GraphQL**: Doesn’t natively support HTTP caching, as it uses a single endpoint. However, clients like Apollo Client offer in-memory caching for queries, and developers can implement caching strategies at a more granular level.
+
+### 8. **Versioning**
+
+   - **REST**: Typically uses versioned endpoints (e.g., `/api/v1/users`). Changing the structure of a resource or response often requires creating a new version of the API to maintain backward compatibility.
+   - **GraphQL**: Can evolve the schema without versioning, as clients can request only the fields they need. New fields can be added without affecting existing clients, making versioning less necessary.
+
+### 9. **Performance**
+
+   - **REST**: May require multiple requests to fetch related resources (e.g., fetching posts and comments for each post). Each request has an HTTP overhead, which can increase latency.
+   - **GraphQL**: Minimizes the number of requests by enabling clients to retrieve related data in a single query. This reduces HTTP overhead, but complex queries could add load on the server and require optimization (e.g., batching, query cost analysis).
+
+### 10. **Developer Experience**
+
+   - **REST**: Well-known conventions and tools exist, making it easy to implement and understand. REST is stateless, which simplifies scaling, but handling complex relationships and nested resources can be challenging.
+   - **GraphQL**: Tools like GraphiQL, Apollo Explorer, and Playground provide schema introspection, autocompletion, and real-time query feedback. This makes GraphQL more user-friendly for developers, especially with complex data models.
+
+### Use Cases for Each
+
+- **REST** is ideal for simpler, resource-driven applications where each resource is represented by a separate endpoint and where caching and standard HTTP methods suffice.
+  
+- **GraphQL** is a good choice for complex applications with intricate data relationships, where clients need specific data fields and real-time updates, such as social media platforms, data-heavy dashboards, or apps with multiple client types (mobile, web).
+
+### Summary Table
+
+| Feature                      | REST                          | GraphQL                    |
+|------------------------------|-------------------------------|----------------------------|
+| **Data Fetching**            | Multiple endpoints, over-fetching | Single endpoint, tailored queries |
+| **Schema & Typing**          | Not strictly typed             | Strongly typed schema      |
+| **Real-Time Support**        | Requires separate solution     | Built-in with subscriptions |
+| **Complex Requests**         | Multiple requests often needed | Single request with nested fields |
+| **Error Handling**           | HTTP status codes              | Detailed field-level errors |
+| **Caching**                  | Native HTTP caching            | Client-side caching needed |
+| **Versioning**               | Typically endpoint versioning  | Not necessary with schema evolution |
+| **Developer Tools**          | Standard API tools             | Rich introspection and tooling |
+| **Request Structure**        | Fixed structure + HTTP methods | Flexible(Query/Mutation) |
+| **Request Size**             | Fixed Size                     | Flexible size |
+| **Tooling Support**          | Postman                        | Playground |
+| **Caching**                  | Relies on HTTP cache           | Fine grained |
+
+Overall, both REST and GraphQL have their strengths, and the choice depends on the specific needs of the project, client requirements, and complexity of the data interactions.
+
+```js
+
+            GraphQL
+              |
+    ----------------------------------------------------          
+    |                                                   |
+  Creator                                           Consumer
+  (Server)                                          (Client)
+    |                                                   |
+    |                                                   |
+    |                                                   |
+  GraphlQL Server Libraries             ------------------------------ 
+                                        |                            |
+                                      fetch GraphQL           client library
+
+```
+
+> ### GraphQL building Block
+
+1. Schema/Types
+2. Query/ Mutation.   Quey to get data from the server and mutation to update data on server through api
+3. Resolver. This is like controller of rest api structure(basically we write the logical part in it)
+
+
+
+## Communication Techniques
+
+In system design interviews, discussing various communication techniques is essential, as different use cases benefit from different approaches. Here’s a breakdown of popular communication techniques:
+
+### 1. **Short Polling**
+
+   - **Description**: The client repeatedly sends requests to the server at fixed intervals to check for updates or new data.
+   - **Use Case**: Simple use cases where occasional updates are needed, such as checking a job status.
+   - **Pros**: Easy to implement and doesn’t require a persistent connection.
+   - **Cons**: Inefficient, can cause unnecessary load on the server due to frequent requests, and has latency.
+
+### 2. **Long Polling**
+
+   - **Description**: The client makes a request to the server, and the server holds the request open until new data is available or a timeout occurs. Once the response is received, the client immediately re-establishes the connection.
+   - **Use Case**: Suitable for real-time applications where WebSockets are not feasible, like notification systems.
+   - **Pros**: Reduces server load compared to short polling and provides near-real-time updates.
+   - **Cons**: Still requires repeated requests and can be harder to scale with high traffic.
+
+### 3. **WebSockets**
+
+   - **Description**: A bidirectional communication protocol where a persistent connection is established between the client and server, allowing data to be sent in both directions at any time.
+   - **Use Case**: Real-time applications requiring frequent updates, like chat applications, gaming, or live trading platforms.
+   - **Pros**: Low latency, efficient, and suitable for continuous real-time data exchange.
+   - **Cons**: Requires a persistent connection, which can be more resource-intensive, and may not be supported by all firewalls/proxies.
+
+### 4. **Server-Sent Events (SSE)**
+
+   - **Description**: A one-way communication protocol where the server pushes data to the client over HTTP whenever new information is available.
+   - **Use Case**: Real-time, one-way data flow scenarios, such as live sports scores, stock prices, or news feeds.
+   - **Pros**: Simple to implement, efficient for one-way updates, and works well over HTTP.
+   - **Cons**: Limited to one-way communication, and reconnection logic is needed if the connection drops.
+
+### 5. **Webhooks**
+
+   - **Description**: A server-to-server communication mechanism where the server sends data to a specific URL provided by another server whenever a specified event occurs.
+   - **Use Case**: Event-driven applications, like triggering a notification when a payment is completed or updating an external system when a user’s profile changes.
+   - **Pros**: Efficient for event-driven updates and reduces the need for polling.
+   - **Cons**: Client must handle security for incoming requests, and there’s no guarantee of delivery if the client server is down.
+
+### Summary Table
+
+| Technique         | Direction       | Connection Type    | Best Use Case                                | Limitations                 |
+|-------------------|-----------------|--------------------|----------------------------------------------|-----------------------------|
+| **Short Polling** | Client to Server | Repeated requests | Basic status updates                         | High latency, resource-intensive |
+| **Long Polling**  | Client to Server | Repeated requests | Notifications, async updates                 | Some latency, repeated requests |
+| **WebSockets**    | Bi-directional  | Persistent        | Real-time bidirectional communication        | Resource-intensive, may have firewall issues |
+| **SSE**           | Server to Client | Persistent        | Real-time one-way updates                    | Limited to one-way, reconnect handling |
+| **Webhooks**      | Server to Server | Event-based       | Event-driven external updates                | No guaranteed delivery, security concerns |
+
+Each technique has its own strengths, and your choice will depend on the specific requirements, such as the need for real-time data, resource constraints, and scalability.
+
+
+
+> ### Short Polling
+
+**Polling** simply means checking for new data over a fixed interval of time by making API calls at regular intervals to the server. It is used to get real-time updates in applications. There are many applications that need real-time data and polling is a life savior for those applications.
+
+
+![screenshot](images/shortPoll.png)
+
+**Short Polling**: In a short polling client requests data from the server and the server will return the response if it is available and if it is not available then it returns an empty response. This process will be repeated at regular intervals.
+
+Application:
+- Short Live connection
+- No persistent Connection
+- Less Resource Utility
+- Problem with scale
+
+A good example is sending updates about the temperature of the client environment.Temperature is not something that we update every second, maybe we can update it every 1 or 2 minutes from the server.
+
+Basically In this, we call the setinterval fumction with api call function with fixed interval of time
+
+```js
+setInterval(getWeatherChangesFromThirdParty, 60 * 1000)
+```
+
+Short polling is a simpler, less efficient version of long polling where the client continuously checks the server for updates at regular intervals. Unlike long polling, short polling doesn’t wait for data to be available before responding; it immediately completes each request. This can increase server load, especially when polling intervals are short and there are many clients.
+
+### How Short Polling Works
+
+1. **Client Sends Request:** The client sends a request to the server to check for updates.
+2. **Server Responds Immediately:** The server responds right away, either with data if there’s something new or indicating that no new data is available.
+3. **Client Waits and Repeats:** The client waits for a predefined interval, then sends another request, repeating the process indefinitely.
+
+### Benefits and Drawbacks
+
+- **Benefits:**
+  - Easier to implement than long polling.
+  - Suitable for applications where updates are infrequent or not critical to be immediate.
+
+- **Drawbacks:**
+  - Inefficient for real-time updates, as it sends frequent requests regardless of new data availability.
+  - High server load due to frequent requests.
+
+### Short Polling Example (Node.js and Express)
+
+Here’s an example of short polling using Node.js and Express on the server and JavaScript on the client.
+
+#### Server-Side (Node.js and Express)
+
+The server will have an endpoint `/poll` that the client checks periodically. This endpoint responds immediately with available data or an empty response if no new data exists.
+
+```javascript
+// server.js
+const express = require('express');
+const app = express();
+const port = 3000;
+
+let messages = []; // Store messages to be sent to clients
+
+// Short polling endpoint
+app.get('/poll', (req, res) => {
+    if (messages.length > 0) {
+        res.json({ message: messages.shift() }); // Send the next message if available
+    } else {
+        res.json({ message: null }); // No new messages
+    }
+});
+
+// Endpoint to add a new message
+app.post('/message', express.json(), (req, res) => {
+    const newMessage = req.body.message;
+    messages.push(newMessage); // Add new message to the queue
+    res.status(200).send('Message added');
+});
+
+app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
+});
+```
+
+#### Client-Side (JavaScript)
+
+The client periodically checks the `/poll` endpoint every few seconds.
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Short Polling Example</title>
+</head>
+<body>
+    <h1>Short Polling Example</h1>
+    <div id="messages"></div>
+
+    <script>
+        // Polling interval in milliseconds
+        const pollingInterval = 5000;
+
+        // Function to start short polling
+        async function shortPoll() {
+            try {
+                const response = await fetch('http://localhost:3000/poll');
+                const data = await response.json();
+                if (data.message) {
+                    displayMessage(data.message);
+                }
+            } catch (error) {
+                console.error('Polling error:', error);
+            }
+        }
+
+        // Display message on the page
+        function displayMessage(message) {
+            const messageDiv = document.getElementById('messages');
+            const newMessage = document.createElement('p');
+            newMessage.textContent = message;
+            messageDiv.appendChild(newMessage);
+        }
+
+        // Start the polling process with a set interval
+        setInterval(shortPoll, pollingInterval);
+    </script>
+</body>
+</html>
+```
+
+In this setup:
+- **Server-side:** The server responds right away to each `/poll` request, either with a message or an empty response.
+- **Client-side:** The client sends requests to `/poll` every 5 seconds (`pollingInterval = 5000`), checking for new data.
+
+This method is suitable for low-frequency updates but can cause unnecessary traffic if used for high-frequency real-time updates. It’s also not as responsive as long polling, WebSockets, or Server-Sent Events (SSE).
+
+
+> ### Long Polling
+Long polling is a technique used in web development to enable real-time updates from the server to the client. It's commonly used when WebSockets or Server-Sent Events (SSE) are not available or suitable, allowing the server to push data to the client without requiring a constant connection.
+
+
+
+![screenshot](images/longpoll.jpg)
+
+### How Long Polling Works
+
+1. **Client Sends Request:** The client sends a request to the server to get data.
+2. **Server Holds the Request:** If there’s no new data, the server holds the request open until new data is available or a timeout period is reached.
+3. **Server Responds with Data:** When new data is available, the server sends a response, ending the open request.
+4. **Client Repeats the Request:** The client immediately sends another request to wait for the next update, creating a loop.
+
+### Benefits and Drawbacks
+
+- **Benefits:**
+  - Allows real-time updates without a persistent WebSocket connection.
+  - Works in environments where WebSockets aren’t supported.
+
+- **Drawbacks:**
+  - Increased server load due to frequent connections.
+  - Can be less efficient than WebSockets for high-frequency data.
+
+### Long Polling Example (Node.js and Express)
+
+Here’s a simple example using Node.js and Express for the server, and JavaScript on the client.
+
+#### Server-Side (Node.js and Express)
+
+The server will have a `/poll` endpoint that the client hits in intervals. The server will respond immediately if data is available; otherwise, it waits until new data arrives or a timeout occurs.
+
+```javascript
+// server.js
+const express = require('express');
+const app = express();
+const port = 3000;
+
+let messageQueue = []; // Holds messages to send to clients
+
+// Long polling endpoint
+app.get('/poll', (req, res) => {
+    if (messageQueue.length > 0) {
+        // Send available message and clear the queue
+        res.json({ message: messageQueue.shift() });
+    } else {
+        // No new message, wait until one is available or timeout (30s)
+        const timeoutId = setTimeout(() => {
+            res.json({ message: null });
+        }, 30000);
+
+        // Push response to the queue and clear on message arrival
+        messageQueue.push({ res, timeoutId });
+    }
+});
+
+// Endpoint to add a new message
+app.post('/message', (req, res) => {
+    const newMessage = req.body.message;
+    if (messageQueue.length > 0) {
+        const { res: pendingResponse, timeoutId } = messageQueue.shift();
+        clearTimeout(timeoutId);
+        pendingResponse.json({ message: newMessage });
+    }
+    res.status(200).send('Message sent to clients');
+});
+
+app.listen(port, () => {
+    console.log(`Server listening at http://localhost:${port}`);
+});
+```
+
+#### Client-Side (JavaScript)
+
+The client makes a request to the `/poll` endpoint, waits for a response, and repeats the request.
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Long Polling Example</title>
+</head>
+<body>
+    <h1>Long Polling Example</h1>
+    <div id="messages"></div>
+
+    <script>
+        // Function to start long polling
+        async function longPoll() {
+            try {
+                const response = await fetch('http://localhost:3000/poll');
+                const data = await response.json();
+                if (data.message) {
+                    displayMessage(data.message);
+                }
+                // Restart polling immediately after receiving data
+                longPoll();
+            } catch (error) {
+                console.error('Polling error:', error);
+                setTimeout(longPoll, 1000); // Retry after 1 second on failure
+            }
+        }
+
+        // Display message on the page
+        function displayMessage(message) {
+            const messageDiv = document.getElementById('messages');
+            const newMessage = document.createElement('p');
+            newMessage.textContent = message;
+            messageDiv.appendChild(newMessage);
+        }
+
+        // Start the long polling process
+        longPoll();
+    </script>
+</body>
+</html>
+```
+
+In this setup:
+- **Server-side:** The server holds requests open for 30 seconds and responds when a new message arrives.
+- **Client-side:** The client continuously requests the `/poll` endpoint to check for new data and displays it when received.
+
+This is a basic implementation, and in production, long polling would require optimizations like connection limits and error handling for scalability and stability.
