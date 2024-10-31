@@ -1592,3 +1592,434 @@ In this setup:
 - **Client-side:** The client continuously requests the `/poll` endpoint to check for new data and displays it when received.
 
 This is a basic implementation, and in production, long polling would require optimizations like connection limits and error handling for scalability and stability.
+
+
+> ### What is web sockets
+
+WebSockets provide a full-duplex, persistent connection between the client and server, allowing real-time, bidirectional communication. Unlike HTTP-based techniques like short or long polling, WebSockets allow the server to send data to the client as soon as it becomes available, making it ideal for real-time applications (e.g., chat apps, live notifications, collaborative tools, online games).
+
+### Features
+1. Full-duplex communication
+2. Single long live TCP Connection
+3. Contineous bi-directional communication
+
+![screenshot](images/websocket.png)
+
+### How WebSockets Work
+
+1. **Connection Establishment:** A WebSocket connection starts with an HTTP handshake, which upgrades the protocol from HTTP to WebSocket. This handshake is initiated by the client and acknowledged by the server.
+2. **Persistent Connection:** After the initial handshake, the WebSocket connection remains open, allowing continuous, bidirectional data flow between client and server without the need to re-establish the connection.
+3. **Full-Duplex Communication:** Both the client and server can send messages independently and at any time, without waiting for a request or response.
+4. **Connection Termination:** The connection remains open until either the client or server explicitly closes it.
+
+### Benefits and Drawbacks
+
+- **Benefits:**
+  - **Real-time Data Flow:** Ideal for real-time applications, as data can be sent instantly.
+  - **Reduced Overhead:** Fewer requests than HTTP polling, as the connection is persistent.
+  - **Efficient Communication:** Lower latency compared to HTTP polling methods.
+  
+- **Drawbacks:**
+  - **Complexity:** Requires server support and additional handling for different client types.
+  - **Compatibility:** Not all environments support WebSockets, though modern browsers generally do.
+  - **Resource Usage:** Persistent connections may increase server resource usage, especially with many concurrent clients.
+  - connection limits
+
+- secturity
+  - wss - like we have the https we have wss in sockets
+  - framing - framing refers to the process of packaging data into a specific structure or format so it can be sent across the network efficiently and securely.
+
+### Example of WebSocket with Node.js and Express (Server) and HTML/JavaScript (Client)
+
+#### Server-Side (Node.js with WebSocket Library)
+
+We'll use the `ws` package to implement WebSocket support on the server.
+
+Install `ws`:
+```bash
+npm install ws
+```
+
+Server code to set up WebSocket communication:
+
+```javascript
+// server.js
+const express = require('express');
+const http = require('http');
+const WebSocket = require('ws');
+
+const app = express();
+const port = 3000;
+
+// Create an HTTP server
+const server = http.createServer(app);
+
+// Initialize the WebSocket server instance
+const wss = new WebSocket.Server({ server });
+
+// Function to broadcast messages to all clients
+function broadcastMessage(data) {
+    wss.clients.forEach(client => {
+        if (client.readyState === WebSocket.OPEN) {
+            client.send(data);
+        }
+    });
+}
+
+// Handle WebSocket connections
+wss.on('connection', (ws) => {
+    console.log('New client connected');
+
+    // Send a welcome message
+    ws.send('Welcome to the WebSocket server!');
+
+    // Listen for messages from the client
+    ws.on('message', (message) => {
+        console.log('Received:', message);
+
+        // Broadcast the message to all connected clients
+        broadcastMessage(`Client says: ${message}`);
+    });
+
+    // Handle client disconnection
+    ws.on('close', () => {
+        console.log('Client disconnected');
+    });
+});
+
+// Start the server
+server.listen(port, () => {
+    console.log(`Server is listening on http://localhost:${port}`);
+});
+```
+
+In this server setup:
+- WebSocket connections are managed separately from HTTP routes.
+- The `broadcastMessage` function sends a message to all connected clients.
+
+#### Client-Side (JavaScript)
+
+The client connects to the WebSocket server, listens for messages, and can also send messages.
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Example</title>
+</head>
+<body>
+    <h1>WebSocket Chat Example</h1>
+    <div id="messages"></div>
+    <input id="messageInput" type="text" placeholder="Type a message" />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        // Connect to the WebSocket server
+        const socket = new WebSocket('ws://localhost:3000');
+
+        // Listen for messages from the server
+        socket.onmessage = (event) => {
+            displayMessage(event.data);
+        };
+
+        // Display message on the page
+        function displayMessage(message) {
+            const messagesDiv = document.getElementById('messages');
+            const newMessage = document.createElement('p');
+            newMessage.textContent = message;
+            messagesDiv.appendChild(newMessage);
+        }
+
+        // Send message to the server
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value;
+            socket.send(message); // Send message to the server
+            input.value = ''; // Clear input
+        }
+
+        // Handle connection open and close
+        socket.onopen = () => {
+            displayMessage('Connected to the WebSocket server');
+        };
+
+        socket.onclose = () => {
+            displayMessage('Disconnected from the WebSocket server');
+        };
+    </script>
+</body>
+</html>
+```
+
+In this client code:
+- **Connection:** The client connects to the server via WebSocket.
+- **Message Handling:** It listens for incoming messages and displays them on the page.
+- **Sending Messages:** The `sendMessage` function allows the client to send messages to the server, which will be broadcast to all clients.
+
+### Summary
+
+WebSockets are ideal for real-time applications with rapid, bidirectional data flow requirements. This approach reduces the need for repeated HTTP requests and ensures minimal latency, making it highly suitable for chat applications, live notifications, games, and similar use cases where fast and efficient data transfer is crucial.
+
+
+> ### Server Sent Event (SSE)     https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
+
+Server-Sent Events (SSE) is a standard for enabling one-way, real-time updates from a server to a client over HTTP. Unlike WebSockets, which allow for full-duplex communication, SSE provides a one-way connection where only the server can send updates to the client. This makes SSE particularly useful for cases like live notifications, stock tickers, news feeds, or any scenario where the client needs to be informed of new server-side events.
+
+SSE uses the HTTP protocol and is supported by most modern browsers. It’s also more firewall- and proxy-friendly than WebSockets and doesn’t require a specific server setup.
+
+
+![screenshot](images/sse.png)
+
+
+### How Server-Sent Events Work
+
+1. **Client Requests Connection:** The client establishes a connection to the server with a special HTTP header (`Accept: text/event-stream`) to indicate it supports SSE.
+2. **Server Pushes Events:** The server can continuously push updates to the client in a stream format, which the client listens to without polling or re-establishing connections.
+3. **Automatic Reconnection:** If the connection is lost, the browser automatically tries to reconnect by default, making SSE resilient to temporary network issues.
+
+### Benefits and Drawbacks
+
+- **Benefits:**
+  - **Simple Setup:** Built on top of HTTP, so it doesn’t need custom protocols.
+  - **Automatic Reconnects:** The browser automatically retries when a connection is lost.
+  - **Text-based Format:** Events are sent in a simple, text-based format, which is easy to read and debug.
+
+- **Drawbacks:**
+  - **One-way Communication:** Only the server can send messages to the client.
+  - **No Binary Data:** SSE is limited to text data, though it can be encoded as Base64 if binary data is needed.
+  - **Limited Browser Support:** Not all environments support SSE, though most modern browsers do.
+
+### Example of Server-Sent Events (SSE) with Node.js and JavaScript
+
+Here’s an example where we’ll create an SSE server in Node.js and set up a client in HTML to receive the events.
+
+#### Server-Side (Node.js with Express)
+
+The server will use Express to create an endpoint that streams events to the client.
+
+```javascript
+// server.js
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.get('/events', (req, res) => {
+    // Set headers for SSE
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    // Send a welcome message immediately upon connection
+    res.write(`data: Welcome! The server is now sending events.\n\n`);
+
+    // Function to send a message every 5 seconds
+    const intervalId = setInterval(() => {
+        const time = new Date().toLocaleTimeString();
+        res.write(`data: The current time is ${time}\n\n`);
+    }, 5000);
+
+    // Cleanup when the connection closes
+    req.on('close', () => {
+        clearInterval(intervalId);
+        res.end();
+    });
+});
+
+// Start the server
+app.listen(port, () => {
+    console.log(`Server is listening on http://localhost:${port}`);
+});
+```
+
+In this code:
+- **Headers:** The `Content-Type` is set to `text/event-stream` to inform the client that this is an SSE connection.
+- **Event Stream:** Messages are sent with the `data:` prefix and end with `\n\n` (two newlines), which is required by the SSE protocol.
+- **Heartbeat/Keep-alive:** Messages are sent every 5 seconds to keep the connection open and provide updates.
+
+#### Client-Side (JavaScript)
+
+The client code uses the `EventSource` API to connect to the server and listen for events.
+
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Server-Sent Events Example</title>
+</head>
+<body>
+    <h1>Server-Sent Events Example</h1>
+    <div id="events"></div>
+
+    <script>
+        // Connect to the SSE endpoint
+        const eventSource = new EventSource('http://localhost:3000/events');
+
+        // Listen for messages from the server
+        eventSource.onmessage = (event) => {
+            displayEvent(event.data);
+        };
+
+        // Display incoming messages
+        function displayEvent(message) {
+            const eventsDiv = document.getElementById('events');
+            const newMessage = document.createElement('p');
+            newMessage.textContent = message;
+            eventsDiv.appendChild(newMessage);
+        }
+
+        // Handle connection errors (optional)
+        eventSource.onerror = () => {
+            displayEvent('An error occurred or connection was lost');
+        };
+    </script>
+</body>
+</html>
+```
+
+In this client code:
+- **EventSource Object:** `EventSource` automatically manages the SSE connection.
+- **Receiving Messages:** The `onmessage` event handler listens for incoming data from the server, which is then displayed on the page.
+- **Automatic Reconnects:** The browser will automatically attempt to reconnect if the connection drops, which is a built-in feature of `EventSource`.
+
+### Summary
+
+SSE is a powerful solution for applications that need server-to-client, real-time, text-based data updates with minimal overhead. It’s simple to set up and works well for scenarios like notifications, live data feeds, and other cases where bidirectional communication isn’t necessary.
+
+
+> ### what is webhooks.
+
+Webhooks are a way for a server to send real-time data to another server (or application) when an event occurs, without the receiving server having to continuously poll for updates. Unlike polling methods, where one server regularly checks another server for new information, webhooks allow the sender to automatically notify the receiver of new events, saving both time and resources. 
+
+![screenshot](images/webhooks.jpg)
+
+### How Webhooks Work
+
+1. **Event Registration:** The receiver (client) registers a URL (also called an endpoint) with the sender's service to receive webhook notifications.
+2. **Event Occurrence:** When an event occurs (e.g., a new order, a completed payment, or a new user sign-up), the sender triggers the webhook.
+3. **HTTP Request to Endpoint:** The sender sends an HTTP request (usually a POST request) to the receiver's registered URL with the event data in the payload.
+4. **Processing Data:** The receiver server processes the received data and can perform any desired actions, such as updating a database, sending a notification, or initiating further processes.
+
+### Benefits and Drawbacks
+
+- **Benefits:**
+  - **Resource Efficiency:** Only sends data when an event occurs, reducing server load.
+  - **Real-Time Updates:** Allows instant notification of important events.
+  - **Simple Setup:** Easy to implement, as it uses standard HTTP requests.
+
+- **Drawbacks:**
+  - **No Retry Mechanism by Default:** If the receiver is down, the webhook might not be received unless the sender implements retries.
+  - **Security Risks:** The webhook URL could be vulnerable to unauthorized requests if not secured.
+  - **Data Consistency:** Webhooks can be missed if the receiver server is temporarily unavailable, which may cause data consistency issues without retries.
+
+### Example of Webhooks Using Node.js and Express
+
+Let’s create a simple webhook setup where:
+- A **sender** server sends a webhook notification to a **receiver** server whenever an event (e.g., new order) occurs.
+- The **receiver** server receives the webhook and logs the data.
+
+#### Sender Server (Simulating a Webhook Trigger)
+
+In this example, the sender will send an HTTP POST request to the receiver's webhook URL with JSON data.
+
+```javascript
+// sender.js
+const express = require('express');
+const axios = require('axios');
+const app = express();
+const port = 3001;
+
+// Endpoint to simulate an event and send a webhook
+app.get('/trigger-webhook', async (req, res) => {
+    const webhookUrl = 'http://localhost:3002/webhook'; // The receiver server's webhook URL
+
+    // Sample data payload to send
+    const payload = {
+        event: 'new_order',
+        data: {
+            orderId: '12345',
+            customerName: 'John Doe',
+            totalAmount: 100.50,
+        },
+    };
+
+    try {
+        // Send the webhook notification
+        await axios.post(webhookUrl, payload);
+        res.send('Webhook sent');
+    } catch (error) {
+        console.error('Failed to send webhook:', error);
+        res.status(500).send('Failed to send webhook');
+    }
+});
+
+app.listen(port, () => {
+    console.log(`Sender server running on http://localhost:${port}`);
+});
+```
+
+In this code:
+- **Trigger Endpoint** (`/trigger-webhook`): This endpoint simulates an event (e.g., a new order) and sends a webhook to the receiver server.
+- **Payload:** The payload includes event details and any data associated with it (order information in this case).
+
+#### Receiver Server (Listening for Webhook Events)
+
+The receiver server listens for incoming webhooks at a specified endpoint (`/webhook`). When a webhook is received, it logs the data.
+
+```javascript
+// receiver.js
+const express = require('express');
+const app = express();
+const port = 3002;
+
+app.use(express.json()); // Middleware to parse JSON body
+
+// Webhook endpoint to receive data
+app.post('/webhook', (req, res) => {
+    const webhookData = req.body;
+    console.log('Received webhook:', webhookData);
+
+    // Process webhook data (e.g., save to database, trigger further actions)
+    res.status(200).send('Webhook received');
+});
+
+app.listen(port, () => {
+    console.log(`Receiver server running on http://localhost:${port}`);
+});
+```
+
+In this code:
+- **Webhook Endpoint** (`/webhook`): The receiver listens for incoming POST requests with webhook data.
+- **Data Processing:** The data from the webhook is logged but could also be processed further (e.g., stored in a database or used to trigger additional actions).
+
+### Testing the Webhook
+
+1. Start both servers:
+   ```bash
+   node sender.js
+   node receiver.js
+   ```
+   
+2. Trigger the webhook by visiting the sender's `/trigger-webhook` endpoint in the browser or using a tool like `curl` or Postman:
+   ```bash
+   curl http://localhost:3001/trigger-webhook
+   ```
+
+3. The receiver server should log the received data:
+   ```
+   Received webhook: { event: 'new_order', data: { orderId: '12345', customerName: 'John Doe', totalAmount: 100.5 } }
+   ```
+
+### Security Considerations for Webhooks
+
+To secure webhooks, you should:
+1. **Validate the Request Origin:** Use a secret key or token to verify that requests are from the expected sender.
+2. **Use HTTPS:** Encrypts data to prevent eavesdropping or tampering.
+3. **Implement Retries and Logging:** Implement logging and retry mechanisms in case the receiver is temporarily unavailable.
+
+### Summary
+
+Webhooks are an efficient way for servers to communicate events to other systems in real-time without requiring continuous polling. This setup is common in scenarios where timely updates are essential, such as payment confirmations, order tracking, and notification systems.
