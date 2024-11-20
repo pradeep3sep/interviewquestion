@@ -3747,6 +3747,8 @@ To achieve **O(1)** time for all operations using an array, we can implement a *
 - Use two pointers `front` and `rear`.
 - Handle both ends of the deque in a circular manner using modulo operations to keep track of the positions.
 
+![screenshot](images/dequeArray.png)
+
 #### JavaScript Code for Circular Array Deque:
 
 ```javascript
@@ -5587,6 +5589,144 @@ console.log(longestSubarrayWithGivenSum(array, target)); // Output: 4 ([5, 2, 7,
 ### Complexity
 - **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, since we’re iterating through the array once.
 - **Space Complexity**: \(O(n)\), for storing cumulative sums in the map.
+
+
+> ### Longest Subarray with equal number of 0s and 1s
+
+To find the longest subarray with an equal number of `0s` and `1s` in a binary array, you can use the **prefix sum** technique combined with a hash map for efficient lookup. Here's how it works:
+
+### Approach
+1. Replace all `0s` with `-1s` to transform the problem into finding a subarray with a sum of `0`.
+2. Use a hash map to store the first occurrence of each prefix sum.
+3. Traverse the array, updating the prefix sum and checking:
+   - If the prefix sum has been seen before, calculate the length of the subarray between the previous occurrence and the current index.
+   - Update the maximum length accordingly.
+4. If the prefix sum is `0`, it means the subarray from the start to the current index is balanced.
+
+### Code
+Here’s the implementation:
+
+```javascript
+function findMaxLength(nums) {
+    let prefixSum = 0; 
+    let maxLength = 0; 
+    const prefixMap = new Map();
+    prefixMap.set(0, -1); // Initialize to handle cases where the subarray starts from index 0
+
+    for (let i = 0; i < nums.length; i++) {
+        // Convert 0 to -1
+        prefixSum += nums[i] === 0 ? -1 : 1;
+
+        if (prefixMap.has(prefixSum)) {
+            // Calculate the length of the subarray
+            maxLength = Math.max(maxLength, i - prefixMap.get(prefixSum));
+        } else {
+            // Store the first occurrence of the prefix sum
+            prefixMap.set(prefixSum, i);
+        }
+    }
+
+    return maxLength;
+}
+
+// Example usage
+const binaryArray = [0, 1, 0, 1, 1, 0, 0];
+console.log(findMaxLength(binaryArray)); // Output: 6
+```
+
+### Explanation
+1. Replace `0` with `-1` in the binary array: `[0, 1, 0, 1, 1, 0, 0]` → `[-1, 1, -1, 1, 1, -1, -1]`.
+2. Compute the prefix sum as you traverse:
+   - At each index, check if the prefix sum has been seen before.
+   - If yes, the subarray between the two occurrences of the prefix sum is balanced.
+   - Update the maximum length accordingly.
+
+### Complexity
+- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, as we traverse the array once.
+- **Space Complexity**: \(O(n)\), for the hash map storing prefix sums.
+
+
+> ### Count Distinct Elements In Every Window
+
+Counting distinct elements in every window of size `k` is a common problem in DSA. Here's how you can solve it in JavaScript:
+
+### Problem
+You are given an array `arr[]` and an integer `k`. You need to count the distinct numbers in every contiguous subarray (window) of size `k`.
+
+---
+
+### Approach
+1. Use a **sliding window technique** to traverse the array with a window size of `k`.
+2. Use a **hash map** to keep track of the frequency of elements in the current window.
+3. For each window:
+   - Add the count of distinct elements to the result.
+   - Slide the window by:
+     - Decreasing the frequency of the outgoing element.
+     - Increasing the frequency of the incoming element.
+
+---
+
+### Code Implementation
+
+```javascript
+function countDistinctElements(arr, k) {
+    const result = [];
+    const freqMap = new Map();
+
+    // Build initial window
+    for (let i = 0; i < k; i++) {
+        freqMap.set(arr[i], (freqMap.get(arr[i]) || 0) + 1);
+    }
+    result.push(freqMap.size);
+
+    // Slide the window
+    for (let i = k; i < arr.length; i++) {
+        const outgoing = arr[i - k];
+        const incoming = arr[i];
+
+        // Remove the frequency of the outgoing element
+        if (freqMap.get(outgoing) === 1) {
+            freqMap.delete(outgoing);
+        } else {
+            freqMap.set(outgoing, freqMap.get(outgoing) - 1);
+        }
+
+        // Add the frequency of the incoming element
+        freqMap.set(incoming, (freqMap.get(incoming) || 0) + 1);
+
+        // Add the count of distinct elements for this window
+        result.push(freqMap.size);
+    }
+
+    return result;
+}
+
+// Example Usage:
+const arr = [1, 2, 1, 3, 4, 2, 3];
+const k = 4;
+console.log(countDistinctElements(arr, k)); // Output: [3, 4, 4, 3]
+```
+
+---
+
+### Explanation of the Example
+Given `arr = [1, 2, 1, 3, 4, 2, 3]` and `k = 4`:
+1. First window `[1, 2, 1, 3]`: Distinct elements = {1, 2, 3} → Count = 3
+2. Second window `[2, 1, 3, 4]`: Distinct elements = {1, 2, 3, 4} → Count = 4
+3. Third window `[1, 3, 4, 2]`: Distinct elements = {1, 3, 4, 2} → Count = 4
+4. Fourth window `[3, 4, 2, 3]`: Distinct elements = {2, 3, 4} → Count = 3
+
+The result is `[3, 4, 4, 3]`.
+
+---
+
+### Time Complexity
+- **O(n)**:
+  - Traversing the array takes `O(n)`.
+  - Insertions and deletions in a hash map are `O(1)` on average.
+
+### Space Complexity
+- **O(k)**: The hash map stores at most `k` elements.
 
 
 > ### Below is for the GRAPH
