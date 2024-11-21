@@ -1,3 +1,507 @@
+> ### What is Javascript ?
+
+It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
+
+- High Level ==> We don't have to worry about complex stuff like memory management.
+
+- Object oriented ==> based on objects, for storing the most kind of data
+
+- Multi Paradigm ==> We can use different styles of programming like `imperative and declarative` approach.
+
+- programming Language ==> Instruct computer to do things
+
+
+> ### There are only `six` falsey values in JavaScript: undefined , null , NaN , 0 , "" (empty string), and false of course.
+
+> ### Type of NaN is Number
+
+> ### Type of Null if object.
+
+
+```
+              Data Value
+        ___________|____________       
+        |                      |
+        |                      |
+      Object             Primitive
+  (Copy by referenc)     (Copy bt value)
+```
+
+> ### 7 Primitive Data Types
+
+- Numbers
+- String
+- Boolean
+- Undefined
+- Null
+- Symbol
+- BigInt
+
+
+> ### Operator Precedence 
+Every operator has its precendenc which value, which defines which operator will excute first
+
+See table of below website
+
+```
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence
+```
+
+
+> ### conversion and coercion in javascript
+
+conversion - In this we manually convert the type of value
+
+coercion - In this, the js automatically convert the type of value
+eg==>  console.log("2" * "3") gives 6, basically the string to number
+
+**Note** `Js has dynamic typing`: We do `not` have to manually define the data type of the value stored in a variable. Insted, data types are determined automatically.
+
+
+#### **Functions**
+- A **function** is a piece of code that can be used repeatedly.
+
+- **Push function**: returns the array's length.
+
+- **Pop function**: retrun the popped value
+
+---
+
+#### **Dot Notation vs Bracket Notation**
+- **Dot Notation**:
+  - Used to access an object's property statically.
+  - Example:  
+    ```js
+    const person = {
+      firstName: "Jonas",
+      lastName: "Schedt"
+    };
+    console.log(person.firstName); // Output: "Jonas"
+    ```
+- **Bracket Notation**:
+  - Used to access an object's property `dynamically` (e.g., using variables).
+  - Example:  
+    ```js
+    const key = "lastName";
+    console.log(person[key]); // Output: "Schedt"
+    ```
+
+**In short** dot gives the direct value in static way while the bracket gives the same value in static as well as dynamic way
+
+- When we try to get the property which is not available in the object, it shows the `undefined`
+
+- In object, the key values, the key is also called the `property`
+
+
+---
+
+#### **Functions: Declarative vs Expressive**
+1. **Declarative Function**:
+   - Syntax:
+     ```js
+     function calcAge(birthYear) {
+         return 2037 - birthYear;
+     }
+     ```
+   - Can be called **before** they are defined in the code.
+   
+2. **Expressive Function**:
+   - Syntax:
+     ```js
+     const calcAge = function(birthYear) {
+         return 2037 - birthYear;
+     };
+     ```
+   - `Cannot` be called before they are defined.
+---
+
+
+
+#### **Array Destructuring**
+- **Case 1**:
+  ```js
+  const [x, y, z] = [2, 3, 4];
+  ```
+  - After destructuring:
+    - `x = 2`
+    - `y = 3`
+    - `z = 4`
+
+- **Case 2**:
+  - When skipping elements:
+    ```js
+    const [main, , secondary] = ["Pizza", "Pasta", "Risotto"];
+    ```
+    - `main = Pizza`
+    - `secondary = Risotto`
+
+  Example:
+  ```js
+  const [main,secondary] = ["Pizza", "Pasta", "Risotto"];
+  ```
+  - `main = Pizza`
+  - `secondary = Pasta`
+
+
+  Example:
+  ```js
+  const [p,q,r] = [8,9];
+  ```
+  - `p = 8`
+  - `q = 9`
+  - `r = undefined`
+
+
+
+  Example:
+  ```js
+  const [p=1,q=1,r=1] = [8,9];
+  ```
+  - `p = 8`
+  - `q = 9`
+  - `r = 1`
+
+---
+
+#### **Object Destructuring**
+- **Case 1**:
+  - Similar to arrays but use `{}`.
+  - Example:
+    ```js
+    let a = 1;
+    let b = 2;
+    const obj = { a: 25, b: 35, c: 13 };
+    ({ a, b } = obj); // a = 25, b = 35
+    ```
+
+---
+
+#### **Spread Operator (`...`)**
+- Used for arrays, strings, maps, sets, and objects.
+- Additional Notes:
+  ```js
+  const str = "Jonas"
+  ```
+  - `console.log([...str, "sks"])` gives `['J', 'o', 'n', 'a', 's', 'sks']`
+
+  - ``${...str}`` gives the error
+
+---
+
+#### **Spread vs Rest Operator**
+- **Spread**:
+  - Used on the **right** side.
+  - It `unpack` the data
+  - Example:
+    ```js
+    const arr = [1, 2, ...[3, 4]];
+    ```
+    - Output: `[1, 2, 3, 4]`
+
+- **Rest**:
+  - Used on the **left** side.
+  - It `pack` the data
+  - Example:
+    ```js
+    const [a, b, ...others] = [1, 2, 3, 4, 5];
+    ```
+    - `a = 1`
+    - `b = 2`
+    - `others = [3, 4, 5]`
+
+---
+
+#### **Short Circuiting**
+- Using `||`:
+  ```js
+  console.log(0 || "Jonas"); // Output: "Jonas"
+  console.log(1 || "Jonas"); // Output: 1
+  ```
+
+- Using `&&`:
+  ```js
+  console.log(0 && "Jonas"); // Output: 0
+  console.log(1 && "Jonas"); // Output: "Jonas"
+  ```
+
+- **Logic**:
+  - For `||`, it returns the first truthy value.
+  - For `&&`, it `returns` the `last value` if `all are truthy`, `else` return the `false value`
+
+- Example:
+  ```js
+  console.log(null || undefined || "hi"); // Output: "hi"
+  console.log(null && undefined && "hi"); // Output: null
+  ```
+
+
+#### **Logical Assignment Operators**
+- Example:
+  ```js
+  const rest1 = {
+      name: "Capi",
+      numGuests: 20,
+  };
+  ```
+
+- **Usage**:
+  ```js
+  rest1.numGuests = rest1.numGuests || 10;
+  ```
+  - Can be rewritten as:
+    ```js
+    rest1.numGuests ||= 10;
+    ```
+
+- **Logical Assignment**:
+  - Works similarly to incrementing:
+    ```js
+    sum = sum + 1;
+    sum += 1;
+    ```
+  - Similarly applies to `||=` and `&&=`.
+
+- **Potential Issue**:
+  - If `numGuests` is `0`, using `||` may result in the default value being assigned:
+    ```js
+    rest1.numGuests = rest1.numGuests || 10; // This sets to 10 even if numGuests = 0
+    ```
+
+  - Use `??=` (nullish coalescing):
+    ```js
+    rest1.numGuests ??= 10;
+    ```
+
+---
+
+#### **For...Of Loop**
+
+- **Destructuring in Loops**:
+  ```js
+  for (const [i, e] of menu.entries()) {
+      console.log(`${i}: ${e}`);
+  }
+  ```
+
+#### nullish coalescing operator ( ?? )
+
+```js
+console.log(rest.numGuests ?? 10)
+```
+
+If above is null or undefined (not 0 or ''), it gives 10 otherwise gives first value
+
+> ### Padding a string
+
+In JavaScript, you can pad a string using the `padStart` and `padEnd` methods. 
+
+### Syntax:
+1. **`padStart(targetLength, padString)`**: Pads the beginning of a string.
+2. **`padEnd(targetLength, padString)`**: Pads the end of a string.
+
+### Example Usage:
+
+#### Padding at the Beginning
+```javascript
+let str = "123";
+let paddedStr = str.padStart(6, "0");
+console.log(paddedStr); // Output: "000123"
+```
+
+#### Padding at the End
+```javascript
+let str = "123";
+let paddedStr = str.padEnd(6, "0");
+console.log(paddedStr); // Output: "123000"
+```
+
+### Parameters:
+- **`targetLength`**: The length of the resulting string after padding. If the `targetLength` is less than or equal to the string's length, no padding is added.
+- **`padString`** *(optional)*: The string used for padding. If omitted, `" "` (a single space) is used by default.
+
+### Notes:
+- If the `padString` is longer than the needed padding, it will be truncated.
+- These methods do not modify the original string; they return a new string.
+
+---
+
+> ### First Class Functions
+
+**Below are key points which makes them 1st class**
+- Store function in variable or properties:
+
+```js
+const add = (a,b) => a+b
+
+// or
+
+const counter = {
+  value: 25,
+  inc: function(){ this.value++ }
+}
+```
+
+
+- Pass functions as arguments to other functions
+
+```js
+const greet = () => console.log("hey")
+btnClose.addEventListner("click", greet)
+```
+
+
+- Return functions from functions
+
+```js
+counter.inc.bind(someOtherObject)
+```
+
+### Higher Order Functions
+
+- A function that receives another function as an argument, that return a new function or both.
+- This is only possible because of first class functions.
+
+1. Function that receives another function
+
+```js
+const greet = () => console.log("hey")
+btnClose.addEventListner("click", greet)
+```
+
+addEventListner here is the higher order function
+
+2. Function that returns new function
+
+```js
+function count(){  // count id higher order function
+  let counter  = 0
+  return function(){  // this function is return function
+    counter++ 
+  }
+}
+```
+
+
+> ### '/n' is use for new line for split()
+
+> ### Should know the some and every of array
+
+> ### Difference between the some and includes
+
+Some method is like includes but difference is that includes check the equality(=) condition only and return true or false,\
+In some method, we can check any condition if that satisfies then we get return as true or false
+
+
+```js
+const data = [1,2,3,4]
+console.log(data.includes(5))  // here we only checked equality
+console.log(data.some( unit => unit >1 ))  // here condition is checked which "geater than condition"
+```
+
+> ### Implicit Binding and Explicit Binding
+
+### **Implicit Binding**
+
+It is like self binding, means 'this' points towards created object
+
+- **Definition**: When the `this` keyword refers to the object that invokes the function.
+- **Example**:
+  ```javascript
+  const person = {
+    name: "Karen",
+    age: 40,
+    hi() {
+      console.log("hi " + this.name);
+    }
+  };
+  person.hi(); // Output: "hi Karen"
+  ```
+- **Key Point**: 
+  - In implicit binding, `this` points to the object (`person`) that is calling the method (`hi`).
+
+---
+
+### **Explicit Binding**
+- **Definition**: When the `this` keyword is explicitly bound to a specific object using methods like `.bind()`, `.call()`, or `.apply()`.
+- **Example**:
+  ```javascript
+  const person3 = {
+    name: "Karen",
+    age: 40,
+    hi: function () {
+      console.log("hi " + this.name);
+    }
+  };
+  
+  const boundHi = person3.hi.bind(window);
+  boundHi(); // Output will depend on the global `window.name`
+  ```
+- **Key Point**:
+  - Explicit binding allows manual control over the value of `this`.
+
+
+> ### Bubbling vs Capturing
+
+- **Syntax**:
+  ```javascript
+  <element>.addEventListener(eventName, callbackFunction, {capture: boolean});
+  ```
+  - Example:
+    ```javascript
+    grandParent.addEventListener("click", (e) => {
+      console.log("grandParent");
+    }, { capture: false }); // or simply `false`
+    ```
+
+---
+
+### **Bubbling**:
+- **Definition**: Propagation moves from the innermost element (target) outward to its ancestors.
+- **Key Points**:
+  - Bubbling occurs when `{capture: false}` (default behavior).
+  - Almost all events bubble, **except** the `focus` event.
+  - Can be stopped using `stopPropagation()`.
+
+---
+
+### **Capturing**:
+- **Definition**: Opposite of bubbling; propagation moves from the outermost ancestor inward to the target element.
+- **Key Points**:
+  - Capturing occurs when `{capture: true}`.
+  - Usually followed by event bubbling.
+
+---
+
+### **Mixed Mode (Both `true` and `false`)**:
+- **Behavior**: JavaScript first handles capturing (outer to inner) and then bubbling (inner to outer).
+- **Example**: When combining capturing and bubbling on different elements.
+
+see akshay saini video form 17:34**
+
+---
+
+### **Stopping Propagation**:
+- Use `stopPropagation()` to prevent further propagation in either phase.
+  ```javascript
+  e.stopPropagation();
+  ```
+
+---
+
+### **Event Delegation**:
+- **Concept**: Instead of adding listeners to multiple child elements, add a listener to a common parent and use `e.target` to handle child-specific logic.
+- **Key Points**:
+  - Efficient for dynamically generated elements.
+  - Example:
+    ```javascript
+    parentElement.addEventListener("click", (e) => {
+      if (e.target.matches("button")) {
+        console.log("Button clicked!");
+      }
+    });
+    ```
+
+
 > Core web vitals and lighthouse interview question
 
 > ### Difference between subsring and slice
