@@ -2375,9 +2375,9 @@ object.method(callback, 2, 3);
   <summary>Answer</summary>
   <p>Answer is B)</p>
 
-```js
+
 In non-strict mode, when a regular function is called, `this` refers to the global object (`window` in browsers), and in the global scope, `length` refers to the number of arguments passed to the function (`arguments.length`).
-```
+
 </details>
 
 ### Question 95
