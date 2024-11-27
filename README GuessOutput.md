@@ -2402,29 +2402,35 @@ person.method();
 
 <details>
   <summary>Answer</summary>
-  <p>Answer is A)</p>
+  <p>Answer is C)</p>
 
 
- ```js
- /*
-  Answer is A) Jayesh because "this" inside the definition for person object does not refer to person object. 
-  "this" will refer to the window object here, and binding displayName function with passing window's this  
-  as a context will return a copy of bound function that is stored in method property of person object. 
-  So, While calling person.method() will console Jayesh as an output.
-  */
+The correct answer is: **💖C) undefined**  
 
-  // 👇 We can get JC as an output by wrapping displayName.bind(this) inside a function because "this" inside the normal function of an object refers to the object :-
+### Explanation:
+1. **The `bind` method and `this`:**
+   - When you use `bind` on a function, it creates a new function with its `this` context set explicitly to the argument passed to `bind`.  
+   - In this case, `displayName.bind(this)` binds the function `displayName` to the value of `this` **in the scope where `bind` is called**.
 
-  const person2 = {
-    name: "JC",
-    method: function () {
-      return displayName.bind(this); // Here, "this" refers to the person2 object
-    },
-  };
+2. **Global `this` in non-strict mode:**
+   - In the global scope (or the top level of a script), `this` usually refers to the global object (`window` in browsers, or `global` in Node.js).  
+   - If `strict mode` were enabled, `this` in the global scope would be `undefined`.
 
-  person2.method()(); // JC
+3. **What happens in the code:**
+   - The `displayName` function is defined to log `this.name`.
+   - The `person` object sets `method` to `displayName.bind(this)`. Here, `this` refers to the global `this` in the context of the script, not the `person` object.
+   - Therefore, when `person.method()` is called, it uses the bound `this`, which points to the global object.
 
-```
+4. **Outcome:**
+   - If the global object does not have a `name` property, `this.name` resolves to `undefined`.
+   - The `console.log(this.name)` inside `displayName` logs `undefined`.
+
+---
+
+### Key Takeaways:
+- The value of `this` is determined by how a function is called or explicitly bound.
+- `this` in the global context usually points to the global object (or `undefined` in strict mode).
+- `bind` fixes the `this` context when creating a new function.
 </details>
 
 ### Question 96
