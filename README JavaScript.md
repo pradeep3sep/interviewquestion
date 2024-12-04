@@ -116,7 +116,24 @@ eg==>  console.log("2" * "3") gives 6, basically the string to number
 ---
 
 
+<br>
+Here’s a concise comparison of `let`, `const`, and `var` in JavaScript presented in tabular form:
 
+| Feature                       | `var`                              | `let`                              | `const`                             |
+|-------------------------------|-------------------------------------|-------------------------------------|--------------------------------------|
+| **Declaration Scope**         | Function-scoped                    | Block-scoped                       | Block-scoped                        |
+| **Re-declaration**            | Allowed within the same scope      | Not allowed in the same scope      | Not allowed in the same scope       |
+| **Hoisting Behavior**         | Hoisted and initialized as `undefined` | Hoisted but not initialized         | Hoisted but not initialized         |
+| **Re-assignment**             | Allowed                            | Allowed                            | Not allowed                         |
+
+### Notes:
+- **Block Scope**: A block is defined by `{}` (e.g., in loops, `if` statements).
+- **Hoisting**: Although all three are hoisted, only `var` is initialized to `undefined`, while `let` and `const` remain in the "temporal dead zone" until their definition is encountered.
+
+<br>
+
+
+---
 #### **Array Destructuring**
 - **Case 1**:
   ```js
@@ -500,6 +517,133 @@ see akshay saini video form 17:34**
       }
     });
     ```
+
+
+
+### OOP
+
+- Objects may contain data (properties) and code (methods). By using objects, we pack data and corresponding behavior into one block.
+- In OOP, objects are **self-contained pieces/blocks of code**.
+
+---
+
+**Class** - Like a blueprint from which we can create new objects.
+
+**Instance** - Like making a real object using the class.
+
+---
+
+### Fundamental principles of Object-Oriented Programming
+
+1. **Abstraction**  
+2. **Encapsulation**  
+3. **Inheritance**  
+4. **Polymorphism**  
+
+---
+
+**Abstraction**  
+- Ignoring or hiding details that don’t matter, allowing us to get an overview perspective of the thing we’re implementing, instead of messing with details that don’t really matter to our implementation.  
+- **Example:** eventlistner, we don’t know the real code for how it works; we only know the method to use it.  
+
+**Encapsulation**  
+- Keeping `properties and methods private` inside the class, so they are not accessible from outside the class.  
+- Some methods can be exposed as a public interface (API).  
+- **Purpose:** Prevents external code from accidentally manipulating internal properties/state.  
+
+
+**Inheritance**
+- Child classes inherit methods & properties from parent classes.  
+- Making all properties and methods of a certain class available to a child class, forming a hierarchical relationship between classes.  
+- This allows us to reuse common logic and model real-world relationships.  
+
+---
+
+### Polymorphism  
+- A child class can overwrite a method it inherited from a parent class.[It's more complex than that, but enough for our purposes.]
+
+---
+
+- **Object (instances)** are **instantiated** from a class, which functions like a blueprint.  
+
+---
+
+### Prototype  
+
+- **Prototype** contains methods; objects linked to this prototype can access methods.  
+- Objects are linked to a prototype object.  
+
+---
+
+### Prototypal Inheritance  
+- The prototype contains methods (behavior) that are accessible to all objects linked to that prototype.  
+
+
+---
+
+### PROTOTYPAL INHERITANCE
+
+- JS uses Protoypal Inheritance
+- Inheritance is an object getting access to the properties and methods of another object
+
+![BOM](/images/chain.png)
+
+- proto is simply a refernce or a pointer to up the chain protype chain
+
+![BOM](/images/protoInheri.png)
+
+- created array.prtotype or created object.prototype or created function.prototype returns `undefined` unless any property created in it. It has all method or function of Base object and Base array or Base function, basically inherit all from above hierarchy
+
+- Array.prototype has all the built-in method of array like map, filter, etc but created array.protoype don't have similar to function case eg is call, bind,apply.
+---
+
+
+### Call, Apply, and Bind  
+
+- Call, Apply, and Bind : It is use for function borrowing
+- Function borowwing allows us to use the method of one object on another object without having to make a copy of that method and maintain it in two separate places.
+
+#### **Call**  
+- **Use:** It is used for function borrowing.  
+```javascript
+let name = {  
+  firstname: "Akshay",  
+  lastname: "Saini"  
+};  
+
+let printFullName = function (hometown, state) {  
+  console.log(this.firstname + " " + this.lastname + " from " + hometown + ", " + state);  
+};  
+
+printFullName.call(name, "Dehradun", "Uttarakhand");  
+```
+**Output:**  
+`Akshay Saini from Dehradun, Uttarakhand`  
+
+
+**`name` is the object which 'this' refer, "Dehradun", "Uttarakhand" are the parameter to function**
+---
+
+#### **Apply**  
+- **Use:** Similar to `call`, but instead of passing parameters separately, we pass the parameters in array form.  
+```javascript
+printFullName.apply(name, ["Dehradun", "Uttarakhand"]);  
+```  
+
+---
+
+#### **Bind**  
+- **Use:** The `bind` method binds a method (e.g., `printFullName`) with an object and returns a copy of the method, which can be invoked later.  
+```javascript
+let printMyName = printFullName.bind(name, "Dehradun", "Uttarakhand");  
+console.log(printMyName); // Returns a function  
+
+printMyName();  
+```  
+**Output:**  
+`Akshay Saini from Dehradun, Uttarakhand`  
+
+
 
 
 > Core web vitals and lighthouse interview question
@@ -2534,6 +2678,26 @@ const sum = (a) => {
 
 const sumResult = sum(1)(2)(3)(4)(5)();
 console.log(sumResult); // 15
+```
+
+<br>
+
+### Partial Application
+
+currying eg
+
+```js
+const multiply = (a,b,c) => a*b*c;
+const curriedMultiply = (a) => (b) => (c) => a*b*c;
+curriedMultiply(3)(4)(10)
+```
+
+Partial Application says we have to call the function once and then apply the rest of the arguments later.
+
+```js
+const multiply = (a,b,c) => a*b*c;
+const partialMultiplyBy5 = multiply.bind(this, 5);
+partialMultiplyBy5(4,10)
 ```
 
 
