@@ -98,11 +98,17 @@ function factorial(n) {
   console.log(checkPalindrome(str));
 ```
 
-Subsequence of "abc" are  a, b, c, ab, bc, ac, abc. Keep in mind order matter because "ca" is not a subsequence\
+<br>
+
+---
+
+> ### Subsequence & Substring
+
+**Main defination of Subsequence** of "abc" are  a, b, c, ab, bc, ac, abc. Keep in mind order matter because "ca" is not a subsequence\
 count of subsequence is 2^n, where n is length of string.
 
 
-**Substring** - All characters in substring appear consecutively in the original string. eg `"abcdef"`, `abc` and `def` are `substring`.\
+**Substring** - All characters in substring appear `consecutively` in the original string. eg `"abcdef"`, `abc` and `def` are `substring`.\
 **Subsequence** - It is sequence of characters that appear in the same order as in the original string, but not necessarily consecutivaly. you can skip character but order must remain remain same. eg -`"abcdef"`, `ace` and `bdf` are `subsequence`.
 
 <br>
@@ -183,45 +189,13 @@ console.log(areAnagrams(string1, string2)); // Output: true
 
 The algorithm used in the code can be classified as a **"Hash Table Frequency Count"** approach for checking anagrams.
 
-### Algorithm Name:
-**Two-Pass Hash Map with Character Balancing**
-
-### Logic and Steps:
-1. **Initial Length Check**:
-   - The algorithm first checks if the two input strings (`str1` and `str2`) have the same length. If they don’t, they can’t be anagrams, and the algorithm returns `false`.
-
-2. **Combined Loop**:
-   - A single loop is used to iterate over both strings at the same time.
-   - For each character in `str1`, we:
-     - Convert the character to lowercase for case-insensitivity.
-     - Increment the count of that character in a frequency map (`charCount`).
-   - For each character in `str2`, we:
-     - Convert the character to lowercase.
-     - Decrement the count of that character in the frequency map.
-
-   This approach ensures that if `str1` and `str2` are anagrams, every increment operation from `str1` will be perfectly canceled out by the corresponding decrement operation from `str2`.
-
-3. **Balancing the Frequency Map**:
-   - After the loop, we expect that for an anagram:
-     - Every character in `str1` would have a corresponding character in `str2`, and the total frequency count for all characters should sum to zero.
-   - The frequency map (`charCount`) is then checked to ensure all character counts are zero. If any character has a non-zero count, it means the strings are not anagrams, and the function returns `false`.
-
-4. **Return Result**:
-   - If all counts are zero, the function returns `true`, confirming that the two strings are anagrams.
-
-### Why it Works:
-- If two strings are anagrams, they will have exactly the same characters with the same frequencies. By combining both the increment and decrement operations in one pass, we ensure that the characters balance each other out.
-- The final check ensures that the frequency map is empty or "balanced" (all values are zero), indicating that all characters from one string perfectly match those of the other string.
-
 ### Time and Space Complexity:
 - **Time Complexity**: **O(n)**, where `n` is the length of the strings (since they have the same length, we iterate once through both strings).
 - **Space Complexity**: **O(k)**, where `k` is the number of unique characters in the string (usually a small constant, limited by the number of unique characters in the alphabet).
 
-This algorithm is efficient because it leverages a hash map (or object in JavaScript) to maintain counts and performs all character balancing in a single pass over the strings.
-
 <br>
 
-> ### Anagram Substring Search (Or Search for all permutations) ( [Youtube video](https://youtu.be/fYgU6Bi2fRg?si=HoRG7uxp0GCmxlCA&t=83) )
+> ### Anagram Substring Search (Or Search for all permutations) ( [Youtube video](https://youtu.be/fYgU6Bi2fRg?si=HoRG7uxp0GCmxlCA&t=185) )
 
 **Example**:
 
@@ -455,6 +429,9 @@ Lexicographic rank of "STRING" is: 598
 
 - **O(1)** (if we ignore the factorial array and frequency array). Otherwise, it is **O(256)** for the frequency array and **O(n)** for the factorial array.
 
+--- 
+
+<br>
 
 > ### Check for leftmost repeating character (when we start from left find which character repeats, then give its index)
 
@@ -500,6 +477,10 @@ console.log(leftMostRepeatingChar("abcd")) // -1
 ### Time Complexity: 
 - O(n), where n is the length of the string. The string is traversed only once.
 
+---
+
+<br>
+
 > ### check for leftmost non-repeating character
 
 ```js
@@ -526,6 +507,8 @@ function leftMostNonRepeatingChar(str) {
 const str = "abacabad";
 console.log(leftMostNonRepeatingChar(str)); // Output: "c"
 ```
+
+--- 
 
 <br>
 
@@ -554,6 +537,9 @@ The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\),
 
 ### Summary of Growth:
 - \(O(1)\) < \(O(log n)\) < \(O(n)\) < \(O(n log n)\) < \(O(n^2)\)
+
+
+--- 
 
 <br>
 
@@ -640,6 +626,7 @@ Pattern found at index: [10]
 
 This code will find all the positions of the pattern in the given text efficiently.
 
+--- 
 
 <br>
 ## Various alogorith used in DSA
@@ -717,6 +704,9 @@ const prefixSum = buildPrefixSumArray(arr);
 console.log(getRangeSum(prefixSum, 1, 3)); // Output: 18 (4 + 6 + 8)
 console.log(getRangeSum(prefixSum, 0, 2)); // Output: 12 (2 + 4 + 6)
 ```
+
+---
+
 
 > ### Two-pointer algorithm
 In the two-pointer algorithm, there are several common steps or patterns that we typically follow, regardless of the specific problem. Here’s a generalized breakdown of the steps involved:
@@ -5129,6 +5119,109 @@ Given the following binary tree:
 
 ### Space Complexity:
 - **O(h)**, where `h` is the height of the tree due to the recursive call stack. In the worst case (for a skewed tree), this could be **O(n)**, but for a balanced tree, it would be **O(log n)**.
+
+
+> ### Book Allocation or Allocate Books Problem ( [Youtube video](https://www.youtube.com/watch?v=JRAByolWqhw&ab_channel=ApnaCollege) )
+
+The **Book Allocation Problem** is a popular problem in Data Structures and Algorithms (DSA), often solved using **binary search**. The goal is to allocate books to students such that the maximum number of pages allocated to any student is minimized.  
+
+### Problem Description
+1. You are given an array `books[]` where each element represents the number of pages in a book.
+2. You have `students` number of students.
+3. The books must be distributed sequentially (i.e., a student can only be assigned consecutive books).
+4. Minimize the maximum pages a student has to read.
+
+---
+
+### Approach to Solve
+The problem can be solved efficiently using **binary search** combined with a **greedy algorithm**:
+
+1. **Binary Search on the Maximum Number of Pages:**
+   - The lower bound is the book with the maximum pages (minimize the largest allocation).
+   - The upper bound is the sum of all pages (one student gets all books).
+
+2. **Check Feasibility (Helper Function):**
+   - Use a helper function to determine if it is possible to allocate books such that no student gets more than the current "mid" (from binary search).
+
+---
+
+### Algorithm
+1. Start with `low = max(books)` and `high = sum(books)`.
+2. Perform binary search on this range:
+   - Find the `mid`.
+   - Check if allocation with `mid` as the maximum page is feasible.
+3. Adjust the search range based on feasibility:
+   - If feasible, minimize the `mid` (reduce upper bound).
+   - If not feasible, increase the `mid` (increase lower bound).
+4. Return the minimized maximum pages.
+
+---
+
+### Implementation in JavaScript
+
+```javascript
+function isFeasible(books, students, maxPages) {
+    let studentCount = 1;
+    let pagesAllocated = 0;
+
+    for (let pages of books) {
+        if (pages > maxPages) {
+            return false; // A single book exceeds maxPages, not feasible.
+        }
+        
+        if (pagesAllocated + pages > maxPages) {
+            studentCount++; // Assign to the next student.
+            pagesAllocated = pages;
+
+            if (studentCount > students) {
+                return false; // Too many students required.
+            }
+        } else {
+            pagesAllocated += pages;
+        }
+    }
+    return true;
+}
+
+function allocateBooks(books, students) {
+    if (books.length < students) {
+        return -1; // Not enough books for all students.
+    }
+
+    let low = Math.max(...books);
+    let high = books.reduce((a, b) => a + b, 0);
+    let result = high;
+
+    while (low <= high) {
+        let mid = Math.floor((low + high) / 2);
+
+        if (isFeasible(books, students, mid)) {
+            result = mid; // Try for a better minimum.
+            high = mid - 1;
+        } else {
+            low = mid + 1; // Increase maxPages.
+        }
+    }
+    return result;
+}
+
+// Example Usage
+const books = [12, 34, 67, 90]; // Number of pages in books.
+const students = 2; // Number of students.
+
+console.log(allocateBooks(books, students)); // Output: 113
+```
+
+---
+
+### Explanation of Example
+- **Input:** `books = [12, 34, 67, 90], students = 2`
+- **Output:** `113`
+- **Reason:** 
+  - Allocate `[12, 34, 67]` to the first student (total = 113 pages).
+  - Allocate `[90]` to the second student (total = 90 pages).
+  - The maximum pages allocated to any student is minimized as `113`.
+
 
 
 > ###  Hash Table
