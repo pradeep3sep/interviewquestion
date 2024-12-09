@@ -10,10 +10,16 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
 
 - programming Language ==> Instruct computer to do things
 
+<br>
 
 > ### There are only `six` falsey values in JavaScript: undefined , null , NaN , 0 , "" (empty string), and false of course.
 
+<br>
+
 > ### Type of NaN is Number
+
+<br>
+
 
 > ### Type of Null if object.
 
@@ -27,6 +33,9 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
   (Copy by referenc)     (Copy bt value)
 ```
 
+<br>
+
+
 > ### 7 Primitive Data Types
 
 - Numbers
@@ -38,6 +47,9 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
 - BigInt
 
 
+<br>
+
+
 > ### Operator Precedence 
 Every operator has its precendenc which value, which defines which operator will excute first
 
@@ -47,6 +59,9 @@ See table of below website
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence
 ```
 
+<br>
+
+
 
 > ### conversion and coercion in javascript
 
@@ -55,10 +70,16 @@ conversion - In this we manually convert the type of value
 coercion - In this, the js automatically convert the type of value
 eg==>  console.log("2" * "3") gives 6, basically the string to number
 
+<br>
+
+
 **Note** `Js has dynamic typing`: We do `not` have to manually define the data type of the value stored in a variable. Insted, data types are determined automatically.
 
 
-#### **Functions**
+<br>
+
+
+### Functions
 - A **function** is a piece of code that can be used repeatedly.
 
 - **Push function**: returns the array's length.
