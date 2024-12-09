@@ -27,6 +27,35 @@ https://www.bigocheatsheet.com/
   let obj = { a: 1, b: 2, c: 3 }; // O(m), where m is the number of keys
   ```
 
+---
+
+
+> ### The difference between various notations
+The differences between the time complexities \(O(1)\), \(O(log n)\), \(O(n)\), \(O(nlog n)\), and \(O(n^2)\) describe how the runtime of an algorithm scales with the size of the input \(n\). Here's a breakdown of each:
+
+1. **\(O(1)\) - Constant Time Complexity**:
+   - The runtime of the algorithm does not depend on the input size. No matter how large \(n\) is, it always takes a constant amount of time to complete.
+   - Example: Accessing an element in an array by index, such as `arr[5]`.
+
+2. **\(O(log n)\) - Logarithmic Time Complexity**:
+   - The runtime grows logarithmically as the input size increases. This often occurs in `divide-and-conquer` algorithms, where the problem is split into smaller chunks.
+   - Example: Binary search on a sorted array.
+
+3. **\(O(n)\) - Linear Time Complexity**:
+   - The runtime `increases linearly` with the input size. If \(n\) doubles, the time taken also doubles.
+   - Example: Iterating over an array of size \(n\).
+
+4. **\(O(n log n)\) - Linearithmic Time Complexity**:
+   - The runtime grows faster than linear but slower than quadratic. This time complexity often appears in more efficient sorting algorithms.
+   - Example: Merge Sort, Quick Sort (average case).
+
+5. **\(O(n^2)\) - Quadratic Time Complexity**:
+   - The runtime grows quadratically as the input size increases. If \(n\) doubles, the time taken increases by a factor of four. This happens when you have `nested loops` over the same input.
+   - Example: Bubble Sort, Selection Sort.
+
+### Summary of Growth:
+- \(O(1)\) < \(O(log n)\) < \(O(n)\) < \(O(n log n)\) < \(O(n^2)\)
+
 <br>
 
 > ### Example: Analyzing Space Complexity
@@ -300,6 +329,8 @@ Anagram start indices: [0, 6]
 ### Space Complexity:
 - **O(1)**, because we are using fixed-size arrays for the frequency count (26 elements for lowercase English letters).
 
+--- 
+
 <br>
 
 > ### Lexicographic Rank of a String ( [Youtube video](https://youtu.be/uUN8fVPrJn0?si=Ege3okmmRJvxt331) )
@@ -355,14 +386,6 @@ function lexicographicRank(str) {
     // Populate the frequency array with the count of each character
     for (let i = 0; i < n; i++) {
         charCount[str.charCodeAt(i)]++;
-    }
-
-    // Check for duplicate characters (if any)
-    for (let i = 0; i < 256; i++) {
-        if (charCount[i] > 1) {
-            console.log("Error: The string contains duplicate characters.");
-            return -1;
-        }
     }
 
     // Initialize rank to 1 (since ranks start from 1)
@@ -512,34 +535,7 @@ console.log(leftMostNonRepeatingChar(str)); // Output: "c"
 
 <br>
 
-> ### The difference between various notations
-The differences between the time complexities \(O(1)\), \(O(\log n)\), \(O(n)\), \(O(nlog n)\), and \(O(n^2)\) describe how the runtime of an algorithm scales with the size of the input \(n\). Here's a breakdown of each:
-
-1. **\(O(1)\) - Constant Time Complexity**:
-   - The runtime of the algorithm does not depend on the input size. No matter how large \(n\) is, it always takes a constant amount of time to complete.
-   - Example: Accessing an element in an array by index, such as `arr[5]`.
-
-2. **\(O(log n)\) - Logarithmic Time Complexity**:
-   - The runtime grows logarithmically as the input size increases. This often occurs in `divide-and-conquer` algorithms, where the problem is split into smaller chunks.
-   - Example: Binary search on a sorted array.
-
-3. **\(O(n)\) - Linear Time Complexity**:
-   - The runtime `increases linearly` with the input size. If \(n\) doubles, the time taken also doubles.
-   - Example: Iterating over an array of size \(n\).
-
-4. **\(O(n log n)\) - Linearithmic Time Complexity**:
-   - The runtime grows faster than linear but slower than quadratic. This time complexity often appears in more efficient sorting algorithms.
-   - Example: Merge Sort, Quick Sort (average case).
-
-5. **\(O(n^2)\) - Quadratic Time Complexity**:
-   - The runtime grows quadratically as the input size increases. If \(n\) doubles, the time taken increases by a factor of four. This happens when you have `nested loops` over the same input.
-   - Example: Bubble Sort, Selection Sort.
-
-### Summary of Growth:
-- \(O(1)\) < \(O(log n)\) < \(O(n)\) < \(O(n log n)\) < \(O(n^2)\)
-
-
---- 
+---
 
 <br>
 
