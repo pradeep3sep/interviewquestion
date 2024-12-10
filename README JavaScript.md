@@ -420,9 +420,18 @@ function count(){  // count id higher order function
 ```
 
 
+<br>
+
+
 > ### '/n' is use for new line for split()
 
+<br>
+
+
 > ### Should know the some and every of array
+
+<br>
+
 
 > ### Difference between the some and includes
 
@@ -435,6 +444,9 @@ const data = [1,2,3,4]
 console.log(data.includes(5))  // here we only checked equality
 console.log(data.some( unit => unit >1 ))  // here condition is checked which "geater than condition"
 ```
+
+<br>
+
 
 > ### Implicit Binding and Explicit Binding
 
@@ -478,6 +490,9 @@ It is like self binding, means 'this' points towards created object
   - Explicit binding allows manual control over the value of `this`.
 
 
+<br>
+
+
 > ### Bubbling vs Capturing
 
 - **Syntax**:
@@ -491,7 +506,6 @@ It is like self binding, means 'this' points towards created object
     }, { capture: false }); // or simply `false`
     ```
 
----
 
 ### **Bubbling**:
 - **Definition**: Propagation moves from the innermost element (target) outward to its ancestors.
@@ -500,7 +514,7 @@ It is like self binding, means 'this' points towards created object
   - Almost all events bubble, **except** the `focus` event.
   - Can be stopped using `stopPropagation()`.
 
----
+
 
 ### **Capturing**:
 - **Definition**: Opposite of bubbling; propagation moves from the outermost ancestor inward to the target element.
@@ -508,7 +522,7 @@ It is like self binding, means 'this' points towards created object
   - Capturing occurs when `{capture: true}`.
   - Usually followed by event bubbling.
 
----
+
 
 ### **Mixed Mode (Both `true` and `false`)**:
 - **Behavior**: JavaScript first handles capturing (outer to inner) and then bubbling (inner to outer).
@@ -516,7 +530,7 @@ It is like self binding, means 'this' points towards created object
 
 see akshay saini video form 17:34**
 
----
+
 
 ### **Stopping Propagation**:
 - Use `stopPropagation()` to prevent further propagation in either phase.
@@ -539,20 +553,20 @@ see akshay saini video form 17:34**
     });
     ```
 
-
+---
 
 ### OOP
 
 - Objects may contain data (properties) and code (methods). By using objects, we pack data and corresponding behavior into one block.
 - In OOP, objects are **self-contained pieces/blocks of code**.
 
----
+
 
 **Class** - Like a blueprint from which we can create new objects.
 
 **Instance** - Like making a real object using the class.
 
----
+
 
 ### Fundamental principles of Object-Oriented Programming
 
@@ -564,8 +578,8 @@ see akshay saini video form 17:34**
 ---
 
 **Abstraction**  
-- Ignoring or hiding details that don’t matter, allowing us to get an overview perspective of the thing we’re implementing, instead of messing with details that don’t really matter to our implementation.  
-- **Example:** eventlistner, we don’t know the real code for how it works; we only know the method to use it.  
+- Ignoring or `hiding details that don’t matter`, allowing us to get an overview perspective of the thing we’re implementing, instead of messing with details that don’t really matter to our implementation.  
+- **Example:** `eventlistner`, we don’t know the real code for how it works; we only know the method to use it.  
 
 **Encapsulation**  
 - Keeping `properties and methods private` inside the class, so they are not accessible from outside the class.  
@@ -578,14 +592,10 @@ see akshay saini video form 17:34**
 - Making all properties and methods of a certain class available to a child class, forming a hierarchical relationship between classes.  
 - This allows us to reuse common logic and model real-world relationships.  
 
----
 
-### Polymorphism  
+**Polymorphism**
 - A child class can overwrite a method it inherited from a parent class.[It's more complex than that, but enough for our purposes.]
 
----
-
-- **Object (instances)** are **instantiated** from a class, which functions like a blueprint.  
 
 ---
 
@@ -594,7 +604,7 @@ see akshay saini video form 17:34**
 - **Prototype** contains methods; objects linked to this prototype can access methods.  
 - Objects are linked to a prototype object.  
 
----
+
 
 ### Prototypal Inheritance  
 - The prototype contains methods (behavior) that are accessible to all objects linked to that prototype.  
@@ -616,12 +626,13 @@ see akshay saini video form 17:34**
 - created array.prtotype or created object.prototype or created function.prototype returns `undefined` unless any property created in it. It has all method or function of Base object and Base array or Base function, basically inherit all from above hierarchy
 
 - Array.prototype has all the built-in method of array like map, filter, etc but created array.protoype don't have similar to function case eg is call, bind,apply.
----
+
+<br>
 
 
 ### Call, Apply, and Bind  
 
-- Call, Apply, and Bind : It is use for function borrowing
+- Call, Apply, and Bind : It is use for `function borrowing`
 - Function borowwing allows us to use the method of one object on another object without having to make a copy of that method and maintain it in two separate places.
 
 #### **Call**  
@@ -642,8 +653,11 @@ printFullName.call(name, "Dehradun", "Uttarakhand");
 `Akshay Saini from Dehradun, Uttarakhand`  
 
 
+<br>
+
+
 **`name` is the object which 'this' refer, "Dehradun", "Uttarakhand" are the parameter to function**
----
+
 
 #### **Apply**  
 - **Use:** Similar to `call`, but instead of passing parameters separately, we pass the parameters in array form.  
@@ -654,30 +668,42 @@ printFullName.apply(name, ["Dehradun", "Uttarakhand"]);
 ---
 
 #### **Bind**  
+
 - **Use:** The `bind` method binds a method (e.g., `printFullName`) with an object and returns a copy of the method, which can be invoked later.  
+
 ```javascript
 let printMyName = printFullName.bind(name, "Dehradun", "Uttarakhand");  
 console.log(printMyName); // Returns a function  
 
 printMyName();  
 ```  
+
 **Output:**  
 `Akshay Saini from Dehradun, Uttarakhand`  
 
 
 
+<br>
+
+
 
 > Core web vitals and lighthouse interview question
+
+<br>
+
 
 > ### Difference between subsring and slice
 - `substring()` `doesn't` support `negative indices`.
 - `slice()` `supports` negative indices.
 
+<br>
+
+
 > ### forEach Method
 - forEach() always returns undefined
 - It is not invoked for empty slots in sparse arrays.
 - There is no way to stop or break a forEach() loop other than by throwing an exception. If you need such behavior, the forEach() method is the wrong tool.
-- forEach do not modify array on return, you have to intentionally modify the aaray
+- forEach do not modify array on return, you have to intentionally modify the array
 
 ```js
 // not modified the array
@@ -699,6 +725,9 @@ console.log(d);  // [2, 4, 6, 8]
 ```
 
 
+<br>
+
+
 
 > ### Callback hell full code
 ```
@@ -706,16 +735,24 @@ https://github.com/pradeep3sep/Awesome-JavaScript-Interviews/blob/master/Promise
 ```
 
 
+<br>
+
+
+
 > ### to get the paragraph length
 ```js
 const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
 ```
+
 <br>
 
 > ### To get the color picker
 ```js
 <input type="color" name="color1" value={color1} onChange={handleColorChange} />
 ```
+
+<br>
+
 
 > ### What is the purpose of template tag in html
 
@@ -757,7 +794,7 @@ Use `<template>` to hold some content that will be hidden when the page loads. U
 
 <br>
 
-> ### Keep in mind the usage of Promise.all vs Promise.allSettled
+> ### Various Promise Method
 
 Here’s a breakdown of the key differences between `Promise.all()`, `Promise.allSettled()`, `Promise.any()`, and `Promise.race()`:
 
