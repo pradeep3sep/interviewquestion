@@ -1,12 +1,6 @@
-<table>
-  <tr>
-    <th>Main Headings</th>
-  </tr>
-  <tr>
-    <td><a href="#rule-of-this" id="rule-of-this">Rule of this</a></td>
-  </tr>
-  
-</table>
+# Table of Contents
+
+- [Section 1](#rule-of-this)
 
 
 
@@ -5967,9 +5961,9 @@ new function(){console.log("Hi I'm IIFE 10")}();
 
 <br>
 
-<p><a href="#rule-of-this">Back to Top</a></p>
-<h2 id="rule-of-this">Section 1</h2>
-> ### Rule of this
+[Back to Top](#table-of-contents)
+
+> ### Rule of this   
 
 💡 7 Things you should know about "this"
 - 👉 Rule 1) function with new keyword ( this refers to the function object )
