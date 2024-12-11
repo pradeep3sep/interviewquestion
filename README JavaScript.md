@@ -1,3 +1,15 @@
+<table>
+  <tr>
+    <th>Main Headings</th>
+  </tr>
+  <tr>
+    <td><a href="#rule-of-this" id="rule-of-this">Rule of this</a></td>
+  </tr>
+  
+</table>
+
+
+
 > ### What is Javascript ?
 
 It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
@@ -5954,7 +5966,9 @@ new function(){console.log("Hi I'm IIFE 10")}();
 ```
 
 <br>
- 
+
+<p><a href="#rule-of-this">Back to Top</a></p>
+
 > ### Rule of this
 
 💡 7 Things you should know about "this"
