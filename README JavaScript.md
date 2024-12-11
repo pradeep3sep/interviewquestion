@@ -5968,7 +5968,7 @@ new function(){console.log("Hi I'm IIFE 10")}();
 <br>
 
 <p><a href="#rule-of-this">Back to Top</a></p>
-
+<h2 id="rule-of-this">Section 1</h2>
 > ### Rule of this
 
 💡 7 Things you should know about "this"
