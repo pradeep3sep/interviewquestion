@@ -1866,13 +1866,18 @@ Here are two ways to fix it that involves adding more parentheses:
  
 
 > ### 42..toString()
-42
+'42'
+
+> ### 42.toString()
+SyntaxError: Invalid or unexpected token
+
+> ### 4.2.toString
+'4.2'
 
 > ### 4.2..toString
 SyntaxError: Unexpected token .
 
-> ### 42 . toString()
-42
+
 
 In JavaScript, the `toString()` method is available for all objects, including primitive types like numbers. When you call `42..toString()`, JavaScript interprets the first dot as part of the number literal (i.e., `42.` is treated as `42.0`), and the second dot is treated as a method call.
 
@@ -1983,6 +1988,9 @@ const composedPlayerName = compose(
 console.log(composedPlayerName); // VIRAT
 ```
  
+<br>
+
+
 > ### Rest operator in object
 ```js
 let myObj = {
@@ -2010,11 +2018,13 @@ console.log(hobbies, rest.age)  // => music 25
 <br>
 
 > ### What is the difference between classical inheritance and prototypal inheritance?
-**Class Inheritance**: instances inherit from classes (like a blueprint - a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the new keyword. Class inheritance may or may not use the class keyword from ES6.\
-**Prototypal Inheritance**: instances inherit directly from other objects. Instances are typically instantiated via factory functions or Object.create(). Instances may be composed from many different objects, allowing for easy selective inheritance.
+
+**Class Inheritance**: instances inherit from classes (like a blueprint - a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the `new keyword`. Class inheritance may or may not use the class keyword from ES6.\
+
+**Prototypal Inheritance**: instances inherit directly from other objects. Instances are typically instantiated via `factory functions or Object.create()`. Instances may be composed from many different objects, allowing for easy selective inheritance.
 
 
- <br>
+<br>
  
 > ### child class inheritance using constructor function
 ```js
@@ -2794,7 +2804,7 @@ console.log(a === b)  // true
  
 > ### Number.isNaN() vs global isNaN()
 
-Number.isNaN() doesn't attempt to convert the parameter to a number, so non-numbers always return false. 
+Number.isNaN() `doesn't` attempt to `convert` the parameter to a number, so non-numbers always return false. 
 
 Number.isNaN() return true if the given value is a number with value NaN. Otherwise, false. 
 
@@ -2861,7 +2871,7 @@ The above condition gives promise of state pending which can be fullfilled or re
 
 <br>
  
-##### Promise resolve() method 
+### Promise resolve() method 
 The promise.resolve() is a `static method` of class Promise in JS returns a Promise object that is resolved in state
 
 ```js
@@ -2881,7 +2891,7 @@ console.log(promise)
 
 <br>
  
-> #### What is the purpose of the race method in promise
+> ### What is the purpose of the race method in promise
 Promise.race() method will return the promise instance which is firstly resolved or rejected. Let's take an example of race() method where promise2 is resolved first
 
 ```js
@@ -5730,7 +5740,10 @@ event loop sequence microtask - https://www.jsv9000.app/
 
 <br>
  
-> ### async vs differ  === see this image for answer  https://media.licdn.com/dms/image/v2/C5112AQFW3cKEhP9AkQ/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1520214760879?e=2147483647&v=beta&t=vDdQPieyUHqIdU8HjtKncTHxoPLeLa_KCVF630yzE_I
+> ### async vs differ  === see this image for answer  
+```
+https://media.licdn.com/dms/image/v2/C5112AQFW3cKEhP9AkQ/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1520214760879?e=2147483647&v=beta&t=vDdQPieyUHqIdU8HjtKncTHxoPLeLa_KCVF630yzE_I
+```
 
 
 <br>
@@ -6217,6 +6230,8 @@ console.log(obj.b)
 
 <br>
 
+### This context in setTimeout
+
 ```js
 let obj_1 = {
     name: "asim",
@@ -6228,7 +6243,7 @@ let obj_1 = {
     }
 };
 
-// obj_1.sayLater();
+obj_1.sayLater();
 
 /* OUTPUT
 
@@ -6246,67 +6261,77 @@ Timeout {
   [Symbol(triggerAsyncId)]: 1 }
 undefined
 */
+```
 
+### Explanation:
 
-/* EXPLANATION -
-The reason for outputting 'undefined' is that the value of this in a function depends on how the function is called.
-If its called as obj.sayLater(), the value of this is the calling context which in this case is obj.
+1. **Context of `this`:**  
+   The issue lies in how `this` works in JavaScript. In the `sayLater` method, `setTimeout` runs its callback function in the global execution context (or `window` in browsers, `undefined` in strict mode). Therefore, inside the `setTimeout` callback, `this` does not refer to the `obj_1` object but to the global object (or `undefined` in strict mode).
 
-However the calling context (what 'this' will point to) for the anonymous function inside setTimeout is either of ...
-   
-   A) In the browser it’s either undefined or the global object depending on if you are running in strict mode or not.
+2. **`this.name`:**  
+   Since `this` inside the `setTimeout` callback does not point to `obj_1`, `this.name` will be `undefined`.
 
-   or B) In node it’s an internal timeout object.
+---
 
-   C) In all cases however it isn’t going to be obj, so this.name is not going to return 'asim', it’s going to return undefined or raise an error.
+### Modifications to fix the issue:
 
-This instability of 'this' in ES-5 is an incredibly common problem which was resolved in ES6.  In ES6, if we use fat arrow functions the value of 'this' inside a fat arrow function will be the same as the value of this outside the fat arrow function.
+To ensure that `this` inside the `setTimeout` callback still refers to `obj_1`, you can use one of the following methods:
 
-It uses the value of 'this' from the surrounding code for its context. i.e. whatever 'this' points to in the surrounding code, this will point to in the function body of the fat arrow function.
+#### 1. **Bind `this` to the callback:**
+```javascript
+let obj_1 = {
+    name: "asim",
+    sayLater: function () {
+        setTimeout(function () {
+            console.log(this);
+            console.log(`${this.name}`);
+        }.bind(this), 500); // Bind `this` to the callback
+    }
+};
 
-We can re-write our obj to use fat arrow syntax like so: */
+obj_1.sayLater();
+```
 
-let obj_3 = {
-    name: 'ES6_Asim',
+#### 2. **Use an arrow function:**
+Arrow functions do not have their own `this` but inherit `this` from their surrounding lexical scope.
+```javascript
+let obj_1 = {
+    name: "asim",
     sayLater: function () {
         setTimeout(() => {
-            console.log(this)
-            console.log(`${this.name}`)
-        }, 500)
+            console.log(this);
+            console.log(`${this.name}`);
+        }, 500);
     }
-}
+};
 
-// obj_3.sayLater();
+obj_1.sayLater();
+```
 
-/* OUTPUT
-
-{ name: 'ES6_Asim', sayLater: [Function: sayLater] }
-ES6_Asim
-
-VERY IMP NOTE  - The above arrow function ONLY works because its wrapped inside a regular function expression (ES5). Otherwise, as explained in the ES6_2.js that - Arrow function does not have a 'this' or their own, only regular function and global scope have 'this' of their own. 
-
-So, if I did not wrapp the above arrow function inside a regular ES-5 function, then it would be referring to a this.name in the global scope, >> and there would be no this.name in global scope, and the whole output will be 'undefined' as in the below implementation.
-
-*/
-
-let obj_4 = {
-    name: 'ES6_Asim',
-    sayLater: () => {
-        setTimeout(() => {
-            console.log(this)
-            console.log(`${this.name}`)
-        }, 500)
+#### 3. **Store `this` in a variable:**
+```javascript
+let obj_1 = {
+    name: "asim",
+    sayLater: function () {
+        let self = this; // Store reference to `this`
+        setTimeout(function () {
+            console.log(self);
+            console.log(`${self.name}`);
+        }, 500);
     }
-}
+};
 
-obj_4.sayLater();
+obj_1.sayLater();
+```
 
-/*
+---
 
-OUTPUT 
-{}
-undefined
-*/
+### Output with modifications:
+
+For all the above modifications, the output will be:
+```
+{ name: 'asim', sayLater: [Function: sayLater] }
+asim
 ```
 
 <br>
