@@ -157,6 +157,10 @@ const [state, setState] = React.useState(myExpensiveFn());
 const [state, setState] = React.useState(() => myExpensiveFn());
 ```
 
+
+<details>
+
+
 **Below is the further detail explanation**
 When you provide a function to initialize state in `useState`, React will call that function only once during the initial render to set the initial state. This is useful for computationally expensive initializations.
 
@@ -269,6 +273,9 @@ export default ExampleComponent;
 
 Method 2 is more efficient, especially if `myExpensiveFn()` involves heavy computations, network requests, or other expensive operations.
 
+</details>
+
+
 <br>
 
 > ### useNavigation can be used, 
@@ -300,7 +307,6 @@ navigation.state has idle → loading → idle, which can be used for loader (ci
 
 > ### useState is async
 Multiple state updates inside an event handler function are **batched**, so they happen all at once, **causing only one re-render**. This means we can **not access a state variable immediately after updating it**. State updates are **async**. Since React 18, batching also happens in timeouts, promises, and native event handlers.
-referenc is video no 136: state update batching in pratice
 
 
 <br>
@@ -351,6 +357,38 @@ export function App() {
 }
 
 ```
+
+### **Why `handleCount` only increases by 1 (not 3)?**
+
+In `handleCount`, you're calling `setCount(count + 1)` three times in a row. However, React's state updates are **asynchronous** and **batched** for performance reasons. 
+
+Here's the key points:
+1. When you call `setCount(count + 1)`, the value of `count` inside the function refers to the **current state** at the time the function was executed (closure). 
+2. Even though you call `setCount(count + 1)` multiple times, React batches these updates, effectively overwriting previous calls. Therefore, the final value of `count` after all three calls will reflect only **one increment** by the end of the render cycle.
+
+### **Why `handleCountCallback` increases by 3?**
+
+In `handleCountCallback`, you're using the callback form of `setCount`: 
+```javascript
+setCount(count => count + 1);
+```
+
+Here's why this works as expected:
+1. The callback form of `setCount` ensures that you work with the **most recent state value** in each call.
+2. React processes these updates sequentially, applying each callback to the updated state. This means:
+   - The first call increments the state from `count` to `count + 1`.
+   - The second call starts with the updated state and increments it again.
+   - The third call starts with the new state and increments it once more.
+
+Thus, the state ends up incrementing by 3.
+
+---
+
+### **Key Takeaways:**
+1. **Basic `setCount(newState)` form:** Uses the state value captured at the time the function is executed (closure). Multiple calls within the same render may not behave as expected due to batching.
+2. **Callback `setCount(prevState => newState)` form:** Always works with the latest state value, even if called multiple times in a row, ensuring predictable updates.
+
+If you need to perform multiple state updates based on the latest state, always prefer the **callback form** of `setState`.
 
 <br>
 
@@ -447,7 +485,7 @@ JSX stands for JavaScript XML. \
 Basically it just provides the `syntactic sugar` for the `React.createElement(type, props, ...children)` function, 
 **In children, we can have children component or we can have the text which we want to show**
 
-The Babel convert the JSX to React.createElement to pure javascript
+The `Babel convert the JSX to React.createElement to pure javascript`
 
 In the example below, the text inside `<h1>` tag is returned as JavaScript function to the render function.
 
