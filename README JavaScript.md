@@ -1,6 +1,6 @@
 # Table of Contents
 
-- [Section 1](#rule-of-this)
+- [Rule of this ](#rule-of-this)
 
 
 
@@ -6226,6 +6226,7 @@ const outerObj = {
 };
 outerObj.innerObj.getName();
 ```
+
 - "this" in object gives blank {}
 ```js
 const obj = {
@@ -6234,6 +6235,30 @@ const obj = {
 }
 console.log(obj.b)
 ```
+
+- "this" in arguments
+
+```js
+var length = 4;
+
+function callback() {
+    console.log(this.length);
+}
+
+const object = {
+    length: 5,
+    method: function() {
+        arguments[0]();  // Call the first argument, which is `callback`
+    },
+};
+
+object.method(callback, 2, 3);
+
+// 👍A) 2     💡B) 3
+// 💖C) 4     😀D) 5
+```
+
+When `callback` is invoked via `arguments[0]()`, `this` is set to the `arguments object`, not the object or the global scope
 
 
 <br>

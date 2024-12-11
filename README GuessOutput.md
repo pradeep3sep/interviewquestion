@@ -2361,7 +2361,7 @@ function callback() {
 const object = {
     length: 5,
     method: function() {
-        arguments[0]();
+        arguments[0]();  // Call the first argument, which is `callback`
     },
 };
 
@@ -2376,7 +2376,7 @@ object.method(callback, 2, 3);
   <p>Answer is B)</p>
 
 
-In non-strict mode, when a regular function is called, `this` refers to the global object (`window` in browsers), and in the global scope, `length` refers to the number of arguments passed to the function (`arguments.length`).
+When `callback` is invoked via `arguments[0]()`, `this` is set to the `arguments object`, not the object or the global scope
 
 </details>
 
