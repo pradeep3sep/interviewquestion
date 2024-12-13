@@ -1987,15 +1987,6 @@ While React initially relied on class-based components, the introduction of func
 * **Rich ecosystem:** A growing number of libraries and tools are designed to work seamlessly with functional components and Hooks.
 
 **In summary,** while class-based components still have their place in certain scenarios, functional components with Hooks offer a more modern, efficient, and enjoyable way to build React applications. They have become the de facto standard for most React development due to their simplicity, flexibility, and performance benefits.
- 
-
-
-<br>
-
-
-
-> ### What are error boundaries in React v16?
-Error boundaries are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.
 
 <br>
 

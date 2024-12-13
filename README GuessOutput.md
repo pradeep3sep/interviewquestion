@@ -466,6 +466,13 @@ for (let i = 0; i < 5; i++) {
     console.log(i);
   },  1000);
 }
+
+// fourth
+for (var i = 0; i < 5; i++) {
+  setTimeout((i) => {
+    console.log(i);
+  }, i * 1000,i);
+}
 ```
 <details>
   <summary>Answer</summary>
@@ -2895,10 +2902,8 @@ console.log(4);
   <summary>Answer</summary>
   <p>Answer is D)</p>
 
- Answer is D) 1 3 4 2 because at first console.log(1) will print "1", callback function attached to first setTimeout will 
-  wait for atleast 1 second.\
-  In the 2nd setTimeout we are passing IIFE ( Immediately Invoked Function Expression ). So, IIFE will print "3" immediately 
-  and will return () => {} as callback that will wait for atleast 2 seconds.\
+ Answer is D) 1 3 4 2 because at first console.log(1) will print "1", callback function attached to first setTimeout will wait for atleast 1 second.\
+  In the 2nd setTimeout we are passing IIFE ( Immediately Invoked Function Expression ). So, IIFE will print "3" immediately and will return () => {} as callback that will wait for atleast 2 seconds.\
   console.log(4) will print "4", callstack will be empty as all synchronous tasks completed.\
   After one second callback function attached to first setTimeout pushed into callstack and console.log(2) will print "2".
 </details>

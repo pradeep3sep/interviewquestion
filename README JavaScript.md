@@ -6148,18 +6148,20 @@ In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves
      })();
      ```
 
-3. **Object Context**
-   - If an IIFE is invoked as a method of an object, `this` refers to the object itself.
+3. **function in Object Context**
+   - If an IIFE is invoked as a function in method of an object, `this` refers to the `window` itself.
    - Example:
      ```javascript
-     const obj = {
-       value: 42,
-       method: (function() {
-         console.log(this); // Logs: obj
-       })
-     };
+      const obj = {
+          value: 42,
+          method: function () {
+              (function () {
+                  console.log(this); // Logs: window object
+              }())
+          }
+      };
 
-     obj.method(); // 'this' refers to 'obj'
+      obj.method(); // 'this' refers to 'window'
      ```
 
 4. **Explicit Binding with `call`, `apply`, or `bind`**
