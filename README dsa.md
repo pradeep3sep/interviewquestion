@@ -144,6 +144,8 @@ count of subsequence is 2^n, where n is length of string.
 
 > ### Check if a String is Subsequence of Other
 
+<details>
+
 To check if a string is a subsequence of another string in JavaScript, you can use a `two-pointer` technique. 
 
 ```js
@@ -176,51 +178,7 @@ console.log(isSubsequence("axc", "ahbgdc")); // false
 
 This approach runs in O(n) time complexity, where `n` is the length of `s2`.
 
-<br>
-
-> ### Check for anagram
-
-```js
-function areAnagrams(str1, str2) {
-    if (str1.length !== str2.length) {
-        return false; // If lengths don't match, they can't be anagrams
-    }
-
-    const charCount = {};
-
-    // Loop through both strings at the same time
-    for (let i = 0; i < str1.length; i++) {
-        const char1 = str1[i].toLowerCase();
-        const char2 = str2[i].toLowerCase();
-
-        // Increment count for char1 from str1
-        charCount[char1] = (charCount[char1] || 0) + 1;
-
-        // Decrement count for char2 from str2
-        charCount[char2] = (charCount[char2] || 0) - 1;
-    }
-
-    // Check if all values in charCount are zero
-    for (let count in charCount) {
-        if (charCount[count] !== 0) {
-            return false;
-        }
-    }
-
-    return true; // If all counts are zero, the strings are anagrams
-}
-
-// Example usage:
-const string1 = "listen";
-const string2 = "silent";
-console.log(areAnagrams(string1, string2)); // Output: true
-```
-
-The algorithm used in the code can be classified as a **"Hash Table Frequency Count"** approach for checking anagrams.
-
-### Time and Space Complexity:
-- **Time Complexity**: **O(n)**, where `n` is the length of the strings (since they have the same length, we iterate once through both strings).
-- **Space Complexity**: **O(k)**, where `k` is the number of unique characters in the string (usually a small constant, limited by the number of unique characters in the alphabet).
+</details>
 
 <br>
 
