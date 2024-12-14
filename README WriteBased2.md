@@ -372,6 +372,8 @@ const arr3 = [1, 2, 3, 4];
 const arr4 = [1, 2, 5, 6];
 output : [ 3, 4, 5, 6 ]
 
+<details>
+
 using filter
 
 ```js
@@ -380,41 +382,7 @@ const uniqueArr4 = arr4.filter((num) => !arr3.includes(num));
 console.log([...uniqueArr3, ...uniqueArr4]); // [ 3, 4, 5, 6 ]
 ```
 
-while loop
-```js
- function uniqueNums() {
-    const arr1 = [1, 2, 3, 4];
-    const arr2 = [1, 2, 5, 6];
-    // output : [ 3, 4, 5, 6 ]
-    let i = 0;
-    let j = 0;
-    let result = [];
-    while (i < arr1.length && j < arr2.length) {
-      if (arr1[i] === arr2[j]) {
-        i++;
-        j++;
-      } else if (arr1[i] < arr2[j]) {
-        result.push(arr1[i]);
-        i++;
-      } else {
-        result.push(arr2[j]);
-        j++;
-      }
-    }
-    while (i < arr1.length) {
-      result.push(arr1[i]);
-      i++;
-    }
-    while (j < arr2.length) {
-      result.push(arr2[j]);
-      j++;
-    }
-    console.log(result);
-  }
-  uniqueNums();
-```
-
-Other method
+using object
 
 ```js
 const arr1 = [1, 2, 3, 4];
@@ -439,48 +407,8 @@ for (const num in countMap) {
 
 console.log(uniqueElements); // Output: [ 3, 4, 5, 6 ]
 ```
-<br>
+</details>
 
-> ### Q12 - find duplicate in an array
-
-arr1 = [1, 2, 2, 2, 3, 4, 4, 5]\
-output = [ 2, 4 ]
-
-using object and for loop
-
-```js
-const arr2 = [3, 4, 5, 1, 2, 4, 3, 5];
-const obj2 = {};
-const result1 = [];
-
-for (let num of arr2) {
-    if (obj2[num]) {
-      if (!result1.includes(num)) result1.push(num);
-    } else {
-      obj2[num] = (obj2[num] || 0) + 1;
-    }
-}
-
-console.log("result1", result1);
-```
-
-using sorting and one loop
-
-```js
-const arr = [3, 4, 5, 1, 2, 4, 3, 5];
-const sorted = [...arr.sort()];
-const output = [];
-
-for (let i = 0; i < sorted.length - 1; i++) {
-    if (sorted[i] === sorted[i + 1]) {
-      if (!output.includes(sorted[i])) {
-        output.push(sorted[i]);
-      }
-    }
-}
-
-console.log("output", output);
-```
 <br>
 
 > ### Q13 find all pairs on integer array whose sum is equal to given number
@@ -492,6 +420,7 @@ Output: 2
 arr[0] + arr[1] = 1 + 5 = 6 \
 and arr[1] + arr[3] = 5 + 1 = 6.
 
+<details>
 
 ```js
 const arr = [1, 5, 7, 1];
@@ -508,6 +437,10 @@ const arr = [1, 5, 7, 1];
   }
   console.log("No. of Pairs", count);
 ```
+
+</details>
+
+
 <br>
 
 > ### Q14 - find common elements In 3 sorted arrays
@@ -518,6 +451,9 @@ Output: 20 80
 
 **Explanation:** 20 and 80 are the only\
 common elements in A, B and C.
+
+
+<details>
 
 ```js
 let a = [1, 5, 10, 20, 40, 80],
@@ -562,11 +498,16 @@ console.log(common)
 
 ```
 
+</details>
+
 <br>
 
 > ### Q15 - Given Array of size n, find all elements that appear more than k times
 Input: arr = [3, 1, 2, 2, 1, 2, 3, 3], k = 2\
 Output: [2, 3]
+
+
+<details>
 
 ```js
 const arr = [3, 1, 2, 2, 1, 2, 3, 3];
@@ -591,6 +532,8 @@ const arr = [3, 1, 2, 2, 1, 2, 3, 3];
   console.log("result", result);
 ```
 
+</details>
+
 <br>
 
 
@@ -599,6 +542,8 @@ Input:\
 a1 = [11, 1, 13, 21, 3, 7]\
 a2 = [11, 3, 7, 1]\
 Output: Yes
+
+<details>
 
 ```js
 function isSubset(array1, array2) {
@@ -627,10 +572,14 @@ if (isSubset(a1, a2)) {
 }
 ```
 
+</details>
+
 <br>
 
 
 > ### Q17 - Find factorial of a large number
+
+<details>
 
 ```js
 function factorial (num) {
@@ -652,11 +601,15 @@ function factorialRecursively (n) {
 }
 
 ```
+</details>
 
 <br>
 
 
  > ### Q18 - Find square-root of a number without using native JS function
+
+<details>
+
 ```js
 var squrt = function (num) {
   var sroot = 1;
@@ -671,11 +624,15 @@ var squrt = function (num) {
 console.log(squrt(25));
 ```
 
+</details>
+
 <br>
 
 > ### Q19 - Rearrange array in alternating positive & negative items
 Input:  arr = [1, 2, 3, -4, -1, 4]\
 Output: arr = [-4, 1, -1, 2, 3, 4]
+
+<details>
 
 ```js
 function rearrange(arr) {
@@ -714,6 +671,9 @@ const arr = [1, 2, 3, -4, -1, 4];
 const rearranged = rearrange(arr);
 console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
 ```
+
+</details>
+
 <br>
 
 > ### Q20 - Find if there is any subarray with sum equal to 0
@@ -721,8 +681,11 @@ console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
 Input:  arr = [4, 2, -3, 1, 6]\
 Output: [2, -3, 1] is the subarray with sum 0.
 
+<details>
+
 **Below code is multipurpose code if neede more DSA from then consider answer after below**
-```
+
+```js
 let arr = [4, 2, -3, 1, 6]
 let checkSum = 0
 
@@ -767,12 +730,18 @@ function findZeroSumSubarray(arr) {
 console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 
 ```
+
+</details>
+
 <br>
 
 > ### Q21 - find maximum product subarray
 
 arr = [ 6, -3, -10, 0, 2 ]\
 Output: 180
+
+
+<details>
 
 **Note:** Here we started loop from 1
 
@@ -866,6 +835,8 @@ console.log(maxProductOfThreeeElem([-4,-2,-3,1]));  // => 12
 
 ```
 
+</details>
+
 <br>
 
 
@@ -873,6 +844,8 @@ console.log(maxProductOfThreeeElem([-4,-2,-3,1]));  // => 12
 a = [2,6,1,9,4,5,3]\
 Output:\
 6 => [1,2,3,4,5,6]
+
+<details>
 
 ```js
 function longestConsecutiveSubsequence(arr) {
@@ -905,12 +878,16 @@ const arr = [66, 2, 1, 9, 4, 5, 3];
 console.log(longestConsecutiveSubsequence(arr)); // Output: [1, 2, 3, 4, 5]
 ```
 
+</details>
+
 <br>
 
 > ### Q23 - Pair elements of an array
 
 const arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]\
 output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
+
+<details>
 
 ```js
 let arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]
@@ -960,9 +937,14 @@ pairElement(arr)
 
   console.log(pairElements(arr));
 ```
+
+</details>
+
 <br>
 
 > ### Q24 - Reverse a string
+
+<details>
 
  1) using Decrementing for loop
 
@@ -987,9 +969,14 @@ pairElement(arr)
   }
   console.log(output);
 ```
+
+</details>
+
 <br>
 
 > ### Q25 - Check whether a String is Palindrome or not
+
+<details>
 
 1) using for loop
 ```js
@@ -1015,9 +1002,15 @@ const rev = str1;
 console.log(rev.split("").reverse().join("") === str1);
 ```
 
+</details>
+
 <br>
 
-> ### Q26 - Find Duplicate characters in a string
+> ### Q26 - Find Duplicate characters in a string or array
+
+**Below also cover for Find Elements that occurred only once in the array**
+
+<details>
 
 ```js
   const str = "babbar";
@@ -1040,6 +1033,8 @@ console.log(rev.split("").reverse().join("") === str1);
   console.log(map);
 ```
 
+</details>
+
 <br>
 
 > ### Q27- Write a Code to check whether one string is a rotation of another
@@ -1048,6 +1043,8 @@ Output: Strings are rotations of each other\
 
 Input: S1 = ABCD, S2 = ACBD\
 Output: Strings are not rotations of each other
+
+<details>
 
 ```js
   const str1 = "ABCD";
@@ -1066,9 +1063,13 @@ Output: Strings are not rotations of each other
   console.log(checkRotation(str1, str2));
 ```
 
+</details>
+
 <br>
 
 > ### Q28 - Write a Program to check whether a string is a valid shuffle of two strings or not
+
+<details>
 
 ```js
 function isShuffle(str, str1, str2) {
@@ -1100,10 +1101,14 @@ const invalidString = "bacde";
 console.log(isShuffle(invalidString, string1, string2)); // Output: false
 ```
 
+</details>
+
 <br>
 
 > ### Q29 - Balanced Parenthesis problem.
 the function should return 'true' for exp = “[()]{}{[()()]()}” and 'false' for exp = “[(])”.
+
+<details>
 
 ```js
 // the solution  is of stack approach
@@ -1161,48 +1166,17 @@ function balanceSign(){
 }
 
 console.log(balanceSign());
-
-
 ```
-<br>
 
-> ### Q30 - Find Elements that occurred only once in the array
-
-const a = [1, 2, 3, 4, 5, 1, 2];\
-Output => [ 3, 4, 5 ]
-
-```js
-function findUniqueElements(arr) {
-    const countMap = {};
-    const uniqueElements = [];
-
-    // Count occurrences of each element
-    for (let i = 0; i < arr.length; i++) {
-        const element = arr[i];
-        countMap[element] = (countMap[element] || 0) + 1;
-    }
-
-    // Filter out elements that occurred only once
-    for (let key in countMap) {
-        if (countMap.hasOwnProperty(key) && countMap[key] === 1) {
-            uniqueElements.push(parseInt(key)); // Convert key to integer if needed
-        }
-    }
-
-    return uniqueElements;
-}
-
-// Example usage:
-const array = [1, 2, 3, 4, 5, 1, 2, 3, 4];
-console.log(findUniqueElements(array)); // Output: [5]
-
-```
+</details>
 
 <br>
 
 > ### Q31 -  Find maximum char from string.
 const str = "hello"\
 Output => l => 2
+
+<details>
 
 ```js
 function findMaxChar(str) {
@@ -1226,9 +1200,13 @@ const maxChar = findMaxChar(str);
 console.log(maxChar); // Output: l
 ```
 
+</details>
+
 <br>
 
 > ### Q32 - Check Whether Two Strings Are Anagram Of Each Other
+
+<details>
 
 An anagram of a string is another string that contains the same characters,\
 only the order of characters can be different. For example, “abcd” and “dabc” are an anagram of each other. 
@@ -1249,42 +1227,9 @@ only the order of characters can be different. For example, “abcd” and “da
   }
 ```
 
-2) other method
+2) other method - check DSA approach
 
-```js
-function areAnagrams(str1, str2) {
-    // Function to count the frequency of characters in a string
-    function countCharacters(str) {
-        const charCount = {};
-        for (let char of str) {
-            charCount[char] = (charCount[char] || 0) + 1;
-        }
-        return charCount;
-    }
-
-    // Count the characters in both strings
-    const charCount1 = countCharacters(str1.toLowerCase());
-    const charCount2 = countCharacters(str2.toLowerCase());
-
-    // Check if both objects have the same keys and values
-    if (Object.keys(charCount1).length !== Object.keys(charCount2).length) {
-        return false; // Different number of unique characters
-    }
-
-    for (let char in charCount1) {
-        if (charCount1[char] !== charCount2[char]) {
-            return false; // Different frequencies of characters
-        }
-    }
-
-    return true; // Same frequency of characters
-}
-
-// Example usage:
-const string1 = "abcd";
-const string2 = "dabc";
-console.log(areAnagrams(string1, string2)); // Output: true
-```
+</details>
 
 <br>
 
@@ -1293,6 +1238,8 @@ console.log(areAnagrams(string1, string2)); // Output: true
 
  const arr = [1,2,3,4,5,6,7], size of chunk = 2\
  output = [[1,2], [3,4], [5,6], [7]]
+
+<details>
 
 ```js
   const arr = [1, 2, 3, 4, 5, 6, 7];
@@ -1306,12 +1253,16 @@ console.log(areAnagrams(string1, string2)); // Output: true
   console.log(chunks); // [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7 ] ]
 ```
 
+</details>
+
 <br>
 
 
 > ### Q34 - Array Rotation by n
 const arr = [1,2,3,4,5,6] n=2\
 output =>   [5,6,1,2,3,4]
+
+<details>
 
 Using merging arr twice
 ```js
@@ -1323,6 +1274,8 @@ const end = start + arr1.length;
 console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 ```
 
+</details>
+
 <br>
 
 
@@ -1330,31 +1283,33 @@ console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
  const str = "ABC"\
  output => ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
 
- ```js
- function permutations(str) {
-    let result = [];
+<details>
 
-    // Base case: if the string has only one character, return it as the only permutation
-    if (str.length === 1) {
-        result.push(str);
-        return result;
-    }
+```js
+function permutations(str) {
+  let result = [];
 
-    for (let i = 0; i < str.length; i++) {
-        const char = str[i];
-        // Exclude the current character and get the rest of the string, can be like str.filter(e => e !== char)
-        const remainingChars = str.slice(0, i) + str.slice(i + 1);
+  // Base case: if the string has only one character, return it as the only permutation
+  if (str.length === 1) {
+      result.push(str);
+      return result;
+  }
 
-        // Recursively find permutations of the remaining characters
-        const perms = permutations(remainingChars);
+  for (let i = 0; i < str.length; i++) {
+      const char = str[i];
+      // Exclude the current character and get the rest of the string, can be like str.filter(e => e !== char)
+      const remainingChars = str.slice(0, i) + str.slice(i + 1);
 
-        // Add the current character to the beginning of each permutation of the remaining characters
-        for (const perm of perms) {
-            result.push(char + perm);
-        }
-    }
+      // Recursively find permutations of the remaining characters
+      const perms = permutations(remainingChars);
 
-    return result;
+      // Add the current character to the beginning of each permutation of the remaining characters
+      for (const perm of perms) {
+          result.push(char + perm);
+      }
+  }
+
+  return result;
 }
 
 // Example usage:
@@ -1363,13 +1318,17 @@ const result = permutations(inputString);
 console.log(result);
 ```
 
+</details>
+
 <br>
 
 
 > ### Q36 - Find missing number from an array 1 to n. ( sum of 1 to n and subtract all one by one to get missing number )
 
- const arr = [1,2,3,5,6]\
- output =>  missing number is 4
+const arr = [1,2,3,5,6]\
+output =>  missing number is 4
+
+<details>
 
 ```js
 const arr = [1, 2, 3, 5, 6];
@@ -1398,12 +1357,16 @@ for (let i = 1; i < arr.length; i++) {
 console.log(missing);
 ```
 
+</details>
+
 <br>
 
 
 > ### Q37 - Remove duplicate items object from an array
 const arr = [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 5 }]\
 output => [{ id: 1 }, { id: 2 }, { id: 5 }]
+
+<details>
 
 ```js
 const arr = [{ id: 1 }, { id: 2 }, { id: 2 }, { id: 5 }];
@@ -1422,6 +1385,8 @@ for (let item of arr) {
 console.log(result); // [ { id: 1 }, { id: 2 }, { id: 5 } ]
 ```
 
+</details>
+
 <br>
 
 
@@ -1431,6 +1396,8 @@ output => true
 
 const str = "boss"\
 output => false
+
+<details>
 
 ```js
 const str = "Jayesh";
@@ -1454,9 +1421,9 @@ console.log(checkAllCharUnique(str)); // true
 console.log(checkAllCharUnique(str2)); // false
 ```
 
+</details>
+
 <br>
-
-
 
 > ### Q39 - Implement Deep copy of an object ( deepClone )
 
@@ -1466,6 +1433,8 @@ obj2.b.x = 90;
 
 console.log(obj1); // { a: 10, b: { x: 20 } }\
 console.log(obj2); // { a: 10, b: { x: 90 } }
+
+<details>
 
 ```js
 function deepClone(obj) {
@@ -1517,12 +1486,15 @@ function cloneDeep(obj, map = new Map()) {
 }
 ```
 
-<br>
+</details>
 
+<br>
 
 > ### Q40 - String compression
 const str = "aaaaaabbcc"\
 output => 'a6b2c2'
+
+<details>
 
 ```js
 const str = "aaaaaabbcc";
@@ -1552,6 +1524,8 @@ function compress(s) {
 console.log(compress(str));
 ```
 
+</details>
+
 <br>
 
 
@@ -1572,6 +1546,8 @@ str2 = 'WXYZ'\
 'B' maps to 'X'\
 'C' maps to 'Y'\
 'A' again maps to 'Z' false
+
+<details>
 
 ```js
 
@@ -1603,11 +1579,15 @@ console.log(checkIsomorphic(str1, str2));
 console.log(checkIsomorphic(str3, str4));
 ```
 
+</details>
+
 <br>
 
 
 > ### Q42 - find count of given digit ( 0 to 9 ) in range 1 to 250
 output => 4 -> 52, 9 -> 43
+
+<details>
 
 ```js
 let digit = 4;
@@ -1623,12 +1603,15 @@ for (let i = 1; i <= range; i++) {
 console.log(count);
 
 ```
+</details>
 
 <br>
 
 > ### Q44 -  Find all subsets of an array
 const arr = [1, 2, 3];\
 output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
+
+<details>
 
 ```js
 const arr = [1, 2, 3];
@@ -1702,6 +1685,8 @@ let subsets = getAllSubsets(array);
 console.log(subsets);
 ```
 
+</details>
+
 <br>
 
 
@@ -1723,6 +1708,9 @@ output:- [ \
   { color: "black", type: "phone" },\
   { color: "blue", type: "phone" },\
 ];
+
+
+<details>
 
 ```js
 let items = [
@@ -1795,6 +1783,7 @@ for (let i = 0; i < items.length; i++) {
 
 console.log(filteredItems);
 ```
+</details>
 
 <br>
 
@@ -1802,6 +1791,8 @@ console.log(filteredItems);
 > ### Q46 - Moving selected item at the end of an array ( move all 0 to end I.M.P )
 const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7]; selected item = 3\
 output => [1, 2, 4, 5, 6, 7, 3, 3, 3];
+
+<details>
 
 ```js
 const arr = [1, 2, 3, 4, 3, 5, 3, 6, 7];
@@ -1842,12 +1833,16 @@ for (let i = 0; i < arr.length; i++) {
 console.log(arr);
 ```
 
+</details>
+
 <br>
 
 
 > ### Q47 - write a program to print the first non-repeated number in an array.
 const arr = [1, 2, 3, 1, 2, 4, 5]\
 output => 3
+
+<details>
 
 ```js
 function firstNonRepeated(arr) {
@@ -1872,10 +1867,11 @@ function firstNonRepeated(arr) {
 const arr = [1, 2, 3, 1, 2, 4, 5];
 console.log(firstNonRepeated(arr)); // Output: 3
 ```
+</details>
 
 <br>
 
-> ### Q49 - Array of objects manipulatiion.
+> ### Q49 - Array of objects manipulation.
 a) declare array of employees & sort them in ascending order (empId)\
 b) declare an array of employees & sort them in ascending order by name.\
 c) declare array of employees & filter the employees whose sal>6000;\
@@ -2203,6 +2199,8 @@ S = 12\
 Output: [ 2, 3, 7 ], [ 7, 5 ]\
 Explanation: The sum of elements from 2nd position to 4th position is 12. 
 
+<details>
+
 **Below is my short answer if needed we have full code example after below code**
 ```js
 let arr = [1,2,3,7,5]
@@ -2243,6 +2241,8 @@ console.log(subArrays); // Output: [ [ 2, 3, 7 ], [ 7, 5 ] ]
 
 ```
 
+</details>
+
 <br>
 
 
@@ -2251,6 +2251,8 @@ console.log(subArrays); // Output: [ [ 2, 3, 7 ], [ 7, 5 ] ]
 Input: S = Bawds jog, flick quartz, vex nymph\
 Output: 1\
 Explanation: In the given input, there are all the letters of the English alphabet. Hence, the output is 1.
+
+<details>
 
 ```js
 const str = "Bawds jog, flick quartz, vex nymph";
@@ -2270,6 +2272,8 @@ function checkPanagram(str) {
 console.log(checkPanagram(str));
 ```
 
+</details>
+
 <br>
 
 
@@ -2280,6 +2284,8 @@ Output : a, b, c, ab, bc, ac, abc
 
 Input : aaa\
 Output : a, a, a, aa, aa, aa, aaa
+
+<details>
 
 using recursion
 
@@ -2333,12 +2339,16 @@ generateSubsequences("abc");
 
 ```
 
+</details>
+
 <br>
 
 > ### Q63 -  Program to convert time from 12 hour to 24 hour format
 
 Input : 07:05:45PM\
 Output : 19:05:45
+
+<details>
 
 ```js
 function convertTime12to24(time12) {
@@ -2370,6 +2380,7 @@ var outputTime = convertTime12to24(inputTime);
 console.log("Output:", outputTime); // Output: 19:05:45
 ```
 
+</details>
 
 <br>
 
@@ -2378,6 +2389,8 @@ console.log("Output:", outputTime); // Output: 19:05:45
 var date1 = new Date("06/30/2019");\
 var date2 = new Date("07/30/2019");\
 output => 30 
+
+<details>
 
 ```js
 const date1 = new Date("06/29/2019");
@@ -2389,6 +2402,8 @@ const day = timeDifference / (1000 * 60 * 60 * 24);
 console.log(day);
 ```
 
+</details>
+
 <br>
 
 
@@ -2399,6 +2414,7 @@ console.log(day);
 "middle" => "dd"\
 "A" => "A"
 
+<details>
 
 ```js
 function getMiddleCharacter(word) {
@@ -2418,6 +2434,8 @@ console.log(getMiddleCharacter("middle")); // Output: "dd"
 console.log(getMiddleCharacter("A")); // Output: "A"
 ```
 
+</details>
+
 <br>
 
 
@@ -2426,6 +2444,8 @@ console.log(getMiddleCharacter("A")); // Output: "A"
 const str = "Jayesh";\
 const char = "a";\
 output = "Jyesh";
+
+<details>
 
 ```js
 const str = "Jayesh";
@@ -2441,6 +2461,8 @@ for (let c of str) {
 
 console.log(result);
 ```
+
+</details>
 
 <br>
 
@@ -2534,6 +2556,8 @@ const shareholder = [\
 &nbsp; { stock: "FB", name: ["Mark"], count: 1 },\
 ];
 
+<details>
+
 ```js
 const portfolio = [
     { name: "Mark", stock: "FB" },
@@ -2565,11 +2589,15 @@ console.log(shareholder);
 
 ```
 
+</details>
+
 <br>
 
 
 > ### Q69 - Finding sum of digits of a number until sum becomes single digit
 const "5431" => "13" => "4"
+
+<details>
 
 ```js
 function sumOfDigits(num) {
@@ -2596,6 +2624,8 @@ const result = sumOfDigits(5431);
 console.log(result); // Output will be 4
 ```
 
+</details>
+
 <br>
 
 
@@ -2603,6 +2633,8 @@ console.log(result); // Output will be 4
 
 const array = [2, 5, 4, 4, 6, 5, 4, 7, 6];\
 output => 2 + 7 => 9
+
+<details>
 
 ```js
 function sumOfUniqueNumbers(arr) {
@@ -2658,6 +2690,8 @@ const result = sumOfNumbersOccurringOnce(array);
 console.log(result); // Output will be 9
 ```
 
+</details>
+
 <br>
 
 
@@ -2668,6 +2702,8 @@ const arr2 = [2, 3, -7, 6, 8, 1, -10, 15]; // 4\
 const arr3 = [1, 1, 0, -1, -2]; // 2\
 const arr4 = [3, 2, 1, 4, 5]; // 6
 
+
+<details>
 
 ```js
 const arr1 = [3, 2, 1, 4, 5];
@@ -2738,6 +2774,8 @@ console.log(smallestMissingPositive(arr3)); // Output: 2
 console.log(smallestMissingPositive(arr4)); // Output: 6
 ```
 
+</details>
+
 <br>
 
 
@@ -2745,6 +2783,8 @@ console.log(smallestMissingPositive(arr4)); // Output: 6
 
 const obj1 = { a: 20, b: { x: 40, y: 60 } };\
 const obj2 = { a: 20, b: { x: 40, y: 60 } };
+
+<details>
 
 ```js
 const obj1 = { a: 20, b: { x: 40, y: 60 } };
@@ -2766,6 +2806,8 @@ function compare(obj1, obj2) {
 console.log(compare(obj1, obj2));
 ```
 
+</details>
+
 <br>
 
 
@@ -2773,6 +2815,8 @@ console.log(compare(obj1, obj2));
 
 const arr = [7, 10, 4, 3, 20, 15]\
 output => 7 
+
+<details>
 
 ```js
 const arr = [7, 10, 4, 3, 20, 15];
@@ -2798,14 +2842,16 @@ for (let num of arr) {
 console.log(min3);
 ```
 
+</details>
+
 <br>
-
-
 
 > ### Q74 - Given an array of string return group of anagrams string array
 
 const arr = ["eat", "tea", "ate", "ball", "dna", "and"]\
 output => [ [ 'eat', 'tea', 'ate' ], [ 'ball' ], [ 'dna', 'and' ] ]
+
+<details>
 
 ```js
 function groupAnagrams(arr) {
@@ -2826,6 +2872,8 @@ const result = groupAnagrams(arr);
 console.log(result);
 ```
 
+</details>
+
 <br>
 
 
@@ -2833,6 +2881,8 @@ console.log(result);
 
 Input  : 5, Output : [2,3,5,7,11]\
 Input  : 0, Output : []
+
+<details>
 
 ```js
 function generatePrimes(N) {
@@ -2897,12 +2947,17 @@ function printFirstNPrimes(N) {
 printFirstNPrimes(10); // Prints the first 10 prime numbers
 ```
 
+</details>
+
 <br>
 
 > ### Q76 - Given a string as input, Return a string without duplicates in the same order of occurrence appended with positions of first occurrence of duplicate characters.
 
 Input  : Banana, Output : Ban12\
 Input  : Jayesh, Output : Jayesh
+
+
+<details>
 
 ```js
 const str1 = "Banana";
@@ -2940,6 +2995,8 @@ console.log(removeDuplicateswithIndex(str1));
 console.log(removeDuplicateswithIndex(str2));
 ```
 
+</details>
+
 <br>
 
 
@@ -2953,6 +3010,7 @@ B W B W B W B W\
 W B W B W B W B\
 B W B W B W B W
 
+<details>
 
 ```js
 function drawChessboard(rows, cols) {
@@ -2974,10 +3032,14 @@ function drawChessboard(rows, cols) {
 console.log(drawChessboard(8, 8));
 ```
 
+</details>
+
 <br>
 
 
-> ### Q78 - longest_Substring-of-two-strings
+> ### Q78 - longest Substring of two strings
+
+<details>
 
 ```js
 function longestCommonSubstring(str1, str2) {
@@ -3056,10 +3118,14 @@ const str2 = "xyzabcd";
 console.log(longestCommonSubstring(str1, str2)); // Output: "abcd"
 ```
 
+</details>
+
 <br>
 
 
 > ### Q79 - shift each letter by number of position in js
+
+<details>
 
 ```js
 /* how to shift each letter in the given string N places down in the alphabet? Punctuation, spaces, and capitalization should remain intact. For example if the string is "ac" and num is 2 the output should be "ce".  */
@@ -3091,6 +3157,8 @@ const num = 5;
 console.log(CaesarCipher(str, num)); // Output: "Mjqqt, Btwqi!"
 ```
 
+</details>
+
 <br>
 
 
@@ -3102,6 +3170,8 @@ Example:\
 "aab" -> 2\
 "abcde" -> 1\
 "zzbaabcd" -> 4
+
+<details>
 
 ```js
 function longestPalindromeSubstring(s) {
@@ -3134,6 +3204,8 @@ console.log(longestPalindromeSubstring("abcde"));    // Output: 1
 console.log(longestPalindromeSubstring("zzbaabcd")); // Output: 4
 ```
 
+</details>
+
 <br>
 
 
@@ -3142,6 +3214,8 @@ For example:\
 uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']\
 uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']\
 uniqueInOrder([1,2,2,3,3])       == [1,2,3]
+
+<details>
 
 ```js
 function uniqueInOrder(iterable){
@@ -3160,10 +3234,14 @@ console.log(uniqueInOrder('ABBCcAD'));
 console.log(uniqueInOrder([1,2,2,3,3]));
 ```
 
+</details>
+
 <br>
 
 
 > ### Q82 - Implement a function that adds two numbers together and returns their sum in binary. The conversion can be done before, or after the addition.The binary number returned should be a string.
+
+<details>
 
 ```js
 // normal
@@ -3190,6 +3268,8 @@ console.log(addBinaryAlt(5, 6));
 
 ```
 
+</details>
+
 <br>
 
 
@@ -3209,8 +3289,9 @@ For example, a multiplication table (string) for number == 5 looks like below:
 10 * 5 = 50\
 P. S. You can use \n in string to jump to the next line.
 
-```js
+<details>
 
+```js
 //Alternative solution by others
 function multiTable(number) {
   multArr = [];
@@ -3232,10 +3313,14 @@ function multiTable(number) {
 
 ```
 
+</details>
+
 <br>
 
 
 > ### Q84 - Below is for the fibonacci number
+
+<details>
 
 ```js
 // Same as above, using ternary operator - AND THIS IS THE STANDARD SOLUTION
@@ -3259,6 +3344,7 @@ n_th_fibonacci = n => {
 n_th_fibonacci(12)
 ```
 
+</details>
 
 <br>
 
@@ -3355,7 +3441,9 @@ for (let i = 0; i < arr1.length; i++) {
 <br>
 
 
-> ### Q86 - find-closest-number-in-array.js
+> ### Q86 - find closest number in array
+
+<details>
 
 ```js
 // Find the number in an array that is closest to a given number
@@ -3393,11 +3481,13 @@ const target = 22;
 console.log(findClosestNumber(array, target)); // Output: 20
 ```
 
+</details>
+
 <br>
 
 
 
-> ### Q87 - find-length-of-integer-without-converting-to-string
+> ### Q87 - find length of integer without converting to string
 
 ```js
 let number = 12345
@@ -3419,6 +3509,9 @@ console.log(countDigits_1(number));
 
 
 > ### Q88 - flatten my deep object.
+
+
+<details>
 
 ```js
 
@@ -3476,6 +3569,10 @@ console.log(flattenPerson);
 // }
 
 ```
+
+</details>
+
+<br>
 
 > ### Q89 - The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
 
@@ -3662,6 +3759,8 @@ sum(5)(-1)(2) == 6 // true
 
 **Solution**
 
+<details>
+
 ```js
 function sum(num) {
     const func = function (num2) {
@@ -3701,6 +3800,9 @@ The line `func.valueOf = () => num;` is overriding the default behavior of JavaS
    Similarly, when you call `sum1(2) == 3`, `sum1(2)` returns a new function where `num` is `3` (since `1 + 2 = 3`). The overridden `valueOf` method returns `3`, so the comparison `3 == 3` is `true`.
 
 This technique allows the function to "accumulate" values through repeated calls and then be compared directly to a primitive number.
+
+
+</details>
 
 <br>
 
@@ -3763,6 +3865,9 @@ clearAllTimeout()
 
 // all scheduled tasks are cancelled.
 ```
+
+<details>
+
 note
 
 You need to keep the interface of window.setTimeout and window.clearTimeout the same, but you could replace them with new logic
@@ -3808,13 +3913,13 @@ function clearAllTimeout() {
 }
 ```
 
+</details>
+
 <br>
-
-
 
 > ### Q96 - For all the basic data types in JavaScript, how could you write a function to detect the type of arbitrary data?
 
-Besides basic types, you need to also handle also commonly used complex data type including Array, ArrayBuffer, Map, Set, Date and Function
+Besides basic types, you need to handle also commonly used complex data type including Array, ArrayBuffer, Map, Set, Date and Function
 
 The goal is not to list up all the data types but to show us how to solve the problem when we need to.
 
@@ -4175,6 +4280,7 @@ largestDiff([])
 largestDiff([1])
 // 0
 ```
+<details>
 
 **Solution**
 
@@ -4185,10 +4291,14 @@ function largestDiff(arr) {
 }
 ```
 
+</details>
+
 <br>
 
 
 > ### Q103 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented.
+
+<details>
 
 ```js
 count() // 1
@@ -4215,11 +4325,14 @@ count.reset = function () {
 }
 ```
 
+</details>
 
 <br>
 
 
 > ### Q104 - check 2 arrays are same or not
+
+<details>
 
 a. when sequence matter
 ```js
@@ -4284,10 +4397,14 @@ const array2 = [1, 2, 3];
 console.log(arraysHaveSameElements(array1, array2)); // Output: true
 ```
 
+</details>
+
 <br>
 
 
 > ### Q105 - Flatten array implementation - Non recursive approach.
+
+<details>
 
 1) Using Stack
 
@@ -4340,6 +4457,8 @@ const result4 = numbers.flat(2); // depth 2
 console.log(result4); => [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
 ```
 
+</details>
+
 <br>
 
 > ### Q108 - Given a non-empty string, return the most frequently ocurring character.
@@ -4352,6 +4471,8 @@ count('abbccc')
 count('abbcccddd')
 // ['c', 'd']
 ```
+
+<details>
 
 **Solution**
 
@@ -4374,10 +4495,14 @@ function count(str) {
 }
 ```
 
+</details>
+
 <br>
 
 
 > ### Q109 - Sum two numbers which are very large in size
+
+<details>
 
 ```js
 function addLargeNumbers(a, b) {
@@ -4413,10 +4538,49 @@ console.log(sum);
 
 ```
 
+</details>
+
 <br>
 
 
 > ### Q110 - Calculate the sum of two integers a and b, without using the operator + and -
+
+<details>
+
+```js
+// Solution in bitwise operator
+
+function add(a, b) {
+    while (b !== 0) {
+        // Calculate the carry
+        let carry = a & b;
+        
+        // Perform addition without carry
+        a = a ^ b;
+        
+        // Shift the carry by one to add to the next bit
+        b = carry << 1;
+    }
+    return a;
+}
+
+// Example usage
+console.log(add(5, 3)); // Output: 8
+console.log(add(-5, 3)); // Output: -2
+console.log(add(-7, -3)); // Output: -10
+
+
+// SOLUTION-2 - Assuming only positive numbers and same approach as above
+
+sumWithoutOperator1 = (a, b) => {
+    const arr1 = new Array(a).fill(true);
+    const arr2 = new Array(b).fill(true);
+    return arr1.concat(arr2).length;
+}
+
+console.log(sumWithoutOperator1(5, 2))
+
+```
 
 ```js
 sumWithoutOperator = (a, b) => {
@@ -4468,17 +4632,9 @@ sumWithoutOperator = (a, b) => {
 
 // console.log(sumWithoutOperator(5, -2))
 
-// SOLUTION-2 - Assuming only positive numbers and same approach as above
-
-sumWithoutOperator1 = (a, b) => {
-    const arr1 = new Array(a).fill(true);
-    const arr2 = new Array(b).fill(true);
-    return arr1.concat(arr2).length;
-}
-
-console.log(sumWithoutOperator1(5, 2))
-
 ```
+
+</details>
 
 <br>
 
@@ -4554,6 +4710,10 @@ Given N, check whether it is a Narcissistic number or not.
 
 Note:Narcissistic Number is a number that is the sum of its own digits each raised to the power of the number of digits
 
+eg : 153 is Nacrissistic number - (3 digits), you can see 153 = 1^3 + 5^3 + 3^3
+
+<details>
+
 ```js
 isNarcissistic = num => {
 
@@ -4579,10 +4739,14 @@ console.log(isNarcissistic(153));
 
 ```
 
+</details>
+
 <br>
 
 
 > ### Q114 - The first dimension represents the activity and the second one shows the number of hours spent per day for each. calculates the percentage of the hours spent for each activity and append the percentage to the inner array.
+
+<details>
 
 ```js
 var activities = [
@@ -4601,6 +4765,8 @@ for (let i = 0; i < activities.length; i++) {
 console.log(activities);
 
 ```
+
+</details>
 
 <br>
 
@@ -4685,50 +4851,9 @@ In this example, the sorted array results in the string `"9534330"`, which is th
 <br>
 
 
-> ### Q116 - find_number_appearing-twice.js
-
-```js
-// METHOD 1: runtime = O(n) & memory = O(n)
-findDup = (list, n) => {
-  let obj = {}
-  let currentElem
-
-  for (let i = 0; i < list.length; i++) {
-    currentElem = list[i]
-    if (obj[currentElem]) {
-      return currentElem
-    } else {
-      obj[currentElem] = true
-    }
-  }
-}
-// so the above function will only return the fist occuring duplicate no
-
-myList = [1, 4, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-
-// console.log(findDup(myList));
-
-/* METHOD 2: runtime = O(n) & memory = O(1)
-Using the arithmetic sum formulae
-Note the Arithmetic Sum formulae is (n*(n + 1))/2 i.e. (n2 + n)/2
- */
-
-findDupAlt = (list, n) => {
-  let arithmeticSum = (n * n + n) / 2
-  let sumList = 0
-  for (let i of list) {
-    sumList += i
-  }
-  return sumList - arithmeticSum
-}
-
-console.log(findDupAlt(myList, 10))
-```
-
-<br>
-
-
 > ### Q117 - Implement a function that determines if two values are deep equal.
+
+<details>
 
 ```js
 function deepEqual(a, b) {
@@ -4784,6 +4909,8 @@ function deepEqual(x, y) {
   ) : (x === y);
 }
 ```
+
+</details>
 
 <br>
 
@@ -4888,6 +5015,8 @@ debouncedSave('Text 3');
 
 > ### Q120 - Implement a function to execute N async tasks in series. in js
 
+<details>
+
 ```js
 async function executeTasksInSeries(tasks) {
     for (const task of tasks) {
@@ -4918,11 +5047,14 @@ executeTasksInSeries([task1, task2, task3]);
 
 ```
 
+</details>
 
 <br>
 
 
 > ### Q121 - Implement a function to execute N async tasks in parallel.
+
+<details>
 
 ```js
 async function executeTasksInParallel(tasks) {
@@ -4952,9 +5084,13 @@ executeTasksInParallel([task1, task2, task3]);
 
 ```
 
+</details>
+
 <br>
 
 > ### Q122 -  Implement memoizing or caching identical API requests
+
+<details>
 
 ```js
 const cache = new Map();
@@ -4974,6 +5110,8 @@ fetchWithCache('https://api.example.com/data')
   .then(data => console.log(data))
   .catch(err => console.error(err));
 ```
+
+</details>
 
 <br>
 
@@ -5052,6 +5190,8 @@ console.log(vnode); // VNode { tag: 'div', props: { id: 'app' }, children: [ VNo
 
 > ### Q125 - Creating a counter using setTimeout in JavaScript
 
+<details>
+
 ```js
 // Initialize the counter
 let count = 0;
@@ -5071,11 +5211,15 @@ function startCounter() {
 startCounter();
 ```
 
+</details>
+
 <br>
 
 
 > ### Q126 Given an alphanumeric string, return the list of distinct numbers present in the string.
 Input: "som23era23nd56omstr23ing", output: [23,56]
+
+<details>
 
 ```js
 function extractDistinctNumbers(str) {
@@ -5102,6 +5246,8 @@ function extractDistinctNumbers(str) {
 const input = "som23era23nd56omstr23ing";
 console.log(extractDistinctNumbers(input)); // Output: [23, 56]
 ```
+
+</details>
 
 > ### Below need to check
 ```js
