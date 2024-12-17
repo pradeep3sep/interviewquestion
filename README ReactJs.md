@@ -717,6 +717,27 @@ when we get the class which is not inside the component we use the global, like 
 
 <br>
 
+Module CSS
+
+- general css is global in nature means whether we import in component or in app file. It will be applicable in all area, so to overcome this limitation, we use mdoule css
+
+- CSS module let you use the same css class name in different files without worrying about naming clashes
+
+- CSS files in which all class names and animation names are scoped locally by default.
+
+- syntex of file => name.module.css, eg app.module.css
+
+- In js, 
+
+```js
+import styles from "./app.module.css"
+
+<h1 className={styles.txt}>Hello</h1>
+```
+
+- If CSS class have '-' inside its name, then className={classes['main-image']}
+
+<br>
 
 > ### We can use the JSON-Server to get temp backend in our frontend project.
 
@@ -853,6 +874,14 @@ Below are the list of reasons to prefer fragments over container DOM elements,
 - Fragments are a `bit faster` and `use less memory` by not creating an extra DOM node. This only has a real benefit on very large and deep trees.
 - Some CSS mechanisms like Flexbox and CSS Grid have a special parent-child relationships, and `adding divs` in the middle makes it `hard to keep the desired layout`.
 - The `DOM Inspector` is `less cluttered`.
+
+fragments in JS
+
+1. <></>
+
+2. <React.fragment></React.fragment>
+
+3. <div></div>
 
 
 <br>
