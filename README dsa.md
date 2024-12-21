@@ -414,6 +414,344 @@ Lexicographic rank of "STRING" is: 598
 
 <br>
 
+> ### Greatest Common Divisor of Strings
+
+Given two strings str1 and str2, return the `largest` string x such that x divides both str1 and str2.
+
+ 
+
+Example 1:
+
+Input: str1 = "ABCABC", str2 = "ABC"\
+Output: "ABC"
+
+
+Example 2:
+
+Input: str1 = "ABABAB", str2 = "ABAB"\
+Output: "AB"
+
+
+Example 3:
+
+Input: str1 = "LEET", str2 = "CODE"\
+Output: ""
+
+
+```js
+var gcdOfStrings = function (str1, str2) {
+    // (1)
+    if (str1 + str2 !== str2 + str1) {
+        return "";
+    }
+
+    // (2)
+    const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+
+    // (3)
+    const maxLength = gcd(str1.length, str2.length);
+    return str1.slice(0, maxLength);
+};
+```
+For point 1;\
+Since both strings contains multiples of the identical segment `base`, their concatenation must be consistent, regardless of the order `(str1 + str2 = str2 + str1)`.
+
+For point 2;\
+It is basically getting the `HCF` of two numbers.
+```js
+const gcd = (a, b) => {
+    // Step 1: Check if `b` is 0. If so, return `a` as the GCD.
+    if (b === 0) {
+        return a;
+    }
+
+    // Step 2: Calculate the remainder of `a` divided by `b`.
+    const remainder = a % b;
+
+    // Step 3: Recursively call gcd with `b` and the remainder.
+    return gcd(b, remainder);
+};
+```
+How Does the above Euclidean Algorithm Work?
+
+If b is 0, then a is the GCD (because any number divided by itself or zero has itself as the largest divisor).\
+Otherwise, replace a with b and b with a % b (the remainder when a is divided by b).\
+Repeat this process until b becomes 0.\
+This is a recursive algorithm, meaning the function repeatedly calls itself with smaller values until a base case (b === 0) is reached.
+
+Example Calculation: GCD of 48 and 18\
+Let’s break it down step by step:
+
+Initial Input: a = 48, b = 18
+
+remainder = 48 % 18 = 12\
+Call gcd(18, 12).\
+Second Step: a = 18, b = 12
+
+remainder = 18 % 12 = 6\
+Call gcd(12, 6).\
+Third Step: a = 12, b = 6
+
+remainder = 12 % 6 = 0\
+Call gcd(6, 0).\
+Final Step: b = 0
+
+Base case is reached, return a = 6.\
+Thus, the GCD of 48 and 18 is 6.
+
+
+For point 3;\
+
+maxLength gives the the length of repeation of the identical segment `base` in the first string.\
+
+<br>
+
+> ### Reverse Vowels of a String
+
+Example 1:\
+Input: s = "IceCreAm"\
+Output: "AceCreIm"
+
+Explanation:\
+The vowels in s are ['I', 'e', 'e', 'A']. On reversing the vowels, s becomes "AceCreIm".
+
+Example 2:\
+Input: s = "leetcode"\
+Output: "leotcede"
+
+Hint is here that we have used the `two pointer therorem`.
+
+```js
+var reverseVowels = function (s) {
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']);
+
+    let left = 0;
+    let right = s.length - 1;
+    let r = s.split('');
+    // debugger
+
+    while (left < right) {
+        // debugger
+        if (!vowels.has(r[right])) right--;
+        else if (!vowels.has(r[left])) left++;
+        else {
+            [r[left], r[right]] = [r[right], r[left]] 
+            left++;
+            right--;
+        }
+    }
+    return r.join('');
+};
+
+reverseVowels('IceCreAm')
+```
+
+<br>
+
+> ### Product of Array Except Self
+
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+You must write an algorithm that runs in `O(n)` time and `without using the division operation`.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4]\
+Output: [24,12,8,6]
+
+Example 2:
+
+Input: nums = [-1,1,0,-3,3]\
+Output: [0,0,9,0,0]
+
+
+### Approach:
+We can solve this problem by using two auxiliary arrays:
+1. **Left Product Array**: Contains the product of all elements to the left of the current index.
+2. **Right Product Array**: Contains the product of all elements to the right of the current index.
+
+However, to optimize for space, we can avoid the auxiliary arrays and calculate the result directly in one pass after maintaining cumulative products.
+
+video - https://youtu.be/bNvIQI2wAjk
+
+```js
+var productExceptSelf = function(nums) {
+    
+    const result = [];
+    
+    // Step 1: Calculate the prefix product (left product)
+    let prefix = 1;
+    for (let i = 0; i < nums.length; i++) {
+        result[i] = prefix;
+        prefix *= nums[i];
+    }
+
+    // Step 2: Calculate the suffix product (right product) and multiply
+    let suffix = 1;
+    for (let i = nums.length - 1; i >= 0; i--) {
+        result[i] *= suffix;
+        suffix *= nums[i];
+    }
+
+    return result;
+};
+```
+
+### Explanation:
+
+1. **First Pass (Prefix Product)**:
+   - Traverse the array left-to-right, calculating cumulative products up to the current index, storing them in `result`.
+
+2. **Second Pass (Suffix Product)**:
+   - Traverse the array right-to-left, multiplying cumulative products from the right with the existing values in `result`.
+
+<br>
+
+> ### Increasing Triplet Subsequence
+
+Given an integer array nums, return true if there exists a triple of indices `(i, j, k)` such that `i < j < k` and `nums[i] < nums[j] < nums[k]`. If no such indices exists, return false.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3,4,5]\
+Output: true\
+Explanation: Any triplet where i < j < k is valid.
+
+Example 2:
+
+Input: nums = [5,4,3,2,1]\
+Output: false\
+Explanation: No triplet exists.
+
+Example 3:
+
+Input: nums = [2,1,5,0,4,6]\
+Output: true\
+Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
+
+
+#### Steps:
+1. Maintain two variables `first` and `second` to represent the smallest and second smallest numbers found so far.
+2. Traverse the array:
+   - If the current number is smaller than or equal to `first`, update `first`.
+   - Else if the current number is smaller than or equal to `second`, update `second`.
+   - Otherwise, if the current number is greater than `second`, we have found our triplet, so return `true`.
+
+3. If no triplet is found after the loop, return `false`.
+
+### Implementation in JavaScript:
+```javascript
+function increasingTriplet(nums) {
+    let first = nums[0];  // Smallest number so far
+    let second = Infinity; // Second smallest number so far
+
+    for (let num of nums) {
+        if (num <= first) {
+            first = num; // Update the smallest number
+        } else if (num <= second) {
+            second = num; // Update the second smallest number
+        } else {
+            // Found a number greater than both first and second
+            return true;
+        }
+    }
+    return false; // No triplet found
+}
+
+// Example usage
+console.log(increasingTriplet([1, 2, 3, 4, 5])); // true
+console.log(increasingTriplet([5, 4, 3, 2, 1])); // false
+console.log(increasingTriplet([2, 1, 5, 0, 4, 6])); // true
+```
+
+### Explanation:
+1. In the array `[1, 2, 3, 4, 5]`, `first = 1`, `second = 2`, and `3` satisfies the condition \( nums[i] < nums[j] < nums[k] \), so it returns `true`.
+2. In `[5, 4, 3, 2, 1]`, no such triplet exists, so it returns `false`.
+3. In `[2, 1, 5, 0, 4, 6]`, the triplet is `(2, 4, 6)`.
+
+<br>
+
+> ### String Compression
+
+You must write an algorithm that uses only constant extra space.
+
+Example 1:
+
+Input: chars = ["a","a","b","b","c","c","c"]\
+Output: Return 6, and the first 6 characters of the input array should be: ["a","2","b","2","c","3"]\
+Explanation: The groups are "aa", "bb", and "ccc". This compresses to "a2b2c3".
+
+Example 2:
+
+Input: chars = ["a"]\
+Output: Return 1, and the first character of the input array should be: ["a"]\
+Explanation: The only group is "a", which remains uncompressed since it's a single character.
+
+Example 3:
+
+Input: chars = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]\
+Output: Return 4, and the first 4 characters of the input array should be: ["a","b","1","2"].\
+Explanation: The groups are "a" and "bbbbbbbbbbbb". This compresses to "ab12".
+
+
+### Implementation in JavaScript
+
+```javascript
+function compress(chars) {
+    let write = 0; // Position to write compressed data
+    let count = 1; // Count occurrences of the current character
+
+    for (let i = 1; i <= chars.length; i++) {
+        // Check if the current character is the same as the previous one
+        if (i < chars.length && chars[i] === chars[i - 1]) {
+            count++;
+        } else {
+            // Write the character
+            chars[write] = chars[i - 1];
+            write++;
+
+            // Write the count if greater than 1
+            if (count > 1) {
+                const countStr = count.toString();
+                for (const digit of countStr) {
+                    chars[write] = digit;
+                    write++;
+                }
+            }
+
+            // Reset the count
+            count = 1;
+        }
+    }
+
+    return write;
+}
+
+// Example Usage
+const chars1 = ["a","a","b","b","c","c","c"];
+console.log(compress(chars1)); // Output: 6, chars1 = ["a","2","b","2","c","3"]
+
+const chars2 = ["a"];
+console.log(compress(chars2)); // Output: 1, chars2 = ["a"]
+
+const chars3 = ["a","b","b","b","b","b","b","b","b","b","b","b","b"];
+console.log(compress(chars3)); // Output: 4, chars3 = ["a","b","1","2"]
+
+```
+
+
+### Complexity
+
+- **Time Complexity**: \(O(n)\), where \(n\) is the length of `chars`. We traverse the array once.
+- **Space Complexity**: \(O(1)\), as we perform the compression in-place with no extra space used for storage.
+
+
+<br>
+
 > ### Check for leftmost repeating character (when we start from left find which character repeats, then give its index)
 
 - Algoname - Hashing
@@ -737,7 +1075,7 @@ These steps can vary slightly based on the specific problem but generally follow
 ```js
 
 // example of code
-function twoSum(arr, target) {
+function addtwo(arr, target) {
   let left = 0;
   let right = arr.length - 1;
 
@@ -759,7 +1097,141 @@ function twoSum(arr, target) {
 // Example usage:
 const arr = [1, 2, 3, 4, 6];
 const target = 6;
-console.log(twoSum(arr, target)); // Output: [1, 4]
+console.log(addtwo(arr, target)); // Output: [1, 4]
+```
+
+> ### Container With Most Water
+
+You are given an integer array `height` of length `n`. There are n vertical lines drawn such that the two endpoints of the `ith` line are `(i, 0)` and `(i, height[i])`.
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Example 1:
+
+![screenshot](images/water.jpg)
+
+Input: height = [1,8,6,2,5,4,8,3,7]\
+Output: 49\
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+
+Example 2:
+
+Input: height = [1,1]\
+Output: 1
+
+[Youtube video for concept](https://youtu.be/EbkMABpP52U?si=oVee2x5W2xPP7dN3&t=869)
+
+```js
+var maxArea = function(height) {
+    let l = 0;
+    let r = height.length -1;
+    let max = 0;
+
+    while(l < r){
+        let containerHeight = Math.min(height[l], height[r]);
+        let containerWidth = r - l;
+        let area = containerWidth * containerHeight;
+
+        if(area > max){
+            max = area
+        }
+
+        if(height[l] < height[r]){
+            l++
+        }else{
+            r--
+        }
+
+    }
+    return max
+    
+};
+```
+
+### How the Code Works
+1. **Define two pointers:**
+   - `l` starts at the beginning (leftmost line).
+   - `r` starts at the end (rightmost line).
+
+2. **Initialize a variable for the maximum area:**
+   - `max` is set to `0` to store the largest container area found.
+
+3. **Use a loop to move the pointers:**
+   - While `l` is less than `r`:
+     - Calculate the **height of the container** as the smaller of the two heights at `l` and `r`.
+     - Calculate the **width of the container** as the distance between `l` and `r` (`r - l`).
+     - Calculate the **area** of the container as `height * width`.
+     - Update `max` if the new `area` is larger than the current `max`.
+
+4. **Move the pointer with the smaller height:**
+   - If the height at `l` is smaller, move `l` one step to the right (`l++`).
+   - Otherwise, move `r` one step to the left (`r--`).
+
+5. **Return the maximum area:**
+   - After the loop finishes, `max` will contain the largest possible container area.
+
+
+> ### Two Sum Algorithm - it is advance case of two pointer alogo, which is specially used when given sum of two number equal to required no.
+
+Simple logic - It works like create a `object` and `add keys` in it with `value as index or just count` of array, then iterate over array and check if `(sum - current number)` exist in the obejct.
+
+
+- Create an empty Hash Set or Unordered Set
+- Iterate through the array and for each number in the array:
+    - Calculate the complement (target – current number).
+    - Check if the complement exists in the set:
+        - If it is, then pair found.
+        - If it isn’t, add the current number to the set.
+- If the loop completes without finding a pair, return that no pair exists.
+
+eg is below two sum with Hashing
+
+> ### Max Number of K-Sum Pairs
+
+You are given an integer array nums and an integer k.
+
+In one operation, you can pick two numbers from the array whose sum equals k and remove them from the array.
+
+Return the maximum number of operations you can perform on the array.
+
+Example 1:
+
+Input: nums = [1,2,3,4], k = 5\
+Output: 2
+
+Explanation: Starting with nums = [1,2,3,4]:\
+- Remove numbers 1 and 4, then nums = [2,3]\
+- Remove numbers 2 and 3, then nums = []\
+There are no more pairs that sum up to 5, hence a total of 2 operations.
+
+Example 2:
+
+Input: nums = [3,1,3,4,3], k = 6\
+Output: 1
+
+Explanation: Starting with nums = [3,1,3,4,3]:\
+- Remove the first two 3's, then nums = [1,4,3]\
+There are no more pairs that sum up to 6, hence a total of 1 operation.
+
+```js
+var maxOperations = function(nums, k) {
+     let count = 0;
+    let map = new Map();
+
+    for (let num of nums) {
+        let complement = k - num;
+        if (map.has(complement) && map.get(complement) > 0) {
+            count++;
+            map.set(complement, map.get(complement) - 1); 
+        } else {
+            map.set(num, (map.get(num) || 0) + 1);
+        }
+    }
+
+    return count;
+};
 ```
 
 
