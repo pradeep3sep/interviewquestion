@@ -925,6 +925,8 @@ This code will find all the positions of the pattern in the given text efficient
 
 > ### Prefix sum algorithm [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
 
+`Hints when to use` - Find the sum of elements between indices `i` and `j` for multiple queries. 
+
 In the **Prefix Sum Algorithm**, the process is typically divided into two common steps:
 
 ### 1. **Building the Prefix Sum Array**
@@ -997,8 +999,79 @@ console.log(getRangeSum(prefixSum, 1, 3)); // Output: 18 (4 + 6 + 8)
 console.log(getRangeSum(prefixSum, 0, 2)); // Output: 12 (2 + 4 + 6)
 ```
 
----
+<br>
 
+> ### Find Pivot Index
+
+Given an array of integers nums, calculate the pivot index of this array.
+
+The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
+
+If the index is on the left edge of the array, then the left sum is 0 because there are no elements to the left. This also applies to the right edge of the array.
+
+Return the leftmost pivot index. If no such index exists, return -1.
+
+ 
+
+Example 1:
+
+Input: nums = [1,7,3,6,5,6]\
+Output: 3\
+Explanation:\
+The pivot index is 3.\
+Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11\
+Right sum = nums[4] + nums[5] = 5 + 6 = 11
+
+
+Example 2:
+
+Input: nums = [1,2,3]\
+Output: -1\
+Explanation:\
+There is no index that satisfies the conditions in the problem statement.
+
+Example 3:
+
+Input: nums = [2,1,-1]\
+Output: 0\
+Explanation:\
+The pivot index is 0.\
+Left sum = 0 (no elements to the left of index 0)\
+Right sum = nums[1] + nums[2] = 1 + -1 = 0
+
+
+```js
+function findPivotIndex(nums) {
+    // Calculate the total sum of the array manually
+    let totalSum = 0;
+    for (let i = 0; i < nums.length; i++) {
+        totalSum += nums[i];
+    }
+
+    let leftSum = 0; // Initialize left sum
+
+    for (let i = 0; i < nums.length; i++) {
+        // Calculate the right sum dynamically
+        let rightSum = totalSum - leftSum - nums[i];
+
+        // Check if left sum equals right sum
+        if (leftSum === rightSum) {
+            return i;
+        }
+
+        // Update the left sum
+        leftSum += nums[i];
+    }
+
+    return -1; // Return -1 if no pivot index exists
+}
+
+// Example Usage:
+const nums = [1, 7, 3, 6, 5, 6];
+console.log(findPivotIndex(nums)); // Output: 3
+```
+
+<br>
 
 > ### Two-pointer algorithm
 In the two-pointer algorithm, there are several common steps or patterns that we typically follow, regardless of the specific problem. Here’s a generalized breakdown of the steps involved:
@@ -1254,36 +1327,81 @@ How to Identify Sliding Window Problems:
 - These problems can easily be solved in O(N2) time complexity using nested loops, using sliding window we can solve these in O(n) Time Complexity.
 - Required Time Complexity: O(N) or O(Nlog(N))
 
+> ### Maximum Average Subarray I
 
+Example 1:
+
+Input: nums = [1,12,-5,-6,50,3], k = 4\
+Output: 12.75000\
+Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
+
+Example 2:
+
+Input: nums = [5], k = 1\
+Output: 5.00000
 
 ```js
-function maxSumSubarray(arr, w, n) {
-    let current = 0;
-    
-    // Calculate the sum of the first window
-    for (let i = 0; i < w; i++) {
-        current += arr[i];
+var findMaxAverage = function(nums, k) {
+    let sum = 0;
+    for(let i = 0; i < k; i++) {
+        sum += nums[i];
     }
     
-    let maxx = current;
-    
-    // Slide the window and update the maximum sum
-    for (let i = 1; i <= n - w; i++) {  // when we reach at the end, if remaining element less than window, then that part we do not need to slide
-        current = current - arr[i - 1] + arr[i + w - 1];
-        if (current > maxx) {
-            maxx = current;
-        }
+    let maxSum = sum;
+    for(let i = k; i < nums.length; i++) {
+        sum = sum - nums[i-k] + nums[i];  // i-k is the important part
+        maxSum = Math.max(maxSum, sum);
     }
     
-    return maxx;
-}
-
-// Driver code
-let arr = [1, 4, 2, 10, 2, 3, 1, 0, 20];
-let w = 4; // width of slider window
-let n = arr.length;
-maxSumSubarray(arr, w, n)
+    return maxSum/k;  
+};
 ```
+
+> ### Max Consecutive Ones
+
+Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
+
+Example 1:
+
+Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2\
+Output: 6\
+Explanation: [1,1,1,0,0,.1,.1,.1,.1,.1,.1]\
+dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
+
+Example 2:
+
+Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3\
+Output: 10\
+Explanation: [0,0,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,0,0,0,1,1,1,1]\
+dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
+
+[Youtube video for concept](https://youtu.be/7FE5Q_Bqzw8?si=uKw4xkjOtPBZzeUi&t=132)
+
+```js
+var longestOnes = function(nums, k) {
+  let l =0;
+  let r =0;
+  let zeros = 0;
+  let maxLength =0;
+  while(r < nums.length){
+    if(nums[r] === 0) {
+        zeros++;
+    }
+    if(zeros > k){
+        if(nums[l]=== 0){
+            zeros--;
+        }
+        l++;
+    }
+   
+        maxLength = Math.max(maxLength, r-l+1)
+        r++;
+
+  }  
+  return maxLength;
+};
+```
+
 
 
 > ### fast and slow pointer algorithm [Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)

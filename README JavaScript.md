@@ -18,7 +18,7 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
 
 <br>
 
-> ### There are only `six` falsey values in JavaScript: undefined , null , NaN , 0 , "" (empty string), and false of course.
+> ### There are only `six` falsey values in JavaScript: undefined , null , NaN , 0 , "" (empty string), and false.
 
 <br>
 
@@ -36,7 +36,7 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
         |                      |
         |                      |
       Object             Primitive
-  (Copy by referenc)     (Copy bt value)
+  (Copy by referenc)     (Copy by value)
 ```
 
 <br>
@@ -57,7 +57,7 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
 
 
 > ### Operator Precedence 
-Every operator has its precendenc which value, which defines which operator will excute first
+Every operator has its precendence which value, which defines which operator will excute first
 
 See table of below website
 
@@ -85,16 +85,20 @@ eg==>  console.log("2" * "3") gives 6, basically the string to number
 <br>
 
 
-### Functions
+> ### Functions
 - A **function** is a piece of code that can be used repeatedly.
 
 - **Push function**: returns the array's length.
 
 - **Pop function**: retrun the popped value
 
----
 
-#### **Dot Notation vs Bracket Notation**
+<br>
+
+
+
+> ### **Dot Notation vs Bracket Notation**
+
 - **Dot Notation**:
   - Used to access an object's property statically.
   - Example:  
@@ -120,9 +124,11 @@ eg==>  console.log("2" * "3") gives 6, basically the string to number
 - In object, the key values, the key is also called the `property`
 
 
----
+<br>
 
-#### **Functions: Declarative vs Expressive**
+
+
+> #### **Functions: Declarative vs Expressive**
 1. **Declarative Function**:
    - Syntax:
      ```js
@@ -144,6 +150,7 @@ eg==>  console.log("2" * "3") gives 6, basically the string to number
 
 
 <br>
+
 Here’s a concise comparison of `let`, `const`, and `var` in JavaScript presented in tabular form:
 
 | Feature                       | `var`                              | `let`                              | `const`                             |
@@ -159,9 +166,7 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
 
 <br>
 
-
----
-#### **Array Destructuring**
+> ### **Array Destructuring**
 - **Case 1**:
   ```js
   const [x, y, z] = [2, 3, 4];
@@ -179,6 +184,7 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
     - `main = Pizza`
     - `secondary = Risotto`
 
+- **Case 3**:
   Example:
   ```js
   const [main,secondary] = ["Pizza", "Pasta", "Risotto"];
@@ -187,6 +193,7 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
   - `secondary = Pasta`
 
 
+- **Case 4**:
   Example:
   ```js
   const [p,q,r] = [8,9];
@@ -196,7 +203,7 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
   - `r = undefined`
 
 
-
+- **Case 5**:
   Example:
   ```js
   const [p=1,q=1,r=1] = [8,9];
@@ -205,9 +212,10 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
   - `q = 9`
   - `r = 1`
 
----
+<br>
 
-#### **Object Destructuring**
+
+> ### **Object Destructuring**
 - **Case 1**:
   - Similar to arrays but use `{}`.
   - Example:
@@ -218,9 +226,11 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
     ({ a, b } = obj); // a = 25, b = 35
     ```
 
----
 
-#### **Spread Operator (`...`)**
+<br>
+
+
+> ### **Spread Operator (`...`)**
 - Used for arrays, strings, maps, sets, and objects.
 - Additional Notes:
   ```js
@@ -230,9 +240,10 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
 
   - ``${...str}`` gives the error
 
----
 
-#### **Spread vs Rest Operator**
+<br>
+
+> ### **Spread vs Rest Operator**
 - **Spread**:
   - Used on the **right** side.
   - It `unpack` the data
@@ -253,13 +264,15 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
     - `b = 2`
     - `others = [3, 4, 5]`
 
----
+<br>
 
-#### **Short Circuiting**
+
+> ### **Short Circuiting**
 - Using `||`:
   ```js
   console.log(0 || "Jonas"); // Output: "Jonas"
   console.log(1 || "Jonas"); // Output: 1
+  console.log(0 || false); // Output: false
   ```
 
 - Using `&&`:
@@ -269,7 +282,7 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
   ```
 
 - **Logic**:
-  - For `||`, it returns the first truthy value.
+  - For `||`, it `returns` the `first truthy` value. If `all false` then return `last false` value
   - For `&&`, it `returns` the `last value` if `all are truthy`, `else` return the `false value`
 
 - Example:
@@ -279,7 +292,11 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
   ```
 
 
-#### **Logical Assignment Operators**
+<br>
+
+
+> ### Logical Assignment Operators
+
 - Example:
   ```js
   const rest1 = {
@@ -316,9 +333,11 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
     rest1.numGuests ??= 10;
     ```
 
----
+<br>
 
-#### **For...Of Loop**
+
+
+> ### **For...Of Loop**
 
 - **Destructuring in Loops**:
   ```js
@@ -327,13 +346,18 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
   }
   ```
 
-#### nullish coalescing operator ( ?? )
+<br>
+
+> ### nullish coalescing operator ( ?? )
 
 ```js
 console.log(rest.numGuests ?? 10)
 ```
 
 If above is null or undefined (not 0 or ''), it gives 10 otherwise gives first value
+
+<br>
+
 
 > ### Padding a string
 
@@ -367,7 +391,10 @@ console.log(paddedStr); // Output: "123000"
 - If the `padString` is longer than the needed padding, it will be truncated.
 - These methods do not modify the original string; they return a new string.
 
----
+
+<br>
+
+
 
 > ### First Class Functions
 
@@ -400,7 +427,10 @@ btnClose.addEventListner("click", greet)
 counter.inc.bind(someOtherObject)
 ```
 
-### Higher Order Functions
+<br>
+
+
+> ### Higher Order Functions
 
 - A function that receives another function as an argument, that return a new function or both.
 - This is only possible because of first class functions.
@@ -441,8 +471,8 @@ function count(){  // count id higher order function
 
 > ### Difference between the some and includes
 
-Some method is like includes but difference is that includes check the equality(=) condition only and return true or false,\
-In some method, we can check any condition if that satisfies then we get return as true or false
+Some method is like includes but difference is that `includes check the equality(=)` condition only and return true or false,\
+In some method, we can `check` any `condition` if that `satisfies` then we get return as true or false
 
 
 ```js
@@ -456,7 +486,7 @@ console.log(data.some( unit => unit >1 ))  // here condition is checked which "g
 
 > ### Implicit Binding and Explicit Binding
 
-### **Implicit Binding**
+**Implicit Binding**
 
 It is like self binding, means 'this' points towards created object
 
@@ -475,9 +505,9 @@ It is like self binding, means 'this' points towards created object
 - **Key Point**: 
   - In implicit binding, `this` points to the object (`person`) that is calling the method (`hi`).
 
----
 
-### **Explicit Binding**
+**Explicit Binding**
+
 - **Definition**: When the `this` keyword is explicitly bound to a specific object using methods like `.bind()`, `.call()`, or `.apply()`.
 - **Example**:
   ```javascript
@@ -513,7 +543,7 @@ It is like self binding, means 'this' points towards created object
     ```
 
 
-### **Bubbling**:
+**Bubbling**:
 - **Definition**: Propagation moves from the innermost element (target) outward to its ancestors.
 - **Key Points**:
   - Bubbling occurs when `{capture: false}` (default behavior).
@@ -522,7 +552,7 @@ It is like self binding, means 'this' points towards created object
 
 
 
-### **Capturing**:
+**Capturing**:
 - **Definition**: Opposite of bubbling; propagation moves from the outermost ancestor inward to the target element.
 - **Key Points**:
   - Capturing occurs when `{capture: true}`.
@@ -530,7 +560,7 @@ It is like self binding, means 'this' points towards created object
 
 
 
-### **Mixed Mode (Both `true` and `false`)**:
+**Mixed Mode (Both `true` and `false`)**:
 - **Behavior**: JavaScript first handles capturing (outer to inner) and then bubbling (inner to outer).
 - **Example**: When combining capturing and bubbling on different elements.
 
@@ -544,9 +574,11 @@ see akshay saini video form 17:34**
   e.stopPropagation();
   ```
 
----
 
-### **Event Delegation**:
+<br>
+
+
+> ### Event Delegation:
 - **Concept**: Instead of adding listeners to multiple child elements, add a listener to a common parent and use `e.target` to handle child-specific logic.
 - **Key Points**:
   - Efficient for dynamically generated elements.
@@ -559,13 +591,14 @@ see akshay saini video form 17:34**
     });
     ```
 
----
 
-### OOP
+<br>
 
-- Objects may contain data (properties) and code (methods). By using objects, we pack data and corresponding behavior into one block.
+
+> ### OOP
+
+- Objects may contain data (properties) and function (methods). By using objects, we pack data and corresponding behavior into one block.
 - In OOP, objects are **self-contained pieces/blocks of code**.
-
 
 
 **Class** - Like a blueprint from which we can create new objects.
@@ -605,38 +638,34 @@ see akshay saini video form 17:34**
 
 ---
 
-### Prototype  
+> ### Prototype  
 
 - **Prototype** contains methods; objects linked to this prototype can access methods.  
 - Objects are linked to a prototype object.  
 
 
-
-### Prototypal Inheritance  
-- The prototype contains methods (behavior) that are accessible to all objects linked to that prototype.  
+<br>
 
 
----
-
-### PROTOTYPAL INHERITANCE
+> ### PROTOTYPAL INHERITANCE
 
 - JS uses Protoypal Inheritance
 - Inheritance is an object getting access to the properties and methods of another object
 
 ![BOM](/images/chain.png)
 
-- proto is simply a refernce or a pointer to up the chain protype chain
+### proto is simply a refernce or a pointer to up the chain protype chain
 
 ![BOM](/images/protoInheri.png)
 
-- created array.prtotype or created object.prototype or created function.prototype returns `undefined` unless any property created in it. It has all method or function of Base object and Base array or Base function, basically inherit all from above hierarchy
+- created array.prototype or created object.prototype or created function.prototype returns `undefined` unless any property created in it. It has all method or function of Base object and Base array or Base function, basically inherit all from above hierarchy
 
 - Array.prototype has all the built-in method of array like map, filter, etc but created array.protoype don't have similar to function case eg is call, bind,apply.
 
 <br>
 
 
-### Call, Apply, and Bind  
+> ### Call, Apply, and Bind  
 
 - Call, Apply, and Bind : It is use for `function borrowing`
 - Function borowwing allows us to use the method of one object on another object without having to make a copy of that method and maintain it in two separate places.
@@ -658,12 +687,9 @@ printFullName.call(name, "Dehradun", "Uttarakhand");
 **Output:**  
 `Akshay Saini from Dehradun, Uttarakhand`  
 
-
-<br>
-
-
 **`name` is the object which 'this' refer, "Dehradun", "Uttarakhand" are the parameter to function**
 
+<br>
 
 #### **Apply**  
 - **Use:** Similar to `call`, but instead of passing parameters separately, we pass the parameters in array form.  
@@ -671,7 +697,7 @@ printFullName.call(name, "Dehradun", "Uttarakhand");
 printFullName.apply(name, ["Dehradun", "Uttarakhand"]);  
 ```  
 
----
+<br>
 
 #### **Bind**  
 
@@ -687,16 +713,11 @@ printMyName();
 **Output:**  
 `Akshay Saini from Dehradun, Uttarakhand`  
 
-
-
 <br>
 
-
-
-> Core web vitals and lighthouse interview question
+> ### Core web vitals and lighthouse interview question
 
 <br>
-
 
 > ### Difference between subsring and slice
 - `substring()` `doesn't` support `negative indices`.
@@ -706,9 +727,9 @@ printMyName();
 
 
 > ### forEach Method
-- forEach() always returns undefined
-- It is not invoked for empty slots in sparse arrays.
-- There is no way to stop or break a forEach() loop other than by throwing an exception. If you need such behavior, the forEach() method is the wrong tool.
+- forEach() always `returns undefined`
+- It is `not invoked` for `empty slots` in sparse arrays.
+- There is `no way to stop or break a forEach()` loop other than by `throwing an exception`. If you need such behavior, the forEach() method is the wrong tool.
 - forEach do not modify array on return, you have to intentionally modify the array
 
 ```js
@@ -1884,6 +1905,7 @@ SyntaxError: Invalid or unexpected token
 SyntaxError: Unexpected token .
 
 
+<details>
 
 In JavaScript, the `toString()` method is available for all objects, including primitive types like numbers. When you call `42..toString()`, JavaScript interprets the first dot as part of the number literal (i.e., `42.` is treated as `42.0`), and the second dot is treated as a method call.
 
@@ -1898,6 +1920,8 @@ In other words:
 - `42..toString()` → Works fine because the first dot is interpreted as part of the number.
 
 To avoid confusion, it's often clearer to wrap the number in parentheses: `(42).toString()`.
+
+</details>
 
 <br>
 
@@ -2915,7 +2939,7 @@ Promise.race([promise1, promise2]).then(function (value) {
 
 <br>
  
-> #### What is a callback function
+> ### What is a callback function
 A callback function is a function passed into another function as an argument. This function is invoked inside the outer function to complete an action. Let's take a simple example of how to use callback function
 
 It is a function paased into another function as arguments, whcih is then invoked inside the outer function to complete some kind of action.
@@ -2935,7 +2959,7 @@ outerFunction(callbackFunction);
 
 <br>
  
-> #### What is a callback hell
+> ### What is a callback hell
 Callback Hell is an `anti-pattern` with `multiple nested callbacks` which makes code hard to read and debug when dealing with asynchronous logic. The callback hell looks like below,
 
 ```js
@@ -2949,6 +2973,9 @@ async1(function(){
     });
 });
 ```
+
+<br>
+
 
 👉 Callback and Callback Hell\
 Callback functions are first class citizens passed as an argument to higher order function,
@@ -5754,12 +5781,7 @@ https://media.licdn.com/dms/image/v2/C5112AQFW3cKEhP9AkQ/article-cover_image-shr
 
 <br>
  
-### There are 8 falsy values:
-undefined, null, NaN, false,'' (empty string),0,-0,0n (BigInt(0))
-
-<br>
- 
-### how to call two api when second one depend on first response in js
+> ### how to call two api when second one depend on first response in js
 ```js
 async function fetchData() {
   try {
@@ -5874,7 +5896,8 @@ console.log(obj); // { name: 'Version 1', additionalInfo: { version: 1 } }
 console.log(deepCopy); // { name: 'Version 2', additionalInfo: { version: 2 } }
 ```
 
-
+<br>
+ 
 > ### Intersection Observer
 
 An Intersection Observer API provides a way to observe the visibility and position of a DOM element relative to the specified root element or viewport.
