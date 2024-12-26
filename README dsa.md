@@ -930,7 +930,7 @@ console.log(nextGreaterElements(nums)); // Output: [4, 2, 4, -1, -1]
 
 <br>
 
-> ## BFS and DFS algorithm
+> ## 8. BFS and DFS algorithm
 
 BFS Algorithm
 - use Queue structure
@@ -1038,6 +1038,91 @@ DFSInOrder() {
     return results;
 }
 ```
+
+<br>
+
+> ## 9. Backtracking algorithm
+
+Backtracking is controlled recursion
+
+
+> ### Permutations of a String ( [Youtube video](https://youtu.be/mEBEw_xScsE?si=ExivZgmnO9MfF2J-&t=884) )
+
+To generate **all permutations** of a given string, we can use a **recursive approach**. The idea is to swap each character with every other character in the string and recursively generate the permutations for the rest of the string.
+
+### Key Concepts:
+1. For each character in the string, place it in the first position and then recursively permute the rest of the characters.
+2. This is done by swapping the current character with every character after it, including itself.
+3. When the recursion reaches the end of the string (base case), the permutation is stored.
+
+### Example:
+If the input string is `"ABC"`, the permutations are:
+- ABC
+- ACB
+- BAC
+- BCA
+- CAB
+- CBA
+
+### Algorithm:
+
+1. Start with the first character and swap it with each character, including itself.
+2. Recursively call the function to generate permutations for the rest of the string.
+3. Once the base case (end of the string) is reached, add the generated permutation to the result.
+
+### Permutations of a String using Recursion in JavaScript:
+
+```javascript
+function permute(str) {
+    const result = [];
+
+    // Helper function to generate permutations
+    function generatePermutations(chars, index) {
+        if (index === chars.length - 1) {
+            result.push(chars.join('')); // When a permutation is ready
+            return;
+        }
+
+        for (let i = index; i < chars.length; i++) {
+            // Swap characters at index and i
+            [chars[index], chars[i]] = [chars[i], chars[index]];
+            
+            // Recurse for the next index
+            generatePermutations(chars, index + 1);
+            
+            // Backtrack: Swap back the characters
+            [chars[index], chars[i]] = [chars[i], chars[index]];
+        }
+    }
+
+    generatePermutations(str.split(''), 0); // Split the string into an array of characters
+    return result;
+}
+
+// Example usage:
+const input = "ABC";
+const permutations = permute(input);
+console.log(permutations);
+```
+
+### Output:
+```
+[ 'ABC', 'ACB', 'BAC', 'BCA', 'CBA', 'CAB' ]
+```
+
+![screenshot](images/backtrack.png)
+
+### Explanation:
+- The recursive function `generatePermutations` works by fixing one character at a time and swapping it with the remaining characters to explore all possible arrangements.
+- The **base case** of the recursion occurs when `index` reaches the end of the string (i.e., the last character), and we add the current arrangement (permutation) to the result list.
+- After exploring one arrangement, the function **backtracks** by undoing the swap, allowing the function to explore the next possible permutation.
+
+### Time Complexity:
+- The time complexity is **O(n!)**, where \( n \) is the length of the string. This is because there are \( n! \) permutations for a string of length \( n \).
+
+### Summary:
+- The above algorithm efficiently generates all permutations of a string by recursively swapping characters.
+- This approach is commonly used in solving problems related to permutations and combinations.
 
 <br>
 
@@ -9185,83 +9270,7 @@ The greedy approach works for the job sequencing problem because:
 ### Summary:
 The **Job Sequencing Problem** is solved optimally using a **greedy algorithm** that sorts jobs by their profit and assigns them to the latest available time slot before their deadline. This approach ensures the maximum profit can be obtained, and is widely applicable in scheduling and resource management problems.
 
-> ### Permutations of a String ( [Youtube video](https://youtu.be/mEBEw_xScsE?si=ExivZgmnO9MfF2J-&t=884) )
-
-To generate **all permutations** of a given string, we can use a **recursive approach**. The idea is to swap each character with every other character in the string and recursively generate the permutations for the rest of the string.
-
-### Key Concepts:
-1. For each character in the string, place it in the first position and then recursively permute the rest of the characters.
-2. This is done by swapping the current character with every character after it, including itself.
-3. When the recursion reaches the end of the string (base case), the permutation is stored.
-
-### Example:
-If the input string is `"ABC"`, the permutations are:
-- ABC
-- ACB
-- BAC
-- BCA
-- CAB
-- CBA
-
-### Algorithm:
-
-1. Start with the first character and swap it with each character, including itself.
-2. Recursively call the function to generate permutations for the rest of the string.
-3. Once the base case (end of the string) is reached, add the generated permutation to the result.
-
-### Permutations of a String using Recursion in JavaScript:
-
-```javascript
-function permute(str) {
-    const result = [];
-
-    // Helper function to generate permutations
-    function generatePermutations(chars, index) {
-        if (index === chars.length - 1) {
-            result.push(chars.join('')); // When a permutation is ready
-            return;
-        }
-
-        for (let i = index; i < chars.length; i++) {
-            // Swap characters at index and i
-            [chars[index], chars[i]] = [chars[i], chars[index]];
-            
-            // Recurse for the next index
-            generatePermutations(chars, index + 1);
-            
-            // Backtrack: Swap back the characters
-            [chars[index], chars[i]] = [chars[i], chars[index]];
-        }
-    }
-
-    generatePermutations(str.split(''), 0); // Split the string into an array of characters
-    return result;
-}
-
-// Example usage:
-const input = "ABC";
-const permutations = permute(input);
-console.log(permutations);
-```
-
-### Output:
-```
-[ 'ABC', 'ACB', 'BAC', 'BCA', 'CBA', 'CAB' ]
-```
-
-### Explanation:
-- The recursive function `generatePermutations` works by fixing one character at a time and swapping it with the remaining characters to explore all possible arrangements.
-- The **base case** of the recursion occurs when `index` reaches the end of the string (i.e., the last character), and we add the current arrangement (permutation) to the result list.
-- After exploring one arrangement, the function **backtracks** by undoing the swap, allowing the function to explore the next possible permutation.
-
-### Time Complexity:
-- The time complexity is **O(n!)**, where \( n \) is the length of the string. This is because there are \( n! \) permutations for a string of length \( n \).
-
-### Summary:
-- The above algorithm efficiently generates all permutations of a string by recursively swapping characters.
-- This approach is commonly used in solving problems related to permutations and combinations.
-
-
+<br>
 
 > ### Rat In a Maze   ( [Youtube video](https://youtu.be/wjqSZy4pMT4?si=fFRwK9Xcp2Uq_XO5) )
 
