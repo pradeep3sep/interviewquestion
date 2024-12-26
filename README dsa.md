@@ -1110,6 +1110,10 @@ console.log(permutations);
 [ 'ABC', 'ACB', 'BAC', 'BCA', 'CBA', 'CAB' ]
 ```
 
+![screenshot](images/flow-backtrack.png)
+
+<br>
+
 ![screenshot](images/backtrack.png)
 
 ### Explanation:
