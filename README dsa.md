@@ -85,6 +85,8 @@ function factorial(n) {
 
 ## Various alogorithm used in DSA
 
+<br>
+
 > ## 1. Hash Map alogo
 In this algo, we approach the question by converting it into objects.
 
@@ -850,7 +852,61 @@ Let me know if you'd like further clarifications or adjustments!
 
 <br>
 
-> ## 7. Monotonic stack algo is pending
+> ## 7. Monotonic stack algorithm - [Youtube video for concept](https://www.youtube.com/watch?v=Dq_ObZwTY_Q&t=152s)
+
+[website](https://algo.monster/problems/mono_stack_intro)
+
+The word "monotonic" means a list or a function is either always increasing, or always decreasing.
+
+Monotonic stack is like a regular stack with one key distinction in the push operation: Before we push a new element onto the stack, we first check if adding it breaks the monotonic condition. If it does, then we pop the top element off the stack until pushing the new element no longer breaks the monotonic condition.
+
+
+The monotonic stack is a useful data structure that maintains elements in a sorted order (increasing or decreasing) as you traverse an array or a list. It's commonly used in problems involving finding the **next greater element**, **previous smaller element**, or similar scenarios.
+
+Here’s a breakdown of the **monotonic stack algorithm** in JavaScript:
+
+### Algorithm:
+1. **Decide the Stack Type**: Use an **increasing stack** (top-to-bottom smallest to largest) or **decreasing stack** (top-to-bottom largest to smallest) based on the problem.
+2. **Iterate through the Array**: Traverse the array from left-to-right or right-to-left as required.
+3. **Push/Pop Elements**:
+   - While the stack is not empty and the current element violates the monotonic property, pop elements from the stack.
+   - Push the current element (or its index) onto the stack.
+4. **Process Results**: Based on the problem, use the stack to calculate results.
+
+---
+
+### Example: **Next Greater Element**
+Here’s an example implementation for finding the **next greater element** for each element in an array:
+
+```javascript
+function nextGreaterElements(nums) {
+    let stack = [];
+    let result = Array(nums.length).fill(-1); // Initialize result array with -1
+
+    for (let i = 0; i < nums.length; i++) {
+        // While the stack is not empty and the current element is greater
+        // than the element corresponding to the index on top of the stack
+        while (stack.length > 0 && nums[i] > nums[stack[stack.length - 1]]) {
+            let index = stack.pop();
+            result[index] = nums[i]; // Update the result array
+        }
+        stack.push(i); // Push the current index
+    }
+
+    return result;
+}
+
+// Example usage:
+let nums = [2, 1, 2, 4, 3];
+console.log(nextGreaterElements(nums)); // Output: [4, 2, 4, -1, -1]
+```
+
+---
+
+### Explanation:
+- **Stack stores indices**: The stack contains indices of the elements in the array.
+- **While condition**: If the current element is greater than the element at the top of the stack, pop from the stack, and update the result for that index.
+- **Push the index**: Push the current index onto the stack to process later.
 
 
 <br>
