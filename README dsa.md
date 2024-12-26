@@ -923,6 +923,9 @@ This code will find all the positions of the pattern in the given text efficient
 <br>
 ## Various alogorith used in DSA
 
+> ### Hash Map alogo
+In this algo, we approach the question by converting it into objects.
+
 > ### Prefix sum algorithm [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
 
 `Hints when to use` - Find the sum of elements between indices `i` and `j` for multiple queries. 
@@ -1073,7 +1076,7 @@ console.log(findPivotIndex(nums)); // Output: 3
 
 <br>
 
-> ### Two-pointer algorithm
+> ### Two pointer algorithm
 In the two-pointer algorithm, there are several common steps or patterns that we typically follow, regardless of the specific problem. Here’s a generalized breakdown of the steps involved:
 
 ### 1. **Initialize Two Pointers**
@@ -1310,6 +1313,8 @@ var maxOperations = function(nums, k) {
 
 > ### Sliding window algorithm [Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
 
+Trick - when we have to find min or max length of string or array, which have to do operations
+
 Sliding Window problems are problems in which a fixed or variable-size window is moved through a data structure, typically an array or string, to solve problems efficiently based on continuous subsets of elements. This technique is used when we need to find subarrays or substrings according to a given set of conditions.
 
 The general steps to solve these questions by following below steps:
@@ -1402,7 +1407,97 @@ var longestOnes = function(nums, k) {
 };
 ```
 
+> ### Q-1234. Replace the Substring for Balanced String
 
+You are given a string s of length n containing only four kinds of characters: 'Q', 'W', 'E', and 'R'.
+
+A string is said to be balanced if each of its characters appears n / 4 times where n is the length of the string.
+
+Return the minimum length of the substring that can be replaced with any other string of the same length to make s balanced. If s is already balanced, return 0.
+
+ 
+
+Example 1:
+
+Input: s = "QWER"\
+Output: 0\
+Explanation: s is already balanced.
+
+Example 2:
+
+Input: s = "QQWE"\
+Output: 1\
+Explanation: We need to replace a 'Q' to 'R', so that "RQWE" (or "QRWE") is balanced.
+
+Example 3:
+
+Input: s = "QQQW"\
+Output: 2\
+Explanation: We can replace the first "QQ" to "ER". 
+
+### Approach
+
+1. **Frequency Calculation**: Count the occurrences of each character.
+2. **Sliding Window**: Use a sliding window to find the minimum substring length that can be replaced to balance the string.
+
+---
+
+### JavaScript Solution
+
+```javascript
+function balancedString(s) {
+    const n = s.length;
+    const requiredCount = n / 4;
+    const charCount = { Q: 0, W: 0, E: 0, R: 0 };
+
+    // Count occurrences of each character
+    for (const char of s) {
+        charCount[char]++;
+    }
+
+    // Check if already balanced
+    if (Object.values(charCount).every(count => count === requiredCount)) {
+        return 0;
+    }
+
+    let minLength = n;
+    let left = 0;
+
+    for (let right = 0; right < n; right++) {
+        charCount[s[right]]--;
+
+        // Check if current window satisfies the balance condition
+        while (
+            Object.values(charCount).every(
+                count => count <= requiredCount
+            )
+        ) {
+            minLength = Math.min(minLength, right - left + 1);  // (right - left + 1) this part gives the length of sliding window
+            charCount[s[left]]++; // to get the optimized value count, we need to check by decreasing the count along with increasing the count
+            left++;
+        }
+    }
+
+    return minLength;
+}
+
+// Example usage:
+const s = "WQWRQQQW";
+console.log(balancedString(s)); // Output: 3
+```
+
+---
+
+### Explanation
+
+1. **Initial Count**: Calculate the count of `'Q'`, `'W'`, `'E'`, and `'R'` in the string.
+2. **Sliding Window**:
+   - Expand the window by increasing `right`.
+   - Check if the substring inside the window can balance the string.
+   - If so, try shrinking the window by increasing `left` to find the minimum possible length.
+3. **Result**: Return the minimum substring length that needs to be replaced.
+
+This approach ensures an efficient solution with a time complexity of \(O(n)\).
 
 > ### fast and slow pointer algorithm [Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)
 
@@ -2671,6 +2766,8 @@ This method efficiently clones a linked list with both next and random pointers.
 
 > ### Stacks and Queues
 
+Stack ki need jab padti h jab hume chaiye jo last key visit ki thi traverse karte time wo kya thi ya uska effect kya tha.
+
 ```js
 // stack is like linked list, with head named as top and available at top position. basically vertically alingned of linked list
 // entry and exist on same side, basically LIFO
@@ -2831,9 +2928,189 @@ twoStacks.printStack2();  // Output: Stack 2: 30 -> 25
 
 ```
 
+> ### Removing Stars From a String
+
+Example 1:
+
+Input: s = "leet**cod*e"\
+Output: "lecoe"\
+Explanation: Performing the removals from left to right:\
+- The closest character to the 1st star is 't' in "leet**cod*e". s becomes "lee*cod*e".\
+- The closest character to the 2nd star is 'e' in "lee*cod*e". s becomes "lecod*e".\
+- The closest character to the 3rd star is 'd' in "lecod*e". s becomes "lecoe".\
+There are no more stars, so we return "lecoe".
+
+Example 2:
+
+Input: s = "erase*****"\
+Output: ""\
+Explanation: The entire string is removed, so we return an empty string.
+
+```js
+function removeStars(s) {
+    const stack = [];
+    
+    for (const char of s) {
+        if (char === '*') {
+            // Remove the last character if `*` is encountered
+            stack.pop();
+        } else {
+            // Add the character to the stack
+            stack.push(char);
+        }
+    }
+    
+    // Join the stack to form the resulting string
+    return stack.join('');
+}
+
+// Example usage
+const input = "leet**cod*e";
+console.log(removeStars(input)); // Output: "lecoe"
+```
+
+more solution
+
+```js
+var removeStars = function(s) {
+    let result = "";
+    let stars = 0;
+
+    for (let i = s.length - 1; i >= 0; i--) {
+        if (s[i] === "*") {
+            stars++;
+        } else if (stars > 0) {
+            stars--;
+        } else {
+            result = s[i] + result;
+        }
+    }
+
+    return result;
+};
+```
+
+> ### Asteroid Collision
+
+refer any youtube video for reference
+
+We are given an array asteroids of integers representing asteroids in a row. The indices of the asteriod in the array represent their relative position in space.
+
+For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed.
+
+Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.
+
+ 
+
+Example 1:
+
+Input: asteroids = [5,10,-5]
+Output: [5,10]
+Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
+
+Example 2:
+
+Input: asteroids = [8,-8]
+Output: []
+Explanation: The 8 and -8 collide exploding each other.
+
+Example 3:
+
+Input: asteroids = [10,2,-5]
+Output: [10]
+Explanation: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
+
+
+```js
+// ⌚ Time complexity -> O(n) ->  n = len(asteroids)
+
+//  Space complexity -> O(n)
+
+var asteroidCollision = function (asteroids) {
+    // Initialize a result array to store surviving asteroids
+    const res = [];
+
+    // Iterate through each asteroid in the input array
+    for (let i = 0; i < asteroids.length; i++) {
+        const last = res[res.length - 1]; // Get the last asteroid in the result array
+        const cur = asteroids[i];        // Get the current asteroid
+
+        // If there are no potential collisions:
+        // - The result array is empty
+        // - The last asteroid is moving left (negative)
+        // - The current asteroid is moving right (positive)
+        if (!res.length || last < 0 || cur > 0) {
+            res.push(cur); // Add the current asteroid to the result
+        }
+        // If the current and last asteroids have equal magnitude but opposite directions
+        else if (-cur == last) {
+            res.pop(); // Both asteroids are destroyed
+        }
+        // If the current asteroid is larger in magnitude and moving left
+        else if (-cur > last) {
+            res.pop(); // Destroy the last asteroid
+            i--;       // Reprocess the current asteroid for further collisions
+        }
+    }
+
+    // Return the resulting array of surviving asteroids
+    return res;
+};
+```
+
+> ### Decode String
+
+Example 1:
+
+Input: s = "3[a]2[bc]"\
+Output: "aaabcbc"
+
+Example 2:
+
+Input: s = "3[a2[c]]"\
+Output: "accaccacc"
+
+Example 3:
+
+Input: s = "2[abc]3[cd]ef"\
+Output: "abcabccdcdcdef"
+
+```js
+function decodeString(s) {
+    let stack = [];
+    let currentString = "";
+    let currentNum = 0;
+
+    for (let char of s) {
+        if (!isNaN(char)) { // it is check pass value is number or not, if number go in it
+            currentNum = (currentNum + char)*1; // Build the number (handles multi-digit numbers)
+        } else if (char === '[') {
+            // Push the current number and string onto the stack
+            stack.push(currentString);
+            stack.push(currentNum);
+            currentString = "";
+            currentNum = 0;
+        } else if (char === ']') {
+            // Pop the stack and build the new string
+            let num = stack.pop();
+            let prevString = stack.pop();
+            currentString = prevString + currentString.repeat(num);
+        } else {
+            // Append the current character to the string
+            currentString += char;
+        }
+    }
+
+    return currentString;
+}
+
+// Example usage:
+console.log(decodeString("3[a2[c]]")); // Output: "accaccacc"
+console.log(decodeString("2[abc]3[cd]ef")); // Output: "abcabccdcdcdef"
+```
+
+
 > ### Implement K stack in an array
-
-
 
 > ### Stock span problem ( [Youtube video](https://www.youtube.com/watch?v=vOqNBU7ipIk) )
 The **Stock Span Problem** is a classic problem that can be solved using a stack. The task is to find the span of stock’s price for all days. The span of a stock’s price on a given day is defined as the maximum number of consecutive days just before the given day, where the price of the stock on those days is less than or equal to the price on the given day.
@@ -3732,6 +4009,8 @@ Always choose the head as front and tail as rear, becuase if you reverse time co
 
 
 ```js
+// Below code is for Queue in Linked List form
+
 // Queue is like linked list with FIFO.
 // entry and exit are on opposite side
 // Define a Node for the linked list
@@ -4587,23 +4866,34 @@ Both implementations can handle deque operations efficiently depending on the us
 
 
 > ### Binary search tree
+ 
+Full Tree - Every item either points to two nodes or zero nodes
+
+Leaf nodes - there the nodes which do not have child nodes
+
+In binary search tree - if child is greater than parent it goes to right else goes to left.
+
+in BST, every node has at-most two children.when we add any node we start comparing from the top.
+
+When traversing(lookup, insert,remove) through the BST, it is O(logn), it is because in BST, the right side is always greater than the left side, so it will be divide and conquere(diving in half in each level) so becomes the O(log n)\
+sometime in BST, every node is added in right side means always it is bigger than parent, in that scenario it will become O(n)
+
+We can make binary search tree with array and linked list, below is in form of linked list
+
+Here’s a table summarizing the time and space complexity of BST operations for implementations using a **linked list** and an **array**:
+
+| **Operation**   | **Linked List (Typical BST)**                | **Array (Complete BST)**                  |
+|------------------|---------------------------------------------|-------------------------------------------|
+| **Search**       | Best: \(O(log n)\), Worst: \(O(n)\)         | Best: \(O(log n)\), Worst: \(O(log n)\) |
+| **Insertion**    | Best: \(O(log n)\), Worst: \(O(n)\)         | Best: \(O(1)\), Worst: \(O(n)\)*          |
+| **Deletion**     | Best: \(O(log n)\), Worst: \(O(n)\)         | Best: \(O(log n)\), Worst: \(O(log n)\) |
+| **Traversal**    | \(O(n)\)                                     | \(O(n)\)                                  |
+| **Space**        | \(O(n)\) for nodes, \(O(h)\) recursion stack | \(O(n)\) for array storage                |
+
+
+
 
 ```js
-// Trees
-
-// Full Tree - Every item either points to two nodes or zero nodes
-
-// Leaf nodes - there the nodes which do not have parents
-
-// In binary search tree - if child is greater than parent it goes to right else goes to left.
-// in BST, every node has at-most two children
-// when we add any node we start comparing from the top.
-
-// When traversing(lookup, insert,remove) through the BST, it is O(logn), it is because in BST, the right side is always greater than the left side,
-// so it will be divide and conquere(diving in half in each level) so becomes the O(log n)
-// sometime in BST, every node is added in right side means always it is bigger than parent, in that scenario it will become O(n)
-
-
 class Node(value){
     constructor(value){
         this.value = value
@@ -4678,7 +4968,6 @@ class BST {
 
 let myTree = new BST()
 myTree
-
 ```
 
 > ### Delete a node in BST ( [Youtube video](https://www.youtube.com/watch?v=petKaikRiIA&ab_channel=AnujBhaiya) )
@@ -5517,7 +5806,7 @@ Both approaches are efficient for finding a pair with a given sum in a BST, with
 
 
 
-> ### height of binary tree
+> ### Q-104 - height of binary tree
 
 The **height of a binary tree** is the number of edges on the longest path from the root to a leaf node. It can also be defined as the number of levels in the tree minus one. The height of an empty tree is `-1`, and the height of a tree with a single node (the root) is `0`.
 
@@ -5765,6 +6054,215 @@ console.log(allocateBooks(books, students)); // Output: 113
   - Allocate `[12, 34, 67]` to the first student (total = 113 pages).
   - Allocate `[90]` to the second student (total = 90 pages).
   - The maximum pages allocated to any student is minimized as `113`.
+
+> ### Q-872- Leaf-Similar Trees
+
+The **Leaf-Similar Trees** problem is a common question in data structure and algorithm (DSA) interviews. Here's the problem statement and a JavaScript solution.
+
+---
+
+### Problem Statement:
+Consider all the leaves of a binary tree, from left to right, to form a leaf value sequence. Two binary trees are considered "leaf-similar" if their leaf value sequences are the same.
+
+Given the roots of two binary trees, determine if they are leaf-similar.
+
+---
+
+### Approach:
+1. Traverse the trees using Depth-First Search (DFS).
+2. Collect all the leaf nodes into an array for both trees.
+3. Compare the two arrays.
+
+---
+
+### JavaScript Solution:
+
+```javascript
+// Definition for a binary tree node.
+class TreeNode {
+    constructor(val, left = null, right = null) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+function leafSimilar(root1, root2) {
+    // Helper function to collect leaf values
+    const getLeaves = (node, leaves = []) => {
+        if (!node) return leaves;
+        if (!node.left && !node.right) {
+            leaves.push(node.val); // Found a leaf
+        } else {
+            getLeaves(node.left, leaves);
+            getLeaves(node.right, leaves);
+        }
+        return leaves;
+    };
+
+    // Get leaf sequences for both trees
+    const leaves1 = getLeaves(root1);
+    const leaves2 = getLeaves(root2);
+
+    // Compare the two leaf sequences
+    if (leaves1.length !== leaves2.length) return false;
+    for (let i = 0; i < leaves1.length; i++) {
+        if (leaves1[i] !== leaves2[i]) return false;
+    }
+    return true;
+}
+
+// Example usage:
+// Tree 1: [3,5,1,6,2,9,8,null,null,7,4]
+// Tree 2: [3,5,1,6,7,4,2,null,null,null,null,null,null,9,8]
+
+// Creating test trees
+const root1 = new TreeNode(3,
+    new TreeNode(5,
+        new TreeNode(6),
+        new TreeNode(2,
+            new TreeNode(7),
+            new TreeNode(4)
+        )
+    ),
+    new TreeNode(1,
+        new TreeNode(9),
+        new TreeNode(8)
+    )
+);
+
+const root2 = new TreeNode(3,
+    new TreeNode(5,
+        new TreeNode(6),
+        new TreeNode(7)
+    ),
+    new TreeNode(1,
+        new TreeNode(4),
+        new TreeNode(2,
+            new TreeNode(9),
+            new TreeNode(8)
+        )
+    )
+);
+
+console.log(leafSimilar(root1, root2)); // Output: true
+```
+
+---
+
+### Explanation:
+1. **Tree Traversal**: Use a helper function `getLeaves` to recursively collect the leaves of a tree.
+2. **Comparison**: Compare the leaf sequences for both trees to determine if they are identical.
+
+This approach has a time complexity of \(O(N + M)\), where \(N\) and \(M\) are the number of nodes in the two trees, and a space complexity of \(O(H1 + H2)\), where \(H1\) and \(H2\) are the heights of the two trees (due to recursion stack).
+
+
+BFS Algorithm
+- use Queue structure
+- Best for shortest path
+
+```js
+// Tree Traversal
+
+// BFS - Breadth First Search - is a vertex-based technique for finding the shortest path in the graph. 
+// also called as Level Order Traversal
+// It uses a `Queue data structure` that follows `first in first out`. 
+// In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h, jisko push kia h uske left and right ko Queue me add kr dete h 
+// It is slower than DFS.
+
+BFS() {
+    let currentNode = this.root;
+    let queue = [];
+    let results = [];
+
+    queue.push(currentNode);
+
+    while (queue.length) {
+        currentNode = queue.shift();
+        results.push(currentNode.value);
+
+        if (currentNode.left) queue.push(currentNode.left);
+        if (currentNode.right) queue.push(currentNode.right);
+    }
+
+    return results;
+}
+```
+
+
+DFS Algorithm
+- use recursion
+- Best for exploring all paths
+
+```js
+// DFS - Depth First Search - is an an edge-based technique. 
+// It uses the Stack data structure and performs two stages, first visited vertices are pushed into the stack, and second if there are no vertices then visited vertices are popped.
+
+// DFS is of 3 types - Preorder Traversal, Inorder Traversal, Postorder Traversal
+
+
+// Algorithm for Preorder Traversal:
+
+// Visit the root.
+// Traverse the left subtree, i.e., call Preorder(left->subtree)
+// Traverse the right subtree, i.e., call Preorder(right->subtree)
+
+DFSPreOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        results.push(currentNode.value);
+
+        if (currentNode.left) traverse(currentNode.left);
+        if (currentNode.right) traverse(currentNode.right);
+    }
+
+    traverse(this.root);
+    return results;
+}
+
+
+// Algorithm for Postorder Traversal:
+
+// Traverse the left subtree, i.e., call Postorder(left->subtree)
+// Traverse the right subtree, i.e., call Postorder(right->subtree)
+// Visit the root
+
+DFSPostOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        if (currentNode.left) traverse(currentNode.left);
+        if (currentNode.right) traverse(currentNode.right);
+
+        results.push(currentNode.value);
+    }
+
+    traverse(this.root);
+    return results;
+}
+
+// Algorithm for Inorder Traversal:
+
+// Traverse the left subtree, i.e., call Inorder(left->subtree)
+// Visit the root.
+// Traverse the right subtree, i.e., call Inorder(right->subtree)
+
+DFSInOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        if (currentNode.left) traverse(currentNode.left);
+        
+        results.push(currentNode.value);
+        
+        if (currentNode.right) traverse(currentNode.right);   
+    }
+
+    traverse(this.root);
+    return results;
+}
+```
 
 
 
@@ -10717,3 +11215,74 @@ We just add the bit from right side, try to make it equal to number. then add 1 
    const invertBits = (n) => ~n;
    ```
 
+> ### Equal Row and Column Pairs
+
+Example 1:
+
+```
+3 | 2 | 1
+--|---|--
+1 | 7 | 6
+--|---|--
+2 | 7 | 7
+```
+
+Input: grid = [[3,2,1],[1,7,6],[2,7,7]]\
+Output: 1\
+Explanation: There is 1 equal row and column pair:
+- (Row 2, Column 1): [2,7,7]
+
+
+Example 2:
+
+```
+3 | 1 | 2 | 2
+--|---|---|--
+1 | 4 | 4 | 5
+--|---|---|--
+2 | 4 | 2 | 2
+--|---|---|--
+2 | 4 | 2 | 2
+```
+
+
+Input: grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]\
+Output: 3\
+Explanation: There are 3 equal row and column pairs:
+- (Row 0, Column 0): [3,1,2,2]
+- (Row 2, Column 2): [2,4,2,2]
+- (Row 3, Column 2): [2,4,2,2]
+
+```js
+function equalRowAndColumnPairs(matrix) {
+    const n = matrix.length;
+    const rowCount = new Map();
+
+    // Store rows in a map
+    for (const row of matrix) {
+        debugger
+        const key = row.join(",");
+        rowCount.set(key, (rowCount.get(key) || 0) + 1);
+    }
+
+    let count = 0;
+
+    // Check columns against rows
+    for (let col = 0; col < n; col++) {
+        let colKey = [];
+        for (let row = 0; row < n; row++) {
+            colKey.push(matrix[row][col]);
+        }
+        colKey = colKey.join(",");
+        if (rowCount.has(colKey)) {
+            count += rowCount.get(colKey);
+        }
+    }
+
+    return count;
+}
+
+// Example usage:
+const matrix = [[3,2,1],[1,7,6],[2,7,7]];
+console.log(equalRowAndColumnPairs(matrix)); // Output: 1
+```
