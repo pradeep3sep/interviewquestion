@@ -83,6 +83,755 @@ function factorial(n) {
 
 <br>
 
+## Various alogorithm used in DSA
+
+> ## 1. Hash Map alogo
+In this algo, we approach the question by converting it into objects.
+
+> ## 2. Prefix sum algorithm  [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
+
+`Hints when to use` - Find the sum of elements between indices `i` and `j` for multiple queries. 
+
+In the **Prefix Sum Algorithm**, the process is typically divided into two common steps:
+
+### 1. **Building the Prefix Sum Array**
+   - **Purpose:** Precompute cumulative sums of the array so that future range queries can be answered efficiently.
+   - **Steps:**
+     1. Create a new array (`prefixSum`), where each element at index `i` stores the sum of all elements from the start of the input array up to `i`.
+     2. Initialize the first element of the `prefixSum` array: `prefixSum[0] = arr[0]`.
+     3. Iterate through the array from index 1 to `n-1`, updating each element of the `prefixSum` array as:  
+        `prefixSum[i] = prefixSum[i-1] + arr[i]`.
+
+   - **Complexity:** O(n)
+
+### 2. **Querying the Sum of a Subarray**
+   - **Purpose:** Use the prefix sum array to efficiently compute the sum of elements between two indices (`l` and `r`).
+   - **Steps:**
+     1. If `l == 0`, the sum of the subarray from index `0` to `r` is just `prefixSum[r]`.
+     2. If `l > 0`, the sum of the subarray from index `l` to `r` can be calculated as:  
+        `sum = prefixSum[r] - prefixSum[l-1]`.
+     3. This works because `prefixSum[r]` gives the sum of elements from `0` to `r`, and subtracting `prefixSum[l-1]` removes the elements from `0` to `l-1`, leaving the sum of elements between `l` and `r`.
+
+   - **Complexity:** O(1)
+
+### Example:
+
+For the array `[2, 4, 6, 8, 10]`:
+
+- **Building the Prefix Sum Array:**
+  - prefixSum[0] = 2
+  - prefixSum[1] = 2 + 4 = 6
+  - prefixSum[2] = 6 + 6 = 12
+  - prefixSum[3] = 12 + 8 = 20
+  - prefixSum[4] = 20 + 10 = 30
+  
+  So, the `prefixSum` array is `[2, 6, 12, 20, 30]`.
+
+- **Querying the Sum of a Subarray:**
+  - To get the sum of the subarray from index `1` to `3`, compute:
+    - `sum = prefixSum[3] - prefixSum[0] = 20 - 2 = 18`.
+
+### Summary of Common Steps:
+1. Build the prefix sum array in O(n) time.
+2. Query the sum of any subarray in O(1) time by using the prefix sum array.
+
+
+```js
+function buildPrefixSumArray(arr) {
+  let prefixSum = [];
+  prefixSum[0] = arr[0];
+  
+  for (let i = 1; i < arr.length; i++) {
+    prefixSum[i] = prefixSum[i - 1] + arr[i];
+  }
+  
+  return prefixSum;
+}
+
+function getRangeSum(prefixSum, l, r) {
+  if (l === 0) {
+    return prefixSum[r];
+  } else {
+    return prefixSum[r] - prefixSum[l - 1];
+  }
+}
+
+// Example usage:
+const arr = [2, 4, 6, 8, 10];
+const prefixSum = buildPrefixSumArray(arr);
+
+console.log(getRangeSum(prefixSum, 1, 3)); // Output: 18 (4 + 6 + 8)
+console.log(getRangeSum(prefixSum, 0, 2)); // Output: 12 (2 + 4 + 6)
+```
+
+<br>
+
+> ### Find Pivot Index
+
+Given an array of integers nums, calculate the pivot index of this array.
+
+The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
+
+If the index is on the left edge of the array, then the left sum is 0 because there are no elements to the left. This also applies to the right edge of the array.
+
+Return the leftmost pivot index. If no such index exists, return -1.
+
+ 
+
+Example 1:
+
+Input: nums = [1,7,3,6,5,6]\
+Output: 3\
+Explanation:\
+The pivot index is 3.\
+Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11\
+Right sum = nums[4] + nums[5] = 5 + 6 = 11
+
+
+Example 2:
+
+Input: nums = [1,2,3]\
+Output: -1\
+Explanation:\
+There is no index that satisfies the conditions in the problem statement.
+
+Example 3:
+
+Input: nums = [2,1,-1]\
+Output: 0\
+Explanation:\
+The pivot index is 0.\
+Left sum = 0 (no elements to the left of index 0)\
+Right sum = nums[1] + nums[2] = 1 + -1 = 0
+
+
+```js
+function findPivotIndex(nums) {
+    // Calculate the total sum of the array manually
+    let totalSum = 0;
+    for (let i = 0; i < nums.length; i++) {
+        totalSum += nums[i];
+    }
+
+    let leftSum = 0; // Initialize left sum
+
+    for (let i = 0; i < nums.length; i++) {
+        // Calculate the right sum dynamically
+        let rightSum = totalSum - leftSum - nums[i];
+
+        // Check if left sum equals right sum
+        if (leftSum === rightSum) {
+            return i;
+        }
+
+        // Update the left sum
+        leftSum += nums[i];
+    }
+
+    return -1; // Return -1 if no pivot index exists
+}
+
+// Example Usage:
+const nums = [1, 7, 3, 6, 5, 6];
+console.log(findPivotIndex(nums)); // Output: 3
+```
+
+<br>
+
+> ## 3. Two pointer algorithm
+In the two-pointer algorithm, there are several common steps or patterns that we typically follow, regardless of the specific problem. Here’s a generalized breakdown of the steps involved:
+
+### 1. **Initialize Two Pointers**
+   - One pointer is placed at the start (`left` or `i`) of the array.
+   - The other pointer is placed at the end (`right` or `j`) of the array.
+   
+   ```javascript
+   let left = 0;
+   let right = arr.length - 1;
+   ```
+
+### 2. **Loop Until the Two Pointers Meet**
+   - You continue the iteration while the `left` pointer is less than the `right` pointer.
+   - In certain problems (like sliding window, string comparison), the loop condition could change slightly, but in the classic two-pointer approach, this is a common condition.
+   
+   ```javascript
+   while (left < right) {
+     // continue with logic
+   }
+   ```
+
+### 3. **Check a Condition with the Two Pointers**
+   - Inside the loop, you'll typically perform some kind of comparison or computation with the values at the two pointers (like summing them, checking their equality, etc.).
+   - This condition will help determine the next move for the pointers.
+   
+   Example: Checking if the sum of the two pointers is equal to the target:
+   ```javascript
+   const sum = arr[left] + arr[right];
+   if (sum === target) {
+     return [arr[left], arr[right]];
+   }
+   ```
+
+### 4. **Move the Pointers Based on the Condition**
+   - **Increase the left pointer**: If the current sum (or comparison value) is less than the target, move the `left` pointer one step to the right (`left++`). This is usually done to increase the value.
+   - **Decrease the right pointer**: If the current sum (or comparison value) is more than the target, move the `right` pointer one step to the left (`right--`). This is usually done to decrease the value.
+   
+   ```javascript
+   if (sum < target) {
+     left++;  // Move left pointer right to increase the sum
+   } else {
+     right--; // Move right pointer left to decrease the sum
+   }
+   ```
+
+### 5. **Edge Case Handling**
+   - Before the loop or within the loop, handle any special edge cases, like:
+     - An empty array.
+     - A single element.
+     - Conditions where no solution exists.
+
+### 6. **Return the Result**
+   - Once the desired condition is met (like finding the target pair), return the result.
+   - If no solution is found, return a failure condition (like `null` or an empty array).
+   
+   ```javascript
+   return null; // If no pair or solution is found
+   ```
+
+### Summary of the Steps:
+1. **Initialize two pointers** at the beginning and end of the array.
+2. **Loop until** the pointers meet.
+3. **Perform a check** (e.g., sum, comparison) on the values at the two pointers.
+4. **Move the pointers** accordingly:
+   - Increment the `left` pointer if the current condition suggests a smaller value is needed.
+   - Decrement the `right` pointer if a larger value is needed.
+5. **Return the result** once the condition is met or exit the loop if no solution is found.
+
+These steps can vary slightly based on the specific problem but generally follow this pattern.
+
+
+```js
+
+// example of code
+function addtwo(arr, target) {
+  let left = 0;
+  let right = arr.length - 1;
+
+  while (left < right) {
+    const sum = arr[left] + arr[right];
+
+    if (sum === target) {
+      return [arr[left], arr[right]]; // Return the numbers that sum up to the target
+    } else if (sum < target) {
+      left++; // Move left pointer to the right
+    } else {
+      right--; // Move right pointer to the left
+    }
+  }
+
+  return null; // No pair found
+}
+
+// Example usage:
+const arr = [1, 2, 3, 4, 6];
+const target = 6;
+console.log(addtwo(arr, target)); // Output: [1, 4]
+```
+
+> ### Container With Most Water
+
+You are given an integer array `height` of length `n`. There are n vertical lines drawn such that the two endpoints of the `ith` line are `(i, 0)` and `(i, height[i])`.
+
+Find two lines that together with the x-axis form a container, such that the container contains the most water.
+
+Return the maximum amount of water a container can store.
+
+Example 1:
+
+![screenshot](images/water.jpg)
+
+Input: height = [1,8,6,2,5,4,8,3,7]\
+Output: 49\
+Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+
+Example 2:
+
+Input: height = [1,1]\
+Output: 1
+
+[Youtube video for concept](https://youtu.be/EbkMABpP52U?si=oVee2x5W2xPP7dN3&t=869)
+
+```js
+var maxArea = function(height) {
+    let l = 0;
+    let r = height.length -1;
+    let max = 0;
+
+    while(l < r){
+        let containerHeight = Math.min(height[l], height[r]);
+        let containerWidth = r - l;
+        let area = containerWidth * containerHeight;
+
+        if(area > max){
+            max = area
+        }
+
+        if(height[l] < height[r]){
+            l++
+        }else{
+            r--
+        }
+
+    }
+    return max
+    
+};
+```
+
+### How the Code Works
+1. **Define two pointers:**
+   - `l` starts at the beginning (leftmost line).
+   - `r` starts at the end (rightmost line).
+
+2. **Initialize a variable for the maximum area:**
+   - `max` is set to `0` to store the largest container area found.
+
+3. **Use a loop to move the pointers:**
+   - While `l` is less than `r`:
+     - Calculate the **height of the container** as the smaller of the two heights at `l` and `r`.
+     - Calculate the **width of the container** as the distance between `l` and `r` (`r - l`).
+     - Calculate the **area** of the container as `height * width`.
+     - Update `max` if the new `area` is larger than the current `max`.
+
+4. **Move the pointer with the smaller height:**
+   - If the height at `l` is smaller, move `l` one step to the right (`l++`).
+   - Otherwise, move `r` one step to the left (`r--`).
+
+5. **Return the maximum area:**
+   - After the loop finishes, `max` will contain the largest possible container area.
+
+
+> ##  4. Two Sum Algorithm - it is advance case of two pointer alogo, which is specially used when given sum of two number equal to required no.
+
+Simple logic - It works like create a `object` and `add keys` in it with `value as index or just count` of array, then iterate over array and check if `(sum - current number)` exist in the obejct.
+
+
+- Create an empty Hash Set or Unordered Set
+- Iterate through the array and for each number in the array:
+    - Calculate the complement (target – current number).
+    - Check if the complement exists in the set:
+        - If it is, then pair found.
+        - If it isn’t, add the current number to the set.
+- If the loop completes without finding a pair, return that no pair exists.
+
+eg is below two sum with Hashing
+
+> ### Max Number of K-Sum Pairs
+
+You are given an integer array nums and an integer k.
+
+In one operation, you can pick two numbers from the array whose sum equals k and remove them from the array.
+
+Return the maximum number of operations you can perform on the array.
+
+Example 1:
+
+Input: nums = [1,2,3,4], k = 5\
+Output: 2
+
+Explanation: Starting with nums = [1,2,3,4]:\
+- Remove numbers 1 and 4, then nums = [2,3]\
+- Remove numbers 2 and 3, then nums = []\
+There are no more pairs that sum up to 5, hence a total of 2 operations.
+
+Example 2:
+
+Input: nums = [3,1,3,4,3], k = 6\
+Output: 1
+
+Explanation: Starting with nums = [3,1,3,4,3]:\
+- Remove the first two 3's, then nums = [1,4,3]\
+There are no more pairs that sum up to 6, hence a total of 1 operation.
+
+```js
+var maxOperations = function(nums, k) {
+     let count = 0;
+    let map = new Map();
+
+    for (let num of nums) {
+        let complement = k - num;
+        if (map.has(complement) && map.get(complement) > 0) {
+            count++;
+            map.set(complement, map.get(complement) - 1); 
+        } else {
+            map.set(num, (map.get(num) || 0) + 1);
+        }
+    }
+
+    return count;
+};
+```
+
+
+> ## 5. Sliding window algorithm [Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
+
+Trick - when we have to find min or max length of string or array, which have to do operations
+
+Sliding Window problems are problems in which a fixed or variable-size window is moved through a data structure, typically an array or string, to solve problems efficiently based on continuous subsets of elements. This technique is used when we need to find subarrays or substrings according to a given set of conditions.
+
+The general steps to solve these questions by following below steps:
+
+- Find the size of the window required, say K.
+- Compute the result for 1st window, i.e. include the first K elements of the data structure.
+- Then use a loop to slide the window by 1 and keep computing the result window by window.
+- slide basically means add one element from right and remove one element from left from the sum 
+
+
+How to Identify Sliding Window Problems:
+
+- These problems generally require Finding Maximum/Minimum Subarray, Substrings which satisfy some specific condition.
+- The size of the subarray or substring ‘K’ will be given in some of the problems.
+- These problems can easily be solved in O(N2) time complexity using nested loops, using sliding window we can solve these in O(n) Time Complexity.
+- Required Time Complexity: O(N) or O(Nlog(N))
+
+> ### Maximum Average Subarray I
+
+Example 1:
+
+Input: nums = [1,12,-5,-6,50,3], k = 4\
+Output: 12.75000\
+Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
+
+Example 2:
+
+Input: nums = [5], k = 1\
+Output: 5.00000
+
+```js
+var findMaxAverage = function(nums, k) {
+    let sum = 0;
+    for(let i = 0; i < k; i++) {
+        sum += nums[i];
+    }
+    
+    let maxSum = sum;
+    for(let i = k; i < nums.length; i++) {
+        sum = sum - nums[i-k] + nums[i];  // i-k is the important part
+        maxSum = Math.max(maxSum, sum);
+    }
+    
+    return maxSum/k;  
+};
+```
+
+> ### Max Consecutive Ones
+
+Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
+
+Example 1:
+
+Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2\
+Output: 6\
+Explanation: [1,1,1,0,0,.1,.1,.1,.1,.1,.1]\
+dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
+
+Example 2:
+
+Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3\
+Output: 10\
+Explanation: [0,0,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,0,0,0,1,1,1,1]\
+dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
+
+[Youtube video for concept](https://youtu.be/7FE5Q_Bqzw8?si=uKw4xkjOtPBZzeUi&t=132)
+
+```js
+var longestOnes = function(nums, k) {
+  let l =0;
+  let r =0;
+  let zeros = 0;
+  let maxLength =0;
+  while(r < nums.length){
+    if(nums[r] === 0) {
+        zeros++;
+    }
+    if(zeros > k){
+        if(nums[l]=== 0){
+            zeros--;
+        }
+        l++;
+    }
+   
+        maxLength = Math.max(maxLength, r-l+1)
+        r++;
+
+  }  
+  return maxLength;
+};
+```
+
+> ### Q-1234. Replace the Substring for Balanced String
+
+You are given a string s of length n containing only four kinds of characters: 'Q', 'W', 'E', and 'R'.
+
+A string is said to be balanced if each of its characters appears n / 4 times where n is the length of the string.
+
+Return the minimum length of the substring that can be replaced with any other string of the same length to make s balanced. If s is already balanced, return 0.
+
+ 
+
+Example 1:
+
+Input: s = "QWER"\
+Output: 0\
+Explanation: s is already balanced.
+
+Example 2:
+
+Input: s = "QQWE"\
+Output: 1\
+Explanation: We need to replace a 'Q' to 'R', so that "RQWE" (or "QRWE") is balanced.
+
+Example 3:
+
+Input: s = "QQQW"\
+Output: 2\
+Explanation: We can replace the first "QQ" to "ER". 
+
+### Approach
+
+1. **Frequency Calculation**: Count the occurrences of each character.
+2. **Sliding Window**: Use a sliding window to find the minimum substring length that can be replaced to balance the string.
+
+---
+
+### JavaScript Solution
+
+```javascript
+function balancedString(s) {
+    const n = s.length;
+    const requiredCount = n / 4;
+    const charCount = { Q: 0, W: 0, E: 0, R: 0 };
+
+    // Count occurrences of each character
+    for (const char of s) {
+        charCount[char]++;
+    }
+
+    // Check if already balanced
+    if (Object.values(charCount).every(count => count === requiredCount)) {
+        return 0;
+    }
+
+    let minLength = n;
+    let left = 0;
+
+    for (let right = 0; right < n; right++) {
+        charCount[s[right]]--;
+
+        // Check if current window satisfies the balance condition
+        while (
+            Object.values(charCount).every(
+                count => count <= requiredCount
+            )
+        ) {
+            minLength = Math.min(minLength, right - left + 1);  // (right - left + 1) this part gives the length of sliding window
+            charCount[s[left]]++; // to get the optimized value count, we need to check by decreasing the count along with increasing the count
+            left++;
+        }
+    }
+
+    return minLength;
+}
+
+// Example usage:
+const s = "WQWRQQQW";
+console.log(balancedString(s)); // Output: 3
+```
+
+---
+
+### Explanation
+
+1. **Initial Count**: Calculate the count of `'Q'`, `'W'`, `'E'`, and `'R'` in the string.
+2. **Sliding Window**:
+   - Expand the window by increasing `right`.
+   - Check if the substring inside the window can balance the string.
+   - If so, try shrinking the window by increasing `left` to find the minimum possible length.
+3. **Result**: Return the minimum substring length that needs to be replaced.
+
+This approach ensures an efficient solution with a time complexity of \(O(n)\).
+
+> ## 6. fast and slow pointer algorithm [Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)
+
+The **fast and slow pointer algorithm** (also known as the **tortoise and hare algorithm**) is a two-pointer technique used to detect cycles in linked lists, arrays, or other data structures. It involves using two pointers that move at different speeds to determine if and where a cycle exists. This technique is particularly useful in problems related to detecting loops and finding middle points in a data structure.
+
+### General Steps for the Fast and Slow Pointer Algorithm:
+
+1. **Initialize Two Pointers**:
+   - The **slow pointer** moves one step at a time.
+   - The **fast pointer** moves two steps at a time.
+
+2. **Traverse the Data Structure**:
+   - Move both pointers until either:
+     - The fast pointer reaches the end of the data structure (indicating no cycle).
+     - The fast pointer catches up to the slow pointer (indicating a cycle).
+
+3. **Cycle Detection** (If the fast pointer meets the slow pointer):
+   - If the fast pointer equals the slow pointer at some point, a cycle exists.
+
+4. **Find Cycle Length or Cycle Start (if needed)**:
+   - To find the **starting point** of the cycle, reset one pointer to the head and move both pointers one step at a time until they meet again.
+   - To find the **length of the cycle**, keep one pointer fixed and move the other around the cycle until it meets the first pointer again, counting the steps.
+
+### JavaScript Example: Detecting a Cycle in a Linked List
+
+```javascript
+class ListNode {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
+function hasCycle(head) {
+  if (!head || !head.next) return false;
+
+  let slow = head;
+  let fast = head;
+
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;          // Move slow by 1 step
+    fast = fast.next.next;      // Move fast by 2 steps
+
+    if (slow === fast) {
+      return true;              // Cycle detected
+    }
+  }
+
+  return false;                 // No cycle
+}
+```
+
+### Finding the Start of the Cycle
+
+```javascript
+function detectCycleStart(head) {
+  if (!head || !head.next) return null;
+
+  let slow = head;
+  let fast = head;
+
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      // Cycle detected, find the starting point
+      let pointer = head;
+      while (pointer !== slow) {
+        pointer = pointer.next;
+        slow = slow.next;
+      }
+      return pointer; // Start of the cycle
+    }
+  }
+
+  return null; // No cycle
+}
+```
+
+### Use Cases of Fast and Slow Pointer Algorithm:
+- **Cycle Detection in Linked List**: As shown in the examples above, this is one of the most common uses.
+- **Find the Middle of a Linked List**: Move one pointer one step and the other pointer two steps, and the slow pointer will be at the middle when the fast pointer reaches the end.
+- **Detecting Palindromes**: Useful in determining if a list or array is a palindrome by moving pointers towards the center.
+  
+To find the **middle of a linked list** using the fast and slow pointer technique, the general idea is simple:
+
+- The **slow pointer** moves one step at a time.
+- The **fast pointer** moves two steps at a time.
+- When the fast pointer reaches the end of the list (or cannot move further), the slow pointer will be at the middle.
+
+This method works efficiently in `O(n)` time and doesn't require knowing the length of the list beforehand.
+
+### Example of Finding the Middle of a Linked List in JavaScript:
+
+Here's how you can implement it:
+
+```javascript
+class ListNode {
+  constructor(value) {
+    this.value = value;
+    this.next = null;
+  }
+}
+
+function findMiddle(head) {
+  if (!head) return null;
+
+  let slow = head;
+  let fast = head;
+
+  // Traverse the list with fast and slow pointers
+  while (fast !== null && fast.next !== null) {
+    slow = slow.next;       // Move slow pointer by 1 step
+    fast = fast.next.next;   // Move fast pointer by 2 steps
+  }
+
+  // Slow pointer is now at the middle
+  return slow;
+}
+
+// Example usage:
+
+// Create linked list: 1 -> 2 -> 3 -> 4 -> 5
+let head = new ListNode(1);
+head.next = new ListNode(2);
+head.next.next = new ListNode(3);
+head.next.next.next = new ListNode(4);
+head.next.next.next.next = new ListNode(5);
+
+let middle = findMiddle(head);
+console.log(middle.value);  // Output: 3 (Middle of the list)
+```
+
+### Explanation:
+
+1. **Initialization**: Start with two pointers, `slow` and `fast`, both pointing to the head of the list.
+2. **Traversal**: 
+   - The `slow` pointer moves one step at a time (`slow = slow.next`).
+   - The `fast` pointer moves two steps at a time (`fast = fast.next.next`).
+3. **Condition**: The loop runs while `fast` and `fast.next` are not `null` (ensuring the fast pointer does not go out of bounds).
+4. **Result**: When the loop terminates, the `slow` pointer will be at the middle of the linked list.
+
+### Handling Even and Odd Length Lists:
+- If the list has **odd** length (e.g., 5 nodes), the `slow` pointer will point to the exact middle (e.g., 3 in the list `1 → 2 → 3 → 4 → 5`).
+- If the list has **even** length (e.g., 6 nodes), the `slow` pointer will point to the first of the two middle elements (e.g., 3 in the list `1 → 2 → 3 → 4 → 5 → 6`).
+
+You can adjust the logic depending on whether you want to return the first or second middle element in an even-length list. 
+
+### Example with an Even-Length List:
+
+```javascript
+// Create linked list: 1 -> 2 -> 3 -> 4 -> 5 -> 6
+let headEven = new ListNode(1);
+headEven.next = new ListNode(2);
+headEven.next.next = new ListNode(3);
+headEven.next.next.next = new ListNode(4);
+headEven.next.next.next.next = new ListNode(5);
+headEven.next.next.next.next.next = new ListNode(6);
+
+let middleEven = findMiddle(headEven);
+console.log(middleEven.value);  // Output: 4 (First middle of the list)
+```
+
+In this case, the slow pointer will point to `4`, the first middle element.
+
+Let me know if you'd like further clarifications or adjustments!
+
+> ## 7. Monotonic stack algo is pending
+
+
+<br>
 
 ## Big O of various operations in data structure
 
@@ -921,753 +1670,6 @@ This code will find all the positions of the pattern in the given text efficient
 --- 
 
 <br>
-## Various alogorith used in DSA
-
-> ### Hash Map alogo
-In this algo, we approach the question by converting it into objects.
-
-> ### Prefix sum algorithm [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
-
-`Hints when to use` - Find the sum of elements between indices `i` and `j` for multiple queries. 
-
-In the **Prefix Sum Algorithm**, the process is typically divided into two common steps:
-
-### 1. **Building the Prefix Sum Array**
-   - **Purpose:** Precompute cumulative sums of the array so that future range queries can be answered efficiently.
-   - **Steps:**
-     1. Create a new array (`prefixSum`), where each element at index `i` stores the sum of all elements from the start of the input array up to `i`.
-     2. Initialize the first element of the `prefixSum` array: `prefixSum[0] = arr[0]`.
-     3. Iterate through the array from index 1 to `n-1`, updating each element of the `prefixSum` array as:  
-        `prefixSum[i] = prefixSum[i-1] + arr[i]`.
-
-   - **Complexity:** O(n)
-
-### 2. **Querying the Sum of a Subarray**
-   - **Purpose:** Use the prefix sum array to efficiently compute the sum of elements between two indices (`l` and `r`).
-   - **Steps:**
-     1. If `l == 0`, the sum of the subarray from index `0` to `r` is just `prefixSum[r]`.
-     2. If `l > 0`, the sum of the subarray from index `l` to `r` can be calculated as:  
-        `sum = prefixSum[r] - prefixSum[l-1]`.
-     3. This works because `prefixSum[r]` gives the sum of elements from `0` to `r`, and subtracting `prefixSum[l-1]` removes the elements from `0` to `l-1`, leaving the sum of elements between `l` and `r`.
-
-   - **Complexity:** O(1)
-
-### Example:
-
-For the array `[2, 4, 6, 8, 10]`:
-
-- **Building the Prefix Sum Array:**
-  - prefixSum[0] = 2
-  - prefixSum[1] = 2 + 4 = 6
-  - prefixSum[2] = 6 + 6 = 12
-  - prefixSum[3] = 12 + 8 = 20
-  - prefixSum[4] = 20 + 10 = 30
-  
-  So, the `prefixSum` array is `[2, 6, 12, 20, 30]`.
-
-- **Querying the Sum of a Subarray:**
-  - To get the sum of the subarray from index `1` to `3`, compute:
-    - `sum = prefixSum[3] - prefixSum[0] = 20 - 2 = 18`.
-
-### Summary of Common Steps:
-1. Build the prefix sum array in O(n) time.
-2. Query the sum of any subarray in O(1) time by using the prefix sum array.
-
-
-```js
-function buildPrefixSumArray(arr) {
-  let prefixSum = [];
-  prefixSum[0] = arr[0];
-  
-  for (let i = 1; i < arr.length; i++) {
-    prefixSum[i] = prefixSum[i - 1] + arr[i];
-  }
-  
-  return prefixSum;
-}
-
-function getRangeSum(prefixSum, l, r) {
-  if (l === 0) {
-    return prefixSum[r];
-  } else {
-    return prefixSum[r] - prefixSum[l - 1];
-  }
-}
-
-// Example usage:
-const arr = [2, 4, 6, 8, 10];
-const prefixSum = buildPrefixSumArray(arr);
-
-console.log(getRangeSum(prefixSum, 1, 3)); // Output: 18 (4 + 6 + 8)
-console.log(getRangeSum(prefixSum, 0, 2)); // Output: 12 (2 + 4 + 6)
-```
-
-<br>
-
-> ### Find Pivot Index
-
-Given an array of integers nums, calculate the pivot index of this array.
-
-The pivot index is the index where the sum of all the numbers strictly to the left of the index is equal to the sum of all the numbers strictly to the index's right.
-
-If the index is on the left edge of the array, then the left sum is 0 because there are no elements to the left. This also applies to the right edge of the array.
-
-Return the leftmost pivot index. If no such index exists, return -1.
-
- 
-
-Example 1:
-
-Input: nums = [1,7,3,6,5,6]\
-Output: 3\
-Explanation:\
-The pivot index is 3.\
-Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11\
-Right sum = nums[4] + nums[5] = 5 + 6 = 11
-
-
-Example 2:
-
-Input: nums = [1,2,3]\
-Output: -1\
-Explanation:\
-There is no index that satisfies the conditions in the problem statement.
-
-Example 3:
-
-Input: nums = [2,1,-1]\
-Output: 0\
-Explanation:\
-The pivot index is 0.\
-Left sum = 0 (no elements to the left of index 0)\
-Right sum = nums[1] + nums[2] = 1 + -1 = 0
-
-
-```js
-function findPivotIndex(nums) {
-    // Calculate the total sum of the array manually
-    let totalSum = 0;
-    for (let i = 0; i < nums.length; i++) {
-        totalSum += nums[i];
-    }
-
-    let leftSum = 0; // Initialize left sum
-
-    for (let i = 0; i < nums.length; i++) {
-        // Calculate the right sum dynamically
-        let rightSum = totalSum - leftSum - nums[i];
-
-        // Check if left sum equals right sum
-        if (leftSum === rightSum) {
-            return i;
-        }
-
-        // Update the left sum
-        leftSum += nums[i];
-    }
-
-    return -1; // Return -1 if no pivot index exists
-}
-
-// Example Usage:
-const nums = [1, 7, 3, 6, 5, 6];
-console.log(findPivotIndex(nums)); // Output: 3
-```
-
-<br>
-
-> ### Two pointer algorithm
-In the two-pointer algorithm, there are several common steps or patterns that we typically follow, regardless of the specific problem. Here’s a generalized breakdown of the steps involved:
-
-### 1. **Initialize Two Pointers**
-   - One pointer is placed at the start (`left` or `i`) of the array.
-   - The other pointer is placed at the end (`right` or `j`) of the array.
-   
-   ```javascript
-   let left = 0;
-   let right = arr.length - 1;
-   ```
-
-### 2. **Loop Until the Two Pointers Meet**
-   - You continue the iteration while the `left` pointer is less than the `right` pointer.
-   - In certain problems (like sliding window, string comparison), the loop condition could change slightly, but in the classic two-pointer approach, this is a common condition.
-   
-   ```javascript
-   while (left < right) {
-     // continue with logic
-   }
-   ```
-
-### 3. **Check a Condition with the Two Pointers**
-   - Inside the loop, you'll typically perform some kind of comparison or computation with the values at the two pointers (like summing them, checking their equality, etc.).
-   - This condition will help determine the next move for the pointers.
-   
-   Example: Checking if the sum of the two pointers is equal to the target:
-   ```javascript
-   const sum = arr[left] + arr[right];
-   if (sum === target) {
-     return [arr[left], arr[right]];
-   }
-   ```
-
-### 4. **Move the Pointers Based on the Condition**
-   - **Increase the left pointer**: If the current sum (or comparison value) is less than the target, move the `left` pointer one step to the right (`left++`). This is usually done to increase the value.
-   - **Decrease the right pointer**: If the current sum (or comparison value) is more than the target, move the `right` pointer one step to the left (`right--`). This is usually done to decrease the value.
-   
-   ```javascript
-   if (sum < target) {
-     left++;  // Move left pointer right to increase the sum
-   } else {
-     right--; // Move right pointer left to decrease the sum
-   }
-   ```
-
-### 5. **Edge Case Handling**
-   - Before the loop or within the loop, handle any special edge cases, like:
-     - An empty array.
-     - A single element.
-     - Conditions where no solution exists.
-
-### 6. **Return the Result**
-   - Once the desired condition is met (like finding the target pair), return the result.
-   - If no solution is found, return a failure condition (like `null` or an empty array).
-   
-   ```javascript
-   return null; // If no pair or solution is found
-   ```
-
-### Summary of the Steps:
-1. **Initialize two pointers** at the beginning and end of the array.
-2. **Loop until** the pointers meet.
-3. **Perform a check** (e.g., sum, comparison) on the values at the two pointers.
-4. **Move the pointers** accordingly:
-   - Increment the `left` pointer if the current condition suggests a smaller value is needed.
-   - Decrement the `right` pointer if a larger value is needed.
-5. **Return the result** once the condition is met or exit the loop if no solution is found.
-
-These steps can vary slightly based on the specific problem but generally follow this pattern.
-
-
-```js
-
-// example of code
-function addtwo(arr, target) {
-  let left = 0;
-  let right = arr.length - 1;
-
-  while (left < right) {
-    const sum = arr[left] + arr[right];
-
-    if (sum === target) {
-      return [arr[left], arr[right]]; // Return the numbers that sum up to the target
-    } else if (sum < target) {
-      left++; // Move left pointer to the right
-    } else {
-      right--; // Move right pointer to the left
-    }
-  }
-
-  return null; // No pair found
-}
-
-// Example usage:
-const arr = [1, 2, 3, 4, 6];
-const target = 6;
-console.log(addtwo(arr, target)); // Output: [1, 4]
-```
-
-> ### Container With Most Water
-
-You are given an integer array `height` of length `n`. There are n vertical lines drawn such that the two endpoints of the `ith` line are `(i, 0)` and `(i, height[i])`.
-
-Find two lines that together with the x-axis form a container, such that the container contains the most water.
-
-Return the maximum amount of water a container can store.
-
-Example 1:
-
-![screenshot](images/water.jpg)
-
-Input: height = [1,8,6,2,5,4,8,3,7]\
-Output: 49\
-Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
-
-Example 2:
-
-Input: height = [1,1]\
-Output: 1
-
-[Youtube video for concept](https://youtu.be/EbkMABpP52U?si=oVee2x5W2xPP7dN3&t=869)
-
-```js
-var maxArea = function(height) {
-    let l = 0;
-    let r = height.length -1;
-    let max = 0;
-
-    while(l < r){
-        let containerHeight = Math.min(height[l], height[r]);
-        let containerWidth = r - l;
-        let area = containerWidth * containerHeight;
-
-        if(area > max){
-            max = area
-        }
-
-        if(height[l] < height[r]){
-            l++
-        }else{
-            r--
-        }
-
-    }
-    return max
-    
-};
-```
-
-### How the Code Works
-1. **Define two pointers:**
-   - `l` starts at the beginning (leftmost line).
-   - `r` starts at the end (rightmost line).
-
-2. **Initialize a variable for the maximum area:**
-   - `max` is set to `0` to store the largest container area found.
-
-3. **Use a loop to move the pointers:**
-   - While `l` is less than `r`:
-     - Calculate the **height of the container** as the smaller of the two heights at `l` and `r`.
-     - Calculate the **width of the container** as the distance between `l` and `r` (`r - l`).
-     - Calculate the **area** of the container as `height * width`.
-     - Update `max` if the new `area` is larger than the current `max`.
-
-4. **Move the pointer with the smaller height:**
-   - If the height at `l` is smaller, move `l` one step to the right (`l++`).
-   - Otherwise, move `r` one step to the left (`r--`).
-
-5. **Return the maximum area:**
-   - After the loop finishes, `max` will contain the largest possible container area.
-
-
-> ### Two Sum Algorithm - it is advance case of two pointer alogo, which is specially used when given sum of two number equal to required no.
-
-Simple logic - It works like create a `object` and `add keys` in it with `value as index or just count` of array, then iterate over array and check if `(sum - current number)` exist in the obejct.
-
-
-- Create an empty Hash Set or Unordered Set
-- Iterate through the array and for each number in the array:
-    - Calculate the complement (target – current number).
-    - Check if the complement exists in the set:
-        - If it is, then pair found.
-        - If it isn’t, add the current number to the set.
-- If the loop completes without finding a pair, return that no pair exists.
-
-eg is below two sum with Hashing
-
-> ### Max Number of K-Sum Pairs
-
-You are given an integer array nums and an integer k.
-
-In one operation, you can pick two numbers from the array whose sum equals k and remove them from the array.
-
-Return the maximum number of operations you can perform on the array.
-
-Example 1:
-
-Input: nums = [1,2,3,4], k = 5\
-Output: 2
-
-Explanation: Starting with nums = [1,2,3,4]:\
-- Remove numbers 1 and 4, then nums = [2,3]\
-- Remove numbers 2 and 3, then nums = []\
-There are no more pairs that sum up to 5, hence a total of 2 operations.
-
-Example 2:
-
-Input: nums = [3,1,3,4,3], k = 6\
-Output: 1
-
-Explanation: Starting with nums = [3,1,3,4,3]:\
-- Remove the first two 3's, then nums = [1,4,3]\
-There are no more pairs that sum up to 6, hence a total of 1 operation.
-
-```js
-var maxOperations = function(nums, k) {
-     let count = 0;
-    let map = new Map();
-
-    for (let num of nums) {
-        let complement = k - num;
-        if (map.has(complement) && map.get(complement) > 0) {
-            count++;
-            map.set(complement, map.get(complement) - 1); 
-        } else {
-            map.set(num, (map.get(num) || 0) + 1);
-        }
-    }
-
-    return count;
-};
-```
-
-
-> ### Sliding window algorithm [Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
-
-Trick - when we have to find min or max length of string or array, which have to do operations
-
-Sliding Window problems are problems in which a fixed or variable-size window is moved through a data structure, typically an array or string, to solve problems efficiently based on continuous subsets of elements. This technique is used when we need to find subarrays or substrings according to a given set of conditions.
-
-The general steps to solve these questions by following below steps:
-
-- Find the size of the window required, say K.
-- Compute the result for 1st window, i.e. include the first K elements of the data structure.
-- Then use a loop to slide the window by 1 and keep computing the result window by window.
-- slide basically means add one element from right and remove one element from left from the sum 
-
-
-How to Identify Sliding Window Problems:
-
-- These problems generally require Finding Maximum/Minimum Subarray, Substrings which satisfy some specific condition.
-- The size of the subarray or substring ‘K’ will be given in some of the problems.
-- These problems can easily be solved in O(N2) time complexity using nested loops, using sliding window we can solve these in O(n) Time Complexity.
-- Required Time Complexity: O(N) or O(Nlog(N))
-
-> ### Maximum Average Subarray I
-
-Example 1:
-
-Input: nums = [1,12,-5,-6,50,3], k = 4\
-Output: 12.75000\
-Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
-
-Example 2:
-
-Input: nums = [5], k = 1\
-Output: 5.00000
-
-```js
-var findMaxAverage = function(nums, k) {
-    let sum = 0;
-    for(let i = 0; i < k; i++) {
-        sum += nums[i];
-    }
-    
-    let maxSum = sum;
-    for(let i = k; i < nums.length; i++) {
-        sum = sum - nums[i-k] + nums[i];  // i-k is the important part
-        maxSum = Math.max(maxSum, sum);
-    }
-    
-    return maxSum/k;  
-};
-```
-
-> ### Max Consecutive Ones
-
-Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
-
-Example 1:
-
-Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2\
-Output: 6\
-Explanation: [1,1,1,0,0,.1,.1,.1,.1,.1,.1]\
-dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
-
-Example 2:
-
-Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3\
-Output: 10\
-Explanation: [0,0,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,0,0,0,1,1,1,1]\
-dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
-
-[Youtube video for concept](https://youtu.be/7FE5Q_Bqzw8?si=uKw4xkjOtPBZzeUi&t=132)
-
-```js
-var longestOnes = function(nums, k) {
-  let l =0;
-  let r =0;
-  let zeros = 0;
-  let maxLength =0;
-  while(r < nums.length){
-    if(nums[r] === 0) {
-        zeros++;
-    }
-    if(zeros > k){
-        if(nums[l]=== 0){
-            zeros--;
-        }
-        l++;
-    }
-   
-        maxLength = Math.max(maxLength, r-l+1)
-        r++;
-
-  }  
-  return maxLength;
-};
-```
-
-> ### Q-1234. Replace the Substring for Balanced String
-
-You are given a string s of length n containing only four kinds of characters: 'Q', 'W', 'E', and 'R'.
-
-A string is said to be balanced if each of its characters appears n / 4 times where n is the length of the string.
-
-Return the minimum length of the substring that can be replaced with any other string of the same length to make s balanced. If s is already balanced, return 0.
-
- 
-
-Example 1:
-
-Input: s = "QWER"\
-Output: 0\
-Explanation: s is already balanced.
-
-Example 2:
-
-Input: s = "QQWE"\
-Output: 1\
-Explanation: We need to replace a 'Q' to 'R', so that "RQWE" (or "QRWE") is balanced.
-
-Example 3:
-
-Input: s = "QQQW"\
-Output: 2\
-Explanation: We can replace the first "QQ" to "ER". 
-
-### Approach
-
-1. **Frequency Calculation**: Count the occurrences of each character.
-2. **Sliding Window**: Use a sliding window to find the minimum substring length that can be replaced to balance the string.
-
----
-
-### JavaScript Solution
-
-```javascript
-function balancedString(s) {
-    const n = s.length;
-    const requiredCount = n / 4;
-    const charCount = { Q: 0, W: 0, E: 0, R: 0 };
-
-    // Count occurrences of each character
-    for (const char of s) {
-        charCount[char]++;
-    }
-
-    // Check if already balanced
-    if (Object.values(charCount).every(count => count === requiredCount)) {
-        return 0;
-    }
-
-    let minLength = n;
-    let left = 0;
-
-    for (let right = 0; right < n; right++) {
-        charCount[s[right]]--;
-
-        // Check if current window satisfies the balance condition
-        while (
-            Object.values(charCount).every(
-                count => count <= requiredCount
-            )
-        ) {
-            minLength = Math.min(minLength, right - left + 1);  // (right - left + 1) this part gives the length of sliding window
-            charCount[s[left]]++; // to get the optimized value count, we need to check by decreasing the count along with increasing the count
-            left++;
-        }
-    }
-
-    return minLength;
-}
-
-// Example usage:
-const s = "WQWRQQQW";
-console.log(balancedString(s)); // Output: 3
-```
-
----
-
-### Explanation
-
-1. **Initial Count**: Calculate the count of `'Q'`, `'W'`, `'E'`, and `'R'` in the string.
-2. **Sliding Window**:
-   - Expand the window by increasing `right`.
-   - Check if the substring inside the window can balance the string.
-   - If so, try shrinking the window by increasing `left` to find the minimum possible length.
-3. **Result**: Return the minimum substring length that needs to be replaced.
-
-This approach ensures an efficient solution with a time complexity of \(O(n)\).
-
-> ### fast and slow pointer algorithm [Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)
-
-The **fast and slow pointer algorithm** (also known as the **tortoise and hare algorithm**) is a two-pointer technique used to detect cycles in linked lists, arrays, or other data structures. It involves using two pointers that move at different speeds to determine if and where a cycle exists. This technique is particularly useful in problems related to detecting loops and finding middle points in a data structure.
-
-### General Steps for the Fast and Slow Pointer Algorithm:
-
-1. **Initialize Two Pointers**:
-   - The **slow pointer** moves one step at a time.
-   - The **fast pointer** moves two steps at a time.
-
-2. **Traverse the Data Structure**:
-   - Move both pointers until either:
-     - The fast pointer reaches the end of the data structure (indicating no cycle).
-     - The fast pointer catches up to the slow pointer (indicating a cycle).
-
-3. **Cycle Detection** (If the fast pointer meets the slow pointer):
-   - If the fast pointer equals the slow pointer at some point, a cycle exists.
-
-4. **Find Cycle Length or Cycle Start (if needed)**:
-   - To find the **starting point** of the cycle, reset one pointer to the head and move both pointers one step at a time until they meet again.
-   - To find the **length of the cycle**, keep one pointer fixed and move the other around the cycle until it meets the first pointer again, counting the steps.
-
-### JavaScript Example: Detecting a Cycle in a Linked List
-
-```javascript
-class ListNode {
-  constructor(value) {
-    this.value = value;
-    this.next = null;
-  }
-}
-
-function hasCycle(head) {
-  if (!head || !head.next) return false;
-
-  let slow = head;
-  let fast = head;
-
-  while (fast !== null && fast.next !== null) {
-    slow = slow.next;          // Move slow by 1 step
-    fast = fast.next.next;      // Move fast by 2 steps
-
-    if (slow === fast) {
-      return true;              // Cycle detected
-    }
-  }
-
-  return false;                 // No cycle
-}
-```
-
-### Finding the Start of the Cycle
-
-```javascript
-function detectCycleStart(head) {
-  if (!head || !head.next) return null;
-
-  let slow = head;
-  let fast = head;
-
-  while (fast !== null && fast.next !== null) {
-    slow = slow.next;
-    fast = fast.next.next;
-
-    if (slow === fast) {
-      // Cycle detected, find the starting point
-      let pointer = head;
-      while (pointer !== slow) {
-        pointer = pointer.next;
-        slow = slow.next;
-      }
-      return pointer; // Start of the cycle
-    }
-  }
-
-  return null; // No cycle
-}
-```
-
-### Use Cases of Fast and Slow Pointer Algorithm:
-- **Cycle Detection in Linked List**: As shown in the examples above, this is one of the most common uses.
-- **Find the Middle of a Linked List**: Move one pointer one step and the other pointer two steps, and the slow pointer will be at the middle when the fast pointer reaches the end.
-- **Detecting Palindromes**: Useful in determining if a list or array is a palindrome by moving pointers towards the center.
-  
-To find the **middle of a linked list** using the fast and slow pointer technique, the general idea is simple:
-
-- The **slow pointer** moves one step at a time.
-- The **fast pointer** moves two steps at a time.
-- When the fast pointer reaches the end of the list (or cannot move further), the slow pointer will be at the middle.
-
-This method works efficiently in `O(n)` time and doesn't require knowing the length of the list beforehand.
-
-### Example of Finding the Middle of a Linked List in JavaScript:
-
-Here's how you can implement it:
-
-```javascript
-class ListNode {
-  constructor(value) {
-    this.value = value;
-    this.next = null;
-  }
-}
-
-function findMiddle(head) {
-  if (!head) return null;
-
-  let slow = head;
-  let fast = head;
-
-  // Traverse the list with fast and slow pointers
-  while (fast !== null && fast.next !== null) {
-    slow = slow.next;       // Move slow pointer by 1 step
-    fast = fast.next.next;   // Move fast pointer by 2 steps
-  }
-
-  // Slow pointer is now at the middle
-  return slow;
-}
-
-// Example usage:
-
-// Create linked list: 1 -> 2 -> 3 -> 4 -> 5
-let head = new ListNode(1);
-head.next = new ListNode(2);
-head.next.next = new ListNode(3);
-head.next.next.next = new ListNode(4);
-head.next.next.next.next = new ListNode(5);
-
-let middle = findMiddle(head);
-console.log(middle.value);  // Output: 3 (Middle of the list)
-```
-
-### Explanation:
-
-1. **Initialization**: Start with two pointers, `slow` and `fast`, both pointing to the head of the list.
-2. **Traversal**: 
-   - The `slow` pointer moves one step at a time (`slow = slow.next`).
-   - The `fast` pointer moves two steps at a time (`fast = fast.next.next`).
-3. **Condition**: The loop runs while `fast` and `fast.next` are not `null` (ensuring the fast pointer does not go out of bounds).
-4. **Result**: When the loop terminates, the `slow` pointer will be at the middle of the linked list.
-
-### Handling Even and Odd Length Lists:
-- If the list has **odd** length (e.g., 5 nodes), the `slow` pointer will point to the exact middle (e.g., 3 in the list `1 → 2 → 3 → 4 → 5`).
-- If the list has **even** length (e.g., 6 nodes), the `slow` pointer will point to the first of the two middle elements (e.g., 3 in the list `1 → 2 → 3 → 4 → 5 → 6`).
-
-You can adjust the logic depending on whether you want to return the first or second middle element in an even-length list. 
-
-### Example with an Even-Length List:
-
-```javascript
-// Create linked list: 1 -> 2 -> 3 -> 4 -> 5 -> 6
-let headEven = new ListNode(1);
-headEven.next = new ListNode(2);
-headEven.next.next = new ListNode(3);
-headEven.next.next.next = new ListNode(4);
-headEven.next.next.next.next = new ListNode(5);
-headEven.next.next.next.next.next = new ListNode(6);
-
-let middleEven = findMiddle(headEven);
-console.log(middleEven.value);  // Output: 4 (First middle of the list)
-```
-
-In this case, the slow pointer will point to `4`, the first middle element.
-
-Let me know if you'd like further clarifications or adjustments!
-
-> ### Monotonic stack algo is pending
-
 
 
 
