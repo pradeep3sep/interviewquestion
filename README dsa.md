@@ -930,6 +930,117 @@ console.log(nextGreaterElements(nums)); // Output: [4, 2, 4, -1, -1]
 
 <br>
 
+> ## BFS and DFS algorithm
+
+BFS Algorithm
+- use Queue structure
+- Best for shortest path
+
+```js
+// Tree Traversal
+
+// BFS - Breadth First Search - is a vertex-based technique for finding the shortest path in the graph. 
+// also called as Level Order Traversal
+// It uses a `Queue data structure` that follows `first in first out`. 
+// In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h, jisko push kia h uske left and right ko Queue me add kr dete h 
+// It is slower than DFS.
+
+BFS() {
+    let currentNode = this.root;
+    let queue = [];
+    let results = [];
+
+    queue.push(currentNode);
+
+    while (queue.length) {
+        currentNode = queue.shift();
+        results.push(currentNode.value);
+
+        if (currentNode.left) queue.push(currentNode.left);
+        if (currentNode.right) queue.push(currentNode.right);
+    }
+
+    return results;
+}
+```
+
+
+DFS Algorithm
+- use recursion
+- Best for exploring all paths
+
+```js
+// DFS - Depth First Search - is an an edge-based technique. 
+// It uses the Stack data structure and performs two stages, first visited vertices are pushed into the stack, and second if there are no vertices then visited vertices are popped.
+
+// DFS is of 3 types - Preorder Traversal, Inorder Traversal, Postorder Traversal
+
+
+// Algorithm for Preorder Traversal:
+
+// Visit the root.
+// Traverse the left subtree, i.e., call Preorder(left->subtree)
+// Traverse the right subtree, i.e., call Preorder(right->subtree)
+
+DFSPreOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        results.push(currentNode.value);
+
+        if (currentNode.left) traverse(currentNode.left);
+        if (currentNode.right) traverse(currentNode.right);
+    }
+
+    traverse(this.root);
+    return results;
+}
+
+
+// Algorithm for Postorder Traversal:
+
+// Traverse the left subtree, i.e., call Postorder(left->subtree)
+// Traverse the right subtree, i.e., call Postorder(right->subtree)
+// Visit the root
+
+DFSPostOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        if (currentNode.left) traverse(currentNode.left);
+        if (currentNode.right) traverse(currentNode.right);
+
+        results.push(currentNode.value);
+    }
+
+    traverse(this.root);
+    return results;
+}
+
+// Algorithm for Inorder Traversal:
+
+// Traverse the left subtree, i.e., call Inorder(left->subtree)
+// Visit the root.
+// Traverse the right subtree, i.e., call Inorder(right->subtree)
+
+DFSInOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        if (currentNode.left) traverse(currentNode.left);
+        
+        results.push(currentNode.value);
+        
+        if (currentNode.right) traverse(currentNode.right);   
+    }
+
+    traverse(this.root);
+    return results;
+}
+```
+
+<br>
+
 ## Strings
 
 > ### Palindrome
@@ -6236,115 +6347,7 @@ console.log(leafSimilar(root1, root2)); // Output: true
 
 This approach has a time complexity of \(O(N + M)\), where \(N\) and \(M\) are the number of nodes in the two trees, and a space complexity of \(O(H1 + H2)\), where \(H1\) and \(H2\) are the heights of the two trees (due to recursion stack).
 
-
-BFS Algorithm
-- use Queue structure
-- Best for shortest path
-
-```js
-// Tree Traversal
-
-// BFS - Breadth First Search - is a vertex-based technique for finding the shortest path in the graph. 
-// also called as Level Order Traversal
-// It uses a `Queue data structure` that follows `first in first out`. 
-// In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h, jisko push kia h uske left and right ko Queue me add kr dete h 
-// It is slower than DFS.
-
-BFS() {
-    let currentNode = this.root;
-    let queue = [];
-    let results = [];
-
-    queue.push(currentNode);
-
-    while (queue.length) {
-        currentNode = queue.shift();
-        results.push(currentNode.value);
-
-        if (currentNode.left) queue.push(currentNode.left);
-        if (currentNode.right) queue.push(currentNode.right);
-    }
-
-    return results;
-}
-```
-
-
-DFS Algorithm
-- use recursion
-- Best for exploring all paths
-
-```js
-// DFS - Depth First Search - is an an edge-based technique. 
-// It uses the Stack data structure and performs two stages, first visited vertices are pushed into the stack, and second if there are no vertices then visited vertices are popped.
-
-// DFS is of 3 types - Preorder Traversal, Inorder Traversal, Postorder Traversal
-
-
-// Algorithm for Preorder Traversal:
-
-// Visit the root.
-// Traverse the left subtree, i.e., call Preorder(left->subtree)
-// Traverse the right subtree, i.e., call Preorder(right->subtree)
-
-DFSPreOrder() {
-    let results = [];
-
-    function traverse(currentNode) {
-        results.push(currentNode.value);
-
-        if (currentNode.left) traverse(currentNode.left);
-        if (currentNode.right) traverse(currentNode.right);
-    }
-
-    traverse(this.root);
-    return results;
-}
-
-
-// Algorithm for Postorder Traversal:
-
-// Traverse the left subtree, i.e., call Postorder(left->subtree)
-// Traverse the right subtree, i.e., call Postorder(right->subtree)
-// Visit the root
-
-DFSPostOrder() {
-    let results = [];
-
-    function traverse(currentNode) {
-        if (currentNode.left) traverse(currentNode.left);
-        if (currentNode.right) traverse(currentNode.right);
-
-        results.push(currentNode.value);
-    }
-
-    traverse(this.root);
-    return results;
-}
-
-// Algorithm for Inorder Traversal:
-
-// Traverse the left subtree, i.e., call Inorder(left->subtree)
-// Visit the root.
-// Traverse the right subtree, i.e., call Inorder(right->subtree)
-
-DFSInOrder() {
-    let results = [];
-
-    function traverse(currentNode) {
-        if (currentNode.left) traverse(currentNode.left);
-        
-        results.push(currentNode.value);
-        
-        if (currentNode.right) traverse(currentNode.right);   
-    }
-
-    traverse(this.root);
-    return results;
-}
-```
-
-
+<br>
 
 > ###  Hash Table
 
