@@ -88,13 +88,15 @@ function factorial(n) {
 > ## 1. Hash Map alogo
 In this algo, we approach the question by converting it into objects.
 
-> ## 2. Prefix sum algorithm  [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
+<br>
+
+> ## 2. Prefix sum algorithm  - [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
 
 `Hints when to use` - Find the sum of elements between indices `i` and `j` for multiple queries. 
 
 In the **Prefix Sum Algorithm**, the process is typically divided into two common steps:
 
-### 1. **Building the Prefix Sum Array**
+### 1. Building the Prefix Sum Array
    - **Purpose:** Precompute cumulative sums of the array so that future range queries can be answered efficiently.
    - **Steps:**
      1. Create a new array (`prefixSum`), where each element at index `i` stores the sum of all elements from the start of the input array up to `i`.
@@ -104,7 +106,7 @@ In the **Prefix Sum Algorithm**, the process is typically divided into two commo
 
    - **Complexity:** O(n)
 
-### 2. **Querying the Sum of a Subarray**
+### 2. Querying the Sum of a Subarray
    - **Purpose:** Use the prefix sum array to efficiently compute the sum of elements between two indices (`l` and `r`).
    - **Steps:**
      1. If `l == 0`, the sum of the subarray from index `0` to `r` is just `prefixSum[r]`.
@@ -241,7 +243,7 @@ console.log(findPivotIndex(nums)); // Output: 3
 > ## 3. Two pointer algorithm
 In the two-pointer algorithm, there are several common steps or patterns that we typically follow, regardless of the specific problem. Here’s a generalized breakdown of the steps involved:
 
-### 1. **Initialize Two Pointers**
+### 1. Initialize Two Pointers
    - One pointer is placed at the start (`left` or `i`) of the array.
    - The other pointer is placed at the end (`right` or `j`) of the array.
    
@@ -250,7 +252,7 @@ In the two-pointer algorithm, there are several common steps or patterns that we
    let right = arr.length - 1;
    ```
 
-### 2. **Loop Until the Two Pointers Meet**
+### 2. Loop Until the Two Pointers Meet
    - You continue the iteration while the `left` pointer is less than the `right` pointer.
    - In certain problems (like sliding window, string comparison), the loop condition could change slightly, but in the classic two-pointer approach, this is a common condition.
    
@@ -260,7 +262,7 @@ In the two-pointer algorithm, there are several common steps or patterns that we
    }
    ```
 
-### 3. **Check a Condition with the Two Pointers**
+### 3. Check a Condition with the Two Pointers
    - Inside the loop, you'll typically perform some kind of comparison or computation with the values at the two pointers (like summing them, checking their equality, etc.).
    - This condition will help determine the next move for the pointers.
    
@@ -272,7 +274,7 @@ In the two-pointer algorithm, there are several common steps or patterns that we
    }
    ```
 
-### 4. **Move the Pointers Based on the Condition**
+### 4. Move the Pointers Based on the Condition
    - **Increase the left pointer**: If the current sum (or comparison value) is less than the target, move the `left` pointer one step to the right (`left++`). This is usually done to increase the value.
    - **Decrease the right pointer**: If the current sum (or comparison value) is more than the target, move the `right` pointer one step to the left (`right--`). This is usually done to decrease the value.
    
@@ -284,13 +286,13 @@ In the two-pointer algorithm, there are several common steps or patterns that we
    }
    ```
 
-### 5. **Edge Case Handling**
+### 5. Edge Case Handling
    - Before the loop or within the loop, handle any special edge cases, like:
      - An empty array.
      - A single element.
      - Conditions where no solution exists.
 
-### 6. **Return the Result**
+### 6. Return the Result
    - Once the desired condition is met (like finding the target pair), return the result.
    - If no solution is found, return a failure condition (like `null` or an empty array).
    
@@ -337,6 +339,8 @@ const arr = [1, 2, 3, 4, 6];
 const target = 6;
 console.log(addtwo(arr, target)); // Output: [1, 4]
 ```
+
+<br>
 
 > ### Container With Most Water
 
@@ -411,7 +415,11 @@ var maxArea = function(height) {
    - After the loop finishes, `max` will contain the largest possible container area.
 
 
-> ##  4. Two Sum Algorithm - it is advance case of two pointer alogo, which is specially used when given sum of two number equal to required no.
+<br>
+
+> ##  4. Two Sum Algorithm
+
+**it is advance case of two pointer alogo, which is specially used when given sum of two number equal to required no.**
 
 Simple logic - It works like create a `object` and `add keys` in it with `value as index or just count` of array, then iterate over array and check if `(sum - current number)` exist in the obejct.
 
@@ -425,6 +433,8 @@ Simple logic - It works like create a `object` and `add keys` in it with `value 
 - If the loop completes without finding a pair, return that no pair exists.
 
 eg is below two sum with Hashing
+
+<br>
 
 > ### Max Number of K-Sum Pairs
 
@@ -472,10 +482,11 @@ var maxOperations = function(nums, k) {
 };
 ```
 
+<br>
 
-> ## 5. Sliding window algorithm [Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
+> ## 5. Sliding window algorithm - [Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
 
-Trick - when we have to find min or max length of string or array, which have to do operations
+`Trick` - when we have to find min or max length of string or array, which have to do operations
 
 Sliding Window problems are problems in which a fixed or variable-size window is moved through a data structure, typically an array or string, to solve problems efficiently based on continuous subsets of elements. This technique is used when we need to find subarrays or substrings according to a given set of conditions.
 
@@ -493,6 +504,8 @@ How to Identify Sliding Window Problems:
 - The size of the subarray or substring ‘K’ will be given in some of the problems.
 - These problems can easily be solved in O(N2) time complexity using nested loops, using sliding window we can solve these in O(n) Time Complexity.
 - Required Time Complexity: O(N) or O(Nlog(N))
+
+<br>
 
 > ### Maximum Average Subarray I
 
@@ -523,6 +536,8 @@ var findMaxAverage = function(nums, k) {
     return maxSum/k;  
 };
 ```
+
+<br>
 
 > ### Max Consecutive Ones
 
@@ -568,6 +583,8 @@ var longestOnes = function(nums, k) {
   return maxLength;
 };
 ```
+
+<br>
 
 > ### Q-1234. Replace the Substring for Balanced String
 
@@ -661,7 +678,10 @@ console.log(balancedString(s)); // Output: 3
 
 This approach ensures an efficient solution with a time complexity of \(O(n)\).
 
-> ## 6. fast and slow pointer algorithm [Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)
+
+<br>
+
+> ## 6. fast and slow pointer algorithm - [Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)
 
 The **fast and slow pointer algorithm** (also known as the **tortoise and hare algorithm**) is a two-pointer technique used to detect cycles in linked lists, arrays, or other data structures. It involves using two pointers that move at different speeds to determine if and where a cycle exists. This technique is particularly useful in problems related to detecting loops and finding middle points in a data structure.
 
@@ -827,6 +847,8 @@ console.log(middleEven.value);  // Output: 4 (First middle of the list)
 In this case, the slow pointer will point to `4`, the first middle element.
 
 Let me know if you'd like further clarifications or adjustments!
+
+<br>
 
 > ## 7. Monotonic stack algo is pending
 
