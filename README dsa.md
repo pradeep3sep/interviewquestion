@@ -1,6 +1,6 @@
 # Table of Contents
 
-- [Hash Map alogo ](#Hash-Map-alogo)
+- [Hash Map alogo ](#1-hash-map-alogo)
 
 
 
