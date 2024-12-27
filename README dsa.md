@@ -1,8 +1,14 @@
 # Table of Contents
 
 - [Hash Map alogo ](#1-hash-map-alogo)
-
-
+- [Prefix sum algorithm ](#2-prefix-sum-algorithm)
+- [Two pointer algorithm ](#3-two-pointer-algorithm)
+- [Two Sum Algorithm ](#4-two-sum-algorithm)
+- [Sliding window algorithm ](#5-sliding-window-algorithm)
+- [fast and slow pointer algorithm ](#6-fast-and-slow-pointer-algorithm)
+- [Monotonic stack algorithm  ](#7-monotonic-stack-algorithm)
+- [BFS and DFS algorithm  ](#8-bfs-and-dfs-algorithm)
+- [Backtracking algorithm  ](#9-backtracking-algorithm)
 
 
 
@@ -105,7 +111,9 @@ In this algo, we approach the question by converting it into objects.
 
 [Back to Top](#table-of-contents)
 
-> ## 2. Prefix sum algorithm  - [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
+> ## 2. Prefix sum algorithm 
+
+[Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
 
 `Hints when to use` - Find the sum of elements between indices `i` and `j` for multiple queries. 
 
@@ -507,7 +515,9 @@ var maxOperations = function(nums, k) {
 
 [Back to Top](#table-of-contents)
 
-> ## 5. Sliding window algorithm - [Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
+> ## 5. Sliding window algorithm
+
+[Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
 
 `Trick` - when we have to find min or max length of string or array, which have to do operations
 
@@ -706,7 +716,9 @@ This approach ensures an efficient solution with a time complexity of \(O(n)\).
 
 [Back to Top](#table-of-contents)
 
-> ## 6. fast and slow pointer algorithm - [Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)
+> ## 6. fast and slow pointer algorithm
+
+[Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)
 
 The **fast and slow pointer algorithm** (also known as the **tortoise and hare algorithm**) is a two-pointer technique used to detect cycles in linked lists, arrays, or other data structures. It involves using two pointers that move at different speeds to determine if and where a cycle exists. This technique is particularly useful in problems related to detecting loops and finding middle points in a data structure.
 
@@ -877,7 +889,8 @@ Let me know if you'd like further clarifications or adjustments!
 
 [Back to Top](#table-of-contents)
 
-> ## 7. Monotonic stack algorithm - [Youtube video for concept](https://www.youtube.com/watch?v=Dq_ObZwTY_Q&t=152s)
+> ## 7. Monotonic stack algorithm
+[Youtube video for concept](https://www.youtube.com/watch?v=Dq_ObZwTY_Q&t=152s)
 
 [website](https://algo.monster/problems/mono_stack_intro)
 
