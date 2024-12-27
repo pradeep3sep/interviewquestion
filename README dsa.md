@@ -1,3 +1,11 @@
+# Table of Contents
+
+- [Hash Map alogo ](#Hash-Map-alogo)
+
+
+
+
+
 ## The Big O
 The Big O is basically `worst-case` running `time` of an `algorithm` as the input size increases
 
@@ -87,10 +95,15 @@ function factorial(n) {
 
 <br>
 
+[Back to Top](#table-of-contents)
+
 > ## 1. Hash Map alogo
 In this algo, we approach the question by converting it into objects.
 
 <br>
+
+
+[Back to Top](#table-of-contents)
 
 > ## 2. Prefix sum algorithm  - [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
 
@@ -241,6 +254,9 @@ console.log(findPivotIndex(nums)); // Output: 3
 ```
 
 <br>
+
+
+[Back to Top](#table-of-contents)
 
 > ## 3. Two pointer algorithm
 In the two-pointer algorithm, there are several common steps or patterns that we typically follow, regardless of the specific problem. Here’s a generalized breakdown of the steps involved:
@@ -419,6 +435,9 @@ var maxArea = function(height) {
 
 <br>
 
+
+[Back to Top](#table-of-contents)
+
 > ##  4. Two Sum Algorithm
 
 **it is advance case of two pointer alogo, which is specially used when given sum of two number equal to required no.**
@@ -485,6 +504,8 @@ var maxOperations = function(nums, k) {
 ```
 
 <br>
+
+[Back to Top](#table-of-contents)
 
 > ## 5. Sliding window algorithm - [Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
 
@@ -683,6 +704,8 @@ This approach ensures an efficient solution with a time complexity of \(O(n)\).
 
 <br>
 
+[Back to Top](#table-of-contents)
+
 > ## 6. fast and slow pointer algorithm - [Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)
 
 The **fast and slow pointer algorithm** (also known as the **tortoise and hare algorithm**) is a two-pointer technique used to detect cycles in linked lists, arrays, or other data structures. It involves using two pointers that move at different speeds to determine if and where a cycle exists. This technique is particularly useful in problems related to detecting loops and finding middle points in a data structure.
@@ -851,6 +874,8 @@ In this case, the slow pointer will point to `4`, the first middle element.
 Let me know if you'd like further clarifications or adjustments!
 
 <br>
+
+[Back to Top](#table-of-contents)
 
 > ## 7. Monotonic stack algorithm - [Youtube video for concept](https://www.youtube.com/watch?v=Dq_ObZwTY_Q&t=152s)
 
