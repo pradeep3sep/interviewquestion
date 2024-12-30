@@ -106,8 +106,117 @@ function factorial(n) {
 > ## 1. Hash Map alogo
 In this algo, we approach the question by converting it into objects.
 
+> ### 1. Two Sum
+
+Example 1:
+
+Input: nums = [2,7,11,15], target = 9\
+Output: [0,1]\
+Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+
+Example 2:
+
+Input: nums = [3,2,4], target = 6\
+Output: [1,2]
+
+Example 3:
+
+Input: nums = [3,3], target = 6\
+Output: [0,1]
+
+yt - https://youtu.be/KLlXCFG5TnA
+
+```js
+var twoSum = function(nums, target) {
+    let dic={}
+
+    for(let i=0;i<nums.length;i++){
+        let diff=target-nums[i]
+
+        if(dic.hasOwnProperty(diff)){
+            return [i,dic[diff]];
+        }
+        dic[nums[i]]=i
+    }
+    return null
+};
+twoSum([7,11,15,2],9)
+```
+
 <br>
 
+> ### 13. Roman to Integer
+
+Symbol    -   Value\
+I          -   1\
+V           -  5\
+X            - 10\
+L             - 50\
+C             - 100\
+D            - 500\
+M            - 1000
+
+I can be placed before V (5) and X (10) to make 4 and 9. \
+X can be placed before L (50) and C (100) to make 40 and 90.\ 
+C can be placed before D (500) and M (1000) to make 400 and 900.
+
+
+Example 1:
+
+Input: s = "III"\
+Output: 3\
+Explanation: III = 3.
+
+Example 2:
+
+Input: s = "LVIII"\
+Output: 58\
+Explanation: L = 50, V= 5, III = 3.
+
+Example 3:
+
+Input: s = "MCMXCIV"\
+Output: 1994\
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+
+
+
+```js
+function romanToInt(roman) {
+    const romanMap = {
+        'I': 1,
+        'V': 5,
+        'X': 10,
+        'L': 50,
+        'C': 100,
+        'D': 500,
+        'M': 1000
+    };
+
+    let total = 0;
+
+    for (let i = 0; i < roman.length; i++) {
+        const currentVal = romanMap[roman[i]];
+        const nextVal = romanMap[roman[i + 1]];
+
+        if (nextVal > currentVal) {
+            total -= currentVal; // Subtract if a smaller numeral comes before a larger one
+        } else {
+            total += currentVal; // Otherwise, add the value
+        }
+    }
+
+    return total;
+}
+
+// Example usage
+console.log(romanToInt("III"));    // Output: 3
+console.log(romanToInt("IV"));     // Output: 4
+console.log(romanToInt("IX"));     // Output: 9
+console.log(romanToInt("LVIII"));  // Output: 58
+console.log(romanToInt("MCMXCIV"));// Output: 1994
+```
+<br>
 
 [Back to Top](#table-of-contents)
 
@@ -335,37 +444,6 @@ In the two-pointer algorithm, there are several common steps or patterns that we
    - Decrement the `right` pointer if a larger value is needed.
 5. **Return the result** once the condition is met or exit the loop if no solution is found.
 
-These steps can vary slightly based on the specific problem but generally follow this pattern.
-
-
-```js
-
-// example of code
-function addtwo(arr, target) {
-  let left = 0;
-  let right = arr.length - 1;
-
-  while (left < right) {
-    const sum = arr[left] + arr[right];
-
-    if (sum === target) {
-      return [arr[left], arr[right]]; // Return the numbers that sum up to the target
-    } else if (sum < target) {
-      left++; // Move left pointer to the right
-    } else {
-      right--; // Move right pointer to the left
-    }
-  }
-
-  return null; // No pair found
-}
-
-// Example usage:
-const arr = [1, 2, 3, 4, 6];
-const target = 6;
-console.log(addtwo(arr, target)); // Output: [1, 4]
-```
-
 <br>
 
 > ### Container With Most Water
@@ -509,6 +587,64 @@ var maxOperations = function(nums, k) {
 
     return count;
 };
+```
+
+<br>
+
+> ### 1010. Pairs of Songs With Total Durations Divisible by 60
+
+You are given a list of songs where the ith song has a duration of time[i] seconds.
+
+Return the number of pairs of songs for which their total duration in seconds is divisible by 60. Formally, we want the number of indices i, j such that i < j with (time[i] + time[j]) % 60 == 0.
+
+Example 1:
+
+Input: time = [30,20,150,100,40]\
+Output: 3\
+Explanation: Three pairs have a total duration divisible by 60:\
+(time[0] = 30, time[2] = 150): total duration 180\
+(time[1] = 20, time[3] = 100): total duration 120\
+(time[1] = 20, time[4] = 40): total duration 60
+
+Example 2:
+
+Input: time = [60,60,60]\
+Output: 3\
+Explanation: All three pairs have a total duration of 120, which is divisible by 60.
+
+```js
+function numPairsDivisibleBy60(time) {
+    // Array to store counts of remainders, jab hum 60 se divide krenge to remainder 1 se 59 k beech aayega to 60 blank array bnaye h
+    let remainderCount = new Array(60).fill(0); 
+    let count = 0;
+
+    // main concept- ek ka remainder dusre k remainder me add krene pe 60 ka divisble hoga to wo pair correct h
+
+    for (let t of time) {
+
+        // Calculate the remainder of the current time when divided by 60
+        let remainder = t % 60;
+        
+        // Calculate the complementary remainder, complement means kitna aur chaiye 60 divisble k liye
+        let complement = (60 - remainder) % 60;
+
+        // agr complement array me exist karta h to count badha do
+        count = count + remainderCount[complement];
+
+        // Update the remainder count
+        remainderCount[remainder]++;
+    }
+
+    return count;
+}
+
+// Example usage:
+const time1 = [30, 20, 150, 100, 40];
+console.log(numPairsDivisibleBy60(time1)); // Output: 3
+
+const time2 = [60, 60, 60];
+console.log(numPairsDivisibleBy60(time2)); // Output: 3
+
 ```
 
 <br>
@@ -968,6 +1104,9 @@ console.log(nextGreaterElements(nums)); // Output: [4, 2, 4, -1, -1]
 
 <br>
 
+[Back to Top](#table-of-contents)
+
+
 > ## 8. BFS and DFS algorithm
 
 BFS Algorithm
@@ -1078,6 +1217,8 @@ DFSInOrder() {
 ```
 
 <br>
+
+[Back to Top](#table-of-contents)
 
 > ## 9. Backtracking algorithm
 
@@ -1204,6 +1345,55 @@ count of subsequence is 2^n, where n is length of string.
 
 **Substring** - All characters in substring appear `consecutively` in the original string. eg `"abcdef"`, `abc` and `def` are `substring`.\
 **Subsequence** - It is sequence of characters that appear in the same order as in the original string, but not necessarily consecutivaly. you can skip character but order must remain remain same. eg -`"abcdef"`, `ace` and `bdf` are `subsequence`.
+
+<br>
+
+> ### 2099. Find Subsequence of Length K With the Largest Sum
+
+You are given an integer array nums and an integer k. You want to find a subsequence of nums of length k that has the largest sum.
+
+Return any such subsequence as an integer array of length k.
+
+A subsequence is an array that can be derived from another array by deleting some or no elements without changing the order of the remaining elements.
+
+Example 1:
+
+Input: nums = [2,1,3,3], k = 2\
+Output: [3,3]\
+Explanation:\
+The subsequence has the largest sum of 3 + 3 = 6.
+
+Example 2:
+
+Input: nums = [-1,-2,3,4], k = 3\
+Output: [-1,3,4]\
+Explanation:\
+The subsequence has the largest sum of -1 + 3 + 4 = 6.
+
+Example 3:
+
+Input: nums = [3,4,3,3], k = 2\
+Output: [3,4]\
+Explanation:\
+The subsequence has the largest sum of 3 + 4 = 7. \
+Another possible subsequence is [4, 3].
+
+```js
+var maxSubsequence = function(nums, k) {
+    debugger
+   const indexnums = nums.map((nums,index) => [nums,index])
+
+   indexnums.sort((a,b) => b[0] - a[0])
+
+   const top = indexnums.slice(0,k) 
+
+   top.sort((a,b) => a[1] - b[1])
+   
+   return top.map(pair =>pair[0])
+};
+
+maxSubsequence([-1,-2,3,4],3)
+```
 
 <br>
 
@@ -1479,7 +1669,7 @@ Lexicographic rank of "STRING" is: 598
 
 <br>
 
-> ### Greatest Common Divisor of Strings
+> ### 1071 - Greatest Common Divisor of Strings
 
 Given two strings str1 and str2, return the `largest` string x such that x divides both str1 and str2.
 
@@ -2263,37 +2453,49 @@ class LinkedList {
         return length;
     }
 
+    // LeetCode : Q-160
     // Function to find the intersection point of two linked lists
     // 1.Calculate the lengths of both lists.
     // 2.Move the pointer of the longer list ahead by the difference in lengths.
     // 3.Traverse both lists together until the pointers meet at the intersection point.
-    static findIntersection(list1, list2) {
-        let len1 = list1.getLength();
-        let len2 = list2.getLength();
+    static findIntersection(headA, headB) {
+        if (!headA || !headB) return null;
 
-        let head1 = list1.head;
-        let head2 = list2.head;
+        let lenA = 0, lenB = 0;
+        let currA = headA, currB = headB;
 
-        // Align both lists by moving the pointer of the longer list ahead by the difference in lengths
-        if (len1 > len2) {
-            let diff = len1 - len2;
-            while (diff--) {
-                head1 = head1.next;
+        // Calculate lengths of both lists
+        while (currA) {
+            lenA++;
+            currA = currA.next;
+        }
+        while (currB) {
+            lenB++;
+            currB = currB.next;
+        }
+
+        // Reset pointers to heads
+        currA = headA;
+        currB = headB;
+
+        // Align the starts
+        if (lenA > lenB) {
+            for (let i = 0; i < lenA - lenB; i++) {
+                currA = currA.next;
             }
-        } else if (len2 > len1) {
-            let diff = len2 - len1;
-            while (diff--) {
-                head2 = head2.next;
+        } else if (lenB > lenA) {
+            for (let i = 0; i < lenB - lenA; i++) {
+                currB = currB.next;
             }
         }
 
-        // Traverse both lists together and find the intersection point
-        while (head1 && head2) {
-            if (head1 === head2) {
-                return head1.value; // Return the value at the intersection point
+        // Traverse and find intersection
+        while (currA && currB) {
+            if (currA === currB) {
+                return currA; // Intersection found
             }
-            head1 = head1.next;
-            head2 = head2.next;
+            currA = currA.next;
+            currB = currB.next;
         }
 
         return null; // No intersection
@@ -2661,6 +2863,108 @@ let myLinkedList = new LinkedList(1)
 myLinkedList.push(2)
 
 ```
+
+> ### 21. Merge Two Sorted Lists
+
+Example 1:
+
+Input: list1 = [1,2,4], list2 = [1,3,4]\
+Output: [1,1,2,3,4,4]
+
+Example 2:
+
+Input: list1 = [], list2 = []\
+Output: []
+
+Example 3:
+
+Input: list1 = [], list2 = [0]\
+Output: [0]
+
+```js
+// Solution 1
+
+function mergeTwoLists(list1, list2) {
+    // If one of the lists is null, return the other list since there's nothing to merge
+    if (list1 === null || list2 === null) {
+        return list1 || list2;
+    }
+
+    // Compare the values of the two list heads and recursively merge the rest of the lists
+    if (list1.val < list2.val) {
+        // If the value of the first list head is less, 
+        // link that node to the result of merging the rest of the lists
+        list1.next = mergeTwoLists(list1.next, list2);
+        return list1;
+    } else {
+        // If the value of the second list head is less or equal,
+        // link that node to the result of merging the rest of the lists
+        list2.next = mergeTwoLists(list1, list2.next);
+        return list2;
+    }
+}
+
+
+
+
+// Solution 2
+class ListNode {
+    constructor(val = 0, next = null) {
+        this.val = val
+        this.next = next
+    }
+}
+
+
+var mergeTwoLists = function (list1, list2) {
+    let newList = new ListNode()
+    let curr = newList
+
+    while (list1 !== null && list2 !== null) {
+        if (list1.val < list2.val) {
+            curr.next = list1
+            list1 = list1.next
+        } else {
+            curr.next = list2
+            list2 = list2.next
+        }
+        curr = curr.next
+    }
+
+    // This is for adding extra length jo bach jaye
+    if (list1 !== null) {
+        curr.next = list1;
+    } else if (list2 !== null) {
+        curr.next = list2;
+    }
+
+    return newList.next
+};
+
+const l1 = {
+    val: 1,
+    next: {
+        val: 2,
+        next: {
+            val: 4,
+            next: null
+        }
+    }
+};
+const l2 = {
+    val: 1,
+    next: {
+        val: 3,
+        next: {
+            val: 4,
+            next: null
+        }
+    }
+};
+
+mergeTwoLists(l1, l2)
+```
+
 
 > ### Double linked list
 
@@ -6874,7 +7178,52 @@ console.log(subarrayWithGivenSumMixed(arrayMixed, targetMixed)); // Output: [10,
 - **Time Complexity**: \(O(n)\), because we iterate through the array once.
 - **Space Complexity**: \(O(n)\), for storing cumulative sums in the `Map`.
 
+<br>
 
+> ### 53. Maximum Subarray
+
+Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+Example 1:
+
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]\
+Output: 6\
+Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+
+Example 2:
+
+Input: nums = [1]\
+Output: 1\
+Explanation: The subarray [1] has the largest sum 1.
+
+Example 3:
+
+Input: nums = [5,4,-1,7,8]\
+Output: 23\
+Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+
+```js
+function maxSubArray(nums) {
+    if (nums.length === 0) return 0; // Handle edge case
+
+    let currentMax = nums[0];
+    let globalMax = nums[0];
+
+    for (let i = 1; i < nums.length; i++) {
+        // Either extend the current subarray or start a new one
+        currentMax = Math.max(nums[i], currentMax + nums[i]);
+        globalMax = Math.max(globalMax, currentMax);
+    }
+
+    return globalMax;
+}
+
+// Example usage
+const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
+console.log(maxSubArray(nums)); // Output: 6 (Subarray: [4, -1, 2, 1])
+```
+
+<br>
 > ### Longest subarray with given sum
 
 To find the longest subarray with a given sum in an unsorted array, we can use a cumulative sum approach with a `Map`. This solution works efficiently for arrays containing both positive and negative integers.
@@ -11420,3 +11769,153 @@ function equalRowAndColumnPairs(matrix) {
 const matrix = [[3,2,1],[1,7,6],[2,7,7]];
 console.log(equalRowAndColumnPairs(matrix)); // Output: 1
 ```
+
+
+> ### 14. Longest Common Prefix
+
+Write a function to find the longest common prefix string amongst an array of strings.
+
+If there is no common prefix, return an empty string "".
+
+Example 1:
+
+Input: strs = ["flower","flow","flight"]\
+Output: "fl"
+
+Example 2:
+
+Input: strs = ["dog","racecar","car"]\
+Output: ""\
+Explanation: There is no common prefix among the input strings.
+
+```js
+function longestCommonPrefix(strs) {
+    if (strs.length === 0) return ""; // If the array is empty
+    if (strs.length === 1) return strs[0]; // If there's only one string
+
+    // Start with the first string as the prefix
+    let prefix = strs[0];
+
+    for (let i = 1; i < strs.length; i++) {
+       
+        while (strs[i].indexOf(prefix) !== 0) {
+           
+            // Reduce the prefix by one character at a time
+            prefix = prefix.slice(0, prefix.length - 1);
+            if (prefix === "") return ""; // No common prefix
+        }
+    }
+
+    return prefix;
+}
+
+// Example Usage
+const strings = ["flower", "flow", "flight"];
+console.log(longestCommonPrefix(strings)); // Output: "fl"
+```
+
+> ### 121. Best Time to Buy and Sell Stock
+
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+Example 1:
+
+Input: prices = [7,1,5,3,6,4]\
+Output: 5\
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+
+Example 2:
+
+Input: prices = [7,6,4,3,1]\
+Output: 0\
+Explanation: In this case, no transactions are done and the max profit = 0.
+
+```js
+var maxProfit = function(prices) {
+    let maxProfit = 0;
+    let cheapestPriceAtDay = prices[0];
+
+    for(let idx = 1; idx < prices.length; idx++){
+    
+        let price = prices[idx];
+        if (cheapestPriceAtDay > price) {
+            cheapestPriceAtDay = price;
+        } else {
+            maxProfit = Math.max(maxProfit, price - cheapestPriceAtDay);
+        }
+    }
+
+    return maxProfit;
+};
+maxProfit([7,1,5,3,6,4])
+```
+
+
+> ### 1029. Two City Scheduling
+
+A company is planning to interview 2n people. Given the array costs where costs[i] = [aCosti, bCosti], the cost of flying the ith person to city a is aCosti, and the cost of flying the ith person to city b is bCosti.
+
+Return the minimum cost to fly every person to a city such that exactly n people arrive in each city.
+
+Example 1:
+
+Input: costs = [[10,20],[30,200],[400,50],[30,20]]\
+Output: 110\
+Explanation:\ 
+The first person goes to city A for a cost of 10.\
+The second person goes to city A for a cost of 30.\
+The third person goes to city B for a cost of 50.\
+The fourth person goes to city B for a cost of 20.\
+
+The total minimum cost is 10 + 30 + 50 + 20 = 110 to have half the people interviewing in each city.
+
+Example 2:
+
+Input: costs = [[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]]\
+Output: 1859
+
+Example 3:
+
+Input: costs = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,359],[631,42]]
+Output: 3086
+
+`video :` https://youtu.be/d-B_gk_gJtQ?si=9-KHhO0SYdM62wBe&t=304
+
+
+```js
+function twoCitySchedCost(costs) {
+    // Sort the costs by the difference between city A and city B
+    costs.sort((a, b) => (a[0] - a[1]) - (b[0] - b[1]));
+
+    let totalCost = 0;
+    const n = costs.length / 2;
+
+    // Send the first n people to city A
+    for (let i = 0; i < n; i++) {
+        totalCost += costs[i][0];
+    }
+
+    // Send the next n people to city B
+    for (let i = n; i < 2 * n; i++) {
+        totalCost += costs[i][1];
+    }
+
+    return totalCost;
+}
+
+// Example usage
+const costs1 = [[10,20],[30,200],[400,50],[30,20]];
+console.log(twoCitySchedCost(costs1)); // Output: 110
+
+const costs2 = [[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]];
+console.log(twoCitySchedCost(costs2)); // Output: 1859
+
+const costs3 = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,359],[631,42]];
+console.log(twoCitySchedCost(costs3)); // Output: 3086
+```
+
