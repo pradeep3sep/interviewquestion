@@ -1333,6 +1333,85 @@ console.log(permutations);
   console.log(checkPalindrome(str));
 ```
 
+
+second approach
+
+```js
+function isPalindrome(s) {
+
+    // Initialize two pointers
+    let left = 0;
+    let right = s.length - 1;
+
+    // Iterate while left pointer is less than right pointer
+    while (left < right) {
+        // Compare characters at the pointers
+        if (s[left] !== s[right]) {
+            return false;
+        }
+        // Move pointers inward
+        left++;
+        right--;
+    }
+
+    return true; // The string is a palindrome
+}
+```
+
+> ### 680. Valid Palindrome II
+Given a string s, return true if the s can be palindrome after deleting at most one character from it.
+
+Example 1:
+
+Input: s = "aba"\
+Output: true
+
+Example 2:
+
+Input: s = "abca"\
+Output: true\
+Explanation: You could delete the character 'c'.
+
+Example 3:
+
+Input: s = "abc"\
+Output: false
+
+```js
+function validPalindrome(s) {
+    function isPalindrome(str, left, right) {
+        while (left < right) {
+            if (str[left] !== str[right]) {
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    let left = 0;
+    let right = s.length - 1;
+
+    while (left < right) {
+        if (s[left] !== s[right]) {
+            // Try removing one character from either end
+            return isPalindrome(s, left + 1, right) || isPalindrome(s, left, right - 1);
+        }
+        left++;
+        right--;
+    }
+
+    return true;
+}
+
+// Example usage
+console.log(validPalindrome("aba"));  // true
+console.log(validPalindrome("abca")); // true
+console.log(validPalindrome("abc"));  // false
+```
+
+
 <br>
 
 ---
@@ -10091,6 +10170,105 @@ The idea is to reuse the solution of sub-problems when there are overlapping sub
 2. Tabulation (Bottom Up)
 
 
+> ### 198. House Robber
+
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
+
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
+
+Example 1:
+
+Input: nums = [1,2,3,1]\
+Output: 4\
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).\
+Total amount you can rob = 1 + 3 = 4.
+
+Example 2:
+
+Input: nums = [2,7,9,3,1]\
+Output: 12\
+Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).\
+Total amount you can rob = 2 + 9 + 1 = 12.
+
+
+`video solution :`https://youtu.be/73r3KWiEvyk
+
+```js
+function rob(nums) {
+    if (nums.length === 0) return 0;
+    if (nums.length === 1) return nums[0];
+
+    let prev2 = 0; // Maximum money robbed from two houses ago
+    let prev1 = 0; // Maximum money robbed from the last house
+
+    for (let num of nums) {
+        const temp = prev1;
+        prev1 = Math.max(prev1, prev2 + num); // Choose the best option: skip or rob the current house
+        prev2 = temp; // Update `prev2` for the next iteration
+    }
+
+    return prev1;
+}
+
+// Example usage:
+console.log(rob([1, 2, 3, 1])); // Output: 4
+console.log(rob([2, 7, 9, 3, 1])); // Output: 12
+```
+
+
+> ### 70. Climbing Stairs
+Attempted
+Easy
+Topics
+Companies
+Hint
+You are climbing a staircase. It takes n steps to reach the top.
+
+Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+
+ 
+
+Example 1:
+
+Input: n = 2
+Output: 2
+Explanation: There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+Example 2:
+
+Input: n = 3
+Output: 3
+Explanation: There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+
+
+`video:`- https://youtu.be/Y0lT9Fck7qI  || https://youtu.be/UUaMrNOvSqg
+
+```js
+function climbStairs(n) {
+    if (n <= 2) return n;
+
+    let first = 1;
+    let second = 2;
+
+    for (let i = 3; i <= n; i++) {
+        let third = first + second;
+        first = second;
+        second = third;
+    }
+
+    return second;
+}
+
+// Example usage:
+console.log(climbStairs(2)); // Output: 2
+console.log(climbStairs(3)); // Output: 3
+```
+
+
 
 **Fibonacci Sequence**:
    - One of the simplest examples of DP.
@@ -11919,3 +12097,401 @@ const costs3 = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,
 console.log(twoCitySchedCost(costs3)); // Output: 3086
 ```
 
+
+> ### 2016. Maximum Difference Between Increasing Elements
+Given a 0-indexed integer array nums of size n, find the maximum difference between nums[i] and nums[j] (i.e., nums[j] - nums[i]), such that 0 <= i < j < n and nums[i] < nums[j].
+
+Return the maximum difference. If no such i and j exists, return -1.
+
+Example 1:
+
+Input: nums = [7,1,5,4]\
+Output: 4\
+Explanation:\
+The maximum difference occurs with i = 1 and j = 2, nums[j] - nums[i] = 5 - 1 = 4.\
+Note that with i = 1 and j = 0, the difference nums[j] - nums[i] = 7 - 1 = 6, but i > j, so it is not valid.
+
+Example 2:
+
+Input: nums = [9,4,3,2]\
+Output: -1\
+Explanation:\
+There is no i and j such that i < j and nums[i] < nums[j].
+
+Example 3:
+
+Input: nums = [1,5,2,10]\
+Output: 9\
+Explanation:\
+The maximum difference occurs with i = 0 and j = 3, nums[j] - nums[i] = 10 - 1 = 9.
+
+Note - Basically iterate karenge, point pe min number compare kr k store karenge aur usi min se differnece nikal k store karenge
+
+
+```js
+function maximumDifference(nums) {
+    let minSoFar = nums[0]; // Initialize with the first element
+    let maxDifference = -1; // Initialize the maximum difference as -1
+
+    for (let j = 1; j < nums.length; j++) {
+        if (nums[j] > minSoFar) {
+            maxDifference = Math.max(maxDifference, nums[j] - minSoFar);
+        } else {
+            minSoFar = nums[j]; // Update the minimum so far
+        }
+    }
+
+    return maxDifference;
+}
+
+// Example 1:
+console.log(maximumDifference([7, 1, 5, 4])); // Output: 4
+
+// Example 2:
+console.log(maximumDifference([9, 4, 3, 2])); // Output: -1
+```
+
+
+> ### 136. Single Number
+Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.
+
+You must implement a solution with a `linear runtime complexity and use only constant extra space.`
+
+Example 1:
+
+Input: nums = [2,2,1]\
+Output: 1
+
+Example 2:
+
+Input: nums = [4,1,2,1,2]\
+Output: 4
+
+Example 3:
+
+Input: nums = [1]\
+Output: 1
+
+```js
+function singleNumber(nums) {
+    let result = 0;
+    for (let num of nums) {
+        result ^= num; // XOR operation
+    }
+    return result;
+}
+```
+
+> ### 278. First Bad Version
+
+You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
+
+Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.
+
+You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
+
+ 
+
+Example 1:
+
+Input: n = 5, bad = 4\
+Output: 4\
+Explanation:\
+call isBadVersion(3) -> false\
+call isBadVersion(5) -> true\
+call isBadVersion(4) -> true\
+Then 4 is the first bad version.
+
+Example 2:
+
+Input: n = 1, bad = 1\
+Output: 1
+
+```js
+/**
+ * Definition for isBadVersion()
+ * 
+ * @param {integer} version - The version number
+ * @return {boolean} - Returns whether the version is bad
+ * isBadVersion = function(version) {
+ *     // API implementation
+ * };
+ */
+
+/**
+ * @param {function} isBadVersion()
+ * @return {function}
+ */
+var solution = function(isBadVersion) {
+    /**
+     * @param {integer} n - Total number of versions
+     * @return {integer} - The first bad version
+     */
+    return function(n) {
+        let left = 1;
+        let right = n;
+
+        while (left < right) {
+            const mid = Math.floor(left + (right - left) / 2);
+            if (isBadVersion(mid)) {
+                right = mid; // Continue searching in the left half
+            } else {
+                left = mid + 1; // Continue searching in the right half
+            }
+        }
+
+        // At the end of the loop, left and right will converge to the first bad version
+        return left;
+    };
+};
+
+```
+
+
+> ### 867. Transpose Matrix
+Given a 2D integer array matrix, return the transpose of matrix.
+
+The transpose of a matrix is the matrix flipped over its main diagonal, switching the matrix's row and column indices.
+
+Example 1:
+
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]\
+Output: [[1,4,7],[2,5,8],[3,6,9]]
+
+Example 2:
+
+Input: matrix = [[1,2,3],[4,5,6]]\
+Output: [[1,4],[2,5],[3,6]]
+
+```js
+function transpose(matrix) {
+    let rows = matrix.length;
+    let cols = matrix[0].length;
+    let result = Array.from({ length: cols }, () => Array(rows).fill(0));
+
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            result[j][i] = matrix[i][j];
+        }
+    }
+    return result;
+}
+```
+
+> ### 1827. Minimum Operations to Make the Array Increasing
+You are given an integer array nums (0-indexed). In one operation, you can choose an element of the array and increment it by 1.
+
+For example, if nums = [1,2,3], you can choose to increment nums[1] to make nums = [1,3,3].\
+Return the minimum number of operations needed to make nums strictly increasing.
+
+An array nums is strictly increasing if nums[i] < nums[i+1] for all 0 <= i < nums.length - 1. An array of length 1 is trivially strictly increasing.
+
+Example 1:
+
+Input: nums = [1,1,1]
+Output: 3\
+Explanation: You can do the following operations:\
+1) Increment nums[2], so nums becomes [1,1,2].\
+2) Increment nums[1], so nums becomes [1,2,2].\
+3) Increment nums[2], so nums becomes [1,2,3].
+
+Example 2:
+
+Input: nums = [1,5,2,4,1]\
+Output: 14\
+Example 3:
+
+Input: nums = [8]\
+Output: 0
+
+`video: `https://youtu.be/ttznU-BTqTk
+
+```js
+function minOperations(nums) {
+    let operations = 0;
+
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] <= nums[i - 1]) {
+            // Calculate how many increments are needed to make nums[i] > nums[i - 1]
+            let increment = nums[i - 1] - nums[i] + 1;
+            operations += increment;
+            nums[i] += increment; // Update nums[i] to maintain the strictly increasing condition
+        }
+    }
+
+    return operations;
+}
+```
+
+> ### 453. Minimum Moves to Equal Array Elements
+Given an integer array nums of size n, return the minimum number of moves required to make all array elements equal.
+
+In one move, you can increment n - 1 elements of the array by 1.
+
+Example 1:
+
+Input: nums = [1,2,3]\
+Output: 3\
+Explanation: Only three moves are needed (remember each move increments two elements):\
+[1,2,3]  =>  [2,3,3]  =>  [3,4,3]  =>  [4,4,4]
+
+Example 2:
+
+Input: nums = [1,1,1]\
+Output: 0
+
+To solve this problem, we can approach it mathematically. `Instead of incrementing \( n - 1 \) elements in each move, we can think of this as decrementing one element (effectively shifting the perspective)`. This approach simplifies the problem to finding the total difference between all elements and the smallest element.
+
+### Algorithm:
+1. Find the smallest element in the array (`min`).
+2. Calculate the difference between each element and this minimum.
+3. The total difference is the minimum number of moves required.
+
+Here’s the implementation in JavaScript:
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minMoves = function(nums) {
+    const min = Math.min(...nums);
+    let moves = 0;
+
+    for (const num of nums) {
+        moves += num - min;
+    }
+
+    return moves;
+};
+
+// Example 1
+console.log(minMoves([1, 2, 3])); // Output: 3
+
+// Example 2
+console.log(minMoves([1, 1, 1])); // Output: 0
+```
+
+### Explanation:
+- In the example `[1, 2, 3]`, the smallest element is `1`. 
+- The total moves are `(2 - 1) + (3 - 1) = 1 + 2 = 3`. 
+- The array becomes `[4, 4, 4]` after 3 moves.
+
+
+> ### 202. Happy Number
+Write an algorithm to determine if a number n is happy.
+
+A happy number is a number defined by the following process:
+
+Starting with any positive integer, replace the number by the sum of the squares of its digits.\
+Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.\
+Those numbers for which this process ends in 1 are happy.\
+Return true if n is a happy number, and false if not.
+
+Example 1:
+
+Input: n = 19\
+Output: true\
+Explanation:\
+12 + 92 = 82\
+82 + 22 = 68\
+62 + 82 = 100\
+12 + 02 + 02 = 1
+
+Example 2:
+
+Input: n = 2\
+Output: false
+
+```js
+
+function sumDigitSquare(n) {
+  	n = n+ ''
+    let sum = 0;
+    for(let unit of n){
+      sum = sum + (unit * unit)
+    }
+
+    return sum;
+}
+
+function isHappy(n) {
+    let s = [];
+    s.push(n);
+
+    while (true) {
+        if (n == 1) return true;
+        n = sumDigitSquare(n)
+
+        if (s.includes(n)) return false
+        s.push(n)
+    }
+    return false;
+}
+isHappy(2)
+isHappy(19)
+```
+
+
+> ### 1005. Maximize Sum Of Array After K Negations
+Given an integer array nums and an integer k, modify the array in the following way:
+
+choose an index i and replace nums[i] with -nums[i].\
+You should apply this process exactly k times. You may choose the same index i multiple times.
+
+Return the largest possible sum of the array after modifying it in this way.
+
+Example 1:
+
+Input: nums = [4,2,3], k = 1\
+Output: 5\
+Explanation: Choose index 1 and nums becomes [4,-2,3].
+
+Example 2:
+
+Input: nums = [3,-1,0,2], k = 3\
+Output: 6\
+Explanation: Choose indices (1, 2, 2) and nums becomes [3,1,0,2].
+
+Example 3:
+
+Input: nums = [2,-3,-1,5,-4], k = 2\
+Output: 13\
+Explanation: Choose indices (1, 4) and nums becomes [2,3,-1,5,4].
+
+
+`video:` https://www.youtube.com/watch?v=8GDHYgbxTN4
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+function largestSumAfterKNegations(nums, k) {
+    // Sort the array based on the absolute values in descending order
+    nums.sort((a, b) => Math.abs(b) - Math.abs(a));
+    
+    // Iterate through the array and apply negations
+    for (let i = 0; i < nums.length && k > 0; i++) {
+        if (nums[i] < 0) {
+            nums[i] = -nums[i];
+            k--;
+        }
+    }
+
+    // If k is still greater than 0 and it's odd, flip the smallest value
+    if (k % 2 === 1) {
+        nums[nums.length - 1] = -nums[nums.length - 1];
+    }
+
+    // Return the sum of the modified array
+    return nums.reduce((sum, num) => sum + num, 0);
+}
+
+// Example 1
+console.log(largestSumAfterKNegations([4, 2, 3], 1)); // Output: 5
+
+// Example 2
+console.log(largestSumAfterKNegations([3, -1, 0, 2], 3)); // Output: 6
+```
