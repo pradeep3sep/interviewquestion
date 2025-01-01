@@ -300,7 +300,7 @@ console.log(getRangeSum(prefixSum, 0, 2)); // Output: 12 (2 + 4 + 6)
 
 <br>
 
-> ### Find Pivot Index
+> ### Leetcode - Find Pivot Index
 
 Given an array of integers nums, calculate the pivot index of this array.
 
@@ -372,6 +372,186 @@ console.log(findPivotIndex(nums)); // Output: 3
 
 <br>
 
+> ### 1413. Minimum Value to Get Positive Step by Step Sum
+Given an array of integers nums, you start with an initial positive value startValue.
+
+In each iteration, you calculate the step by step sum of startValue plus elements in nums (from left to right).
+
+Return the minimum positive value of startValue such that the step by step sum is never less than 1.
+
+Example 1:
+
+Input: nums = [-3,2,-3,4,2]\
+Output: 5\
+Explanation: If you choose startValue = 4, in the third iteration your step by step sum is less than 1.\
+step by step sum\
+startVal=4 | startVal =5| nums\
+(4 -3 ) = 1  | (5 -3 ) = 2    |  -3\
+(1 +2 ) = 3  | (2 +2 ) = 4    |   2\
+(3 -3 ) = 0  | (4 -3 ) = 1    |  -3\
+(0 +4 ) = 4  | (1 +4 ) = 5    |   4\
+(4 +2 ) = 6  | (5 +2 ) = 7    |   2
+
+Example 2:
+
+Input: nums = [1,2]
+Output: 1
+Explanation: Minimum start value should be positive. 
+Example 3:
+
+Input: nums = [1,-2,-3]
+Output: 5
+
+`Video:` https://youtu.be/acIkZpmbiaA?si=zNiN1UkCKzastQ1S
+
+```js
+function minStartValue(nums) {
+    let minSum = 0;
+    let currentSum = 0;
+
+    for (let num of nums) {
+        currentSum += num;
+        minSum = Math.min(minSum, currentSum);
+    }
+
+    // To ensure the step-by-step sum is never less than 1,
+    // we need startValue to be at least 1 - minSum.
+    return 1 - minSum;
+}
+
+// Example Usage
+console.log(minStartValue([-3, 2, -3, 4, 2])); // Output: 5
+console.log(minStartValue([1, 2]));            // Output: 1
+console.log(minStartValue([1, -2, -3]));       // Output: 5
+```
+
+<br>
+
+> ### 1854. Maximum Population Year
+You are given a 2D integer array logs where each logs[i] = [birthi, deathi] indicates the birth and death years of the ith person.
+
+The population of some year x is the number of people alive during that year. The ith person is counted in year x's population if x is in the inclusive range [birthi, deathi - 1]. Note that the person is not counted in the year that they die.
+
+Return the earliest year with the maximum population.
+
+Example 1:
+
+Input: logs = [[1993,1999],[2000,2010]]\
+Output: 1993\
+Explanation: The maximum population is 1, and 1993 is the earliest year with this population.
+
+Example 2:
+
+Input: logs = [[1950,1961],[1960,1971],[1970,1981]]\
+Output: 1960\
+Explanation:\
+The maximum population is 2, and it had happened in years 1960 and 1970.\
+The earlier year between them is 1960.
+
+`video:` https://www.youtube.com/watch?v=v0xswVJnRlE
+
+
+```js
+var maximumPopulation = function(logs) {
+    const yearChanges = new Array(101).fill(0); // 1950 to 2050 inclusive
+
+    logs.forEach(([birth, death]) => {
+        yearChanges[birth - 1950]++; // Increment for birth year
+        yearChanges[death - 1950]--; // Decrement for death year
+    });
+
+    let maxPopulation = 0;
+    let maxYear = 1950;
+    let currentPopulation = 0;
+
+    for (let i = 0; i < yearChanges.length; i++) {
+        currentPopulation += yearChanges[i];
+        if (currentPopulation > maxPopulation) {
+            maxPopulation = currentPopulation;
+            maxYear = 1950 + i; // Convert index back to the actual year
+        }
+    }
+
+    return maxYear;
+};
+```
+
+<br>
+
+> ### 437. Path Sum III
+Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
+
+Example 1:
+
+Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8\
+Output: 3\
+Explanation: The paths that sum to 8 are shown.
+
+Example 2:
+
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22\
+Output: 3
+
+`video:` https://youtu.be/UQzXYDN49cs?si=jxPPtTM3alVIQ5JF
+
+```js
+class TreeNode {
+    constructor(val, left = null, right = null) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+function pathSum(root, targetSum) {
+    const prefixSumMap = new Map();
+    prefixSumMap.set(0, 1); // Base case: one way to reach sum 0 is by not taking any nodes
+    let count = 0;
+
+    function dfs(node, currentSum) {
+        if (!node) return;
+
+        // Add the current node's value to the running sum
+        currentSum += node.val;
+
+        // Check if there's a prefix sum such that currentSum - prefixSum = targetSum
+        const neededSum = currentSum - targetSum;
+        if (prefixSumMap.has(neededSum)) {
+            count += prefixSumMap.get(neededSum);
+        }
+
+        // Add the current running sum to the map
+        prefixSumMap.set(currentSum, (prefixSumMap.get(currentSum) || 0) + 1);
+
+        // Explore the left and right subtrees
+        dfs(node.left, currentSum);
+        dfs(node.right, currentSum);
+
+        // Backtrack: Remove the current running sum from the map
+        prefixSumMap.set(currentSum, prefixSumMap.get(currentSum) - 1);
+    }
+
+    dfs(root, 0);
+    return count;
+}
+
+// Example usage:
+// Create the tree: [10,5,-3,3,2,null,11,3,-2,null,1]
+const root = new TreeNode(10,
+    new TreeNode(5,
+        new TreeNode(3, new TreeNode(3), new TreeNode(-2)),
+        new TreeNode(2, null, new TreeNode(1))
+    ),
+    new TreeNode(-3, null, new TreeNode(11))
+);
+
+const targetSum = 8;
+console.log(pathSum(root, targetSum)); // Output: 3
+```
+
+<br>
 
 [Back to Top](#table-of-contents)
 
@@ -1411,6 +1591,58 @@ console.log(validPalindrome("abca")); // true
 console.log(validPalindrome("abc"));  // false
 ```
 
+<br>
+
+> ### 859. Buddy Strings
+Given two strings s and goal, return true if you can swap two letters in s so the result is equal to goal, otherwise, return false.
+
+Swapping letters is defined as taking two indices i and j (0-indexed) such that i != j and swapping the characters at s[i] and s[j].
+
+For example, swapping at indices 0 and 2 in "abcd" results in "cbad".
+ 
+
+Example 1:
+
+Input: s = "ab", goal = "ba"
+Output: true
+Explanation: You can swap s[0] = 'a' and s[1] = 'b' to get "ba", which is equal to goal.\
+
+Example 2:
+
+Input: s = "ab", goal = "ab"\
+Output: false\
+Explanation: The only letters you can swap are s[0] = 'a' and s[1] = 'b', which results in "ba" != goal.
+
+Example 3:
+
+Input: s = "aa", goal = "aa"\
+Output: true\
+Explanation: You can swap s[0] = 'a' and s[1] = 'a' to get "aa", which is equal to goal.
+
+```js
+function buddyStrings(s, goal) {
+    if (s.length !== goal.length) return false;
+
+    if (s === goal) { // for the case like s="aa" and goal="aa"
+        // If s and goal are the same, check if there is a duplicate character
+        const charSet = new Set(s);
+        return charSet.size < s.length; // Duplicate characters exist
+    }
+
+    let diffs = [];
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] !== goal[i]) {
+            diffs.push(i);
+            if (diffs.length > 2) return false; // More than two differences
+        }
+    }
+
+    // Check if there are exactly two differences and they can be swapped
+    return diffs.length === 2 &&
+           s[diffs[0]] === goal[diffs[1]] &&
+           s[diffs[1]] === goal[diffs[0]];
+}
+```
 
 <br>
 
@@ -7688,6 +7920,36 @@ console.log("DFS Iterative:", myGraph.dfsIterative(0)); // Expected Output: [0, 
 
 ```
 
+> ### 841. Keys and Rooms
+
+There are n rooms labeled from 0 to n - 1 and all the rooms are locked except for room 0. Your goal is to visit all the rooms. However, you cannot enter a locked room without having its key.
+
+When you visit a room, you may find a set of distinct keys in it. Each key has a number on it, denoting which room it unlocks, and you can take all of them with you to unlock the other rooms.
+
+Given an array rooms where rooms[i] is the set of keys that you can obtain if you visited room i, return true if you can visit all the rooms, or false otherwise.
+
+Example 1:
+
+Input: rooms = [[1],[2],[3],[]]\
+Output: true\
+Explanation:\
+We visit room 0 and pick up key 1.\
+We then visit room 1 and pick up key 2.\
+We then visit room 2 and pick up key 3.\
+We then visit room 3.\
+Since we were able to visit every room, we return true.
+
+Example 2:
+
+Input: rooms = [[1,3],[3,0,1],[2],[0]]\
+Output: false\
+Explanation: We can not enter room number 2 since the only key that unlocks it is in that room.
+
+`video: ` https://youtu.be/d0J-s0ZdYsY?si=wCQqajThu2f-014K
+
+`Algo:` Graph with DFS
+
+
 > ### shortest path in unweight graph ( [Youtube video](https://www.youtube.com/watch?v=yysA7ZM2jjA&ab_channel=HelloWorld) )
 
 ```
@@ -12494,4 +12756,180 @@ console.log(largestSumAfterKNegations([4, 2, 3], 1)); // Output: 5
 
 // Example 2
 console.log(largestSumAfterKNegations([3, -1, 0, 2], 3)); // Output: 6
+```
+
+
+> ### 122. Best Time to Buy and Sell Stock II
+You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
+
+On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
+
+Find and return the maximum profit you can achieve.
+
+Example 1:
+
+Input: prices = [7,1,5,3,6,4]\
+Output: 7\
+Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.\
+Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.\
+Total profit is 4 + 3 = 7.
+
+Example 2:
+
+Input: prices = [1,2,3,4,5]\
+Output: 4\
+Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.\
+Total profit is 4.
+
+Example 3:
+
+Input: prices = [7,6,4,3,1]\
+Output: 0\
+Explanation: There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.
+
+`video:` https://www.youtube.com/watch?v=Q7v239y-Tik
+
+
+```js
+/**
+ * @param {number[]} prices
+ * @return {number}
+ */
+var maxProfit = function(prices) {
+    let profit = 0;
+    
+    for (let i = 1; i < prices.length; i++) {
+        // If today's price is greater than yesterday's, we make a profit by selling today
+        if (prices[i] > prices[i - 1]) {
+            profit += prices[i] - prices[i - 1];
+        }
+    }
+    
+    return profit;
+};
+
+// Example usage:
+const prices = [7, 1, 5, 3, 6, 4];
+console.log(maxProfit(prices)); // Output: 7
+```
+
+
+> ### 1700. Number of Students Unable to Eat Lunch
+
+The school cafeteria offers circular and square sandwiches at lunch break, referred to by numbers 0 and 1 respectively. All students stand in a queue. Each student either prefers square or circular sandwiches.
+
+The number of sandwiches in the cafeteria is equal to the number of students. The sandwiches are placed in a stack. At each step:
+
+If the student at the front of the queue prefers the sandwich on the top of the stack, they will take it and leave the queue.\
+Otherwise, they will leave it and go to the queue's end.\
+This continues until none of the queue students want to take the top sandwich and are thus unable to eat.\
+
+You are given two integer arrays students and sandwiches where sandwiches[i] is the type of the i​​​​​​th sandwich in the stack (i = 0 is the top of\ the stack) and students[j] is the preference of the j​​​​​​th student in the initial queue (j = 0 is the front of the queue). Return the number of\ students that are unable to eat.
+
+Example 1:
+
+Input: students = [1,1,0,0], sandwiches = [0,1,0,1]\
+Output: 0 \
+Explanation:\
+- Front student leaves the top sandwich and returns to the end of the line making students = [1,0,0,1].\
+- Front student leaves the top sandwich and returns to the end of the line making students = [0,0,1,1].\
+- Front student takes the top sandwich and leaves the line making students = [0,1,1] and sandwiches = [1,0,1].\
+- Front student leaves the top sandwich and returns to the end of the line making students = [1,1,0].\
+- Front student takes the top sandwich and leaves the line making students = [1,0] and sandwiches = [0,1].\
+- Front student leaves the top sandwich and returns to the end of the line making students = [0,1].\
+- Front student takes the top sandwich and leaves the line making students = [1] and sandwiches = [1].\
+- Front student takes the top sandwich and leaves the line making students = [] and sandwiches = [].\
+Hence all students are able to eat.
+
+Example 2:
+
+Input: students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]\
+Output: 3
+
+```js
+function countStudents(students, sandwiches) {
+    let studentQueue = students;
+    let sandwichStack = sandwiches;
+    let count = 0;
+
+    while (studentQueue.length > 0) {
+        if (studentQueue[0] === sandwichStack[0]) {
+            // If the student at the front of the queue wants the top sandwich
+            studentQueue.shift();
+            sandwichStack.shift();
+            count = 0; // Reset the count as a match happened
+        } else {
+            // Move the student to the end of the queue
+            studentQueue.push(studentQueue.shift());
+            count++;
+            // If all students in the queue refuse the current sandwich
+            if (count === studentQueue.length) {
+                return count;
+            }
+        }
+    }
+
+    return 0; // All students were able to eat
+}
+```
+
+
+> ### 1710. Maximum Units on a Truck
+
+You are assigned to put some amount of boxes onto one truck. You are given a 2D array boxTypes, where boxTypes[i] = [numberOfBoxesi, numberOfUnitsPerBoxi]:
+
+numberOfBoxesi is the number of boxes of type i.\
+numberOfUnitsPerBoxi is the number of units in each box of the type i.\
+You are also given an integer truckSize, which is the maximum number of boxes that can be put on the truck. You can choose any boxes to put on the truck as long as the number of boxes does not exceed truckSize.
+
+Return the maximum total number of units that can be put on the truck.
+
+Example 1:
+
+Input: boxTypes = [[1,3],[2,2],[3,1]], truckSize = 4\
+Output: 8\
+Explanation: There are:\
+- 1 box of the first type that contains 3 units.\
+- 2 boxes of the second type that contain 2 units each.\
+- 3 boxes of the third type that contain 1 unit each.\
+You can take all the boxes of the first and second types, and one box of the third type.\
+The total number of units will be = (1 * 3) + (2 * 2) + (1 * 1) = 8.
+
+Example 2:
+
+Input: boxTypes = [[5,10],[2,5],[4,7],[3,9]], truckSize = 10\
+Output: 91
+
+```js
+/**
+ * @param {number[][]} boxTypes
+ * @param {number} truckSize
+ * @return {number}
+ */
+var maximumUnits = function(boxTypes, truckSize) {
+    // Sort boxTypes in descending order based on the number of units per box
+    boxTypes.sort((a, b) => b[1] - a[1]);
+
+    let maxUnits = 0;
+
+    for (let i = 0; i < boxTypes.length; i++) {
+        let [numBoxes, unitsPerBox] = boxTypes[i];
+
+        if (truckSize >= numBoxes) {
+            // Take all boxes of this type
+            maxUnits += numBoxes * unitsPerBox;
+            truckSize -= numBoxes;
+        } else {
+            // Take only the number of boxes that can fit
+            maxUnits += truckSize * unitsPerBox;
+            break; // Truck is full
+        }
+    }
+
+    return maxUnits;
+};
+
+// Example usage:
+console.log(maximumUnits([[1,3],[2,2],[3,1]], 4)); // Output: 8
+console.log(maximumUnits([[5,10],[2,5],[4,7],[3,9]], 10)); // Output: 91
 ```
