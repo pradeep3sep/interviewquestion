@@ -317,55 +317,6 @@ console.log("unionR", unionR); // [ 1, 2, 3, 4, 5, 8, 9 ]
 ```
 <br>
 
-> ### Q10 - Find the Intersection of two sorted arrays.
-arr1 = [1, 2, 3, 4, 5]
-arr2 = [1, 2, 3, 8, 9]
-output = [ 1, 2, 3]
-
-using filter
-```js
-const arr1 = [1, 2, 3, 4, 5];
-const arr2 = [1, 2, 3, 8, 9];
-
-const intersection = arr1.filter((num) => arr2.includes(num));
-console.log("intersection", intersection);
-```
-
-for loop
-```js
-function findIntersection(arr1, arr2) {
-  const intersection = [];
-  for (let i = 0; i < arr1.length; i++) {
-    const element = arr1[i];
-    if (arr2.indexOf(element) !== -1 && intersection.indexOf(element) === -1) {
-      intersection.push(element);
-    }
-  }
-  return intersection;
-}
-```
-
-using while loop sorted array
-```js
-  let i = 0;
-  let j = 0;
-  let result = [];
-
-  while (i < arr1.length && j < arr2.length) {
-    if (arr1[i] < arr2[j]) {
-      i++;
-    } else if (arr1[i] > arr2[j]) {
-      j++;
-    } else {
-      result.push(arr1[i]);
-      i++;
-      j++;
-    }
-  }
-```
-
-<br>
-
 > ### Q11 - unique from two arrays
 
 const arr3 = [1, 2, 3, 4];
@@ -801,7 +752,7 @@ const arr = [6, -3, -10, 0, 2];
 
 ```js
 
-// Given an array of integers, find the largest product yielded from three of the integers
+// 628. Leetcode - Given an array of integers, find the largest product yielded from three of the integers
 
 /* Algo -
 
@@ -1037,7 +988,7 @@ console.log(rev.split("").reverse().join("") === str1);
 
 <br>
 
-> ### Q27- Write a Code to check whether one string is a rotation of another
+> ### Q27- Leetcode - 796. Write a Code to check whether one string is a rotation of another
 Input: S1 = ABCD, S2 = CDAB\
 Output: Strings are rotations of each other\
 
@@ -3360,7 +3311,7 @@ function multiTable(number) {
 <br>
 
 
-> ### Q84 - Below is for the fibonacci number
+> ### Q84 - Leetcode - 509. Below is for the fibonacci number
 
 <details>
 
@@ -3483,7 +3434,7 @@ for (let i = 0; i < arr1.length; i++) {
 <br>
 
 
-> ### Q86 - find closest number in array
+> ### Q86 - Leetcode - 2239. find closest number in array
 
 <details>
 
@@ -4542,7 +4493,7 @@ function count(str) {
 <br>
 
 
-> ### Q109 - Sum two numbers which are very large in size
+> ### Q109 - leetcode - 415 Sum two numbers which are very large in size
 
 <details>
 

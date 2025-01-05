@@ -106,7 +106,111 @@ function factorial(n) {
 > ## 1. Hash Map alogo
 In this algo, we approach the question by converting it into objects.
 
-> ### 1. Two Sum
+> ### 594. Longest Harmonious Subsequence
+We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.
+
+Given an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.
+
+Example 1:
+
+Input: nums = [1,3,2,2,5,2,3,7]\
+Output: 5
+
+Explanation:\
+The longest harmonious subsequence is [3,2,2,2,3].
+
+Example 2:
+
+Input: nums = [1,2,3,4]\
+Output: 2
+
+Explanation:\
+The longest harmonious subsequences are [1,2], [2,3], and [3,4], all of which have a length of 2.
+
+Example 3:
+
+Input: nums = [1,1,1,1]\
+Output: 0
+
+Explanation:\
+No harmonic subsequence exists.
+
+video - https://youtu.be/Gu9aKI7Oj_I?si=xvkG-1tJLx0UsJ80
+
+```js
+var findLHS = function(nums) {
+    const frequencyMap = new Map();
+    let maxLength = 0;
+
+    // Count the frequency of each number
+    for (const num of nums) {
+        frequencyMap.set(num, (frequencyMap.get(num) || 0) + 1);
+    }
+
+    // Check pairs where the difference is exactly 1
+    for (const [key, value] of frequencyMap.entries()) {
+        if (frequencyMap.has(key + 1)) {
+            maxLength = Math.max(maxLength, value + frequencyMap.get(key + 1));
+        }
+    }
+
+    return maxLength;
+};
+
+// Example usage:
+console.log(findLHS([1, 3, 2, 2, 5, 2, 3, 7])); // Output: 5
+console.log(findLHS([1, 2, 3, 4]));             // Output: 2
+console.log(findLHS([1, 1, 1, 1]));             // Output: 0
+```
+<br>
+
+> ### 350. Intersection of Two Arrays II - (edge case - we can duplicate value in both array)
+
+Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+
+Example 1:
+
+Input: nums1 = [1,2,2,1], nums2 = [2,2]\
+Output: [2,2]
+
+Example 2:
+
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]\
+Output: [4,9]
+Explanation: [9,4] is also accepted.
+
+```js
+var intersect = function(nums1, nums2) {
+    const countMap = {};
+    const result = [];
+    
+    // Count occurrences of elements in nums1
+    for (let num of nums1) {
+        countMap[num] = (countMap[num] || 0) + 1;
+    }
+    
+    // Check for intersections in nums2
+    for (let num of nums2) {
+        if (countMap[num] > 0) {
+            result.push(num);
+            countMap[num]--; // Decrement count
+        }
+    }
+    
+    return result;
+};
+
+// Example 1
+console.log(intersect([1, 2, 2, 1], [2, 2])); // Output: [2, 2]
+
+// Example 2
+console.log(intersect([4, 9, 5], [9, 4, 9, 8, 4])); // Output: [4, 9]
+```
+
+<br>
+
+> ### 1. Two Sum - LeetCode - Keep in mind we have use the hasOwnProperty,
+`hasOwnProperty` - it handles edge case of 0 index, for 0 index it is true but being 0 is false it comes out of if condition.
 
 Example 1:
 
@@ -1056,7 +1160,7 @@ The **fast and slow pointer algorithm** (also known as the **tortoise and hare a
    - To find the **starting point** of the cycle, reset one pointer to the head and move both pointers one step at a time until they meet again.
    - To find the **length of the cycle**, keep one pointer fixed and move the other around the cycle until it meets the first pointer again, counting the steps.
 
-### JavaScript Example: Detecting a Cycle in a Linked List
+### 141. Detecting a Cycle in a Linked List
 
 ```javascript
 class ListNode {
@@ -1118,6 +1222,7 @@ function detectCycleStart(head) {
 - **Find the Middle of a Linked List**: Move one pointer one step and the other pointer two steps, and the slow pointer will be at the middle when the fast pointer reaches the end.
 - **Detecting Palindromes**: Useful in determining if a list or array is a palindrome by moving pointers towards the center.
   
+> ### 876. Middle of the Linked List
 To find the **middle of a linked list** using the fast and slow pointer technique, the general idea is simple:
 
 - The **slow pointer** moves one step at a time.
@@ -1489,6 +1594,64 @@ console.log(permutations);
 
 <br>
 
+> ### 671. Second Minimum Node In a Binary Tree
+Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree has exactly two or zero sub-node. If the node has two sub-nodes, then this node's value is the smaller value among its two sub-nodes. More formally, the property root.val = min(root.left.val, root.right.val) always holds.
+
+Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
+
+If no such second minimum value exists, output -1 instead.
+
+Example 1:
+
+Input: root = [2,2,5,null,null,5,7]\
+Output: 5\
+Explanation: The smallest value is 2, the second smallest value is 5.
+
+Example 2:
+
+Input: root = [2,2,2]\
+Output: -1\
+Explanation: The smallest value is 2, but there isn't any second smallest value.
+
+```js
+var findSecondMinimumValue = function(root) {
+    if (!root || !root.left || !root.right) return -1;
+
+    let firstMin = root.val;
+    let secondMin = Infinity;
+
+    const traverse = (node) => {
+        if (!node) return;
+
+        if (node.val > firstMin && node.val < secondMin) {
+            secondMin = node.val;
+        } else if (node.val === firstMin) {
+            traverse(node.left);
+            traverse(node.right);
+        }
+    };
+
+    traverse(root);
+
+    return secondMin === Infinity ? -1 : secondMin;
+};
+
+// Example usage:
+const root = {
+    val: 2,
+    left: { val: 2, left: null, right: null },
+    right: { 
+        val: 5, 
+        left: { val: 5, left: null, right: null }, 
+        right: { val: 7, left: null, right: null }
+    }
+};
+
+console.log(findSecondMinimumValue(root)); // Output: 5 `
+```
+
+<br>
+
 ## Strings
 
 > ### Palindrome
@@ -1748,7 +1911,7 @@ This approach runs in O(n) time complexity, where `n` is the length of `s2`.
 
 <br>
 
-> ### Anagram Substring Search (Or Search for all permutations) ( [Youtube video](https://youtu.be/fYgU6Bi2fRg?si=HoRG7uxp0GCmxlCA&t=185) )
+> ### 438. Anagram Substring Search (Or Search for all permutations) ( [Youtube video](https://youtu.be/fYgU6Bi2fRg?si=HoRG7uxp0GCmxlCA&t=185) )
 
 **Example**:
 
@@ -2839,7 +3002,7 @@ class LinkedList {
         }
     }
 
-    // Function to reverse a linked list starting from a given node
+    // leetcode - 206. Function to reverse a linked list starting from a given node
     reverse(node) {
         let prev = null;
         let current = node;
@@ -2852,49 +3015,39 @@ class LinkedList {
         return prev;
     }
 
-    // Function to check if the linked list is a palindrome
+    // 234. Leetcode -  Function to check if the linked list is a palindrome
     // A common method to solve this problem in O(n) time and O(1) space is to:
-
-    // 1.Find the middle of the linked list.
-    // 2.Reverse the second half of the list.
-    // 3.Compare the first half with the reversed second half.
-    // 4.Optionally, restore the list to its original order (by reversing the second half back).
-
-    isPalindrome() {
-        if (!this.head || !this.head.next) {
-            return true; // A single node or empty list is a palindrome
-        }
+    function isPalindrome(head) {
+        if (!head || !head.next) return true;
 
         // Step 1: Find the middle of the linked list
-        let slow = this.head;
-        let fast = this.head;
-
+        let slow = head, fast = head;
         while (fast && fast.next) {
-            slow = slow.next; // Move slow by 1 step
-            fast = fast.next.next; // Move fast by 2 steps
+            slow = slow.next;
+            fast = fast.next.next;
         }
 
-        // Step 2: Reverse the second half of the list
-        let secondHalf = this.reverse(slow);
-
-        // Step 3: Compare the first half and the reversed second half
-        let firstHalf = this.head;
-        let checkPalindrome = true;
-        let tempSecondHalf = secondHalf;
-
-        while (tempSecondHalf) {
-            if (firstHalf.value !== tempSecondHalf.value) {
-                checkPalindrome = false;
-                break;
-            }
-            firstHalf = firstHalf.next;
-            tempSecondHalf = tempSecondHalf.next;
+        // Step 2: Reverse the second half of the linked list
+        let prev = null;
+        while (slow) {
+            let next = slow.next;
+            slow.next = prev;
+            prev = slow;
+            slow = next;
         }
 
-        // Step 4: Restore the second half back to its original order (optional)
-        this.reverse(secondHalf);
+        // Step 3: Compare the first and second halves
+        let left = head, right = prev; // `prev` is now the head of the reversed second half
+        while (right) {
+            if (left.val !== right.val) return false;
+            left = left.next;
+            right = right.next;
+        }
 
-        return checkPalindrome;
+        // Step 4 (optional): Restore the list (if needed)
+        // This step is usually optional unless the problem specifically asks to retain the original list structure.
+
+        return true;
     }
 
 
@@ -6340,6 +6493,50 @@ avl.inOrder(avl.root);  // Output will be in sorted order
 - **In-order Traversal**: O(n), where **n** is the number of nodes.
 
 AVL trees ensure efficient searching, insertion, and deletion operations, with guaranteed logarithmic time complexity.
+
+> ### 235. Lowest Common Ancestor of a Binary Search Tree
+Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+Example 1:
+
+Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8\
+Output: 6\
+Explanation: The LCA of nodes 2 and 8 is 6.
+
+Example 2:
+
+Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4\
+Output: 2\
+Explanation: The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+
+Example 3:
+
+Input: root = [2,1], p = 2, q = 1\
+Output: 2
+
+`video: (first see code)` https://www.youtube.com/watch?v=cOjLyASDJcc
+
+```js
+var lowestCommonAncestor = function(root, p, q) {
+    while (root) {
+        // If both p and q are smaller than root, LCA must be in the left subtree
+        if (p.val < root.val && q.val < root.val) {
+            root = root.left;
+        } 
+        // If both p and q are larger than root, LCA must be in the right subtree
+        else if (p.val > root.val && q.val > root.val) {
+            root = root.right;
+        } 
+        // If p and q lie on either side of root, root is the LCA
+        else {
+            return root;
+        }
+    }
+    return null; // This line is generally not reached
+};
+```
 
 
 
@@ -11893,10 +12090,13 @@ DFSPreOrder() {
 // Traverse the right subtree, i.e., call Postorder(right->subtree)
 // Visit the root
 
+// leetCode - Q 145
 DFSPostOrder() {
     let results = [];
 
     function traverse(currentNode) {
+        if (!currentNode) return;
+
         if (currentNode.left) traverse(currentNode.left);
         if (currentNode.right) traverse(currentNode.right);
 
@@ -12932,4 +13132,405 @@ var maximumUnits = function(boxTypes, truckSize) {
 // Example usage:
 console.log(maximumUnits([[1,3],[2,2],[3,1]], 4)); // Output: 8
 console.log(maximumUnits([[5,10],[2,5],[4,7],[3,9]], 10)); // Output: 91
+```
+
+> ### 2027. Minimum Moves to Convert String
+You are given a string s consisting of n characters which are either 'X' or 'O'.
+
+A move is defined as selecting three consecutive characters of s and converting them to 'O'. Note that if a move is applied to the character 'O', it will stay the same.
+
+Return the minimum number of moves required so that all the characters of s are converted to 'O'.
+
+Example 1:
+
+Input: s = "XXX"\
+Output: 1\
+Explanation: XXX -> OOO\
+We select all the 3 characters and convert them in one move.
+
+Example 2:
+
+Input: s = "XXOX"\
+Output: 2\
+Explanation: XXOX -> OOOX -> OOOO\
+We select the first 3 characters in the first move, and convert them to 'O'.\
+Then we select the last 3 characters and convert them so that the final string contains all 'O's.
+
+Example 3:
+
+Input: s = "OOOO"\
+Output: 0\
+Explanation: There are no 'X's in s to convert.
+
+```js
+function minimumMoves(s) {
+    let moves = 0; // To count the minimum number of moves
+    let i = 0;    // Pointer to iterate through the string
+
+    while (i < s.length) {
+        if (s[i] === 'X') {
+            // If we encounter 'X', apply a move to convert 3 characters starting from this index to 'O'
+            moves++;
+            i += 3; // Skip the next two characters since they are covered by this move
+        } else {
+            // If the character is 'O', just move to the next character
+            i++;
+        }
+    }
+
+    return moves;
+}
+
+// Example usage:
+console.log(minimumMoves("XXX")); // Output: 1
+console.log(minimumMoves("XXOX")); // Output: 2
+console.log(minimumMoves("OXOXOX")); // Output: 2
+```
+
+
+> ### 1403. Minimum Subsequence in Non-Increasing Order
+
+Given the array nums, obtain a subsequence of the array whose sum of elements is strictly greater than the sum of the non included elements in such subsequence. 
+
+If there are multiple solutions, return the subsequence with minimum size and if there still exist multiple solutions, return the subsequence with the maximum total sum of all its elements. A subsequence of an array can be obtained by erasing some (possibly zero) elements from the array. 
+
+Note that the solution with the given constraints is guaranteed to be unique. Also return the answer sorted in non-increasing order.
+
+Example 1:
+
+Input: nums = [4,3,10,9,8]\
+Output: [10,9]\
+Explanation: The subsequences [10,9] and [10,8] are minimal such that the sum of their elements is strictly greater than the sum of elements not included. However, the subsequence [10,9] has the maximum total sum of its elements. 
+
+Example 2:
+
+Input: nums = [4,4,7,6,7]\
+Output: [7,7,6]\
+Explanation: The subsequence [7,7] has the sum of its elements equal to 14 which is not strictly greater than the sum of elements not included (14 = 4 + 4 + 6). Therefore, the subsequence [7,6,7] is the minimal satisfying the conditions. Note the subsequence has to be returned in non-increasing order.  
+ 
+```js
+var minSubsequence = function(nums) {
+    // Sort the array in descending order
+    nums.sort((a, b) => b - a);
+
+    const totalSum = nums.reduce((acc, num) => acc + num, 0);
+    let subsequenceSum = 0;
+    let subsequence = [];
+
+    // Iterate through the sorted array
+    for (let i = 0; i < nums.length; i++) {
+        subsequenceSum += nums[i];
+        subsequence.push(nums[i]);
+
+        // Stop once the subsequence sum is greater than the remaining sum
+        if (subsequenceSum > totalSum - subsequenceSum) {
+            break;
+        }
+    }
+
+    return subsequence;
+};
+```
+
+
+> ### 1436. Destination City
+You are given the array paths, where paths[i] = [cityAi, cityBi] means there exists a direct path going from cityAi to cityBi. Return the destination city, that is, `the city without any path outgoing to another city`.
+
+It is guaranteed that the graph of paths forms a line without any loop, therefore, there will be exactly one destination city.
+
+Example 1:
+
+Input: paths = [["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]]\
+Output: "Sao Paulo" \
+Explanation: Starting at "London" city you will reach "Sao Paulo" city which is the destination city. Your trip consist of: "London" -> "New York" -> "Lima" -> "Sao Paulo".
+
+Example 2:
+
+Input: paths = [["B","C"],["D","B"],["C","A"]]\
+Output: "A"\
+Explanation: All possible trips are:\
+"D" -> "B" -> "C" -> "A".\
+"B" -> "C" -> "A".\
+"C" -> "A".\
+"A".\
+Clearly the destination city is "A".
+
+Example 3:
+
+Input: paths = [["A","Z"]]\
+Output: "Z"
+
+```js
+/**
+ * @param {string[][]} paths
+ * @return {string}
+ */
+var destCity = function(paths) {
+    const startCities = new Set();
+
+    // Collect all starting cities
+    for (const [start, end] of paths) {
+        startCities.add(start);
+    }
+
+    // Find the destination city
+    for (const [start, end] of paths) {
+        if (!startCities.has(end)) {
+            return end; // This city is not a starting city, so it's the destination
+        }
+    }
+
+    return ""; // Default return, though it won't reach here due to the problem guarantee
+};
+
+// Example 1
+console.log(destCity([["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]])); 
+// Output: "Sao Paulo"
+
+// Example 2
+console.log(destCity([["B","C"],["D","B"],["C","A"]])); 
+// Output: "A"
+
+// Example 3
+console.log(destCity([["A","Z"]])); 
+// Output: "Z"
+```
+
+> ### 532. K-diff Pairs in an Array
+Given an array of integers nums and an integer k, return the number of unique k-diff pairs in the array.
+
+A k-diff pair is an integer pair (nums[i], nums[j]), where the following are true:
+
+0 <= i, j < nums.length\
+i != j\
+|nums[i] - nums[j]| == k\
+Notice that |val| denotes the absolute value of val.
+
+Example 1:
+
+Input: nums = [3,1,4,1,5], k = 2\
+Output: 2\
+Explanation: There are two 2-diff pairs in the array, (1, 3) and (3, 5).\
+Although we have two 1s in the input, we should only return the number of unique pairs.
+
+Example 2:
+
+Input: nums = [1,2,3,4,5], k = 1\
+Output: 4\
+Explanation: There are four 1-diff pairs in the array, (1, 2), (2, 3), (3, 4) and (4, 5).
+
+Example 3:
+
+Input: nums = [1,3,1,5,4], k = 0\
+Output: 1\
+Explanation: There is one 0-diff pair in the array, (1, 1).
+
+```js
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+var findPairs = function(nums, k) {
+    if (k < 0) return 0; // Difference cannot be negative
+    
+    const map = new Map();
+    let count = 0;
+
+    // Count occurrences of each number
+    for (const num of nums) {
+        map.set(num, (map.get(num) || 0) + 1);
+    }
+
+    // Find k-diff pairs
+    for (const [num, freq] of map.entries()) {
+        if (k === 0) {
+            // For k = 0, count numbers with frequency > 1
+            if (freq > 1) count++;
+        } else {
+            // For k > 0, check if (num + k) exists
+            if (map.has(num + k)) count++;
+        }
+    }
+
+    return count;
+};
+
+// Example 1
+console.log(findPairs([3,1,4,1,5], 2)); 
+// Output: 2
+
+// Example 2
+console.log(findPairs([1,2,3,4,5], 1)); 
+// Output: 4
+
+// Example 3
+console.log(findPairs([1,3,1,5,4], 0)); 
+// Output: 1
+```
+
+
+> ### 1716. Calculate Money in Leetcode Bank
+Hercy wants to save money for his first car. He puts money in the Leetcode bank every day.
+
+He starts by putting in $1 on Monday, the first day. Every day from Tuesday to Sunday, he will put in $1 more than the day before. On every subsequent Monday, he will put in $1 more than the previous Monday.
+
+Given n, return the total amount of money he will have in the Leetcode bank at the end of the nth day.
+
+Example 1:
+
+Input: n = 4\
+Output: 10\
+Explanation: After the 4th day, the total is 1 + 2 + 3 + 4 = 10.
+
+Example 2:
+
+Input: n = 10\
+Output: 37\
+Explanation: After the 10th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4) = 37. Notice that on the 2nd Monday, Hercy only puts in $2.
+
+Example 3:
+
+Input: n = 20\
+Output: 96\
+Explanation: After the 20th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4 + 5 + 6 + 7 + 8) + (3 + 4 + 5 + 6 + 7 + 8) = 96.
+
+```js
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var totalMoney = function(n) {
+    let total = 0;
+    let weekStart = 1; // Money deposited on the first day of the week
+
+    for (let i = 1; i <= n; i++) {
+        total += weekStart + ((i - 1) % 7); // Add the daily deposit
+        if (i % 7 === 0) {
+            weekStart++; // Increment the weekly starting value after every 7 days
+        }
+    }
+
+    return total;
+};
+
+// Example 1
+console.log(totalMoney(4)); 
+// Output: 10
+
+// Example 2
+console.log(totalMoney(10)); 
+// Output: 37
+
+// Example 3
+console.log(totalMoney(20)); 
+// Output: 96
+```
+
+
+> ### 985. Sum of Even Numbers After Queries
+You are given an integer array nums and an array queries where queries[i] = [vali, indexi].\
+For each query i, first, apply nums[indexi] = nums[indexi] + vali, then print the sum of the even values of nums.\
+Return an integer array answer where answer[i] is the answer to the ith query.
+
+Example 1:
+
+Input: nums = [1,2,3,4], queries = [[1,0],[-3,1],[-4,0],[2,3]]\
+Output: [8,6,2,4]\
+Explanation: At the beginning, the array is [1,2,3,4].\
+After adding 1 to nums[0], the array is [2,2,3,4], and the sum of even values is 2 + 2 + 4 = 8.\
+After adding -3 to nums[1], the array is [2,-1,3,4], and the sum of even values is 2 + 4 = 6.\
+After adding -4 to nums[0], the array is [-2,-1,3,4], and the sum of even values is -2 + 4 = 2.\
+After adding 2 to nums[3], the array is [-2,-1,3,6], and the sum of even values is -2 + 6 = 4.
+
+Example 2:
+
+Input: nums = [1], queries = [[4,0]]\
+Output: [0]
+
+`video:`https://www.youtube.com/watch?v=2bjRM_6hDsI
+
+```js
+function sumEvenAfterQueries(nums, queries) {
+    let evenSum = nums.reduce((sum, num) => (num % 2 === 0 ? sum + num : sum), 0);
+    const result = [];
+
+    for (const [val, index] of queries) {
+        // If the current number at index is even, subtract it from the even sum
+        if (nums[index] % 2 === 0) {
+            evenSum -= nums[index];
+        }
+
+        // Apply the update
+        nums[index] += val;
+
+        // If the new number at index is even, add it to the even sum
+        if (nums[index] % 2 === 0) {
+            evenSum += nums[index];
+        }
+
+        // Append the current even sum to the result
+        result.push(evenSum);
+    }
+
+    return result;
+}
+
+// Example 1
+const nums1 = [1, 2, 3, 4];
+const queries1 = [[1, 0], [-3, 1], [-4, 0], [2, 3]];
+console.log(sumEvenAfterQueries(nums1, queries1)); // Output: [8, 6, 2, 4]
+
+// Example 2
+const nums2 = [1];
+const queries2 = [[4, 0]];
+console.log(sumEvenAfterQueries(nums2, queries2)); // Output: [0]
+```
+
+
+> ### 976. Largest Perimeter Triangle
+Given an integer array nums, return the largest perimeter of a triangle with a `non-zero area`, formed from three of these lengths. If it is impossible to form any triangle of a non-zero area, return 0.
+
+Example 1:
+
+Input: nums = [2,1,2]\
+Output: 5\
+Explanation: You can form a triangle with three side lengths: 1, 2, and 2.
+
+Example 2:
+
+Input: nums = [1,2,1,10]\
+Output: 0\
+Explanation:\ 
+You cannot use the side lengths 1, 1, and 2 to form a triangle.\
+You cannot use the side lengths 1, 1, and 10 to form a triangle.\
+You cannot use the side lengths 1, 2, and 10 to form a triangle.\
+As we cannot use any three side lengths to form a triangle of non-zero area, we return 0.
+
+`video:` https://youtu.be/1dmbC4I7yZE
+
+```js
+function largestPerimeter(nums) {
+    // Sort the array in descending order
+    nums.sort((a, b) => b - a);
+
+    // Check triples for the triangle inequality
+    for (let i = 0; i < nums.length - 2; i++) {
+        if (nums[i] < nums[i + 1] + nums[i + 2]) {
+            // Valid triangle found
+            return nums[i] + nums[i + 1] + nums[i + 2];
+        }
+    }
+
+    // No valid triangle can be formed
+    return 0;
+}
+
+// Example 1
+const nums1 = [2, 1, 2];
+console.log(largestPerimeter(nums1)); // Output: 5
+
+// Example 2
+const nums2 = [1, 2, 1, 10];
+console.log(largestPerimeter(nums2)); // Output: 0
 ```
