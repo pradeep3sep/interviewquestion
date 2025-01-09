@@ -13534,3 +13534,47 @@ console.log(largestPerimeter(nums1)); // Output: 5
 const nums2 = [1, 2, 1, 10];
 console.log(largestPerimeter(nums2)); // Output: 0
 ```
+
+> ### 914. X of a Kind in a Deck of Cards
+You are given an integer array deck where deck[i] represents the number written on the ith card.
+
+Partition the cards into one or more groups such that:
+
+Each group has exactly x cards where x > 1, and\
+All the cards in one group have the same integer written on them.\
+Return true if such partition is possible, or false otherwise.
+
+Example 1:
+
+Input: deck = [1,2,3,4,4,3,2,1]\
+Output: true\
+Explanation: Possible partition [1,1],[2,2],[3,3],[4,4].
+
+Example 2:
+
+Input: deck = [1,1,1,2,2,2,3,3]\
+Output: false\
+Explanation: No possible partition.
+
+`video:` https://youtu.be/UvpXInRkZ3Q?si=gsImTBuuojY_hXAY
+
+```js
+function hasGroupsSizeX(deck) {
+    // Step 1: Count the frequencies of each number
+    const count = {};
+    for (const num of deck) {
+        count[num] = (count[num] || 0) + 1;
+    }
+
+    // Step 2: Find the GCD of the frequencies
+    const gcd = (a, b) => (b === 0 ? a : gcd(b, a % b));
+    let groupSize = Object.values(count).reduce((a, b) => gcd(a, b));
+
+    // Step 3: Check if the GCD is greater than 1
+    return groupSize > 1;
+}
+
+// Example Usage
+console.log(hasGroupsSizeX([1, 2, 3, 4, 4, 3, 2, 1])); // Output: true
+console.log(hasGroupsSizeX([1, 1, 1, 2, 2, 2, 3, 3])); // Output: false
+```
