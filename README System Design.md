@@ -1,10 +1,10 @@
-### **Vue**
+## **Vue**
 
 #### **Positives**:
-1. **Simplicity and Clean Syntax**:
-   - HTML-like `template syntax` made it easy to integrate designs directly from the UI/UX team.
-   - Using directives like `v-if` and `v-for` felt intuitive, especially for conditional rendering and loops.
-   - A data table with dynamic row rendering took half the time compared to React because of Vue's clean two-way binding (`v-model`).
+1. **Simplicity and faster code devlopment**:
+  - HTML-like `template syntax` made it easy to integrate designs directly from the UI/UX team.
+  - Using directives like `v-if` and `v-for` felt intuitive, especially for conditional rendering and loops.
+  - A data table with dynamic row rendering took half the time compared to React because of Vue's clean two-way binding (`v-model`).
 
 <details>
 
@@ -153,35 +153,29 @@ Vue’s **two-way binding** (`v-model`) and its **reactive system** simplify the
 </details>
 
 
+  - for `react` has `one way communication`, used props, `vue` has `two way communications`, `emits and props`.
+  - Handling of attributes inheritance is way better. For example, in React, to pass a className to UI component that is probably going to be dynamic in the future, you need to write it in props and later pass it in the component’s root HTML tag:
+  ```js
+  export const Button = ({className}: {className: string}) => {
+    return <button className={className}> Classified </button>
+  }
+  ```
 
-2. **Rapid Prototyping**:
-   - **Experience**: For a small proof-of-concept, Vue's out-of-the-box features like reactivity, event handling, and routing allowed me to deliver a functional demo faster without pulling in extra libraries.
-   - **Example**: Implementing form validation was seamless using Vuelidate, which integrates naturally with Vue components.
+  And in Vue it is just:
 
-- for react has one way communication, used props, vue has two way communications, emits and props
-
-
-
-- Handling of attributes inheritance is way better. For example, in React, to pass a className to UI component that is probably going to be dynamic in the future, you need to write it in props and later pass it in the component’s root HTML tag:
-```js
-export const Button = ({className}: {className: string}) => {
-  return <button className={className}> Classified </button>
-}
-```
-And in Vue it is just:
-```js
-<template>
-  <Child class="abc"/>
-</template>
-```
-without the need to specify that the component need to take it up. Yes, it is ambiguous, but if you think that is the reason React could be better — you seem to not have written prop for every component that would have a corner-edge case where it needs a border that should not become part of it’s Theme.
+  ```js
+  <template>
+    <Child class="abc"/>
+  </template>
+  ```
+  without the need to specify that the component need to take it up. Yes, it is ambiguous, but if you think that is the reason React could be better — you seem to not have written prop for every component that would have a corner-edge case where it needs a border that should not become part of it’s Theme.
 
 
-3. **Scoped Styles**:
+2. **Scoped Styles**:
    - **Experience**: Managing styles for a component library was a breeze with Vue’s scoped styles in `.vue` files. It eliminated worries about CSS bleed.
    - **Example**: In a multi-developer environment, we avoided style conflicts entirely, which was a nightmare in React without CSS modules or styled-components.
 
-- Single-File Components (SFCs):
+3. **Single-File Components (SFCs)**:
 
 Vue’s SFC structure allowed me to keep HTML, CSS, and JavaScript logic for each component in a single .vue file. This was especially helpful for modularizing the POC without overthinking the project structure
 
@@ -200,11 +194,11 @@ setState((prevState) => ({
 }));
 ```
 
+<br>
 
 #### **Negatives**:
 1. **Scaling with Large Teams**:
    - **Experience**: On a large project with multiple developers, Vue's flexibility in allowing multiple coding styles led to inconsistencies. For instance, some developers preferred the `Options API`, while `others used` the `Composition API`, making the codebase harder to maintain.
-   - **Example**: Reviewing PRs became challenging because of varying coding practices.
 
 2. **Tooling Limitations**:
    - **Experience**: While debugging a Vue 2 app, I found `Vue DevTools is legacy now`.
@@ -213,14 +207,9 @@ setState((prevState) => ({
    - **Experience**: For certain advanced needs, like optimizing large lists, I had to spend more time researching or building custom solutions because the ecosystem didn’t have as many mature libraries as React.
    - **Example**: Implementing virtual scrolling required using a lesser-known library compared to React’s well-supported libraries like `react-window`.
 
-6. Performance Pitfalls in Large Applications
-Reason:
-React's rendering is efficient, but improper state management can lead to unnecessary re-renders and performance bottlenecks.
-Example:
-Forgetting to use React.memo or useCallback in a deeply nested component tree might cause avoidable re-renders and slow down the application.
 
 
-### **React**
+## **React**
 
 #### **Positives**:
 1. **Flexibility**:
@@ -241,30 +230,30 @@ Forgetting to use React.memo or useCallback in a deeply nested component tree mi
 
 #### **Negatives**:
 1. **Verbose Code**:
-   - **Experience**: JSX often felt verbose for simple tasks. For instance, conditionally rendering lists or elements required more boilerplate compared to Vue's directives.
+   - **Experience**: JSX often felt verbose for simple tasks. For instance, `conditionally rendering` lists or elements required more boilerplate compared to Vue's directives.
    - **Example**: A simple `v-if`-style condition in Vue took four extra lines in React with `&&` or ternary operators.
+   - JSX combines HTML and JavaScript, making it harder to debug and read, especially in large components with complex logic.
+   - Example: A dynamic table with conditionally rendered rows or cells in JSX can quickly become a tangled mix of ternary operators and JavaScript expressions, making it harder to maintain:
 
+  ```jsx
+  {data.map((item) =>
+    item.isVisible ? <tr key={item.id}>{item.name}</tr> : null
+  )}
+  ```
 
-4. **JSX Learning Curve**:
-   - **Experience**: When onboarding junior developers, JSX’s mixing of HTML and JavaScript concepts often confused them initially.
+2. **JSX Learning Curve**:
+   - **Experience**: When onboarding junior developers, `JSX’s mixing of HTML and JavaScript concepts `often confused them initially.
    - **Example**: A developer accidentally wrote invalid JavaScript logic inside JSX attributes, causing runtime errors.
 
-3. JSX Complexity
-Reason:
-JSX combines HTML and JavaScript, making it harder to debug and read, especially in large components with complex logic.
-Example:
-A dynamic table with conditionally rendered rows or cells in JSX can quickly become a tangled mix of ternary operators and JavaScript expressions, making it harder to maintain:
-jsx
-```js
-{data.map((item) =>
-  item.isVisible ? <tr key={item.id}>{item.name}</tr> : null
-)}
-```
+3. **Performance Pitfalls in Large Applications**
+   - infinite rerender kabhi nhi bolna h, bolna h unnecessary re-render hota h bolna h
+   - since vue has reactivity due to which rendering controlled by vue, in react we can unnecessary re-render which can down the performance of app
+   - React's rendering is efficient, but improper state management can lead to unnecessary re-renders and performance bottlenecks.
+     Example:\
+     Forgetting to use React.memo or useCallback in a deeply nested component tree might cause avoidable re-renders and slow down the application.
 
-since vue has reactivity due to which rendering controlled by vue, in react we can unnecessary re-render which can down the performance of app
 
-### infinite rerender kabhi nhi bolna h, bolna h unnecessary re-render hota h bolna h
-
+<br>
 
 > ### you were given a project, you have to choose react or vue, which you will choose and why ?
 
