@@ -272,7 +272,6 @@ setState((prevState) => ({
 #### **Example**:  
 A startup needing a **proof-of-concept (POC)** in 2 weeks would benefit from Vue’s simplicity and speed.
 
----
 
 ### **2. If needed mobile along the web, prefer the react**  
 **I’d choose React.**
@@ -286,7 +285,6 @@ A startup needing a **proof-of-concept (POC)** in 2 weeks would benefit from Vue
 - The productivity of a project depends on the team’s ability to work effectively with the framework.
 - Forcing a React team to use Vue (or vice versa) increases ramp-up time and risks suboptimal code.
 
----
 
 ### **4. If the Project Requires Frequent Updates and Long-Term Maintenance**  
 **I’d lean towards React.**
@@ -1057,38 +1055,38 @@ module.exports = {
 4. **Faster Development**:
    - With live reloading, changes were reflected immediately, saving time during development.
 
+<br>
 
+## Security
 
-> ### Security
-
-- XSS
+> ### 1. XSS
 
 An XSS (Cross-Site Scripting) attack occurs when an attacker injects malicious scripts into a website viewed by other users.
 
 The attacker add the malicious script in browser through various method like 
-- added script in params or query in url, we take directly value form parms and then pass value in payload in api
-- added script in the input box, then script passed into function from input box.
+- added script in `params or query in url`, we take directly value form parms and then pass value in payload in api
+- added `script in the input box`, then script passed into function from input box.
 - sometimes script passed is event listner which listen every event like click and call api and pass value to hacker api
-- if external scripts runs, then it can also access your token.
 
 
 Prevention Techniques:
-- Input Validation and Sanitization: Always validate and sanitize user input before processing it, especially when dealing with user-generated content. Vuelidate (for Vue), Formik (for React) and Regex
-- Replace innerHTML of DOM manipulation method with innerText or textContent of DOM manupulation.(Avoided using v-html in Vue or dangerouslySetInnerHTML)
-- use library like REACT or Vue, which handle all the sanitization itself
-- you can use the pakage like DOMPurity
-- avoid using the eval
+- `Input Validation and Sanitization`: Always validate and sanitize user input before processing it, especially when dealing with user-generated content. `Vuelidate (for Vue), Formik (for React) and Regex`
+- Replace `innerHTML` of DOM manipulation method with `innerText or textContent` of DOM manupulation.(`Avoided using v-html in Vue or dangerouslySetInnerHTML`)
+- `use library like REACT or Vue, which handle all the sanitization itself`
+- you can use the `pakage like DOMPurity`
+- `avoid` using the `eval`
 - CSP headers
 
+<br>
 
-### CSP headers - in FE added in ngnix configuration
+> ### CSP headers
 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
 
 Content Security Policy (CSP) is a security feature that helps prevent a range of attacks, including Cross-Site Scripting (XSS), data injection, and other code injection attacks by `controlling` which `resources (like scripts, styles, images, etc.) the browser is allowed` to load and execute.
 
 ### How CSP Works:
-CSP allows you to create a whitelist of trusted sources for various types of content. The browser will only load resources from these trusted sources. If a resource is not in the whitelist, the browser will block it, preventing malicious code from running.
+CSP allows you to `create a whitelist of trusted sources` for various types of content. The browser will only `load resources from these trusted sources`. If a resource is not in the whitelist, the browser will block it, preventing malicious code from running.
 
 ### Main Directives of CSP:
 1. **`default-src`**: Specifies the default source for all content types if no other `*-src` directive is provided.
@@ -1200,18 +1198,19 @@ This policy will:
 - Only load images from your domain or `img.example.com`.
 - Block any embedded object (e.g., flash, applet).
 
+<br>
 
-### Iframe protection
+> ### Iframe protection
 
-The iFrame is a common technique to embed webpages, videos, or maps in your web page.
-
-we have to control iframe usage in your website along with when person use your website in iframe in its website
+The iFrame is a common `technique to embed webpages, videos, or maps` in your web page.
 
 eg. suppose you use content from a malicious website within an iFrame in your website. In that case, it could execute harmful scripts or redirect the user to a malicious site, exposing sensitive information.
 
 What security risks do iFrames bring?
 
-The main security threat of iFrames is XSS (cross-site scripting) attacks. Attackers can perform XSS attacks in multiple ways. For example, changing the source site URL, installing malware, stealing information, or hijacking clicks and keystrokes through an iFrame.
+The main security threat of iFrames is XSS (cross-site scripting) attacks. Attackers can perform XSS attacks in multiple ways. 
+
+For example, changing the source site URL, installing malware, stealing information, or hijacking clicks and keystrokes through an iFrame.
 
 - **iFrame Injection** – HTML documents are displayed on websites using iFrames, redirecting users to different websites.
 - **iFrame Phishing** – iFrame phishing attacks combine iFrame, which loads a legitimate page, with an iFrame which loads the attacker’s website to steal data from an unsuspecting user.
@@ -1222,21 +1221,23 @@ The main security threat of iFrames is XSS (cross-site scripting) attacks. Attac
 
 - **Session and cookie theft**
 
+<br>
 
+### **5 Required Steps to Secure Your iFrames**
 
-7 Required Steps to Secure Your iFrames
+**1. Use the ‘sandbox’ attribute**
 
-1. Use the ‘sandbox’ attribute  : https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#sandbox
+ https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#sandbox
 
 Controls the restrictions applied to the content embedded in the `<iframe>`. The value of the attribute can either be empty to apply all restrictions, or space-separated tokens to lift particular restrictions:
 
 An empty sandbox attribute will completely sandbox the iFrame. As a result, all the above privileges will be restricted, and the JavaScript inside the iFrame won’t run. 
 
-2. Use the ‘allow’ attribute
+**2. Use the ‘allow’ attribute**
 
 The allow attribute enables you to safelist particular functionalities, such as allowing iFrame access to the camera, battery information, or accelerometer. 
 
-3. Use the ‘X-Frame-Options’ HTTP response header : 
+**3. Use the ‘X-Frame-Options’ HTTP response header**
 
 Deprecated: This feature is no longer recommended.
 
@@ -1249,7 +1250,9 @@ X-Frame-Options: DENY
 X-Frame-Options: SAMEORIGIN
 X-Frame-Options: allow-from-url
 
-4. Use the ‘Content-Security-Policy’ standard    :    https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
+**4. Use the ‘Content-Security-Policy’ standard**
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
 
 The HTTP Content-Security-Policy (CSP) frame-ancestors directive specifies valid parents that may embed a page using `<iframe>`
 
@@ -1261,8 +1264,9 @@ Content-Security-Policy: frame-ancestors 'self' https://www.example.org;
 Content-Security-Policy: frame-ancestors 'self' https://example.org https://example.com https://store.example.com;
 ```
 
-5. Cookies must be set from backend having the httpOnly be true, secure be true, sameSite be Strict
+**5. Cookies must be set from backend having the httpOnly be true, secure be true, sameSite be Strict**
 
+<br>
 
 > ### Security Headers
 
