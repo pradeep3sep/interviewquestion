@@ -1089,7 +1089,7 @@ Content Security Policy (CSP) is a security feature that helps prevent a range o
 CSP allows you to `create a whitelist of trusted sources` for various types of content. The browser will only `load resources from these trusted sources`. If a resource is not in the whitelist, the browser will block it, preventing malicious code from running.
 
 ### Main Directives of CSP:
-1. **`default-src`**: Specifies the default source for all content types if no other `*-src` directive is provided.
+1. **`default-src`**: means agar koi source mark nhi kia h kisi content me then ishme jo source/ url mark kia hoga wha se content load hoga, agr yha self likha h means website pe kisi ka content load nhi hoga bas khud ka content load hoga, eg kisi aur url ki image load nhi hogi
    
 2. **`script-src`**: Controls the sources from which JavaScript can be loaded. You can allow or block inline scripts, external scripts, and JavaScript files.
    
@@ -1229,13 +1229,42 @@ For example, changing the source site URL, installing malware, stealing informat
 
  https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#sandbox
 
-Controls the restrictions applied to the content embedded in the `<iframe>`. The value of the attribute can either be empty to apply all restrictions, or space-separated tokens to lift particular restrictions:
+- Controls the restrictions applied to the `content embedded` in the `<iframe>`. 
 
-An empty sandbox attribute will completely sandbox the iFrame. As a result, all the above privileges will be restricted, and the JavaScript inside the iFrame won’t run. 
+- The value of the attribute can either be empty to apply all restrictions, or space-separated tokens to lift particular restrictions:
+
+- An empty sandbox attribute will completely sandbox the iFrame. As a result, all the above privileges will be restricted, and the JavaScript inside the iFrame won’t run. 
+
+Add the sandbox attribute to the iFrame to restrict its functionality.\
+Example:
+```html
+<iframe src="https://example.com" sandbox="allow-scripts allow-same-origin"></iframe>
+```
+Common flags:\
+- `allow-same-origin`: Allows the iFrame to maintain its origin.\
+- `allow-scripts`: Allows JavaScript execution (use with caution).
+- `allow-popups`: Allows pop-ups.
+
+Exclude unnecessary permissions for enhanced security.
 
 **2. Use the ‘allow’ attribute**
 
 The allow attribute enables you to safelist particular functionalities, such as allowing iFrame access to the camera, battery information, or accelerometer. 
+
+
+To allow all origins access to geolocation
+```html
+<iframe src="https://example.com" allow="geolocation *"></iframe>
+```
+
+
+To apply a policy to the current origin and others, you'd do this:
+
+```html
+<iframe
+  src="https://example.com"
+  allow="geolocation 'self' https://a.example.com https://b.example.com"></iframe>
+```
 
 **3. Use the ‘X-Frame-Options’ HTTP response header**
 
@@ -1264,13 +1293,20 @@ Content-Security-Policy: frame-ancestors 'self' https://www.example.org;
 Content-Security-Policy: frame-ancestors 'self' https://example.org https://example.com https://store.example.com;
 ```
 
+Use the Content-Security-Policy header to control the sources of content allowed within the iFrame.
+```
+Content-Security-Policy: frame-ancestors 'self' https://trusted.com;
+```
+
+This ensures the iFrame can only be embedded by trusted domains.
+
 **5. Cookies must be set from backend having the httpOnly be true, secure be true, sameSite be Strict**
 
 <br>
 
 > ### Security Headers
 
-1. X-Powered-By
+**1. X-Powered-By**
 
 "X-Powered-By" is a common non-standard HTTP response header. It gives idea what is technologies server is using, and hacker can run malicious script easily. The X-Powered-By header describes the technologies used by the webserver. This information exposes the server to attackers.
 
@@ -1278,21 +1314,25 @@ eg. X-Powered-By: express
 
 we have to remove "X-Powered-By" from the headers
 
-2. Referrer-Policy  : https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
+**2. Referrer-Policy**
+
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
 
 The Referrer-Policy HTTP header controls how much referrer information (from which site you are coming, eg going from youtube nested url to linkedin, how much youtube url information you want to share with the linkedin) should be included with requests
 
-eg
-Referrer-Policy: no-referrer
-Referrer-Policy: origin
-Referrer-Policy: origin-when-cross-origin
-Referrer-Policy: same-origin
+eg\
+Referrer-Policy: `no-referrer`, Referrer information is never sent.\
+Referrer-Policy: `origin`, Always sends only the origin, not the path.\
+Referrer-Policy: `origin-when-cross-origin`, Sends the full URL for same-origin requests and only the origin for cross-origin requests.\
+Referrer-Policy: `same-origin`,  Referrer is sent only for requests within the same origin.
 
-3. X-Content-Type-Options
+You can add the Referrer-Policy meta tag to your HTML file
 
-Sure! Let's break it down simply:
+```html
+<meta name="referrer" content="strict-origin-when-cross-origin">
+```
 
-### What is `X-Content-Type-Options`?
+**3. X-Content-Type-Options**
 
 It’s a security feature that tells the browser, **"Hey, don't guess what kind of file this is; just use the type I say!"**. This stops the browser from making mistakes that could lead to security problems, like running harmful code by accident.
 
@@ -1318,21 +1358,34 @@ This tells the browser, "Don’t sniff (guess) the file type—just trust what I
 - Prevents the browser from interpreting files incorrectly.
 - Protects your site from certain security risks like running scripts that weren't meant to be scripts.
 
-### Example Use Case in Headers (for a Node.js app with Express):
+### For Development Servers (e.g., Vite, Webpack Dev Server)
+You can configure a proxy or middleware to add the header during development.
+
+Vite:
+Use a middleware in the vite.config.js file:
 ```js
-app.use((req, res, next) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  next();
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  server: {
+    middlewareMode: true,
+    setupMiddleware(app) {
+      app.use((req, res, next) => {
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        next();
+      });
+    },
+  },
 });
 ```
 
 This way, every time your app responds, it tells the browser not to guess the content type. Simple and effective!
 
-4. x-xss-protection
+**4. x-xss-protection**
 
 The `X-XSS-Protection` is another security header that helps protect your website from **cross-site scripting (XSS) attacks**. XSS attacks occur when attackers inject malicious scripts into web pages viewed by others, potentially stealing information or performing unwanted actions on behalf of users.
 
-### How Does `X-XSS-Protection` Work?
+**How Does `X-XSS-Protection` Work?**
 
 This header works by telling the browser to enable its built-in XSS filter, which detects and prevents certain types of XSS attacks.
 
@@ -1375,14 +1428,46 @@ app.use((req, res, next) => {
 });
 ```
 
+**Vite:**\
+Add a custom middleware in the vite.config.js file:
+```html
+import { defineConfig } from 'vite';
+
+export default defineConfig({
+  server: {
+    middlewareMode: true,
+    setupMiddleware(app) {
+      app.use((req, res, next) => {
+        res.setHeader('X-XSS-Protection', '1; mode=block');
+        next();
+      });
+    },
+  },
+});
+```
+
+**Webpack Dev Server:**\
+Configure headers in webpack.config.js:
+
+```html
+module.exports = {
+  devServer: {
+    headers: {
+      'X-XSS-Protection': '1; mode=block',
+    },
+  },
+};
+```
+
+
 This will enable the XSS protection for every response your server sends. It’s a simple but effective way to reduce the risk of XSS attacks.
 
 
-5. HSTS
+**5. HSTS**
 
 HSTS (HTTP Strict Transport Security) is a security feature that forces browsers to only interact with your website over **HTTPS** and never over plain HTTP. This helps protect users from certain types of attacks, like **man-in-the-middle (MITM) attacks**, where attackers intercept unencrypted communications.
 
-### How Does HSTS Work?
+**How Does HSTS Work?**
 
 When a user visits your website, the server sends the `Strict-Transport-Security` header, telling the browser:
 
@@ -1390,7 +1475,7 @@ When a user visits your website, the server sends the `Strict-Transport-Security
 - **Remember** this rule for a set period of time.
 - Optionally, apply this rule to **all subdomains** too.
 
-### Key Directives:
+**Key Directives:**
 
 1. **`max-age`**: This defines how long (in seconds) the browser should remember to only use HTTPS for the website.
    - Example: `max-age=31536000` (1 year).
@@ -1429,12 +1514,13 @@ app.use(helmet.hsts({
 
 This will ensure that all your HTTP responses include the HSTS header, forcing browsers to stick to HTTPS for your site.
 
+<br>
 
 > ### Client storage security
 
-- always store the client data in encrypted form with strong salt in localstorage or cookies or anything.
-- always set expiry of taoken whether it is cookies or localstorage, for localstorage we can create the custom function which clears the data.
-- while setting the data in cookies or localstorage, first check how much space is left, otherwise you will loose some data.
+- always `store the client data` in `encrypted form` with `strong salt` in `localstorage or cookies or anything`.
+- always `set expiry` of token whether it is `cookies or localstorage`, for `localstorage we can create the custom function which clears the data`.
+- while setting the data in cookies or localstorage, `first check how much space is left, otherwise you will loose some data`.
 
 ```js
 function getCookieSpaceLeft() {
@@ -1483,12 +1569,15 @@ console.log(`Remaining localStorage space: ${getLocalStorageSpaceLeft()} bytes`)
 
 ```
 
+<br>
 
 > ### Dependency Security
 
 1. Regular audit or update the dependencies/package beacuse some package became outdated or vulnerable
  eg npm update, it provide the list of package which have update or shwo the package which are vulnerable, out of which you can update the packages which you required
 
+
+<br>
 
 > ### Permissions Policy
 
@@ -1507,6 +1596,7 @@ Examples of what you can do with Permissions Policy:
 - Allow iframes to use the Fullscreen API.
 - Stop items from being scripted if they are not visible in the viewport, to improve performance.
 
+eg: geolocation, camera, microphone
 
 **Permissions-Policy header syntax**
 
@@ -1526,12 +1616,20 @@ below is allow access to a subset of origins
 Permissions-Policy: geolocation=(self "https://a.example.com" "https://b.example.com")
 ```
 
+```html
+<iframe 
+    src="https://example.com"
+    allow="geolocation; microphone; camera"
+></iframe>
+```
+
 you can refer below website if you want to see demo
 
 ```
 https://permissions-policy-demo.glitch.me/demo/
 ```
 
+<br>
 
 > ### CSRF (cross site request forgery)
 
@@ -1547,28 +1645,29 @@ Here is an example of the 4 steps in a cross-site request forgery attack:
 
 How can Cross-Site Request Forgery be mitigated?
 
-1. Synchronizer token pattern:
+**1. Synchronizer token pattern:**
 
 When a user visits a web page, such as the bank webpage that allows for the transfer of funds, the bank’s website embeds a random token into the form. When the user submits the form, the random token is returned and the bank is able to check to see if the two tokens match. If the tokens match, the transfer occurs. The attacker has no way to access the random token value created in the webpage, and if they request the page, the same origin policy would prevent the attacker from reading the response.
 
-2. SameSite Cookies
+**2. SameSite Cookies**
 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie
 
 cookies to be set as SameSite=Strict,Secure.
 
-3. Refere-based-validate
+**3. Referer-based-validate**
 
-referer shouold be added in the link, so that we can verify it in the backend, refere is our website or any other website
+referer should be added in the link, so that we can verify it in the backend, refere is our website or any other website
 
-4. Use captacha
+**4. Use captacha**
 
-5. Add CSP header
+**5. Add CSP header**
 
+<br>
 
 > ### For handling Cross Origin Resource sharing
 
-1. Access-Control-Allow-Origin : 
+**1. Access-Control-Allow-Origin :**
 
 The `Access-Control-Allow-Origin` header is part of Cross-Origin Resource Sharing (CORS) in web development. It tells the browser which origins (domains) are permitted to access a resource on the server. When a web application running at one origin tries to request resources from another origin (like making an API call from `https://example.com` to `https://api.example.com`), the server responds with `Access-Control-Allow-Origin` to specify if it allows access from the requesting origin.
 
@@ -1588,7 +1687,7 @@ Access-Control-Allow-Origin: https://example.com
 This header is typically used in the server response to handle CORS policies for frontend applications that need to make cross-origin HTTP requests.
 
 
-2. Access-Control-Allow-Methods
+**2. Access-Control-Allow-Methods**
 
 The `Access-Control-Allow-Methods` header is used in Cross-Origin Resource Sharing (CORS) to specify which HTTP methods are permitted when accessing a resource on the server from a different origin. This is part of the server's response to a "preflight" request, which is an initial request the browser sends to determine if the actual request is safe to make.
 
@@ -1608,10 +1707,7 @@ For instance, if a web application on `https://example.com` wants to send a `POS
    Access-Control-Allow-Methods: *
    ```
 
-### Use in a Full CORS Response:
-Along with `Access-Control-Allow-Origin`, this header is part of the server's CORS response setup, helping control what requests are permitted cross-origin.
-
-### Common Values for `Access-Control-Allow-Methods`:
+**Common Values for `Access-Control-Allow-Methods`:**
 - `GET`
 - `POST`
 - `PUT`
@@ -1619,13 +1715,12 @@ Along with `Access-Control-Allow-Origin`, this header is part of the server's CO
 - `OPTIONS`
 - `PATCH`
 
-This helps restrict or permit various actions based on the server’s security policies.
-
-3. Access-Control-Allow-Headers
+**3. Access-Control-Allow-Headers**
 
 The `Access-Control-Allow-Headers` header in Cross-Origin Resource Sharing (CORS) specifies which HTTP headers can be included in requests made to the server from a different origin. This is especially relevant when making requests that use custom headers or non-standard headers that aren’t typically included in simple requests, like `Authorization`, `Content-Type`, or other custom headers.
 
-When a browser makes a preflight `OPTIONS` request, it checks which headers it can include in the actual request by looking at the `Access-Control-Allow-Headers` response from the server.
+**Note**\
+When a browser makes a `preflight` `OPTIONS` request, it checks which headers it can include in the actual request by looking at the `Access-Control-Allow-Headers` response from the server.
 
 ### Example Usage
 
@@ -1658,13 +1753,13 @@ Access-Control-Allow-Headers: Content-Type, Authorization
 This setup ensures only certain headers and methods are allowed when accessing resources from cross-origin requests, providing an additional layer of security for API resources.
 
 
-4. Access-Control-Allow-Credentials
+**4. Access-Control-Allow-Credentials**
 
 The `Access-Control-Allow-Credentials` header in Cross-Origin Resource Sharing (CORS) specifies whether or not the browser should include credentials (such as cookies, HTTP authentication, or client-side SSL certificates) with requests to the server. This header is crucial for applications that rely on user authentication and need to send credentials in cross-origin requests.
 
 When a web application from one origin (e.g., `https://example.com`) requests resources from another origin (e.g., `https://api.example.com`) and the server sets `Access-Control-Allow-Credentials: true`, the browser will send cookies and authentication data along with the request.
 
-### Example Usage
+**Example Usage**
 
 ```http
 Access-Control-Allow-Credentials: true
@@ -1672,7 +1767,7 @@ Access-Control-Allow-Credentials: true
 
 This response header tells the browser to include credentials in cross-origin requests to the server.
 
-### Important Notes
+**Important Notes**
 
 1. **Must be Used with Specific Origins**: For `Access-Control-Allow-Credentials: true` to work, `Access-Control-Allow-Origin` must specify a particular origin rather than a wildcard (`*`). For example:
    ```http
@@ -1684,7 +1779,9 @@ This response header tells the browser to include credentials in cross-origin re
 
 3. **Restricted Header Access**: When `Access-Control-Allow-Credentials` is set to `true`, the browser restricts access to the response headers to prevent exposing sensitive information unintentionally. Only a few headers like `Content-Type`, `Cache-Control`, and `Expires` are accessible.
 
-### Example in a Full CORS Response
+<br>
+
+**Example in a Full CORS Response**
 
 Here’s an example CORS response that allows credentials:
 
@@ -1697,44 +1794,7 @@ Access-Control-Allow-Credentials: true
 
 In this setup, requests to the server at `https://api.example.com` will include cookies or other credentials if they originate from `https://example.com`. This enables authenticated sessions to work across different domains securely.
 
-
-
-5. Access-Control-Allow-Headers 
-
-The `Access-Control-Allow-Headers` header in CORS specifies which HTTP headers can be included in requests made to a server from a different origin. This is necessary when the request includes non-standard headers, like `Authorization` or any custom headers.
-
-When a browser makes a "preflight" `OPTIONS` request, it checks which headers it’s allowed to use in the actual request based on the server’s `Access-Control-Allow-Headers` response.
-
-### Example Usage
-
-If a server allows specific headers such as `Content-Type`, `Authorization`, and a custom header like `X-Custom-Header`, it would respond with:
-
-```http
-Access-Control-Allow-Headers: Content-Type, Authorization, X-Custom-Header
-```
-
-This tells the browser that these headers are permitted in cross-origin requests to this server.
-
-### Key Points
-
-1. **Common Headers**: Headers frequently included in the allow list are `Authorization`, `Content-Type`, `Accept`, and custom headers like `X-Requested-With`.
-
-2. **Security**: By limiting which headers are allowed, the server controls what kind of information is sent, helping to avoid potentially harmful or unexpected data.
-
-3. **Wildcard (`*`)**: While it’s technically possible to allow all headers by using `*`, this is usually discouraged as it’s less secure.
-
-### Example in a Full CORS Response
-
-In a typical CORS response setup:
-
-```http
-Access-Control-Allow-Origin: https://example.com
-Access-Control-Allow-Methods: GET, POST, OPTIONS
-Access-Control-Allow-Headers: Content-Type, Authorization, X-Custom-Header
-```
-
-This setup allows requests to the server from `https://example.com` with specific headers and methods, making cross-origin requests safe and controlled.
-
+<br>
 
 > ###  Subresource Integrity (SRI)
 
