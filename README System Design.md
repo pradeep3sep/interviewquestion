@@ -1804,7 +1804,7 @@ https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
 
 Let say you are using any third part script like bootstrap cdn, and you are loading its content, but somehow hacker load mailicous script in bootstrap or its security gets compromised, then your website will be very much vulnerable. so thats why we use the SRI.
 
-Subresource Integrity (SRI) is a security feature that allows browsers to verify that resources (such as scripts or stylesheets) loaded from a third-party source have not been tampered with. This is done by including a cryptographic hash in the HTML `<script>` or `<link>` tags for the resource. If the resource’s content doesn’t match the specified hash, the browser blocks it, helping to prevent attacks such as code injection.
+Subresource Integrity (SRI) is a security feature that allows browsers to verify that resources (such as scripts or stylesheets) loaded from a third-party source have not been tampered with. This is done by `including a cryptographic hash` in the HTML `<script>` or `<link>` tags for the resource. If the resource’s content doesn’t match the specified hash, the browser blocks it, helping to prevent attacks such as code injection.
 
 ### How It Works
 
@@ -1819,7 +1819,7 @@ When you include an SRI hash in a `<script>` or `<link>` tag, the browser:
 For a CDN-hosted JavaScript file:
 
 ```html
-<<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 ```
 
 In this example:
@@ -1856,6 +1856,7 @@ https://www.srihash.org/
 
 Visit above site and paste bootstrap url in it ie 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js', select hash, it wil generate the hash from the url take the genrated integrity, compare it with the hash provided in the integrity in above bootstrap cdn, if it matches then content gets loaded otherwise not loaded. 
 
+<br>
 
 ## How does the web works
 
@@ -1863,7 +1864,7 @@ Visit above site and paste bootstrap url in it ie 'https://cdn.jsdelivr.net/npm/
 
 ### So what happens, exactly?
 
-note: ip address defines the as the main address of any website.
+**Note**: ip address defines the as the main address of any website.
 
 When you type a web address into your browser (for our analogy that's like walking to the shop):
 
@@ -1872,6 +1873,7 @@ When you type a web address into your browser (for our analogy that's like walki
 3. If the server approves the client's request, the server sends the client a "200 OK" message, which means "Of course you can look at that website! Here it is", and then starts sending the website's files to the browser as a series of small `chunks` called data packets (the shop gives you your goods, and you bring them back to your house).
 4. The browser assembles the small chunks into a complete web page and displays it to you (the goods arrive at your door — new shiny stuff, awesome!).
 
+<br>
 
 ### Order in which component files are parsed
 When browsers send requests to servers for HTML files, those HTML files often contain `<link>` elements referencing external CSS stylesheets and `<script>` elements referencing external JavaScript scripts. It's important to know the order in which those files are parsed by the browser as the browser loads the page:
@@ -1883,6 +1885,8 @@ When browsers send requests to servers for HTML files, those HTML files often co
 
 **The CSS Object Model (CSSOM) is a set of APIs that allows JavaScript to read and manipulate CSS styles dynamically in the browser.**
 
+<br>
+
 ## DNS explained
 Real web addresses aren't the nice, memorable strings you type into your address bar to find your favorite websites. They are special numbers that look like this: 192.0.2.172.
 
@@ -1892,13 +1896,13 @@ Websites can be reached directly via their IP addresses. You can use a [DNS look
 
 
 
-> ### To get all the details of any domain visit below, enter the url in search and you will see when this doamin was first registered and when it was last updated or renewed.
+- To get all the details of any domain visit below, enter the url in search and you will see when this doamin was first registered and when it was last updated or renewed.
 
-[url](https://www.whois.com/whois/tataaig.com)
+https://www.whois.com/whois/tataaig.com
 
 **Now we have connected server with the browser, we will se how they transfer data from server to browser**
 
-
+<br>
 
 ## Communication Protocols
 
@@ -1935,43 +1939,52 @@ Explaining 8 Popular Network Protocols in 1 Diagram. The method to download the 
 
 Network protocols are standard methods of transferring data between two computers in a network.
 
-1. HTTP (HyperText Transfer Protocol)
+**1. HTTP (HyperText Transfer Protocol)**
+
 HTTP is a protocol for fetching resources such as HTML documents. It is the foundation of any data exchange on the Web and it is a client-server protocol.
 
-2. HTTP/3
+**2. HTTP/3**
+
 HTTP/3 is the next major revision of the HTTP. It runs on QUIC, a new transport protocol designed for mobile-heavy internet usage. It relies on UDP instead of TCP, which enables faster web page responsiveness. VR applications demand more bandwidth to render intricate details of a virtual scene and will likely benefit from migrating to HTTP/3 powered by QUIC.
 
-3. HTTPS (HyperText Transfer Protocol Secure)
+**3. HTTPS (HyperText Transfer Protocol Secure)**
+
 HTTPS extends HTTP and uses encryption for secure communications.
 
-4. WebSocket
+**4. WebSocket**
+
 WebSocket is a protocol that provides full-duplex communications over TCP. Clients establish WebSockets to receive real-time updates from the back-end services. Unlike REST, which always “pulls” data, WebSocket enables data to be “pushed”. Applications, like online gaming, stock trading, and messaging apps leverage WebSocket for real-time communication.
 
-5. TCP (Transmission Control Protocol)
+**5. TCP (Transmission Control Protocol)**
+
 TCP is is designed to send packets across the internet and ensure the successful delivery of data and messages over networks. Many application-layer protocols build on top of TCP.
 
-6. UDP (User Datagram Protocol)
+**6. UDP (User Datagram Protocol)**
+
 UDP sends packets directly to a target computer, without establishing a connection first. UDP is commonly used in time-sensitive communications where occasionally dropping packets is better than waiting. Voice and video traffic are often sent using this protocol.
 
-7. SMTP (Simple Mail Transfer Protocol)
+**7. SMTP (Simple Mail Transfer Protocol)**
+
 SMTP is a standard protocol to transfer electronic mail from one user to another.
 
-8. FTP (File Transfer Protocol)
+**8. FTP (File Transfer Protocol)**
+
 FTP is used to transfer computer files between client and server. It has separate connections for the control channel and data channel.
 
 
 ![common network protocols](images/protocol.jpg)
 
+<br>
 
 ## Rest API
 
-1 Tier architecture - frontend and backend are on same
-2 Tier architecture - frontend and backend are manage separately
-3 Tier architecture - frontend, backend and database, we managing separately
+**1 Tier architecture** - frontend and backend are on same\
+**2 Tier architecture** - frontend and backend are manage separately\
+**3 Tier architecture** - frontend, backend and database, we managing separately
 
 For communicationg between the frontend, backend and database, we need api,
 
-A REST (Representational State Transfer) API is a widely-used web service architecture that allows clients and servers to `communicate over HTTP protocol` using standard HTTP methods like GET, POST, PUT, DELETE, and PATCH. RESTful APIs are stateless, meaning each request from the client to the server must contain all the information needed to understand and process the request.
+A `REST (Representational State Transfer) API` is a widely-used web service architecture that allows clients and servers to `communicate over HTTP protocol` using standard HTTP methods like GET, POST, PUT, DELETE, and PATCH. RESTful APIs are stateless, meaning each request from the client to the server must contain all the information needed to understand and process the request.
 
 Here’s a quick overview of REST API principles and best practices:
 
@@ -2036,14 +2049,11 @@ The REST (Representational State Transfer) architectural style offers several be
 
 REST’s simplicity, flexibility, and broad support make it ideal for building scalable, reliable, and maintainable APIs across various applications and industries.
 
+<br>
 
+> ### Various headers used in api   
 
-
-
-
-
-
-> ### Various headers used in api   https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
 
 ### **1. Authentication & Authorization Headers**
    - **Authorization**: Used for client authentication. Includes tokens or credentials.
@@ -2133,6 +2143,7 @@ REST’s simplicity, flexibility, and broad support make it ideal for building s
    - **X-Correlation-ID**: Unique identifier for a request, useful for tracing requests across services.
      - Example: `X-Correlation-ID: 12345abcde`
 
+<br>
 
 > ### Etag is used for ?
 
@@ -2198,6 +2209,7 @@ Content-Type: application/json
 
 In this way, `ETag` helps maintain up-to-date data while optimizing server-client communication.
 
+<br>
 
 > ### Status code and category
 
@@ -2207,6 +2219,7 @@ In this way, `ETag` helps maintain up-to-date data while optimizing server-clien
 4XX - Client Error
 5XX - Server Error
 
+<br>
 
 > ### what is GRAPHQL
 
@@ -2300,7 +2313,7 @@ GraphQL offers several advantages over traditional REST APIs, making it popular 
 
 These advantages make GraphQL a strong choice for building scalable, performant, and flexible APIs, especially for applications with complex data requirements.
 
-
+<br>
 
 > ### Rest vs GraphQL
 
@@ -2404,7 +2417,7 @@ Overall, both REST and GraphQL have their strengths, and the choice depends on t
 2. Query/ Mutation.   Quey to get data from the server and mutation to update data on server through api
 3. Resolver. This is like controller of rest api structure(basically we write the logical part in it)
 
-
+<br>
 
 ## Communication Techniques
 
@@ -2457,7 +2470,7 @@ In system design interviews, discussing various communication techniques is esse
 
 Each technique has its own strengths, and your choice will depend on the specific requirements, such as the need for real-time data, resource constraints, and scalability.
 
-
+<br>
 
 > ### Short Polling
 
@@ -2591,6 +2604,7 @@ In this setup:
 
 This method is suitable for low-frequency updates but can cause unnecessary traffic if used for high-frequency real-time updates. It’s also not as responsive as long polling, WebSockets, or Server-Sent Events (SSE).
 
+<br>
 
 > ### Long Polling
 Long polling is a technique used in web development to enable real-time updates from the server to the client. It's commonly used when WebSockets or Server-Sent Events (SSE) are not available or suitable, allowing the server to push data to the client without requiring a constant connection.
@@ -2718,6 +2732,7 @@ In this setup:
 
 This is a basic implementation, and in production, long polling would require optimizations like connection limits and error handling for scalability and stability.
 
+<br>
 
 > ### What is web sockets
 
@@ -2887,8 +2902,11 @@ In this client code:
 
 WebSockets are ideal for real-time applications with rapid, bidirectional data flow requirements. This approach reduces the need for repeated HTTP requests and ensures minimal latency, making it highly suitable for chat applications, live notifications, games, and similar use cases where fast and efficient data transfer is crucial.
 
+<br>
 
-> ### Server Sent Event (SSE)     https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
+> ### Server Sent Event (SSE)     
+
+https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events
 
 Server-Sent Events (SSE) is a standard for enabling one-way, real-time updates from a server to a client over HTTP. Unlike WebSockets, which allow for full-duplex communication, SSE provides a one-way connection where only the server can send updates to the client. This makes SSE particularly useful for cases like live notifications, stock tickers, news feeds, or any scenario where the client needs to be informed of new server-side events.
 
@@ -3014,6 +3032,7 @@ In this client code:
 
 SSE is a powerful solution for applications that need server-to-client, real-time, text-based data updates with minimal overhead. It’s simple to set up and works well for scenarios like notifications, live data feeds, and other cases where bidirectional communication isn’t necessary.
 
+<br>
 
 > ### what is webhooks.
 
@@ -3149,6 +3168,7 @@ To secure webhooks, you should:
 
 Webhooks are an efficient way for servers to communicate events to other systems in real-time without requiring continuous polling. This setup is common in scenarios where timely updates are essential, such as payment confirmations, order tracking, and notification systems.
 
+<br>
 
 ## Testing in frontend applications
 
@@ -3222,6 +3242,7 @@ Testing in frontend applications is crucial for maintaining high code quality an
      - Regularly audit with screen readers and keyboard-only navigation.
      - Avoid accessibility violations by checking ARIA roles, contrast ratios, and focus traps.
 
+<br>
 
 > ### What is a/b testing, explain in detail
 A/B testing, also known as split testing, is a method used to compare two versions of a webpage, app feature, marketing content, or other product elements to see which one performs better in terms of a desired outcome. The goal is to optimize for specific metrics, such as conversion rates, engagement, or click-through rates. Here’s a detailed breakdown of how A/B testing works, its benefits, and the process involved.
@@ -3274,6 +3295,7 @@ A/B testing, also known as split testing, is a method used to compare two versio
 
 A/B testing is a powerful tool for teams to validate changes and continuously improve based on real user behavior, helping companies make informed, data-backed decisions that enhance the user experience and drive results.
 
+<br>
 
 > ### what is test driven approach? explain in details
 
@@ -3396,6 +3418,7 @@ By using `Clear-Site-Data`, you ensure a complete logout experience that’s esp
 
 Try to make the data structure in schema or database such that for getting the data, we get in O(1) instead of O(n). basically create the object in finding data to be key and result to be value, so that we can directly access the value.
 
+<br>
 
 > ### what is fetch policy
 
@@ -3414,6 +3437,7 @@ Fetch policies decide how the data is fetched and how the cache is used. Some co
 
 5. **`cache-and-network`**: The query checks the cache and returns data if available, but it also triggers a network request to update the cache. This policy gives quick responses while ensuring fresh data is eventually received.
 
+<br>
 
 > ### How Does HTML Rendering Happen in Browsers
 
@@ -3425,6 +3449,7 @@ When a url is hit, Data is sent over the Internet as byte packets. The browser m
 The DOM tree has been successfully created, but the browser needs information on how the elements will appear in order to render the page. It is the CSSOM’s responsibility to know how the elements of a page should appear.
 
 **What is the CSSOM?**
+
 While creating the DOM tree, a request is sent to the CSS link in the `<head>` and the CSS styles are returned as a result of this request. As with HTML tags, CSS information comes in bytes, and the CSS Object Model (CSSOM) is created by going through certain stages.
 
 ![screenshot](images/cssom1.webp)
@@ -3435,6 +3460,7 @@ While creating the DOM tree, a request is sent to the CSS link in the `<head>` a
 
 
 **What is the Render Tree?**
+
 DOM and CSSOM tree structures are two independent structures. The DOM contains all the information about the relationships of the HTML element of the page, while the CSSOM contains the information about how to style the elements.
 
 ![screenshot](images/render.png)
@@ -3561,10 +3587,11 @@ This process is highly optimized and happens quickly to deliver a seamless brows
 - JS - Parsing Blocking
 
 
+<br>
 
 ### Performance Optimization
 
-1. Critical Rendering path
+**1. Critical Rendering path**
 
 When we hit the website url, request goes to the server and server send a file in packets form, which is html file, then browser try to start rendering the html, as many more psckets received it again start rendering that packet form html. 
 
@@ -3573,7 +3600,7 @@ First packet transfered is of max 14kb
 if we try to add max data(css js code in single html file) in that 14kb, then it become super optimized becuse being it is first packed, browser render the html first and show it on the screen
 
 
-2. Resource hints
+**2. Resource hints**
 
 ```
 https://web.dev/learn/performance/resource-hints
@@ -3605,7 +3632,7 @@ https://web.dev/learn/performance/resource-hints
    ```
 
 
-3. Fetch Priority
+**3. Fetch Priority**
 
 Lower priority only for the non-critical preloaded scripts
 ```html
@@ -3619,7 +3646,7 @@ Preload css without blocking other resources
 ```
 
 
-4. http1 vs http2 vs http3
+**4. http1 vs http2 vs http3**
 
 There are many difference but one main difference we can make limited no of api call or data fetch request(getting image from server) from the server, the no depends on browser to browser. as compare to http 2 or http3 the count increases.
 
@@ -3631,7 +3658,7 @@ Below is image to know which is protocol ie http1 or http2 or http3
 ![screenshot](images/httpcheck.png)
 
 
-5. Text compression
+**5. Text compression**
 
 https://web.dev/articles/codelab-text-compression-brotli
 
