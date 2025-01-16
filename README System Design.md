@@ -301,6 +301,7 @@ A startup needing a **proof-of-concept (POC)** in 2 weeks would benefit from Vue
 
 A user logs into the same account from a web browser on their laptop and a mobile app on their phone at the same time. Both sessions are active concurrently.
 
+<br>
 
 > ### Optimzation 
 
@@ -982,7 +983,20 @@ module.exports = {
 
 ## Security
 
-> ### 1. XSS
+1. XSS
+2. CSP headers
+3. Iframe protection
+4. Security Headers
+5. Client storage security
+6. Dependency Security
+7. Permissions Policy
+8. CSRF
+9. CORS
+10. SRI
+
+
+
+> ### XSS
 
 An XSS (Cross-Site Scripting) attack occurs when an attacker injects malicious scripts into a website viewed by other users.
 
@@ -1409,21 +1423,21 @@ When a user visits your website, the server sends the `Strict-Transport-Security
 3. **`preload`**: This tells the browser to include your website in the browser's HSTS preload list, which means your site will always default to HTTPS even on the first visit (useful for new users who haven't visited before).
    - To add your site to the preload list, you can submit it to the [HSTS Preload List](https://hstspreload.org/).
 
-### Example:
+**Example:**
 ```http
 Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 ```
 
-### Easy Explanation:
+**Easy Explanation:**
 HSTS is like telling the browser, **“Only visit my site using a secure connection (HTTPS), and remember this rule for a year.”** This makes sure users aren’t accidentally exposed to unencrypted traffic.
 
-### Why is HSTS important?
+**Why is HSTS important?**
 
 1. **Prevents Downgrade Attacks**: Attackers can’t force users to downgrade from HTTPS to HTTP.
 2. **Stops Man-in-the-Middle Attacks**: It ensures data is always encrypted, even if a user tries to access the site using an insecure link.
 3. **Better User Security**: It protects your users by ensuring that they always use the safest version of your site.
 
-### Example in a Node.js App (with Express):
+**Example in a Node.js App (with Express):**
 ```js
 const helmet = require('helmet');
 
@@ -1609,6 +1623,7 @@ Access-Control-Allow-Origin: https://example.com
 
 This header is typically used in the server response to handle CORS policies for frontend applications that need to make cross-origin HTTP requests.
 
+<br>
 
 **2. Access-Control-Allow-Methods**
 
@@ -1616,7 +1631,7 @@ The `Access-Control-Allow-Methods` header is used in Cross-Origin Resource Shari
 
 For instance, if a web application on `https://example.com` wants to send a `POST` request to `https://api.example.com`, the browser first sends an `OPTIONS` request to check what methods are allowed by the server. The server then responds with an `Access-Control-Allow-Methods` header to specify which HTTP methods it supports.
 
-### Examples of `Access-Control-Allow-Methods`:
+**Examples of `Access-Control-Allow-Methods`:**
 
 1. **Allow specific methods**:
    ```http
@@ -1637,6 +1652,8 @@ For instance, if a web application on `https://example.com` wants to send a `POS
 - `DELETE`
 - `OPTIONS`
 - `PATCH`
+
+<br>
 
 **3. Access-Control-Allow-Headers**
 
@@ -1675,6 +1692,7 @@ Access-Control-Allow-Headers: Content-Type, Authorization
 
 This setup ensures only certain headers and methods are allowed when accessing resources from cross-origin requests, providing an additional layer of security for API resources.
 
+<br>
 
 **4. Access-Control-Allow-Credentials**
 
@@ -1795,18 +1813,6 @@ When you type a web address into your browser (for our analogy that's like walki
 2. The browser sends an HTTP request message to the server(hits that ip address from the browser), asking it to send a copy of the website to the client (you go to the shop and order your goods). This message, and all other data sent between the client and the server, is sent across your internet connection using TCP/IP.
 3. If the server approves the client's request, the server sends the client a "200 OK" message, which means "Of course you can look at that website! Here it is", and then starts sending the website's files to the browser as a series of small `chunks` called data packets (the shop gives you your goods, and you bring them back to your house).
 4. The browser assembles the small chunks into a complete web page and displays it to you (the goods arrive at your door — new shiny stuff, awesome!).
-
-<br>
-
-### Order in which component files are parsed
-When browsers send requests to servers for HTML files, those HTML files often contain `<link>` elements referencing external CSS stylesheets and `<script>` elements referencing external JavaScript scripts. It's important to know the order in which those files are parsed by the browser as the browser loads the page:
-
-- The browser parses the HTML file first, and that leads to the browser recognizing any `<link>` - element references to external CSS stylesheets and any `<script>`- element references to scripts.
-- As the browser parses the HTML, it sends requests back to the server for any CSS files it has found from `<link>` elements, and any JavaScript files it has found from `<script>` elements, and from those, then parses the CSS and JavaScript.
-- The browser generates an in-memory DOM tree from the parsed HTML, generates an in-memory CSSOM structure from the parsed CSS, and compiles and executes the parsed JavaScript.
-- As the browser builds the DOM tree and applies the styles from the CSSOM tree and executes the JavaScript, a visual representation of the page is painted to the screen, and the user sees the page content and can begin to interact with it.
-
-**The CSS Object Model (CSSOM) is a set of APIs that allows JavaScript to read and manipulate CSS styles dynamically in the browser.**
 
 <br>
 
@@ -3359,6 +3365,22 @@ Fetch policies decide how the data is fetched and how the cache is used. Some co
 4. **`no-cache`**: Similar to `network-only`, but it does not store the fetched data in the cache. Each request is unique and avoids both reading from and writing to the cache.
 
 5. **`cache-and-network`**: The query checks the cache and returns data if available, but it also triggers a network request to update the cache. This policy gives quick responses while ensuring fresh data is eventually received.
+
+<br>
+
+### Order in which component files are parsed
+1. The browser first parses the HTML file.  
+2. While parsing, it identifies `<link>` elements for CSS stylesheets and `<script>` elements for JavaScript files.  
+3. The browser sends requests to the server for these CSS and JavaScript files.  
+4. It then parses the received CSS and JavaScript files.  
+5. The browser constructs:  
+   - A **DOM (Document Object Model)** tree from the parsed HTML.  
+   - A **CSSOM (CSS Object Model)** structure from the parsed CSS.  
+   - Compiles and executes the parsed JavaScript.  
+6. The browser applies styles from the CSSOM tree to the DOM.  
+7. The page is visually rendered, and users can interact with it.
+
+**The CSS Object Model (CSSOM) is a set of APIs that allows JavaScript to read and manipulate CSS styles dynamically in the browser.**
 
 <br>
 
