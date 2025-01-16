@@ -295,31 +295,16 @@ A startup needing a **proof-of-concept (POC)** in 2 weeks would benefit from Vue
 2. **Component Reusability**: 
    - React’s functional components with hooks encourage reusable, maintainable code.
 
-#### **Example**:  
-A SaaS platform requiring constant feature additions and scalability might benefit from React’s modularity.
-
-### **My Personal Choice**:
-1. **Small to Medium Projects**: Vue, because of its simplicity, faster setup, and built-in features.  
-2. **Large-Scale, Complex Projects**: React, due to its modularity, ecosystem, and ability to handle complexity effectively.  
-
-#### Example Decision:
-- For a **startup POC**, I’d use Vue.  
-- For a **large-scale SaaS application**, I’d use React with a modern framework like Next.js.  
-
-
 <br>
 
+> ### concurrent session kya hota h
 
-> ### How you optimized the api integration part by 40 percent
+A user logs into the same account from a web browser on their laptop and a mobile app on their phone at the same time. Both sessions are active concurrently.
 
 
-> ### agr mobile pe updation kia h, then web pe kaise changes reflet karoge.
-
-> ### concurrent session kya hota h, ushpe kaise manage kr rahe the. also edge case of b/w tabs of chrome and phone & chrome.
+> ### Optimzation 
 
 Optimizing frontend API integration and reducing page load time by 40% involves identifying performance bottlenecks and addressing them with efficient techniques. Here’s a breakdown of how I achieved this:
-
----
 
 ### **1. Efficient Data Fetching**
 #### **Problem**:
@@ -331,92 +316,30 @@ Optimizing frontend API integration and reducing page load time by 40% involves 
    - Identified redundant API calls and consolidated them by combining related endpoints or batching requests when feasible.
    - Example: Instead of fetching user details and preferences separately, a single endpoint returned both.
 
-2. **Pagination and Lazy Loading**:
-   - Implemented pagination for data-heavy components like tables or lists, so only a subset of data loads initially.
-   - Example: For a table with 10,000 records, only the first 20 rows were fetched, and subsequent rows were loaded on scroll (infinite scrolling).
-
-3. **Selective Field Retrieval**:
+2. **Selective Field Retrieval**:
    - Modified API queries to retrieve only the necessary fields instead of the entire object.
    - Example: Instead of fetching a user’s entire profile, fetched only `name` and `avatar` fields for a leaderboard component.
 
----
-
 ### **2. Improved Caching**
-#### **Problem**:
-- The app frequently refetched unchanged data, wasting time and resources.
 
-#### **Solution**:
-1. **Browser-Level Caching**:
-   - Utilized **HTTP caching headers** (`Cache-Control`, `ETag`) to ensure data that rarely changes (e.g., static configurations) was cached by the browser.
-
-2. **Client-Side State Management**:
+1. **Client-Side State Management**:
    - Used state management libraries like Redux (React) or Vuex (Vue) to cache API responses locally. This allowed the app to reuse previously fetched data without making additional API calls.
    - Example: User details fetched during login were stored globally and reused across components.
 
 3. **Service Workers**:
    - Leveraged service workers for caching static assets and API responses to improve offline availability and reduce network requests.
 
----
-
 ### **3. Optimized API Integration**
 #### **Problem**:
 - Large JSON payloads and slow API response times led to sluggish performance.
 
 #### **Solution**:
-1. **Debouncing and Throttling**:
-   - For user-triggered API calls (e.g., search suggestions), implemented debouncing to reduce the frequency of calls.
-   - Example: Search results updated only after the user stopped typing for 300ms.
-
-2. **Parallel and Pre-Fetching**:
-   - Parallelized independent API calls to reduce total wait time.
+1. **Parallel and Pre-Fetching**:
+   - Parallelized independent API calls to reduce total wait time. `Promise.all for Parallel Execution`
    - Prefetched critical data during idle time or when the user hovered over a link.
    - Example: Prefetched product details when a user hovered over a product card.
 
-3. **Optimized Backend Queries**:
-   - Collaborated with the backend team to optimize slow queries by adding indexes or restructuring database queries.
-
----
-
-### **4. Performance Monitoring and Iteration**
-#### **Problem**:
-- Hard to pinpoint the exact issues causing delays.
-
-#### **Solution**:
-1. **Tools Used**:
-   - Leveraged tools like Chrome DevTools, Lighthouse, and New Relic to identify slow network requests and large payloads.
-
-2. **Payload Compression**:
-   - Ensured API responses were gzipped or compressed to reduce payload size.
-
-3. **Monitoring Key Metrics**:
-   - Focused on **Time to First Byte (TTFB)**, **First Contentful Paint (FCP)**, and **API Response Time** to measure improvements.
-
----
-
-### **Results**
-- **40% reduction in page load time** was achieved by combining these techniques:
-  - **Reduced API payload size**: Slimmed down large responses with selective field retrieval.
-  - **Minimized redundant API calls**: Through caching and consolidation.
-  - **Faster rendering**: By preloading critical data and lazy loading non-critical data.
-
----
-
-### **Example in Action**
-#### Scenario:
-An e-commerce platform with product listings, user profiles, and search functionality.
-
-#### Before Optimization:
-1. Full product details (e.g., 30 fields) fetched for every item on the homepage.
-2. Repeated API calls for the same user data on different pages.
-3. Slow search results due to unoptimized backend queries.
-
-#### After Optimization:
-1. Only fetched essential fields (e.g., `title`, `price`, `thumbnail`) for product cards.
-2. Cached user data globally in Vuex/Redux after the first fetch.
-3. Search results paginated, debounced, and prefetched with faster backend queries.
-
-By addressing these inefficiencies, I ensured a smoother user experience with significantly faster page loads.
-
+<br>
 
 > ### SEO
 
