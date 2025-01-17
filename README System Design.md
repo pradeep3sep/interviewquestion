@@ -1,3 +1,42 @@
+## Enhanced Core web vitals
+Website used - Google Lighthouse, PageSpeed Insights
+
+JS\
+1. Used `async` and `defer` for scripts to prevent render-blocking.
+2. Minimized Third-party Scripts
+3. Code-Splitting using React.lazy()
+
+```jsx
+// App.js (With Code-Splitting)
+import React, { Suspense } from "react";
+
+const Checkout = React.lazy(() => import("./Checkout")); // Lazy-loaded
+
+function App() {
+  return (
+    <div>
+      <h1>Welcome to the Store</h1>
+      <Suspense fallback={<div>Loading Checkout...</div>}>
+        <Checkout /> {/* Now only loaded when needed */}
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Optimized Images\
+1. WebP format (smaller & faster).
+2. srcset to load appropriate sizes.
+3. Applied lazy loading (loading="lazy") to avoid loading offscreen images.
+
+CLS (Avoiding Layout Shifts)
+1. Defined Image & Video Dimensions
+
+
+<br>
+
 ## **Vue**
 
 #### **Positives**:
