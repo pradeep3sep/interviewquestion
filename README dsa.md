@@ -259,7 +259,7 @@ var twoSum = function(nums, target) {
 twoSum([7,11,15,2],9)
 ```
 
-<details>
+</details>
 
 <br>
 
