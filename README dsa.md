@@ -18,6 +18,7 @@ The Big O is basically `worst-case` running `time` of an `algorithm` as the inpu
 ```
 https://www.bigocheatsheet.com/
 ```
+<br>
 
 > ### Measuring Space Complexity in Practice
 
@@ -41,8 +42,7 @@ https://www.bigocheatsheet.com/
   let obj = { a: 1, b: 2, c: 3 }; // O(m), where m is the number of keys
   ```
 
----
-
+<br>
 
 > ### The difference between various notations
 The differences between the time complexities \(O(1)\), \(O(log n)\), \(O(n)\), \(O(nlog n)\), and \(O(n^2)\) describe how the runtime of an algorithm scales with the size of the input \(n\). Here's a breakdown of each:
@@ -135,7 +135,9 @@ Output: 0
 Explanation:\
 No harmonic subsequence exists.
 
-video - https://youtu.be/Gu9aKI7Oj_I?si=xvkG-1tJLx0UsJ80
+video - https://youtu.be/Gu9aKI7Oj_I?si=cL7FY5gknzV-fjmY&t=284
+
+<details>
 
 ```js
 var findLHS = function(nums) {
@@ -162,6 +164,9 @@ console.log(findLHS([1, 3, 2, 2, 5, 2, 3, 7])); // Output: 5
 console.log(findLHS([1, 2, 3, 4]));             // Output: 2
 console.log(findLHS([1, 1, 1, 1]));             // Output: 0
 ```
+
+</details>
+
 <br>
 
 > ### 350. Intersection of Two Arrays II - (edge case - we can duplicate value in both array)
@@ -178,6 +183,9 @@ Example 2:
 Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]\
 Output: [4,9]
 Explanation: [9,4] is also accepted.
+
+
+<details>
 
 ```js
 var intersect = function(nums1, nums2) {
@@ -207,6 +215,8 @@ console.log(intersect([1, 2, 2, 1], [2, 2])); // Output: [2, 2]
 console.log(intersect([4, 9, 5], [9, 4, 9, 8, 4])); // Output: [4, 9]
 ```
 
+</details>
+
 <br>
 
 > ### 1. Two Sum - LeetCode - Keep in mind we have use the hasOwnProperty,
@@ -230,6 +240,8 @@ Output: [0,1]
 
 yt - https://youtu.be/KLlXCFG5TnA
 
+<details>
+
 ```js
 var twoSum = function(nums, target) {
     let dic={}
@@ -246,6 +258,8 @@ var twoSum = function(nums, target) {
 };
 twoSum([7,11,15,2],9)
 ```
+
+<details>
 
 <br>
 
@@ -283,7 +297,7 @@ Input: s = "MCMXCIV"\
 Output: 1994\
 Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
 
-
+<details>
 
 ```js
 function romanToInt(roman) {
@@ -320,15 +334,20 @@ console.log(romanToInt("IX"));     // Output: 9
 console.log(romanToInt("LVIII"));  // Output: 58
 console.log(romanToInt("MCMXCIV"));// Output: 1994
 ```
+
+</details>
+
 <br>
 
 [Back to Top](#table-of-contents)
+
+<br>
 
 > ## 2. Prefix sum algorithm 
 
 [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
 
-`Hints when to use` - Find the sum of elements between indices `i` and `j` for multiple queries. 
+**`Hints when to use` - Find the sum of elements between indices `i` and `j` for multiple queries.**
 
 In the **Prefix Sum Algorithm**, the process is typically divided into two common steps:
 
