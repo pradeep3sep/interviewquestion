@@ -29,6 +29,7 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
 
 > ### Type of Null if object.
 
+<br>
 
 ```
               Data Value
@@ -123,12 +124,9 @@ eg==>  console.log("2" * "3") gives 6, basically the string to number
 
 - In object, the key values, the key is also called the `property`
 
-
 <br>
 
-
-
-> #### **Functions: Declarative vs Expressive**
+> ### **Functions: Declarative vs Expressive**
 1. **Declarative Function**:
    - Syntax:
      ```js
@@ -146,10 +144,10 @@ eg==>  console.log("2" * "3") gives 6, basically the string to number
      };
      ```
    - `Cannot` be called before they are defined.
----
-
 
 <br>
+
+> ### let VS const VS var
 
 Here’s a concise comparison of `let`, `const`, and `var` in JavaScript presented in tabular form:
 
@@ -635,17 +633,14 @@ see akshay saini video form 17:34**
 **Polymorphism**
 - A child class can overwrite a method it inherited from a parent class.[It's more complex than that, but enough for our purposes.]
 
-
----
+<br>
 
 > ### Prototype  
 
 - **Prototype** contains methods; objects linked to this prototype can access methods.  
 - Objects are linked to a prototype object.  
 
-
 <br>
-
 
 > ### PROTOTYPAL INHERITANCE
 
@@ -654,16 +649,15 @@ see akshay saini video form 17:34**
 
 ![BOM](/images/chain.png)
 
-### proto is simply a refernce or a pointer to up the chain protype chain
+**Note** `proto` is simply a refernce or a pointer to up the chain protype chain
 
 ![BOM](/images/protoInheri.png)
 
-- created array.prototype or created object.prototype or created function.prototype returns `undefined` unless any property created in it. It has all method or function of Base object and Base array or Base function, basically inherit all from above hierarchy
+- `created array.prototype` or `created object.prototype` or `created function.prototype` `returns` `undefined` unless any property created in it. It has all method or function of Base object and Base array or Base function, basically inherit all from above hierarchy
 
-- Array.prototype has all the built-in method of array like map, filter, etc but created array.protoype don't have similar to function case eg is call, bind,apply.
+eg: `Array.prototype` `has all` the `built-in` method of array like `map, filter, etc` but created `array.protoype` `don't have` similar to function case `eg is call, bind,apply`.
 
 <br>
-
 
 > ### Call, Apply, and Bind  
 
@@ -783,7 +777,7 @@ const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
 
 > ### What is the purpose of template tag in html
 
-Use `<template>` to hold some content that will be hidden when the page loads. Use JavaScript to display it: we clone the node and then append in the required location.
+The `<template>` tag in HTML is used to define a reusable fragment of HTML that is not rendered when the page loads. Instead, it can be cloned and inserted into the DOM dynamically using JavaScript.
 
 ```html
 
@@ -824,6 +818,8 @@ Use `<template>` to hold some content that will be hidden when the page loads. U
 > ### Various Promise Method
 
 Here’s a breakdown of the key differences between `Promise.all()`, `Promise.allSettled()`, `Promise.any()`, and `Promise.race()`:
+
+<details>
 
 ### 1. **`Promise.all()`**
 - **Behavior**: Waits for all promises to either resolve or reject. If any promise is rejected, the entire `Promise.all()` is rejected.
@@ -874,6 +870,8 @@ Here’s a breakdown of the key differences between `Promise.all()`, `Promise.al
 - **`Promise.allSettled()`**: Waits for all promises to settle (either fulfilled or rejected).
 - **`Promise.any()`**: Returns the first successfully resolved promise.
 - **`Promise.race()`**: Returns the result of the first settled promise (either fulfilled or rejected).
+
+</details>
 
 <br>
 
@@ -952,6 +950,8 @@ console.log(message) // Error: message is not defined
 > ### special case
 The output of `console.log(['0','1'].map(parseInt))` in JavaScript might be surprising if you're not familiar with how the `map` function works in conjunction with `parseInt`.
 
+<details>
+
 Here's what's happening:
 
 1. `parseInt` is a function in JavaScript used to parse a string and return an integer. It takes two parameters: the string to parse and an optional radix (the base in mathematical numeral systems). However, when used with `map`, it's being called with three parameters: `currentValue`, `index`, and `array`.
@@ -967,6 +967,8 @@ Here's what's happening:
 So, the output of `console.log(['0','1'].map(parseInt))` would be `[0, NaN]`.
 
 The reason the second result is `NaN` is because when `parseInt` tries to parse `'1'` with a radix of `1` (the index of the element in the array), it fails because in base-1 numeral system, there's no representation for `1`. Therefore, `parseInt` returns `NaN` (Not-a-Number).
+
+</details>
 
 <br>
 
@@ -2044,57 +2046,6 @@ console.log(hobbies, rest.age)  // => music 25
 <br>
  
 > ### A memory leak is any object that persists after you no longer have a use or need for it.
-
-<br>
-
-> ### What is the difference between classical inheritance and prototypal inheritance?
-
-**Class Inheritance**: instances inherit from classes (like a blueprint - a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the `new keyword`. Class inheritance may or may not use the class keyword from ES6.\
-
-**Prototypal Inheritance**: instances inherit directly from other objects. Instances are typically instantiated via `factory functions or Object.create()`. Instances may be composed from many different objects, allowing for easy selective inheritance.
-
-
-<br>
- 
-> ### child class inheritance using constructor function
-```js
-// Parent constructor function
-function Animal(name) {
-  this.name = name;
-}
-
-// Method defined on the prototype of Animal
-Animal.prototype.walk = function() {
-  console.log(this.name + ' is walking.');
-};
-
-// Child constructor function
-function Dog(name, breed) {
-  // Call the parent constructor
-  Animal.call(this, name);
-  this.breed = breed;
-}
-
-// Inherit from Animal
-Dog.prototype = Object.create(Animal.prototype);
-Dog.prototype.constructor = Dog;
-
-// Method defined specifically for Dog
-Dog.prototype.bark = function() {
-  console.log(this.name + ' is barking.');
-};
-
-// Creating instances
-var myAnimal = new Animal('My Animal');
-var myDog = new Dog('Buddy', 'Labrador');
-
-// Using inherited methods
-myAnimal.walk(); // Output: My Animal is walking.
-myDog.walk();    // Output: Buddy is walking.
-
-// Using specific methods
-myDog.bark();    // Output: Buddy is barking.
-```
 
 <br>
  
@@ -4195,11 +4146,21 @@ Array-Like Object it is an usual object - {}, keys are numbers and has a length 
 
 <br>
  
-> ### What is the difference between ES6 Class and ES5 implementation?
+> ### What is the difference between ES6 Class and ES5 implementation? (solution is below code)
 - ES6 classes provide a more concise and readable syntax for creating objects and handling inheritance in JavaScript compared to the ES5 implementation.
 - ES6 uses the `class` keyword, `constructor` for initialization, and `extends` and `super` for inheritance, making the code more intuitive.
 -  Methods are defined directly within the class body, while ES5 relies on function constructors and manually manipulating the prototype chain.
 -   ES6 also introduces static methods and the `new.target` meta-property, enhancing functionality and ease of use. Overall, ES6 classes simplify object-oriented programming in JavaScript, addressing the verbosity and complexity of ES5.
+
+> ### What is the difference between classical inheritance and prototypal inheritance? (solution is below code)
+
+**Class Inheritance**: instances inherit from classes (like a blueprint - a description of the class), and create sub-class relationships: hierarchical class taxonomies. Instances are typically instantiated via constructor functions with the `new keyword`. Class inheritance may or may not use the class keyword from ES6.\
+
+**Prototypal Inheritance**: instances inherit directly from other objects. Instances are typically instantiated via `factory functions or Object.create()`. Instances may be composed from many different objects, allowing for easy selective inheritance.
+
+<br>
+ 
+> ### child class inheritance using constructor function
 
 ```js
 // ES6 Class
@@ -4569,7 +4530,7 @@ Note that encodeURI() and decodeURI() functions are also available in JavaScript
 > ### What are classes in ES6
 Classes are a template ( a blueprint ) for creating objects.
 
-In ES6, Javascript classes are primarily syntactic sugar over JavaScript’s existing prototype-based inheritance. For example, the prototype based inheritance written in function expression as below,
+In ES6, Javascript classes are `primarily syntactic sugar over JavaScript’s existing prototype-based inheritance`. For example, the prototype based inheritance written in function expression as below,
 
 ```js
 function Bike(model, color) {
@@ -5920,9 +5881,9 @@ When the DOM nodes change, you can invoke a callback function to detect the chan
 
 <br>
  
-> ### normal function vs arrow function
+> ### normal function vs arrow function (4 points)
 
-- Arguments objects are not available in arrow functions, but are available in regular functions.
+- `Arguments objects` are not available in arrow functions, but are available in regular functions.
 
 ```js
 let user = {
@@ -5944,7 +5905,7 @@ user.show_ar(1, 2, 3)    // arguments is not defined
 ```
 
 
-- Can NOT Use new keyword with arrow function
+- `Can NOT Use new keyword` with arrow function
 
 Regular functions created using function declarations or expressions are ‘constructible’ and ‘callable’. Since regular functions are constructible, they can be called using the ‘new’ keyword. However, the arrow functions are only ‘callable’ and not constructible. Thus, we will get a run-time error on trying to construct a non-constructible arrow functions using the new keyword.
 
@@ -5962,7 +5923,7 @@ new x(1, 2, 3) // => TypeError: x is not a constructor
 ```
 
 - arrow do not have `"this"` keyword
-- arrow can not be called before defined in code.
+- `No hoisting` -> arrow can not be called before defined in code. 
 
 
 <br>
@@ -6148,6 +6109,8 @@ obj1.showName.call(obj2); // Jc precedence of Rule 2) Call method > Rule 3) meth
     new OuterFunction();
   ```
 
+<br>
+
 **Rule 7)** IFFE ( inherits "this" of global object )
 
 In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves differently depending on how the IIFE is invoked and the execution context. Here's a breakdown:
@@ -6195,8 +6158,6 @@ In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves
        console.log(this); // Logs: { custom: 'context' }
      }).call({ custom: 'context' });
      ```
-
-In summary, the value of `this` in an IIFE depends on how the IIFE is invoked and whether strict mode is enabled.
 
 <br>
  
@@ -6708,8 +6669,6 @@ In this example:
 
 1. **Function Constructor**:
    - The `Function` constructor is a built-in JavaScript constructor function used to create new function objects dynamically.
-   - It takes a variable number of arguments, where the last argument is the function body (a string containing the function's code) and the preceding arguments are the function parameters.
-   - It can be used to create functions at runtime, allowing you to generate functions based on dynamic conditions.
    - Example:
      ```javascript
      var add = new Function('a', 'b', 'return a + b;');
@@ -6717,8 +6676,6 @@ In this example:
 
 2. **Function Declaration**:
    - Function declarations define named functions using the `function` keyword followed by the function name, parameters (if any), and function body enclosed in curly braces.
-   - They are hoisted to the top of their scope during the compilation phase, meaning they are available for use before their actual declaration in the code.
-   - They are typically used to define reusable functions within a script or function block.
    - Example:
      ```javascript
      function add(a, b) {
@@ -6728,14 +6685,14 @@ In this example:
 
 Key differences:
 
-- **Hoisting**: Function declarations are hoisted to the top of their scope, while function expressions (created using the Function constructor) are not hoisted.
+- **Hoisting**: Function declarations are hoisted, while function expressions are not hoisted.
 - **Syntax**: Function declarations have a specific syntax using the `function` keyword and are defined in a more traditional way, while the Function constructor uses a string representation of the function body and arguments.
 - **Performance**: Function declarations are generally more efficient in terms of performance because they are parsed and compiled during the initial compilation phase, whereas the Function constructor is evaluated at runtime, which may result in slower performance.
 - **Clarity and Readability**: Function declarations are often preferred for their clarity and readability, as they provide a more straightforward way to define functions within the code.
 
 In most cases, function declarations are preferred due to their simplicity, clarity, and performance benefits. However, the Function constructor can be useful in certain advanced scenarios where dynamic function creation is necessary.
 
-
+<br>
 
 > ### How to detect if a function is called as constructor
 
@@ -6758,12 +6715,7 @@ var obj1 = new MyClass(); // This is called as a constructor
 var obj2 = MyClass();     // This will throw an error
 ```
 
-In the example above:
-
-- The `MyClass` function checks whether it's called with the `new` keyword by using the `instanceof` operator to verify if `this` is an instance of `MyClass`.
-- If the check fails (i.e., if `this` is not an instance of `MyClass`), it throws an error indicating that the function must be called with the `new` keyword.
-- When `MyClass` is called with the `new` keyword (`var obj1 = new MyClass();`), it creates a new instance of `MyClass`.
-- When `MyClass` is called without the `new` keyword (`var obj2 = MyClass();`), it throws an error because it's not intended to be used in this way.
+<br>
 
 ### Needs discussion
 
@@ -6782,25 +6734,10 @@ What is minimum timeout throttling\
 <br>
  
 > ### Strict Mode
-use strict is a pragma that enables a strict mode of operation in your code. It's used to catch common coding mistakes and "unsafe" actions, making your code more reliable and secure. 
-
-
-Please make sure that "use strict" is at the top of your scripts, otherwise strict mode may not be enabled.
-
-Strict mode isn’t enabled here:
-
-```js
-alert("some code");
-// "use strict" below is ignored--it must be at the top
-
-"use strict";
-
-// strict mode is not activated
-```
-
+- It's used to catch common coding mistakes and "unsafe" actions.
+- Please make sure that "use strict" is at the top of your scripts, otherwise strict mode may not be enabled.
 - There’s `no way to cancel use strict`
 - There is `no directive like"no use strict"` that reverts the engine to old behavior.
-- Once we enter strict mode, there’s no going back.
 
 <br>
  
