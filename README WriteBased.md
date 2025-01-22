@@ -22,6 +22,8 @@ const rndInt = randomIntFromInterval(1, 6)
 console.log(rndInt)
 ```
 
+<details>
+
 Let's break down both expressions to understand why they produce different ranges of numbers:
 
 1. `const y = Math.floor(Math.random() * 12 + 1)`
@@ -40,9 +42,14 @@ const z = Math.floor((Math.random() * 10) + 3);
 
 With this modification, `z` will give you a random integer between 3 and 12 (inclusive).
 
+</details>
+
 <br>
 
 > ### Q1 - Swap 2 no without temp ⭐️
+
+<Details>
+
 ```js
 let a = 5;
 let b = 10;
@@ -55,11 +62,15 @@ console.log(a); // 10
 console.log(b); // 5
 
 ```
+</Details>
 
 <br>
 
 
 > ### Q2 - Shuffle algorithm
+
+<Details>
+
 ```js
 function shuffle(arr) {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -73,9 +84,13 @@ const arr = [1, 2, 3, 4];
 shuffle(arr);
 console.log(arr);
 ```
+</Details>
+
 <br>
 
 > ### Q3 - Reverse an array
+
+<Details>
 
 ```js
 const data = [1,2,3,4,5,6]
@@ -96,9 +111,13 @@ function reverseArray (arr) {
    return arr.map((item, index) => arr[arr.length-1-index]);
 }
 ```
+</Details>
+
 <br>
 
 > ### Q4 - Sort of array
+
+<Details>
 
 ```js
 const array = [7, 10, 4, 3, 20, 15];
@@ -118,9 +137,12 @@ function sortArray(arr) {
 
 sortArray(array)
 ```
+</Details>
 <br>
 
 > ### Q5 - Remove duplicate from array.
+<Details>
+
 ```js
 const array = [1, 2, 3, 3, 4, 5, 5];
 
@@ -164,14 +186,16 @@ const array = [1, 2, 3, 3, 4, 5, 5];
 const uniqueArray = removeDuplicates(array);
 console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
 ```
-
+</Details>
 <br>
 
 > ### Q6 - Maximum and minimum of an array using minimum number of comparisons
 
 Input: arr = [3, 5, 4, 1, 9]
-Output: Minimum element is: 1
+Output: Minimum element is: 1\
         Maximum element is: 9
+
+<Details>
 
 ```js
 const numbers = [3, 5, 4, 1, 9];
@@ -214,6 +238,8 @@ console.log(Math.max(...numbers)); // 9
 console.log(Math.min.apply(null, numbers)); // 1
 console.log(Math.max.apply(null, numbers)); // 9
 ```
+</Details>
+
 <br>
 
 > ### Q7 - Find the "Kth" max and min element of an array
@@ -221,8 +247,9 @@ arr[] = 7 10 4 3 20 15\
 K = 3;\
 Output: kth Min - 7, kth Max - 10
 
-```js
+<Details>
 
+```js
 const numbers = [7, 10, 4, 3, 20, 15];
 
 function minMax(array, k) {
@@ -237,13 +264,16 @@ function minMax(array, k) {
 const { min, max } = minMax(numbers, 3);
 console.log(min); // 7
 console.log(max); // 10
-
 ```
+</Details>
+
 <br>
 
 > ### Q8 - Given an array of size N containing only 0s, 1s, and 2s; sort the array in ascending order without sort.
 arr = [0, 2, 1, 2, 0]
 Output: [0, 0, 1, 2, 2]
+
+<Details>
 
 ```js
 function sortArray(arr) {
@@ -273,12 +303,17 @@ let arr = [0, 2, 1, 2, 0];
 console.log("Original array:", arr);
 console.log("Sorted array:", sortArray(arr));
 ```
+</Details>
+
 <br>
 
-> ### Q9 - Find the Union of two sorted arrays.
-arr1 = [1, 2, 3, 4, 5]
-arr2 = [1, 2, 3, 8, 9]
+> ### Q9 - Find the Union of two sorted arrays. ⭐️
+
+arr1 = [1, 2, 3, 4, 5]\
+arr2 = [1, 2, 3, 8, 9]\
 output = [ 1, 2, 3, 4, 5, 8, 9 ]
+
+<Details>
 
 ```js
 const x = [1, 2, 3, 5, 6];
@@ -313,6 +348,8 @@ const unionR = arr1.concat(
 );
 console.log("unionR", unionR); // [ 1, 2, 3, 4, 5, 8, 9 ]
 ```
+</Details>
+
 <br>
 
 > ### Q11 - unique from two arrays
@@ -357,38 +394,6 @@ for (const num in countMap) {
 console.log(uniqueElements); // Output: [ 3, 4, 5, 6 ]
 ```
 </details>
-
-<br>
-
-> ### Q13 find all pairs on integer array whose sum is equal to given number
-arr = [1, 5, 7, 1]\
-sum=6\
-Output: 2
-
-**Explanation:** \
-arr[0] + arr[1] = 1 + 5 = 6 \
-and arr[1] + arr[3] = 5 + 1 = 6.
-
-<details>
-
-```js
-const arr = [1, 5, 7, 1];
-  let sum = 6;
-  let count = 0;
-
-  for (let i = 0; i < arr.length - 1; i++) {
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[i] + arr[j] === sum) {
-        count++;
-        console.log(`[${arr[i]},${arr[j]}]`);
-      }
-    }
-  }
-  console.log("No. of Pairs", count);
-```
-
-</details>
-
 
 <br>
 
