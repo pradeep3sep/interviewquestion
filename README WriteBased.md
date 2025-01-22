@@ -1,7 +1,5 @@
 Refer full code in - https://github.com/jayesh2906/JavaScript-with-JC/blob/master/DSA.js
 
-- 17,20,21,22,23,27,29,33,35 permutation,39,42,44 subset,45,50,60,62,68,69,71,72,75,76,77,78 longest substring,80,81,84, 86,87,88 full dekho,91,93,94,95,97,99,100,101,102,103,105,109,110,114,115,117,119,120,121,
-
 <br>
 
 > ### To generate random no
@@ -44,7 +42,7 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
 
 <br>
 
-> ### Q1 - Swap 2 no without temp
+> ### Q1 - Swap 2 no without temp ⭐️
 ```js
 let a = 5;
 let b = 10;
@@ -6068,59 +6066,6 @@ function angle(time) {
   const angle = Math.abs(angleHour - angleMin)
   const finalAngle = angle > 180 ? 360 - angle : angle
   return Math.round(finalAngle)
-}
-```
-
-> ### Roman numerals are represented by combinations of following seven symbols, each with a fixed integer value.
-
-Symbol	I	V	X	L	C	D	M
-Value	1	5	10	50	100	500	1000
-For Standard form, subtractive notation is used, meaning 4 is IV rather than IIII, 9 is IX rather than VIIII. Same rule applies to 40(XL) and 900(CM) .etc.
-
-Simply speaking, the roman numerals in standard form follow these rules.
-
-symbols are listed from highest to lowest, from left to right
-from left to right, if the next symbol value is bigger than current one, it means subtracting, otherwise adding.
-Please implement romanToInteger(). The input are all valid strings.
-
-```js
-romanToInteger('CXXIII')
-// 123
-
-romanToInteger('MCMXCIX')
-// 1999
-
-romanToInteger('MMMCDXX')
-// 3420
-```
-
-**Solution**
-
-```js
-function romanToInteger(str) {
-  const romanInt = new Map([
-    ['I', 1],
-    ['V', 5],
-    ['X', 10],
-    ['L', 50],
-    ['C', 100],
-    ['D', 500],
-    ['M', 1000],
-  ])
-
-  let values = 0
-  for (let i = 0; i < str.length; i++) {
-    const currInt = romanInt.get(str[i])
-    const nextInt = i+1 < str.length ? romanInt.get(str[i+1]) : 0
-    
-    if (currInt < nextInt) {
-      values -= currInt
-    } else {
-      values += currInt
-    }
-  }
-
-  return values
 }
 ```
 
