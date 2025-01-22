@@ -531,7 +531,7 @@ if (isSubset(a1, a2)) {
 <br>
 
 
-> ### Q17 - Find factorial of a large number
+> ### Q17 - Find factorial of a large number ⭐️
 
 <details>
 
@@ -630,58 +630,44 @@ console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
 
 <br>
 
-> ### Q20 - Find if there is any subarray with sum equal to 0
+> ### Q20 - Find if there is any subarray with sum equal to 0  ⭐️
 
 Input:  arr = [4, 2, -3, 1, 6]\
 Output: [2, -3, 1] is the subarray with sum 0.
 
 <details>
 
-**Below code is multipurpose code if neede more DSA from then consider answer after below**
-
 ```js
-let arr = [4, 2, -3, 1, 6]
-let checkSum = 0
-
-for(let i=0; i<arr.length; i++ ){
-    
-    let sum = arr[i]
-    for(let j = i+1; j<arr.length; j++){
-        sum += arr[j]
-        if(sum == checkSum){
-            console.log(arr.slice(i, j+1))
-        }
-    }
-    
-}
-```
-
-
-```js
+// Algo : Prefix Sum with Hashing
 
 function findZeroSumSubarray(arr) {
-    const seen = {};
-    let sum = 0;
 
-    for (let i = 0; i < arr.length; i++) {
-        sum += arr[i];
+  // Stores prefix sum and its index
+  const seen = {};
 
-        // Check if the current sum or a previous sum exists in the object
-        if (sum in seen) {
-            return arr.slice(seen[sum] + 1, i + 1); // Get subarray from previous sum + 1 to current index
-        } else if (sum === 0) {
-            return arr.slice(0, i + 1); // Subarray from the start to current index with sum 0
-        }
+  let sum = 0;
 
-        seen[sum] = i; // Add current sum and its index to the object
-        console.log(seen);
+  for (let i = 0; i < arr.length; i++) {
+    sum += arr[i];
+
+    // Check if the current sum or a previous sum exists in the object
+    if (sum in seen) {
+        return arr.slice(seen[sum] + 1, i + 1); // If prefixSum was seen before, subarray sum must be zero
+    } else if (sum === 0) {
+        return arr.slice(0, i + 1); // If prefixSum is 0, return the subarray from start to current index
     }
-    
 
-    return null; // No subarray with sum 0 found
+    seen[sum] = i;  // Store the current prefixSum with index
+    console.log(seen);
+  }
+  
+
+  return null; // No subarray with sum 0 found
 }
 
 console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
+
+// { '3': 2, '4': 0, '6': 1 }
 
 ```
 
