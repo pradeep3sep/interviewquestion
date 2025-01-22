@@ -351,26 +351,6 @@ console.log(romanToInt("MCMXCIV"));// Output: 1994
 
 In the **Prefix Sum Algorithm**, the process is typically divided into two common steps:
 
-### 1. Building the Prefix Sum Array
-   - **Purpose:** Precompute cumulative sums of the array so that future range queries can be answered efficiently.
-   - **Steps:**
-     1. Create a new array (`prefixSum`), where each element at index `i` stores the sum of all elements from the start of the input array up to `i`.
-     2. Initialize the first element of the `prefixSum` array: `prefixSum[0] = arr[0]`.
-     3. Iterate through the array from index 1 to `n-1`, updating each element of the `prefixSum` array as:  
-        `prefixSum[i] = prefixSum[i-1] + arr[i]`.
-
-   - **Complexity:** O(n)
-
-### 2. Querying the Sum of a Subarray
-   - **Purpose:** Use the prefix sum array to efficiently compute the sum of elements between two indices (`l` and `r`).
-   - **Steps:**
-     1. If `l == 0`, the sum of the subarray from index `0` to `r` is just `prefixSum[r]`.
-     2. If `l > 0`, the sum of the subarray from index `l` to `r` can be calculated as:  
-        `sum = prefixSum[r] - prefixSum[l-1]`.
-     3. This works because `prefixSum[r]` gives the sum of elements from `0` to `r`, and subtracting `prefixSum[l-1]` removes the elements from `0` to `l-1`, leaving the sum of elements between `l` and `r`.
-
-   - **Complexity:** O(1)
-
 ### Example:
 
 For the array `[2, 4, 6, 8, 10]`:
@@ -388,10 +368,18 @@ For the array `[2, 4, 6, 8, 10]`:
   - To get the sum of the subarray from index `1` to `3`, compute:
     - `sum = prefixSum[3] - prefixSum[0] = 20 - 2 = 18`.
 
+
+- **Reason for subracting 1:**
+    1. If `l == 0`, the sum of the subarray from index `0` to `r` is just `prefixSum[r]`.
+    2. If `l > 0`, the sum of the subarray from index `l` to `r` can be calculated as:  
+    `sum = prefixSum[r] - prefixSum[l-1]`.
+    3. This works because `prefixSum[r]` gives the sum of elements from `0` to `r`, and subtracting `prefixSum[l-1]` removes the elements from `0` to `l-1`, leaving the sum of elements between `l` and `r`.
+
 ### Summary of Common Steps:
 1. Build the prefix sum array in O(n) time.
 2. Query the sum of any subarray in O(1) time by using the prefix sum array.
 
+<details>
 
 ```js
 function buildPrefixSumArray(arr) {
@@ -420,6 +408,7 @@ const prefixSum = buildPrefixSumArray(arr);
 console.log(getRangeSum(prefixSum, 1, 3)); // Output: 18 (4 + 6 + 8)
 console.log(getRangeSum(prefixSum, 0, 2)); // Output: 12 (2 + 4 + 6)
 ```
+</details>
 
 <br>
 
@@ -461,6 +450,7 @@ The pivot index is 0.\
 Left sum = 0 (no elements to the left of index 0)\
 Right sum = nums[1] + nums[2] = 1 + -1 = 0
 
+<details>
 
 ```js
 function findPivotIndex(nums) {
@@ -492,6 +482,7 @@ function findPivotIndex(nums) {
 const nums = [1, 7, 3, 6, 5, 6];
 console.log(findPivotIndex(nums)); // Output: 3
 ```
+</details>
 
 <br>
 
@@ -520,6 +511,7 @@ Example 2:
 Input: nums = [1,2]
 Output: 1
 Explanation: Minimum start value should be positive. 
+
 Example 3:
 
 Input: nums = [1,-2,-3]

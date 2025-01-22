@@ -40,8 +40,99 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
   (Copy by referenc)     (Copy by value)
 ```
 
+Primitives stored in call stack while object stored in heap
+
+![BOM](/images/heap.jpeg)
+
+if needed more refer article - https://vinoo.hashnode.dev/primitives-vs-objects-in-javascript
+
 <br>
 
+> ### How JS code is executed
+
+JavaScript code execution happens in two phases:  
+
+1. **Memory Creation Phase (Creation Phase)**
+2. **Code Execution Phase (Execution Phase)**  
+
+This process occurs inside the **JavaScript Execution Context (JEC)**, which consists of:  
+- **Memory (Variable Environment)** – Stores variables and functions.  
+- **Thread of Execution** – Executes the code line by line.  
+
+## **1. Memory Creation Phase (Creation Phase)**
+Before executing the code, JavaScript first scans the script and sets up memory for variables and functions.  
+### **Steps:**
+- **Variables are stored in memory with `undefined`.**  
+- **Functions are stored entirely in memory (hoisting).**  
+- The `this` keyword is assigned based on execution context (global or function scope).
+
+### **Example:**
+```js
+console.log(a); // undefined
+console.log(foo()); // "Hello"
+
+var a = 10;
+
+function foo() {
+  return "Hello";
+}
+```
+
+### **How Memory is Set Up:**
+| Variable | Value in Memory |
+|----------|---------------|
+| `a`      | `undefined`   |
+| `foo`    | `function() { return "Hello"; }` |
+
+
+
+## **2. Code Execution Phase**
+After memory allocation, the code executes line by line.
+
+### **Steps:**
+1. `console.log(a);`  
+   - `a` is accessed → prints `undefined` (due to hoisting).  
+2. `console.log(foo());`  
+   - `foo()` is executed and prints `"Hello"`.  
+3. `var a = 10;`  
+   - `a` is updated from `undefined` to `10`.  
+
+
+### **Execution Context Lifecycle**
+Each function call creates a new **Execution Context** with its own memory and execution thread.  
+After execution, the function's context is destroyed (except closures).
+
+**Example:**
+```js
+function outer() {
+  var x = 5;
+  function inner() {
+    var y = 10;
+    console.log(x + y);
+  }
+  inner();
+}
+outer();
+```
+
+### **Execution Context Stack (Call Stack)**
+1. **Global Execution Context (GEC)**
+   - Stores `outer` function.
+2. **Outer Function Execution Context**
+   - Stores `x = 5` and `inner`.
+3. **Inner Function Execution Context**
+   - Stores `y = 10`, accesses `x`, executes `console.log(15)`, then removed.  
+4. **Outer function finishes and is removed.**
+5. **Global Execution Context remains until script finishes.**
+
+---
+
+### **Summary**
+- **Memory Creation Phase**: Variables set to `undefined`, functions stored entirely.  
+- **Execution Phase**: Code runs line by line, updating values.  
+- **Call Stack manages execution contexts**, removing them after execution.  
+
+<br>
 
 > ### 7 Primitive Data Types
 
@@ -656,6 +747,15 @@ see akshay saini video form 17:34**
 - `created array.prototype` or `created object.prototype` or `created function.prototype` `returns` `undefined` unless any property created in it. It has all method or function of Base object and Base array or Base function, basically inherit all from above hierarchy
 
 eg: `Array.prototype` `has all` the `built-in` method of array like `map, filter, etc` but created `array.protoype` `don't have` similar to function case `eg is call, bind,apply`.
+
+<br>
+
+> ### 3 Ways of implementing Prototypal inheritance in JS
+
+1.  Constructor function
+2. ES6 Classes
+3. Object.create()
+
 
 <br>
 
@@ -1741,6 +1841,38 @@ function isNaN(x) {
 }
 ```
 
+
+<br>
+
+> ### Module
+
+1. In earlier days, there was one JS file.
+2. Over the time, the file became larger and larger, then we decide to divide the code into two or more script file.
+3. But when the browser run, it convert all the file into one which cause merging and clashing of variable, because the variable declared have the global variable not the local or isolated variable.
+
+```html
+<script type="mdoule"></script>
+```
+
+- Top level imports make imports known before execution. This makes bundling and dead code elimination possible
+- When we import any module, it doesn't mean that we are creating a copy, we are creating a live connection or just pointing toward it.
+
+
+**Top-level awaits**
+
+We can use await without/outside async in module(It can happpen only in module)
+
+eg;
+```html
+<!-- in index.html -->
+<script type="module" src='script.js'><script>
+```
+```js
+// in script.js
+const res = await fetch ('some url')
+const data = await res.json()
+console.log(data)
+```
 
 <br>
  
