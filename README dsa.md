@@ -335,6 +335,53 @@ console.log(romanToInt("LVIII"));  // Output: 58
 console.log(romanToInt("MCMXCIV"));// Output: 1994
 ```
 
+
+> ### Below code integer to roman
+
+```
+integerToRoman(123)
+// 'CXXIII'
+
+integerToRoman(1999)
+// 'MCMXCIX'
+
+integerToRoman(3420)
+// 'MMMCDXX'
+```
+
+**Solution**
+
+```js
+function integerToRoman(num) {
+  const numerals = {
+    M: 1000,
+    CM: 900,
+    D: 500,
+    CD: 400,
+    C: 100,
+    XC: 90,
+    L: 50,
+    XL: 40,
+    X: 10,
+    IX: 9,
+    V: 5,
+    IV: 4,
+    I: 1
+  };
+
+  let result = '';
+
+  for (let key in numerals) {
+    while (num >= numerals[key]) {
+      result += key;
+      num -= numerals[key];
+    }
+  }
+
+  return result;
+}
+```
+
 </details>
 
 <br>

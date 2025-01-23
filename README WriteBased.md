@@ -2975,6 +2975,54 @@ console.log(longestCommonSubstring(str1, str2)); // Output: "abcd"
 
 <br>
 
+> ### Q101 - longest substring with unique characters ⭐️
+
+```js
+longestUniqueSubstr('aaaaa')
+// 'a'
+longestUniqueSubstr('abcabc')
+// 'abc', or 'bca', or 'cab'
+longestUniqueSubstr('a12#2')
+// 'a12#
+```
+
+<Details>
+
+This is a **Sliding Window** problem.
+
+### Algorithm: Sliding Window  
+- Use two pointers (`left` and `right`) to define the window.
+- Use a `Set` to keep track of unique characters.
+- Expand the `right` pointer while characters are unique.
+- If a duplicate is found, move the `left` pointer to remove characters until the substring is unique again.
+- Keep track of the maximum length.
+
+### Code Implementation:
+```javascript
+function lengthOfLongestSubstring(s) {
+    let charSet = new Set();
+    let left = 0, maxLength = 0;
+
+    for (let right = 0; right < s.length; right++) {
+        while (charSet.has(s[right])) {
+            charSet.delete(s[left]);
+            left++;
+        }
+        charSet.add(s[right]);
+        maxLength = Math.max(maxLength, right - left + 1);
+    }
+
+    return maxLength;
+}
+
+// Example usage:
+console.log(lengthOfLongestSubstring("abcabcbb")); // Output: 3
+console.log(lengthOfLongestSubstring("bbbbb"));    // Output: 1
+console.log(lengthOfLongestSubstring("pwwkew"));   // Output: 3
+```
+</Details>
+
+<br>
 
 > ### Q79 - shift each letter by number of position in js
 
@@ -3473,31 +3521,32 @@ console.log(flattenObject(person));
 
 <br>
 
-> ### Q89 - The maximum sum subarray problem consists in finding the maximum sum of a contiguous subsequence in an array or list of integers:
+> ### Q89 - Find the maximum sum of any contiguous subarray in a list of integers  ⭐️
+
+should be 6: [4, -1, 2, 1]
+
+<Details>
 
 ```js
-maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4])
-// should be 6: [4, -1, 2, 1]
-// Easy case is when the list is made up of only positive numbers and the maximum sum is the sum of the whole array. If the list is made up of only negative numbers, return 0 instead.
+// algo - DP
 
-// Empty list is considered to have zero greatest sum. Note that the empty list or array is also a valid sublist/subarray.
+function maxSubarraySum(arr) {
+    let maxSoFar = -Infinity;
+    let maxEndingHere = 0;
 
+    for (let num of arr) {
+        maxEndingHere += num;
+        maxSoFar = Math.max(maxSoFar, maxEndingHere);
+        if (maxEndingHere < 0) maxEndingHere = 0;
+    }
 
-// My Solution
-function maxSequence(arr){
-	let now = 0, prev = 0;
-	for(let i = 0; i< arr.length; i++){
-	   prev = Math.max(0, prev + arr[i]);
-	   now = Math.max(prev, now);
-	 }
-	 return now;
+    return maxSoFar;
 }
 
-// Test cases
-
-console.log(maxSequence([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+// Example Usage
+console.log(maxSubarraySum([-2, 1, -3, 4, -1, 2, 1, -5, 4])); // Output: 6
 ```
-
+</Details>
 
 <br>
 
@@ -3510,7 +3559,6 @@ JSON.stringify({a: undefined}) // '{}'
 JSON.stringify([null])         // '[null]'
 JSON.stringify([undefined])    // '[null]'
 ```
-This difference might create troubles if there are missing alignments between client and server. It might be helpful to enforce using only one of them.
 
 You are asked to implement `undefinedToNull()` to return a copy that has all undefined replaced with null.
 
@@ -3522,10 +3570,9 @@ undefinedToNull({a: ['BFE.dev', undefined, 'bigfrontend.dev']})\
 // {a: ['BFE.dev', null, 'bigfrontend.dev']}
 ```
 
-solution
+<Details>
 
 ```js
-
 function undefinedToNull(arg) {
     if (arg === undefined) {
         return null;
@@ -3541,7 +3588,6 @@ function undefinedToNull(arg) {
     }
     return arg;
 }
-
 // Test case
 // {a: undefined, b: 'BFE.dev'}  
 
@@ -3550,14 +3596,13 @@ function undefinedToNull(arg) {
 // ['BFE.dev', undefined, null, {a: ['BFE.dev', undefined]}]  
 
 // {a: 'BFE.dev', b: 'BFE.dev'}   
-
-
 ```
+</Details>
 
 <br>
 
 
-> ### Q91 - Please implement a curry() function, which accepts a function and return a curried one.
+> ### Q91 - Please implement a curry() function, which accepts a function and return a curried one.  ⭐️
 
 Here is an example
 
@@ -3575,7 +3620,7 @@ curriedJoin(1)(2, 3) // '1_2_3'
 curriedJoin(1, 2)(3) // '1_2_3'
 ```
 
-solution
+<Details>
 
 ```js
 
@@ -3604,11 +3649,11 @@ console.log(curriedJoin(1)(2, 3)) // '1_2_3'
 
 console.log(curriedJoin(1, 2)(3)) // '1_2_3'
 ```
+</Details>
 
 <br>
 
-
-> ### Q92 - I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
+> ### Q92 - I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals. ⭐️
 
 For example, below chained call turns button into a black button with white text.
 
@@ -3618,11 +3663,8 @@ $('#button')
   .css('backgroundColor', '#000')
   .css('fontWeight', 'bold')
 ```
-The chaining makes the code simple to read, could you create a simple wrapper $ to make above code work as expected?
 
-The wrapper only needs to have css(propertyName: string, value: any)
-
-**Solution**
+<Details>
 
 ```js
 function $(el) {
@@ -3642,11 +3684,12 @@ function $(el) {
 
 $('#button').css('color', '#fff').css('backgroundColor', '#000').css('fontWeight', 'bold')
 ```
+</Details>
 
 <br>
 
 
-> ### Q93 - Create a sum(), which makes following possible
+> ### Q93 - Create a sum(), which makes following possible  ⭐️
 
 ```js
 const sum1 = sum(1)
@@ -3719,6 +3762,7 @@ For above example A should be modified inline to following
 ['F', 'A', 'E', 'D', 'C', 'B']
 ```
 
+<Details>
 
 ```js
 const A = ['A', 'B', 'C', 'D', 'E', 'F'];
@@ -3744,6 +3788,7 @@ reorderArray(A, B);
 
 console.log(A); // ['F', 'A', 'E', 'D', 'C', 'B']
 ```
+</Details>
 
 <br>
 
@@ -3818,11 +3863,7 @@ function clearAllTimeout() {
 
 > ### Q96 - For all the basic data types in JavaScript, how could you write a function to detect the type of arbitrary data?
 
-Besides basic types, you need to handle also commonly used complex data type including Array, ArrayBuffer, Map, Set, Date and Function
-
-The goal is not to list up all the data types but to show us how to solve the problem when we need to.
-
-The type should be lowercase
+**Note:**Keep in min here `typeof` will not work because array and null both show `object`
 
 ```js
 detectType(1) // 'number'
@@ -3833,7 +3874,7 @@ detectType(null) // 'null'
 // more in judging step
 ```
 
-**Solution**
+<Details>
 
 ```js
 function detectType(data) {
@@ -3848,11 +3889,11 @@ function detectType(data) {
   return data.constructor.name.toLowerCase();
 }
 ```
+</Details>
 
 <br>
 
-
-> ### Q97 - If you did unit test before, you must be familiar with Spy.
+> ### Q97 - If you did unit test before, you must be familiar with Spy.  ⭐️
 
 You are asked to create a spyOn(object, methodName), which works the same as jest.spyOn().
 
@@ -3884,7 +3925,7 @@ console.log(spy.calls)
 // [ [1], [2] ]
 ```
 
-**Solution** 
+<Details>
 
 ```js
 function spyOn(obj, methodName) {
@@ -3898,100 +3939,11 @@ function spyOn(obj, methodName) {
     return { calls };
 }
 ```
+</Details>
 
 <br>
 
-
-> ### Q98 - Can you create a range(from, to) which makes following work?
-```js
-for (let num of range(1, 4)) {
-  console.log(num)  
-}
-// 1
-// 2
-// 3
-// 4
-```
-This is a simple one, could you think more fancy approaches other than for-loop?
-
-Notice that you are not required to return an array, but something iterable would be fine.
-
-**Solution**
-
-```js
-
-// 1. for loop approach
-function range(from, to) {
-  // return the result array
-  const result = []
-  while (from <= to) {
-    result.push(from++)
-  }
-  return result
-}
-
-
-// 2. implement iterable/iterator protocol
-// for ... of uses interable protocol
-// [Symbol.iterator]: () =>  Iterator
-// next: () => {done: bolean, value?: any} 
-
-function range(from, to) {
-  return {
-    // iterable protocol
-    [Symbol.iterator]() {
-      // iterator protocol
-      return {
-        next() {
-          return {
-            done: from > to,
-            value: from++
-          }
-        }
-      }
-    }
-  }
-}
-
-
-// 3. use geneator function to make things simpler
-// geneator function returns generator which implements iterator protocol
-function range(from, to) {
-  return {
-    // iterable protocol
-    [Symbol.iterator]: function * () {
-      while (from <= to) {
-        yield from++
-      }
-    }
-  }
-}
-
-// 4. actualy geneator also implements iterable protocol
-function range(from, to) {
-  return (function * () {
-    while (from <= to) {
-      yield from++
-    }
-  })(from, to)
-}
-
-// 5. maybe just change the entry function?
-function * range(from, to) {
-  while (from <= to) {
-    yield from++
-  }
-}
-
-
-// 6.
-const range = (from, to) => Array.from({ length: to - from + 1 }, (_, i) => i + from)
-```
-
-<br>
-
-
-> ### Q99 - get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.
+> ### Q99 - get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.  ⭐️
 
 Please create your own get().
 
@@ -4012,8 +3964,7 @@ get(obj, 'a.b.c[3]') // undefined
 get(obj, 'a.c', 'bfe') // 'bfe'
 ```
 
-
-**Solutions is below**
+<Details>
 
 ```js
 
@@ -4033,11 +3984,12 @@ function get(source, path, defaultValue = undefined) {
 }
 
 ```
+</Details>
 
 <br>
 
 
-> ### Q100 _.set(object, path, value) is a handy method to updating an object without checking the property existence.
+> ### Q100 _.set(object, path, value) is a handy method to updating an object without checking the property existence. ⭐️
 
 Can you create your own set()?
 
@@ -4072,8 +4024,7 @@ set(obj, 'a.c.d.01', 'BFE')
 // invalid digits treated as property string
 console.log(obj.a.c.d['01']) // "BFE"
 ```
-
-**Solution**
+<Details>
 
 ```js
 function set(obj, path, value) {
@@ -4092,80 +4043,11 @@ function set(obj, path, value) {
   })
 }
 ```
+</Details>
 
 <br>
 
-
-> ### Q101 - longest substring with unique characters
-
-Given a string, please find the longest substring that has no repeated characters.
-
-If there are multiple result, any one substring is fine.
-
-```js
-longestUniqueSubstr('aaaaa')
-// 'a'
-longestUniqueSubstr('abcabc')
-// 'abc', or 'bca', or 'cab'
-longestUniqueSubstr('a12#2')
-// 'a12#
-```
-
-Mechanism : Sliding window mechanism\
-Time complexity: O(n)
-
-
-The inner while loop removes elements from the set (charSet) by moving the start pointer until there are no duplicates. Each element is added to and removed from the set at most once, so the total work done by the inner loop across the entire execution of the algorithm is also O(n)
-
-
-**Solution**
-
-```js
-function longestUniqueSubstr(s) {
-    // Variables to keep track of the maximum length and the starting index of the longest substring found
-    let maxLength = 0;
-    let maxSubstring = "";
-
-    // Use a Set to keep track of characters in the current window
-    let charSet = new Set();
-
-    // Two pointers to define the sliding window: start and end
-    let start = 0;
-
-    // Loop through each character in the string using the end pointer
-    for (let end = 0; end < s.length; end++) {
-        // If the character at the end pointer is already in the set,
-        // move the start pointer to the right until we remove the duplicate character
-        while (charSet.has(s[end])) {
-            charSet.delete(s[start]);
-            start++;
-        }
-
-        // Add the current character to the set
-        charSet.add(s[end]);
-
-        // Update the maximum length and the longest substring if we found a longer one
-        if (end - start + 1 > maxLength) {
-            maxLength = end - start + 1;
-            maxSubstring = s.slice(start, end + 1);
-        }
-    }
-
-    // Return the longest substring with unique characters
-    return maxSubstring;
-}
-
-// Test cases
-console.log(longestUniqueSubstr('aaaaa')); // 'a'
-console.log(longestUniqueSubstr('abcabc')); // 'abc', 'bca', or 'cab'
-console.log(longestUniqueSubstr('a12#2')); // 'a12#'
-console.log(longestUniqueSubstr('pwwkew')); // Output: 'wke'
-```
-
-<br>
-
-
-> ### Q102 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
+> ### Q102 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b). ⭐️
 
 Can you write a function to get the largest difference?
 
@@ -4195,9 +4077,7 @@ function largestDiff(arr) {
 <br>
 
 
-> ### Q103 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented.
-
-<details>
+> ### Q103 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented. ⭐️
 
 ```js
 count() // 1
@@ -4211,7 +4091,7 @@ count() // 2
 count() // 3
 ```
 
-**Solution**
+<details>
 
 ```js
 function count() {
@@ -4223,11 +4103,9 @@ count.reset = function () {
   count.val = 1
 }
 ```
-
 </details>
 
 <br>
-
 
 > ### Q104 - check 2 arrays are same or not
 
@@ -4301,7 +4179,7 @@ console.log(arraysHaveSameElements(array1, array2)); // Output: true
 <br>
 
 
-> ### Q105 - Flatten array implementation - Non recursive approach.
+> ### Q105 - Flatten array implementation - Non recursive approach. ⭐️
 
 <details>
 
@@ -4399,9 +4277,27 @@ function count(str) {
 <br>
 
 
-> ### Q109 - leetcode - 415 Sum two numbers which are very large in size
+> ### Q109 - leetcode - 415 Sum two numbers which are very large in size  ⭐️
 
 <details>
+
+1. To add 2 numbers we take
+```
+a = "987"
+b = "45"
+```
+
+2. we convert above to below(make same length, add padding of '0')
+```
+a = "987"
+b = "045"
+```
+
+3. now we iterate from end, because in normal addition we start adding from right side
+```
+7 + 5 = 12  → carry = 1, result = "2"
+```
+
 
 ```js
 function addLargeNumbers(a, b) {
@@ -4442,103 +4338,120 @@ console.log(sum);
 <br>
 
 
-> ### Q110 - Calculate the sum of two integers a and b, without using the operator + and -
+> ### Q110 - Calculate the sum of two integers a and b, without using the operator +  ⭐️
 
 <details>
 
-```js
-// Solution in bitwise operator
+When we add two numbers we have to maintain two things
+1. sum of value(8+4 => 12 ie 2)
+2. carry of sum (s+4 => 12 ie 1)
 
+**for first part, XOR (`^`) Works Like Addition Without Carrying**
+
+**Binary Addition Rules**
+| Bit A | Bit B | Sum (A + B) | Carry |
+|-------|-------|------------|-------|
+| 0     | 0     | 0          | 0     |
+| 0     | 1     | 1          | 0     |
+| 1     | 0     | 1          | 0     |
+| 1     | 1     | 0          | 1 (carry) |
+
+- Notice that in binary addition, `1 + 1 = 10`, where `0` is the sum, and `1` is the carry.
+- **XOR (`^`) behaves exactly like addition but ignores the carry.**
+  - `0 ^ 0 = 0`
+  - `0 ^ 1 = 1`
+  - `1 ^ 0 = 1`
+  - `1 ^ 1 = 0` (instead of `10`, it just takes `0`)
+
+#### **Example: `5 + 3` Using XOR**
+Decimal: `5` and `3`
+
+Binary representation:
+```
+  101  (5 in binary)
+^ 011  (3 in binary)
+-------
+  110  (6 in binary)
+```
+- The sum bit is correct for positions where there's no carry.
+- But the carry isn't included, which is why we need an additional step using `AND` (`&`) and `<<`.
+
+---
+
+**for second part, ie carry, We handle here**
+Since XOR ignores the carry, we must calculate it separately using **AND (`&`) and Left Shift (`<<`)**:
+- `a & b` finds where both bits are `1` (which would normally generate a carry).
+- `<< 1` shifts the carry left so it adds to the correct place in the next iteration.
+
+#### **Example: Calculating Carry**
+```
+  101  (5 in binary)
+& 011  (3 in binary)
+-------
+  001  (1 in binary) → This is the carry
+```
+- Left shifting by `1` moves the carry:
+```
+  001 << 1  →  010 (2 in decimal)
+```
+
+Now, we repeat the process with `XOR` again until there's no carry.
+
+---
+
+**Conclusion**
+- **XOR (`^`) acts as addition without carrying** because it mimics binary addition rules except for `1 + 1`, where it returns `0` instead of `10`.
+- **To account for carry, we use `AND (&) << 1` and repeat the process until carry is 0.**
+
+
+**Steps to Compute `a + b` Without Using `+`**
+1. Compute `XOR` of `a` and `b`, which gives the sum without carry.
+2. Compute `AND` of `a` and `b`, which finds the carry.
+3. Left shift the carry by 1 to add it to the next higher bit.
+4. Repeat the above steps until the carry becomes `0`.
+
+```javascript
 function add(a, b) {
     while (b !== 0) {
-        // Calculate the carry
-        let carry = a & b;
-        
-        // Perform addition without carry
-        a = a ^ b;
-        
-        // Shift the carry by one to add to the next bit
-        b = carry << 1;
+        let sum = a ^ b;       // Step 1: Sum without carry
+        let carry = (a & b) << 1; // Step 2: Carry shifted left
+
+        a = sum;  // Assign sum to a
+        b = carry; // Assign carry to b (repeat until carry is 0)
     }
     return a;
 }
 
-// Example usage
-console.log(add(5, 3)); // Output: 8
-console.log(add(-5, 3)); // Output: -2
-console.log(add(-7, -3)); // Output: -10
-
-
-// SOLUTION-2 - Assuming only positive numbers and same approach as above
-
-sumWithoutOperator1 = (a, b) => {
-    const arr1 = new Array(a).fill(true);
-    const arr2 = new Array(b).fill(true);
-    return arr1.concat(arr2).length;
-}
-
-console.log(sumWithoutOperator1(5, 2))
-
+// Example Usage
+console.log(add(5, 3));  // Output: 8
+console.log(add(-2, 3)); // Output: 1
+console.log(add(7, 0));  // Output: 7
 ```
 
-```js
-sumWithoutOperator = (a, b) => {
-
-    let result = 0, positiveArr = [], negativeArr = [];
-
-    if (a < 0) {
-        for (let i = a; i < 0; i++) {
-            negativeArr.push(i)
-        }
-    } else {
-        for (let i = 0; i < a; i++) {
-            positiveArr.push(i)
-        }
-    }
-
-    if (b < 0) {
-        for (let i = b; i < 0; i++) {
-            negativeArr.push(i)
-        }
-    } else {
-        for (let i = 0; i < b; i++) {
-            positiveArr.push(i)
-        }
-    }
 
 
-    if (negativeArr.length > positiveArr.length) {
-        // Meaning, the sum will be negative. So, for each element of the positiveArr, remove a corresponding element from the negativeArr
-        // And then return the length of the left-over negativeArr with a minus sign
+**Step-by-Step Example**
+**Example: `5 + 3`**
+Binary representations:
+- `5 = 101`
+- `3 = 011`
 
-        for (let i = 0; i < positiveArr.length; i++ ) {
+| Iteration | a (XOR result) | b (Carry shifted) |
+|-----------|--------------|-----------------|
+| 1st       | `110` (6)    | `010` (2)      |
+| 2nd       | `100` (4)    | `100` (4)      |
+| 3rd       | `000` (0)    | `1000` (8)     |
+| 4th       | `1000` (8)   | `0000` (0)     |
 
-            negativeArr.splice(0, 1)
-
-            // In above, for splice() I am using the stating index to be 0, because with each iteration I will continue to reduce the size of the array. So, each time, I will hit the 0-index element of the array. Because splice() mutates the original array
-
-        }
-        result = negativeArr.length * -1
-    } else {
-        // Else the sum will be positive. So, for each element of the negativeArr, remove a corresponding element from the positiveArr
-        for (let i = 0; i < negativeArr.length; i++) {
-            positiveArr.splice(0, 1)
-        }
-        result = positiveArr.length
-    }
-    return result;
-}
-
-// console.log(sumWithoutOperator(5, -2))
-
-```
-
+Now `b = 0`, so the final result is `8`.
 </details>
 
 <br>
 
 
 > ### Q111 - Find power of a number without using native JS function
+
+<Details>
 
 ```js
 function power (base, exponent) {
@@ -4550,62 +4463,11 @@ function power (base, exponent) {
 }
 console.log(power(2,3));
 ```
+</Details>
 
 <br>
-
-
-> ### Q112 - /* - Print the following shape, where the maximum number of stars in the middle postition is maxNum
-
-*\
-**\
-***\
-****\
-*****\
-******\
-*******\
-********\
-*********\
-**********\
-*********\
-********\
-*******\
-******\
-*****\
-****\
-***\
-**\
-*
-
-Side by triangel bow shaped
-
-```js
-bowShapedTriangle = maxNum  => {
-
-	let triangle_1 = '';
-	
-	// First build the triangle upto maxNum of rows with maxNum of *
-	for (let i = 0; i < maxNum; i++) {
-		triangle_1 += '*'
-		console.log(triangle_1);
-	}
-
-	// Then just reduce the trianlge starting from next line and and counting from maxNum - 1. As after the 10 '*' the next line should print 9 '*'
-	for (let i = maxNum - 1; i  >= 1 ; i-- ) {
-		triangle_1 = triangle_1.slice(0, -1);
-		console.log(triangle_1);
-	}
-}
-
-bowShapedTriangle(10)
-```
-
-<br>
-
 
 > ### Q113 - Check if a given number narcissistic number
-
-Narcissistic number\
-Given N, check whether it is a Narcissistic number or not.
 
 Note:Narcissistic Number is a number that is the sum of its own digits each raised to the power of the number of digits
 
@@ -4670,11 +4532,13 @@ console.log(activities);
 <br>
 
 
-> ### Q115 - Given an array of non negative integers,arrange them such that they form the largest number.
+> ### Q115 - Given an array of non negative integers,arrange them such that they form the largest number. ⭐️
 
 Sample input: [3, 30, 34, 5, 9],
 
 Output number is 9534330.
+
+<Details>
 
 ```js
 function largestNumber(nums) {
@@ -4747,74 +4611,13 @@ console.log(nums.join('')); // Outputs: "9534330"
 
 In this example, the sorted array results in the string `"9534330"`, which is the largest possible number formed by concatenating the elements of the array.
 
-<br>
-
-
-> ### Q117 - Implement a function that determines if two values are deep equal.
-
-<details>
-
-```js
-function deepEqual(a, b) {
-  // Get the keys of the objects
-  const keysA = Object.keys(a);
-  const keysB = Object.keys(b);
-
-  // Check if both a and b are objects and not null
-  const isObjectA = typeof a === 'object' && a !== null;
-  const isObjectB = typeof b === 'object' && b !== null;
-
-  // If both are objects, compare their keys and values recursively
-  if (isObjectA && isObjectB) {
-    // Check if they have the same number of keys
-    if (keysA.length !== keysB.length) return false;
-
-    // Check if all keys in a have corresponding equal values in b
-    for (const key of keysA) {
-      if (!deepEqual(a[key], b[key])) return false;
-    }
-
-    return true;
-  }
-
-  // If they are not objects or not the same object, use strict equality
-  return a === b;
-}
-
-// Example usage:
-const obj1 = { name: "Alice", address: { city: "Wonderland" } };
-const obj2 = { name: "Alice", address: { city: "Wonderland" } };
-
-console.log(deepEqual(obj1, obj2)); // Output: true
-
-const circularObj1 = {};
-circularObj1.self = circularObj1;
-
-const circularObj2 = {};
-circularObj2.self = circularObj2;
-
-console.log(deepEqual(circularObj1, circularObj2)); // Output: true
-
-```
-
-Simplified version of above
-
-```js
-function deepEqual(x, y) {
-  const ok = Object.keys, tx = typeof x, ty = typeof y;
-  return x && y && tx === 'object' && tx === ty ? (
-    ok(x).length === ok(y).length &&
-      ok(x).every(key => deepEqual(x[key], y[key]))
-  ) : (x === y);
-}
-```
-
-</details>
+</Details>
 
 <br>
-
 
 > ### Q118 - Implement a class that can subscribe to and emit events that trigger attached callback functions.
+
+<Details>
 
 ```js
 class EventEmitter {
@@ -4867,7 +4670,7 @@ emitter.off('foo', onFoo);
 emitter.emit('foo', { some: 'data' }); // No output
 
 ```
-
+</Details>
 <br>
 
 
@@ -5147,84 +4950,6 @@ console.log(extractDistinctNumbers(input)); // Output: [23, 56]
 ```
 
 </details>
-
-> ### Below need to check
-```js
-/*
-SOLUTION-1 - Quite optimum solution - 1> In this method, we can find third largest in one traversal only.. Without using an extra step of sorting the whole array
-
-Initialize first, second and second = -INF
-
-2> > Start Iterating the array and comparing first, second and thrid with the current element with 3 if loops.
-
-3> Note, because, I have intialized all with -Infinity, so the first variable will get updated first.
-
-So for myArr variable down below, the first iteration loop will update 'first' to 1 , and then the next iteration loop will update 'first' to 14 and 'second' to 1.
-Then in the third iteration loop, first will NOT get changed, while 'second' will get updated to 2 - because the second if clause will get satisfied.
-
-4) Paul note - Here, I am not sorting at all, I am just keeping a track of 2 variables maxVal and nextMaxVal, and updating their values while traversing the array.
-*/
-
-thirdLargestElem = arr => {
-
-  let first = -Infinity, second = -Infinity, third = -Infinity;
-
-  for (let i of arr) {
-
-    if (first < i) {
-      third = second;
-      second = first;
-      first = i;
-    } else if (second < i ) {
-      third = second;
-      second = i;
-    } else if (third < i ) {
-      third = i
-    }
-  }
-  return third;
-}
-
-let myArr = [1, 14, 2, 16, 10, 20]
-let myArr2 = [19, -10, 20, 14, 2, 16, 10]
-
-console.log(thirdLargestElem(myArr)); // => 14
-console.log(thirdLargestElem(myArr2));  // => 16
-
-/* SOLUTION-2 - ALMOST LIKE ABOVE, BUT MORE GENERIC AND SIMPLE - Only differene is A) I am initializing 'first' with arr[0] (instead of -INFINITY) and B) traversing the array from i = 1 (instead of i = 0)
-https://www.geeksforgeeks.org/third-largest-element-array-distinct-elements/
-
-
-*/
-
-thirdLargestElem2 = arr => {
-
-  let first = arr[0], second = -Infinity, third = -Infinity;
-
-  for (let i = 1; i < arr.length; i++) {
-
-    if (first < arr[i] ) {
-      third = second;
-      second = first;
-      first = arr[i]
-    }
-    // If arr[i] is in between first and second. And this if can only hit if the first if is NOT hit
-    else if (second < arr[i]) {
-      third = second;
-      second = arr[i];
-    }
-    // if arr[i] is in between second and third. Agaiin, this if can only hit if the first 2 ifs are NOT hit
-    else if (third < arr[i]) {
-      third = arr[i]
-    }
-  }
-  return third;
-}
-
-
-console.log(thirdLargestElem2(myArr)); // => 14
-console.log(thirdLargestElem2(myArr2));  // => 16
-```
 
 > ### new operator is used to create new instance objects.
 
@@ -5645,64 +5370,6 @@ function myExpect(input) {
   }
 }
 ```
-
-> ### Roman numerals are represented by combinations of following seven symbols, each with a fixed integer value.
-
-Symbol	I	V	X	L	C	D	M
-Value	1	5	10	50	100	500	1000
-
-For Standard form, subtractive notation is used, meaning 4 is IV rather than IIII, 9 is IX rather than VIIII. Same rule applies to 40(XL) and 900(CM) .etc.
-
-Simply speaking, the roman numerals in standard form follow these rules.
-
-symbols are listed from highest to lowest, from left to right\
-from left to right, if the next symbol value is bigger than current one, it means subtracting, otherwise adding.\
-Please implement integerToRoman(). The input are all integers within valid range.
-
-```
-integerToRoman(123)
-// 'CXXIII'
-
-integerToRoman(1999)
-// 'MCMXCIX'
-
-integerToRoman(3420)
-// 'MMMCDXX'
-```
-
-**Solution**
-
-```js
-function integerToRoman(num) {
-  const numerals = {
-    M: 1000,
-    CM: 900,
-    D: 500,
-    CD: 400,
-    C: 100,
-    XC: 90,
-    L: 50,
-    XL: 40,
-    X: 10,
-    IX: 9,
-    V: 5,
-    IV: 4,
-    I: 1
-  };
-
-  let result = '';
-
-  for (let key in numerals) {
-    while (num >= numerals[key]) {
-      result += key;
-      num -= numerals[key];
-    }
-  }
-
-  return result;
-}
-```
-
 
 > ### Given a string contaning only a, b and c, remove all b and ac.
 ```js
