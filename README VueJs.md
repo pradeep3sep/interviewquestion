@@ -3,7 +3,7 @@ https://github.com/pradeep3sep/vuejs-interview-questions
 ```
 
 ### How to use v-model on custom input box
-```
+```vue
 <template>
   <div>
     <label :for="id">{{ label }}</label>
@@ -21,7 +21,7 @@ export default {
 };
 </script>
 ```
-```
+```vue
 <template>
   <div>
     <custom-input v-model="name" id="my-input" label="Enter your name:" />
@@ -52,7 +52,7 @@ In Vue.js, you can write duplicate virtual nodes in a component by using a `v-fo
 
 Here's an example of how to write duplicate virtual nodes in a component using `v-for` and `key`:
 
-```
+```vue
 <template>
   <div>
     <div v-for="(item, index) in items" :key="index">
@@ -78,7 +78,7 @@ Dynamic components in Vue.js are components that can be switched dynamically at 
 In Vue.js, you can use the built-in `<component>` element to render dynamic components. The `<component>` element is used as a placeholder for the component you want to render, and you can use a `v-bind:is` directive to dynamically switch between different components.
 
 Here's an example of how to use dynamic components in Vue.js:
-```
+```vue
 <template>
   <div>
     <button @click="toggleComponent">Toggle Component</button>
@@ -119,7 +119,7 @@ To define an async component in Vue.js, developers can use the `Vue.component()`
 
 Here is an example of defining an async component in Vue.js:
 
-```
+```js
 Vue.component('async-component', () => {
   return import('./AsyncComponent.vue');
 });
@@ -129,7 +129,7 @@ In this example, we define an async component named 'async-component' using the 
 
 Once the Promise resolves, Vue.js will automatically register the component and render it when it is used in the template. The component can then be used like any other Vue.js component, using its name as a custom element in the template.
 
-```
+```vue
 <template>
   <div>
     <async-component></async-component>
@@ -144,7 +144,7 @@ An async component factory in Vue.js is a way to create components that are load
 
 The structure of an async component factory in Vue.js consists of a factory function that returns a Promise that resolves to the component definition. Here's an example:
 
-```
+```js
 const AsyncComponent = () => ({
   // The component definition is returned inside a Promise
   component: import('./MyComponent.vue'),
@@ -165,7 +165,7 @@ In this example, `AsyncComponent` is a factory function that returns an object w
 
 To use the async component factory, you can import it like any other component and use it in your template like this:
 
-```
+```vue
 <template>
   <AsyncComponent />
 </template>
@@ -192,7 +192,7 @@ Vue Loader supports many features of Vue.js, including template compilation, sco
 Overall, Vue Loader simplifies the process of building Vue.js applications by allowing developers to write components in a more intuitive and efficient way.
 
 ### How do you configure vue loader in webpack?
-```
+```js
 // webpack.config.js
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
@@ -244,7 +244,7 @@ Below are some of the main differences between v-show and v-if directives,
 
 > CSS modules in vue js (similar like we use in the react)(:class="$style.red" and `<style module>` wala part is module)
 
-```
+```vue
 <template>
   <p :class="$style.red">This should be red</p>
 </template>
