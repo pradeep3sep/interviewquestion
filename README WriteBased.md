@@ -675,7 +675,7 @@ console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 
 <br>
 
-> ### Q21 - find maximum product subarray
+> ### Q21 - Leetcode - 152. find maximum product subarray  ⭐️
 
 arr = [ 6, -3, -10, 0, 2 ]\
 Output: 180
@@ -683,59 +683,29 @@ Output: 180
 
 <details>
 
-**Note:** Here we started loop from 1
+Algo - DP
 
 ```js
 function maxProduct(nums) {
-    if (nums.length === 0) return 0;
+  let max = -Infinity;
+  let prefix = 1;  // prefix calculates the product from the left side.
+  let suffix = 1;  // suffix calculates the product from the right side.
+  const n = nums.length;
 
-    let maxProd = nums[0];
-    let minProd = nums[0];
-    let result = nums[0];
+  for(let i=0; i<nums.length; i++){
 
-    for (let i = 1; i < nums.length; i++) {
-        // When multiplied by a negative number, max becomes min and min becomes max
-        if (nums[i] < 0) {
-            [maxProd, minProd] = [minProd, maxProd];
-        }
+    // If prefix or suffix becomes 0, reset it to 1 because multiplying by 0 ruins the product.
+    if(prefix == 0) prefix = 1;
+    if(suffix == 0) suffix = 1;
 
-        // Update the maximum and minimum product for the current number
-        maxProd = Math.max(nums[i], maxProd * nums[i]);
-        minProd = Math.min(nums[i], minProd * nums[i]);
-
-        // Update the result to the maximum product found so far
-        result = Math.max(result, maxProd);
-    }
-
-    return result;
+    // Update prefix and suffix
+    prefix = prefix * nums[i];
+    suffix = suffix * nums[n-1-i];
+    max = Math.max(max, prefix, suffix)
+  }
+  return max;
 }
 
-// Example usage:
-let nums = [6, -3, -10, 0, 2];
-console.log(maxProduct(nums)); // Output: 180
-```
-
-below is double loop
-
-```js
-const arr = [6, -3, -10, 0, 2];
-
-  function maxProduct(arr) {
-    let outMaxProd = arr[0];
-    for (let i = 0; i < arr.length - 1; i++) {
-      let innerProd = 1;
-      for (let j = i; j < arr.length; j++) {
-        innerProd *= arr[j];
-
-        if (innerProd > outMaxProd) {
-          outMaxProd = innerProd;
-        }
-      }
-    }
-    return outMaxProd;
-  }
-
-  console.log(maxProduct(arr));
 
 ```
 
@@ -780,49 +750,53 @@ console.log(maxProductOfThreeeElem([-4,-2,-3,1]));  // => 12
 <br>
 
 
-> ### Q22 - Find longest consecutive subsequence
+> ### Q22 - Find longest consecutive subsequence ⭐️
 a = [2,6,1,9,4,5,3]\
 Output:\
 6 => [1,2,3,4,5,6]
 
+a = [100,4,200,1,3,2]\
+Output:\
+6 => [1,2,3,4]
+
 <details>
 
+Algo : **Hashing**
+
 ```js
-function longestConsecutiveSubsequence(arr) {
+function findLongestConsecutiveSubsequence(arr) {
+    let numSet = new Set(arr);
+    let longestSequence = [];
 
-// currentSeq[currentSeq.length - 1]) means last added element in currentSeq
-    
-    arr.sort((a, b) => a - b);
+    for (let num of arr) {
+        if (!numSet.has(num - 1)) { // Start of a new sequence
+            let currentNum = num;
+            let currentSequence = [];
 
-    let longestSeq = [arr[0]];
-    let currentSeq = [arr[0]];
-    
-    for (let i = 1; i < arr.length; i++) {
+            while (numSet.has(currentNum)) {
+                currentSequence.push(currentNum);
+                currentNum++;
+            }
 
-	// Checking for Consecutive Numbers
-        if (arr[i] === currentSeq[currentSeq.length - 1] + 1) {  // This condition checks if the current element (arr[i]) is one more than the last added element in the currentSeq array (currentSeq[currentSeq.length - 1]) 
-            currentSeq.push(arr[i]);
-        } else if (arr[i] !== currentSeq[currentSeq.length - 1]) {  // Handling Non-Consecutive Numbers
-            currentSeq = [arr[i]];
-        }
-        
-        if (currentSeq.length > longestSeq.length) {
-            longestSeq = currentSeq;
+            if (currentSequence.length > longestSequence.length) {
+                longestSequence = currentSequence;
+            }
         }
     }
-    
-    return longestSeq;
+
+    return longestSequence;
 }
 
-const arr = [66, 2, 1, 9, 4, 5, 3];
-console.log(longestConsecutiveSubsequence(arr)); // Output: [1, 2, 3, 4, 5]
+// Example usage
+let a = [2, 6, 1, 9, 4, 5, 3];
+console.log(findLongestConsecutiveSubsequence(a));
 ```
 
 </details>
 
 <br>
 
-> ### Q23 - Pair elements of an array
+> ### Q23 - Pair elements of an array  ⭐️
 
 const arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]\
 output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
@@ -830,30 +804,28 @@ output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
 <details>
 
 ```js
-let arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]
+function pairElements(arr) {
+    let map = new Map();
 
-function pairElement(arr){
-    arr.sort()
-    let final = []
-    let temp = [arr[0]]
-    
-    for(let i=1; i<arr.length; i++){
-        debugger
-        if(temp.includes(arr[i])){
-            temp.push(arr[i])
-        } else {
-            final.push(temp)
-            temp = [arr[i]]
+    // Group elements in a map
+    for (let num of arr) {
+        if (!map.has(num)) {
+            map.set(num, []);
         }
+        map.get(num).push(num);
     }
-    final.push(temp)
-    console.log(final)
+
+    // Convert map values to array
+    return Array.from(map.values());
 }
-pairElement(arr)
+
+// Example usage
+const arr = [1, 2, 3, 2, 4, 5, 3, 2];
+console.log(pairElements(arr));
 ```
 
 ```js
-
+  // below is also of O(n)
  const arr = [1, 2, 3, 2, 4, 5, 3, 2];
 
   function pairElements(arr) {
@@ -946,7 +918,7 @@ console.log(rev.split("").reverse().join("") === str1);
 
 <br>
 
-> ### Q26 - Find Duplicate characters in a string or array
+> ### Q26 - Find Duplicate characters in a string or array  ⭐️
 
 **Below also cover for Find Elements that occurred only once in the array**
 
@@ -1240,7 +1212,7 @@ The algorithm used in the code can be classified as a **"Hash Table Frequency Co
 <br>
 
 
-> ### Q34 - Array Rotation by n
+> ### Q34 - Array Rotation by n  ⭐️
 const arr = [1,2,3,4,5,6] n=2\
 output =>   [5,6,1,2,3,4]
 
@@ -1261,7 +1233,7 @@ console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 <br>
 
 
-> ### Q35 - Find all permutations of string  LOGIC
+> ### Q35 - Find all permutations of string  LOGIC ⭐️
  const str = "ABC"\
  output => ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
 
@@ -1298,6 +1270,92 @@ function permutations(str) {
 const inputString = "abc";
 const result = permutations(inputString);
 console.log(result);
+```
+
+</details>
+
+<br>
+
+> ### Q44 -  Find all subsets of an array  ⭐️
+const arr = [1, 2, 3];\
+output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
+
+similar case code - 
+Input : abc
+Output : a, b, c, ab, bc, ac, abc
+
+<details>
+
+```js
+const arr = [1, 2, 3];
+const result = [[]]; // Start with an empty set
+
+for (let i = 0; i < arr.length; i++) {
+  const currentLength = result.length;
+  
+  // Loop over each element in the result and add the current element to each subset
+  for (let j = 0; j < currentLength; j++) {
+    result.push([...result[j], arr[i]]);
+  }
+}
+
+console.log(result);
+```
+
+```js
+function getAllSubsets(arr) {
+    debugger
+    let result = [[]]; // Start with an empty subset
+
+    for (let i = 0; i < arr.length; i++) {
+        debugger
+        const currentElement = arr[i];
+        const length = result.length; // here we have created separated becuse while in loop we are updating the result array it cause loop to be infinte
+
+        // For each existing subset, create a new subset that includes the current element
+        for (let j = 0; j < length; j++) {
+            debugger
+            const newSubset = [...result[j],currentElement];
+            result.push(newSubset);
+        }
+    }
+
+    return result;
+}
+
+// Example usage:
+let array = [1, 2, 3];
+let subsets = getAllSubsets(array);
+console.log(subsets);
+
+```
+
+
+
+**Below is same but more optimized**
+
+```js
+function getAllSubsets(arr) {
+    let result = [];
+    
+    function backtrack(start, subset) {
+        result.push([...subset]);
+        
+        for (let i = start; i < arr.length; i++) {
+            subset.push(arr[i]);
+            backtrack(i + 1, subset);
+            subset.pop();
+        }
+    }
+    
+    backtrack(0, []);
+    return result;
+}
+
+// Example usage:
+let array = [1, 2, 3];
+let subsets = getAllSubsets(array);
+console.log(subsets);
 ```
 
 </details>
@@ -1589,90 +1647,8 @@ console.log(count);
 
 <br>
 
-> ### Q44 -  Find all subsets of an array
-const arr = [1, 2, 3];\
-output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
 
-<details>
-
-```js
-const arr = [1, 2, 3];
-const result = [[]]; // Start with an empty set
-
-for (let i = 0; i < arr.length; i++) {
-  const currentLength = result.length;
-  
-  // Loop over each element in the result and add the current element to each subset
-  for (let j = 0; j < currentLength; j++) {
-    result.push([...result[j], arr[i]]);
-  }
-}
-
-console.log(result);
-```
-
-```js
-function getAllSubsets(arr) {
-    debugger
-    let result = [[]]; // Start with an empty subset
-
-    for (let i = 0; i < arr.length; i++) {
-        debugger
-        const currentElement = arr[i];
-        const length = result.length; // here we have created separated becuse while in loop we are updating the result array it cause loop to be infinte
-
-        // For each existing subset, create a new subset that includes the current element
-        for (let j = 0; j < length; j++) {
-            debugger
-            const newSubset = [...result[j],currentElement];
-            result.push(newSubset);
-        }
-    }
-
-    return result;
-}
-
-// Example usage:
-let array = [1, 2, 3];
-let subsets = getAllSubsets(array);
-console.log(subsets);
-
-```
-
-
-
-**Below is same but more optimized**
-
-```js
-function getAllSubsets(arr) {
-    let result = [];
-    
-    function backtrack(start, subset) {
-        result.push([...subset]);
-        
-        for (let i = start; i < arr.length; i++) {
-            subset.push(arr[i]);
-            backtrack(i + 1, subset);
-            subset.pop();
-        }
-    }
-    
-    backtrack(0, []);
-    return result;
-}
-
-// Example usage:
-let array = [1, 2, 3];
-let subsets = getAllSubsets(array);
-console.log(subsets);
-```
-
-</details>
-
-<br>
-
-
-> ### Q45 - Filter array of objects with exclude array
+> ### Q45 - Filter array of objects with exclude array ⭐️
 
 let items = [\
   { color: "red", type: "tv" },\
@@ -1860,6 +1836,8 @@ c) declare array of employees & filter the employees whose sal>6000;\
 d) declare array of employees & increase sal of every employee by 500;\
 e) declare array of employees & add "comp:ibm" to every employee;
 
+<Details>
+
 ```js
 const employees = [
     { empId: 1, name: "John", salary: 8000 },
@@ -1901,6 +1879,8 @@ const addIbm = employees.map((employee) => ({ ...employee, comp: "IBM" }));
 console.log(addIbm);
 ```
 
+</Details>
+
 <br>
 
 
@@ -1916,7 +1896,11 @@ const departments = [
     { eId: 101, dept: "sales" },
     { eId: 104, dept: "manager" },
 ];
+```
 
+<Details>
+
+```js
 const updatedEmployees = employees.map((employee) => {
     let department = departments.find((department) => {
         if (department.eId === employee.eId) {
@@ -1929,6 +1913,7 @@ const updatedEmployees = employees.map((employee) => {
 
 console.log(updatedEmployees);
 ```
+</Details>
 
 <br>
 
@@ -1936,6 +1921,8 @@ console.log(updatedEmployees);
 > ### Q51 - WAP to print Account number
 input:- '12345678987'\
 output:- '12*******87'
+
+<Details>
 
 ```js
 let accountNo = "12345678987";
@@ -1945,6 +1932,7 @@ for (let i = 2; i < accountNo.length - 2; i++) {
 }
 console.log(accountNo.join(""));
 ```
+</Details>
 
 <br>
 
@@ -1952,6 +1940,8 @@ console.log(accountNo.join(""));
 > ### Q52 - WAP to print Credit-card number
 input:- '1111222233334444'\
 output:- '1111-2222-3333-4444'
+
+<Details>
 
 ```js
 const str = "1111222233334444";
@@ -1966,26 +1956,16 @@ result.push(str.slice(-4));
 
 console.log(result.join("-"));
 ```
+</Details>
 
 <br>
-
-
-> ### Q53 - WAP to remove special character from a string
-input:- 'hello@#hi&'\
-output:- 'hellohi'
-
-```js
-const str = "hello@#hi&";
-console.log(str.replace(/[^a-zA-Z0-9 ]/g, ""));
-```
-
-<br>
-
 
 > ### Q54 - WAP to move all the special characters to the end of the string
 
 input:- 'hello@#hi&'\
 output:- 'hellohi@#&'
+
+<Details>
 
 ```js
 function moveSpecialCharactersToEnd(inputString) {
@@ -2010,6 +1990,7 @@ let input = 'hello@#hi&';
 let output = moveSpecialCharactersToEnd(input);
 console.log(output); // Output will be 'hellohi@#&'
 ```
+</Details>
 
 <br>
 
@@ -2017,6 +1998,8 @@ console.log(output); // Output will be 'hellohi@#&'
 > ### Q55 - Covert char into word
 const input = ["c", "a", "k", "e", "", "e", "a", "t", "", "m", "a", "t", "e", "" ];\
 output => ["cake", "eat", "mate"];
+
+<Details>
 
 ```js
 const input = ["c","a","k","e","","e","a","t","","m","a","t","e",""];
@@ -2035,6 +2018,7 @@ for (let i = 0; i < input.length; i++) {
 
 console.log(output); // [ 'cake', 'eat', 'mate' ]
 ```
+</Details>
 
 <br>
 
@@ -2043,6 +2027,8 @@ console.log(output); // [ 'cake', 'eat', 'mate' ]
 
 let arr = ["jayesh choudhary", "ankit sharma"];\
 Output: JayeshChoudhary , AnkitSharma
+
+<Details>
 
 ```js
 let arr = ["jayesh choudhary", "ankit sharma"];
@@ -2062,6 +2048,7 @@ for (let i = 0; i < arr.length; i++) {
     console.log(res);
 }
 ```
+</Details>
 
 <br>
 
@@ -2079,6 +2066,8 @@ Output :-\
   { id: '2', name: 'number2' },\
   { id: '3', name: 'number3' },\
   { id: '4', name: 'number4' } ]
+
+<Details>
 
 ```js
 [ { id: '1', name: 'number1' },
@@ -2104,6 +2093,7 @@ let back = [];
 arr.forEach((obj) => (isNaN(obj.id) ? front.push(obj) : back.push(obj)));
 console.log([...front, ...back]);
 ```
+</Details>
 
 <br>
 
@@ -2125,6 +2115,8 @@ Output:-\
   23: ["Invisible man”,”The Rainbow"]\
 }
 
+<Details>
+
 ```js
 const friends = [
     { name: "chris", age: 13, books: ["sherlock holmes", "english"] },
@@ -2145,6 +2137,7 @@ friends.forEach((friend) => {
 
 console.log(result);
 ```
+</Details>
 
 <br>
 
@@ -2153,6 +2146,8 @@ console.log(result);
 
 const arr = [1, 2, 3, 77, 6, 99, 2];\
 output :- [ 77, 99 ]
+
+<Details>
 
 ```js
 function findPeakElements(arr) {
@@ -2170,11 +2165,12 @@ function findPeakElements(arr) {
 const arr = [1, 2, 3, 77, 6, 99, 2];
 console.log(findPeakElements(arr)); // Output: [77, 99]
 ```
+</Details>
 
 <br>
 
 
-> ### Q60 - find continuous sub-array which adds up to a given number.
+> ### Q60 - find continuous sub-array which adds up to a given number. ⭐️
 
 A = [1,2,3,7,5]\
 S = 12\
@@ -2183,52 +2179,44 @@ Explanation: The sum of elements from 2nd position to 4th position is 12.
 
 <details>
 
-**Below is my short answer if needed we have full code example after below code**
 ```js
-let arr = [1,2,3,7,5]
-let checkSum = 12
+// algo: Sliding window
 
-for(let i=0; i<arr.length; i++ ){
-    
-    let sum = arr[i]
-    for(let j = i+1; j<arr.length; j++){
-        sum += arr[j]
-        if(sum == checkSum){
-            console.log(arr.slice(i, j+1))
+function findSubarraysWithSum(arr, target) {
+    let result = [];
+    let i = 0, sum = 0;
+
+    for (let j = 0; j < arr.length; j++) {
+        sum += arr[j]; // Expand the window
+
+        // Shrink window if sum exceeds target
+        while (sum > target && i <= j) {
+            sum -= arr[i];
+            i++;
+        }
+
+        // If sum matches target, store the subarray
+        if (sum === target) {
+            result.push(arr.slice(i, j + 1));
         }
     }
-    
-}
-```
 
-```js
-function findSubArrayWithSum(arr, targetSum) {
-  let result = [];
-  for (let i = 0; i < arr.length; i++) {
-    let sum = 0;
-    for (let j = i; j < arr.length; j++) {
-      sum += arr[j];
-      if (sum === targetSum) {
-        result.push(arr.slice(i, j + 1));
-      }
-    }
-  }
-  return result;
+    return result;
 }
 
-const arr = [1, 2, 3, 7, 5];
-const targetSum = 12;
-const subArrays = findSubArrayWithSum(arr, targetSum);
-console.log(subArrays); // Output: [ [ 2, 3, 7 ], [ 7, 5 ] ]
-
+// Example usage
+let A = [1, 2, 3, 7, 5];
+let S = 12;
+console.log(findSubarraysWithSum(A, S));
 ```
-
 </details>
 
 <br>
 
 
-> ### Q61 - Panagram Checking:- A pangram is a sentence containing every letter in the English Alphabet ( A to Z )
+> ### Q61 - Panagram Checking:- 
+
+**A pangram is a sentence containing every letter in the English Alphabet ( A to Z )**
 
 Input: S = Bawds jog, flick quartz, vex nymph\
 Output: 1\
@@ -2252,73 +2240,6 @@ function checkPanagram(str) {
 }
 
 console.log(checkPanagram(str));
-```
-
-</details>
-
-<br>
-
-
-> ### Q62 - Print all subsequences of a string ---- much similar like Q44
-
-Input : abc\
-Output : a, b, c, ab, bc, ac, abc
-
-Input : aaa\
-Output : a, a, a, aa, aa, aa, aaa
-
-<details>
-
-using recursion
-
-```js
-function generateSubsequences(str, index = 0, current = '') {
-    const n = str.length;
-
-    // Base case: if index has reached the end of the string
-    if (index === n) {
-        if (current !== '') {
-            console.log(current); // Print the current subsequence
-        }
-        return;
-    }
-
-    // Case 1: Include current character in the subsequence
-    generateSubsequences(str, index + 1, current + str[index]);
-
-    // Case 2: Exclude current character from the subsequence
-    generateSubsequences(str, index + 1, current);
-}
-
-// Test cases
-console.log("Input: abc");
-generateSubsequences("abc");
-
-console.log("\nInput: aaa");
-generateSubsequences("aaa");
-```
-
-without recursion
-
-```js
-function generateSubsequences(str) {
-    const subsequences = [''];
-    for (let i = 0; i < str.length; i++) {
-        const currentCharacter = str[i];
-        const currentLength = subsequences.length;
-        for (let j = 0; j < currentLength; j++) {
-            subsequences.push(subsequences[j] + currentCharacter);
-        }
-    }
-    // Sort if you want the subsequences to be in lexicographical order
-    subsequences.sort();
-    // Print the subsequences
-    subsequences.forEach(sub => console.log(sub));
-}
-
-// Example usage:
-generateSubsequences("abc");
-
 ```
 
 </details>
@@ -2457,8 +2378,9 @@ spellNumber(14632) => 'Fourteen Thousand Six Hundred Thirty Two'\
 spellNumber(7483647) => 'Seventy Four Lakh Eighty Three Thousand Six Hundred Forty Seven'\
 spellNumber(997751076) => 'Ninety Nine Crore Seventy Seven Lakh Fifty One Thousand Seventy Six'\
 
-```js
+<Details>
 
+```js
 function spellNumber(number) {
     const singleDigits = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine'];
     const teenNumbers = ['', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen'];
@@ -2516,11 +2438,11 @@ console.log(spellNumber(14632)); // Fourteen Thousand Six Hundred Thirty Two
 console.log(spellNumber(7483647)); // Seventy Four Lakh Eighty Three Thousand Six Hundred Forty Seven
 console.log(spellNumber(997751076)); // Ninety Nine Crore Seventy Seven Lakh Fifty One Thousand Seventy Six
 ```
-
+</Details>
 
 <br>
 
-> ### Q68 - Array of objects Manipulation
+> ### Q68 - Array of objects Manipulation ⭐️
 
 const portfolio = [\
 &nbsp; { name: "Mark", stock: "FB" },\
@@ -2576,7 +2498,7 @@ console.log(shareholder);
 <br>
 
 
-> ### Q69 - Finding sum of digits of a number until sum becomes single digit
+> ### Q69 - Finding sum of digits of a number until sum becomes single digit ⭐️
 const "5431" => "13" => "4"
 
 <details>
@@ -2700,62 +2622,7 @@ for (let i = 1; i <= max + 1; i++) {
         break;
     }
 }
-
 ```
-
-
-```js
-function findSmallestMissingPositive(arr) {
-  const numSet = new Set(arr);
-  for (let i = 1; ; i++) {
-    if (!numSet.has(i)) {
-      return i;
-    }
-  }
-}
-
-// Example usage
-const arr = [3, 4, -1, 1];
-const missingNumber = findSmallestMissingPositive(arr);
-console.log(missingNumber); // Output: 2
-```
-
-
-```js
-function smallestMissingPositive(arr) {
-    const n = arr.length;
-    let present = Array(n + 1).fill(false);
-
-    // Mark elements that are positive and within the range of the array size
-    for (let i = 0; i < n; i++) {
-        if (arr[i] > 0 && arr[i] <= n) {
-            present[arr[i]] = true;
-        }
-    }
-
-    // Find the smallest positive number missing
-    for (let i = 1; i <= n; i++) {
-        if (!present[i]) {
-            return i;
-        }
-    }
-
-    // If all positive integers are present, return the next positive integer
-    return n + 1;
-}
-
-// Test cases
-const arr1 = [2, 3, 7, 6, 8, -1, -10, 15]; // 1
-const arr2 = [2, 3, -7, 6, 8, 1, -10, 15]; // 4
-const arr3 = [1, 1, 0, -1, -2]; // 2
-const arr4 = [3, 2, 1, 4, 5]; // 6
-
-console.log(smallestMissingPositive(arr1)); // Output: 1
-console.log(smallestMissingPositive(arr2)); // Output: 4
-console.log(smallestMissingPositive(arr3)); // Output: 2
-console.log(smallestMissingPositive(arr4)); // Output: 6
-```
-
 </details>
 
 <br>
@@ -2859,7 +2726,7 @@ console.log(result);
 <br>
 
 
-> ### Q75 - Given a positive integer N as input , print first N prime numbers
+> ### Q75 - Given a positive integer N as input , print first N prime numbers ⭐️
 
 Input  : 5, Output : [2,3,5,7,11]\
 Input  : 0, Output : []
@@ -3019,7 +2886,11 @@ console.log(drawChessboard(8, 8));
 <br>
 
 
-> ### Q78 - longest Substring of two strings
+> ### Q78 - longest Substring of two strings ⭐️
+
+const str1 = "ABABC";\
+const str2 = "BABCA";\
+Output: "BABC"
 
 <details>
 
@@ -3107,10 +2978,15 @@ console.log(longestCommonSubstring(str1, str2)); // Output: "abcd"
 
 > ### Q79 - shift each letter by number of position in js
 
+For example if the string is "ac" and num is 2 the output should be "ce".
+
+const str = "Hello, World!";\
+const num = 5;\
+Output: "Mjqqt, Btwqi!"
+
 <details>
 
 ```js
-/* how to shift each letter in the given string N places down in the alphabet? Punctuation, spaces, and capitalization should remain intact. For example if the string is "ac" and num is 2 the output should be "ce".  */
 
 CaesarCipher = (str, num) => {
 
@@ -3138,61 +3014,12 @@ const str = "Hello, World!";
 const num = 5;
 console.log(CaesarCipher(str, num)); // Output: "Mjqqt, Btwqi!"
 ```
-
 </details>
 
 <br>
-
-
-> ### Q80 - Find the length of the longest substring in the given string s that is the same in reverse.
-As an example, if the input was “I like racecars that go fast”, the substring (racecar) length would be 7.
-If the length of the input string is 0, return value must be 0.\
-Example:\
-"a" -> 1\
-"aab" -> 2\
-"abcde" -> 1\
-"zzbaabcd" -> 4
-
-<details>
-
-```js
-function longestPalindromeSubstring(s) {
-    if (s.length === 0) return 0;
-
-    let maxLength = 1;
-
-    // Function to check if a substring is a palindrome
-    function isPalindrome(str) {
-        return str === str.split('').reverse().join('');
-    }
-
-    // Iterate through all possible substrings
-    for (let i = 0; i < s.length; i++) {
-        for (let j = i + 1; j <= s.length; j++) {
-            let substr = s.substring(i, j);
-            if (isPalindrome(substr) && substr.length > maxLength) {
-                maxLength = substr.length;
-            }
-        }
-    }
-
-    return maxLength;
-}
-
-// Test cases
-console.log(longestPalindromeSubstring("a"));        // Output: 1
-console.log(longestPalindromeSubstring("aab"));      // Output: 2
-console.log(longestPalindromeSubstring("abcde"));    // Output: 1
-console.log(longestPalindromeSubstring("zzbaabcd")); // Output: 4
-```
-
-</details>
-
-<br>
-
 
 > ### Q81 - Implement the function unique_in_order which takes as argument a sequence and returns a list of items without any elements with the same value next to each other and preserving the original order of elements.
-For example:\
+
 uniqueInOrder('AAAABBBCCDAABBB') == ['A', 'B', 'C', 'D', 'A', 'B']\
 uniqueInOrder('ABBCcAD')         == ['A', 'B', 'C', 'c', 'A', 'D']\
 uniqueInOrder([1,2,2,3,3])       == [1,2,3]
@@ -3300,7 +3127,7 @@ function multiTable(number) {
 <br>
 
 
-> ### Q84 - Leetcode - 509. Below is for the fibonacci number
+> ### Q84 - Leetcode - 509. Below is for the fibonacci number  ⭐️
 
 <details>
 
@@ -3310,10 +3137,12 @@ fibonacci = n => {
   return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2)
 }
 fibonacci(12)
+```
 
+Other method\
+below is without recursion
 
-// Other method
-// below is without recursion
+```js
 n_th_fibonacci = n => {
   let [a, b] = [0, 1]
 
@@ -3350,6 +3179,8 @@ Index: 4, element : undefined\
 Index: 4, element : undefined
 
 Below are the possible solutions
+
+<Details>
 
 Case 1. We have changes var to let
 
@@ -3418,18 +3249,20 @@ for (let i = 0; i < arr1.length; i++) {
   }, 1000 * i)
 }
 ```
-
+</Details>
 
 <br>
 
 
-> ### Q86 - Leetcode - 2239. find closest number in array
+> ### Q86 - Leetcode - 2239. Find the number in an array that is closest to a given number  ⭐️
+
+const array = [5,10,15,20,25,30,35];\
+const target = 22;\
+Output: 20
 
 <details>
 
 ```js
-// Find the number in an array that is closest to a given number
-
 // sort based on distance from the reference value num, and then take the first item.
 closestNumInArr = (arr, num) => {
 	return arr.sort((a, b) => Math.abs(num - a) - Math.abs(num - b))[0];
@@ -3471,6 +3304,8 @@ console.log(findClosestNumber(array, target)); // Output: 20
 
 > ### Q87 - find length of integer without converting to string
 
+<Details>
+
 ```js
 let number = 12345
 countDigits_1 = n => {
@@ -3486,11 +3321,42 @@ countDigits_1 = n => {
 
 console.log(countDigits_1(number));
 ```
+</Details>
 
 <br>
 
 
-> ### Q88 - flatten my deep object.
+> ### Q88 - flatten my deep object.  ⭐️
+
+```
+const person = {
+  name: "Jayesh",
+  address: {
+    state: "M.P",
+    country: "India",
+    subAdress: {
+      city: "Burhanpur",
+    },
+  },
+  skills: {
+    frontend: ["JavaScript", "React Js", "CSS"],
+    backend: ["Node Js", "Mongo Db"],
+  },
+};
+
+const output = {
+  name: "Jayesh",
+  address.state: "M.P",
+  address.country: "India",
+  address.subAdress.city: "Burhanpur",
+  skills.frontend.0: "JavaScript",
+  skills.frontend.1: "React Js",
+  skills.frontend.2: "CSS",
+  skills.backend.0: "Node Js",
+  skills.backend.1: "Mongo Db"
+}
+```
+
 
 
 <details>
@@ -3550,6 +3416,57 @@ console.log(flattenPerson);
 //     skills.backend.1: "Mongo Db"
 // }
 
+```
+
+Below is the DFS approach
+
+```js
+function flattenObject(obj, prefix = "") {
+  let result = {};
+
+  for (let key in obj) {
+    let newKey = prefix ? `${prefix}.${key}` : key; // Create dot-separated keys
+
+    if (typeof obj[key] === "object" && obj[key] !== null) {
+      if (Array.isArray(obj[key])) {
+        // If it's an array, iterate with index using traditional for loop
+        for (let i = 0; i < obj[key].length; i++) {
+          let arrayKey = `${newKey}.${i}`;
+          if (typeof obj[key][i] === "object" && obj[key][i] !== null) {
+            result = { ...result, ...flattenObject(obj[key][i], arrayKey) };
+          } else {
+            result[arrayKey] = obj[key][i];
+          }
+        }
+      } else {
+        // If it's an object, recurse
+        result = { ...result, ...flattenObject(obj[key], newKey) };
+      }
+    } else {
+      result[newKey] = obj[key];
+    }
+  }
+
+  return result;
+}
+
+// Test
+const person = {
+  name: "Jayesh",
+  address: {
+    state: "M.P",
+    country: "India",
+    subAdress: {
+      city: "Burhanpur",
+    },
+  },
+  skills: {
+    frontend: ["JavaScript", "React Js", "CSS"],
+    backend: ["Node Js", "Mongo Db"],
+  },
+};
+
+console.log(flattenObject(person));
 ```
 
 </details>
