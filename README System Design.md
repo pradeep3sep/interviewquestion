@@ -1,32 +1,34 @@
 ## Enhanced Core web vitals
 Website used - Google Lighthouse, PageSpeed Insights
 
-JS\
-1. Used `async` and `defer` for scripts to prevent render-blocking.
+=> JS
+1. Used `async` and `defer` for scripts to prevent render-blocking. usage -> Google Analytics script
 2. Minimized Third-party Scripts
 3. Code-Splitting using React.lazy()
 
 ```jsx
-// App.js (With Code-Splitting)
-import React, { Suspense } from "react";
+import React, { useState, lazy, Suspense } from "react";
 
-const Checkout = React.lazy(() => import("./Checkout")); // Lazy-loaded
+const LazyComponent = lazy(() => import("./MyComponent")); // Lazy-loaded
 
-function App() {
+const App = () => {
+  const [show, setShow] = useState(false);
+
   return (
     <div>
-      <h1>Welcome to the Store</h1>
-      <Suspense fallback={<div>Loading Checkout...</div>}>
-        <Checkout /> {/* Now only loaded when needed */}
+      <button onClick={() => setShow(true)}>Load Component</button>
+      <Suspense fallback={<div>Loading...</div>}>
+        {show && <LazyComponent />} {/* Now only loaded when needed */}
       </Suspense>
     </div>
   );
-}
+};
 
 export default App;
 ```
 
-Optimized Images\
+=> Optimized Images
+
 1. WebP format (smaller & faster).
 2. srcset to load appropriate sizes.
 3. Applied lazy loading (loading="lazy") to avoid loading offscreen images.
