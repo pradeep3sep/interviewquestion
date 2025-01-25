@@ -27,6 +27,8 @@ const App = () => {
 export default App;
 ```
 
+<br>
+
 => Optimized Images
 
 1. WebP format (smaller & faster).
@@ -45,172 +47,170 @@ CLS (Avoiding Layout Shifts)
 1. **Simplicity and faster code devlopment**:
   - HTML-like `template syntax` made it easy to integrate designs directly from the UI/UX team.
   - Using directives like `v-if` and `v-for` felt intuitive, especially for conditional rendering and loops.
-  - A data table with dynamic row rendering took half the time compared to React because of Vue's clean two-way binding (`v-model`).
+  - A data table with dynamic row rendering took half the time compared to React because of Vue's clean `two-way binding` (`v-model`).
 
-<details>
+    <details>
 
-### **Scenario**:
-I was tasked with creating a data table where users could:
-1. Dynamically add or remove rows.
-2. Edit values in each cell directly.
-3. Update the table data in real-time (e.g., update a total based on input changes).
+    ### **Scenario**:
+    I was tasked with creating a data table where users could:
+    1. Dynamically add or remove rows.
+    2. Edit values in each cell directly.
+    3. Update the table data in real-time (e.g., update a total based on input changes).
 
-### **Vue Implementation**:
-Here’s how it worked in **Vue**:
-1. The data was stored in a reactive array, e.g., `rows: [{ name: '', quantity: 0, price: 0 }]`.
-2. Using Vue's **two-way binding** (`v-model`), I could bind each input in the table to the reactive data directly.
-3. Adding or removing rows was as simple as modifying the array (`rows.push()` or `rows.splice()`), and Vue automatically re-rendered the table.
+    ### **Vue Implementation**:
+    Here’s how it worked in **Vue**:
+    1. The data was stored in a reactive array, e.g., `rows: [{ name: '', quantity: 0, price: 0 }]`.
+    2. Using Vue's **two-way binding** (`v-model`), I could bind each input in the table to the reactive data directly.
+    3. Adding or removing rows was as simple as modifying the array (`rows.push()` or `rows.splice()`), and Vue automatically re-rendered the table.
 
-#### **Code Example in Vue**:
-```vue
-<template>
-  <div>
-    <table>
-      <tr v-for="(row, index) in rows" :key="index">
-        <td><input v-model="row.name" placeholder="Product Name" /></td>
-        <td><input type="number" v-model="row.quantity" /></td>
-        <td><input type="number" v-model="row.price" /></td>
-        <td>{{ row.quantity * row.price }}</td>
-        <td><button @click="removeRow(index)">Remove</button></td>
-      </tr>
-    </table>
-    <button @click="addRow">Add Row</button>
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      rows: [{ name: '', quantity: 0, price: 0 }],
-    };
-  },
-  methods: {
-    addRow() {
-      this.rows.push({ name: '', quantity: 0, price: 0 });
-    },
-    removeRow(index) {
-      this.rows.splice(index, 1);
-    },
-  },
-};
-</script>
-```
-
-#### **Why it’s Fast in Vue**:
-1. **Two-Way Binding (`v-model`)**:
-   - Automatically syncs the input fields with the `rows` array.
-   - No need to write extra logic to update the state when the input changes.
-
-2. **Reactive Rendering**:
-   - When the array changes (e.g., rows are added/removed), Vue’s reactivity ensures the DOM updates automatically without additional code.
-
----
-
-### **React Implementation**:
-In React, the same task required more boilerplate because React doesn’t have two-way binding, and state updates are handled manually. Here’s how it went:
-1. I used `useState` to manage the rows (`const [rows, setRows] = useState([{ name: '', quantity: 0, price: 0 }])`).
-2. For every input change, I had to write a separate handler to update the corresponding field in the `rows` state.
-3. Adding or removing rows also required updating the state manually and ensuring the updates propagated.
-
-#### **Code Example in React**:
-```jsx
-import React, { useState } from 'react';
-
-function DataTable() {
-  const [rows, setRows] = useState([{ name: '', quantity: 0, price: 0 }]);
-
-  const handleInputChange = (index, field, value) => {
-    const updatedRows = [...rows];
-    updatedRows[index][field] = value;
-    setRows(updatedRows);
-  };
-
-  const addRow = () => {
-    setRows([...rows, { name: '', quantity: 0, price: 0 }]);
-  };
-
-  const removeRow = (index) => {
-    setRows(rows.filter((_, i) => i !== index));
-  };
-
-  return (
-    <div>
-      <table>
-        {rows.map((row, index) => (
-          <tr key={index}>
-            <td>
-              <input
-                value={row.name}
-                onChange={(e) => handleInputChange(index, 'name', e.target.value)}
-                placeholder="Product Name"
-              />
-            </td>
-            <td>
-              <input
-                type="number"
-                value={row.quantity}
-                onChange={(e) => handleInputChange(index, 'quantity', parseInt(e.target.value) || 0)}
-              />
-            </td>
-            <td>
-              <input
-                type="number"
-                value={row.price}
-                onChange={(e) => handleInputChange(index, 'price', parseFloat(e.target.value) || 0)}
-              />
-            </td>
-            <td>{row.quantity * row.price}</td>
-            <td>
-              <button onClick={() => removeRow(index)}>Remove</button>
-            </td>
+    #### **Code Example in Vue**:
+    ```vue
+    <template>
+      <div>
+        <table>
+          <tr v-for="(row, index) in rows" :key="index">
+            <td><input v-model="row.name" placeholder="Product Name" /></td>
+            <td><input type="number" v-model="row.quantity" /></td>
+            <td><input type="number" v-model="row.price" /></td>
+            <td>{{ row.quantity * row.price }}</td>
+            <td><button @click="removeRow(index)">Remove</button></td>
           </tr>
-        ))}
-      </table>
-      <button onClick={addRow}>Add Row</button>
-    </div>
-  );
-}
+        </table>
+        <button @click="addRow">Add Row</button>
+      </div>
+    </template>
 
-export default DataTable;
-```
+    <script>
+    export default {
+      data() {
+        return {
+          rows: [{ name: '', quantity: 0, price: 0 }],
+        };
+      },
+      methods: {
+        addRow() {
+          this.rows.push({ name: '', quantity: 0, price: 0 });
+        },
+        removeRow(index) {
+          this.rows.splice(index, 1);
+        },
+      },
+    };
+    </script>
+    ```
 
-#### **Why React Took Longer**:
-1. **Manual State Handling**:
-   - I had to write a `handleInputChange` function to update state for each input, which adds boilerplate.
-   - Forgetting to deep-clone the state (e.g., directly modifying the `rows` array) caused subtle bugs.
+    #### **Why it’s Fast in Vue**:
+    1. **Two-Way Binding (`v-model`)**:
+      - Automatically syncs the input fields with the `rows` array.
+      - No need to write extra logic to update the state when the input changes.
 
-2. **No Native Two-Way Binding**:
-   - React requires explicitly setting the `value` and `onChange` for every input, which feels repetitive compared to Vue’s `v-model`.
+    2. **Reactive Rendering**:
+      - When the array changes (e.g., rows are added/removed), Vue’s reactivity ensures the DOM updates automatically without additional code.
 
-3. **Performance Optimization**:
-   - In React, if you don’t memoize components or handlers properly, unnecessary re-renders can degrade performance.
+    ---
 
----
+    ### **React Implementation**:
+    In React, the same task required more boilerplate because React doesn’t have two-way binding, and state updates are handled manually. Here’s how it went:
+    1. I used `useState` to manage the rows (`const [rows, setRows] = useState([{ name: '', quantity: 0, price: 0 }])`).
+    2. For every input change, I had to write a separate handler to update the corresponding field in the `rows` state.
+    3. Adding or removing rows also required updating the state manually and ensuring the updates propagated.
 
-### **Final Thoughts**:
-Vue’s **two-way binding** (`v-model`) and its **reactive system** simplify the process of building dynamic, data-driven components like this data table. React offers more control but requires more code for the same functionality, which can slow down development for such scenarios.
+    #### **Code Example in React**:
+    ```jsx
+    import React, { useState } from 'react';
 
-</details>
+    function DataTable() {
+      const [rows, setRows] = useState([{ name: '', quantity: 0, price: 0 }]);
 
+      const handleInputChange = (index, field, value) => {
+        const updatedRows = [...rows];
+        updatedRows[index][field] = value;
+        setRows(updatedRows);
+      };
+
+      const addRow = () => {
+        setRows([...rows, { name: '', quantity: 0, price: 0 }]);
+      };
+
+      const removeRow = (index) => {
+        setRows(rows.filter((_, i) => i !== index));
+      };
+
+      return (
+        <div>
+          <table>
+            {rows.map((row, index) => (
+              <tr key={index}>
+                <td>
+                  <input
+                    value={row.name}
+                    onChange={(e) => handleInputChange(index, 'name', e.target.value)}
+                    placeholder="Product Name"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    value={row.quantity}
+                    onChange={(e) => handleInputChange(index, 'quantity', parseInt(e.target.value) || 0)}
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    value={row.price}
+                    onChange={(e) => handleInputChange(index, 'price', parseFloat(e.target.value) || 0)}
+                  />
+                </td>
+                <td>{row.quantity * row.price}</td>
+                <td>
+                  <button onClick={() => removeRow(index)}>Remove</button>
+                </td>
+              </tr>
+            ))}
+          </table>
+          <button onClick={addRow}>Add Row</button>
+        </div>
+      );
+    }
+
+    export default DataTable;
+    ```
+
+    #### **Why React Took Longer**:
+    1. **Manual State Handling**:
+      - I had to write a `handleInputChange` function to update state for each input, which adds boilerplate.
+      - Forgetting to deep-clone the state (e.g., directly modifying the `rows` array) caused subtle bugs.
+
+    2. **No Native Two-Way Binding**:
+      - React requires explicitly setting the `value` and `onChange` for every input, which feels repetitive compared to Vue’s `v-model`.
+
+    3. **Performance Optimization**:
+      - In React, if you don’t memoize components or handlers properly, unnecessary re-renders can degrade performance.
+
+    ---
+
+    ### **Final Thoughts**:
+    Vue’s **two-way binding** (`v-model`) and its **reactive system** simplify the process of building dynamic, data-driven components like this data table. React offers more control but requires more code for the same functionality, which can slow down development for such scenarios.
+    </details>
 
   - for `react` has `one way communication`, used props, `vue` has `two way communications`, `emits and props`.
-  - Handling of attributes inheritance is way better. For example, in React, to pass a className to UI component that is probably going to be dynamic in the future, you need to write it in props and later pass it in the component’s root HTML tag:
-  ```js
-  export const Button = ({className}: {className: string}) => {
-    return <button className={className}> Classified </button>
-  }
-  ```
+  - `Handling of attributes inheritance` is way better.
+    
+    For example, in React, to pass a `className `to UI component that is probably going to be dynamic in the future, you need to write it in `props` and later pass it in the component’s root HTML tag:
+    ```js
+    export const Button = ({className}: {className: string}) => {
+      return <button className={className}> Classified </button>
+    }
+    ```
 
-  And in Vue it is just:
+    And in Vue it is just:
 
-  ```js
-  <template>
-    <Child class="abc"/>
-  </template>
-  ```
-  without the need to specify that the component need to take it up. Yes, it is ambiguous, but if you think that is the reason React could be better — you seem to not have written prop for every component that would have a corner-edge case where it needs a border that should not become part of it’s Theme.
-
+    ```js
+    <template>
+      <Child class="abc"/>
+    </template>
+    ```
 
 2. **Scoped Styles**:
    - **Experience**: Managing styles for a component library was a breeze with Vue’s scoped styles in `.vue` files. It eliminated worries about CSS bleed.
@@ -287,9 +287,10 @@ setState((prevState) => ({
    - **Example**: A developer accidentally wrote invalid JavaScript logic inside JSX attributes, causing runtime errors.
 
 3. **Performance Pitfalls in Large Applications**
-   - infinite rerender kabhi nhi bolna h, bolna h unnecessary re-render hota h bolna h
-   - since vue has reactivity due to which rendering controlled by vue, in react we can unnecessary re-render which can down the performance of app
-   - React's rendering is efficient, but improper state management can lead to unnecessary re-renders and performance bottlenecks.
+   - `infinite rerender kabhi nhi bolna h, bolna h unnecessary re-render` hota h bolna h
+   - since `vue has reactivity due to which rendering controlled by vue`, in react we can unnecessary re-render which can down the performance of app
+   - React's rendering is efficient, but improper state management can lead to unnecessary re-renders and performance bottlenecks.\
+   
      Example:\
      Forgetting to use React.memo or useCallback in a deeply nested component tree might cause avoidable re-renders and slow down the application.
 
