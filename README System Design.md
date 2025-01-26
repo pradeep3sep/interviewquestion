@@ -290,7 +290,7 @@ setState((prevState) => ({
    - `infinite rerender kabhi nhi bolna h, bolna h unnecessary re-render` hota h bolna h
    - since `vue has reactivity due to which rendering controlled by vue`, in react we can unnecessary re-render which can down the performance of app
    - React's rendering is efficient, but improper state management can lead to unnecessary re-renders and performance bottlenecks.\
-   
+
      Example:\
      Forgetting to use React.memo or useCallback in a deeply nested component tree might cause avoidable re-renders and slow down the application.
 
@@ -350,34 +350,20 @@ A user logs into the same account from a web browser on their laptop and a mobil
 Optimizing frontend API integration and reducing page load time by 40% involves identifying performance bottlenecks and addressing them with efficient techniques. Here’s a breakdown of how I achieved this:
 
 ### **1. Efficient Data Fetching**
-#### **Problem**:
-- The application was making redundant API calls or fetching large datasets unnecessarily.
-- Over-fetching data caused slower page loads and higher bandwidth usage.
 
-#### **Solution**:
-1. **Reduced API Overhead**:
-   - Identified redundant API calls and consolidated them by combining related endpoints or batching requests when feasible.
-   - Example: Instead of fetching user details and preferences separately, a single endpoint returned both.
-
-2. **Selective Field Retrieval**:
-   - Modified API queries to retrieve only the necessary fields instead of the entire object.
-   - Example: Instead of fetching a user’s entire profile, fetched only `name` and `avatar` fields for a leaderboard component.
+- The application was making fetching large datasets unnecessarily.
+  - divided api in two parts, make 1st call on load and second when user scroll to end
+  - removed unnecessary data from api
 
 ### **2. Improved Caching**
 
 1. **Client-Side State Management**:
    - Used state management libraries like Redux (React) or Vuex (Vue) to cache API responses locally. This allowed the app to reuse previously fetched data without making additional API calls.
-   - Example: User details fetched during login were stored globally and reused across components.
 
-3. **Service Workers**:
+2. **Service Workers**: ye wala abhi padhna h
    - Leveraged service workers for caching static assets and API responses to improve offline availability and reduce network requests.
 
-### **3. Optimized API Integration**
-#### **Problem**:
-- Large JSON payloads and slow API response times led to sluggish performance.
-
-#### **Solution**:
-1. **Parallel and Pre-Fetching**:
+### **3. Parallel and Pre-Fetching**:
    - Parallelized independent API calls to reduce total wait time. `Promise.all for Parallel Execution`
    - Prefetched critical data during idle time or when the user hovered over a link.
    - Example: Prefetched product details when a user hovered over a product card.
@@ -386,20 +372,16 @@ Optimizing frontend API integration and reducing page load time by 40% involves 
 
 > ### SEO
 
-### **1. Implementing Technical SEO**
-
-
 #### **Meta Tags Optimization**
-- **Experience**: Ensured every page had appropriate meta tags for title, description, and keywords.
-- Example:
-  - Titles were concise and descriptive, including primary keywords.
-  - Meta descriptions provided clear, compelling summaries with calls to action.
+- Ensured every page had appropriate meta tags for title, description, and keywords.
 
 
 ### **1. Manual Management (Basic Approach)**
 If the app is small, you can manually update the `document.title` and meta tags in lifecycle hooks like `created` or `mounted`.
 
 #### Example Code:
+<Details>
+
 ```javascript
 export default {
   name: "ProductPage",
@@ -412,17 +394,18 @@ export default {
   },
 };
 ```
+</Details>
 
 #### Limitations:
 - Repetitive code in components.
 - Limited to simple scenarios.
 
----
-
 ### **2. Using vue-meta in vue, react has react helmet**
 For scalable and reusable head management, I used **vue-meta**, a library specifically designed for handling meta information in Vue.
 
 #### Installation:
+<Details>
+
 ```bash
 npm install vue-meta
 ```
@@ -457,15 +440,16 @@ export default {
   },
 };
 ```
+</Details>
 
 - The `vue-meta` library ensures that the page title and meta tags are dynamically updated whenever the route or component changes.
-
----
 
 ### **3. Centralized Approach for SPA with vue-router**
 For applications using `vue-router`, you can centralize SEO configuration by defining meta information in routes.
 
 #### Example:
+<Details>
+
 ```javascript
 const routes = [
   {
@@ -492,13 +476,14 @@ router.afterEach((to) => {
   }
 });
 ```
+</Details>
 
----
-
-### **4. Handling Social Media Meta Tags (Open Graph and Twitter Cards)**
+> ### Handling Social Media Meta Tags (Open Graph and Twitter Cards)
 For social media sharing, you can dynamically inject Open Graph (OG) tags.
 
 #### Example with vue-meta:
+<Details>
+
 ```javascript
 metaInfo: {
   title: "Product Name - Brand",
@@ -522,13 +507,14 @@ metaInfo: {
   ],
 },
 ```
+</Details>
 
----
-
-### **5. Optimizing for Dynamic Components**
+> ### Optimizing for Dynamic Components
 If the SEO information depends on API data, such as product names fetched dynamically, you can update `metaInfo` after the data is loaded.
 
 #### Example:
+<Details>
+
 ```javascript
 export default {
   data() {
@@ -562,11 +548,15 @@ export default {
   },
 };
 ```
+</Details>
+
+<br>
 
 #### **Schema Markup**
 - **Experience**: Added structured data (JSON-LD) for rich snippets to improve visibility in search results.
 - It's typically implemented using `JSON-LD (JavaScript Object Notation for Linked Data)`. This data helps search engines generate rich snippets, such as star ratings, prices, FAQs, or event details, directly in search results.
 - Example: Implemented **product schema** for an e-commerce project to display prices and ratings directly in search results.
+
   ```html
   <script type="application/ld+json">
   {
@@ -585,34 +575,16 @@ export default {
   </script>
   ```
 
-
-
-**Structured Data** refers to a standardized format for providing information about a page and its content, making it easier for search engines to understand the context of the page. It's typically implemented using **JSON-LD (JavaScript Object Notation for Linked Data)**. This data helps search engines generate **rich snippets**, such as star ratings, prices, FAQs, or event details, directly in search results.
-
----
-
-### **Why Use Structured Data (JSON-LD)?**
-1. **Improved Visibility**: Rich snippets make your website stand out in search results.
-2. **Enhanced Click-Through Rate (CTR)**: Users are more likely to click on results with additional information.
-3. **SEO Benefits**: Helps search engines better understand your content.
-
 ---
 
 ### **How I Implemented JSON-LD**
 
-#### **1. Use Cases**
-Some common scenarios where I implemented JSON-LD:
-- **Product Pages**: For e-commerce projects to show prices, ratings, and availability.
-- **FAQ Sections**: To display frequently asked questions directly in search results.
-- **Blogs/Articles**: To display authorship, date published, and reading time.
-- **Events**: For event details like location, date, and ticket pricing.
-
----
-
-#### **2. Implementation Process**
 To implement JSON-LD, I added a `<script>` tag in the HTML of the page or dynamically injected it in a Vue or React component.
 
 ##### **Static Example**
+
+<Details>
+
 For a product page:
 ```html
 <script type="application/ld+json">
@@ -643,11 +615,15 @@ For a product page:
 }
 </script>
 ```
+</Details>
 
----
+<br>
 
 ##### **Dynamic Example in Vue**
 For a product dynamically fetched via API:
+
+<Details>
+
 ```javascript
 export default {
   data() {
@@ -694,11 +670,15 @@ export default {
   },
 };
 ```
+</Details>
 
----
+<br>
 
 ##### **Dynamic Example in React**
 For the same product page in React:
+
+<Details>
+
 ```javascript
 import React, { useEffect } from "react";
 
@@ -746,11 +726,14 @@ const ProductPage = ({ product }) => {
 
 export default ProductPage;
 ```
+</Details>
 
 #### **3. Validation**
 After adding JSON-LD, I validated it using:
 - [Schema Markup Validator](https://validator.schema.org/)
 
+
+> ### Others 
 
 #### **URL Structure**
 - **Experience**: Ensured a clean and user-friendly URL structure with hyphens separating words and no special characters.
@@ -776,77 +759,15 @@ After adding JSON-LD, I validated it using:
       <priority>0.8</priority>
     </url>
     ```
-
-#### **Performance Optimization**
-- **Experience**: Focused on **Core Web Vitals** (e.g., LCP, FID, CLS) to improve page speed and user experience.
-- Techniques Used:
-  - Compressed images with modern formats like WebP.
-  - Minified CSS, JavaScript, and HTML.
-  - Used lazy loading for images and videos.
-  - Example: Integrated lazy loading in Vue:
-    ```html
-    <img v-lazy="imageUrl" alt="Product Image">
-    ```
-
-#### **Mobile-Friendliness**
-- **Experience**: Ensured all websites were responsive and mobile-friendly.
-  - Example: Used media queries and viewport settings:
-    ```html
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    ```
-
----
-
-### **2. Content Optimization**
-#### **Keyword Research**
-- **Experience**: Used tools like Google Keyword Planner and SEMrush to identify high-traffic, low-competition keywords.
-- Example: For a travel website, targeted phrases like "best destinations for families" instead of generic "travel destinations."
-
-#### **Content Structure**
-- **Experience**: Structured content using proper heading tags (`<h1>`, `<h2>`, `<h3>`) to improve readability.
-- Example:
-  ```html
-  <h1>Top 10 Travel Destinations</h1>
-  <h2>1. Bali</h2>
-  <p>Discover the beauty of Bali...</p>
-  ```
-
-#### **Internal Linking**
-- **Experience**: Added contextual internal links to distribute link equity and improve navigation.
-- Example: Linked "related products" in an e-commerce project:
-  ```html
-  <a href="/products/related-product">Check out related products</a>
-  ```
-
-#### **Alt Text for Images**
-- **Experience**: Added descriptive `alt` text for all images to improve accessibility and SEO.
-- Example:
-  ```html
-  <img src="product-image.jpg" alt="Smartphone with 128GB storage">
-  ```
-
-### **4. Backlinking and Social Sharing**
-- **Experience**: Added Open Graph (OG) and Twitter meta tags to improve social media visibility.
-- Example:
-  ```html
-  <meta property="og:title" content="Best Travel Destinations 2025">
-  <meta property="og:image" content="https://example.com/destination.jpg">
-  <meta property="og:description" content="Explore the top destinations to travel this year.">
-  ```
-
----
-
-### **5. Monitoring and Iteration**
-- **Experience**: Used tools like Google Search Console, Google Analytics, and Lighthouse to monitor performance and make data-driven improvements.
-  - Example: Fixed indexing issues highlighted in Search Console.
-
+<br>
 
 > ### vue-meta and react-helmet only manage metadata and rely on CSR. They don't address the lack of pre-rendered HTML, which can negatively impact SEO.
 
+<br>
 
 > ### Webpack purpose i have used
 
-1. Adding Aliases for Cleaner Imports
+**1. Adding Aliases for Cleaner Imports**
 
 - Scenario: Simplified imports by creating aliases for frequently used directories.
 - Configuration:
@@ -861,8 +782,9 @@ module.exports = {
 };
 ```
 - Outcome: Allowed imports like @components/Button.vue instead of long relative paths.
+<br>
 
-2. Image Optimization
+**2. Image Optimization**
 
 - Scenario: Optimized large images for a Vue project.
 - Configuration:
@@ -882,12 +804,11 @@ module.exports = {
 ```
 - Outcome: Reduced image sizes significantly, improving page load times.
 
+<br>
 
 > ### you have mentioned you have used webpack for bundling the vanilla js blog project
 
-Yes, I’ve used **Webpack** to bundle a **Vanilla JavaScript blog project**, primarily to organize and optimize the project structure, enhance performance, and enable modern features like ES6+ support. Below is a detailed explanation of how and why Webpack was used for that project:
-
----
+Primarily to organize and optimize the project structure, enhance performance, and enable modern features like ES6+ support. 
 
 ### **Purpose of Using Webpack in a Vanilla JS Blog Project**
 
@@ -905,7 +826,7 @@ Yes, I’ve used **Webpack** to bundle a **Vanilla JavaScript blog project**, pr
 4. **Live Development with Hot Reloading**:
    - Set up a development server with **live reloading** for faster iterations during development.
 
----
+<br>
 
 ### **Webpack Configuration for the Blog Project**
 
@@ -979,7 +900,7 @@ module.exports = {
 };
 ```
 
----
+<br>
 
 ### **Key Features Configured**
 
@@ -1003,24 +924,6 @@ module.exports = {
 5. **Development Features**
    - Enabled **Hot Module Replacement (HMR)** for live reloading during development using `webpack-dev-server`.
 
----
-
-### **Benefits Achieved**
-
-1. **Improved Performance**:
-   - Minified JavaScript and CSS.
-   - Optimized and lazy-loaded images.
-   - Reduced the initial page load time.
-
-2. **Better Organization**:
-   - Modular code structure made the codebase easier to manage and scale.
-
-3. **Browser Compatibility**:
-   - Ensured ES6+ syntax worked across all browsers by transpiling the code with Babel.
-
-4. **Faster Development**:
-   - With live reloading, changes were reflected immediately, saving time during development.
-
 <br>
 
 ## Security
@@ -1040,12 +943,12 @@ module.exports = {
 
 > ### XSS
 
-An XSS (Cross-Site Scripting) attack occurs when an attacker injects malicious scripts into a website viewed by other users.
+An `XSS (Cross-Site Scripting)` attack occurs when an `attacker injects malicious scripts` into a website viewed by other users.
 
 The attacker add the malicious script in browser through various method like 
 - added script in `params or query in url`, we take directly value form parms and then pass value in payload in api
 - added `script in the input box`, then script passed into function from input box.
-- sometimes script passed is event listner which listen every event like click and call api and pass value to hacker api
+- sometimes `script passed is event listner` which listen every event like click and call api and pass value to hacker api
 
 
 Prevention Techniques:
@@ -1085,6 +988,8 @@ CSP allows you to `create a whitelist of trusted sources` for various types of c
 8. **`object-src`**: Specifies allowed sources for `<object>`, `<embed>`, or `<applet>` tags.
 
 9. **`report-uri` / `report-to`**: Allows you to specify a URI or a group of URIs where CSP violation reports should be sent, enabling you to detect and respond to CSP violations.
+
+<br>
 
 ### Implementing CSP in the Frontend:
 There are different methods for implementing CSP in the frontend:
@@ -1143,12 +1048,16 @@ Content-Security-Policy: script-src 'self' 'sha256-xyz'
 
 The `sha256-xyz` hash corresponds to a specific inline script, ensuring that only the script with that exact content is allowed to run.
 
+<br>
+
 ### Common CSP Pitfalls to Avoid:
 - **'unsafe-inline' and 'unsafe-eval'**: Allowing these can significantly weaken the CSP as they allow inline scripts and eval() to execute, which are common attack vectors.
   
 - **Too Restrictive**: A CSP that's too restrictive (blocking legitimate resources like Google Analytics or third-party APIs) may break the site functionality. Test thoroughly before deploying CSP rules.
 
 - **Content Type Considerations**: Ensure that you include rules for all resource types (e.g., scripts, images, fonts) to avoid missing coverage on certain attack vectors.
+
+<br>
 
 ### CSP Reporting:
 You can set up a reporting mechanism to monitor CSP violations without blocking content immediately. This is useful during the development phase.
@@ -1160,34 +1069,17 @@ Content-Security-Policy: default-src 'self'; report-uri /csp-violation-report-en
 
 In this case, violations will be reported to `/csp-violation-report-endpoint`, helping you adjust your policy before enforcing it strictly.
 
-### Example Implementation:
-Let’s say you’re building a web app and you want to allow:
-- All resources from your domain.
-- Scripts from a CDN (e.g., Google API).
-- Styles from your domain but no inline styles.
-
-Your CSP might look like this:
-```http
-Content-Security-Policy: default-src 'self'; script-src 'self' https://cdn.google.com; style-src 'self'; img-src 'self' https://img.example.com; object-src 'none'
-```
-
-This policy will:
-- Block any script that doesn’t come from your domain or the Google CDN.
-- Only allow styles from your domain, disallowing inline styles.
-- Only load images from your domain or `img.example.com`.
-- Block any embedded object (e.g., flash, applet).
-
 <br>
 
 > ### Iframe protection
 
 The iFrame is a common `technique to embed webpages, videos, or maps` in your web page.
 
-eg. suppose you use content from a malicious website within an iFrame in your website. In that case, it could execute harmful scripts or redirect the user to a malicious site, exposing sensitive information.
+**Example**. suppose you use content from a malicious website within an iFrame in your website. In that case, it could execute harmful scripts or redirect the user to a malicious site, exposing sensitive information.
 
 What security risks do iFrames bring?
 
-The main security threat of iFrames is XSS (cross-site scripting) attacks. Attackers can perform XSS attacks in multiple ways. 
+The `main security threat` of iFrames is `XSS` (cross-site scripting) attacks. Attackers can perform XSS attacks in multiple ways. 
 
 For example, changing the source site URL, installing malware, stealing information, or hijacking clicks and keystrokes through an iFrame.
 
@@ -1204,18 +1096,22 @@ For example, changing the source site URL, installing malware, stealing informat
 
 ### **5 Required Steps to Secure Your iFrames**
 
+<br>
+
 **1. Use the ‘sandbox’ attribute**
 
  https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#sandbox
 
 - Controls the restrictions applied to the `content embedded` in the `<iframe>`. 
 
-- The value of the attribute can either be empty to apply all restrictions, or space-separated tokens to lift particular restrictions:
+- The value of the attribute `can either be empty to apply all restrictions`, or `space-separated tokens` to `lift particular restrictions`:
 
-- An empty sandbox attribute will completely sandbox the iFrame. As a result, all the above privileges will be restricted, and the JavaScript inside the iFrame won’t run. 
+- An `empty sandbox` attribute will `completely sandbox the iFrame`. As a result, `all the above privileges will be restricted`, and the `JavaScript inside the iFrame won’t run`. 
+
+<br>
 
 Add the sandbox attribute to the iFrame to restrict its functionality.\
-Example:
+**Example:**
 ```html
 <iframe src="https://example.com" sandbox="allow-scripts allow-same-origin"></iframe>
 ```
@@ -1225,6 +1121,8 @@ Common flags:\
 - `allow-popups`: Allows pop-ups.
 
 Exclude unnecessary permissions for enhanced security.
+
+<br>
 
 **2. Use the ‘allow’ attribute**
 
@@ -1245,6 +1143,8 @@ To apply a policy to the current origin and others, you'd do this:
   allow="geolocation 'self' https://a.example.com https://b.example.com"></iframe>
 ```
 
+<br>
+
 **3. Use the ‘X-Frame-Options’ HTTP response header**
 
 Deprecated: This feature is no longer recommended.
@@ -1252,11 +1152,15 @@ Deprecated: This feature is no longer recommended.
 The X-Frame-Options HTTP response header can be used to indicate whether a browser should be allowed to render your website page in a `<iframe>`. Sites can use this to avoid click-jacking attacks, by ensuring that their content is not embedded into other sites.
 
 
-**Warning**: Setting X-Frame-Options inside the <meta> element (e.g., <meta http-equiv="X-Frame-Options" content="deny">) has no effect. X-Frame-Options is only enforced via HTTP headers.
+**Warning**: Setting X-Frame-Options inside the `<meta>` element (e.g., `<meta http-equiv="X-Frame-Options" content="deny">`) has no effect. 
 
-X-Frame-Options: DENY
-X-Frame-Options: SAMEORIGIN
+X-Frame-Options is only enforced via HTTP headers.
+
+X-Frame-Options: DENY\
+X-Frame-Options: SAMEORIGIN\
 X-Frame-Options: allow-from-url
+
+<br>
 
 **4. Use the ‘Content-Security-Policy’ standard**
 
@@ -1278,6 +1182,8 @@ Content-Security-Policy: frame-ancestors 'self' https://trusted.com;
 ```
 
 This ensures the iFrame can only be embedded by trusted domains.
+
+<br>
 
 **5. Cookies must be set from backend having the httpOnly be true, secure be true, sameSite be Strict**
 
