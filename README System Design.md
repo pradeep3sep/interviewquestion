@@ -941,6 +941,25 @@ module.exports = {
 
 
 
+| XSS | CSP     | Iframe          | Security Headers| Client storage security |
+| ---- | ---- | ------------- |----| ----|
+|Vuelidate,Formik,Regex | default-src | sandbox | X-Powered-By | encrypted form with strong salt |
+|innerHTML to innerText | script-src | allow | Referrer-Policy | set expiry |
+|REACT or Vue | style-src | X-Frame-Options | X-Content-Type-Options | first check how much space is left |
+|DOMPurity | img-src | csp => frame-ancestors | x-xss-protection |  |
+|eval | connect-src | httpOnly,secure,sameSite |Strict-Transport-Security |  |
+|Avoid v-html & dangerouslySetInnerHTML | report-uri |  |  |  |
+
+<br>
+
+| Dependency Security | Permissions Policy     | CSRF          | CORS| Subresource Integrity (SRI) |
+| ---- | ---- | ------------- |----| ----|
+|Regular audit => npm audit | Permissions-Policy: <directive>=<allowlist> | Synchronizer token pattern | Access-Control-Allow-Origin | encrypted form with strong salt |
+| |  | SameSite Cookies | Access-Control-Allow-Methods |  |
+| |  | Referer-based-validate | Access-Control-Allow-Headers |  |
+| |  | Use captacha | Access-Control-Allow-Credentials |  |
+
+
 > ### XSS
 
 An `XSS (Cross-Site Scripting)` attack occurs when an `attacker injects malicious scripts` into a website viewed by other users.
@@ -1166,7 +1185,7 @@ X-Frame-Options: allow-from-url
 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/frame-ancestors
 
-The HTTP Content-Security-Policy (CSP) frame-ancestors directive specifies valid parents that may embed a page using `<iframe>`
+The frame-ancestors directive is used in Content Security Policy (CSP) to `control which domains are allowed to embed a your web page` inside an `<iframe>`, `<embed>`.
 
 ```
 Content-Security-Policy: frame-ancestors 'none';
@@ -1191,6 +1210,8 @@ This ensures the iFrame can only be embedded by trusted domains.
 
 > ### Security Headers
 
+<br>
+
 **1. X-Powered-By**
 
 "X-Powered-By" is a common non-standard HTTP response header. It gives idea what is technologies server is using, and hacker can run malicious script easily. The X-Powered-By header describes the technologies used by the webserver. This information exposes the server to attackers.
@@ -1199,6 +1220,8 @@ eg. X-Powered-By: express
 
 we have to remove "X-Powered-By" from the headers
 
+<br>
+
 **2. Referrer-Policy**
 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
@@ -1206,10 +1229,12 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy
 The Referrer-Policy HTTP header controls how much referrer information (from which site you are coming, eg going from youtube nested url to linkedin, how much youtube url information you want to share with the linkedin) should be included with requests
 
 eg\
+```
 Referrer-Policy: `no-referrer`, Referrer information is never sent.\
 Referrer-Policy: `origin`, Always sends only the origin, not the path.\
 Referrer-Policy: `origin-when-cross-origin`, Sends the full URL for same-origin requests and only the origin for cross-origin requests.\
 Referrer-Policy: `same-origin`,  Referrer is sent only for requests within the same origin.
+```
 
 You can add the Referrer-Policy meta tag to your HTML file
 
@@ -1217,11 +1242,15 @@ You can add the Referrer-Policy meta tag to your HTML file
 <meta name="referrer" content="strict-origin-when-cross-origin">
 ```
 
+<br>
+
 **3. X-Content-Type-Options**
 
 It’s a security feature that tells the browser, **"Hey, don't guess what kind of file this is; just use the type I say!"**. This stops the browser from making mistakes that could lead to security problems, like running harmful code by accident.
 
 earlier, sometime the browser expect jpg file but someone modified the content and add the harmful script in html form, then the browser accepts it considering that it might be update form of jpg. this cause malicius script can run in your browser.
+
+
 
 ### Why is it important?
 
@@ -1238,10 +1267,7 @@ X-Content-Type-Options: nosniff
 
 This tells the browser, "Don’t sniff (guess) the file type—just trust what I’m telling you!"
 
-### How does it help?
-
-- Prevents the browser from interpreting files incorrectly.
-- Protects your site from certain security risks like running scripts that weren't meant to be scripts.
+<Details>
 
 ### For Development Servers (e.g., Vite, Webpack Dev Server)
 You can configure a proxy or middleware to add the header during development.
@@ -1266,9 +1292,13 @@ export default defineConfig({
 
 This way, every time your app responds, it tells the browser not to guess the content type. Simple and effective!
 
+</Details>
+
+<br>
+
 **4. x-xss-protection**
 
-The `X-XSS-Protection` is another security header that helps protect your website from **cross-site scripting (XSS) attacks**. XSS attacks occur when attackers inject malicious scripts into web pages viewed by others, potentially stealing information or performing unwanted actions on behalf of users.
+The `X-XSS-Protection` is another security header that helps protect your website from **cross-site scripting (XSS) attacks**. 
 
 **How Does `X-XSS-Protection` Work?**
 
@@ -1277,7 +1307,7 @@ This header works by telling the browser to enable its built-in XSS filter, whic
 ### Directives:
 
 1. **`0` (Disable Protection):**
-   - Turns off the browser's XSS filter. Not recommended unless you're sure your app is already protected in other ways.
+   - Turns off the browser's XSS filter. `Not recommended` unless you're sure your app is already protected in other ways.
    
    Example:
    ```
@@ -1300,10 +1330,7 @@ This header works by telling the browser to enable its built-in XSS filter, whic
    X-XSS-Protection: 1; mode=block
    ```
 
-### Easy Explanation:
-When you enable this protection, you’re telling the browser to keep an eye out for XSS attacks and **stop** or **block** pages if malicious code is detected.
-
-- **`mode=block`** is often used because it **prevents the page from loading altogether** when an XSS attack is found, adding an extra layer of safety.
+<br>
 
 ### Example in a Node.js App (with Express):
 ```js
@@ -1315,7 +1342,7 @@ app.use((req, res, next) => {
 
 **Vite:**\
 Add a custom middleware in the vite.config.js file:
-```html
+```js
 import { defineConfig } from 'vite';
 
 export default defineConfig({
@@ -1334,7 +1361,7 @@ export default defineConfig({
 **Webpack Dev Server:**\
 Configure headers in webpack.config.js:
 
-```html
+```js
 module.exports = {
   devServer: {
     headers: {
@@ -1347,18 +1374,11 @@ module.exports = {
 
 This will enable the XSS protection for every response your server sends. It’s a simple but effective way to reduce the risk of XSS attacks.
 
+<br>
 
 **5. HSTS**
 
-HSTS (HTTP Strict Transport Security) is a security feature that forces browsers to only interact with your website over **HTTPS** and never over plain HTTP. This helps protect users from certain types of attacks, like **man-in-the-middle (MITM) attacks**, where attackers intercept unencrypted communications.
-
-**How Does HSTS Work?**
-
-When a user visits your website, the server sends the `Strict-Transport-Security` header, telling the browser:
-
-- **Always use HTTPS** for this site, even if the user types in "http://".
-- **Remember** this rule for a set period of time.
-- Optionally, apply this rule to **all subdomains** too.
+HSTS (`HTTP Strict Transport Security`) is a security feature that forces browsers to only interact with your website over **HTTPS** and never over plain HTTP. This helps protect users from certain types of attacks, like **man-in-the-middle (MITM) attacks**, where attackers intercept unencrypted communications.
 
 **Key Directives:**
 
@@ -1407,6 +1427,8 @@ This will ensure that all your HTTP responses include the HSTS header, forcing b
 - always `set expiry` of token whether it is `cookies or localstorage`, for `localstorage we can create the custom function which clears the data`.
 - while setting the data in cookies or localstorage, `first check how much space is left, otherwise you will loose some data`.
 
+<Details>
+
 ```js
 function getCookieSpaceLeft() {
   // Maximum cookie space allowed per domain (4KB)
@@ -1453,26 +1475,33 @@ function getLocalStorageSpaceLeft() {
 console.log(`Remaining localStorage space: ${getLocalStorageSpaceLeft()} bytes`);
 
 ```
+</Details>
 
 <br>
 
 > ### Dependency Security
 
-1. Regular audit or update the dependencies/package beacuse some package became outdated or vulnerable
- eg npm update, it provide the list of package which have update or shwo the package which are vulnerable, out of which you can update the packages which you required
+- Regular audit or update the dependencies/package beacuse some package became outdated or vulnerable
+
+**eg** npm update, it provide the list of package which have update or show the package which are vulnerable, out of which you can update the packages which you required
+
+or below step
+
+```
+npm audit  - The output will show vulnerabilities categorized as Critical,High,Moderate,Low
+npm audit fix - This updates dependencies to the nearest safe version.
+```
 
 
 <br>
 
 > ### Permissions Policy
 
-Let say you have used iframe in your site, now the iframe website tried to cheat on you, he ask for the voice and video permission and user on your website thinks that it is giving permission to your website but actually the permission is taken by iframe website. This can cause security issue
+Let say you have used iframe in your site, now the `iframe website` tried to cheat on you, he `ask for the voice and video permission` and `user` on your website `thinks that it is giving permission to your website` but actually the permission is taken by iframe website. This can cause security issue
 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Permissions_Policy
 
 In this we restrict the permission to self and iframe or other mailcious code on your website
-
-Permissions Policy is similar to Content Security Policy but controls features instead of security behavior.
 
 Examples of what you can do with Permissions Policy:
 
@@ -1518,7 +1547,7 @@ https://permissions-policy-demo.glitch.me/demo/
 
 > ### CSRF (cross site request forgery)
 
-A cross site request forgery attack is a cyber attack that tricks a user into accidentally using their credentials to invoke a state changing activity, such as transferring funds from their account, changing their email address and password, or some other undesired action.
+A cross site request forgery attack is a cyber attack that `tricks a user into accidentally using their credentials to invoke a state changing activity`, such as transferring funds from their account, changing their email address and password, or some other undesired action.
 
 Here is an example of the 4 steps in a cross-site request forgery attack:
 
@@ -1721,21 +1750,7 @@ SRI hashes are usually created using either:
 - **sha384**: Secure Hash Algorithm 384-bit
 - **sha512**: Secure Hash Algorithm 512-bit
 
-### Benefits of SRI
-- **Security**: Prevents attackers from injecting malicious code into third-party resources.
-- **Content Authenticity**: Ensures that the exact version of the resource you intended to load is what’s actually loaded.
-  
-### Limitations
-- **CDN Updates**: If the third-party resource changes (e.g., the CDN updates it), the hash will no longer match, and the resource won’t load.
-- **Hash Generation**: Requires generating and updating hashes whenever the resource changes.
-
 ### How to Generate an SRI Hash
-You can generate an SRI hash using command-line tools like `openssl` or online tools. For example:
-
-```bash
-# Generate an SRI hash for a local file using sha384
-openssl dgst -sha384 -binary file.js | openssl base64 -A
-```
 
 ```
 // website url
@@ -1755,7 +1770,7 @@ Visit above site and paste bootstrap url in it ie 'https://cdn.jsdelivr.net/npm/
 
 **Note**: ip address defines the as the main address of any website.
 
-When you type a web address into your browser (for our analogy that's like walking to the shop):
+When you type a web address into your browser:
 
 1. The browser goes to the DNS server, and finds the real address(ip address) of the server that the website lives on (you find the address of the shop).
 2. The browser sends an HTTP request message to the server(hits that ip address from the browser), asking it to send a copy of the website to the client (you go to the shop and order your goods). This message, and all other data sent between the client and the server, is sent across your internet connection using TCP/IP.
@@ -1878,53 +1893,6 @@ Here’s a quick overview of REST API principles and best practices:
 - **PUT**: Update an existing resource or create one if it doesn’t exist.
 - **DELETE**: Remove a resource.
 - **PATCH**: Partially update a resource.
-
-### RESTful API Example
-Assume you’re building an API for a blog application.
-
-- **Endpoint**: `/posts`
-  - `GET /posts` – Fetch all blog posts
-  - `POST /posts` – Create a new blog post
-  - `GET /posts/{id}` – Retrieve a specific blog post by ID
-  - `PUT /posts/{id}` – Update a specific post by ID
-  - `DELETE /posts/{id}` – Delete a specific post by ID
-
-### Best Practices
-- **Use Nouns for Endpoints**: Name endpoints as resources (e.g., `/users` instead of `/getUsers`).
-- **Handle Errors Gracefully**: Use proper HTTP status codes (e.g., 404 for "Not Found," 400 for "Bad Request").
-- **Document the API**: Use tools like Swagger or OpenAPI to provide easy-to-understand documentation.
-- **Version Your API**: To handle changes, version the API (e.g., `/api/v1/posts`).
-
-The REST (Representational State Transfer) architectural style offers several benefits that make it a popular choice for building APIs. Here are some key advantages:
-
-### 1. **Simplicity and Scalability**
-   - **Simple Structure**: REST APIs use HTTP methods (GET, POST, PUT, DELETE, PATCH), making them straightforward to implement and understand.
-   - **Stateless**: Each request is independent, so the server does not need to store client context between requests, enhancing scalability and allowing the server to handle large volumes of requests easily.
-
-### 2. **Flexibility and Extensibility**
-   - **Language-Agnostic**: REST APIs are protocol-based and can be used with any programming language that supports HTTP (like JavaScript, Python, Java, etc.), providing flexibility in both client and server technologies.
-   - **Modular**: REST allows for flexible data handling, making it possible to add or modify resources and methods without disrupting the whole system.
-
-### 3. **Reusability and Interoperability**
-   - **Reusable Endpoints**: With REST, the same endpoint can be used across various applications and client devices, such as web, mobile, IoT, etc.
-   - **Interoperability**: REST APIs are accessible over HTTP, which is universally supported, allowing different systems to easily interact, regardless of platform or language.
-
-### 4. **Performance and Caching**
-   - **Caching**: REST APIs can use HTTP caching, where responses can be stored on the client or intermediary servers, reducing the load on the backend and improving performance.
-   - **Lightweight**: REST typically transmits data in formats like JSON or XML, which are lightweight and easy to parse, resulting in faster data transfer over the network.
-
-### 5. **Easy Integration and Adoption**
-   - **Standard Protocols**: REST uses standard HTTP methods and status codes, which are widely recognized and understood, making it easier for developers to integrate and adopt REST APIs without a steep learning curve.
-   - **Wide Ecosystem Support**: Many libraries, tools, and frameworks are available for working with REST, such as Axios for JavaScript, Retrofit for Android, or Flask for Python, which speed up development.
-
-### 6. **Scalable Development and Maintenance**
-   - **Separation of Concerns**: REST’s client-server model ensures that the client and server are independent of each other, allowing teams to work on client and server components separately.
-   - **Modular Design**: REST’s resource-based approach allows different parts of the API to evolve independently, making it easier to maintain and extend.
-
-### 7. **Consistency and Usability**
-   - **Uniform Interface**: REST’s standardized approach (using nouns for resources and HTTP verbs for actions) creates a predictable structure, making APIs more intuitive to use and understand.
-
-REST’s simplicity, flexibility, and broad support make it ideal for building scalable, reliable, and maintainable APIs across various applications and industries.
 
 <br>
 
@@ -2090,10 +2058,10 @@ In this way, `ETag` helps maintain up-to-date data while optimizing server-clien
 
 > ### Status code and category
 
-1XX - Information
-2XX - Success
-3XX - Redirection
-4XX - Client Error
+1XX - Information\
+2XX - Success\
+3XX - Redirection\
+4XX - Client Error\
 5XX - Server Error
 
 <br>
@@ -2134,6 +2102,8 @@ query {
 ```
 
 In this example, a client requests only specific fields (e.g., `name`, `email`, `posts`) from the `user` resource with `id: 1`, reducing unnecessary data transfer.
+
+<br>
 
 > ### Advantages of GraphQL
 
@@ -2353,8 +2323,11 @@ Each technique has its own strengths, and your choice will depend on the specifi
 
 **Polling** simply means checking for new data over a fixed interval of time by making API calls at regular intervals to the server. It is used to get real-time updates in applications. There are many applications that need real-time data and polling is a life savior for those applications.
 
+<br>
 
 ![screenshot](images/shortPoll.png)
+
+<Details>
 
 **Short Polling**: In a short polling client requests data from the server and the server will return the response if it is available and if it is not available then it returns an empty response. This process will be repeated at regular intervals.
 
@@ -2481,6 +2454,8 @@ In this setup:
 
 This method is suitable for low-frequency updates but can cause unnecessary traffic if used for high-frequency real-time updates. It’s also not as responsive as long polling, WebSockets, or Server-Sent Events (SSE).
 
+</Details>
+
 <br>
 
 > ### Long Polling
@@ -2489,6 +2464,10 @@ Long polling is a technique used in web development to enable real-time updates 
 
 
 ![screenshot](images/longpoll.jpg)
+
+<br>
+
+<Details>
 
 ### How Long Polling Works
 
@@ -2609,6 +2588,8 @@ In this setup:
 
 This is a basic implementation, and in production, long polling would require optimizations like connection limits and error handling for scalability and stability.
 
+</Details>
+
 <br>
 
 > ### What is web sockets
@@ -2621,6 +2602,8 @@ WebSockets provide a full-duplex, persistent connection between the client and s
 3. Contineous bi-directional communication
 
 ![screenshot](images/websocket.png)
+
+<Details>
 
 ### How WebSockets Work
 
@@ -2779,6 +2762,8 @@ In this client code:
 
 WebSockets are ideal for real-time applications with rapid, bidirectional data flow requirements. This approach reduces the need for repeated HTTP requests and ensures minimal latency, making it highly suitable for chat applications, live notifications, games, and similar use cases where fast and efficient data transfer is crucial.
 
+</Details>
+
 <br>
 
 > ### Server Sent Event (SSE)     
@@ -2792,6 +2777,8 @@ SSE uses the HTTP protocol and is supported by most modern browsers. It’s also
 
 ![screenshot](images/sse.png)
 
+
+<Details>
 
 ### How Server-Sent Events Work
 
@@ -2909,6 +2896,8 @@ In this client code:
 
 SSE is a powerful solution for applications that need server-to-client, real-time, text-based data updates with minimal overhead. It’s simple to set up and works well for scenarios like notifications, live data feeds, and other cases where bidirectional communication isn’t necessary.
 
+</Details>
+
 <br>
 
 > ### What is Webhooks.
@@ -2916,6 +2905,8 @@ SSE is a powerful solution for applications that need server-to-client, real-tim
 Webhooks are a way for a server to send real-time data to another server (or application) when an event occurs, without the receiving server having to continuously poll for updates. Unlike polling methods, where one server regularly checks another server for new information, webhooks allow the sender to automatically notify the receiver of new events, saving both time and resources. 
 
 ![screenshot](images/webhooks.jpg)
+
+<Details>
 
 ### How Webhooks Work
 
@@ -3044,6 +3035,8 @@ To secure webhooks, you should:
 ### Summary
 
 Webhooks are an efficient way for servers to communicate events to other systems in real-time without requiring continuous polling. This setup is common in scenarios where timely updates are essential, such as payment confirmations, order tracking, and notification systems.
+
+</Details>
 
 <br>
 
@@ -3245,7 +3238,7 @@ By the end of the TDD cycle, you have a tested, working `isPrime` function and c
 
 <br>
 
-> ### Header Clear-Site-Data usage,  
+> ### Header `Clear-Site-Data` usage,  
 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Clear-Site-Data
 
@@ -3316,19 +3309,38 @@ Fetch policies decide how the data is fetched and how the cache is used. Some co
 
 <br>
 
-### Order in which component files are parsed
-1. The browser first parses the HTML file.  
-2. While parsing, it identifies `<link>` elements for CSS stylesheets and `<script>` elements for JavaScript files.  
-3. The browser sends requests to the server for these CSS and JavaScript files.  
-4. It then parses the received CSS and JavaScript files.  
-5. The browser constructs:  
-   - A **DOM (Document Object Model)** tree from the parsed HTML.  
-   - A **CSSOM (CSS Object Model)** structure from the parsed CSS.  
-   - Compiles and executes the parsed JavaScript.  
-6. The browser applies styles from the CSSOM tree to the DOM.  
-7. The page is visually rendered, and users can interact with it.
+> ### Order in which component files are parsed
+In a general **HTML, CSS, and JavaScript** file setup, the parsing order by the browser is:  
 
-**The CSS Object Model (CSSOM) is a set of APIs that allows JavaScript to read and manipulate CSS styles dynamically in the browser.**
+### **1. HTML Parsing (DOM Construction)**  
+- The browser reads the HTML from top to bottom.  
+- It creates the **DOM (Document Object Model)**.  
+- If it encounters a `<script>` tag **without** `defer` or `async`, it **pauses parsing** to download and execute the script before continuing.
+
+### **2. CSS Parsing (CSSOM Construction)**  
+- The browser downloads and parses CSS while HTML is being parsed.  
+- It builds the **CSSOM (CSS Object Model)**.  
+- CSS **does not block HTML parsing** but **blocks rendering** until styles are applied.
+
+### **3. JavaScript Execution**  
+- **Blocking `<script>` (without `defer` or `async`)**  
+  - Stops HTML parsing until the script is downloaded and executed.  
+- **`defer` scripts**  
+  - Download in parallel but execute **after HTML parsing is complete**.  
+- **`async` scripts**  
+  - Download in parallel and execute **immediately** when ready (may execute before HTML parsing finishes).  
+
+### **Final Step: Render Process**  
+- The browser combines **DOM + CSSOM → Render Tree** and paints the page.
+
+#### **Summary of Execution Order**  
+1. **HTML is parsed first**, building the DOM.  
+2. **CSS is parsed in parallel**, blocking rendering until it’s done.  
+3. **JavaScript execution depends on how it’s included**:
+   - Inline & non-deferred `<script>` blocks HTML parsing.
+   - `defer` scripts run after HTML parsing.
+   - `async` scripts run when ready, possibly before HTML finishes.  
+4. **Rendering happens last** (after DOM + CSSOM are ready).
 
 <br>
 
@@ -3340,6 +3352,8 @@ When a url is hit, Data is sent over the Internet as byte packets. The browser m
 
 
 The DOM tree has been successfully created, but the browser needs information on how the elements will appear in order to render the page. It is the CSSOM’s responsibility to know how the elements of a page should appear.
+
+<br>
 
 **What is the CSSOM?**
 
