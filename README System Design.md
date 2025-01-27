@@ -1770,12 +1770,27 @@ Visit above site and paste bootstrap url in it ie 'https://cdn.jsdelivr.net/npm/
 
 **Note**: ip address defines the as the main address of any website.
 
-When you type a web address into your browser:
+When you enter a URL in a browser and press Enter, several steps occur behind the scenes to load the requested webpage. Here’s a high-level breakdown:
 
-1. The browser goes to the DNS server, and finds the real address(ip address) of the server that the website lives on (you find the address of the shop).
-2. The browser sends an HTTP request message to the server(hits that ip address from the browser), asking it to send a copy of the website to the client (you go to the shop and order your goods). This message, and all other data sent between the client and the server, is sent across your internet connection using TCP/IP.
-3. If the server approves the client's request, the server sends the client a "200 OK" message, which means "Of course you can look at that website! Here it is", and then starts sending the website's files to the browser as a series of small `chunks` called data packets (the shop gives you your goods, and you bring them back to your house).
-4. The browser assembles the small chunks into a complete web page and displays it to you (the goods arrive at your door — new shiny stuff, awesome!).
+### **1. DNS Lookup (Domain Name System)**
+   - The browser checks if it has the IP address for the domain (e.g., `example.com`) cached.
+   - If not, it queries a DNS server to resolve the domain name into an IP address (e.g., `93.184.216.34`).
+
+### **2. Establishing a Connection**
+   - The browser initiates a **TCP (Transmission Control Protocol)** connection with the server using the resolved IP address.
+   - If HTTPS is used, a **TLS/SSL handshake** occurs to establish a secure connection.
+
+### **3. Sending an HTTP Request**
+   - The browser sends an **HTTP request** to the server, specifying the method (`GET`, `POST`, etc.), headers (cookies, user-agent, etc.), and optional body (e.g., form data for a POST request).
+
+### **4. Server Processing**
+   - The server processes the request, often interacting with databases or running backend logic.
+   - It prepares an **HTTP response**, which usually includes an HTML document.
+
+### **5. Receiving and Rendering Response**
+   - The browser parses the HTML and begins rendering the page.
+   - It discovers additional resources (CSS, JavaScript, images) and makes separate requests for them.
+   - CSS is applied, JavaScript is executed, and the page becomes interactive.
 
 <br>
 
@@ -3413,6 +3428,7 @@ While creating the DOM tree, a request is sent to the CSS link in the `<head>` a
   - Once the layout is complete, the browser **paints** the nodes onto the screen, rendering the visual representation of the page.  
   - Painting is done **node by node**, using the layout and style information from the Render Tree.
 
+<br>
 
 > ### Resources Blocking Rendering
 
@@ -3421,110 +3437,24 @@ While creating the DOM tree, a request is sent to the CSS link in the `<head>` a
 - This is because `JavaScript can modify` both the `DOM` and the `CSSOM`. Because the `browser isn’t sure what the JavaScript will do`, it takes `precautions` by completely `stopping the entire DOM structure`.
 
 
-```html
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Örnek</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="app.js"></script>
-</head>
-
-<body>
-  .....
-</body>
-
-</html>
-```
-
-In the above code example, when the browser comes to the script tag, the DOM rendering process will be stopped until the script file is finished executing. 
-
 As a different scenario, if the app.js file was being pulled from a server rather than locally, and it was taking seconds to fetch app.js due to network connection, the DOM construction process would also be stopped for the same time.
 
 Let’s continue with a different scenario, for example, when the browser encounters a script tag, if the CSSOM is not ready yet, the JS execution will wait until the CSSOM is ready.
-
-By default the DOM construction process will be stopped whenever the browser encounters a script tag. If you add the “async” keyword to your script tag, the DOM rendering will not be stopped and will be executed when the script file is downloaded and ready.
-
-```html
-<!DOCTYPE html>
-<html>
-<head>
- <meta name=”viewport” content=”width=device-width,initial-scale=1">
- <title>Örnek</title>
- <link rel=”stylesheet” href=”style.css”>
- <script src=”https://random-app.js" async></script>
-</head>
-<body>
- ....
-</body>
-</html>
-```
-
-> ### Below is combined form from loading to painting to browser**
-
-### 1. **Loading**:
-   - The browser requests the HTML file from the server via HTTP/HTTPS.
-   - Any linked resources (e.g., CSS, JavaScript, images, fonts) are also requested.
-
-### 2. **Parsing**:
-   **HTML Parsing**:
-   - The browser parses the HTML file to construct a **DOM (Document Object Model)** tree. 
-   - It converts HTML tags into a tree-like structure, where each node represents an element or text.
-
-   **CSS Parsing**:
-   - The browser parses external and inline CSS into the **CSSOM (CSS Object Model)**, a tree-like structure that represents the styling rules.
-
-   **JavaScript Execution**:
-   - JavaScript is executed, often modifying the DOM or CSSOM (e.g., dynamically adding elements or styles).
-
-### 3. **Rendering Tree Construction**:
-   - The browser combines the DOM and CSSOM into a **Render Tree**.
-   - Each node in the Render Tree corresponds to a visual element (e.g., text, images, divs) with calculated styles.
-
-### 4. **Layout** (Reflow):
-   - The browser computes the size and position of each element in the Render Tree based on styles, viewport size, and other factors.
-   - Elements are laid out according to CSS properties like `display`, `position`, `float`, etc.
-
-### 5. **Painting**:
-   - The browser converts the Render Tree into actual pixels on the screen.
-   - This involves drawing text, images, borders, shadows, etc.
-
-
-### 6. **Compositing**:
-   - If there are multiple layers (e.g., due to CSS effects like `transform` or `z-index`), the browser composites these layers into the final image.
-
-This process is highly optimized and happens quickly to deliver a seamless browsing experience. However, complex layouts, large files, or inefficient JavaScript can slow down rendering.
-
 
 **Note**
 - CSS - Render Blocking
 - JS - Parsing Blocking
 
+<br>
 
 ### **Render Blocking**  
 - **Definition**:  
   Render blocking occurs when the browser **delays rendering (painting)** of the web page because it is waiting to load and process resources (like CSS or fonts) that are necessary for visual display.
 
-- **Key Points**:  
-  - **CSS** is a render-blocking resource because the browser must construct the **CSSOM** before it can render the page.  
-  - Without the CSSOM, the browser cannot combine it with the DOM to build the **Render Tree**, delaying the painting process.  
-
-- **Examples of Render-Blocking Resources**:  
-  - External stylesheets (`<link rel="stylesheet" href="style.css">`)  
-  - Fonts loaded via `@font-face` in CSS.  
-
 - **Impact**:  
   - Slows down the **time to first paint**, making the page appear to load slower to users.  
 
-- **Optimization Techniques**:  
-  - **Minimize** CSS files.  
-  - Use **critical CSS** (inline critical styles needed for the first paint).  
-  - Use the `media` attribute to load CSS conditionally.  
-  - Mark non-critical stylesheets with `rel="preload"` or `rel="stylesheet"` for asynchronous loading.
-
----
+<br>
 
 ### **Parse Blocking**  
 - **Definition**:  
@@ -3544,9 +3474,6 @@ This process is highly optimized and happens quickly to deliver a seamless brows
 | **Key resource**      | **CSS**                                       | **JavaScript**                                  |
 | **Optimization**      | Critical CSS, `media`, `preload`.             | Use `async` or `defer`.                         |
 
-
-
-
 <br>
 
 > ### Performance Optimization
@@ -3555,7 +3482,7 @@ This process is highly optimized and happens quickly to deliver a seamless brows
 
 When we hit the website url, request goes to the server and server send a file in packets form, which is html file, then browser try to start rendering the html, as many more packets received it again start rendering that packet form html. 
 
-First packet transfered is of max 14kb
+`First packet transfered is of max 14kb`
 
 if we try to add max data(css js code in single html file) in that 14kb, then it become super optimized becuse being it is first packed, browser render the html first and show it on the screen
 
@@ -3625,6 +3552,7 @@ https://web.dev/learn/performance/resource-hints
    <link rel="prerender" href="blog.html" >
    ```
 
+<br>
 
 **3. Fetch Priority**
 
@@ -3639,6 +3567,7 @@ Preload css without blocking other resources
 <link rel="preload" as="style" href="/theme.css" fetchpriority="low" onload="this.rel='stylesheet">
 ```
 
+<br>
 
 **4. http1 vs http2 vs http3**
 
@@ -3651,6 +3580,7 @@ Below is image to know which is protocol ie http1 or http2 or http3
 
 ![screenshot](images/httpcheck.png)
 
+<br>
 
 **5. Text compression**
 
