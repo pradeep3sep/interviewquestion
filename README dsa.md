@@ -566,6 +566,10 @@ Output: 5
 
 `Video:` https://youtu.be/acIkZpmbiaA?si=zNiN1UkCKzastQ1S
 
+<Details>
+
+- basically jab prefix sum karte h ush time ush range ki jo min value hogi, utni value jodne pe sum 0 aayega but hume 1 jayda chaiye to, min value me 1 sum kr denge
+
 ```js
 function minStartValue(nums) {
     let minSum = 0;
@@ -586,6 +590,8 @@ console.log(minStartValue([-3, 2, -3, 4, 2])); // Output: 5
 console.log(minStartValue([1, 2]));            // Output: 1
 console.log(minStartValue([1, -2, -3]));       // Output: 5
 ```
+
+</Details>
 
 <br>
 
@@ -612,6 +618,7 @@ The earlier year between them is 1960.
 
 `video:` https://www.youtube.com/watch?v=v0xswVJnRlE
 
+<Details>
 
 ```js
 var maximumPopulation = function(logs) {
@@ -638,6 +645,8 @@ var maximumPopulation = function(logs) {
 };
 ```
 
+</Details>
+
 <br>
 
 > ### 437. Path Sum III
@@ -657,6 +666,8 @@ Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22\
 Output: 3
 
 `video:` https://youtu.be/UQzXYDN49cs?si=jxPPtTM3alVIQ5JF
+
+<Details>
 
 ```js
 class TreeNode {
@@ -712,6 +723,8 @@ const root = new TreeNode(10,
 const targetSum = 8;
 console.log(pathSum(root, targetSum)); // Output: 3
 ```
+
+</Details>
 
 <br>
 
@@ -776,16 +789,6 @@ In the two-pointer algorithm, there are several common steps or patterns that we
    ```javascript
    return null; // If no pair or solution is found
    ```
-
-### Summary of the Steps:
-1. **Initialize two pointers** at the beginning and end of the array.
-2. **Loop until** the pointers meet.
-3. **Perform a check** (e.g., sum, comparison) on the values at the two pointers.
-4. **Move the pointers** accordingly:
-   - Increment the `left` pointer if the current condition suggests a smaller value is needed.
-   - Decrement the `right` pointer if a larger value is needed.
-5. **Return the result** once the condition is met or exit the loop if no solution is found.
-
 <br>
 
 > ### Container With Most Water
