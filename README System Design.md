@@ -3357,6 +3357,28 @@ In a general **HTML, CSS, and JavaScript** file setup, the parsing order by the 
    - `async` scripts run when ready, possibly before HTML finishes.  
 4. **Rendering happens last** (after DOM + CSSOM are ready).
 
+
+```
+HTML                            CSS
+|                                 |
+|                                 |
+DOM <---------> Javascript <---> CSSOM
+|                                  |
+|__________________________________|
+                  |
+                Render Tree
+                  |
+                Style
+                  |
+                Layout
+                  |
+                Paint
+                  |
+                Composite
+                  |
+                Display
+```
+
 <br>
 
 > ### How Does HTML Rendering Happen in Browsers
@@ -3484,7 +3506,10 @@ When we hit the website url, request goes to the server and server send a file i
 
 `First packet transfered is of max 14kb`
 
-if we try to add max data(css js code in single html file) in that 14kb, then it become super optimized becuse being it is first packed, browser render the html first and show it on the screen
+if we try to add `max data(css, js code in single html file) in that 14kb`, then it become super optimized becuse being it is first packed, browser render the html first and show it on the screen. 
+If we have added the css and js external file link, then it will wait to download that part and then rendering and then it will show on screen. It will become time consuming. so try to use max data technique
+
+try to use in-line svg image, it will reduce the request to server. because in single time we can have max 6 to 10 reuest from broswer to server in `same domain`. lets say we have 10 image on home page and all 10 we need to fetch from same domain server, then better to have 5 image from server and 5 from inline svg image
 
 Inline the CSS and any small JavaScript needed for initial rendering directly into the HTML
 
@@ -3528,11 +3553,12 @@ https://web.dev/learn/performance/resource-hints
 ```
 
 - preconnect (connect to specific cross origin server in advance, basically did the dns,tcp handshake and other thing in advance)
+  let say we have many images from single domain, in normal scenario browser request the website each time for image and each time it will do the dns lookup, TCP/SSL handsake, which overall increase time, so what we do is we just preconnect to that domain means we just do the handshake one time only, when going through each image we do not need to connect SSL handshake every time.
    ```html
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
    ```
 
-- dns-prefetch (does DNS lookup in advance)
+- dns-prefetch (does DNS lookup in advance) - same as above, instead of preconnect we do the dns lookup in advance
    ```html
    <link rel="dns-prefetch" href="https://fonts.gstatic.com" >
    ```
