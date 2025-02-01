@@ -1,5 +1,3 @@
-// 18, 19, 28, 33, 34,37,38, 40, 43, 44, 45, 55,56, 59, 63, 64,68, 70, 84,85, 86, 89, 92, 93, 94,95, 97, 98, 99, 102, 105, 107, 112,127,140,142, 146,149,150,151,152,
-
 ### Question 1
 ```js
 const numbers = [10,20,30,40,50,60]
@@ -66,7 +64,7 @@ console.log(hi);
   <p>[empty, 1, 2, 3, 4]</p>
 </details>
 
-### Question 6
+### ⭐️ Question 6
 ```js
 var x;
 x = 10;
@@ -334,7 +332,7 @@ console.log(users.hasArrowfunc());
   <p>outside, undefined</p>
 </details>
 
-### Question 20
+### ⭐️ Question 20
 ```js
 bar();
 (function abc(){
@@ -416,7 +414,7 @@ console.log(check(4)(2)(3));
   <p>24</p>
 </details>
 
-### Question 25
+### ⭐️ Question 25
 ```js
 let array = [2,3,[5,2,[6,[3, [4, 5, [5, 1, 3]]]],1,1],9];
 //flat without using flat
@@ -443,7 +441,7 @@ console.log(firstname);
   </p>
 </details>
 
-### Question 27 , output of below code
+### ⭐️ Question 27 , output of below code
 ```js
 // first
 for (let i = 0; i < 5; i++) {
@@ -500,7 +498,7 @@ log for the `third`, it will show at instant
 4
 </details>
 
-### Question 28
+### ⭐️ Question 28
 ```js
 var num = 4;
 function outer(){
@@ -634,7 +632,7 @@ console.log(numbers.indexOf(NaN));
   <p>-1</p>
 </details>
 
-### Question 37
+### ⭐️ Question 37
 ```js
 async function func() {
   return 10;
@@ -663,7 +661,7 @@ function func() {
 </details>
 
 
-### Question 38
+### ⭐️ Question 38
 ```js
 async function func() {
   await 10;
@@ -820,7 +818,7 @@ We said that `this.firstName` equals `"Sarah"` and `this.lastName` equals `"Smit
 </details>
 
 
-### Question 45
+### ⭐️ Question 45
 ```js
 function getPersonInfo(one, two, three) {
   console.log(one);
@@ -948,7 +946,7 @@ The variable `birthYear` has a reference to the value `"1997"`. The argument `ye
 The value of `person` is an object. The argument `member` has a (copied) reference to the same object. When we modify a property of the object `member` has a reference to, the value of `person` will also be modified, since they both have a reference to the same object. `person's` `name` property is now equal to the value `"Lydia"`
 </details>
 
-### Question 50
+### ⭐️ Question 50
 
 ```js
 function Car() {
@@ -1032,7 +1030,7 @@ The `name` variable was declared with a `const` keyword, so its deletion is not 
 </details>
 
 
-### Question 53
+### ⭐️ Question 53
 
 ```js
 const person = { name: 'Lydia' };
@@ -1059,7 +1057,7 @@ Properties added using the `defineProperty` method are immutable by default. You
 </details>
 
 
-### Question 54
+### ⭐️ Question 54
 
 ```js
 const settings = {
@@ -1254,7 +1252,7 @@ Calling a function constructor with `new` results in the creation of an instance
 
 </details>
 
-### Question 60
+### ⭐️ Question 60
 
 ```js
 [1, 2, 3, 4].reduce((x, y) => console.log(x, y));
@@ -1377,7 +1375,7 @@ or
 `const getUser = user => { return { name: user.name, age: user.age }}`
 </details>
 
-### Question 64.a
+### ⭐️ Question 64.a
 
 ```js
 const myPromise = () => Promise.resolve('I have resolved!');
@@ -1411,7 +1409,7 @@ secondFunction();
 With the await keyword in `secondFunction`, we literally pause the execution of an async function until the value has been resolved before moving to the next line.
 </details>
 
-### Question 64.b
+### ⭐️ Question 64.b
 
 ```js
 const myPromise = Promise.resolve(Promise.resolve('Promise'));
@@ -1471,7 +1469,7 @@ getName();
   Variables with the `let` keyword (and `const`) are hoisted, but unlike `var`, don't get initialized. They are not accessible before the line we declare (initialize) them. This is called the "temporal dead zone". When we try to access the variables before they are declared, JavaScript throws a `ReferenceError`
 </details>
 
-### Question 66
+### ⭐️ Question 66
 
 ```js
 function* generatorOne() {
@@ -2024,7 +2022,7 @@ console.log(customObject.get_price())
 
 ### Below 3 cases must see, why having the issue
 
-### Question 84
+### ⭐️ Question 84
 
 ```js
 function Car(color) {
@@ -2040,7 +2038,7 @@ console.log(Car.prototype.currentGear)
   <p>2 <br> 1</p>
 </details>
 
-### Question 85
+### ⭐️ Question 85
 
 ```js
 var User = function () {}
@@ -2059,7 +2057,7 @@ alert(guest.attributes.isAdmin)
 </details>
 
 
-### Question 86
+### ⭐️ Question 86
 
 ```js
 function Person(name) {
@@ -2079,7 +2077,7 @@ console.log(bar.options.name)
   <p>bar, bar</p>
 </details>
 
-### Question 87
+### ⭐️ Question 87
 
 ```js
 var a = {};
@@ -2092,6 +2090,32 @@ console.log(a)
 <details>
   <summary>Answer</summary>
   <p>{a: 10}</p>
+
+#### 1️⃣ **Objects are Passed by Reference (Technically, by Reference to Value)**
+When we pass `a` (which is `{}`) to function `b`, we are passing a **reference** to the object, **not the variable itself**.
+
+Inside the function:
+```js
+a.a = 10;
+```
+- `a` inside the function still refers to the **same** object in memory.
+- So when we modify `a.a = 10`, it affects the **actual object** in memory.
+- Since the global variable `a` still points to that object, the change is visible outside the function.
+
+#### 2️⃣ **Variable Reassignment Only Affects the Local Scope**
+```js
+a = null;
+```
+- Here, we are not modifying the object itself.
+- Instead, we are **reassigning** the local variable `a` to `null`.
+- This **only affects the function's parameter** and does not change the reference stored in the global variable.
+
+### Summary:
+| Code | What Happens? |
+|------|--------------|
+| `a.a = 10;` | Changes the object in memory (affects global `a`) |
+| `a = null;` | Only reassigns the local variable, doesn't affect global `a` |
+
 </details>
 
 ### Question 88
@@ -2113,7 +2137,7 @@ console.log(obj.a)
   <p>1</p>
 </details>
 
-### Question 89
+### ⭐️ Question 89
 below 2 code will show different answers
 
 ```js
@@ -2149,30 +2173,11 @@ displayPlayer();
 Jayesh
 
 For the second one\
+undefined\
 undefined
 
 
 **Explanation of second is below**
-
-The code you've provided illustrates the behavior of variable scope and hoisting in JavaScript. Here’s a detailed explanation of what happens when you run it:
-
-### Code Explanation
-
-```javascript
-var player = "Virat";
-
-function displayPlayer() {
-    if (player === "Virat") {
-        var player = "VK";
-        console.log(player);
-    }
-    console.log(player);
-}
-
-displayPlayer();
-```
-
-### Breakdown
 
 1. **Variable Declaration and Hoisting:**
    - `var player = "Virat";` declares a global variable `player` with the value `"Virat"`.
@@ -2192,23 +2197,6 @@ displayPlayer();
    - After the `if` block, `console.log(player);` is executed.
    - Since the assignment `player = "VK"` was never reached due to the `if` condition failing, `player` remains `undefined` inside the function.
 
-### Output
-
-When `displayPlayer()` is called, the output will be:
-
-```
-undefined
-undefined
-```
-
-### Why?
-
-- **First `console.log(player);`**: Inside the `if` block, the `player` variable is `undefined` due to hoisting. The assignment `player = "VK"` was never executed because the condition `player === "Virat"` was false.
-- **Second `console.log(player);`**: Outside the `if` block, `player` is still `undefined` for the same reason.
-
-### Summary
-
-The behavior here is due to the `var` keyword's hoisting nature, which makes the variable declaration (`var player;`) visible throughout the function but not the initialization (`player = "VK";`). Hence, the variable is declared but not initialized when accessed inside the `if` block and remains `undefined` throughout the function execution.
 </details>
 
 ### Question 90
@@ -2314,7 +2302,7 @@ console.log(arr[4]());
 
 
 
-### Question 93
+### ⭐️ Question 93
 
 ```js
 var name = "Jayesh";
@@ -2356,7 +2344,7 @@ person.method(displayName);
 </details>
 
 
-### Question 94
+### ⭐️ Question 94
 
 ```js
 var length = 4;
@@ -2387,7 +2375,7 @@ When `callback` is invoked via `arguments[0]()`, `this` is set to the `arguments
 
 </details>
 
-### Question 95
+### ⭐️ Question 95
 
 ```js
 var name = "Jayesh";
@@ -2501,7 +2489,7 @@ for (var i = 0; i < 5; i++) {
 ```
 </details>
 
-### Question 98
+### ⭐️ Question 98
 
 ```js
 console.log(1);
@@ -2651,39 +2639,7 @@ let p = new Promise((resolve, reject) => {
 ```
 </details>
 
-### Question 101
-
-```js
-function foo() {
-    let a = (b = 0);
-    a++;
-    return a;
-}
-foo();
-console.log(typeof a);
-console.log(typeof b);
-
-// 👍A) undefined number        💡B) ReferenceError number
-// 💖C) undefined undefined     😀D) number number
-
-```
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer is A)</p>
-
- ```js
-/* 
-  Answer is A) undefined number because variable a is declared with let it is blocked scope and will be "not defined" outside function foo().
-  The typeof operator returns "undefined" even for “undeclared” (or “not defined”) variables.
-  Notice that there was no error thrown when we executed typeof a, even though a is an undeclared variable. 
-  This is a special safety guard in the behavior of typeof. 
-  and variable b is a just global scope variable hence it will be available outside function foo() also. 
-  */
-```
-</details>
-
-### Question 102
+### ⭐️ Question 102
 
 ```js
 console.log("start");
@@ -2752,7 +2708,7 @@ inc(1).then((x) => {
 ```
 </details>
 
-### Question 104
+### ⭐️ Question 104
 
 ```js
 
@@ -2798,7 +2754,7 @@ fetchData()
 </details>
 
 
-### Question 105
+### ⭐️ Question 105
 
 ```js
 
@@ -2873,7 +2829,7 @@ doTasks();
   setTimeout function ). Hence, It will console "JC" Infinite times.
 </details>
 
-### Question 107
+### ⭐️ Question 107
 
 ```js
 
@@ -3687,40 +3643,6 @@ undefined\
 undefined
 </details>
 
-
-
-### Question 133
-
-```js
-console.log(Boolean('false'))
-console.log(Boolean(false))
-console.log('3' + 1)
-console.log('3' - 1)
-console.log('3' - ' 02 ')
-console.log('3' * ' 02 ')
-console.log(Number('1'))
-console.log(Number('number'))
-console.log(Number(null))
-console.log(Number(false))
-```
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer is </p>
-
-true\
-false\
-31\
-2\
-1\
-6\
-1\
-NaN\
-0\
-0
-</details>
-
-
 ### Question 134
 
 ```js
@@ -3820,7 +3742,7 @@ number
 </details>
 
 
-### Question 137
+### ⭐️ Question 137
 
 ```js
 Promise.resolve(1)
@@ -3867,7 +3789,7 @@ console.log(arr)
 </details>
 
 
-### Question 139
+### ⭐️ Question 139
 
 ```js
 function a() {
@@ -3893,7 +3815,7 @@ a().a()
 </details>
 
 
-### Question 140
+### ⭐️ Question 140
 
 ```js
 // This is a JavaScript Quiz from BFE.dev
@@ -3996,23 +3918,23 @@ console.log([...arr])
 
 forEach case \
 1\
-2\
+2
 
 map case
-[ 2, <2 empty items>, 4 ]\
+[ 2, <2 empty items>, 4 ]
 
 loop case\
 1\
 undefined\
 undefined\
-2\
+2
 
 spread case\
 [ 1, undefined, undefined, 2 ]
 </details>
 
 
-### Question 142
+### ⭐️ ⭐️ Question 142
 
 ```js
 const obj1 = {
@@ -4065,7 +3987,7 @@ So, the output of the code will be:
 
 
 
-### Question 143
+### ⭐️ Question 143
 
 ```js
 const obj3 = {
@@ -4117,54 +4039,7 @@ So, the outputs will be:
 ```
 </details>
 
-### Question 144
-
-```js
-const obj4 = {
-    valueOf() {
-        return 1
-    }
-}
-
-console.log(obj4 + 1)
-console.log(parseInt(obj4))
-```
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer is </p>
-
-**Reason is below**
-
-In JavaScript, the `valueOf()` method is invoked automatically whenever an object is coerced to a primitive value. In the case of addition (`+` operator), if one operand is an object, JavaScript attempts to convert it to a primitive value using the `valueOf()` method.
-
-Let's analyze the code:
-
-```javascript
-const obj4 = {
-    valueOf() {
-        return 1;
-    }
-};
-
-console.log(obj4 + 1);  // Output: 2
-console.log(parseInt(obj4));  // Output: 1
-```
-
-1. `console.log(obj4 + 1);`:
-   - Here, `obj4` is an object. When you use the `+` operator, JavaScript tries to convert `obj4` into a primitive value.
-   - Since `valueOf()` is defined for `obj4`, it will be called. This method returns `1`.
-   - So, effectively, the expression becomes `1 + 1`, resulting in `2`.
-
-2. `console.log(parseInt(obj4));`:
-   - The `parseInt()` function attempts to convert its argument into an integer.
-   - Internally, `parseInt` will call the `toString()` method of the object to get the string representation, then parse it.
-   - In this case, `obj4`'s `valueOf()` method is called because `toString()` is not defined.
-   - `valueOf()` returns `1`, so effectively `parseInt` receives `"1"` as a string argument, which it successfully parses to the integer `1`. Hence, it prints `1`.
-
-</details>
-
-### Question 145
+### ⭐️ Question 145
 
 ```js
 const a = {}
@@ -4423,7 +4298,7 @@ console.log(8)
 </details>
 
 
-### Question 151
+### ⭐️ Question 151
 
 ```js
 var a = 1;
@@ -4453,7 +4328,7 @@ NaN\
 
 
 
-### Question 152
+### ⭐️ Question 152
 
 ```js
 let num
@@ -4506,28 +4381,6 @@ new B().log();
 
 BFE\
 bigfrontend
-
-
-
-Here's a short explanation:
-
-1. **Static vs. Instance Properties**:
-   - `A.dev` is a static property (`"BFE"`).
-   - `new A().dev` is an instance property (`"bigfrontend"`).
-
-2. **Class `B` Inherits from `A`**:
-   - `B` inherits static property `dev` from `A`.
-   - `new B()` inherits instance property `dev` from `A`.
-
-3. **Static Method in `B`**:
-   - `B.log()` refers to the static property `dev` of `B`, which is `"BFE"`.
-
-4. **Instance Method in `B`**:
-   - `new B().log()` refers to the instance property `dev` of the `B` instance, which is `"bigfrontend"`.
-
-### Output
-- `B.log();` → `"BFE"`
-- `new B().log();` → `"bigfrontend"`
 </details>
 
 
@@ -4637,7 +4490,7 @@ A
 D*/
 ```
 
-### Question 156
+### ⭐️ Question 156
 
 ```js
 import React, { useState, useEffect } from 'react'
@@ -4688,7 +4541,7 @@ B
 C
 D*/
 ```
-### Question 157
+### ⭐️ Question 157
 
 ```js
 import React, { useState, useEffect } from 'react'
