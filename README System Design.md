@@ -3612,3 +3612,119 @@ Below is image to know which is protocol ie http1 or http2 or http3
 
 https://web.dev/articles/codelab-text-compression-brotli
 
+
+> ### How could you do to improve performance in React?
+
+React.memo - HOC will help to avoid unnesessary render
+lazy loading
+Function/Stateless Components and React.PureComponent - Function is better to zip; React.PureComponent does a shallow comparison on state change
+Multiple Chunk Files
+Using Production Mode Flag in Webpack - limit optimizations, such as minification or removing development-only code
+Dependency optimization - checking how much code you are actually utilizing from dependencies
+Use React.Fragments to Avoid Additional HTML Element Wrappers
+Avoid Inline Function Definition in the Render Function
+Throttling and Debouncing Event Action in JavaScript
+Avoid using Index as Key for map
+Avoiding Props in Initial States
+Spreading props on DOM elements - it adds unknown HTML attribute
+Use Reselect in Redux to Avoid Frequent Re-render
+CSS Animations Instead of JS Animations
+Using a CDN
+Using Web Workers for CPU Extensive Tasks
+Virtualize Long Lists
+Analyzing and Optimizing Your Webpack Bundle Bloat
+Consider Server-side Rendering
+Enable Gzip Compression on Web Server
+Using Immutable Data Structures
+
+https://www.codementor.io/blog/react-optimization-5wiwjnf9hj
+
+
+> ### Explain TCP 3-Way Handshake process
+
+The TCP (Transmission Control Protocol) 3-way handshake is a process that establishes a reliable connection between two devices, typically a client and a server, before they can exchange data.
+
+Here's a step-by-step explanation of the TCP 3-way handshake process:
+
+1. Client Sends a SYN (Synchronize) Packet: When the client wants to initiate a connection with the server it sends a TCP packet with the SYN flag set to the server indicating the client's intent to establish a connection.
+2. Server Responds with SYN-ACK Packet: Upon receiving the SYN packet, the server acknowledges the client's request by sending a TCP packet back. This packet has the SYN and ACK (Acknowledge) flags set. The ACK flag indicates the server's acknowledgment of the client's request, and the SYN flag indicates its intent to establish a connection.
+3. Client Acknowledges with an ACK Packet: Once the client receives the SYN-ACK packet from the server, it sends an acknowledgment (ACK) packet back to the server. This packet has the ACK flag set and acknowledges the receipt of the server's response.
+Here's a summary of the flags used in each step:
+
+**SYN (Synchronize)**: Indicates the start of a connection request.
+
+**ACK (Acknowledge)**: Acknowledges the receipt of a packet or confirms a connection establishment.
+
+After the 3-way handshake is complete, both the client and server can start exchanging data in a reliable and orderly manner. If any of the packets in the handshake process are lost, the sender will retransmit them until a successful handshake is established.
+
+
+> ### CDN explained
+
+CDN stands for Content Delivery Network. It is a distributed network of servers strategically located in various data centers across the globe.
+
+Here's why we use CDNs:
+
+1. Faster Content Delivery: CDNs cache content on their servers, which are geographically dispersed. This results in faster loading times and improved website performance.
+2. Reduced Server Load: CDNs offload a significant portion of the traffic from a website's origin server. This is especially beneficial during traffic spikes or DDoS attacks, as CDNs can absorb a large portion of the incoming requests.
+3. Improved Scalability: CDNs are designed to scale easily to accommodate growing website traffic without having to invest in additional server infrastructure.
+4. Enhanced Reliability: CDNs offer redundancy and failover capabilities. If one CDN server goes down, requests are automatically routed to the next closest server, ensuring continuous availability and reliability of content.
+5. Security: CDNs often include security features like DDoS protection, Web Application Firewalls (WAF), and SSL/TLS encryption.
+6. Global Reach: CDNs' global presence ensures that users from different parts of the world can access content quickly, regardless of their location.
+7. Bandwidth Savings: CDNs can compress and optimize content, reducing the amount of data that needs to be transferred leading to cost savings for both website owners and users.
+8. Analytics and Reporting: CDNs typically provide detailed analytics and reporting tools that allow website owners to monitor traffic, user behavior, and other relevant metrics.
+
+
+> ### Detect web page crash
+
+JavaScript events like onbeforeunload won't be triggered in situations of unexpected errors. However, there are several approaches you can take to monitor and detect web page crashes:
+
+**Monitoring Services:** Use external monitoring services like Pingdom, UptimeRobot, or StatusCake that periodically ping your website and notify you if it becomes unreachable.
+
+**Server-Side Monitoring:** Have your web server log errors and crashes. You can set up tools like New Relic, Sentry, or Rollbar to track JavaScript errors on the server and receive timely notifications.
+
+**Client-Side Error Tracking:** Tracking tools like Sentry or LogRocket can capture JavaScript errors and unexpected behavior in the browser and send reports to a server.
+
+**Heartbeat Mechanism:** A client-side "heartbeat" mechanism periodically sends a signal to your server to indicate that the page is still alive. If the server stops receiving these signals, it can assume that the page has crashed.
+
+**Browser Extensions:** Some browser extensions and plugins, such as "Page Monitor" can be configured to monitor web pages and notify you of changes.
+
+**Window onerror Event:** This event captures unhandled JavaScript errors. While this won't detect a full page crash, it can help identify if there are critical JavaScript errors .
+
+**User Reports:** Encourage users to report crashes, allowing users to report when they encounter problems or crashes.
+
+**Session Monitoring:** Keep track of user sessions and their activities. If a user's session suddenly ends without proper termination, it might be an indicator of a crash.
+
+**Network Monitoring:** Use network monitoring tools to track traffic to your website. A sudden drop in incoming requests could be a sign of a crash.
+
+
+> ### Memory leaks explained
+
+A memory leak occurs when the application unintentionally retains references to objects that are no longer needed, preventing the garbage collector from reclaiming that memory.
+
+This can lead to increased memory usage over time, slowing down or crashing the application.
+
+Common Scenarios
+
+- **Unintended Closures:** Variables captured in closures that are never released.
+- **Unused Global Variables:** Variables declared in global scope that are not properly cleaned up.
+- **Event Listeners:** Forgotten event listeners that hold references to DOM elements.
+- **Circular References:** Objects referencing each other, making them ineligible for garbage collection.
+
+**Garbage Collection**
+
+JavaScript engines automatically manage memory through a process called garbage collection. It identifies and deallocates memory used by objects that are no longer reachable.
+
+**Debugging Memory Leaks (Chrome Dev Tools)**
+
+Heap Snapshot: Use the "Heap Snapshot" feature in Chrome Dev Tools to take snapshots of the heap memory at different points in time.
+Comparison: Compare snapshots to identify which objects have increased in memory usage.
+Retaining Paths: Examine "retaining paths" to find out what is preventing an object from being garbage collected.
+
+
+**Preventing Memory Leaks**
+
+- **Clean Up Event Listeners:** Remove event listeners when they are no longer needed, especially for DOM elements.
+- **Avoid Global Variables:** Minimize the use of global variables and ensure they are properly cleaned up.
+- **Use WeakMap/WeakSet:** Use WeakMap/WeakSet for data structures where object references should not prevent garbage collection.
+- **Release Closures:** Be mindful of closures, and release unnecessary closures when they are no longer needed.
+- **Testing and Profiling:** Regularly test and profile your application for memory leaks, using tools like Chrome Dev Tools.
