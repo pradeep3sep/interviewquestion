@@ -253,9 +253,9 @@ setState((prevState) => ({
 ## **React**
 
 #### **Positives**:
-1. **Flexibility**:
-   - **Experience**: React’s unopinionated nature allowed me to pick the best tools for the job. For example, I used Zustand for lightweight state management in a small project and Redux for a large enterprise app.
-   - **Example**: In one project, I switched to using `react-query` mid-development for API caching, and it integrated smoothly.
+1. **Backing by Facebook**:
+   - React is maintained by Facebook, which ensures continuous development, regular updates, and a high level of stability. This can be reassuring for large-scale enterprises..
+   - Vue, while open-source and community-driven, doesn’t have the same level of corporate backing.
 
 2. **Ecosystem and Libraries**:
    - **Experience**: When implementing infinite scrolling in a React project, I had immediate access to high-quality libraries like `react-infinite-scroll-component` that worked seamlessly.
@@ -478,6 +478,8 @@ router.afterEach((to) => {
 ```
 </Details>
 
+<br>
+
 > ### Handling Social Media Meta Tags (Open Graph and Twitter Cards)
 For social media sharing, you can dynamically inject Open Graph (OG) tags.
 
@@ -508,6 +510,8 @@ metaInfo: {
 },
 ```
 </Details>
+
+<br>
 
 > ### Optimizing for Dynamic Components
 If the SEO information depends on API data, such as product names fetched dynamically, you can update `metaInfo` after the data is loaded.
@@ -552,10 +556,13 @@ export default {
 
 <br>
 
-#### **Schema Markup**
+> ### Schema Markup
+
 - **Experience**: Added structured data (JSON-LD) for rich snippets to improve visibility in search results.
 - It's typically implemented using `JSON-LD (JavaScript Object Notation for Linked Data)`. This data helps search engines generate rich snippets, such as star ratings, prices, FAQs, or event details, directly in search results.
 - Example: Implemented **product schema** for an e-commerce project to display prices and ratings directly in search results.
+
+<Details>
 
   ```html
   <script type="application/ld+json">
@@ -574,14 +581,13 @@ export default {
   }
   </script>
   ```
-
----
+</Details>
 
 ### **How I Implemented JSON-LD**
 
 To implement JSON-LD, I added a `<script>` tag in the HTML of the page or dynamically injected it in a Vue or React component.
 
-##### **Static Example**
+**1. Static Example**
 
 <Details>
 
@@ -619,7 +625,9 @@ For a product page:
 
 <br>
 
-##### **Dynamic Example in Vue**
+**2.Dynamic Example**
+
+- For Vue
 For a product dynamically fetched via API:
 
 <Details>
@@ -674,7 +682,7 @@ export default {
 
 <br>
 
-##### **Dynamic Example in React**
+- for React
 For the same product page in React:
 
 <Details>
@@ -728,10 +736,14 @@ export default ProductPage;
 ```
 </Details>
 
-#### **3. Validation**
+<br>
+
+**Validation**
+
 After adding JSON-LD, I validated it using:
 - [Schema Markup Validator](https://validator.schema.org/)
 
+<br>
 
 > ### Others 
 
@@ -806,7 +818,7 @@ module.exports = {
 
 <br>
 
-> ### you have mentioned you have used webpack for bundling the vanilla js blog project
+> ### You have mentioned you have used webpack for bundling the vanilla js blog project
 
 Primarily to organize and optimize the project structure, enhance performance, and enable modern features like ES6+ support. 
 
@@ -959,6 +971,7 @@ module.exports = {
 | |  | Referer-based-validate | Access-Control-Allow-Headers |  |
 | |  | Use captacha | Access-Control-Allow-Credentials |  |
 
+<br>
 
 > ### XSS
 
@@ -1069,7 +1082,7 @@ The `sha256-xyz` hash corresponds to a specific inline script, ensuring that onl
 
 <br>
 
-### Common CSP Pitfalls to Avoid:
+#### Common CSP Pitfalls to Avoid:
 - **'unsafe-inline' and 'unsafe-eval'**: Allowing these can significantly weaken the CSP as they allow inline scripts and eval() to execute, which are common attack vectors.
   
 - **Too Restrictive**: A CSP that's too restrictive (blocking legitimate resources like Google Analytics or third-party APIs) may break the site functionality. Test thoroughly before deploying CSP rules.
@@ -1078,7 +1091,7 @@ The `sha256-xyz` hash corresponds to a specific inline script, ensuring that onl
 
 <br>
 
-### CSP Reporting:
+#### CSP Reporting:
 You can set up a reporting mechanism to monitor CSP violations without blocking content immediately. This is useful during the development phase.
 
 Example:
@@ -1134,8 +1147,8 @@ Add the sandbox attribute to the iFrame to restrict its functionality.\
 ```html
 <iframe src="https://example.com" sandbox="allow-scripts allow-same-origin"></iframe>
 ```
-Common flags:\
-- `allow-same-origin`: Allows the iFrame to maintain its origin.\
+Common flags:
+- `allow-same-origin`: Allows the iFrame to maintain its origin.
 - `allow-scripts`: Allows JavaScript execution (use with caution).
 - `allow-popups`: Allows pop-ups.
 
@@ -1168,7 +1181,7 @@ To apply a policy to the current origin and others, you'd do this:
 
 Deprecated: This feature is no longer recommended.
 
-The X-Frame-Options HTTP response header can be used to indicate whether a browser should be allowed to render your website page in a `<iframe>`. Sites can use this to avoid click-jacking attacks, by ensuring that their content is not embedded into other sites.
+The X-Frame-Options HTTP response header can be used to indicate whether a `browser should be allowed to render your website page in a <iframe>`. Sites can use this to `avoid click-jacking attacks, by ensuring that their content is not embedded into other sites`.
 
 
 **Warning**: Setting X-Frame-Options inside the `<meta>` element (e.g., `<meta http-equiv="X-Frame-Options" content="deny">`) has no effect. 
@@ -1302,7 +1315,7 @@ The `X-XSS-Protection` is another security header that helps protect your websit
 
 **How Does `X-XSS-Protection` Work?**
 
-This header works by telling the browser to enable its built-in XSS filter, which detects and prevents certain types of XSS attacks.
+This header works by `telling the browser to enable its built-in XSS filter`, which detects and prevents certain types of XSS attacks.
 
 ### Directives:
 
@@ -1378,7 +1391,12 @@ This will enable the XSS protection for every response your server sends. It’s
 
 **5. HSTS**
 
-HSTS (`HTTP Strict Transport Security`) is a security feature that forces browsers to only interact with your website over **HTTPS** and never over plain HTTP. This helps protect users from certain types of attacks, like **man-in-the-middle (MITM) attacks**, where attackers intercept unencrypted communications.
+**Easy Explanation:**
+HSTS is like telling the browser, **“Only visit my site using a secure connection (HTTPS), and remember this rule for a year.”** This makes sure users aren’t accidentally exposed to unencrypted traffic.
+
+HSTS (`HTTP Strict Transport Security`) is a security feature that forces browsers to `only interact with your website over **HTTPS** and never over plain HTTP`. This helps protect users from certain types of attacks, like **man-in-the-middle (MITM) attacks**, where attackers intercept unencrypted communications.
+
+Even if the `user manually types http://`, the `browser automatically redirects to https://`.
 
 **Key Directives:**
 
@@ -1388,16 +1406,13 @@ HSTS (`HTTP Strict Transport Security`) is a security feature that forces browse
 2. **`includeSubDomains`**: This tells the browser to apply HSTS to all subdomains as well.
    - Example: If set, both `www.example.com` and `sub.example.com` must use HTTPS.
 
-3. **`preload`**: This tells the browser to include your website in the browser's HSTS preload list, which means your site will always default to HTTPS even on the first visit (useful for new users who haven't visited before).
+3. **`preload`**: This tells the browser to include your website in the browser's HSTS preload list, which means your site will always default to    HTTPS even on the first visit (useful for new users who haven't visited before).
    - To add your site to the preload list, you can submit it to the [HSTS Preload List](https://hstspreload.org/).
 
 **Example:**
 ```http
 Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 ```
-
-**Easy Explanation:**
-HSTS is like telling the browser, **“Only visit my site using a secure connection (HTTPS), and remember this rule for a year.”** This makes sure users aren’t accidentally exposed to unencrypted traffic.
 
 **Why is HSTS important?**
 
@@ -1483,7 +1498,7 @@ console.log(`Remaining localStorage space: ${getLocalStorageSpaceLeft()} bytes`)
 
 - Regular audit or update the dependencies/package beacuse some package became outdated or vulnerable
 
-**eg** npm update, it provide the list of package which have update or show the package which are vulnerable, out of which you can update the packages which you required
+**eg** `npm update`, it provide the `list of package which have update or show the package which are vulnerable`, out of which you can update the packages which you required
 
 or below step
 
@@ -1501,7 +1516,7 @@ Let say you have used iframe in your site, now the `iframe website` tried to che
 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Permissions_Policy
 
-In this we restrict the permission to self and iframe or other mailcious code on your website
+In this we `restrict the permission to self and iframe or other mailcious code on your website`
 
 Examples of what you can do with Permissions Policy:
 
