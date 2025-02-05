@@ -46,11 +46,12 @@ With this modification, `z` will give you a random integer between 3 and 12 (inc
 
 <br>
 
-> ### Q1 - Swap 2 no without temp ⭐️
+> ### ⭐️ Q1 - Swap 2 no without temp
 
 <Details>
 
 ```js
+// solution 1
 let a = 5;
 let b = 10;
 
@@ -60,6 +61,9 @@ a = a - b; // a becomes 10 (original value of b)
 
 console.log(a); // 10
 console.log(b); // 5
+
+// solution 2
+[a,b] = [b,a]
 
 ```
 </Details>
@@ -307,7 +311,7 @@ console.log("Sorted array:", sortArray(arr));
 
 <br>
 
-> ### Q9 - Find the Union of two sorted arrays. ⭐️
+> ### ⭐️ Q9 - Find the Union of two sorted arrays. 
 
 arr1 = [1, 2, 3, 4, 5]\
 arr2 = [1, 2, 3, 8, 9]\
@@ -531,7 +535,7 @@ if (isSubset(a1, a2)) {
 <br>
 
 
-> ### Q17 - Find factorial of a large number ⭐️
+> ### ⭐️ Q17 - Find factorial of a large number 
 
 <details>
 
@@ -630,7 +634,7 @@ console.log(rearranged); // Output: [-4, 1, -1, 2, 3, 4]
 
 <br>
 
-> ### Q20 - Find if there is any subarray with sum equal to 0  ⭐️
+> ### ⭐️ Q20 - Find if there is any subarray with sum equal to 0  
 
 Input:  arr = [4, 2, -3, 1, 6]\
 Output: [2, -3, 1] is the subarray with sum 0.
@@ -667,6 +671,8 @@ function findZeroSumSubarray(arr) {
 
 console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 
+// { '4': 0 }
+// { '4': 0, '6': 1 }
 // { '3': 2, '4': 0, '6': 1 }
 
 ```
@@ -675,7 +681,7 @@ console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 
 <br>
 
-> ### Q21 - Leetcode - 152. find maximum product subarray  ⭐️
+> ### ⭐️ Q21 - Leetcode - 152. find maximum product subarray  
 
 arr = [ 6, -3, -10, 0, 2 ]\
 Output: 180
@@ -750,7 +756,7 @@ console.log(maxProductOfThreeeElem([-4,-2,-3,1]));  // => 12
 <br>
 
 
-> ### Q22 - Find longest consecutive subsequence ⭐️
+> ### ⭐️ Q22 - Find longest consecutive subsequence 
 a = [2,6,1,9,4,5,3]\
 Output:\
 6 => [1,2,3,4,5,6]
@@ -796,7 +802,7 @@ console.log(findLongestConsecutiveSubsequence(a));
 
 <br>
 
-> ### Q23 - Pair elements of an array  ⭐️
+> ### ⭐️ Q23 - Pair elements of an array  
 
 const arr = [ 1, 2, 3, 2, 4, 5, 3, 2 ]\
 output :- [ [ 1 ], [ 2, 2, 2 ], [ 3, 3 ], [ 4 ], [ 5 ] ]
@@ -918,9 +924,11 @@ console.log(rev.split("").reverse().join("") === str1);
 
 <br>
 
-> ### Q26 - Find Duplicate characters in a string or array  ⭐️
+> ### ⭐️ Q26 - Find Duplicate characters in a string or array  
 
+<details>
 **Below also cover for Find Elements that occurred only once in the array**
+</details>
 
 <details>
 
@@ -1212,20 +1220,37 @@ The algorithm used in the code can be classified as a **"Hash Table Frequency Co
 <br>
 
 
-> ### Q34 - Array Rotation by n  ⭐️
+> ### ⭐️ Q34 - Array Rotation by n  
 const arr = [1,2,3,4,5,6] n=2\
 output =>   [5,6,1,2,3,4]
 
 <details>
 
-Using merging arr twice
-```js
-const arr1 = [1, 2, 3, 4, 5, 6];
-const doubleArr = [...arr1, ...arr1];
-const start = arr1.length - n;
-const end = start + arr1.length;
+⏳ Time Complexity: O(n)\
+📌 Space Complexity: O(1)
 
-console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
+```js
+function rotateArray(arr, k) {
+    let n = arr.length;
+    k = k % n; // Handle cases where k > n
+
+    reverse(arr, 0, n - 1);
+    reverse(arr, 0, k - 1);
+    reverse(arr, k, n - 1);
+}
+
+function reverse(arr, start, end) {
+    while (start < end) {
+        [arr[start], arr[end]] = [arr[end], arr[start]];
+        start++;
+        end--;
+    }
+}
+
+// Example
+let arr = [1, 2, 3, 4, 5, 6, 7];
+rotateArray(arr, 3);
+console.log(arr); // Output: [5, 6, 7, 1, 2, 3, 4]
 ```
 
 </details>
@@ -1233,7 +1258,7 @@ console.log(doubleArr.slice(start, end)); // [ 5, 6, 1, 2, 3, 4 ]
 <br>
 
 
-> ### Q35 - Find all permutations of string  LOGIC ⭐️
+> ### ⭐️ Q35 - Find all permutations of string  LOGIC 
  const str = "ABC"\
  output => ["ABC", "ACB", "BAC", "BCA", "CAB", "CBA"]
 
