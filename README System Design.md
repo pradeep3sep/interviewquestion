@@ -2302,36 +2302,36 @@ In system design interviews, discussing various communication techniques is esse
 
 ### 1. **Short Polling**
 
-   - **Description**: The client repeatedly sends requests to the server at fixed intervals to check for updates or new data.
-   - **Use Case**: Simple use cases where occasional updates are needed, such as checking a job status.
+   - **Description**: The client `repeatedly sends requests to the server at fixed intervals` to check for updates or new data.
+   - **Use Case**: Simple use cases where occasional updates are needed, such as `checking a job status`.
    - **Pros**: Easy to implement and doesn’t require a persistent connection.
    - **Cons**: Inefficient, can cause unnecessary load on the server due to frequent requests, and has latency.
 
 ### 2. **Long Polling**
 
-   - **Description**: The client makes a request to the server, and the server holds the request open until new data is available or a timeout occurs. Once the response is received, the client immediately re-establishes the connection.
-   - **Use Case**: Suitable for real-time applications where WebSockets are not feasible, like notification systems.
+   - **Description**: The `client` makes a `request to the server`, and t`he server holds the request open until new data is available or a timeout` occurs. Once the response is received, the client immediately re-establishes the connection.
+   - **Use Case**: Suitable for real-time applications where WebSockets are not feasible, `like notification systems`.
    - **Pros**: Reduces server load compared to short polling and provides near-real-time updates.
    - **Cons**: Still requires repeated requests and can be harder to scale with high traffic.
 
 ### 3. **WebSockets**
 
-   - **Description**: A bidirectional communication protocol where a persistent connection is established between the client and server, allowing data to be sent in both directions at any time.
-   - **Use Case**: Real-time applications requiring frequent updates, like chat applications, gaming, or live trading platforms.
+   - **Description**: A `bidirectional communication` protocol where a `persistent connection` is established between the client and server, allowing data to be sent in both directions at any time.
+   - **Use Case**: Real-time applications requiring frequent updates, like `chat applications, gaming, or live trading platforms`.
    - **Pros**: Low latency, efficient, and suitable for continuous real-time data exchange.
    - **Cons**: Requires a persistent connection, which can be more resource-intensive, and may not be supported by all firewalls/proxies.
 
 ### 4. **Server-Sent Events (SSE)**
 
-   - **Description**: A one-way communication protocol where the server pushes data to the client over HTTP whenever new information is available.
-   - **Use Case**: Real-time, one-way data flow scenarios, such as live sports scores, stock prices, or news feeds.
+   - **Description**: A `one-way communication` protocol where the `server pushes data to the client over HTTP whenever new information is available`.
+   - **Use Case**: Real-time, one-way data flow scenarios, such as live `sports scores, stock prices, or news feeds`.
    - **Pros**: Simple to implement, efficient for one-way updates, and works well over HTTP.
    - **Cons**: Limited to one-way communication, and reconnection logic is needed if the connection drops.
 
 ### 5. **Webhooks**
 
-   - **Description**: A server-to-server communication mechanism where the server sends data to a specific URL provided by another server whenever a specified event occurs.
-   - **Use Case**: Event-driven applications, like triggering a notification when a payment is completed or updating an external system when a user’s profile changes.
+   - **Description**: A `server-to-server` communication mechanism where the server sends data to a specific URL provided by another server whenever a specified event occurs.
+   - **Use Case**: Event-driven applications, like `triggering a notification when a payment is completed` or updating an external system when a user’s profile changes.
    - **Pros**: Efficient for event-driven updates and reduces the need for polling.
    - **Cons**: Client must handle security for incoming requests, and there’s no guarantee of delivery if the client server is down.
 
@@ -3363,15 +3363,7 @@ In a general **HTML, CSS, and JavaScript** file setup, the parsing order by the 
 ### **Final Step: Render Process**  
 - The browser combines **DOM + CSSOM → Render Tree** and paints the page.
 
-#### **Summary of Execution Order**  
-1. **HTML is parsed first**, building the DOM.  
-2. **CSS is parsed in parallel**, blocking rendering until it’s done.  
-3. **JavaScript execution depends on how it’s included**:
-   - Inline & non-deferred `<script>` blocks HTML parsing.
-   - `defer` scripts run after HTML parsing.
-   - `async` scripts run when ready, possibly before HTML finishes.  
-4. **Rendering happens last** (after DOM + CSSOM are ready).
-
+<br>
 
 ```
 HTML                            CSS
@@ -3484,26 +3476,6 @@ Let’s continue with a different scenario, for example, when the browser encoun
 
 <br>
 
-### **Render Blocking**  
-- **Definition**:  
-  Render blocking occurs when the browser **delays rendering (painting)** of the web page because it is waiting to load and process resources (like CSS or fonts) that are necessary for visual display.
-
-- **Impact**:  
-  - Slows down the **time to first paint**, making the page appear to load slower to users.  
-
-<br>
-
-### **Parse Blocking**  
-- **Definition**:  
-  Parse blocking happens when the browser **pauses HTML parsing** to handle other tasks, most commonly when it encounters **JavaScript** code.
-
-- **Key Points**:  
-  - When the browser encounters a `<script>` tag during HTML parsing:  
-    - It **pauses parsing** the rest of the HTML document.  
-    - The browser waits for the script to download and execute, as JavaScript can modify the **DOM** or **CSSOM**.  
-  - This ensures that the script has the opportunity to make changes to the page before continuing.  
-
-
 ### **Comparison**  
 | Aspect               | Render Blocking                                | Parse Blocking                                   |
 |----------------------|-----------------------------------------------|------------------------------------------------|
@@ -3567,10 +3539,10 @@ Inline the CSS and any small JavaScript needed for initial rendering directly in
 https://web.dev/learn/performance/resource-hints
 ```
 
-- preconnect (connect to specific cross origin server in advance, basically did the dns,tcp handshake and other thing in advance)
-  let say we have many images from single domain, in normal scenario browser request the website each time for image and each time it will do the dns lookup, TCP/SSL handsake, which overall increase time, so what we do is we just preconnect to that domain means we just do the handshake one time only, when going through each image we do not need to connect SSL handshake every time.
+- preconnect (connect to specific cross origin server in advance, basically did the dns,tcp handshake and other thing in advance)\
+  let say we have `many images from single domain`, in normal scenario browser request the website each time for image and each time it will do the dns lookup, TCP/SSL handsake, which overall increase time, so what we do is we just `preconnect to that domain means we just do the handshake one time only`, when going through each image we do not need to connect SSL handshake every time.
    ```html
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin >
+   <link rel="preconnect" href="https://anyImageWebsite.com" crossorigin >
    ```
 
 - dns-prefetch (does DNS lookup in advance) - same as above, instead of preconnect we do the dns lookup in advance
