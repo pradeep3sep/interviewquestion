@@ -1301,7 +1301,7 @@ console.log(result);
 
 <br>
 
-> ### Q44 -  Find all subsets of an array  ⭐️
+> ### ⭐️ Q44 -  Find all subsets of an array  
 const arr = [1, 2, 3];\
 output => [ [], [ 1 ], [ 2 ], [ 1, 2 ], [ 3 ], [ 1, 3 ], [ 2, 3 ], [ 1, 2, 3 ] ]
 
@@ -1673,7 +1673,7 @@ console.log(count);
 <br>
 
 
-> ### Q45 - Filter array of objects with exclude array ⭐️
+> ### ⭐️ Q45 - Filter array of objects with exclude array 
 
 let items = [\
   { color: "red", type: "tv" },\
@@ -2195,7 +2195,7 @@ console.log(findPeakElements(arr)); // Output: [77, 99]
 <br>
 
 
-> ### Q60 - find continuous sub-array which adds up to a given number. ⭐️
+> ### ⭐️ Q60 - find continuous sub-array which adds up to a given number. 
 
 A = [1,2,3,7,5]\
 S = 12\
@@ -2467,7 +2467,7 @@ console.log(spellNumber(997751076)); // Ninety Nine Crore Seventy Seven Lakh Fif
 
 <br>
 
-> ### Q68 - Array of objects Manipulation ⭐️
+> ### ⭐️ Q68 - Array of objects Manipulation 
 
 const portfolio = [\
 &nbsp; { name: "Mark", stock: "FB" },\
@@ -2523,7 +2523,7 @@ console.log(shareholder);
 <br>
 
 
-> ### Q69 - Finding sum of digits of a number until sum becomes single digit ⭐️
+> ### ⭐️ Q69 - Finding sum of digits of a number until sum becomes single digit 
 const "5431" => "13" => "4"
 
 <details>
