@@ -2751,7 +2751,7 @@ console.log(result);
 <br>
 
 
-> ### Q75 - Given a positive integer N as input , print first N prime numbers ⭐️
+> ### ⭐️ Q75 - Given a positive integer N as input , print first N prime numbers 
 
 Input  : 5, Output : [2,3,5,7,11]\
 Input  : 0, Output : []
@@ -2911,7 +2911,7 @@ console.log(drawChessboard(8, 8));
 <br>
 
 
-> ### Q78 - longest Substring of two strings ⭐️
+> ### ⭐️ Q78 - longest Substring of two strings 
 
 const str1 = "ABABC";\
 const str2 = "BABCA";\
@@ -3000,7 +3000,7 @@ console.log(longestCommonSubstring(str1, str2)); // Output: "abcd"
 
 <br>
 
-> ### Q101 - longest substring with unique characters ⭐️
+> ### ⭐️ Q101 - longest substring with unique characters 
 
 ```js
 longestUniqueSubstr('aaaaa')
@@ -3200,7 +3200,7 @@ function multiTable(number) {
 <br>
 
 
-> ### Q84 - Leetcode - 509. Below is for the fibonacci number  ⭐️
+> ### ⭐️ Q84 - Leetcode - 509. Below is for the fibonacci number
 
 <details>
 
@@ -3327,7 +3327,7 @@ for (let i = 0; i < arr1.length; i++) {
 <br>
 
 
-> ### Q86 - Leetcode - 2239. Find the number in an array that is closest to a given number  ⭐️
+> ### ⭐️ Q86 - Leetcode - 2239. Find the number in an array that is closest to a given number
 
 const array = [5,10,15,20,25,30,35];\
 const target = 22;\
@@ -3399,7 +3399,7 @@ console.log(countDigits_1(number));
 <br>
 
 
-> ### Q88 - flatten my deep object.  ⭐️
+> ### ⭐️ Q88 - flatten my deep object.
 
 ```
 const person = {
@@ -3546,9 +3546,10 @@ console.log(flattenObject(person));
 
 <br>
 
-> ### Q89 - Find the maximum sum of any contiguous subarray in a list of integers  ⭐️
+> ### ⭐️ Q89 - Find the maximum sum of any contiguous subarray in a list of integers
 
-should be 6: [4, -1, 2, 1]
+should be 6: [4, -1, 2, 1]\
+should be 6: [-2, 1, -3, 4, -1, 2, 1, -5, 4]
 
 <Details>
 
@@ -3627,7 +3628,7 @@ function undefinedToNull(arg) {
 <br>
 
 
-> ### Q91 - Please implement a curry() function, which accepts a function and return a curried one.  ⭐️
+> ### ⭐️ Q91 - Please implement a curry() function, which accepts a function and return a curried one.
 
 Here is an example
 
@@ -3678,7 +3679,7 @@ console.log(curriedJoin(1, 2)(3)) // '1_2_3'
 
 <br>
 
-> ### Q92 - I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals. ⭐️
+> ### ⭐️ Q92 - I believe you've used jQuery before, we often chain the jQuery methods together to accomplish our goals.
 
 For example, below chained call turns button into a black button with white text.
 
@@ -3714,7 +3715,7 @@ $('#button').css('color', '#fff').css('backgroundColor', '#000').css('fontWeight
 <br>
 
 
-> ### Q93 - Create a sum(), which makes following possible  ⭐️
+> ### ⭐️ Q93 - Create a sum(), which makes following possible  
 
 ```js
 const sum1 = sum(1)
@@ -3918,7 +3919,7 @@ function detectType(data) {
 
 <br>
 
-> ### Q97 - If you did unit test before, you must be familiar with Spy.  ⭐️
+> ### ⭐️ Q97 - If you did unit test before, you must be familiar with Spy.  
 
 You are asked to create a spyOn(object, methodName), which works the same as jest.spyOn().
 
@@ -3968,7 +3969,7 @@ function spyOn(obj, methodName) {
 
 <br>
 
-> ### Q99 - get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.  ⭐️
+> ### ⭐️ Q99 - get(object, path, [defaultValue]) is a handy method to help retrieving data from an arbitrary object. if the resolved value from path is undefined, defaultValue is returned.  
 
 Please create your own get().
 
@@ -4014,7 +4015,7 @@ function get(source, path, defaultValue = undefined) {
 <br>
 
 
-> ### Q100 _.set(object, path, value) is a handy method to updating an object without checking the property existence. ⭐️
+> ### ⭐️ Q100 _.set(object, path, value) is a handy method to updating an object without checking the property existence. 
 
 Can you create your own set()?
 
@@ -4072,7 +4073,7 @@ function set(obj, path, value) {
 
 <br>
 
-> ### Q102 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b). ⭐️
+> ### ⭐️ Q102 - Given an array of numbers, pick any two numbers a and b, we could get the difference by Math.abs(a - b).
 
 Can you write a function to get the largest difference?
 
@@ -4102,7 +4103,7 @@ function largestDiff(arr) {
 <br>
 
 
-> ### Q103 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented. ⭐️
+> ### ⭐️ Q103 - Please create a function count(), when called it should return how many times it has been called, count.reset() should also implemented. 
 
 ```js
 count() // 1
@@ -4204,7 +4205,7 @@ console.log(arraysHaveSameElements(array1, array2)); // Output: true
 <br>
 
 
-> ### Q105 - Flatten array implementation - Non recursive approach. ⭐️
+> ### ⭐️ Q105 - Flatten array implementation - Non recursive approach. 
 
 <details>
 
@@ -4302,7 +4303,7 @@ function count(str) {
 <br>
 
 
-> ### Q109 - leetcode - 415 Sum two numbers which are very large in size  ⭐️
+> ### ⭐️ Q109 - leetcode - 415 Sum two numbers which are very large in size  
 
 <details>
 
@@ -4363,13 +4364,13 @@ console.log(sum);
 <br>
 
 
-> ### Q110 - Calculate the sum of two integers a and b, without using the operator +  ⭐️
+> ### ⭐️ Q110 - Calculate the sum of two integers a and b, without using the operator +  
 
 <details>
 
 When we add two numbers we have to maintain two things
 1. sum of value(8+4 => 12 ie 2)
-2. carry of sum (s+4 => 12 ie 1)
+2. carry of sum (8+4 => 12 ie 1)
 
 **for first part, XOR (`^`) Works Like Addition Without Carrying**
 
@@ -4557,7 +4558,7 @@ console.log(activities);
 <br>
 
 
-> ### Q115 - Given an array of non negative integers,arrange them such that they form the largest number. ⭐️
+> ### ⭐️ Q115 - Given an array of non negative integers,arrange them such that they form the largest number. 
 
 Sample input: [3, 30, 34, 5, 9],
 
