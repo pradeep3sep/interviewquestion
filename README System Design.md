@@ -2096,6 +2096,60 @@ In this way, `ETag` helps maintain up-to-date data while optimizing server-clien
 
 <br>
 
+> ### what are the points you will keep in mind while creating a project from scratch
+
+1. **Requirement Gathering & Analysis**  
+   - Understand business needs and objectives.  
+   - Identify stakeholders and key project constraints (budget, timeline, scalability).  
+   - Define functional and non-functional requirements (performance, security, compliance).  
+
+2. **Technology Selection**  
+   - Choose the appropriate tech stack based on project needs (frontend, backend, database).  
+   - Consider scalability, maintainability, and developer community support.  
+   - Ensure compatibility with existing systems if integration is required.  
+
+3. **Project Architecture & Design**  
+   - Follow a modular and scalable architecture (e.g., MVC, microservices, monolithic).  
+   - Use design patterns and best practices to ensure code reusability and maintainability.  
+   - Plan for API structure if applicable (REST, GraphQL, WebSockets).   
+
+4. **Security Considerations**  
+   - Prevent common vulnerabilities (XSS, CSRF, SQL Injection).  
+   - Implement authentication (OAuth, JWT, session-based).  
+   - Secure sensitive data (encryption, hashing for passwords).  
+
+5. **Code Quality & Maintainability**  
+   - Follow clean code principles and coding standards.  
+   - Implement reusable components and maintain modularity.  
+   - Use proper naming conventions and documentation.  
+
+6. **Version Control & Collaboration**  
+   - Set up a Git repository with branching strategies (GitFlow, trunk-based).  
+   - Write meaningful commit messages and use pull requests for code reviews.  
+   - Maintain CI/CD pipelines for automated testing and deployment.  
+
+7. **Testing Strategy**  
+   - Write unit tests, integration tests, and end-to-end tests.  
+   - Automate testing using tools like Jest, Mocha, Cypress, etc.  
+   - Implement linting and static code analysis for consistency.  
+
+8. **Performance Optimization**  
+   - Optimize API response times and database queries.  
+   - Use lazy loading, caching (Redis, CDN), and code splitting for frontend performance.  
+   - Monitor system performance using logging and profiling tools.  
+
+9. **Deployment & DevOps Considerations**  
+   - Choose the right hosting solution (Cloud, on-premise, serverless).  
+   - Set up automated deployments with CI/CD (GitHub Actions, Jenkins, GitLab CI).  
+   - Monitor logs and errors using tools like Prometheus, Grafana, or Datadog.  
+
+10. **Documentation & Knowledge Sharing**  
+   - Maintain API documentation (Swagger, Postman collections).  
+   - Create internal wikis or guides for onboarding new developers.  
+   - Keep architectural decisions documented for future reference.  
+
+<br>
+
 > ### what is GRAPHQL
 
 GraphQL is a query language for APIs, developed by Facebook in 2012 and open-sourced in 2015. It’s designed to provide a more efficient, powerful, and flexible alternative to REST by enabling clients to request only the data they need, exactly in the shape they need it.
