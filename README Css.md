@@ -110,6 +110,8 @@ Each selector allows for different levels of specificity and targeting, enabling
 - The `default value` for box-sizing is `content-box`. This means that the `width and height of an element` are calculated `based` on the `content` of the element, `excluding` `padding and border`.
 - If you set the value of box-sizing to `border-box`, the `width and height` of an element are calculated based on the `content, padding, and border` of the element. This can be useful in situations where you want to set a specific width for an element that includes its padding and border, rather than having to calculate the total width manually.
 
+The Box Model is the foundational concept in CSS that describes the structure of an HTML element. It encompasses four key components: content, padding, border, and margin.
+
 <br>
 
 > ### What is flexbox
