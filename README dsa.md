@@ -334,6 +334,7 @@ console.log(romanToInt("IX"));     // Output: 9
 console.log(romanToInt("LVIII"));  // Output: 58
 console.log(romanToInt("MCMXCIV"));// Output: 1994
 ```
+</details>
 
 
 > ### Below code integer to roman
@@ -348,6 +349,8 @@ integerToRoman(1999)
 integerToRoman(3420)
 // 'MMMCDXX'
 ```
+
+<details>
 
 **Solution**
 
@@ -395,8 +398,6 @@ function integerToRoman(num) {
 [Youtube video for concept](https://www.youtube.com/watch?v=qmlrMrIObvs)
 
 **`Hints when to use` - Find the sum of elements between indices `i` and `j` for multiple queries.**
-
-In the **Prefix Sum Algorithm**, the process is typically divided into two common steps:
 
 ### Example:
 
@@ -814,6 +815,8 @@ Output: 1
 
 [Youtube video for concept](https://youtu.be/EbkMABpP52U?si=oVee2x5W2xPP7dN3&t=869)
 
+<details>
+
 ```js
 var maxArea = function(height) {
     let l = 0;
@@ -841,28 +844,7 @@ var maxArea = function(height) {
 };
 ```
 
-### How the Code Works
-1. **Define two pointers:**
-   - `l` starts at the beginning (leftmost line).
-   - `r` starts at the end (rightmost line).
-
-2. **Initialize a variable for the maximum area:**
-   - `max` is set to `0` to store the largest container area found.
-
-3. **Use a loop to move the pointers:**
-   - While `l` is less than `r`:
-     - Calculate the **height of the container** as the smaller of the two heights at `l` and `r`.
-     - Calculate the **width of the container** as the distance between `l` and `r` (`r - l`).
-     - Calculate the **area** of the container as `height * width`.
-     - Update `max` if the new `area` is larger than the current `max`.
-
-4. **Move the pointer with the smaller height:**
-   - If the height at `l` is smaller, move `l` one step to the right (`l++`).
-   - Otherwise, move `r` one step to the left (`r--`).
-
-5. **Return the maximum area:**
-   - After the loop finishes, `max` will contain the largest possible container area.
-
+</details>
 
 <br>
 
@@ -883,8 +865,6 @@ Simple logic - It works like create a `object` and `add keys` in it with `value 
         - If it is, then pair found.
         - If it isn’t, add the current number to the set.
 - If the loop completes without finding a pair, return that no pair exists.
-
-eg is below two sum with Hashing
 
 <br>
 
@@ -915,6 +895,8 @@ Explanation: Starting with nums = [3,1,3,4,3]:\
 - Remove the first two 3's, then nums = [1,4,3]\
 There are no more pairs that sum up to 6, hence a total of 1 operation.
 
+<details>
+
 ```js
 var maxOperations = function(nums, k) {
      let count = 0;
@@ -933,6 +915,8 @@ var maxOperations = function(nums, k) {
     return count;
 };
 ```
+
+</details>
 
 <br>
 
@@ -957,9 +941,12 @@ Input: time = [60,60,60]\
 Output: 3\
 Explanation: All three pairs have a total duration of 120, which is divisible by 60.
 
+<details>
+
 ```js
 function numPairsDivisibleBy60(time) {
-    // Array to store counts of remainders, jab hum 60 se divide krenge to remainder 1 se 59 k beech aayega to 60 blank array bnaye h
+    // Array to store counts of remainders, jab hum 60 se divide krenge to 
+    // remainder 1 se 59 k beech aayega to 60 blank array bnaye h
     let remainderCount = new Array(60).fill(0); 
     let count = 0;
 
@@ -989,8 +976,8 @@ console.log(numPairsDivisibleBy60(time1)); // Output: 3
 
 const time2 = [60, 60, 60];
 console.log(numPairsDivisibleBy60(time2)); // Output: 3
-
 ```
+</details>
 
 <br>
 
@@ -1001,8 +988,6 @@ console.log(numPairsDivisibleBy60(time2)); // Output: 3
 [Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
 
 `Trick` - when we have to find min or max length of string or array, which have to do operations
-
-Sliding Window problems are problems in which a fixed or variable-size window is moved through a data structure, typically an array or string, to solve problems efficiently based on continuous subsets of elements. This technique is used when we need to find subarrays or substrings according to a given set of conditions.
 
 The general steps to solve these questions by following below steps:
 
@@ -1026,13 +1011,15 @@ How to Identify Sliding Window Problems:
 Example 1:
 
 Input: nums = [1,12,-5,-6,50,3], k = 4\
-Output: 12.75000\
+Output: 12.75\
 Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
 
 Example 2:
 
 Input: nums = [5], k = 1\
-Output: 5.00000
+Output: 5.00
+
+<details>
 
 ```js
 var findMaxAverage = function(nums, k) {
@@ -1050,6 +1037,7 @@ var findMaxAverage = function(nums, k) {
     return maxSum/k;  
 };
 ```
+</details>
 
 <br>
 
@@ -1223,6 +1211,8 @@ The **fast and slow pointer algorithm** (also known as the **tortoise and hare a
 
 ### 141. Detecting a Cycle in a Linked List
 
+<details>
+
 ```javascript
 class ListNode {
   constructor(value) {
@@ -1249,8 +1239,11 @@ function hasCycle(head) {
   return false;                 // No cycle
 }
 ```
+</details>
 
 ### Finding the Start of the Cycle
+
+<details>
 
 ```javascript
 function detectCycleStart(head) {
@@ -1277,12 +1270,15 @@ function detectCycleStart(head) {
   return null; // No cycle
 }
 ```
+</details>
 
 ### Use Cases of Fast and Slow Pointer Algorithm:
 - **Cycle Detection in Linked List**: As shown in the examples above, this is one of the most common uses.
 - **Find the Middle of a Linked List**: Move one pointer one step and the other pointer two steps, and the slow pointer will be at the middle when the fast pointer reaches the end.
 - **Detecting Palindromes**: Useful in determining if a list or array is a palindrome by moving pointers towards the center.
   
+<br>
+
 > ### 876. Middle of the Linked List
 To find the **middle of a linked list** using the fast and slow pointer technique, the general idea is simple:
 
@@ -1295,6 +1291,7 @@ This method works efficiently in `O(n)` time and doesn't require knowing the len
 ### Example of Finding the Middle of a Linked List in JavaScript:
 
 Here's how you can implement it:
+<details>
 
 ```javascript
 class ListNode {
@@ -1332,15 +1329,7 @@ head.next.next.next.next = new ListNode(5);
 let middle = findMiddle(head);
 console.log(middle.value);  // Output: 3 (Middle of the list)
 ```
-
-### Explanation:
-
-1. **Initialization**: Start with two pointers, `slow` and `fast`, both pointing to the head of the list.
-2. **Traversal**: 
-   - The `slow` pointer moves one step at a time (`slow = slow.next`).
-   - The `fast` pointer moves two steps at a time (`fast = fast.next.next`).
-3. **Condition**: The loop runs while `fast` and `fast.next` are not `null` (ensuring the fast pointer does not go out of bounds).
-4. **Result**: When the loop terminates, the `slow` pointer will be at the middle of the linked list.
+</details>
 
 ### Handling Even and Odd Length Lists:
 - If the list has **odd** length (e.g., 5 nodes), the `slow` pointer will point to the exact middle (e.g., 3 in the list `1 → 2 → 3 → 4 → 5`).
@@ -1465,7 +1454,11 @@ BFS Algorithm
 // BFS - Breadth First Search - is a vertex-based technique for finding the shortest path in the graph. 
 // also called as Level Order Traversal
 // It uses a `Queue data structure` that follows `first in first out`. 
-// In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h, jisko push kia h uske left and right ko Queue me add kr dete h 
+
+// In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h 
+// then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h,
+// jisko push kia h uske left and right ko Queue me add kr dete h 
+
 // It is slower than DFS.
 
 BFS() {
@@ -1494,10 +1487,12 @@ DFS Algorithm
 
 ```js
 // DFS - Depth First Search - is an an edge-based technique. 
-// It uses the Stack data structure and performs two stages, first visited vertices are pushed into the stack, and second if there are no vertices then visited vertices are popped.
+
+// It uses the Stack data structure and performs two stages, 
+// first visited vertices are pushed into the stack, and 
+// second if there are no vertices then visited vertices are popped.
 
 // DFS is of 3 types - Preorder Traversal, Inorder Traversal, Postorder Traversal
-
 
 // Algorithm for Preorder Traversal:
 
@@ -1573,8 +1568,6 @@ Backtracking is controlled recursion
 
 > ### Permutations of a String ( [Youtube video](https://youtu.be/mEBEw_xScsE?si=ExivZgmnO9MfF2J-&t=884) )
 
-To generate **all permutations** of a given string, we can use a **recursive approach**. The idea is to swap each character with every other character in the string and recursively generate the permutations for the rest of the string.
-
 ### Key Concepts:
 1. For each character in the string, place it in the first position and then recursively permute the rest of the characters.
 2. This is done by swapping the current character with every character after it, including itself.
@@ -1596,6 +1589,8 @@ If the input string is `"ABC"`, the permutations are:
 3. Once the base case (end of the string) is reached, add the generated permutation to the result.
 
 ### Permutations of a String using Recursion in JavaScript:
+
+<details>
 
 ```javascript
 function permute(str) {
@@ -1634,6 +1629,7 @@ console.log(permutations);
 ```
 [ 'ABC', 'ACB', 'BAC', 'BCA', 'CBA', 'CAB' ]
 ```
+</details>
 
 ![screenshot](images/flow-backtrack.png)
 
@@ -1641,17 +1637,8 @@ console.log(permutations);
 
 ![screenshot](images/backtrack.png)
 
-### Explanation:
-- The recursive function `generatePermutations` works by fixing one character at a time and swapping it with the remaining characters to explore all possible arrangements.
-- The **base case** of the recursion occurs when `index` reaches the end of the string (i.e., the last character), and we add the current arrangement (permutation) to the result list.
-- After exploring one arrangement, the function **backtracks** by undoing the swap, allowing the function to explore the next possible permutation.
-
 ### Time Complexity:
 - The time complexity is **O(n!)**, where \( n \) is the length of the string. This is because there are \( n! \) permutations for a string of length \( n \).
-
-### Summary:
-- The above algorithm efficiently generates all permutations of a string by recursively swapping characters.
-- This approach is commonly used in solving problems related to permutations and combinations.
 
 <br>
 
@@ -1717,6 +1704,8 @@ console.log(findSecondMinimumValue(root)); // Output: 5 `
 
 > ### Palindrome
 
+<details>
+
 ```js
 
     // time - O(n/2)
@@ -1761,6 +1750,7 @@ function isPalindrome(s) {
     return true; // The string is a palindrome
 }
 ```
+</details>
 
 > ### 680. Valid Palindrome II
 Given a string s, return true if the s can be palindrome after deleting at most one character from it.
@@ -1780,6 +1770,8 @@ Example 3:
 
 Input: s = "abc"\
 Output: false
+
+<details>
 
 ```js
 function validPalindrome(s) {
@@ -1814,6 +1806,7 @@ console.log(validPalindrome("aba"));  // true
 console.log(validPalindrome("abca")); // true
 console.log(validPalindrome("abc"));  // false
 ```
+</details>
 
 <br>
 
@@ -1827,8 +1820,8 @@ For example, swapping at indices 0 and 2 in "abcd" results in "cbad".
 
 Example 1:
 
-Input: s = "ab", goal = "ba"
-Output: true
+Input: s = "ab", goal = "ba"\
+Output: true\
 Explanation: You can swap s[0] = 'a' and s[1] = 'b' to get "ba", which is equal to goal.\
 
 Example 2:
@@ -1870,7 +1863,7 @@ function buddyStrings(s, goal) {
 
 <br>
 
----
+
 
 > ### Subsequence & Substring
 
@@ -1878,7 +1871,8 @@ function buddyStrings(s, goal) {
 count of subsequence is 2^n, where n is length of string.
 
 
-**Substring** - All characters in substring appear `consecutively` in the original string. eg `"abcdef"`, `abc` and `def` are `substring`.\
+**Substring** - All characters in substring appear `consecutively` in the original string. eg `"abcdef"`, `abc` and `def` are `substring`.
+
 **Subsequence** - It is sequence of characters that appear in the same order as in the original string, but not necessarily consecutivaly. you can skip character but order must remain remain same. eg -`"abcdef"`, `ace` and `bdf` are `subsequence`.
 
 <br>
@@ -1913,6 +1907,8 @@ Explanation:\
 The subsequence has the largest sum of 3 + 4 = 7. \
 Another possible subsequence is [4, 3].
 
+<details>
+
 ```js
 var maxSubsequence = function(nums, k) {
     debugger
@@ -1930,9 +1926,14 @@ var maxSubsequence = function(nums, k) {
 maxSubsequence([-1,-2,3,4],3)
 ```
 
+</details>
+
 <br>
 
 > ### Check if a String is Subsequence of Other
+
+console.log(isSubsequence("abc", "ahbgdc")); // true\
+console.log(isSubsequence("axc", "ahbgdc")); // false
 
 <details>
 
@@ -1984,16 +1985,15 @@ This approach runs in O(n) time complexity, where `n` is the length of `s2`.
 **Output**:  [0, 1, 4]\
 **Explanation**: “AAAB” is at 0, “AABA” at 5 and “ABAA” at 6
 
+
+<details>
+
 ### Approach: Sliding Window + Frequency Count
 To solve this efficiently, we can use the `sliding window technique` with `frequency count` of characters. The key idea is:
 1. Maintain a frequency count of the characters in the pattern.
 2. Slide a window of the same length as the pattern over the text.
 3. At each step, compare the frequency of characters in the current window with the frequency count of the pattern.
 
-### Steps:
-1. Use two arrays (or hashmaps) to store the frequency of characters in the pattern and the current window of text.
-2. Slide the window over the text and update the frequency array.
-3. If the frequency of characters in the current window matches the frequency in the pattern, store the starting index of the window.
 
 ### Code Implementation in JavaScript:
 
@@ -2003,10 +2003,6 @@ function findAnagrams(text, pattern) {
     let result = [];
     let patternLength = pattern.length;
     let textLength = text.length;
-
-    if (textLength < patternLength) {
-        return result; // No possible anagram
-    }
 
     // Arrays to store frequency of characters in pattern and current window
     let patternCount = Array(26).fill(0);  // For 'a' to 'z'
@@ -2060,24 +2056,11 @@ console.log("Anagram start indices:", indices);
   - After moving the window, we update the frequency of the characters in the window.
 - Finally, we check the last window for a match.
 
-### Output:
-For the input:
-```javascript
-let text = "cbaebabacd";
-let pattern = "abc";
-```
-The output will be:
-```
-Anagram start indices: [0, 6]
-```
 
 ### Time Complexity:
 - **O(n)** where `n` is the length of the text. We visit each character of the text only once while sliding the window.
 
-### Space Complexity:
-- **O(1)**, because we are using fixed-size arrays for the frequency count (26 elements for lowercase English letters).
-
---- 
+</details>
 
 <br>
 
@@ -2085,21 +2068,7 @@ Anagram start indices: [0, 6]
 
 **If needed, can refer the GFG code also https://www.geeksforgeeks.org/lexicographic-rank-of-a-string/**
 
-To solve the **Lexicographic Rank of a String** in **O(n)** time complexity, we need to improve the algorithm by avoiding the costly inner loop (which checks for smaller characters). We can accomplish this by:
-
-1. **Precomputing Factorials**: Instead of recalculating the factorial each time, we can precompute the factorial values up to the length of the string.
-  
-2. **Frequency Array**: We maintain a frequency array of characters. This array allows us to efficiently track and update the number of characters smaller than the current character in constant time.
-
-### Optimized Approach:
-
-1. **Precompute Factorials**: Store the factorials of numbers from 0 to `n`.
-  
-2. **Frequency Array**: Maintain a frequency count of all characters in the string. This will help in determining how many characters are smaller than the current character in constant time.
-
-3. **Update Frequency**: After processing each character, update the frequency array.
-
-### Detailed Steps:
+**Detailed Steps:**
 
 1. **Factorial Precomputation**: Precompute factorials of numbers from `0` to `n` (length of the string).
   
@@ -2227,6 +2196,7 @@ Example 3:
 Input: str1 = "LEET", str2 = "CODE"\
 Output: ""
 
+<details>
 
 ```js
 var gcdOfStrings = function (str1, str2) {
@@ -2294,9 +2264,11 @@ For point 3;\
 
 maxLength gives the the length of repeation of the identical segment `base` in the first string.\
 
+</details>
+
 <br>
 
-> ### Reverse Vowels of a String
+> ### 345. Reverse Vowels of a String
 
 Example 1:\
 Input: s = "IceCreAm"\
@@ -2338,13 +2310,11 @@ reverseVowels('IceCreAm')
 
 <br>
 
-> ### Product of Array Except Self
+> ### 238. Product of Array Except Self
 
 Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
 
 You must write an algorithm that runs in `O(n)` time and `without using the division operation`.
-
- 
 
 Example 1:
 
@@ -2356,6 +2326,7 @@ Example 2:
 Input: nums = [-1,1,0,-3,3]\
 Output: [0,0,9,0,0]
 
+<details>
 
 ### Approach:
 We can solve this problem by using two auxiliary arrays:
@@ -2378,6 +2349,8 @@ var productExceptSelf = function(nums) {
         prefix *= nums[i];
     }
 
+    // result will be [1, 1, 2, 6]
+
     // Step 2: Calculate the suffix product (right product) and multiply
     let suffix = 1;
     for (let i = nums.length - 1; i >= 0; i--) {
@@ -2387,15 +2360,10 @@ var productExceptSelf = function(nums) {
 
     return result;
 };
+productExceptSelf([1,2,3,4])
+// [24,12,8,6]
 ```
-
-### Explanation:
-
-1. **First Pass (Prefix Product)**:
-   - Traverse the array left-to-right, calculating cumulative products up to the current index, storing them in `result`.
-
-2. **Second Pass (Suffix Product)**:
-   - Traverse the array right-to-left, multiplying cumulative products from the right with the existing values in `result`.
+</details>
 
 <br>
 
@@ -2423,6 +2391,7 @@ Input: nums = [2,1,5,0,4,6]\
 Output: true\
 Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
 
+<details>
 
 #### Steps:
 1. Maintain two variables `first` and `second` to represent the smallest and second smallest numbers found so far.
@@ -2457,11 +2426,7 @@ console.log(increasingTriplet([1, 2, 3, 4, 5])); // true
 console.log(increasingTriplet([5, 4, 3, 2, 1])); // false
 console.log(increasingTriplet([2, 1, 5, 0, 4, 6])); // true
 ```
-
-### Explanation:
-1. In the array `[1, 2, 3, 4, 5]`, `first = 1`, `second = 2`, and `3` satisfies the condition \( nums[i] < nums[j] < nums[k] \), so it returns `true`.
-2. In `[5, 4, 3, 2, 1]`, no such triplet exists, so it returns `false`.
-3. In `[2, 1, 5, 0, 4, 6]`, the triplet is `(2, 4, 6)`.
+</details>
 
 <br>
 

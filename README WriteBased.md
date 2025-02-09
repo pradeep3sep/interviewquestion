@@ -1265,36 +1265,36 @@ console.log(arr); // Output: [5, 6, 7, 1, 2, 3, 4]
 <details>
 
 ```js
-function permutations(str) {
-  let result = [];
+function permute(str) {
+    const result = [];
 
-  // Base case: if the string has only one character, return it as the only permutation
-  if (str.length === 1) {
-      result.push(str);
-      return result;
-  }
+    // Helper function to generate permutations
+    function generatePermutations(chars, index) {
+        if (index === chars.length - 1) {
+            result.push(chars.join('')); // When a permutation is ready
+            return;
+        }
 
-  for (let i = 0; i < str.length; i++) {
-      const char = str[i];
-      // Exclude the current character and get the rest of the string, can be like str.filter(e => e !== char)
-      const remainingChars = str.slice(0, i) + str.slice(i + 1);
+        for (let i = index; i < chars.length; i++) {
+            // Swap characters at index and i
+            [chars[index], chars[i]] = [chars[i], chars[index]];
+            
+            // Recurse for the next index
+            generatePermutations(chars, index + 1);
+            
+            // Backtrack: Swap back the characters
+            [chars[index], chars[i]] = [chars[i], chars[index]];
+        }
+    }
 
-      // Recursively find permutations of the remaining characters
-      const perms = permutations(remainingChars);
-
-      // Add the current character to the beginning of each permutation of the remaining characters
-      for (const perm of perms) {
-          result.push(char + perm);
-      }
-  }
-
-  return result;
+    generatePermutations(str.split(''), 0); // Split the string into an array of characters
+    return result;
 }
 
 // Example usage:
-const inputString = "abc";
-const result = permutations(inputString);
-console.log(result);
+const input = "ABC";
+const permutations = permute(input);
+console.log(permutations);
 ```
 
 </details>
