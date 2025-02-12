@@ -1024,6 +1024,22 @@ Thus, the output is `2`.
 
 <br>
 
+> ### Accessing Custom Attribute from HTML
+
+```html
+<div id="myDiv" data-name="pradeep" data-score="20"></div>
+```
+
+```js
+const myDiv = document.getElementById('myDiv')
+const name = myDiv.dataset.name 
+const score = myDiv.dataset.score
+
+console.log(name)  // "pradeep"
+console.log(score) // '20'
+```
+
+
 > ### Immediately Invoked function
 These are the function which we need only one time. when we write function and called immedialtely
 

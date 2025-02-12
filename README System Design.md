@@ -1857,7 +1857,9 @@ Communication protocols are essential rules and conventions for data transfer be
 
 Each protocol plays a specific role in enabling reliable, efficient, and secure communication between devices across various types of networks. These protocols can operate at different layers of the OSI (Open Systems Interconnection) model, from the physical transfer of data to application-level interactions.
 
-Explaining 8 Popular Network Protocols in 1 Diagram. The method to download the high-resolution PDF is available at the end.
+> ### Explaining 8 Popular Network Protocols in 1 Diagram. The method to download the high-resolution PDF is available at the end.
+
+If have the time then get the knowlege of each
 
 Network protocols are standard methods of transferring data between two computers in a network.
 
@@ -3653,11 +3655,156 @@ Below is image to know which is protocol ie http1 or http2 or http3
 
 https://web.dev/articles/codelab-text-compression-brotli
 
+> Compression Technique
+
+we have default gzip compression technique but we can switch to brotli compression technique, which is
+
+- 14% smaller than gzip for JavaScript
+- 21% smaller than gzip for HTML
+- 17% smaller than gzip for CSS
+
+
+### Brotli in BE
+
+### 1. Steps to Set Up Brotli Compression using 'compression' package:
+
+- **Install Required Packages**
+
+   You need to install the `compression` package (which includes Brotli support) and `express` (if you're using Express).
+
+   ```bash
+   npm install compression express
+   ```
+
+   If you're not using Express, you can still use `compression` as a standalone middleware for any HTTP server in Node.js.
+
+- **Set Up Compression Middleware in Express**
+
+   If you're using Express, you can set up Brotli compression like this:
+
+   ```javascript
+   const express = require('express');
+   const compression = require('compression');
+
+   const app = express();
+
+   // Enable Brotli compression
+   app.use(compression({ 
+     threshold: 0, // Compress all responses (even small ones)
+     filter: (req, res) => {
+       // Only enable Brotli compression for requests that accept it
+       return req.headers['accept-encoding'] && req.headers['accept-encoding'].includes('br');
+     },
+   }));
+
+   app.get('/', (req, res) => {
+     res.send('Hello, Brotli!');
+   });
+
+   app.listen(3000, () => {
+     console.log('Server is running on port 3000');
+   });
+   ```
+
+   - The `compression` middleware automatically detects supported encodings in the `Accept-Encoding` header.
+   - By default, it will use gzip, but you can configure it to prioritize Brotli (`br`).
+
+- **Add Broccoli to the `Accept-Encoding` Header**
+
+   Ensure that the `Accept-Encoding` header in the incoming HTTP requests indicates that the client supports Brotli compression. For instance, the header should look like this:
+
+   ```
+   Accept-Encoding: br, gzip, deflate
+   ```
+
+   If the request contains `br`, Brotli compression will be used for that response.
+
+- **Test Your Setup**
+
+   After setting up Brotli compression, you can test it by sending a request to the server and inspecting the `Content-Encoding` header in the response.
+
+   For example, using `curl`:
+
+   ```bash
+   curl -H "Accept-Encoding: br" -I http://localhost:3000
+   ```
+
+   You should see `Content-Encoding: br` in the response headers.
+
+
+
+### 2. Alternative: Using `brotli` Directly
+
+If you don't want to use `compression` and prefer to use Brotli directly, you can use the `zlib` built-in module, which includes Brotli support from Node.js v11 onwards.
+
+```javascript
+const http = require('http');
+const zlib = require('zlib');
+
+const server = http.createServer((req, res) => {
+  if (req.headers['accept-encoding'] && req.headers['accept-encoding'].includes('br')) {
+    // Set up Brotli compression
+    res.setHeader('Content-Encoding', 'br');
+    const brotli = zlib.createBrotliCompress();
+    res.pipe(brotli).pipe(res);
+  }
+
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello, Brotli!');
+});
+
+server.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+```
+
+This example shows how to use the built-in `zlib` module for Brotli compression without using an external library. The `createBrotliCompress()` method compresses the response.
+
+
+### Brotli in FE
+
+In Fe side, when we run the build command in react or other, it build using default gzib compression technique, we can change the default compression technique to brotlli.
+
+We have many module bundler like webpack or any other we can configure in that bundler for compression to use brotli. Keep in mind the server we have dployed our FE code on server(any like ngnix serve, amazon ec2 serve), it should serve the brotli compression file
+
+- **Webpack and Brotli Compression**:
+  If you're using Webpack to bundle your React app, you can set up Brotli compression for your static files during the build process.
+
+  **Installing the `brotli-webpack-plugin`:**
+
+  ```bash
+  npm install brotli-webpack-plugin --save-dev
+  ```
+
+  **Configuring Webpack:**
+
+  Add the plugin to your `webpack.config.js` to create `.br` files for your assets:
+
+  ```javascript
+  const BrotliPlugin = require('brotli-webpack-plugin');
+
+  module.exports = {
+    // Other Webpack configurations...
+    plugins: [
+      new BrotliPlugin({
+        asset: '[path].br[query]',
+        test: /\.(js|css|html|svg)$/,
+        threshold: 10240,  // Compress files larger than 10 KB
+        minRatio: 0.8,  // Only compress files with a compression ratio above 0.8
+      }),
+    ],
+  };
+  ```
+
+With this setup, Webpack will generate `.br` versions of your `.js`, `.css`, `.html`, and `.svg` files, which can then be served by your server.
+
+
+
 
 > ### How could you do to improve performance in React?
 
-React.memo - HOC will help to avoid unnesessary render
-lazy loading
+React.memo - HOC will help to avoid unnesessary render\
+lazy loading\
 Function/Stateless Components and React.PureComponent - Function is better to zip; React.PureComponent does a shallow comparison on state change
 Multiple Chunk Files
 Using Production Mode Flag in Webpack - limit optimizations, such as minification or removing development-only code

@@ -1255,6 +1255,19 @@ Calling a function constructor with `new` results in the creation of an instance
 ### ⭐️ Question 60
 
 ```js
+console.log([10,20,30,40][1,3])
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: 40</p>
+
+  The last element from the second array is used as the index to get the value from the first array
+</details>
+
+### ⭐️ Question 60
+
+```js
 [1, 2, 3, 4].reduce((x, y) => console.log(x, y));
 ```
 
