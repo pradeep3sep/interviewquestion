@@ -1809,6 +1809,25 @@ When you enter a URL in a browser and press Enter, several steps occur behind th
 
 <br>
 
+> ### Explain TCP 3-Way Handshake process
+
+The TCP (Transmission Control Protocol) 3-way handshake is a process that establishes a reliable connection between two devices, typically a client and a server, before they can exchange data.
+
+Here's a step-by-step explanation of the TCP 3-way handshake process:
+
+1. **Client Sends a SYN (Synchronize) Packet**: When the client wants to initiate a connection with the server it sends a TCP packet with the SYN flag set to the server indicating the client's intent to establish a connection.
+2. **Server Responds with SYN-ACK Packet**: Upon receiving the SYN packet, the server acknowledges the client's request by sending a TCP packet back. This packet has the SYN and ACK (Acknowledge) flags set. The ACK flag indicates the server's acknowledgment of the client's request, and the SYN flag indicates its intent to establish a connection.
+3. **Client Acknowledges with an ACK Packet**: Once the client receives the SYN-ACK packet from the server, it sends an acknowledgment (ACK) packet back to the server. This packet has the ACK flag set and acknowledges the receipt of the server's response.
+Here's a summary of the flags used in each step:
+
+**SYN (Synchronize)**: Indicates the start of a connection request.
+
+**ACK (Acknowledge)**: Acknowledges the receipt of a packet or confirms a connection establishment.
+
+After the 3-way handshake is complete, both the client and server can start exchanging data in a reliable and orderly manner. If any of the packets in the handshake process are lost, the sender will retransmit them until a successful handshake is established.
+
+<br>
+
 ## DNS explained
 Real web addresses aren't the nice, memorable strings you type into your address bar to find your favorite websites. They are special numbers that look like this: 192.0.2.172.
 
@@ -3610,10 +3629,20 @@ https://web.dev/learn/performance/resource-hints
    ```html
    <link rel="preload" href="/font.woff2" as="font" crossorigin >
    ```
+   above can do in js, we can do it in react with webpack for components
+   ```
+   https://javascriptpatterns.vercel.app/patterns/performance-patterns/browser-hints#preload
+   ```
+
+
 
 - prefetch (load resource which are needed in near future with low priority - future navigation)
    ```html
    <link rel="prefetch" href="gstatic.css" as="style" >
+   ```
+    above can do in js, we can do it in react with webpack for components
+   ```
+   https://javascriptpatterns.vercel.app/patterns/performance-patterns/browser-hints#prefetch
    ```
 
 - prerender (loads entire page and all its dependency in background which display hidden)
@@ -3666,7 +3695,7 @@ we have default gzip compression technique but we can switch to brotli compressi
 
 ### Brotli in BE
 
-### 1. Steps to Set Up Brotli Compression using 'compression' package:
+#### 1. Steps to Set Up Brotli Compression using 'compression' package:
 
 - **Install Required Packages**
 
@@ -3733,7 +3762,7 @@ we have default gzip compression technique but we can switch to brotli compressi
 
 
 
-### 2. Alternative: Using `brotli` Directly
+#### 2. Alternative: Using `brotli` Directly
 
 If you don't want to use `compression` and prefer to use Brotli directly, you can use the `zlib` built-in module, which includes Brotli support from Node.js v11 onwards.
 
@@ -3798,53 +3827,45 @@ We have many module bundler like webpack or any other we can configure in that b
 
 With this setup, Webpack will generate `.br` versions of your `.js`, `.css`, `.html`, and `.svg` files, which can then be served by your server.
 
+<br>
 
+> ### Tree shaking
 
+```
+https://javascriptpatterns.vercel.app/patterns/performance-patterns/introduction#tree-shaking
+```
+
+<br>
 
 > ### How could you do to improve performance in React?
 
 React.memo - HOC will help to avoid unnesessary render\
 lazy loading\
-Function/Stateless Components and React.PureComponent - Function is better to zip; React.PureComponent does a shallow comparison on state change
-Multiple Chunk Files
-Using Production Mode Flag in Webpack - limit optimizations, such as minification or removing development-only code
-Dependency optimization - checking how much code you are actually utilizing from dependencies
-Use React.Fragments to Avoid Additional HTML Element Wrappers
-Avoid Inline Function Definition in the Render Function
-Throttling and Debouncing Event Action in JavaScript
-Avoid using Index as Key for map
-Avoiding Props in Initial States
-Spreading props on DOM elements - it adds unknown HTML attribute
-Use Reselect in Redux to Avoid Frequent Re-render
-CSS Animations Instead of JS Animations
-Using a CDN
-Using Web Workers for CPU Extensive Tasks
-Virtualize Long Lists
-Analyzing and Optimizing Your Webpack Bundle Bloat
-Consider Server-side Rendering
-Enable Gzip Compression on Web Server
+Function/Stateless Components and React.PureComponent - Function is better to zip;\
+React.PureComponent does a shallow comparison on state change\
+Multiple Chunk Files\
+Using Production Mode Flag in Webpack - limit optimizations, such as minification or removing development-only code\
+Dependency optimization - checking how much code you are actually utilizing from dependencies\
+Use React.Fragments to Avoid Additional HTML Element Wrappers\
+Avoid Inline Function Definition in the Render Function\
+Throttling and Debouncing Event Action in JavaScript\
+Avoid using Index as Key for map\
+Avoiding Props in Initial States\
+Spreading props on DOM elements - it adds unknown HTML attribute\
+Use Reselect in Redux to Avoid Frequent Re-render\
+CSS Animations Instead of JS Animations\
+Using a CDN\
+Using Web Workers for CPU Extensive Tasks\
+Virtualize Long Lists\
+Analyzing and Optimizing Your Webpack Bundle Bloat\
+Consider Server-side Rendering\
+Enable Gzip Compression on Web Server\
 Using Immutable Data Structures
 
 https://www.codementor.io/blog/react-optimization-5wiwjnf9hj
 
 
-> ### Explain TCP 3-Way Handshake process
-
-The TCP (Transmission Control Protocol) 3-way handshake is a process that establishes a reliable connection between two devices, typically a client and a server, before they can exchange data.
-
-Here's a step-by-step explanation of the TCP 3-way handshake process:
-
-1. Client Sends a SYN (Synchronize) Packet: When the client wants to initiate a connection with the server it sends a TCP packet with the SYN flag set to the server indicating the client's intent to establish a connection.
-2. Server Responds with SYN-ACK Packet: Upon receiving the SYN packet, the server acknowledges the client's request by sending a TCP packet back. This packet has the SYN and ACK (Acknowledge) flags set. The ACK flag indicates the server's acknowledgment of the client's request, and the SYN flag indicates its intent to establish a connection.
-3. Client Acknowledges with an ACK Packet: Once the client receives the SYN-ACK packet from the server, it sends an acknowledgment (ACK) packet back to the server. This packet has the ACK flag set and acknowledges the receipt of the server's response.
-Here's a summary of the flags used in each step:
-
-**SYN (Synchronize)**: Indicates the start of a connection request.
-
-**ACK (Acknowledge)**: Acknowledges the receipt of a packet or confirms a connection establishment.
-
-After the 3-way handshake is complete, both the client and server can start exchanging data in a reliable and orderly manner. If any of the packets in the handshake process are lost, the sender will retransmit them until a successful handshake is established.
-
+<br>
 
 > ### CDN explained
 
@@ -3852,15 +3873,16 @@ CDN stands for Content Delivery Network. It is a distributed network of servers 
 
 Here's why we use CDNs:
 
-1. Faster Content Delivery: CDNs cache content on their servers, which are geographically dispersed. This results in faster loading times and improved website performance.
-2. Reduced Server Load: CDNs offload a significant portion of the traffic from a website's origin server. This is especially beneficial during traffic spikes or DDoS attacks, as CDNs can absorb a large portion of the incoming requests.
-3. Improved Scalability: CDNs are designed to scale easily to accommodate growing website traffic without having to invest in additional server infrastructure.
-4. Enhanced Reliability: CDNs offer redundancy and failover capabilities. If one CDN server goes down, requests are automatically routed to the next closest server, ensuring continuous availability and reliability of content.
-5. Security: CDNs often include security features like DDoS protection, Web Application Firewalls (WAF), and SSL/TLS encryption.
-6. Global Reach: CDNs' global presence ensures that users from different parts of the world can access content quickly, regardless of their location.
-7. Bandwidth Savings: CDNs can compress and optimize content, reducing the amount of data that needs to be transferred leading to cost savings for both website owners and users.
-8. Analytics and Reporting: CDNs typically provide detailed analytics and reporting tools that allow website owners to monitor traffic, user behavior, and other relevant metrics.
+1. **Faster Content Delivery**: CDNs cache content on their servers, which are geographically dispersed. This results in faster loading times and improved website performance.
+2. **Reduced Server Load**: CDNs offload a significant portion of the traffic from a website's origin server. This is especially beneficial during traffic spikes or DDoS attacks, as CDNs can absorb a large portion of the incoming requests.
+3. **Improved Scalability**: CDNs are designed to scale easily to accommodate growing website traffic without having to invest in additional server infrastructure.
+4. **Enhanced Reliability**: CDNs offer redundancy and failover capabilities. If one CDN server goes down, requests are automatically routed to the next closest server, ensuring continuous availability and reliability of content.
+5. **Security**: CDNs often include security features like DDoS protection, Web Application Firewalls (WAF), and SSL/TLS encryption.
+6. **Global Reach**: CDNs' global presence ensures that users from different parts of the world can access content quickly, regardless of their location.
+7. **Bandwidth Savings**: CDNs can compress and optimize content, reducing the amount of data that needs to be transferred leading to cost savings for both website owners and users.
+8. **Analytics and Reporting**: CDNs typically provide detailed analytics and reporting tools that allow website owners to monitor traffic, user behavior, and other relevant metrics.
 
+<br>
 
 > ### Detect web page crash
 
@@ -3904,9 +3926,9 @@ JavaScript engines automatically manage memory through a process called garbage 
 
 **Debugging Memory Leaks (Chrome Dev Tools)**
 
-Heap Snapshot: Use the "Heap Snapshot" feature in Chrome Dev Tools to take snapshots of the heap memory at different points in time.
-Comparison: Compare snapshots to identify which objects have increased in memory usage.
-Retaining Paths: Examine "retaining paths" to find out what is preventing an object from being garbage collected.
+**Heap Snapshot**: Use the "Heap Snapshot" feature in Chrome Dev Tools to take snapshots of the heap memory at different points in time.
+**Comparison**: Compare snapshots to identify which objects have increased in memory usage.
+**Retaining Paths**: Examine "retaining paths" to find out what is preventing an object from being garbage collected.
 
 
 **Preventing Memory Leaks**
