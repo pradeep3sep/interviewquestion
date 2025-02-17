@@ -3,7 +3,7 @@ onKeyDown
 
 onPaste
 
-OnClick
+onClick
 
 onInput
 
@@ -125,20 +125,9 @@ import Input from '@modules/common/components/Input'
 
 <br>
 
-
-> ### npm install recharts for react charts
-
-> ### for react icon, npm i react-icons
-
-
-<br>
-
-
 > ### Hooks are stored in number which is the sequence declared in the code, not by the name.
 
-
 <br>
-
 
 > ### In react,  we have the loaders and actions in react-router, loaders for the get and actions for the rest, action is like earlier we create the form which have action like POST,PATCH etc which work on submit button, it is replaced by action of react-router
 
@@ -768,9 +757,6 @@ The Virtual DOM works in three simple steps.
 The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components.\
 The Virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs.
 
-
-The Shadow DOM and Virtual DOM are two different concepts used to manage and render user interfaces in web development. Let's break down what each is and provide an example using functional components in a JavaScript library like React.
-
 ### Shadow DOM
 
 The Shadow DOM is a part of the Web Components standard, providing `encapsulation for DOM and CSS` or `separate environment dom, css from global environment`. It allows developers to create components with their own isolated DOM tree and styles, preventing style and script interference from the rest of the document.
@@ -881,7 +867,7 @@ fragments in JS
 
 2. <React.fragment></React.fragment>
 
-3. <div></div>
+3. `<div></div>`
 
 
 <br>

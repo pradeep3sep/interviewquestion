@@ -673,7 +673,7 @@ console.log(findZeroSumSubarray([4, 2, -3, 1, 6]));
 
 // { '4': 0 }
 // { '4': 0, '6': 1 }
-// { '3': 2, '4': 0, '6': 1 }
+// { '4': 0, '6': 1, '3': 2 }
 
 ```
 
@@ -957,12 +957,22 @@ console.log(rev.split("").reverse().join("") === str1);
 
 <br>
 
-> ### Q27- Leetcode - 796. Write a Code to check whether one string is a rotation of another
+> ### ⭐️ Q27- Leetcode - 796. Write a Code to check whether one string is a rotation of another
 Input: S1 = ABCD, S2 = CDAB\
 Output: Strings are rotations of each other\
 
 Input: S1 = ABCD, S2 = ACBD\
 Output: Strings are not rotations of each other
+
+Example 1:
+
+Input: s = "abcde", goal = "cdeab"\
+Output: true
+
+Example 2:
+
+Input: s = "abcde", goal = "abced"
+Output: false
 
 <details>
 
@@ -981,6 +991,43 @@ Output: Strings are not rotations of each other
   }
 
   console.log(checkRotation(str1, str2));
+```
+
+</details>
+
+<br>
+
+> ### ⭐️ Q34 - Array Rotation by n  
+const arr = [1,2,3,4,5,6] n=2\
+output =>   [5,6,1,2,3,4]
+
+<details>
+
+⏳ Time Complexity: O(n)\
+📌 Space Complexity: O(1)
+
+```js
+function rotateArray(arr, k) {
+    let n = arr.length;
+    k = k % n; // Handle cases where k > n
+
+    reverse(arr, 0, n - 1);
+    reverse(arr, 0, k - 1);
+    reverse(arr, k, n - 1);
+}
+
+function reverse(arr, start, end) {
+    while (start < end) {
+        [arr[start], arr[end]] = [arr[end], arr[start]];
+        start++;
+        end--;
+    }
+}
+
+// Example
+let arr = [1, 2, 3, 4, 5, 6, 7];
+rotateArray(arr, 3);
+console.log(arr); // Output: [5, 6, 7, 1, 2, 3, 4]
 ```
 
 </details>
@@ -1213,44 +1260,6 @@ The algorithm used in the code can be classified as a **"Hash Table Frequency Co
   }
 
   console.log(chunks); // [ [ 1, 2 ], [ 3, 4 ], [ 5, 6 ], [ 7 ] ]
-```
-
-</details>
-
-<br>
-
-
-> ### ⭐️ Q34 - Array Rotation by n  
-const arr = [1,2,3,4,5,6] n=2\
-output =>   [5,6,1,2,3,4]
-
-<details>
-
-⏳ Time Complexity: O(n)\
-📌 Space Complexity: O(1)
-
-```js
-function rotateArray(arr, k) {
-    let n = arr.length;
-    k = k % n; // Handle cases where k > n
-
-    reverse(arr, 0, n - 1);
-    reverse(arr, 0, k - 1);
-    reverse(arr, k, n - 1);
-}
-
-function reverse(arr, start, end) {
-    while (start < end) {
-        [arr[start], arr[end]] = [arr[end], arr[start]];
-        start++;
-        end--;
-    }
-}
-
-// Example
-let arr = [1, 2, 3, 4, 5, 6, 7];
-rotateArray(arr, 3);
-console.log(arr); // Output: [5, 6, 7, 1, 2, 3, 4]
 ```
 
 </details>

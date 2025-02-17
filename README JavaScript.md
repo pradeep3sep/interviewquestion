@@ -813,7 +813,7 @@ printMyName();
 
 <br>
 
-> ### Difference between subsring and slice
+> ### Difference between substring and slice
 - `substring()` `doesn't` support `negative indices`.
 - `slice()` `supports` negative indices.
 
@@ -1039,6 +1039,7 @@ console.log(name)  // "pradeep"
 console.log(score) // '20'
 ```
 
+<br>
 
 > ### Immediately Invoked function
 These are the function which we need only one time. when we write function and called immedialtely
@@ -1867,7 +1868,7 @@ function isNaN(x) {
 3. But when the browser run, it convert all the file into one which cause merging and clashing of variable, because the variable declared have the global variable not the local or isolated variable.
 
 ```html
-<script type="mdoule"></script>
+<script type="module"></script>
 ```
 
 - Top level imports make imports known before execution. This makes bundling and dead code elimination possible

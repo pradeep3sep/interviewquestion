@@ -792,7 +792,7 @@ In the two-pointer algorithm, there are several common steps or patterns that we
    ```
 <br>
 
-> ### Container With Most Water
+> ### 11. Container With Most Water
 
 You are given an integer array `height` of length `n`. There are n vertical lines drawn such that the two endpoints of the `ith` line are `(i, 0)` and `(i, height[i])`.
 
@@ -845,6 +845,59 @@ var maxArea = function(height) {
 ```
 
 </details>
+
+<br>
+
+> ### 633. Sum of Square Numbers
+
+Given a non-negative integer c, decide whether there're two integers a and b such that a2 + b2 = c.
+
+Example 1:
+
+Input: c = 5\
+Output: true\
+Explanation: 1 * 1 + 2 * 2 = 5
+
+Example 2:
+
+Input: c = 3\
+Output: false
+
+<details>
+
+1. Start with **left pointer** at \( a = 0 \) and **right pointer** at \( b = \lfloor \sqrt{c} \rfloor \).  
+2. Compute the sum of squares and compare it to \( c \).  
+3. Adjust pointers accordingly:  
+   - If sum is **less than** \( c \), increment \( a \).  
+   - If sum is **greater than** \( c \), decrement \( b \).  
+   - If sum **equals** \( c \), return `true`.  
+4. If no such pair exists, return `false`.  
+
+```javascript
+var judgeSquareSum = function(c) {
+    let left = 0, right = Math.floor(Math.sqrt(c));
+
+    while (left <= right) {
+        let sum = left * left + right * right;
+
+        if (sum === c) return true;
+        else if (sum < c) left++;
+        else right--;
+    }
+
+    return false;
+};
+
+// Example test cases
+console.log(judgeSquareSum(5)); // Output: true (1^2 + 2^2 = 5)
+console.log(judgeSquareSum(3)); // Output: false
+console.log(judgeSquareSum(4)); // Output: true (0^2 + 2^2 = 4)
+console.log(judgeSquareSum(25)); // Output: true (3^2 + 4^2 = 25)
+console.log(judgeSquareSum(1000)); // Output: true (6^2 + 28^2 = 1000)
+```
+
+</details>
+
 
 <br>
 
@@ -13603,4 +13656,762 @@ function hasGroupsSizeX(deck) {
 // Example Usage
 console.log(hasGroupsSizeX([1, 2, 3, 4, 4, 3, 2, 1])); // Output: true
 console.log(hasGroupsSizeX([1, 1, 1, 2, 2, 2, 3, 3])); // Output: false
+```
+
+
+> ### 941. Valid Mountain Array
+
+Given an array of integers arr, return true if and only if it is a valid mountain array.
+
+![screenshot](images/mountain.png)
+
+Example 1:
+
+Input: arr = [2,1]\
+Output: false
+
+Example 2:
+
+Input: arr = [3,5,5]\
+Output: false
+
+Example 3:
+
+Input: arr = [0,3,2,1]\
+Output: true
+
+
+```js
+var validMountainArray = function (arr) {
+  const n = arr.length;
+
+  let pivot = false;
+
+  for (let i = 1; i < arr.length - 1; i++) {
+    const curr = arr[i];
+    const prev = arr[i - 1];
+    const next = arr[i + 1];
+
+    if (curr > prev && curr > next) {
+      pivot = true;
+    } else if (prev >= curr && next >= curr) {
+      return false;
+    }
+  }
+
+  return pivot;
+};
+```
+
+<br>
+
+> ### 69. Sqrt(x)
+
+Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.
+
+You must not use any built-in exponent function or operator.
+
+For example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.
+ 
+
+Example 1:
+
+Input: x = 4\
+Output: 2\
+Explanation: The square root of 4 is 2, so we return 2.
+
+Example 2:
+
+Input: x = 8\
+Output: 2\
+Explanation: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.
+
+
+<details>
+
+```js
+var mySqrt = function(x) {
+    if (x === 0) return 0; // Edge case for 0
+
+    let left = 1, right = x;
+
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+        let squared = mid * mid;
+
+        if (squared === x) {
+            return mid;
+        } else if (squared < x) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return right; // Return the largest integer less than or equal to sqrt(x)
+};
+```
+</details>
+
+
+> ### 1221. Split a String in Balanced Strings
+
+Balanced strings are those that have an equal quantity of 'L' and 'R' characters.
+
+Given a balanced string s, split it into some number of substrings such that:
+
+Each substring is balanced. Return the maximum number of balanced strings you can obtain.
+
+Example 1:
+
+Input: s = "RLRRLLRLRL"\
+Output: 4\
+Explanation: s can be split into "RL", "RRLL", "RL", "RL", each substring contains same number of 'L' and 'R'.
+
+Example 2:
+
+Input: s = "RLRRRLLRLL"\
+Output: 2\
+Explanation: s can be split into "RL", "RRRLLRLL", each substring contains same number of 'L' and 'R'.\
+Note that s cannot be split into "RL", "RR", "RL", "LR", "LL", because the 2nd and 5th substrings are not balanced.
+
+Example 3:
+
+Input: s = "LLLLRRRR"\
+Output: 1\
+Explanation: s can be split into "LLLLRRRR".
+
+<details>
+
+#### **Approach: Greedy with Balance Tracking**
+1. **Initialize two variables:**
+   - `balance = 0` → This tracks the difference between the count of 'R' and 'L'.
+   - `count = 0` → This keeps track of how many balanced substrings we have found.
+
+2. **Iterate through the string `s` character by character:**
+   - If the character is `'R'`, increase `balance` by `1` (`balance += 1`).
+   - If the character is `'L'`, decrease `balance` by `1` (`balance -= 1`).
+
+3. **Whenever `balance === 0`, we have a balanced substring:**
+   - Increase `count` by `1` because we just found a valid split.
+   - Continue processing the remaining part of the string.
+
+4. **Return `count` at the end.**
+
+### **Example Walkthrough**
+#### **Example 1:**
+```plaintext
+Input: "RLRRLLRLRL"
+```
+We process the string character by character:
+
+| Step | Char | Balance (`R = +1`, `L = -1`) | Balanced Substring Found? |
+|------|------|-----------------------------|----------------------------|
+| 1    | R    | 1                           | No                         |
+| 2    | L    | 0                           | ✅ Yes → `count = 1`       |
+| 3    | R    | 1                           | No                         |
+| 4    | R    | 2                           | No                         |
+| 5    | L    | 1                           | No                         |
+| 6    | L    | 0                           | ✅ Yes → `count = 2`       |
+| 7    | R    | 1                           | No                         |
+| 8    | L    | 0                           | ✅ Yes → `count = 3`       |
+| 9    | R    | 1                           | No                         |
+| 10   | L    | 0                           | ✅ Yes → `count = 4`       |
+
+**Final Output:** `4`
+
+### **Code Implementation**
+```javascript
+var balancedStringSplit = function(s) {
+    let balance = 0, count = 0;
+
+    for (let char of s) {
+        balance += (char === 'R' ? 1 : -1);
+        if (balance === 0) count++; // Found a balanced substring
+    }
+
+    return count;
+};
+
+// Example test cases
+console.log(balancedStringSplit("RLRRLLRLRL")); // Output: 4
+console.log(balancedStringSplit("RLRRRLLRLL")); // Output: 2
+console.log(balancedStringSplit("LLLLRRRR"));   // Output: 1
+console.log(balancedStringSplit("LRLR"));       // Output: 2
+```
+</details>
+
+
+> ### 821. Shortest Distance to a Character
+
+Given a string s and a character c that occurs in s, return an array of integers answer where answer.length == s.length and answer[i] is the distance from index i to the closest occurrence of character c in s.
+
+The distance between two indices i and j is abs(i - j), where abs is the absolute value function.
+
+Example 1:
+
+Input: s = "loveleetcode", c = "e"\
+Output: [3,2,1,0,1,0,0,1,2,2,1,0]\
+Explanation: The character 'e' appears at indices 3, 5, 6, and 11 (0-indexed).\
+The closest occurrence of 'e' for index 0 is at index 3, so the distance is abs(0 - 3) = 3.\
+The closest occurrence of 'e' for index 1 is at index 3, so the distance is abs(1 - 3) = 2.\
+For index 4, there is a tie between the 'e' at index 3 and the 'e' at index 5, but the distance is still the same: abs(4 - 3) == abs(4 - 5) = 1.\
+The closest occurrence of 'e' for index 8 is at index 6, so the distance is abs(8 - 6) = 2.
+
+Example 2:
+
+Input: s = "aaab", c = "b"\
+Output: [3,2,1,0]
+
+video - https://youtu.be/NJ294ovmUB4?si=wfqeen7_5mv_senR&t=55
+
+### **Algorithm Name: Two-Pass Approach (Forward & Backward Scan)**  
+
+#### **Optimal Approach Using Two-Pass Traversal**
+We solve this problem efficiently in **O(n) time** by scanning the string twice:  
+1. **First Pass (Left to Right):** Track the closest occurrence of `c` from the left.
+2. **Second Pass (Right to Left):** Track the closest occurrence from the right and update distances.
+
+
+### **Implementation in JavaScript**
+```javascript
+var shortestToChar = function(s, c) {
+    let n = s.length;
+    let answer = new Array(n).fill(Infinity);
+    let prev = -Infinity;
+
+    // Left to right pass
+    for (let i = 0; i < n; i++) {
+        if (s[i] === c) prev = i;
+        answer[i] = Math.abs(i - prev);
+    }
+
+    prev = Infinity;
+    // Right to left pass
+    for (let i = n - 1; i >= 0; i--) {
+        if (s[i] === c) prev = i;
+        answer[i] = Math.min(answer[i], Math.abs(i - prev));
+    }
+
+    return answer;
+};
+
+// Example test cases
+console.log(shortestToChar("loveleetcode", "e")); // Output: [3,2,1,0,1,0,0,1,2,2,1,0]
+console.log(shortestToChar("aaab", "b")); // Output: [3,2,1,0]
+```
+
+> ### 35. Search Insert Position
+
+Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Example 1:
+
+Input: nums = [1,3,5,6], target = 5\
+Output: 2
+
+Example 2:
+
+Input: nums = [1,3,5,6], target = 2\
+Output: 1
+
+Example 3:
+
+Input: nums = [1,3,5,6], target = 7\
+Output: 4
+
+
+```js
+var searchInsert = function(nums, target) {
+    let left = 0, right = nums.length - 1;
+
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+        
+        if (nums[mid] === target) {
+            return mid;  // Target found
+        } else if (nums[mid] < target) {
+            left = mid + 1;  // Search right half
+        } else {
+            right = mid - 1; // Search left half
+        }
+    }
+
+    return left; // Target not found, return insertion index
+};
+```
+
+> ### 788. Rotated Digits
+
+An integer x is a good if after rotating each digit individually by 180 degrees, we get a valid number that is different from x. Each digit must be rotated - we cannot choose to leave it alone.
+
+A number is valid if each digit remains a digit after rotation. For example:
+
+0, 1, and 8 rotate to themselves,\
+2 and 5 rotate to each other (in this case they are rotated in a different direction, in other words, 2 or 5 gets mirrored),\
+6 and 9 rotate to each other, and\
+the rest of the numbers do not rotate to any other number and become invalid.\
+Given an integer n, return the number of good integers in the range [1, n].
+
+Example 1:
+
+Input: n = 10\
+Output: 4\
+Explanation: There are four good numbers in the range [1, 10] : 2, 5, 6, 9.\
+Note that 1 and 10 are not good numbers, since they remain unchanged after rotating.
+
+Example 2:
+
+Input: n = 1\
+Output: 0
+
+Example 3:
+
+Input: n = 2\
+Output: 1
+
+video - https://youtu.be/J8rh2Yacu0c?si=pAE3oA3lMHuvLS8F
+
+### **Key Idea**
+- Use a **DP array** where:
+  - `dp[i] = 0` → Invalid (contains 3, 4, 7).
+  - `dp[i] = 1` → Valid but unchanged (only contains 0, 1, 8).
+  - `dp[i] = 2` → Valid and changes (contains 2, 5, 6, 9) → **"Good Number"**.
+
+- For each `i`:
+  - If `i < 10`, we check directly.
+  - If `i >= 10`, **use previous DP results**:
+    - `dp[i] = dp[i / 10]` (last digit) & `dp[i % 10]` (remaining).
+    - If any part is invalid (`0`), the whole number is invalid.
+    - If any part is a "good number" (`2`), the whole number is good.
+
+### **Optimized JavaScript Implementation**
+```javascript
+var rotatedDigits = function(n) {
+    let dp = new Array(n + 1).fill(0);
+    let count = 0;
+
+    for (let i = 0; i <= n; i++) {
+        if (i < 10) {
+            if ("347".includes(i.toString())) {
+                dp[i] = 0; // Invalid
+            } else if ("2569".includes(i.toString())) {
+                dp[i] = 2; // Good number (changes)
+                count++;
+            } else {
+                dp[i] = 1; // Valid but unchanged
+            }
+        } else {
+            let lastDigit = i % 10;
+            let remaining = Math.floor(i / 10);
+
+            if (dp[lastDigit] === 0 || dp[remaining] === 0) {
+                dp[i] = 0; // Invalid
+            } else if (dp[lastDigit] === 2 || dp[remaining] === 2) {
+                dp[i] = 2; // Good number (changes)
+                count++;
+            } else {
+                dp[i] = 1; // Valid but unchanged
+            }
+        }
+    }
+
+    return count;
+};
+
+// Example test cases
+console.log(rotatedDigits(10)); // Output: 4
+console.log(rotatedDigits(20)); // Output: 9
+console.log(rotatedDigits(30)); // Output: 15
+```
+
+
+> ### 1332. Remove Palindromic Subsequences
+
+You are given a string s consisting only of letters 'a' and 'b'. In a single step you can remove one palindromic subsequence from s.
+
+Return the minimum number of steps to make the given string empty.
+
+A string is a subsequence of a given string if it is generated by deleting some characters of a given string without changing its order. Note that a subsequence does not necessarily need to be contiguous.
+
+A string is called palindrome if is one that reads the same backward as well as forward.
+
+Example 1:
+
+Input: s = "ababa"\
+Output: 1\
+Explanation: s is already a palindrome, so its entirety can be removed in a single step.
+
+Example 2:
+
+Input: s = "abb"\
+Output: 2\
+Explanation: "abb" -> "bb" -> "".\
+Remove palindromic subsequence "a" then "bb".
+
+Example 3:
+
+Input: s = "baabb"\
+Output: 2\
+Explanation: "baabb" -> "b" -> "". \
+Remove palindromic subsequence "baab" then "b".
+
+
+### **Key Observations**
+1. **If the string `s` is already a palindrome**, we can remove it in **1 step**.
+2. **If `s` is not a palindrome**, we can always remove all `'a'` characters in one step and all `'b'` characters in another step.  
+   - This guarantees that the entire string will be removed in **2 steps**.
+
+
+### **Optimized JavaScript Implementation**
+```javascript
+var removePalindromeSub = function(s) {
+    return s === s.split('').reverse().join('') ? 1 : 2;
+};
+
+// Example test cases
+console.log(removePalindromeSub("ababa")); // Output: 1
+console.log(removePalindromeSub("abb"));   // Output: 2
+console.log(removePalindromeSub("baabb")); // Output: 2
+console.log(removePalindromeSub(""));      // Output: 0 (Empty string needs no steps)
+```
+
+
+> ### 1047. Remove All Adjacent Duplicates In String
+
+You are given a string s consisting of lowercase English letters. A duplicate removal consists of choosing two adjacent and equal letters and removing them.
+
+We repeatedly make duplicate removals on s until we no longer can.
+
+Return the final string after all such duplicate removals have been made. It can be proven that the answer is unique.
+
+Example 1:
+
+Input: s = "abbaca"\
+Output: "ca"\
+Explanation:\
+For example, in "abbaca" we could remove "bb" since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is "aaca", of which only "aa" is possible, so the final string is "ca".
+
+Example 2:
+
+Input: s = "azxxzy"\
+Output: "ay"
+
+### **Optimized Approach Using Stack (O(n) Time, O(n) Space)**
+
+We can solve this problem efficiently using a **stack**. The idea is to iterate through the string and keep track of characters using a stack. Whenever we encounter a duplicate adjacent character (i.e., it matches the top of the stack), we remove it.
+
+### **Algorithm**
+1. **Initialize a stack** to store characters.
+2. **Iterate through `s`**:
+   - If the stack is **not empty** and the current character is equal to the top of the stack, **pop** (remove) the top.
+   - Otherwise, **push** the current character onto the stack.
+3. **Return the final stack** as a string.
+
+
+### **Optimized JavaScript Implementation**
+```javascript
+var removeDuplicates = function(s) {
+    let stack = [];
+    
+    for (let char of s) {
+        if (stack.length && stack[stack.length - 1] === char) {
+            stack.pop(); // Remove duplicate
+        } else {
+            stack.push(char);
+        }
+    }
+    
+    return stack.join(''); // Convert stack back to string
+};
+
+// Example test cases
+console.log(removeDuplicates("abbaca")); // Output: "ca"
+console.log(removeDuplicates("azxxzy")); // Output: "ay"
+console.log(removeDuplicates("aabbcc")); // Output: ""
+console.log(removeDuplicates("abc"));    // Output: "abc"
+```
+
+> ### 231. Power of Two/Three, (replace 2 with 3 in soln)
+
+Given an integer n, return true if it is a power of two. Otherwise, return false.
+
+An integer n is a power of two, if there exists an integer x such that n == 2x.
+
+Example 1:
+
+Input: n = 1\
+Output: true\
+Explanation: 20 = 1
+
+Example 2:
+
+Input: n = 16\
+Output: true\
+Explanation: 24 = 16
+
+Example 3:
+
+Input: n = 3\
+Output: false
+
+### **Optimized Approach: Using Iteration (O(log n))**  
+
+If `n` is a power of two, it should be **divisible by 2 repeatedly** until it becomes `1`. Otherwise, it will have a remainder at some step.
+
+### **JavaScript Solution (Without Bitwise Operations)**  
+```javascript
+var isPowerOfTwo = function(n) {
+    if (n <= 0) return false; // Power of two must be positive
+
+    while (n > 1) {
+        if (n % 2 !== 0) return false; // If not divisible by 2, return false
+        n /= 2; // Keep dividing by 2
+    }
+    
+    return true; // If we reach 1, it is a power of two
+};
+
+// Example test cases
+console.log(isPowerOfTwo(1));  // true
+console.log(isPowerOfTwo(16)); // true
+console.log(isPowerOfTwo(3));  // false
+console.log(isPowerOfTwo(64)); // true
+console.log(isPowerOfTwo(0));  // false
+```
+
+
+> ### 66. Plus One
+
+You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.
+
+Increment the large integer by one and return the resulting array of digits.
+
+Example 1:
+
+Input: digits = [1,2,3]\
+Output: [1,2,4]\
+Explanation: The array represents the integer 123.\
+Incrementing by one gives 123 + 1 = 124.\
+Thus, the result should be [1,2,4].
+
+Example 2:
+
+Input: digits = [4,3,2,1]\
+Output: [4,3,2,2]\
+Explanation: The array represents the integer 4321.\
+Incrementing by one gives 4321 + 1 = 4322.\
+Thus, the result should be [4,3,2,2].
+
+Example 3:
+
+Input: digits = [9]\
+Output: [1,0]\
+Explanation: The array represents the integer 9.\
+Incrementing by one gives 9 + 1 = 10.\
+Thus, the result should be [1,0].
+
+### **JavaScript Solution (O(n) Time, O(1) Space)**
+```javascript
+var plusOne = function(digits) {
+    let n = digits.length;
+
+    for (let i = n - 1; i >= 0; i--) {
+        if (digits[i] < 9) {
+            digits[i]++;  // Just increment and return early
+            return digits;
+        }
+        digits[i] = 0;  // If it's 9, make it 0 and continue loop
+    }
+
+    // If loop ends, that means we had all 9s (like 999 → 1000)
+    digits.unshift(1);
+    return digits;
+};
+
+// Example Test Cases
+console.log(plusOne([1,2,3]));   // [1,2,4]
+console.log(plusOne([4,3,2,1])); // [4,3,2,2]
+console.log(plusOne([9,9,9]));   // [1,0,0,0]
+console.log(plusOne([0]));       // [1]
+```
+
+### **Explanation**
+1. **Iterate from the last digit** and check:
+   - If it's `<9`, simply increment and return.
+   - If it's `9`, set it to `0` and continue (carry propagation).
+2. **If all digits were `9s`**, we need to insert `1` at the beginning.
+
+> ### 852. Peak Index in a Mountain Array
+
+You are given an integer mountain array arr of length n where the values increase to a peak element and then decrease.
+
+Return the index of the peak element.
+
+Your task is to solve it in O(log(n)) time complexity.
+
+Example 1:
+
+Input: arr = [0,1,0]
+
+Output: 1
+
+Example 2:
+
+Input: arr = [0,2,1,0]
+
+Output: 1
+
+Example 3:
+
+Input: arr = [0,10,5,2]
+
+Output: 1
+
+### **Optimal Approach: Binary Search (O(log n))**
+Since the array first increases to a peak and then decreases, we can use **binary search** to efficiently locate the peak.
+
+---
+
+### **JavaScript Solution (Binary Search)**
+```javascript
+var peakIndexInMountainArray = function(arr) {
+    let left = 0, right = arr.length - 1;
+
+    while (left < right) {
+        let mid = Math.floor((left + right) / 2);
+        
+        if (arr[mid] < arr[mid + 1]) {
+            // Move right (ascending part)
+            left = mid + 1;
+        } else {
+            // Move left (descending part)
+            right = mid;
+        }
+    }
+
+    return left; // or return right (both will be at peak)
+};
+
+// Example Test Cases
+console.log(peakIndexInMountainArray([0,1,0]));  // Output: 1
+console.log(peakIndexInMountainArray([0,2,1,0])); // Output: 1
+console.log(peakIndexInMountainArray([0,10,5,2])); // Output: 1
+console.log(peakIndexInMountainArray([1,3,5,7,9,8,6,4,2])); // Output: 4
+```
+
+### **Explanation**
+1. **Initialize Binary Search**:
+   - `left = 0`, `right = arr.length - 1`
+2. **Binary Search Condition**:
+   - If `arr[mid] < arr[mid + 1]`, we move `left = mid + 1` (ascending part).
+   - Else, we move `right = mid` (descending part).
+3. **Termination**:
+   - `left` and `right` will eventually converge to the peak index.
+
+
+> ### 1013. Partition Array Into Three Parts With Equal Sum
+
+Given an array of integers arr, return true if we can partition the array into three non-empty parts with equal sums.
+
+Formally, we can partition the array if we can find indexes i + 1 < j with (arr[0] + arr[1] + ... + arr[i] == arr[i + 1] + arr[i + 2] + ... + arr[j - 1] == arr[j] + arr[j + 1] + ... + arr[arr.length - 1])
+
+Example 1:
+
+Input: arr = [0,2,1,-6,6,-7,9,1,2,0,1]\
+Output: true\
+Explanation: 0 + 2 + 1 = -6 + 6 - 7 + 9 + 1 = 2 + 0 + 1
+
+Example 2:
+
+Input: arr = [0,2,1,-6,6,7,9,-1,2,0,1]\
+Output: false
+
+Example 3:
+
+Input: arr = [3,3,6,5,-2,2,5,1,-9,4]\
+Output: true\
+Explanation: 3 + 3 = 6 = 5 - 2 + 2 + 5 + 1 - 9 + 4
+
+### **Optimal Approach: One-Pass Greedy Solution (O(n))**
+Since we need to split the array into **three equal sum parts**, we first compute the **total sum**. If the total sum is **not divisible by 3**, it's **impossible** to partition the array.
+
+
+### **JavaScript Solution**
+```javascript
+var canThreePartsEqualSum = function(arr) {
+    let totalSum = arr.reduce((sum, num) => sum + num, 0);
+    
+    if (totalSum % 3 !== 0) return false; // Cannot be divided into 3 equal parts
+    
+    let targetSum = totalSum / 3;
+    let partitionSum = 0, count = 0;
+    
+    for (let num of arr) {
+        partitionSum += num;
+        
+        if (partitionSum === targetSum) {
+            count++; // Found one valid partition
+            partitionSum = 0; // Reset sum for the next partition
+        }
+        
+        if (count === 2) return true; // If two partitions are found, the third is automatic
+    }
+    
+    return false;
+};
+
+// Example Test Cases
+console.log(canThreePartsEqualSum([0,2,1,-6,6,-7,9,1,2,0,1]));  // Output: true
+console.log(canThreePartsEqualSum([0,2,1,-6,6,7,9,-1,2,0,1]));  // Output: false
+console.log(canThreePartsEqualSum([3,3,6,5,-2,2,5,1,-9,4]));    // Output: true
+```
+
+### **Explanation**
+1. **Compute Total Sum**:
+   - If the total sum is not divisible by `3`, return **false**.
+   - Otherwise, set `targetSum = totalSum / 3`.
+   
+2. **Greedy Partitioning**:
+   - Iterate through `arr`, accumulating the sum.
+   - If the sum reaches `targetSum`, count a partition and reset the sum.
+   - Stop early if we find **two** valid partitions (since the third is implied).
+
+3. **Final Check**:
+   - If two partitions are found, return **true**.
+   - Otherwise, return **false**.
+
+
+> ### 476. Number Complement (solution ka concept)
+
+The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
+
+For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
+Given an integer num, return its complement.
+
+Example 1:
+
+Input: num = 5\
+Output: 2\
+Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
+
+Example 2:
+
+Input: num = 1\
+Output: 0\
+Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
+
+```js
+var findComplement = function(num) {
+    let binary = num.toString(2); // Convert num to binary string
+    let complementStr = binary.split('').map(bit => bit === '1' ? '0' : '1').join('');
+    return parseInt(complementStr, 2); // Convert back to integer
+};
+
+// Example Test Cases
+console.log(findComplement(5));  // Output: 2
+console.log(findComplement(1));  // Output: 0
+console.log(findComplement(10)); // Output: 5
 ```
