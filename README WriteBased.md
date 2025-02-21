@@ -5994,3 +5994,82 @@ console.log(update({a: {c: 1}}, {a: {$merge: {c: 3}}}))
 
 console.log(update([1], {0: {$apply: (item) => item * 2}})) 
 ```
+
+
+
+> ### 441. Arranging Coins
+
+You have n coins and you want to build a staircase with these coins. The staircase consists of k rows where the ith row has exactly i coins. The last row of the staircase may be incomplete.
+
+Given the integer n, return the number of complete rows of the staircase you will build.
+
+Example 1:
+
+Input: n = 5\
+Output: 2\
+Explanation: Because the 3rd row is incomplete, we return 2.
+
+Example 2:
+
+Input: n = 8\
+Output: 3\
+Explanation: Because the 4th row is incomplete, we return 3.
+
+#### **Approach:**
+- The problem requires us to find the largest `k` such that the sum of the first `k` rows (`1 + 2 + ... + k = (k * (k + 1)) / 2`) is ≤ `n`.
+- Instead of looping through values of `k` (which takes **O(√N)**), we use **binary search** to find `k` efficiently.
+
+---
+
+### **JavaScript Solution**
+```javascript
+// Algorithm: Binary Search on Sum Formula
+function arrangeCoins(n) {
+    let left = 1, right = n;
+
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+        let sum = (mid * (mid + 1)) / 2;
+
+        if (sum === n) return mid;
+        if (sum < n) left = mid + 1;
+        else right = mid - 1;
+    }
+
+    return right; // Right will hold the largest k satisfying the condition
+}
+
+// Test Cases
+console.log(arrangeCoins(5));  // Output: 2
+console.log(arrangeCoins(8));  // Output: 3
+console.log(arrangeCoins(10)); // Output: 4
+console.log(arrangeCoins(1));  // Output: 1
+console.log(arrangeCoins(1000)); // Output: 44
+```
+
+
+```js
+function arrangeCoins(n) {
+  let rows = 0;  // Count of complete rows
+  while (n >= rows + 1) {  // Check if there are enough coins for the next row
+    rows++;  // Add a complete row
+    n -= rows;  // Deduct the number of coins used for the current row
+  }
+  return rows;  // Return the total number of complete rows
+}
+
+// Example usage
+console.log(arrangeCoins(5));  // Output: 2 (because 5 coins form 2 complete rows)
+console.log(arrangeCoins(8));  // Output: 3 (because 8 coins form 3 complete rows)
+```
+
+```js
+var arrangeCoins = function(n) {
+    let stairs = 1;
+    while(stairs <= n){
+        n -= stairs;
+        stairs++;
+    }
+    return stairs - 1;
+};
+```

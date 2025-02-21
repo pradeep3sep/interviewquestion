@@ -11,6 +11,75 @@
 - [Backtracking algorithm  ](#9-backtracking-algorithm)
 
 
+## Try to learn binary search in array
+
+> ### 704. Binary Search
+
+Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Example 1:
+
+Input: nums = [-1,0,3,5,9,12], target = 9\
+Output: 4\
+Explanation: 9 exists in nums and its index is 4
+
+Example 2:
+
+Input: nums = [-1,0,3,5,9,12], target = 2\
+Output: -1\
+Explanation: 2 does not exist in nums so return -1
+
+### **Algorithm: Binary Search (Iterative)**  
+
+#### **Approach:**
+- Since the array is **sorted**, we use **Binary Search**, which runs in **O(log N)**.
+- We maintain `left` and `right` pointers to track the search space.
+- At each step:
+  - Compute `mid = Math.floor((left + right) / 2)`.
+  - Compare `nums[mid]` with `target`:
+    - If equal, return `mid`.
+    - If smaller, search in the right half (`left = mid + 1`).
+    - If larger, search in the left half (`right = mid - 1`).
+- If we exit the loop, return `-1` (not found).
+
+---
+
+### **JavaScript Solution**
+```javascript
+// Algorithm: Binary Search (Iterative)
+function search(nums, target) {
+    let left = 0, right = nums.length - 1;
+
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+
+        if (nums[mid] === target) return mid;
+        if (nums[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+
+    return -1; // Target not found
+}
+
+// Test Cases
+console.log(search([-1,0,3,5,9,12], 9));  // Output: 4
+console.log(search([-1,0,3,5,9,12], 2));  // Output: -1
+console.log(search([1,2,3,4,5,6,7], 4));  // Output: 3
+console.log(search([5], 5));              // Output: 0
+console.log(search([], 3));               // Output: -1
+```
+
+---
+
+### **Time Complexity:**  
+- \( O(\log N) \) → Binary Search halves the search space each step.
+
+### **Space Complexity:**  
+- \( O(1) \) → Uses only a few variables.
+
+
 
 ## The Big O
 The Big O is basically `worst-case` running `time` of an `algorithm` as the input size increases
@@ -13004,11 +13073,6 @@ Explanation: Choose indices (1, 4) and nums becomes [2,3,-1,5,4].
 `video:` https://www.youtube.com/watch?v=8GDHYgbxTN4
 
 ```js
-/**
- * @param {number[]} nums
- * @param {number} k
- * @return {number}
- */
 function largestSumAfterKNegations(nums, k) {
     // Sort the array based on the absolute values in descending order
     nums.sort((a, b) => Math.abs(b) - Math.abs(a));
@@ -14414,4 +14478,502 @@ var findComplement = function(num) {
 console.log(findComplement(5));  // Output: 2
 console.log(findComplement(1));  // Output: 0
 console.log(findComplement(10)); // Output: 5
+```
+
+
+> ### 746. Min Cost Climbing Stairs
+
+You are given an integer array cost where cost[i] is the cost of ith step on a staircase. Once you pay the cost, you can either climb one or two steps.
+
+You can either start from the step with index 0, or the step with index 1.
+
+Return the minimum cost to reach the top of the floor.
+
+Example 1:
+
+Input: cost = [10,15,20]\
+Output: 15\
+Explanation: You will start at index 1.\
+- Pay 15 and climb two steps to reach the top.\
+The total cost is 15.
+
+Example 2:
+
+Input: cost = [1,100,1,1,1,100,1,1,100,1]\
+Output: 6\
+Explanation: You will start at index 0.
+- Pay 1 and climb two steps to reach index 2.
+- Pay 1 and climb two steps to reach index 4.
+- Pay 1 and climb two steps to reach index 6.
+- Pay 1 and climb one step to reach index 7.
+- Pay 1 and climb two steps to reach index 9.
+- Pay 1 and climb one step to reach the top.
+The total cost is 6.
+
+
+#### **Approach**
+1. Define `dp[i]` as the minimum cost to reach step `i`.
+2. We can reach step `i` from:
+   - Step `i - 1` with cost `cost[i - 1]`
+   - Step `i - 2` with cost `cost[i - 2]`
+3. The recurrence relation:
+   \[
+   dp[i] = \min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])
+   \]
+4. Start at either `cost[0]` or `cost[1]`, and calculate `dp` iteratively.
+
+---
+
+### **Optimized JavaScript Solution (O(1) Space)**
+Instead of storing the entire `dp` array, we only keep track of the last two steps.
+
+```javascript
+var minCostClimbingStairs = function(cost) {
+    let prev1 = 0, prev2 = 0; // Base cases
+    
+    for (let i = 2; i <= cost.length; i++) {
+        let curr = Math.min(prev1 + cost[i - 1], prev2 + cost[i - 2]);
+        prev2 = prev1;
+        prev1 = curr;
+    }
+    
+    return prev1;
+};
+
+// Example test cases:
+console.log(minCostClimbingStairs([10, 15, 20])); // Output: 15
+console.log(minCostClimbingStairs([1,100,1,1,1,100,1,1,100,1])); // Output: 6
+```
+
+
+> ### 624. Maximum Distance in Arrays
+
+You are given m arrays, where each array is sorted in ascending order.
+
+You can pick up two integers from two different arrays (each array picks one) and calculate the distance. We define the distance between two integers a and b to be their absolute difference |a - b|.
+
+Return the maximum distance.
+
+ 
+
+Example 1:
+
+Input: arrays = [[1,2,3],[4,5],[1,2,3]]
+Output: 4
+Explanation: One way to reach the maximum distance 4 is to pick 1 in the first or third array and pick 5 in the second array.
+Example 2:
+
+Input: arrays = [[1],[1]]
+Output: 0
+
+### **Optimized Approach (O(m) Time)**
+1. Keep track of:
+   - **Global min (`minVal`)** and **max (`maxVal`)** seen so far.
+   - Their **original indices** to ensure different arrays.
+2. Iterate through `arrays` and calculate:
+   - \(\left| \text{maxVal} - \text{min from current array} \right|\)  
+   - \(\left| \text{minVal} - \text{max from current array} \right|\)  
+3. Update `maxDistance` with the largest valid difference.
+
+---
+
+### **Efficient JavaScript Solution**
+```javascript
+var maxDistance = function(arrays) {
+    let minVal = arrays[0][0], maxVal = arrays[0][arrays[0].length - 1];
+    let maxDistance = 0;
+
+    for (let i = 1; i < arrays.length; i++) {
+        let currMin = arrays[i][0], currMax = arrays[i][arrays[i].length - 1];
+
+        // Compute max distance considering different arrays
+        maxDistance = Math.max(maxDistance, Math.abs(maxVal - currMin), Math.abs(currMax - minVal));
+
+        // Update min and max values
+        minVal = Math.min(minVal, currMin);
+        maxVal = Math.max(maxVal, currMax);
+    }
+
+    return maxDistance;
+};
+
+// Example test cases:
+console.log(maxDistance([[1,2,3],[4,5],[1,2,3]]));  // Output: 4
+console.log(maxDistance([[1],[1]]));  // Output: 0
+```
+
+> ### 1544. Make The String Great
+
+Given a string s of lower and upper case English letters.
+
+A good string is a string which doesn't have two adjacent characters s[i] and s[i + 1] where:
+
+- 0 <= i <= s.length - 2
+- s[i] is a lower-case letter and s[i + 1] is the same letter but in upper-case or vice-versa.
+
+To make the string good, you can choose two adjacent characters that make the string bad and remove them. You can keep doing this until the string becomes good.
+
+Return the string after making it good. The answer is guaranteed to be unique under the given constraints.
+
+Notice that an empty string is also good.
+
+ 
+
+Example 1:
+
+Input: s = "leEeetcode"\
+Output: "leetcode"\
+Explanation: In the first step, either you choose i = 1 or i = 2, both will result "leEeetcode" to be reduced to "leetcode".
+
+Example 2:
+
+Input: s = "abBAcC"\
+Output: ""\
+Explanation: We have many possible scenarios, and all lead to the same answer. For example:\
+"abBAcC" --> "aAcC" --> "cC" --> ""\
+"abBAcC" --> "abBA" --> "aA" --> ""
+
+Example 3:
+
+Input: s = "s"\
+Output: "s"
+
+**Solution: Using a Stack**
+**To remove adjacent bad character pairs, we can use a stack:**
+
+- Iterate through the string.
+- For each character:
+- If the stack is not empty and the top of the stack is the same letter but opposite case, remove it.
+- Otherwise, push the character onto the stack.
+- Convert the stack to a string and return it.
+
+```js
+var makeGood = function(s) {
+    let stack = [];
+
+    for (let char of s) {
+        if (stack.length && stack[stack.length - 1].toLowerCase() === char.toLowerCase() && stack[stack.length - 1] !== char) {
+            stack.pop();  // Remove the bad pair
+        } else {
+            stack.push(char);
+        }
+    }
+
+    return stack.join('');
+};
+
+// Example test cases:
+console.log(makeGood("leEeetcode")); // Output: "leetcode"
+console.log(makeGood("abBAcC")); // Output: ""
+console.log(makeGood("s")); // Output: "s"
+```
+
+
+> ### 1380. Lucky Numbers in a Matrix
+Given an m x n matrix of distinct numbers, return all lucky numbers in the matrix in any order.
+
+A lucky number is an element of the matrix such that it is the minimum element in its row and maximum in its column.
+
+Example 1:
+
+Input: matrix = [[3,7,8],[9,11,13],[15,16,17]]\
+Output: [15]\
+Explanation: 15 is the only lucky number since it is the minimum in its row and the maximum in its column.
+
+Example 2:
+
+Input: matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]\
+Output: [12]\
+Explanation: 12 is the only lucky number since it is the minimum in its row and the maximum in its column.
+
+Example 3:
+
+Input: matrix = [[7,8],[1,2]]\
+Output: [7]\
+Explanation: 7 is the only lucky number since it is the minimum in its row and the maximum in its column.
+
+
+```js
+var luckyNumbers  = function(matrix) {
+    for (let i = 0; i < matrix.length; i++) {
+        let row = matrix[i];
+        let minRow = Math.min(...row);
+        let index = row.indexOf(minRow);
+        if (matrix.every(element => element[index] <= minRow)) {
+            return [minRow];
+        }
+    }
+    return [];
+};
+```
+
+
+> ### 409. Longest Palindrome
+
+Given a string s which consists of lowercase or uppercase letters, return the length of the longest 
+palindrome that can be built with those letters.
+
+Letters are case sensitive, for example, "Aa" is not considered a palindrome.
+
+Example 1:
+
+Input: s = "abccccdd"\
+Output: 7\
+Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
+
+Example 2:
+
+Input: s = "a"\
+Output: 1\
+Explanation: The longest palindrome that can be built is "a", whose length is 1.
+
+To form the **longest palindrome**, we need to consider the frequency of each character:
+- **Even counts** can always be fully used in a palindrome.
+- **Odd counts** can contribute their **even part** (e.g., `ccc` → `cc`) to both sides of the palindrome.
+- **At most one odd character** can be placed in the center.
+
+```javascript
+var longestPalindrome = function(s) {
+    let freq = new Map();
+    for (let char of s) {
+        freq.set(char, (freq.get(char) || 0) + 1);
+    }
+
+    let length = 0;
+    let hasOdd = false;
+
+    for (let count of freq.values()) {
+        if (count % 2 === 0) {
+            length += count;
+        } else {
+            length += count - 1; // Use the even part of the count
+            hasOdd = true;       // Mark that an odd character exists
+        }
+    }
+
+    return hasOdd ? length + 1 : length;
+};
+
+// Example test cases:
+console.log(longestPalindrome("abccccdd")); // Output: 7
+console.log(longestPalindrome("a"));        // Output: 1
+console.log(longestPalindrome("bb"));       // Output: 2
+```
+
+
+> ### 1365. How Many Numbers Are Smaller Than the Current Number
+
+Given the array nums, for each nums[i] find out how many numbers in the array are smaller than it. That is, for each nums[i] you have to count the number of valid j's such that j != i and nums[j] < nums[i].
+
+Return the answer in an array.
+
+Example 1:
+
+Input: nums = [8,1,2,2,3]\
+Output: [4,0,1,1,3]\
+Explanation: \
+For nums[0]=8 there exist four smaller numbers than it (1, 2, 2 and 3). \
+For nums[1]=1 does not exist any smaller number than it.\
+For nums[2]=2 there exist one smaller number than it (1).\ 
+For nums[3]=2 there exist one smaller number than it (1). \
+For nums[4]=3 there exist three smaller numbers than it (1, 2 and 2).
+
+Example 2:
+
+Input: nums = [6,5,4,8]\
+Output: [2,1,0,3]
+
+Example 3:
+
+Input: nums = [7,7,7,7]\
+Output: [0,0,0,0]
+
+```js
+var smallerNumbersThanCurrent = function(nums) {
+    let sorted = [...nums].sort((a, b) => a - b);
+    let map = new Map();
+    
+    for (let i = 0; i < sorted.length; i++) {
+        if (!map.has(sorted[i])) {
+            map.set(sorted[i], i);
+        }
+    }
+    
+    return nums.map(num => map.get(num));
+};
+
+// Example test cases:
+console.log(smallerNumbersThanCurrent([8,1,2,2,3])); // Output: [4,0,1,1,3]
+console.log(smallerNumbersThanCurrent([6,5,4,8]));   // Output: [2,1,0,3]
+console.log(smallerNumbersThanCurrent([7,7,7,7]));   // Output: [0,0,0,0]
+```
+
+> ### 1374. Generate a String With Characters That Have Odd Counts
+
+Given an integer n, return a string with n characters such that each character in such string occurs an odd number of times.
+
+The returned string must contain only lowercase English letters. If there are multiples valid strings, return any of them.  
+
+Example 1:
+
+Input: n = 4\
+Output: "pppz"\
+Explanation: "pppz" is a valid string since the character 'p' occurs three times and the character 'z' occurs once. Note that there are many other valid strings such as "ohhh" and "love".
+
+Example 2:
+
+Input: n = 2\
+Output: "xy"\
+Explanation: "xy" is a valid string since the characters 'x' and 'y' occur once. Note that there are many other valid strings such as "ag" and "ur".
+
+Example 3:
+
+Input: n = 7\
+Output: "holasss"
+
+
+### **Approach**
+1. If `n` is **odd**, we can simply return `"a".repeat(n)`. Since all characters are `'a'`, it occurs `n` times, which is **odd**.
+2. If `n` is **even**, we need at least one character with an odd count. 
+   - We can use `"a".repeat(n - 1) + "b"`, ensuring:
+     - `'a'` appears `n - 1` times (odd when `n` is even).
+     - `'b'` appears **once**, which is also odd.
+
+### **Implementation (JavaScript)**
+```javascript
+var generateTheString = function(n) {
+    return n % 2 === 1 ? "a".repeat(n) : "a".repeat(n - 1) + "b";
+};
+
+// Example test cases:
+console.log(generateTheString(4)); // Output: "aaab" or similar
+console.log(generateTheString(2)); // Output: "ab" or similar
+console.log(generateTheString(7)); // Output: "aaaaaaa"
+```
+
+
+> ### 168. Excel Sheet Column Title
+
+Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.
+
+For example:
+
+A -> 1\
+B -> 2\
+C -> 3\
+...\
+Z -> 26\
+AA -> 27\
+AB -> 28 \
+...
+ 
+
+Example 1:
+
+Input: columnNumber = 1\
+Output: "A"
+
+Example 2:
+
+Input: columnNumber = 28\
+Output: "AB"
+
+#### Approach:
+- This problem follows a **Base-26** number system, similar to how we represent numbers in decimal (Base-10).
+- Since Excel columns start from `A` (1) to `Z` (26) and then `AA` (27), `AB` (28), etc., we need to map numbers accordingly.
+- The trick is to handle the **zero-based** nature of modular arithmetic by subtracting `1` from the column number before taking modulo.
+
+#### Steps:
+1. Initialize an empty string `result` to store the column title.
+2. Use a loop to extract letters:
+   - Subtract `1` from `columnNumber`.
+   - Find the character using `(columnNumber % 26)`, mapping it to `A-Z` (`String.fromCharCode(65 + remainder)`).
+   - Reduce `columnNumber` using `Math.floor(columnNumber / 26)`.
+3. Continue until `columnNumber` becomes zero.
+4. Reverse the result since characters are extracted from least significant to most significant.
+
+
+### **JavaScript Solution**
+```javascript
+// Algorithm: Base-26 Encoding
+function convertToTitle(columnNumber) {
+    let result = '';
+
+    while (columnNumber > 0) {
+        columnNumber--; // Adjust to 0-based index
+        let remainder = columnNumber % 26;
+        result = String.fromCharCode(65 + remainder) + result; // Convert to letter
+        columnNumber = Math.floor(columnNumber / 26); // Move to the next digit
+    }
+
+    return result;
+}
+
+// Test Cases
+console.log(convertToTitle(1));   // Output: "A"
+console.log(convertToTitle(28));  // Output: "AB"
+console.log(convertToTitle(701)); // Output: "ZY"
+console.log(convertToTitle(2147483647)); // Large case
+```
+
+
+> ### 171. Excel Sheet Column Number
+
+Given a string columnTitle that represents the column title as appears in an Excel sheet, return its corresponding column number.
+
+For example:
+
+A -> 1\
+B -> 2\
+C -> 3\
+...\
+Z -> 26\
+AA -> 27\
+AB -> 28 \
+...
+ 
+Example 1:
+
+Input: columnTitle = "A"\
+Output: 1
+
+Example 2:
+
+Input: columnTitle = "AB"\
+Output: 28
+
+#### Approach:
+- This problem follows a **Base-26** number system, similar to how we convert numbers in decimal (Base-10).
+- Each letter contributes to the total value based on its position (like how digits work in decimal).
+- To convert `"AB"` to `28`, we use:
+  - `A = 1 → (1 × 26^1) = 26`
+  - `B = 2 → (2 × 26^0) = 2`
+  - **Total = 26 + 2 = 28**
+
+#### Steps:
+1. Initialize `result = 0`.
+2. Iterate over the string:
+   - Convert each character to a number: `charCode - 64` (since 'A' = 65).
+   - Multiply the result by `26` and add the new value.
+3. Return the final result.
+
+### **JavaScript Solution**
+```javascript
+// Algorithm: Base-26 Decoding
+function titleToNumber(columnTitle) {
+    let result = 0;
+
+    for (let i = 0; i < columnTitle.length; i++) {
+        let value = columnTitle.charCodeAt(i) - 64; // Convert 'A' -> 1, 'B' -> 2, etc.
+        result = result * 26 + value; // Shift left in base-26 and add new value
+    }
+
+    return result;
+}
+
+// Test Cases
+console.log(titleToNumber("A"));    // Output: 1
+console.log(titleToNumber("AB"));   // Output: 28
+console.log(titleToNumber("ZY"));   // Output: 701
+console.log(titleToNumber("FXSHRXW")); // Large case
 ```
