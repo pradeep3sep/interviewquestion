@@ -18207,3 +18207,446 @@ var mergeTrees = function(root1, root2) {
 **Space Complexity:** \(O(\min(N, M))\) (recursive call stack)  
 
 This approach is cleaner and easier to understand. It directly modifies `root1`, reducing extra memory usage.
+
+
+> ### 118. Pascal's Triangle
+
+Given an integer numRows, return the first numRows of Pascal's triangle.
+
+In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+
+Example 1:
+
+Input: numRows = 5\
+Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+
+Example 2:
+
+Input: numRows = 1\
+Output: [[1]]
+
+### **Algorithm: Dynamic Construction**
+1. Initialize a result array `res` with the first row as `[1]`.
+2. For each new row:
+   - Start with `1`.
+   - Compute the middle values as the sum of two adjacent numbers from the previous row.
+   - End with `1`.
+3. Repeat until `numRows` is reached.
+
+---
+
+### **JavaScript Code (O(n²) Time)**
+```javascript
+var generate = function(numRows) {
+    let res = [[1]];
+
+    for (let i = 1; i < numRows; i++) {
+        let prev = res[i - 1];
+        let row = [1];
+
+        for (let j = 1; j < prev.length; j++) {
+            row.push(prev[j - 1] + prev[j]);
+        }
+        
+        row.push(1);
+        res.push(row);
+    }
+
+    return res;
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** \(O(n^2)\) (Each row computation involves a loop)
+- **Space Complexity:** \(O(n^2)\) (Stores all rows)
+
+This approach efficiently constructs Pascal’s triangle up to `numRows`. 🚀
+
+
+
+> ### 119. Pascal's Triangle II
+Easy
+Topics
+Companies
+Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
+
+In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+
+
+ 
+
+Example 1:
+
+Input: rowIndex = 3
+Output: [1,3,3,1]
+Example 2:
+
+Input: rowIndex = 0
+Output: [1]
+Example 3:
+
+Input: rowIndex = 1
+Output: [1,1]
+
+
+### **Algorithm: Iterative Approach (O(n²) Time, O(n) Space)**
+1. Start with `row = [1]`.
+2. Iterate `rowIndex` times:
+   - Compute the new row using the previous row.
+   - Each value (except the first and last) is the sum of two adjacent values from the previous row.
+3. Return the final computed row.
+
+---
+
+### **JavaScript Code**
+```javascript
+var getRow = function(rowIndex) {
+    let row = [1];
+
+    for (let i = 1; i <= rowIndex; i++) {
+        let newRow = [1];
+        for (let j = 1; j < row.length; j++) {
+            newRow.push(row[j - 1] + row[j]);
+        }
+        newRow.push(1);
+        row = newRow;
+    }
+
+    return row;
+};
+```
+
+---
+
+### **Optimized Space Approach (O(n²) Time, O(n) Space)**
+Instead of creating a new array for each row, update the same array from the back.
+
+```javascript
+var getRow = function(rowIndex) {
+    let row = Array(rowIndex + 1).fill(1);
+
+    for (let i = 1; i < rowIndex; i++) {
+        for (let j = i; j > 0; j--) {
+            row[j] += row[j - 1];
+        }
+    }
+
+    return row;
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** \(O(n^2)\) (Since each row computation requires summing adjacent values)
+- **Space Complexity:** \(O(n)\) (Only one row is stored)
+
+This optimized approach efficiently generates the required Pascal's triangle row. 🚀
+
+
+> ### 1496. Path Crossing
+Easy
+Topics
+Companies
+Hint
+Given a string path, where path[i] = 'N', 'S', 'E' or 'W', each representing moving one unit north, south, east, or west, respectively. You start at the origin (0, 0) on a 2D plane and walk on the path specified by path.
+
+Return true if the path crosses itself at any point, that is, if at any time you are on a location you have previously visited. Return false otherwise.
+
+ 
+
+Example 1:
+
+
+Input: path = "NES"
+Output: false 
+Explanation: Notice that the path doesn't cross any point more than once.
+
+
+### **Algorithm: Hash Set for Tracking Visited Positions (O(n) Time, O(n) Space)**  
+1. Start at the origin `(0,0)`.
+2. Use a `Set` to track visited coordinates.
+3. Iterate over the path:
+   - Move in the corresponding direction.
+   - If the new position is already in the set, return `true` (path crosses itself).
+   - Otherwise, add the new position to the set.
+4. If no crossing is found, return `false`.
+
+---
+
+### **JavaScript Code**
+```javascript
+var isPathCrossing = function(path) {
+    let x = 0, y = 0;
+    let visited = new Set();
+    visited.add("0,0");
+
+    for (let dir of path) {
+        if (dir === 'N') y++;
+        else if (dir === 'S') y--;
+        else if (dir === 'E') x++;
+        else if (dir === 'W') x--;
+
+        let pos = `${x},${y}`;
+        if (visited.has(pos)) return true;
+        visited.add(pos);
+    }
+
+    return false;
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** \(O(n)\), where \(n\) is the length of `path` (each step is processed once).
+- **Space Complexity:** \(O(n)\), storing up to \(n\) visited coordinates.
+
+This solution efficiently tracks visited positions and detects crossings in a single pass. 🚀
+
+
+> ### 112. Path Sum
+Easy
+Topics
+Companies
+Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+
+A leaf is a node with no children.
+
+ 
+
+Example 1:
+
+
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+Output: true
+Explanation: The root-to-leaf path with the target sum is shown.
+Example 2:
+
+
+Input: root = [1,2,3], targetSum = 5
+Output: false
+Explanation: There are two root-to-leaf paths in the tree:
+(1 --> 2): The sum is 3.
+(1 --> 3): The sum is 4.
+There is no root-to-leaf path with sum = 5.
+Example 3:
+
+Input: root = [], targetSum = 0
+Output: false
+Explanation: Since the tree is empty, there are no root-to-leaf paths.
+ 
+
+Constraints:
+
+The number of nodes in the tree is in the range [0, 5000].
+-1000 <= Node.val <= 1000
+-1000 <= targetSum <= 1000
+
+
+### **Algorithm: Depth-First Search (DFS)**
+1. If the tree is empty, return `false`.
+2. Use **DFS (recursion)**:
+   - Subtract the current node’s value from `targetSum`.
+   - If it's a **leaf node** and `targetSum == 0`, return `true`.
+   - Recursively check the left and right subtree.
+3. If any recursive call returns `true`, return `true`.
+
+---
+
+### **JavaScript Code**
+```javascript
+var hasPathSum = function(root, targetSum) {
+    if (!root) return false;
+
+    targetSum -= root.val;
+    if (!root.left && !root.right) return targetSum === 0;
+    
+    return hasPathSum(root.left, targetSum) || hasPathSum(root.right, targetSum);
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** \(O(n)\) (Visit each node once).
+- **Space Complexity:** \(O(h)\) (Call stack depth = tree height, worst-case \(O(n)\) for skewed tree).
+
+This solution efficiently finds a valid root-to-leaf path that sums to `targetSum`. 🚀
+
+
+also 
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} targetSum
+ * @return {boolean}
+ */
+var hasPathSum = function(root, targetSum) {
+    if(!root) {
+        return false
+    }
+    if(!root.right && !root.left) {
+        return targetSum === root.val
+    }
+
+    return (
+        hasPathSum(root.left, targetSum-root.val) ||
+        hasPathSum(root.right, targetSum-root.val)
+    )
+};
+```
+
+
+> ### 1217. Minimum Cost to Move Chips to The Same Position
+Easy
+Topics
+Companies
+Hint
+We have n chips, where the position of the ith chip is position[i].
+
+We need to move all the chips to the same position. In one step, we can change the position of the ith chip from position[i] to:
+
+position[i] + 2 or position[i] - 2 with cost = 0.
+position[i] + 1 or position[i] - 1 with cost = 1.
+Return the minimum cost needed to move all the chips to the same position.
+
+ 
+
+Example 1:
+
+
+Input: position = [1,2,3]
+Output: 1
+Explanation: First step: Move the chip at position 3 to position 1 with cost = 0.
+Second step: Move the chip at position 2 to position 1 with cost = 1.
+Total cost is 1.
+Example 2:
+
+
+Input: position = [2,2,2,3,3]
+Output: 2
+Explanation: We can move the two chips at position  3 to position 2. Each move has cost = 1. The total cost = 2.
+Example 3:
+
+Input: position = [1,1000000000]
+Output: 1
+ 
+ ### **Algorithm: Counting Odd and Even Positions**
+1. Chips at **even positions** can be moved to any other even position at **zero cost**.
+2. Chips at **odd positions** can be moved to any other odd position at **zero cost**.
+3. Moving a chip from **even to odd or vice versa costs 1 per chip**.
+4. The optimal strategy:
+   - Count the number of chips at **odd** positions.
+   - Count the number of chips at **even** positions.
+   - The minimum of these two counts is the answer.
+
+---
+
+### **JavaScript Code**
+```javascript
+var minCostToMoveChips = function(position) {
+    let odd = 0, even = 0;
+
+    for (let pos of position) {
+        if (pos % 2 === 0) even++;
+        else odd++;
+    }
+
+    return Math.min(odd, even);
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** \(O(n)\) (Loop through the array once).
+- **Space Complexity:** \(O(1)\) (Only two variables used).
+
+This approach efficiently finds the minimum cost to move all chips to the same position. 🚀
+
+
+> ### 1422. Maximum Score After Splitting a String
+Easy
+Topics
+Companies
+Hint
+Given a string s of zeros and ones, return the maximum score after splitting the string into two non-empty substrings (i.e. left substring and right substring).
+
+The score after splitting a string is the number of zeros in the left substring plus the number of ones in the right substring.
+
+ 
+
+Example 1:
+
+Input: s = "011101"
+Output: 5 
+Explanation: 
+All possible ways of splitting s into two non-empty substrings are:
+left = "0" and right = "11101", score = 1 + 4 = 5 
+left = "01" and right = "1101", score = 1 + 3 = 4 
+left = "011" and right = "101", score = 1 + 2 = 3 
+left = "0111" and right = "01", score = 1 + 1 = 2 
+left = "01110" and right = "1", score = 2 + 1 = 3
+Example 2:
+
+Input: s = "00111"
+Output: 5
+Explanation: When left = "00" and right = "111", we get the maximum score = 2 + 3 = 5
+Example 3:
+
+Input: s = "1111"
+Output: 3
+
+### **Algorithm: Prefix Count and Iteration**
+1. **Count Total Ones:** First, count the total number of `1`s in the string.
+2. **Iterate Over Possible Splits:**
+   - Maintain `leftZeros` (count of `0`s in the left substring).
+   - Maintain `rightOnes` (remaining `1`s in the right substring).
+   - Update the maximum score for each split.
+3. **Ensure Non-Empty Substrings:** The split is only considered between `0` and `n-1`.
+
+---
+
+### **JavaScript Code**
+```javascript
+var maxScore = function(s) {
+    let totalOnes = 0, leftZeros = 0, maxScore = 0;
+
+    // Count total number of 1s in the string
+    for (let ch of s) {
+        if (ch === '1') totalOnes++;
+    }
+
+    let rightOnes = totalOnes;
+
+    // Iterate through the string, but stop at n-1 to keep non-empty right substring
+    for (let i = 0; i < s.length - 1; i++) {
+        if (s[i] === '0') leftZeros++;
+        else rightOnes--;
+
+        maxScore = Math.max(maxScore, leftZeros + rightOnes);
+    }
+
+    return maxScore;
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** \(O(n)\) (One pass for counting `1`s and one pass for checking splits).
+- **Space Complexity:** \(O(1)\) (Uses only a few integer variables).
+
+This approach efficiently finds the maximum score by balancing zeros on the left and ones on the right. 🚀
