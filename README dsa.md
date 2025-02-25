@@ -44,7 +44,7 @@ Explanation: 2 does not exist in nums so return -1
     - If larger, search in the left half (`right = mid - 1`).
 - If we exit the loop, return `-1` (not found).
 
----
+
 
 ### **JavaScript Solution**
 ```javascript
@@ -71,7 +71,7 @@ console.log(search([5], 5));              // Output: 0
 console.log(search([], 3));               // Output: -1
 ```
 
----
+
 
 ### **Time Complexity:**  
 - \( O(\log N) \) → Binary Search halves the search space each step.
@@ -967,6 +967,112 @@ console.log(judgeSquareSum(1000)); // Output: true (6^2 + 28^2 = 1000)
 
 </details>
 
+<br>
+
+> ### 849. Maximize Distance to Closest Person
+
+You are given an array representing a row of seats where seats[i] = 1 represents a person sitting in the ith seat, and seats[i] = 0 represents that the ith seat is empty (0-indexed).
+
+There is at least one empty seat, and at least one person sitting.
+
+Alex wants to sit in the seat such that the distance between him and the closest person to him is maximized. 
+
+Return that maximum distance to the closest person.
+
+Example 1:
+
+Input: seats = [1,0,0,0,1,0,1]\
+Output: 2\
+Explanation:\ 
+If Alex sits in the second open seat (i.e. seats[2]), then the closest person has distance 2.\
+If Alex sits in any other open seat, the closest person has distance 1.\
+Thus, the maximum distance to the closest person is 2.
+
+Example 2:
+
+Input: seats = [1,0,0,0]\
+Output: 3\
+Explanation:\ 
+If Alex sits in the last seat (i.e. seats[3]), the closest person is 3 seats away.\
+This is the maximum distance possible, so the answer is 3.
+
+Example 3:
+
+Input: seats = [0,1]\
+Output: 1
+
+
+### **Algorithm: Two-Pointer Traversal**
+#### **Approach:**
+1. **Find the first occupied seat** → This helps in handling leading empty seats.
+2. **Find the last occupied seat** → This helps in handling trailing empty seats.
+3. **Find the maximum gap between two occupied seats**:
+   - Traverse the array and calculate the distance between two consecutive `1`s.
+   - The maximum half of the gap (`floor(gap / 2)`) determines the best seat in that gap.
+
+
+### **JavaScript Solution**
+```javascript
+// Algorithm: Two-Pointer Traversal
+function maxDistToClosest(seats) {
+    let maxDist = 0;
+    let prev = -1; // Track the previous occupied seat index
+    
+    for (let i = 0; i < seats.length; i++) {
+        if (seats[i] === 1) {
+            if (prev === -1) {
+                // Handle leading zeros case (first occupied seat)
+                maxDist = i;
+            } else {
+                // Find the max gap distance
+                maxDist = Math.max(maxDist, Math.floor((i - prev) / 2));
+            }
+            prev = i; // Update last occupied seat
+        }
+    }
+    
+    // Handle trailing zeros case (last occupied seat)
+    maxDist = Math.max(maxDist, seats.length - 1 - prev);
+    
+    return maxDist;
+}
+
+// Test Cases
+console.log(maxDistToClosest([1,0,0,0,1,0,1])); // Output: 2
+console.log(maxDistToClosest([1,0,0,0]));       // Output: 3
+console.log(maxDistToClosest([0,1]));           // Output: 1
+console.log(maxDistToClosest([1,0,0,1]));       // Output: 1
+console.log(maxDistToClosest([0,0,1,0,1,0,0,0])); // Output: 3
+```
+
+Let's walk through an example step by step:
+
+### **Example:**
+#### **Input:**  
+```js
+seats = [1,0,0,0,1,0,1]
+```
+
+#### **Step 1: Identify First and Last Occupied Seats**
+- We traverse the array and look for occupied seats (`1`).
+- **First occupied seat:** Index `0`
+- **Last occupied seat:** Index `6`
+
+#### **Step 2: Traverse the Array**
+We maintain a variable `prev` to store the index of the last occupied seat and compute the maximum distance.
+
+| Index | Seat Value | Action |
+|--------|------------|-----------|
+| 0      | 1         | `prev = 0` (First occupied seat) |
+| 1      | 0         | Empty seat |
+| 2      | 0         | Empty seat |
+| 3      | 0         | Empty seat |
+| 4      | 1         | **Found occupied seat at index 4**, compute the gap: `(4 - 0) / 2 = 2` → `maxDist = 2`, update `prev = 4` |
+| 5      | 0         | Empty seat |
+| 6      | 1         | **Found occupied seat at index 6**, compute the gap: `(6 - 4) / 2 = 1`, no change to `maxDist` |
+
+
+
 
 <br>
 
@@ -1243,7 +1349,7 @@ Explanation: We can replace the first "QQ" to "ER".
 1. **Frequency Calculation**: Count the occurrences of each character.
 2. **Sliding Window**: Use a sliding window to find the minimum substring length that can be replaced to balance the string.
 
----
+
 
 ### JavaScript Solution
 
@@ -1289,7 +1395,6 @@ const s = "WQWRQQQW";
 console.log(balancedString(s)); // Output: 3
 ```
 
----
 
 ### Explanation
 
@@ -1504,7 +1609,7 @@ Here’s a breakdown of the **monotonic stack algorithm** in JavaScript:
    - Push the current element (or its index) onto the stack.
 4. **Process Results**: Based on the problem, use the stack to calculate results.
 
----
+
 
 ### Example: **Next Greater Element**
 Here’s an example implementation for finding the **next greater element** for each element in an array:
@@ -1532,7 +1637,6 @@ let nums = [2, 1, 2, 4, 3];
 console.log(nextGreaterElements(nums)); // Output: [4, 2, 4, -1, -1]
 ```
 
----
 
 ### Explanation:
 - **Stack stores indices**: The stack contains indices of the elements in the array.
@@ -2291,7 +2395,7 @@ Lexicographic rank of "STRING" is: 598
 
 - **O(1)** (if we ignore the factorial array and frequency array). Otherwise, it is **O(256)** for the frequency array and **O(n)** for the factorial array.
 
---- 
+
 
 <br>
 
@@ -2673,7 +2777,7 @@ console.log(leftMostRepeatingChar("abcd")) // -1
 ### Time Complexity: 
 - O(n), where n is the length of the string. The string is traversed only once.
 
----
+
 
 <br>
 
@@ -2704,11 +2808,11 @@ const str = "abacabad";
 console.log(leftMostNonRepeatingChar(str)); // Output: "c"
 ```
 
---- 
+
 
 <br>
 
----
+
 
 <br>
 
@@ -2795,7 +2899,7 @@ Pattern found at index: [10]
 
 This code will find all the positions of the pattern in the given text efficiently.
 
---- 
+
 
 <br>
 
@@ -5431,7 +5535,7 @@ console.log(stack.isEmpty()); // Output: false
 - **Top**: O(1).
 - **isEmpty**: O(1).
 
----
+
 
 ### 2. **Making Pop Operation Costly**
 In this approach, we keep the `push` operation efficient by simply enqueueing the element. The costly operation happens during `pop`, where we transfer elements between queues to simulate stack behavior.
@@ -5528,7 +5632,7 @@ console.log(stack2.isEmpty()); // Output: false
 - **Top**: O(n) (similar to `pop`, but without removing the element).
 - **isEmpty**: O(1).
 
----
+
 
 ### Comparison of Approaches:
 - **Push-Costly Approach**: The `push` operation has a time complexity of O(n), but the `pop` and `top` operations are O(1).
@@ -5660,7 +5764,7 @@ console.log("Reversed Queue: " + queue2.printQueue());  // Output: 4 3 2 1
 - **Dequeue/Enqueue**: O(1) for each element.
 - The recursion goes as deep as the number of elements in the queue, so the total time complexity is **O(n)**, where `n` is the number of elements in the queue.
 
----
+
 
 ### Summary:
 - **Using a stack** involves first transferring the elements to a stack and then back to the queue, which is iterative and straightforward.
@@ -7242,7 +7346,7 @@ The **Book Allocation Problem** is a popular problem in Data Structures and Algo
 3. The books must be distributed sequentially (i.e., a student can only be assigned consecutive books).
 4. Minimize the maximum pages a student has to read.
 
----
+
 
 ### Approach to Solve
 The problem can be solved efficiently using **binary search** combined with a **greedy algorithm**:
@@ -7254,7 +7358,7 @@ The problem can be solved efficiently using **binary search** combined with a **
 2. **Check Feasibility (Helper Function):**
    - Use a helper function to determine if it is possible to allocate books such that no student gets more than the current "mid" (from binary search).
 
----
+
 
 ### Algorithm
 1. Start with `low = max(books)` and `high = sum(books)`.
@@ -7266,7 +7370,7 @@ The problem can be solved efficiently using **binary search** combined with a **
    - If not feasible, increase the `mid` (increase lower bound).
 4. Return the minimized maximum pages.
 
----
+
 
 ### Implementation in JavaScript
 
@@ -7323,7 +7427,7 @@ const students = 2; // Number of students.
 console.log(allocateBooks(books, students)); // Output: 113
 ```
 
----
+
 
 ### Explanation of Example
 - **Input:** `books = [12, 34, 67, 90], students = 2`
@@ -7337,21 +7441,21 @@ console.log(allocateBooks(books, students)); // Output: 113
 
 The **Leaf-Similar Trees** problem is a common question in data structure and algorithm (DSA) interviews. Here's the problem statement and a JavaScript solution.
 
----
+
 
 ### Problem Statement:
 Consider all the leaves of a binary tree, from left to right, to form a leaf value sequence. Two binary trees are considered "leaf-similar" if their leaf value sequences are the same.
 
 Given the roots of two binary trees, determine if they are leaf-similar.
 
----
+
 
 ### Approach:
 1. Traverse the trees using Depth-First Search (DFS).
 2. Collect all the leaf nodes into an array for both trees.
 3. Compare the two arrays.
 
----
+
 
 ### JavaScript Solution:
 
@@ -7426,7 +7530,7 @@ const root2 = new TreeNode(3,
 console.log(leafSimilar(root1, root2)); // Output: true
 ```
 
----
+
 
 ### Explanation:
 1. **Tree Traversal**: Use a helper function `getLeaves` to recursively collect the leaves of a tree.
@@ -7783,7 +7887,7 @@ console.log(subarrayWithGivenSum(array, target)); // Output: [20, 3, 10]
 - **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, because each element is added and removed from `currentSum` at most once.
 - **Space Complexity**: \(O(1)\), if only the indices are returned; otherwise, \(O(n)\) for the returned subarray.
 
----
+
 
 ### Solution for Array with Positive and Negative Integers
 
@@ -8003,7 +8107,7 @@ Counting distinct elements in every window of size `k` is a common problem in DS
 ### Problem
 You are given an array `arr[]` and an integer `k`. You need to count the distinct numbers in every contiguous subarray (window) of size `k`.
 
----
+
 
 ### Approach
 1. Use a **sliding window technique** to traverse the array with a window size of `k`.
@@ -8014,7 +8118,7 @@ You are given an array `arr[]` and an integer `k`. You need to count the distinc
      - Decreasing the frequency of the outgoing element.
      - Increasing the frequency of the incoming element.
 
----
+
 
 ### Code Implementation
 
@@ -8057,7 +8161,7 @@ const k = 4;
 console.log(countDistinctElements(arr, k)); // Output: [3, 4, 4, 3]
 ```
 
----
+
 
 ### Explanation of the Example
 Given `arr = [1, 2, 1, 3, 4, 2, 3]` and `k = 4`:
@@ -8068,7 +8172,7 @@ Given `arr = [1, 2, 1, 3, 4, 2, 3]` and `k = 4`:
 
 The result is `[3, 4, 4, 3]`.
 
----
+
 
 ### Time Complexity
 - **O(n)**:
@@ -8845,7 +8949,7 @@ console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected Ou
 ### Time Complexity:
 - **Time Complexity**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges. The graph is traversed once for DFS.
   
----
+
 
 ### 2. **Cycle Detection Using Kahn's Algorithm (Topological Sorting)**
 
@@ -8954,7 +9058,7 @@ console.log("Cycle detected using Kahn's Algorithm:", myGraph.hasCycleKahns()); 
 ### Time Complexity:
 - **Time Complexity**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
 
----
+
 
 ### Summary:
 
@@ -11176,7 +11280,7 @@ console.log(coinChange(coins, amount)); // Output: 3 (5 + 5 + 1)
 - **Time Complexity**: \(O(n \times m)\), where `n` is the total amount and `m` is the number of coins.
 - **Space Complexity**: \(O(n)\), where `n` is the size of the `dp[]` array.
 
----
+
 
 ### Approach 2: **Number of Ways to Make the Amount**
 The problem asks to find out how many different ways we can make a given amount using the coins.
@@ -11224,7 +11328,7 @@ console.log(countWays(coins, amount)); // Output: 4
 - **Time Complexity**: \(O(n \times m)\), where `n` is the total amount and `m` is the number of coins.
 - **Space Complexity**: \(O(n)\), where `n` is the size of the `dp[]` array.
 
----
+
 
 ### Key Differences Between the Two Approaches:
 1. **Fewest Coins**: Finds the minimum number of coins required to make the amount.
@@ -11305,7 +11409,7 @@ console.log(minJumps(arr)); // Output: 4
 - **Time Complexity**: \(O(n^2)\), where `n` is the length of the input array. For each element, we are iterating over all reachable elements from that index.
 - **Space Complexity**: \(O(n)\), due to the space required for the `dp[]` array.
 
----
+
 
 ### Optimized Greedy Approach:
 The dynamic programming solution works, but it can be further optimized using a greedy approach, which works in \(O(n)\) time.
@@ -14337,7 +14441,6 @@ Output: 1
 ### **Optimal Approach: Binary Search (O(log n))**
 Since the array first increases to a peak and then decreases, we can use **binary search** to efficiently locate the peak.
 
----
 
 ### **JavaScript Solution (Binary Search)**
 ```javascript
@@ -14522,7 +14625,7 @@ The total cost is 6.
    \]
 4. Start at either `cost[0]` or `cost[1]`, and calculate `dp` iteratively.
 
----
+
 
 ### **Optimized JavaScript Solution (O(1) Space)**
 Instead of storing the entire `dp` array, we only keep track of the last two steps.
@@ -14554,8 +14657,6 @@ You can pick up two integers from two different arrays (each array picks one) an
 
 Return the maximum distance.
 
- 
-
 Example 1:
 
 Input: arrays = [[1,2,3],[4,5],[1,2,3]]
@@ -14575,7 +14676,6 @@ Output: 0
    - \(\left| \text{minVal} - \text{max from current array} \right|\)  
 3. Update `maxDistance` with the largest valid difference.
 
----
 
 ### **Efficient JavaScript Solution**
 ```javascript
@@ -14977,3 +15077,3133 @@ console.log(titleToNumber("AB"));   // Output: 28
 console.log(titleToNumber("ZY"));   // Output: 701
 console.log(titleToNumber("FXSHRXW")); // Large case
 ```
+
+> ### 1009. Complement of Base 10 Integer
+
+The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
+
+For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
+Given an integer n, return its complement.
+
+Example 1:
+
+Input: n = 5\
+Output: 2\
+Explanation: 5 is "101" in binary, with complement "010" in binary, which is 2 in base-10.
+
+Example 2:
+
+Input: n = 7\
+Output: 0\
+Explanation: 7 is "111" in binary, with complement "000" in binary, which is 0 in base-10.
+
+Example 3:
+
+Input: n = 10\
+Output: 5\
+Explanation: 10 is "1010" in binary, with complement "0101" in binary, which is 5 in base-10.
+
+### **Algorithm: String-Based Approach (Without Bit Manipulation)**  
+
+#### **Approach:**  
+1. **Convert `n` to Binary String** → Use `n.toString(2)`.  
+2. **Flip Each Bit** → Replace `1` with `0` and `0` with `1`.  
+3. **Convert Back to Decimal** → Use `parseInt(flippedBinary, 2)`.  
+
+
+### **JavaScript Solution (Without Bit Manipulation)**  
+```javascript
+// Algorithm: String Manipulation
+function bitwiseComplement(n) {
+    if (n === 0) return 1; // Special case for 0
+
+    let binary = n.toString(2); // Convert to binary string
+    let flippedBinary = binary.split("").map(bit => bit === "1" ? "0" : "1").join(""); // Flip bits
+    return parseInt(flippedBinary, 2); // Convert back to decimal
+}
+
+// Test Cases
+console.log(bitwiseComplement(5));  // Output: 2
+console.log(bitwiseComplement(7));  // Output: 0
+console.log(bitwiseComplement(10)); // Output: 5
+console.log(bitwiseComplement(0));  // Output: 1
+console.log(bitwiseComplement(1));  // Output: 0
+```
+
+### **Time Complexity:**  
+- **\( O(\log N) \)** → Binary conversion & string operations depend on the number of bits in `n`.  
+
+### **Space Complexity:**  
+- **\( O(\log N) \)** → Storing the binary string & modified string.
+
+
+
+> ### 1030. Matrix Cells in Distance Order
+
+You are given four integers row, cols, rCenter, and cCenter. There is a rows x cols matrix and you are on the cell with the coordinates (rCenter, cCenter).
+
+Return the coordinates of all cells in the matrix, sorted by their distance from (rCenter, cCenter) from the smallest distance to the largest distance. You may return the answer in any order that satisfies this condition.
+
+The distance between two cells (r1, c1) and (r2, c2) is |r1 - r2| + |c1 - c2|.
+
+Example 1:
+
+Input: rows = 1, cols = 2, rCenter = 0, cCenter = 0\
+Output: [[0,0],[0,1]]\
+Explanation: The distances from (0, 0) to other cells are: [0,1]
+
+Example 2:
+
+Input: rows = 2, cols = 2, rCenter = 0, cCenter = 1\
+Output: [[0,1],[0,0],[1,1],[1,0]]\
+Explanation: The distances from (0, 1) to other cells are: [0,1,1,2]\
+The answer [[0,1],[1,1],[0,0],[1,0]] would also be accepted as correct.
+
+Example 3:
+
+Input: rows = 2, cols = 3, rCenter = 1, cCenter = 2\
+Output: [[1,2],[0,2],[1,1],[0,1],[1,0],[0,0]]\
+Explanation: The distances from (1, 2) to other cells are: [0,1,1,2,2,3]\
+There are other answers that would also be accepted as correct, such as [[1,2],[1,1],[0,2],[1,0],[0,1],[0,0]].
+
+### **Algorithm: Sorting by Manhattan Distance**
+The problem requires us to list all matrix cells sorted by their **Manhattan distance** from a given center.
+
+#### **Approach:**
+1. **Generate All Cells**: Create an array containing all the cell coordinates in the matrix.
+2. **Sort by Manhattan Distance**: Sort the array using the formula  
+   \[
+   \text{distance} = |r1 - rCenter| + |c1 - cCenter|
+   \]
+3. **Return the Sorted List**.
+
+
+### **Implementation in JavaScript**
+```js
+var allCellsDistOrder = function(rows, cols, rCenter, cCenter) {
+    let cells = [];
+
+    // Step 1: Generate all cell coordinates
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+            cells.push([r, c]);
+        }
+    }
+
+    // Step 2: Sort based on Manhattan distance
+    cells.sort((a, b) => {
+        let distA = Math.abs(a[0] - rCenter) + Math.abs(a[1] - cCenter);
+        let distB = Math.abs(b[0] - rCenter) + Math.abs(b[1] - cCenter);
+        return distA - distB;
+    });
+
+    return cells;
+};
+```
+
+### **Example Walkthrough**
+#### **Input:**
+```js
+rows = 2, cols = 2, rCenter = 0, cCenter = 1
+```
+#### **Step 1: Generate All Cells**
+```js
+[
+  [0,0], [0,1],
+  [1,0], [1,1]
+]
+```
+#### **Step 2: Calculate Manhattan Distances**
+| Cell  | Distance Calculation  | Distance |
+|--------|----------------------|----------|
+| (0,1)  | `|0-0| + |1-1| = 0`  | 0 |
+| (0,0)  | `|0-0| + |0-1| = 1`  | 1 |
+| (1,1)  | `|1-0| + |1-1| = 1`  | 1 |
+| (1,0)  | `|1-0| + |0-1| = 2`  | 2 |
+
+#### **Step 3: Sorted Output**
+```js
+[[0,1],[0,0],[1,1],[1,0]]
+```
+
+
+> ### 720. Longest Word in Dictionary
+
+Given an array of strings words representing an English Dictionary, return the longest word in words that can be built one character at a time by other words in words.
+
+If there is more than one possible answer, return the longest word with the smallest lexicographical order. If there is no answer, return the empty string.
+
+Note that the word should be built from left to right with each additional character being added to the end of a previous word. 
+
+Example 1:
+
+Input: words = ["w","wo","wor","worl","world"]\
+Output: "world"\
+Explanation: The word "world" can be built one character at a time by "w", "wo", "wor", and "worl".
+
+Example 2:
+
+Input: words = ["a","banana","app","appl","ap","apply","apple"]\
+Output: "apple"\
+Explanation: Both "apply" and "apple" can be built from other words in the dictionary. However, "apple" is lexicographically smaller than "apply".
+
+```js
+var longestWord = function(words) {
+    if (!words || !words.length)
+        return "";
+    
+    let res = "";
+    let set = new Set();
+    words.sort();
+    set.add("")
+    
+    for (let word of words) {
+        let prev = word.substring(0, word.length - 1);
+        
+        if (set.has(prev)) {
+            if (word.length > res.length)
+                res = word;
+            set.add(word);
+        }
+    }
+    return res;
+};
+```
+
+### **Explanation of the Code**
+The given function `longestWord(words)` finds the longest word that can be built one character at a time by other words in the list. If there are multiple possible answers, it returns the lexicographically smallest one.
+
+
+
+### **Step-by-Step Breakdown**
+#### **1. Edge Case Handling**
+```js
+if (!words || !words.length)
+    return "";
+```
+- If `words` is `null`, `undefined`, or an empty array, return an empty string (`""`).
+- This prevents runtime errors when processing an empty or invalid input.
+
+
+#### **2. Initialize Variables**
+```js
+let res = "";
+let set = new Set();
+words.sort();
+set.add("");
+```
+- `res`: Stores the longest valid word found so far.
+- `set`: A `Set` to keep track of words that can be built.
+- `words.sort()`: Sorts the words **lexicographically** to ensure that shorter words come before longer ones.
+  - This is crucial because we need to process words in the correct order to ensure each word is built incrementally.
+- `set.add("")`: Adds an empty string to `set` to handle the first character of any word.
+
+
+#### **3. Iterate Over Sorted Words**
+```js
+for (let word of words) {
+    let prev = word.substring(0, word.length - 1);
+    
+    if (set.has(prev)) {
+        if (word.length > res.length)
+            res = word;
+        set.add(word);
+    }
+}
+```
+- Loop through each `word` in `words`.
+- Compute `prev` as `word.substring(0, word.length - 1)`.  
+  - Example: `"apple"` → `prev = "appl"`
+- **Check if `prev` exists in `set`**:
+  - If `prev` exists, it means the current `word` can be built one character at a time.
+  - If `word.length` is longer than `res.length`, update `res`.
+  - Add `word` to `set` to allow longer words to be built from it.
+
+
+### **Example Walkthrough**
+#### **Input**
+```js
+words = ["a", "banana", "app", "appl", "ap", "apply", "apple"]
+```
+#### **Step 1: Sorting**
+The sorted `words` list:
+```
+["a", "ap", "app", "appl", "apple", "apply", "banana"]
+```
+
+#### **Step 2: Iteration**
+| Word   | `prev`   | `set.has(prev)` | `res` Update | `set` After |
+|--------|---------|----------------|-------------|------------|
+| `"a"`  | `""`    | ✅ (exists)    | `"a"`       | `{"", "a"}` |
+| `"ap"` | `"a"`   | ✅ (exists)    | `"ap"`      | `{"", "a", "ap"}` |
+| `"app"`| `"ap"`  | ✅ (exists)    | `"app"`     | `{"", "a", "ap", "app"}` |
+| `"appl"` | `"app"` | ✅ (exists)  | `"appl"`    | `{"", "a", "ap", "app", "appl"}` |
+| `"apple"` | `"appl"` | ✅ (exists) | `"apple"`   | `{"", "a", "ap", "app", "appl", "apple"}` |
+| `"apply"` | `"appl"` | ✅ (exists) | No change (same length as `"apple"`, but `"apple"` is lexicographically smaller) | `{"", "a", "ap", "app", "appl", "apple", "apply"}` |
+| `"banana"` | `"banan"` | ❌ (not in set) | No change | No change |
+
+#### **Final Output**
+```js
+"apple"
+```
+
+
+### **Time Complexity Analysis**
+1. **Sorting the array** → \( O(N \log N) \)
+2. **Iterating through words** → \( O(N) \)
+3. **Set operations (`has` & `add`)** → \( O(1) \) on average.
+
+**Overall Complexity** → \( O(N \log N) \) due to sorting.
+
+
+### **Key Takeaways**
+- Sorting ensures lexicographical order is maintained.
+- Using a `Set` allows checking previous words efficiently.
+- This approach guarantees the longest valid word is found in \( O(N \log N) \) time.
+
+Would you like me to further optimize it or explain with another example? 🚀
+
+
+> ### 925. Long Pressed Name
+
+Your friend is typing his name into a keyboard. Sometimes, when typing a character c, the key might get long pressed, and the character will be typed 1 or more times.
+
+You examine the typed characters of the keyboard. Return True if it is possible that it was your friends name, with some characters (possibly none) being long pressed.
+
+Example 1:
+
+Input: name = "alex", typed = "aaleex"\
+Output: true\
+Explanation: 'a' and 'e' in 'alex' were long pressed.
+
+Example 2:
+
+Input: name = "saeed", typed = "ssaaedd"\
+Output: false\
+Explanation: 'e' must have been pressed twice, but it was not in the typed output.
+
+
+### **Algorithm: Two Pointers Approach**
+
+We can solve this problem using a **two-pointer approach** to compare characters in `name` and `typed` while allowing long-pressed characters.
+
+
+### **Approach**
+1. **Initialize Two Pointers:**
+   - `i` for `name` (tracking characters in `name`).
+   - `j` for `typed` (tracking characters in `typed`).
+
+2. **Iterate Over `typed`:**
+   - If `name[i] === typed[j]`, move both `i` and `j` forward.
+   - If `name[i] !== typed[j]` but `typed[j] === typed[j-1]`, it means the character is long-pressed, so move `j` forward.
+   - Otherwise, return `false` (mismatch found).
+
+3. **Check If All Characters in `name` Are Processed:**
+   - `i` should reach the end of `name`, ensuring all characters in `name` are matched.
+   - If `i` doesn’t reach `name.length`, return `false`.
+
+
+### **Code Implementation**
+```javascript
+var isLongPressedName = function(name, typed) {
+    let i = 0, j = 0;
+
+    while (j < typed.length) {
+        if (i < name.length && name[i] === typed[j]) {
+            i++; // Move both pointers when characters match
+        } else if (j > 0 && typed[j] === typed[j - 1]) {
+            // Allow long-pressed character
+        } else {
+            return false; // Mismatch found
+        }
+        j++;
+    }
+
+    return i === name.length; // Ensure all characters in name are matched
+};
+```
+
+### **Example Walkthrough**
+#### **Example 1**
+**Input:**  
+```js
+name = "alex", typed = "aaleex"
+```
+**Processing Steps:**
+| `i` (name) | `j` (typed) | `name[i]` | `typed[j]` | Action | Result |
+|------------|------------|-----------|------------|--------|--------|
+| 0 | 0 | 'a' | 'a' | Match | `i++`, `j++` |
+| 1 | 1 | 'l' | 'a' | Long Pressed | `j++` |
+| 1 | 2 | 'l' | 'l' | Match | `i++`, `j++` |
+| 2 | 3 | 'e' | 'e' | Match | `i++`, `j++` |
+| 3 | 4 | 'x' | 'e' | Long Pressed | `j++` |
+| 3 | 5 | 'x' | 'x' | Match | `i++`, `j++` |
+| 4 | 6 | - | - | End | ✅ Return `true` |
+
+**Output:** `true`
+
+
+#### **Example 2**
+**Input:**  
+```js
+name = "saeed", typed = "ssaaedd"
+```
+**Processing Steps:**
+| `i` (name) | `j` (typed) | `name[i]` | `typed[j]` | Action | Result |
+|------------|------------|-----------|------------|--------|--------|
+| 0 | 0 | 's' | 's' | Match | `i++`, `j++` |
+| 1 | 1 | 'a' | 's' | Long Pressed | `j++` |
+| 1 | 2 | 'a' | 'a' | Match | `i++`, `j++` |
+| 2 | 3 | 'e' | 'a' | Mismatch | ❌ Return `false` |
+
+**Output:** `false`
+
+
+### **Time Complexity Analysis**
+- We traverse `typed` once → **O(M)**
+- We traverse `name` once → **O(N)**
+- Overall complexity: **O(M)** (since `typed` is generally longer)
+
+
+### **Edge Cases**
+1. **Characters in `typed` don’t match the order in `name`**  
+   ```js
+   name = "alex", typed = "aelx" // false
+   ```
+2. **Extra characters at the end of `typed`**  
+   ```js
+   name = "alex", typed = "aaleexxx" // true
+   ```
+3. **Long-pressed characters appearing but not in the required places**  
+   ```js
+   name = "saeed", typed = "ssaaedd" // false
+   ```
+4. **All characters in `typed` are long-pressed but valid**  
+   ```js
+   name = "leelee", typed = "lleeelee" // true
+   ```
+
+
+> ### 482. License Key Formatting
+
+You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.
+
+We want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.
+
+Return the reformatted license key.
+
+Example 1:
+
+Input: s = "5F3Z-2e-9-w", k = 4\
+Output: "5F3Z-2E9W"\
+Explanation: The string s has been split into two parts, each part has 4 characters.\
+Note that the two extra dashes are not needed and can be removed.
+
+Example 2:
+
+Input: s = "2-5g-3-J", k = 2\
+Output: "2-5G-3J"\
+Explanation: The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.
+
+### **Algorithm: String Processing with Grouping**
+We can solve this problem by:
+1. **Removing all dashes (`-`)**.
+2. **Converting all characters to uppercase**.
+3. **Rearranging the string into groups of `k` characters**, ensuring that the first group may have fewer than `k` characters.
+
+
+### **Approach**
+1. **Remove dashes**:  
+   - Use `.replace(/-/g, "")` to remove all dashes from `s`.
+2. **Convert to uppercase**:  
+   - Use `.toUpperCase()`.
+3. **Determine grouping**:
+   - The first group may be **shorter** than `k` but should not be empty.
+   - Subsequent groups should have exactly `k` characters.
+4. **Build the result string**:
+   - Use a loop to insert dashes (`-`) after every `k` characters.
+   - Join the final list into a string.
+
+
+### **Code Implementation**
+```javascript
+var licenseKeyFormatting = function(s, k) {
+    // Remove dashes and convert to uppercase
+    let cleanStr = s.replace(/-/g, "").toUpperCase();
+    
+    let n = cleanStr.length;
+    let firstGroupSize = n % k || k; // Ensure first group is not empty
+    let result = [];
+
+    // Add first group
+    result.push(cleanStr.slice(0, firstGroupSize));
+
+    // Add remaining groups of size `k`
+    for (let i = firstGroupSize; i < n; i += k) {
+        result.push(cleanStr.slice(i, i + k));
+    }
+
+    return result.join("-");
+};
+```
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+s = "5F3Z-2e-9-w", k = 4
+```
+**Processing Steps:**
+1. Remove dashes → `"5F3Z2E9W"`
+2. Convert to uppercase → `"5F3Z2E9W"`
+3. Length of `cleanStr` = `8`, first group size = `8 % 4 = 0`, so take `4` characters.
+4. Split into groups:
+   - `"5F3Z"`
+   - `"2E9W"`
+5. Join with dashes → `"5F3Z-2E9W"`
+
+**Output:**  
+```js
+"5F3Z-2E9W"
+```
+
+#### **Example 2**
+```js
+s = "2-5g-3-J", k = 2
+```
+**Processing Steps:**
+1. Remove dashes → `"25G3J"`
+2. Convert to uppercase → `"25G3J"`
+3. Length of `cleanStr` = `5`, first group size = `5 % 2 = 1`
+4. Split into groups:
+   - `"2"`
+   - `"5G"`
+   - `"3J"`
+5. Join with dashes → `"2-5G-3J"`
+
+**Output:**  
+```js
+"2-5G-3J"
+```
+
+### **Edge Cases**
+✅ **Already formatted input**  
+```js
+s = "ABCD-EFGH", k = 4
+// Output: "ABCD-EFGH"
+```
+✅ **All dashes input**  
+```js
+s = "---", k = 3
+// Output: ""
+```
+✅ **Small `k` value**  
+```js
+s = "abcdef", k = 1
+// Output: "A-B-C-D-E-F"
+```
+
+> ### 205. Isomorphic Strings
+
+Given two strings s and t, determine if they are isomorphic.
+
+Two strings s and t are isomorphic if the characters in s can be replaced to get t.
+
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.
+
+Example 1:
+
+Input: s = "egg", t = "add"
+
+Output: true
+
+Explanation:
+
+The strings s and t can be made identical by:
+
+Mapping 'e' to 'a'.\
+Mapping 'g' to 'd'.
+
+Example 2:
+
+Input: s = "foo", t = "bar"
+
+Output: false
+
+Explanation:
+
+The strings s and t can not be made identical as 'o' needs to be mapped to both 'a' and 'r'.
+
+Example 3:
+
+Input: s = "paper", t = "title"
+
+Output: true
+
+### **Approach**
+1. Use two hash maps:
+   - One to map characters from `s` to `t`.
+   - Another to ensure no two characters in `s` map to the same character in `t`.
+2. Traverse both strings simultaneously, checking if the mapping is consistent.
+
+**Here we have added 2 object to cross check each other data**
+
+### **Code Implementation**
+```javascript
+var isIsomorphic = function(s, t) {
+    if (s.length !== t.length) return false;
+
+    let mapST = new Map();
+    let mapTS = new Map();
+
+    for (let i = 0; i < s.length; i++) {
+        let charS = s[i], charT = t[i];
+
+        if ((mapST.has(charS) && mapST.get(charS) !== charT) || 
+            (mapTS.has(charT) && mapTS.get(charT) !== charS)) {
+            return false;
+        }
+
+        mapST.set(charS, charT);
+        mapTS.set(charT, charS);
+    }
+    
+    return true;
+};
+```
+
+### **Complexity Analysis**
+- **Time Complexity**: `O(N)`, where `N` is the length of `s` and `t` (single pass).
+- **Space Complexity**: `O(1)`, since there are only 26 possible characters.
+
+### **Example Walkthrough**
+#### **Input**:  
+```js
+s = "egg", t = "add"
+```
+#### **Mappings**:
+- `'e' → 'a'`
+- `'g' → 'd'`
+
+Since mappings are consistent, output is `true`.
+
+
+> ### 374. Guess Number Higher or Lower
+We are playing the Guess Game. The game is as follows:
+
+I pick a number from 1 to n. You have to guess which number I picked.
+
+Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.
+
+You call a pre-defined API int guess(int num), which returns three possible results:
+
+-1: Your guess is higher than the number I picked (i.e. num > pick).\
+1: Your guess is lower than the number I picked (i.e. num < pick).\
+0: your guess is equal to the number I picked (i.e. num == pick).\
+Return the number that I picked.
+
+ 
+
+Example 1:
+
+Input: n = 10, pick = 6\
+Output: 6
+
+Example 2:
+
+Input: n = 1, pick = 1\
+Output: 1
+
+Example 3:
+
+Input: n = 2, pick = 1\
+Output: 1
+
+### **Approach: Binary Search**
+- Since we get feedback on whether our guess is too high or too low, **binary search** is the most efficient approach.
+- Start with a search range from `1` to `n`.
+- Repeatedly guess the middle number and adjust the range based on the API response.
+- Stop when we find the correct number.
+
+
+### **Code Implementation (JavaScript)**
+```javascript
+var guessNumber = function(n) {
+    let left = 1, right = n;
+    
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+        let res = guess(mid);
+        
+        if (res === 0) return mid;  // Found the pick
+        else if (res === -1) right = mid - 1;  // Pick is smaller
+        else left = mid + 1;  // Pick is larger
+    }
+    
+    return -1;  // This case won't be reached in a valid game.
+};
+```
+
+
+### **Complexity Analysis**
+- **Binary Search Time Complexity**: \(O(\log n)\) since we halve the search space each time.
+- **Space Complexity**: \(O(1)\) as we use only a few integer variables.
+
+
+### **Example Walkthrough**
+#### **Input:** `n = 10, pick = 6`
+1. `mid = (1 + 10) / 2 = 5`
+   - `guess(5) → 1` (pick is larger) → Update `left = 6`
+2. `mid = (6 + 10) / 2 = 8`
+   - `guess(8) → -1` (pick is smaller) → Update `right = 7`
+3. `mid = (6 + 7) / 2 = 6`
+   - `guess(6) → 0` (found pick) → **Return 6**
+
+#### **Output:** `6`
+
+
+> ### 893. Groups of Special-Equivalent Strings
+
+You are given an array of strings of the same length words.
+
+In one move, you can swap any two even indexed characters or any two odd indexed characters of a string words[i].
+
+Two strings words[i] and words[j] are special-equivalent if after any number of moves, words[i] == words[j].
+
+For example, words[i] = "zzxy" and words[j] = "xyzz" are special-equivalent because we may make the moves "zzxy" -> "xzzy" -> "xyzz".
+A group of special-equivalent strings from words is a non-empty subset of words such that:
+
+Every pair of strings in the group are special equivalent, and\
+The group is the largest size possible (i.e., there is not a string words[i] not in the group such that words[i] is special-equivalent to every string in the group).\
+Return the number of groups of special-equivalent strings from words.
+
+ 
+
+Example 1:
+
+Input: words = ["abcd","cdab","cbad","xyzz","zzxy","zzyx"]\
+Output: 3\
+Explanation:\ 
+One group is ["abcd", "cdab", "cbad"], since they are all pairwise special equivalent, and none of the other strings is all pairwise special equivalent to these.\
+The other two groups are ["xyzz", "zzxy"] and ["zzyx"].\
+Note that in particular, "zzxy" is not special equivalent to "zzyx".
+
+Example 2:
+
+Input: words = ["abc","acb","bac","bca","cab","cba"]\
+Output: 3
+
+### **Approach: Normalization & Hashing**
+- Since we can swap even-indexed and odd-indexed characters independently, two words are **special-equivalent** if:
+  - Their **even-indexed characters**, when sorted, are the same.
+  - Their **odd-indexed characters**, when sorted, are the same.
+- We represent each word as a tuple: `(sorted(even chars), sorted(odd chars))`
+- Use a **set** to track unique groups.
+
+
+### **Code Implementation (JavaScript)**
+```javascript
+var numSpecialEquivGroups = function(words) {
+    let groups = new Set();
+
+    for (let word of words) {
+        let evenChars = [], oddChars = [];
+
+        for (let i = 0; i < word.length; i++) {
+            if (i % 2 === 0) evenChars.push(word[i]);
+            else oddChars.push(word[i]);
+        }
+
+        evenChars.sort();
+        oddChars.sort();
+
+        groups.add(evenChars.join('') + '-' + oddChars.join(''));
+    }
+
+    return groups.size;
+};
+```
+
+
+### **Complexity Analysis**
+- **Sorting each word**: \(O(k \log k)\) where \(k\) is the word length.
+- **Iterating over all words**: \(O(n)\) where \(n\) is the number of words.
+- **Total Complexity**: \(O(nk \log k)\)
+
+
+### **Example Walkthrough**
+#### **Input:** 
+```js
+words = ["abcd","cdab","cbad","xyzz","zzxy","zzyx"]
+```
+#### **Processing:**
+1. `"abcd"` → `("ac", "bd")`
+2. `"cdab"` → `("ac", "bd")` → Same as `"abcd"`
+3. `"cbad"` → `("ac", "bd")` → Same as `"abcd"`
+4. `"xyzz"` → `("xz", "yz")`
+5. `"zzxy"` → `("xz", "yz")` → Same as `"xyzz"`
+6. `"zzyx"` → `("zx", "zy")` → **New group**
+
+#### **Unique Groups in Set:**
+```js
+{ "ac-bd", "xz-yz", "zx-zy" }
+```
+
+#### **Output:** `3`
+
+> ### 172. Factorial Trailing Zeroes
+
+Given an integer n, return the number of trailing zeroes in n!.
+
+Note that n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1.
+
+Example 1:
+
+Input: n = 3\
+Output: 0\
+Explanation: 3! = 6, no trailing zero.
+
+Example 2:
+
+Input: n = 5\
+Output: 1\
+Explanation: 5! = 120, one trailing zero.
+
+Example 3:
+
+Input: n = 0\
+Output: 0
+
+### **Approach: Count Factors of 5**
+Trailing zeroes in \( n! \) come from factors of **10**, which is formed by **2 × 5**. Since multiples of **2** are more frequent than **5**, the number of trailing zeroes is determined by the number of times **5** appears as a factor.
+
+
+**basically koi number ke end me 0 hota h it means ye 5 ka divisble h, uske ander ek 5 h, to 5 ka count kr lo, 0 ka count apne aap mil jayega**
+
+
+#### **Formula:**
+Count the number of multiples of \( 5, 25, 125, \dots \) in \( n \):
+
+\[
+\text{Zeroes} = \frac{n}{5} + \frac{n}{25} + \frac{n}{125} + \dots
+\]
+
+This accounts for numbers like:
+- \( 5, 10, 15, 20, ... \) (each contributes one factor of 5)
+- \( 25, 50, 75, ... \) (each contributes an **extra** factor of 5)
+- \( 125, 250, ... \) (each contributes yet **another** extra factor of 5)
+
+
+### **Code Implementation (JavaScript)**
+```javascript
+var trailingZeroes = function(n) {
+    let count = 0;
+    
+    while (n >= 5) {
+        n = Math.floor(n / 5);
+        count += n;
+    }
+    
+    return count;
+};
+```
+
+
+### **Complexity Analysis**
+- **Time Complexity**: \( O(\log n) \) (since we divide \( n \) by 5 in each step)
+- **Space Complexity**: \( O(1) \) (only a few integer variables used)
+
+
+### **Example Walkthrough**
+#### **Example 1:**
+```js
+n = 5
+```
+- \( 5! = 120 \), has **one trailing zero**.
+- \( \frac{5}{5} = 1 \) → Answer: `1`
+
+#### **Example 2:**
+```js
+n = 10
+```
+- \( 10! = 3,628,800 \), has **two trailing zeroes**.
+- \( \frac{10}{5} = 2 \) → Answer: `2`
+
+#### **Example 3:**
+```js
+n = 25
+```
+- \( 25! \) has **6 trailing zeroes**.
+- \( \frac{25}{5} = 5 \), \( \frac{25}{25} = 1 \)
+- Total: `5 + 1 = 6`
+
+
+> ### 1309. Decrypt String from Alphabet to Integer Mapping
+
+You are given a string s formed by digits and '#'. We want to map s to English lowercase characters as follows:
+
+Characters ('a' to 'i') are represented by ('1' to '9') respectively.\
+Characters ('j' to 'z') are represented by ('10#' to '26#') respectively.\
+Return the string formed after mapping.
+
+The test cases are generated so that a unique mapping will always exist.
+
+Example 1:
+
+Input: s = "10#11#12"\
+Output: "jkab"\
+Explanation: "j" -> "10#" , "k" -> "11#" , "a" -> "1" , "b" -> "2".
+
+Example 2:
+
+Input: s = "1326#"\
+Output: "acz"
+
+### **Solution**
+```javascript
+var freqAlphabets = function(s) {
+    let res = "";
+    
+    for (let i = 0; i < s.length; i++) {
+        if (i + 2 < s.length && s[i + 2] === '#') {
+            let num = s.slice(i, i + 2); // Extract two-digit number
+            res += String.fromCharCode(96 + parseInt(num)); // Convert to character
+            i += 2; // Skip next two characters as they are processed
+        } else {
+            res += String.fromCharCode(96 + parseInt(s[i])); // Convert single-digit number
+        }
+    }
+    
+    return res;
+};
+```
+
+### **Explanation**
+1. **Iterate using a `for` loop**:
+   - If the current character is part of a `10#-26#` mapping:
+     - Extract two digits (`s[i]` and `s[i+1]`).
+     - Convert them to a character.
+     - Skip the next two indices.
+   - Otherwise, process a single digit.
+
+2. **Use `String.fromCharCode(96 + num)` to map numbers to letters**:
+   - `'a' = 1 + 96 = 97` (ASCII)
+   - `'z' = 26 + 96 = 122` (ASCII)
+
+
+
+> ### 1441. Build an Array With Stack Operations
+
+You are given an integer array target and an integer n.
+
+You have an empty stack with the two following operations:
+
+"Push": pushes an integer to the top of the stack.\
+"Pop": removes the integer on the top of the stack.\
+You also have a stream of the integers in the range [1, n].
+
+Use the two stack operations to make the numbers in the stack (from the bottom to the top) equal to target. You should follow the following rules:
+
+If the stream of the integers is not empty, pick the next integer from the stream and push it to the top of the stack.\
+If the stack is not empty, pop the integer at the top of the stack.\
+If, at any moment, the elements in the stack (from the bottom to the top) are equal to target, do not read new integers from the stream and do not do more operations on the stack.\
+Return the stack operations needed to build target following the mentioned rules. If there are multiple valid answers, return any of them.
+
+Example 1:
+
+Input: target = [1,3], n = 3\
+Output: ["Push","Push","Pop","Push"]\
+Explanation: Initially the stack s is empty. The last element is the top of the stack.\
+Read 1 from the stream and push it to the stack. s = [1].\
+Read 2 from the stream and push it to the stack. s = [1,2].\
+Pop the integer on the top of the stack. s = [1].\
+Read 3 from the stream and push it to the stack. s = [1,3].
+
+Example 2:
+
+Input: target = [1,2,3], n = 3\
+Output: ["Push","Push","Push"]\
+Explanation: Initially the stack s is empty. The last element is the top of the stack.\
+Read 1 from the stream and push it to the stack. s = [1].\
+Read 2 from the stream and push it to the stack. s = [1,2].\
+Read 3 from the stream and push it to the stack. s = [1,2,3].
+
+Example 3:
+
+Input: target = [1,2], n = 4\
+Output: ["Push","Push"]\
+Explanation: Initially the stack s is empty. The last element is the top of the stack.\
+Read 1 from the stream and push it to the stack. s = [1].\
+Read 2 from the stream and push it to the stack. s = [1,2].\
+Since the stack (from the bottom to the top) is equal to target, we stop the stack operations.\
+The answers that read integer 3 from the stream are not accepted.
+
+
+video- https://youtu.be/zMdBVvG0We4?si=1Q86uXZdMCosxqXU
+
+### **Approach: Simulating Stack Operations**  
+We iterate through numbers from **1 to `n`** and simulate stack operations to build the `target` array.
+
+
+### **Optimized JavaScript Solution**
+```javascript
+var buildArray = function(target, n) {
+    let operations = [];
+    let index = 0; // Track index in target array
+    
+    for (let i = 1; i <= n; i++) {
+        if (index >= target.length) break; // Stop if target is complete
+
+        operations.push("Push"); // Always push the current number
+
+        if (target[index] === i) {
+            index++; // Move to next target number
+        } else {
+            operations.push("Pop"); // Pop if the number is not in target
+        }
+    }
+    
+    return operations;
+};
+```
+
+### **Explanation**
+1. **Iterate from `1` to `n`** (simulating the stream).
+2. **Push every number onto the stack**.
+3. **If the number is not in `target`**, immediately `"Pop"` it.
+4. **Stop early** when all `target` elements are added.
+
+
+### **Time Complexity**
+- **O(n)** → We process each number in the stream **at most twice** (Push & Pop).
+
+This **greedy approach** ensures an **optimal sequence of operations** while keeping it simple! 🚀
+
+
+> ### 874. Walking Robot Simulation
+
+A robot on an infinite XY-plane starts at point (0, 0) facing north. The robot receives an array of integers commands, which represents a sequence of moves that it needs to execute. There are only three possible types of instructions the robot can receive:
+
+-2: Turn left 90 degrees.\
+-1: Turn right 90 degrees.\
+1 <= k <= 9: Move forward k units, one unit at a time.\
+Some of the grid squares are obstacles. The ith obstacle is at grid point obstacles[i] = (xi, yi). If the robot runs into an obstacle, it will stay in its current location (on the block adjacent to the obstacle) and move onto the next command.
+
+Return the maximum squared Euclidean distance that the robot reaches at any point in its path (i.e. if the distance is 5, return 25).
+
+Note:
+
+There can be an obstacle at (0, 0). If this happens, the robot will ignore the obstacle until it has moved off the origin. However, it will be unable to return to (0, 0) due to the obstacle.\
+North means +Y direction.\
+East means +X direction.\
+South means -Y direction.\
+West means -X direction.
+ 
+
+Example 1:
+
+Input: commands = [4,-1,3], obstacles = []
+
+Output: 25
+
+Explanation:
+
+The robot starts at (0, 0):
+
+Move north 4 units to (0, 4).\
+Turn right.\
+Move east 3 units to (3, 4).\
+The furthest point the robot ever gets from the origin is (3, 4), which squared is 32 + 42 = 25 units away.
+
+Example 2:
+
+Input: commands = [4,-1,4,-2,4], obstacles = [[2,4]]
+
+Output: 65
+
+Explanation:
+
+The robot starts at (0, 0):
+
+Move north 4 units to (0, 4).\
+Turn right.\
+Move east 1 unit and get blocked by the obstacle at (2, 4), robot is at (1, 4).\
+Turn left.\
+Move north 4 units to (1, 8).\
+The furthest point the robot ever gets from the origin is (1, 8), which squared is 12 + 82 = 65 units away.
+
+Example 3:
+
+Input: commands = [6,-1,-1,6], obstacles = [[0,0]]
+
+Output: 36
+
+Explanation:
+
+The robot starts at (0, 0):
+
+Move north 6 units to (0, 6).
+Turn right.\
+Turn right.\
+Move south 5 units and get blocked by the obstacle at (0,0), robot is at (0, 1).\
+The furthest point the robot ever gets from the origin is (0, 6), which squared is 62 = 36 units away.
+
+```js
+var robotSim = function(commands, obstacles) {
+  let dir = 0;
+  let ans = 0;
+  let x = 0;
+  let y = 0;
+  const stones = new Set();
+  for (const [x, y] of obstacles) {
+    stones.add(`${x},${y}`)
+  }
+  for (const cmd of commands) {
+    if (cmd === -2) {
+      dir = (dir + 3) % 4
+      continue
+    }
+    if (cmd === -1) {
+      dir = (dir + 1) % 4
+    }
+    for (let i = 0; i < cmd; i++) {
+      let nextX = x;
+      let nextY = y;
+      switch (dir) {
+        case 2: nextY--; break;
+        case 1: nextX++; break;
+        case 0: nextY++; break;
+        case 3: nextX--; break;
+      }
+      if (stones.has(`${nextX},${nextY}`)) {
+        break;
+      }
+      x = nextX;
+      y = nextY;
+      ans = Math.max(ans, x**2+y**2)
+    }
+  }
+  return ans;
+};
+```
+
+
+> ### 167. Two Sum II - Input Array Is Sorted
+
+Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length.
+
+Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
+
+The tests are generated such that there is exactly one solution. You may not use the same element twice.
+
+Your solution must use only constant extra space.
+
+ 
+
+Example 1:
+
+Input: numbers = [2,7,11,15], target = 9
+Output: [1,2]
+Explanation: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
+Example 2:
+
+Input: numbers = [2,3,4], target = 6
+Output: [1,3]
+Explanation: The sum of 2 and 4 is 6. Therefore index1 = 1, index2 = 3. We return [1, 3].
+Example 3:
+
+Input: numbers = [-1,0], target = -1
+Output: [1,2]
+Explanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].
+
+
+### **Approach: Two-Pointer Technique**
+Since the array is **already sorted**, we can use a **two-pointer approach** to find the two numbers in **O(N) time** with **O(1) extra space**.
+
+---
+
+### **Optimized JavaScript Solution**
+```javascript
+var twoSum = function(numbers, target) {
+    let left = 0, right = numbers.length - 1;
+
+    while (left < right) {
+        let sum = numbers[left] + numbers[right];
+
+        if (sum === target) return [left + 1, right + 1]; // Convert to 1-based index
+        else if (sum < target) left++; // Move left pointer forward to increase sum
+        else right--; // Move right pointer backward to decrease sum
+    }
+};
+```
+
+---
+
+### **Explanation**
+1. **Initialize two pointers:**
+   - `left = 0` (start of the array).
+   - `right = numbers.length - 1` (end of the array).
+   
+2. **While `left < right`:**
+   - Compute `sum = numbers[left] + numbers[right]`.
+   - If `sum == target`, return **1-based indices** `[left + 1, right + 1]`.
+   - If `sum < target`, move `left++` (increase sum).
+   - If `sum > target`, move `right--` (decrease sum).
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** **O(N)** (each element is checked at most once).
+- **Space Complexity:** **O(1)** (constant extra space).
+
+---
+
+### **Why This is Optimal?**
+✅ **Uses the sorted property** for an efficient **two-pointer** approach.  
+✅ **Avoids extra space** (no hash maps needed).  
+✅ **Fast execution** (O(N) vs O(N²) for brute force).  
+
+This is the best approach for sorted arrays! 🚀
+
+
+> ### 766. Toeplitz Matrix
+Given an m x n matrix, return true if the matrix is Toeplitz. Otherwise, return false.\
+A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same elements.
+
+Example 1:
+
+Input: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]\
+Output: true\
+Explanation:\
+In the above grid, the diagonals are:\
+"[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]".\
+In each diagonal all elements are the same, so the answer is True.
+
+Example 2:
+
+Input: matrix = [[1,2],[2,2]]\
+Output: false\
+Explanation:\
+The diagonal "[1, 2]" has different elements.
+
+
+### **Approach: Check Each Diagonal**
+A **Toeplitz Matrix** has the property that every diagonal from **top-left to bottom-right** contains the same values.  
+This means that for every element at position `(i, j)`, it must be equal to the element at `(i+1, j+1)` (if they exist).
+
+---
+
+### **Optimized JavaScript Solution**
+```javascript
+var isToeplitzMatrix = function(matrix) {
+    let rows = matrix.length, cols = matrix[0].length;
+    
+    for (let i = 0; i < rows - 1; i++) {
+        for (let j = 0; j < cols - 1; j++) {
+            if (matrix[i][j] !== matrix[i + 1][j + 1]) return false;
+        }
+    }
+    
+    return true;
+};
+```
+
+---
+
+### **Explanation**
+1. **Iterate through the matrix**, but **ignore the last row and last column** (since they don’t have a diagonal to compare).
+2. **Check diagonals:**  
+   - If `matrix[i][j] !== matrix[i + 1][j + 1]`, return `false` (not Toeplitz).
+3. If no mismatches are found, return `true`.
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** **O(m × n)** (each element is checked once).  
+- **Space Complexity:** **O(1)** (only a few variables are used, no extra data structures).  
+
+This is the most efficient approach for checking a **Toeplitz Matrix**! 🚀
+
+
+> ### 908. Smallest Range I
+Easy
+Topics
+Companies
+You are given an integer array nums and an integer k.
+
+In one operation, you can choose any index i where 0 <= i < nums.length and change nums[i] to nums[i] + x where x is an integer from the range [-k, k]. You can apply this operation at most once for each index i.
+
+The score of nums is the difference between the maximum and minimum elements in nums.
+
+Return the minimum score of nums after applying the mentioned operation at most once for each index in it.
+
+ 
+
+Example 1:
+
+Input: nums = [1], k = 0
+Output: 0
+Explanation: The score is max(nums) - min(nums) = 1 - 1 = 0.
+Example 2:
+
+Input: nums = [0,10], k = 2
+Output: 6
+Explanation: Change nums to be [2, 8]. The score is max(nums) - min(nums) = 8 - 2 = 6.
+Example 3:
+
+Input: nums = [1,3,6], k = 3
+Output: 0
+Explanation: Change nums to be [4, 4, 4]. The score is max(nums) - min(nums) = 4 - 4 = 0.
+
+### **Approach: Mathematical Reduction**
+To minimize the score, we should **reduce the difference** between the maximum and minimum values in `nums`.  
+Each number in `nums` can be increased or decreased by at most `k`, so:
+
+- The **maximum possible value** is `max(nums) - k`
+- The **minimum possible value** is `min(nums) + k`
+- The new score will be:  
+  \[
+  \text{new score} = \max(0, (\max(\text{nums}) - k) - (\min(\text{nums}) + k))
+  \]
+
+---
+
+### **Optimized JavaScript Solution**
+```javascript
+var smallestRangeI = function(nums, k) {
+    let minNum = Math.min(...nums);
+    let maxNum = Math.max(...nums);
+    return Math.max(0, (maxNum - k) - (minNum + k));
+};
+```
+
+---
+
+### **Explanation**
+1. **Find the min and max values** of `nums`.
+2. **Apply the range reduction** formula:  
+   - Reduce `max` by `k`
+   - Increase `min` by `k`
+   - Compute the new difference, ensuring it’s **at least 0**.
+3. **Return the minimum possible score**.
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** **O(n)** (finding `min` and `max`).  
+- **Space Complexity:** **O(1)** (only a few variables are used).
+
+This is the most efficient approach for solving **Smallest Range I**. 🚀
+
+
+> ### 645. Set Mismatch
+
+You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.
+
+You are given an integer array nums representing the data status of this set after the error.
+
+Find the number that occurs twice and the number that is missing and return them in the form of an array.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,2,4]
+Output: [2,3]
+
+Example 2:
+
+Input: nums = [1,1]
+Output: [1,2]
+
+Example 3:
+
+Input: nums = [2,2]
+Output: [2,1]
+
+### **Approach: Hashing**
+#### **Algorithm**
+1. Use a **Set** to track seen numbers.
+2. Find the **duplicate number** (appears twice).
+3. Find the **missing number** (sum difference).
+
+---
+
+### **JavaScript Solution**
+```javascript
+var findErrorNums = function(nums) {
+    let numSet = new Set();
+    let duplicate, missing;
+    let n = nums.length;
+    
+    for (let num of nums) {
+        if (numSet.has(num)) duplicate = num;
+        numSet.add(num);
+    }
+
+    for (let i = 1; i <= n; i++) {
+        if (!numSet.has(i)) {
+            missing = i;
+            break;
+        }
+    }
+
+    return [duplicate, missing];
+};
+```
+
+---
+
+### **Explanation**
+1. **Detect the duplicate:**  
+   - Use a `Set` to check if a number appears twice.
+2. **Find the missing number:**  
+   - Iterate from `1` to `n` and check which number is missing.
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** **O(n)** (two passes)
+- **Space Complexity:** **O(n)** (using `Set`)
+
+#### **Optimized Approach (Math-Based)**
+Instead of using a Set, we can use **sum formulas**:
+1. **Find duplicate** using `actual sum - expected sum`.
+2. **Find missing** using `sum of squares difference`.
+
+Would you like the optimized **O(1) space** approach? 🚀
+
+
+> ### 1021. Remove Outermost Parentheses
+
+A valid parentheses string is either empty "", "(" + A + ")", or A + B, where A and B are valid parentheses strings, and + represents string concatenation.
+
+For example, "", "()", "(())()", and "(()(()))" are all valid parentheses strings.
+A valid parentheses string s is primitive if it is nonempty, and there does not exist a way to split it into s = A + B, with A and B nonempty valid parentheses strings.
+
+Given a valid parentheses string s, consider its primitive decomposition: s = P1 + P2 + ... + Pk, where Pi are primitive valid parentheses strings.
+
+Return s after removing the outermost parentheses of every primitive string in the primitive decomposition of s.
+
+Example 1:
+
+Input: s = "(()())(())"\
+Output: "()()()"\
+Explanation: \
+The input string is "(()())(())", with primitive decomposition "(()())" + "(())".\
+After removing outer parentheses of each part, this is "()()" + "()" = "()()()".
+
+Example 2:
+
+Input: s = "(()())(())(()(()))"\
+Output: "()()()()(())"\
+Explanation: \
+The input string is "(()())(())(()(()))", with primitive decomposition "(()())" + "(())" + "(()(()))".\
+After removing outer parentheses of each part, this is "()()" + "()" + "()(())" = "()()()()(())".
+
+Example 3:
+
+Input: s = "()()"\
+Output: ""\
+Explanation:\ 
+The input string is "()()", with primitive decomposition "()" + "()".\
+After removing outer parentheses of each part, this is "" + "" = "".
+
+
+
+### **Approach: Stack-Based Counting**
+#### **Algorithm**
+1. Use a **counter (`depth`)** to track the nesting level of parentheses.
+2. Iterate through the string `s`:
+   - If encountering `'('`, increase `depth`. **Only append if `depth > 1`** (i.e., it's not the outermost).
+   - If encountering `')'`, **only append if `depth > 1`**, then decrease `depth`.
+3. Return the modified string.
+
+---
+
+### **JavaScript Solution**
+```javascript
+var removeOuterParentheses = function(s) {
+    let result = "";
+    let depth = 0;
+
+    for (let char of s) {
+        if (char === ')') depth--; // Decrease depth before appending
+        if (depth > 0) result += char; // Only add when inside primitive
+        if (char === '(') depth++; // Increase depth after appending
+    }
+
+    return result;
+};
+```
+
+
+### **Step-by-step execution:**
+| Index | Char | Depth Before | Action | Depth After | Result |
+|--------|------|-------------|--------|------------|--------|
+| 0      | `(`  | 0           | Increase depth, **do not add** | 1 | "" |
+| 1      | `(`  | 1           | **Add `(`**, then increase depth | 2 | `"("` |
+| 2      | `)`  | 2           | **Add `)`**, then decrease depth | 1 | `"()"` |
+| 3      | `(`  | 1           | **Add `(`**, then increase depth | 2 | `"()("` |
+| 4      | `)`  | 2           | **Add `)`**, then decrease depth | 1 | `"()()"` |
+| 5      | `)`  | 1           | Decrease depth, **do not add** | 0 | `"()()"` |
+| 6      | `(`  | 0           | Increase depth, **do not add** | 1 | `"()()"` |
+| 7      | `(`  | 1           | **Add `(`**, then increase depth | 2 | `"()()("` |
+| 8      | `)`  | 2           | **Add `)`**, then decrease depth | 1 | `"()()()"` |
+| 9      | `)`  | 1           | Decrease depth, **do not add** | 0 | `"()()()"` |
+
+
+> ### 997. Find the Town Judge
+
+In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge.
+
+If the town judge exists, then:
+
+The town judge trusts nobody.\
+Everybody (except for the town judge) trusts the town judge.\
+There is exactly one person that satisfies properties 1 and 2.\
+You are given an array trust where trust[i] = [ai, bi] representing that the person labeled ai trusts the person labeled bi. If a trust relationship does not exist in trust array, then such a trust relationship does not exist.
+
+Return the label of the town judge if the town judge exists and can be identified, or return -1 otherwise.
+
+Example 1:
+
+Input: n = 2, trust = [[1,2]]\
+Output: 2
+
+Example 2:
+
+Input: n = 3, trust = [[1,3],[2,3]]\
+Output: 3
+
+Example 3:
+
+Input: n = 3, trust = [[1,3],[2,3],[3,1]]\
+Output: -1
+
+Your current implementation has several issues:  
+
+1. **Incorrect Trust Counting**:  
+   - The town judge **trusts nobody** but is **trusted by (n-1) people**.  
+   - Your code counts **both trusting and being trusted**, which is incorrect.  
+
+2. **Incorrect Return Condition**:  
+   - The town judge should have a **trust count of (n-1)** but should **not appear as a truster**.  
+
+### **Corrected Approach**
+- Use **two arrays**:
+  - `trustCount[i]`: Number of people **trusting** person `i`.
+  - `trustedBy[i]`: Number of people **trusted by** person `i`.
+- Iterate through `trust`:
+  - Increase `trustCount[a]` (person `a` trusts someone).
+  - Increase `trustedBy[b]` (person `b` is trusted).
+- The judge is the person `j` where:
+  - `trustCount[j] == 0` (does not trust anyone).
+  - `trustedBy[j] == n - 1` (trusted by everyone else).
+
+---
+
+### **Fixed Code**
+```javascript
+var findJudge = function(n, trust) {
+    if (n === 1 && trust.length === 0) return 1; // Edge case: Single person is the judge
+
+    let trustCount = new Array(n + 1).fill(0);
+    
+    for (let [a, b] of trust) {
+        trustCount[a]--; // a trusts someone → disqualify
+        trustCount[b]++; // b is trusted → increase count
+    }
+    
+    for (let i = 1; i <= n; i++) {
+        if (trustCount[i] === n - 1) return i; // Judge found
+    }
+    
+    return -1; // No judge found
+};
+```
+
+---
+
+### **Explanation**
+1. **Initialization**  
+   - `trustCount[i]` starts at `0` for all `1 ≤ i ≤ n`.  
+
+2. **Processing the `trust` Array**  
+   - If `a` trusts `b`, **decrease** `trustCount[a]` (since a cannot be a judge).  
+   - **Increase** `trustCount[b]` (b is trusted).  
+
+3. **Finding the Judge**  
+   - The judge should have `trustCount[i] == n - 1`.  
+   - If found, return that person; otherwise, return `-1`.  
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** **O(N)** (One pass to process trust, one pass to find judge).  
+- **Space Complexity:** **O(N)** (Array of size `n+1`).  
+
+This ensures correctness while maintaining efficiency. 🚀
+
+
+> ### 598. Range Addition II
+Easy
+Topics
+Companies
+You are given an m x n matrix M initialized with all 0's and an array of operations ops, where ops[i] = [ai, bi] means M[x][y] should be incremented by one for all 0 <= x < ai and 0 <= y < bi.
+
+Count and return the number of maximum integers in the matrix after performing all the operations.
+
+ 
+
+Example 1:
+
+
+Input: m = 3, n = 3, ops = [[2,2],[3,3]]
+Output: 4
+Explanation: The maximum integer in M is 2, and there are four of it in M. So return 4.
+Example 2:
+
+Input: m = 3, n = 3, ops = [[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]
+
+
+### **Algorithm: Find Minimum Range**
+#### **Key Insight**
+Each operation `ops[i] = [ai, bi]` increases values in a **top-left submatrix** of size `ai × bi`.  
+The **maximum value** in the final matrix appears in the **smallest overlapping region** affected by all operations.
+
+#### **Steps**
+1. The area that gets incremented the most is the **smallest intersection** of all operations.
+2. Find the **minimum ai** (`minRow`) and **minimum bi** (`minCol`) from `ops`.
+3. The result is simply `minRow * minCol`, since that submatrix contains the maximum values.
+
+---
+
+### **Code (JavaScript)**
+```javascript
+var maxCount = function(m, n, ops) {
+    if (ops.length === 0) return m * n; // If no operations, all elements remain 0
+
+    let minRow = m, minCol = n;
+    
+    for (let [a, b] of ops) {
+        minRow = Math.min(minRow, a);
+        minCol = Math.min(minCol, b);
+    }
+    
+    return minRow * minCol;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```plaintext
+Input: m = 3, n = 3, ops = [[2,2],[3,3]]
+```
+- **Step 1:** Find `minRow` and `minCol`
+  - `ops = [[2,2], [3,3]]`
+  - `minRow = min(2,3) = 2`
+  - `minCol = min(2,3) = 2`
+- **Step 2:** The maximum value appears in a `2×2` region.
+- **Output:** `2 × 2 = 4`
+
+#### **Example 2**
+```plaintext
+Input: m = 3, n = 3, ops = [[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]
+```
+- **Step 1:** Find `minRow` and `minCol`
+  - Minimum row size in `ops = 2`
+  - Minimum col size in `ops = 2`
+- **Step 2:** The `2×2` area contains the maximum value.
+- **Output:** `4`
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** **O(k)** → We iterate through `ops` once.
+- **Space Complexity:** **O(1)** → Only a few integer variables used.
+
+---
+
+### **Edge Cases**
+1. **No operations (`ops = []`)** → Return `m * n`.
+2. **Single operation covering full matrix (`ops = [[m,n]]`)** → Return `m * n`.
+3. **Different sizes in ops (`ops = [[1,3], [3,1]]`)** → Find the smallest overlap.
+
+
+> ### 27. Remove Element
+Easy
+Topics
+Companies
+Hint
+Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
+
+Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
+
+Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.
+Return k.
+Custom Judge:
+
+The judge will test your solution with the following code:
+
+int[] nums = [...]; // Input array
+int val = ...; // Value to remove
+int[] expectedNums = [...]; // The expected answer with correct length.
+                            // It is sorted with no values equaling val.
+
+int k = removeElement(nums, val); // Calls your implementation
+
+assert k == expectedNums.length;
+sort(nums, 0, k); // Sort the first k elements of nums
+for (int i = 0; i < actualLength; i++) {
+    assert nums[i] == expectedNums[i];
+}
+If all assertions pass, then your solution will be accepted.
+
+ 
+
+Example 1:
+
+Input: nums = [3,2,2,3], val = 3
+Output: 2, nums = [2,2,_,_]
+Explanation: Your function should return k = 2, with the first two elements of nums being 2.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+Example 2:
+
+Input: nums = [0,1,2,2,3,0,4,2], val = 2
+Output: 5, nums = [0,1,4,0,3,_,_,_]
+Explanation: Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
+Note that the five elements can be returned in any order.
+It does not matter what you leave beyond the returned k (hence they are underscores).
+
+
+### **Algorithm: Two-Pointer Approach**
+We use a **two-pointer technique** to efficiently remove all occurrences of `val` from `nums` **in-place**.
+
+### **Approach**
+1. Use a **slow pointer (`k`)** to track where to place the next valid element (not equal to `val`).
+2. Iterate through `nums` with a **fast pointer (`i`)**:
+   - If `nums[i]` **is not** `val`, store it at `nums[k]` and increment `k`.
+   - Otherwise, skip it.
+3. After the loop, `k` represents the **number of valid elements** in `nums`, and the first `k` elements contain the correct values.
+
+---
+
+### **Code (JavaScript)**
+```javascript
+var removeElement = function(nums, val) {
+    let k = 0; // Slow pointer
+
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] !== val) {
+            nums[k] = nums[i]; // Move valid element
+            k++;
+        }
+    }
+    
+    return k; // Number of valid elements
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```plaintext
+Input: nums = [3,2,2,3], val = 3
+```
+**Step-by-step Execution:**
+| i  | nums[i] | Action                  | nums (modified)  | k  |
+|----|--------|-------------------------|----------------|----|
+| 0  | 3      | Skip                     | [3,2,2,3]      | 0  |
+| 1  | 2      | Store at `nums[0]`        | [2,2,2,3]      | 1  |
+| 2  | 2      | Store at `nums[1]`        | [2,2,2,3]      | 2  |
+| 3  | 3      | Skip                      | [2,2,2,3]      | 2  |
+
+**Final Output:**
+```plaintext
+k = 2
+Modified nums = [2,2,_,_]
+```
+
+---
+
+#### **Example 2**
+```plaintext
+Input: nums = [0,1,2,2,3,0,4,2], val = 2
+```
+**Step-by-step Execution:**
+| i  | nums[i] | Action                 | nums (modified)     | k  |
+|----|--------|------------------------|--------------------|----|
+| 0  | 0      | Store at `nums[0]`      | [0,1,2,2,3,0,4,2] | 1  |
+| 1  | 1      | Store at `nums[1]`      | [0,1,2,2,3,0,4,2] | 2  |
+| 2  | 2      | Skip                    | [0,1,2,2,3,0,4,2] | 2  |
+| 3  | 2      | Skip                    | [0,1,2,2,3,0,4,2] | 2  |
+| 4  | 3      | Store at `nums[2]`      | [0,1,3,2,3,0,4,2] | 3  |
+| 5  | 0      | Store at `nums[3]`      | [0,1,3,0,3,0,4,2] | 4  |
+| 6  | 4      | Store at `nums[4]`      | [0,1,3,0,4,0,4,2] | 5  |
+| 7  | 2      | Skip                    | [0,1,3,0,4,0,4,2] | 5  |
+
+**Final Output:**
+```plaintext
+k = 5
+Modified nums = [0,1,3,0,4,_,_,_]
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** **O(n)** → We iterate through `nums` once.
+- **Space Complexity:** **O(1)** → We modify `nums` in-place without extra memory.
+
+---
+
+### **Edge Cases**
+1. **No elements to remove:** `nums = [1,2,3]`, `val = 4` → Output `3`, array remains unchanged.
+2. **All elements removed:** `nums = [2,2,2]`, `val = 2` → Output `0`, empty array.
+3. **Empty array:** `nums = []`, `val = 2` → Output `0`.
+
+
+> ### 566. Reshape the Matrix
+Easy
+Topics
+Companies
+Hint
+In MATLAB, there is a handy function called reshape which can reshape an m x n matrix into a new one with a different size r x c keeping its original data.
+
+You are given an m x n matrix mat and two integers r and c representing the number of rows and the number of columns of the wanted reshaped matrix.
+
+The reshaped matrix should be filled with all the elements of the original matrix in the same row-traversing order as they were.
+
+If the reshape operation with given parameters is possible and legal, output the new reshaped matrix; Otherwise, output the original matrix.
+
+ 
+
+Example 1:
+
+
+Input: mat = [[1,2],[3,4]], r = 1, c = 4
+Output: [[1,2,3,4]]
+Example 2:
+
+
+Input: mat = [[1,2],[3,4]], r = 2, c = 4
+Output: [[1,2],[3,4]]
+
+
+### **Algorithm: Flatten & Reshape**
+- **Step 1**: Check if reshaping is possible:  
+  - If `m * n !== r * c`, return `mat` as reshaping is not possible.
+- **Step 2**: Flatten the original matrix into a 1D array.
+- **Step 3**: Construct the new matrix row by row using the 1D array.
+
+---
+
+### **JavaScript Code**
+```javascript
+var matrixReshape = function(mat, r, c) {
+    let m = mat.length, n = mat[0].length;
+
+    // Check if reshape is possible
+    if (m * n !== r * c) return mat;
+
+    // Flatten the matrix
+    let flat = mat.flat();
+    
+    // Build the new reshaped matrix
+    let result = [];
+    for (let i = 0; i < r; i++) {
+        result.push(flat.slice(i * c, (i + 1) * c));
+    }
+
+    return result;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+Input: mat = [[1,2],[3,4]], r = 1, c = 4
+```
+- Flattened: `[1,2,3,4]`
+- Reshaped: `[[1,2,3,4]]`
+
+✅ **Output**: `[[1,2,3,4]]`
+
+#### **Example 2**
+```js
+Input: mat = [[1,2],[3,4]], r = 2, c = 4
+```
+- Cannot reshape since `2 × 2 ≠ 2 × 4`, so return `mat`.
+
+✅ **Output**: `[[1,2],[3,4]]`
+
+---
+
+### **Complexity Analysis**
+- **Flattening the matrix** → \(O(m \times n)\)
+- **Building the new matrix** → \(O(r \times c)\)
+- **Total Complexity** → \(O(m \times n)\) (since \(m \times n = r \times c\))
+
+This is an efficient approach that maintains row-wise order. 🚀
+
+
+
+> ### 1260. Shift 2D Grid
+Easy
+Topics
+Companies
+Hint
+Given a 2D grid of size m x n and an integer k. You need to shift the grid k times.
+
+In one shift operation:
+
+Element at grid[i][j] moves to grid[i][j + 1].
+Element at grid[i][n - 1] moves to grid[i + 1][0].
+Element at grid[m - 1][n - 1] moves to grid[0][0].
+Return the 2D grid after applying shift operation k times.
+
+ 
+
+Example 1:
+
+
+Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+Output: [[9,1,2],[3,4,5],[6,7,8]]
+Example 2:
+
+
+Input: grid = [[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], k = 4
+Output: [[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]]
+Example 3:
+
+Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9
+Output: [[1,2,3],[4,5,6],[7,8,9]]
+
+
+### **Algorithm: Flatten, Rotate, and Rebuild**
+#### **Steps:**
+1. **Flatten the grid into a 1D array**: Since the grid is row-wise stored, convert it into a 1D array.
+2. **Optimize `k`**: Since shifting `k` times is equivalent to shifting `k % (m * n)` times, update `k = k % (m * n)`.
+3. **Rotate the 1D array**: Move the last `k` elements to the front.
+4. **Rebuild the 2D grid**: Convert the rotated 1D array back into a 2D grid.
+
+---
+
+### **JavaScript Code**
+```javascript
+var shiftGrid = function(grid, k) {
+    let m = grid.length, n = grid[0].length;
+    let total = m * n;
+    
+    // Optimize k
+    k = k % total;
+    if (k === 0) return grid;
+
+    // Flatten the grid
+    let flat = grid.flat();
+
+    // Rotate the array
+    let rotated = flat.slice(-k).concat(flat.slice(0, total - k));
+
+    // Rebuild the grid
+    let result = [];
+    for (let i = 0; i < m; i++) {
+        result.push(rotated.slice(i * n, (i + 1) * n));
+    }
+
+    return result;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+```
+1. **Flattened**: `[1,2,3,4,5,6,7,8,9]`
+2. **Rotate 1 step**: `[9,1,2,3,4,5,6,7,8]`
+3. **Reshape**:
+   ```
+   [[9,1,2],
+    [3,4,5],
+    [6,7,8]]
+   ```
+✅ **Output**: `[[9,1,2],[3,4,5],[6,7,8]]`
+
+#### **Example 2**
+```js
+Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9
+```
+1. **Flattened**: `[1,2,3,4,5,6,7,8,9]`
+2. **Optimize `k = 9 % 9 = 0`**, so no change.
+3. **Reshape**:
+   ```
+   [[1,2,3],
+    [4,5,6],
+    [7,8,9]]
+   ```
+✅ **Output**: `[[1,2,3],[4,5,6],[7,8,9]]`
+
+---
+
+### **Complexity Analysis**
+- **Flattening the grid** → \(O(m \times n)\)
+- **Rotating the array** → \(O(m \times n)\)
+- **Rebuilding the grid** → \(O(m \times n)\)
+- **Total Complexity** → \(O(m \times n)\), which is efficient.
+
+This approach keeps the order intact and ensures optimal shifting without unnecessary iterations. 🚀
+
+
+> ### 67. Add Binary
+
+Given two binary strings a and b, return their sum as a binary string.
+
+Example 1:
+
+Input: a = "11", b = "1"\
+Output: "100"
+
+Example 2:
+
+Input: a = "1010", b = "1011"\
+Output: "10101"
+
+### **Algorithm: Bit-by-Bit Addition (Simulating Binary Addition)**
+We perform binary addition similar to how we add numbers manually:
+1. **Start from the rightmost bit (LSB)**.
+2. **Add corresponding bits** from both strings along with any carry from the previous addition.
+3. **Calculate the new bit** and **update the carry**.
+4. **Continue moving left** until all bits are processed.
+5. **If there's a leftover carry, append it** to the result.
+6. **Return the final sum in reversed order**.
+
+---
+
+### **JavaScript Code**
+```javascript
+var addBinary = function(a, b) {
+    let i = a.length - 1, j = b.length - 1;
+    let carry = 0, result = "";
+
+    while (i >= 0 || j >= 0 || carry) {
+        let sum = carry;
+        if (i >= 0) sum += a[i--] - '0'; // Convert char to number
+        if (j >= 0) sum += b[j--] - '0';
+
+        result = (sum % 2) + result; // Append binary bit
+        carry = Math.floor(sum / 2); // Update carry
+    }
+    
+    return result;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+Input: a = "11", b = "1"
+```
+**Steps:**
+1. `1 + 1 = 10` → bit: `0`, carry: `1`
+2. `1 + 0 + 1 = 10` → bit: `0`, carry: `1`
+3. `carry 1` → bit: `1`
+✅ **Output:** `"100"`
+
+---
+
+#### **Example 2**
+```js
+Input: a = "1010", b = "1011"
+```
+**Steps:**
+1. `0 + 1 = 1` → bit: `1`, carry: `0`
+2. `1 + 1 = 10` → bit: `0`, carry: `1`
+3. `0 + 0 + 1 = 1` → bit: `1`, carry: `0`
+4. `1 + 1 = 10` → bit: `0`, carry: `1`
+5. `carry 1` → bit: `1`
+✅ **Output:** `"10101"`
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** \( O(\max(n, m)) \) → We iterate through the longer of the two strings.
+- **Space Complexity:** \( O(\max(n, m)) \) → The result string stores the sum.
+
+This method efficiently performs binary addition without converting to decimal, ensuring precision and speed! 🚀
+
+
+> ### 637. Average of Levels in Binary Tree
+
+Given the root of a binary tree, return the average value of the nodes on each level in the form of an array. Answers within 10-5 of the actual answer will be accepted.
+ 
+Example 1:\
+Input: root = [3,9,20,null,null,15,7]\
+Output: [3.00000,14.50000,11.00000]\
+Explanation: The average value of nodes on level 0 is 3, on level 1 is 14.5, and on level 2 is 11.\
+Hence return [3, 14.5, 11].
+
+Example 2:\
+Input: root = [3,9,20,15,7]\
+Output: [3.00000,14.50000,11.00000]
+
+## **Algorithm: Breadth-First Search (BFS)**  
+We will use **Level Order Traversal** (BFS) with a queue to compute the average of each level.
+
+---
+
+### **Approach:**
+1. **Initialize a queue** with the root node.
+2. **Iterate through levels** using BFS:
+   - At each level:
+     - Compute the sum of all nodes in the level.
+     - Compute the average by dividing the sum by the number of nodes at that level.
+     - Store the average in the result array.
+     - Add child nodes of the current level to the queue.
+3. **Return the result array** after processing all levels.
+
+---
+
+### **Code (JavaScript)**
+```javascript
+var averageOfLevels = function(root) {
+    if (!root) return [];
+
+    let result = [];
+    let queue = [root];
+
+    while (queue.length > 0) {
+        let levelSize = queue.length;
+        let levelSum = 0;
+
+        for (let i = 0; i < levelSize; i++) {
+            let node = queue.shift();
+            levelSum += node.val;
+
+            if (node.left) queue.push(node.left);
+            if (node.right) queue.push(node.right);
+        }
+
+        result.push(levelSum / levelSize);
+    }
+    
+    return result;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+Input: root = [3,9,20,null,null,15,7]
+
+Tree structure:
+        3
+       / \
+      9   20
+         /  \
+        15   7
+```
+
+#### **Step-by-Step Execution**
+1. **Level 0:** `[3]`
+   - Sum = 3
+   - Average = `3 / 1 = 3.00000`
+   - **Queue:** `[9, 20]`
+
+2. **Level 1:** `[9, 20]`
+   - Sum = `9 + 20 = 29`
+   - Average = `29 / 2 = 14.50000`
+   - **Queue:** `[15, 7]`
+
+3. **Level 2:** `[15, 7]`
+   - Sum = `15 + 7 = 22`
+   - Average = `22 / 2 = 11.00000`
+   - **Queue:** `[]` (Tree processed)
+
+✅ **Output:** `[3.00000, 14.50000, 11.00000]`
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** \(O(N)\) (Each node is processed once)
+- **Space Complexity:** \(O(N)\) (Queue stores up to one level at a time)
+
+---
+
+This BFS approach ensures an efficient and clean solution to the problem! 🚀
+
+
+> ### 257. Binary Tree Paths
+
+Given the root of a binary tree, return all root-to-leaf paths in any order.
+
+A leaf is a node with no children.
+
+Example 1:\
+Input: root = [1,2,3,null,5]\
+Output: ["1->2->5","1->3"]
+
+Example 2:\
+Input: root = [1]\
+Output: ["1"]
+
+## **Algorithm: DFS (Depth-First Search)**
+We use **Depth-First Search (DFS)** to traverse the tree and record all root-to-leaf paths.
+
+---
+
+### **Approach**
+1. **Edge Case**: If `root` is `null`, return an empty array `[]`.
+2. Use **DFS recursion**:
+   - Append the current node's value to a temporary path.
+   - If the node is a **leaf** (no left or right child), add the path to the result array.
+   - If not a leaf, continue DFS for **left** and **right** children.
+3. **Return the result** containing all root-to-leaf paths.
+
+---
+
+### **Optimized JavaScript Code**
+```javascript
+var binaryTreePaths = function(root) {
+    if (!root) return [];
+
+    let result = [];
+    
+    function dfs(node, path) {
+        if (!node) return;
+
+        path += node.val; // Add current node value to the path
+
+        if (!node.left && !node.right) {
+            result.push(path); // If it's a leaf, add to result
+        } else {
+            path += "->"; // Add separator for next node
+            dfs(node.left, path);
+            dfs(node.right, path);
+        }
+    }
+    
+    dfs(root, "");
+    return result;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+Input: root = [1,2,3,null,5]
+```
+Binary Tree:
+```
+    1
+   / \
+  2   3
+   \
+    5
+```
+- **DFS Traversal Paths**:
+  - `1 -> 2 -> 5`
+  - `1 -> 3`
+✅ **Output:** `["1->2->5", "1->3"]`
+
+---
+
+#### **Example 2**
+```js
+Input: root = [1]
+```
+Binary Tree:
+```
+  1
+```
+- **DFS Path:** `"1"`
+✅ **Output:** `["1"]`
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** \(O(N)\) → We visit each node once.
+- **Space Complexity:** \(O(N)\) → Recursion stack for DFS in worst case (skewed tree).
+
+This **DFS-based** solution is both **efficient and elegant** for finding all root-to-leaf paths! 🚀
+
+
+> ### 606. Construct String from Binary Tree
+
+Given the root node of a binary tree, your task is to create a string representation of the tree following a specific set of formatting rules.
+
+Example 1:
+
+Input: root = [1,2,3,4]\
+Output: "1(2(4))(3)"\
+Explanation: Originally, it needs to be "1(2(4)())(3()())", but you need to omit all the empty parenthesis pairs. And it will be "1(2(4))(3)".
+
+Example 2:
+
+Input: root = [1,2,3,null,4]\
+Output: "1(2()(4))(3)"\
+Explanation: Almost the same as the first example, except the () after 2 is necessary to indicate the absence of a left child for 2 and the presence of a right child.
+
+
+## **Algorithm: Preorder Traversal with String Construction**  
+We traverse the binary tree **preorder** (root → left → right) and construct the string according to the problem's rules.
+
+---
+
+### **Approach**
+1. **Base Case:**  
+   - If the node is `null`, return an **empty string**.
+2. **Root Processing:**  
+   - Convert the node value to a string.
+3. **Recursive Calls for Left & Right Children:**  
+   - If the left child exists, recursively process it inside **parentheses**.
+   - If the right child exists:
+     - If the left child is **missing**, include empty `()` to preserve structure.
+     - Otherwise, process the right child inside **parentheses**.
+
+---
+
+### **Optimized JavaScript Code**
+```javascript
+var tree2str = function(root) {
+    if (!root) return ""; // Base case
+
+    let result = root.val.toString();
+
+    if (root.left || root.right) { // Add left subtree if it exists or right subtree forces empty ()
+        result += "(" + tree2str(root.left) + ")";
+    }
+
+    if (root.right) { // Add right subtree if it exists
+        result += "(" + tree2str(root.right) + ")";
+    }
+
+    return result;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+Input: root = [1,2,3,4]
+```
+**Tree Structure:**
+```
+    1
+   / \
+  2   3
+ /
+4
+```
+- Root: `"1"`
+- Left subtree: `"2(4)"`
+- Right subtree: `"3"`
+✅ **Output:** `"1(2(4))(3)"`
+
+---
+
+#### **Example 2**
+```js
+Input: root = [1,2,3,null,4]
+```
+**Tree Structure:**
+```
+    1
+   / \
+  2   3
+   \
+    4
+```
+- Root: `"1"`
+- Left subtree: `"2()(4)"` (empty `()` needed to indicate missing left child)
+- Right subtree: `"3"`
+✅ **Output:** `"1(2()(4))(3)"`
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** \(O(N)\) → We traverse each node once.
+- **Space Complexity:** \(O(H)\) → Call stack depth depends on tree height.
+
+This **DFS-based** approach ensures an accurate **preorder traversal** while handling parentheses correctly. 🚀
+
+
+> ### 108. Convert Sorted Array to Binary Search Tree
+
+Given an integer array nums where the elements are sorted in ascending order, convert it to a 
+height-balanced
+
+Example 1:
+
+Input: nums = [-10,-3,0,5,9]\
+Output: [0,-3,9,-10,null,5]\
+Explanation: [0,-10,5,null,-3,null,9] is also accepted:
+
+Example 2:
+
+Input: nums = [1,3]\
+Output: [3,1]\
+Explanation: [1,null,3] and [3,1] are both height-balanced BSTs.
+
+
+ ## **Algorithm: Recursive Divide and Conquer (Binary Search Approach)**  
+To construct a **height-balanced** Binary Search Tree (BST) from a sorted array, we use the **middle element** as the root. This ensures that the left and right subtrees are as balanced as possible.
+
+---
+
+### **Approach**
+1. **Find the middle element** of the array and make it the root.
+2. **Recursively apply the same process** to the left half for the left subtree and the right half for the right subtree.
+3. **Base case:** If the subarray is empty, return `null`.
+
+---
+
+### **JavaScript Code**
+```javascript
+var sortedArrayToBST = function(nums) {
+    if (!nums.length) return null; // Base case: empty array -> null node
+
+    let mid = Math.floor(nums.length / 2);
+    let root = new TreeNode(nums[mid]); // Middle element as root
+    
+    root.left = sortedArrayToBST(nums.slice(0, mid));  // Left subtree from left half
+    root.right = sortedArrayToBST(nums.slice(mid + 1)); // Right subtree from right half
+
+    return root;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+Input: nums = [-10, -3, 0, 5, 9]
+```
+**Recursive Calls:**
+```
+nums = [-10, -3, 0, 5, 9] → mid = 2 → root = 0
+    Left subtree: [-10, -3] → mid = 1 → root = -3
+        Left: [-10] → root = -10
+        Right: null
+    Right subtree: [5, 9] → mid = 1 → root = 9
+        Left: [5] → root = 5
+        Right: null
+```
+✅ **Output (BST Representation)**:
+```
+        0
+       /  \
+    -3     9
+   /     /
+-10    5
+```
+
+---
+
+### **Example 2**
+```js
+Input: nums = [1, 3]
+```
+**Recursive Calls:**
+```
+nums = [1, 3] → mid = 1 → root = 3
+    Left subtree: [1] → root = 1
+    Right subtree: null
+```
+✅ **Output (BST Representation)**:
+```
+   3
+  /
+ 1
+```
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** \(O(N)\) → Each element is processed once.
+- **Space Complexity:** \(O(N)\) → Recursive stack for depth \(O(\log N)\), but array slicing takes extra space.
+
+This **Divide and Conquer** approach ensures an optimal height-balanced BST. 🚀
+
+
+> ### 696. Count Binary Substrings
+
+Given a binary string s, return the number of non-empty substrings that have the same number of 0's and 1's, and all the 0's and all the 1's in these substrings are grouped consecutively.
+
+Substrings that occur multiple times are counted the number of times they occur.
+
+Example 1:
+
+Input: s = "00110011"\
+Output: 6\
+Explanation: There are 6 substrings that have equal number of consecutive 1's and 0's: "0011", "01", "1100", "10", "0011", and "01".\
+Notice that some of these substrings repeat and are counted the number of times they occur.\
+Also, "00110011" is not a valid substring because all the 0's (and 1's) are not grouped together.
+
+Example 2:
+
+Input: s = "10101"\
+Output: 4\
+Explanation: There are 4 substrings: "10", "01", "10", "01" that have equal number of consecutive 1's and 0's.
+
+## **Algorithm: Group Count Method**  
+This problem can be solved efficiently using the **group count** method instead of brute force substring checking.
+
+---
+
+### **Approach**
+1. **Group Consecutive Characters:**  
+   - Traverse the string `s` and count consecutive `0`s and `1`s.
+   - Store these counts in an array.
+
+2. **Count Valid Substrings:**  
+   - A valid substring occurs between two adjacent groups of `0`s and `1`s.
+   - The number of valid substrings contributed by two adjacent groups is `min(prev, curr)`, where:
+     - `prev` = previous group's length.
+     - `curr` = current group's length.
+   - Sum up these values to get the final result.
+
+---
+
+### **JavaScript Code**
+```javascript
+var countBinarySubstrings = function(s) {
+    let count = 0;
+    let prev = 0, curr = 1;  // Track consecutive group counts
+
+    for (let i = 1; i < s.length; i++) {
+        if (s[i] === s[i - 1]) {
+            curr++;  // Increment count if same character
+        } else {
+            count += Math.min(prev, curr);  // Add min of previous and current group
+            prev = curr;  // Update previous group count
+            curr = 1;  // Reset current count
+        }
+    }
+    
+    count += Math.min(prev, curr); // Handle last transition
+    return count;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+Input: s = "00110011"
+```
+**Step-by-step processing:**
+- Groups: `[2,2,2,2]` (two `0`s, two `1`s, two `0`s, two `1`s)
+- Contributions:  
+  - `min(2,2) = 2`
+  - `min(2,2) = 2`
+  - `min(2,2) = 2`
+- ✅ **Output:** `6`
+
+#### **Example 2**
+```js
+Input: s = "10101"
+```
+**Step-by-step processing:**
+- Groups: `[1,1,1,1,1]`
+- Contributions:  
+  - `min(1,1) = 1`
+  - `min(1,1) = 1`
+  - `min(1,1) = 1`
+  - `min(1,1) = 1`
+- ✅ **Output:** `4`
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** \(O(n)\) → Single pass to count groups.
+- **Space Complexity:** \(O(1)\) → Constant extra space.
+
+This **efficient greedy approach** avoids generating substrings explicitly and runs in **linear time**. 🚀
+
+
+
+> ### 993. Cousins in Binary Tree
+
+Given the root of a binary tree with unique values and the values of two different nodes of the tree x and y, return true if the nodes corresponding to the values x and y in the tree are cousins, or false otherwise.
+
+Two nodes of a binary tree are cousins if they have the same depth with different parents.
+
+Note that in a binary tree, the root node is at the depth 0, and children of each depth k node are at the depth k + 1.
+
+Example 1:
+
+Input: root = [1,2,3,4], x = 4, y = 3\
+Output: false
+
+Example 2:
+
+Input: root = [1,2,3,null,4,null,5], x = 5, y = 4\
+Output: true
+
+Example 3:
+
+Input: root = [1,2,3,null,4], x = 2, y = 3
+Output: false
+
+## **Algorithm: BFS (Level Order Traversal)**
+To determine if two nodes `x` and `y` are **cousins**, we need to check:  
+1. **Same Depth** → `x` and `y` must be at the same level in the tree.  
+2. **Different Parents** → `x` and `y` must have different parent nodes.  
+
+---
+
+### **Approach**
+1. **Use BFS (Queue-Based Level Order Traversal)**:
+   - Traverse the tree level by level.
+   - Track the **parent** and **depth** of `x` and `y` as we traverse.
+
+2. **Check Cousin Conditions**:
+   - If `x` and `y` are found at the **same depth** but have **different parents**, return `true`.
+   - Otherwise, return `false`.
+
+---
+
+### **JavaScript Code**
+```javascript
+var isCousins = function(root, x, y) {
+    if (!root) return false;
+
+    let queue = [[root, null]]; // Store node and its parent
+
+    while (queue.length) {
+        let size = queue.length;
+        let xParent = null, yParent = null; // Track parents of x and y
+
+        for (let i = 0; i < size; i++) {
+            let [node, parent] = queue.shift();
+
+            if (node.val === x) xParent = parent;
+            if (node.val === y) yParent = parent;
+
+            if (node.left) queue.push([node.left, node]);
+            if (node.right) queue.push([node.right, node]);
+        }
+
+        // If both x and y are found in the same level but have different parents, they are cousins
+        if (xParent && yParent) return xParent !== yParent;
+
+        // If only one of x or y is found in this level, they cannot be cousins
+        if (xParent || yParent) return false;
+    }
+
+    return false;
+};
+```
+
+---
+
+### **Example Walkthrough**
+#### **Example 1**
+```js
+Input: root = [1,2,3,4], x = 4, y = 3
+```
+- Level 1: `[1]`
+- Level 2: `[2, 3]`
+- Level 3: `[4]`
+- **x = 4 (parent = 2), y = 3 (parent = 1)**
+- ✅ **Output:** `false` (different depths)
+
+#### **Example 2**
+```js
+Input: root = [1,2,3,null,4,null,5], x = 5, y = 4
+```
+- Level 1: `[1]`
+- Level 2: `[2, 3]`
+- Level 3: `[4, 5]`
+- **x = 5 (parent = 3), y = 4 (parent = 2)**
+- ✅ **Output:** `true` (same depth, different parents)
+
+#### **Example 3**
+```js
+Input: root = [1,2,3,null,4], x = 2, y = 3
+```
+- **x = 2 (parent = 1), y = 3 (parent = 1)**
+- ❌ **Output:** `false` (same parent)
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** \(O(N)\) → Each node is visited once.  
+- **Space Complexity:** \(O(N)\) → Queue stores nodes level-wise.  
+
+This **BFS approach efficiently finds cousins** in **linear time** using **level order traversal**. 🚀
+
+
+
+also
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} x
+ * @param {number} y
+ * @return {boolean}
+ */
+var isCousins = function(root, x, y) {
+    
+    const map = new Map()
+
+    const explore = (parent, node, lvl) => {
+
+        // If node is null, stop
+        if (!node) return
+
+        // Set the Current value to have its parent and the level
+        map.set(node.val, {parent, level: lvl})
+
+        // Run the func for the children, 
+        //    - using current node val as parent
+        //    - the children as node
+        //    - and incrementing lvl
+        explore(node.val, node.left, lvl + 1)
+        explore(node.val, node.right, lvl + 1)
+    }
+    
+    explore(null, root, 0)
+    
+    const xVal = map.get(x) 
+    const yVal = map.get(y) 
+
+    return (xVal.parent !== yVal.parent && xVal.level === yVal.level)
+};
+```
+
+> ### 944. Delete Columns to Make Sorted
+Easy
+Topics
+Companies
+You are given an array of n strings strs, all of the same length.
+
+The strings can be arranged such that there is one on each line, making a grid.
+
+For example, strs = ["abc", "bce", "cae"] can be arranged as follows:
+abc
+bce
+cae
+You want to delete the columns that are not sorted lexicographically. In the above example (0-indexed), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are sorted, while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
+
+Return the number of columns that you will delete.
+
+ 
+
+Example 1:
+
+Input: strs = ["cba","daf","ghi"]
+Output: 1
+Explanation: The grid looks as follows:
+  cba
+  daf
+  ghi
+Columns 0 and 2 are sorted, but column 1 is not, so you only need to delete 1 column.
+Example 2:
+
+Input: strs = ["a","b"]
+Output: 0
+Explanation: The grid looks as follows:
+  a
+  b
+Column 0 is the only column and is sorted, so you will not delete any columns.
+Example 3:
+
+Input: strs = ["zyx","wvu","tsr"]
+Output: 3
+Explanation: The grid looks as follows:
+  zyx
+  wvu
+  tsr
+All 3 columns are not sorted, so you will delete all 3.
+
+
+```js
+var minDeletionSize = function(strs) {
+    let deleteCount = 0;
+    let rows = strs.length, cols = strs[0].length;
+
+    for (let j = 0; j < cols; j++) {
+        for (let i = 0; i < rows - 1; i++) {
+            if (strs[i][j] > strs[i + 1][j]) {
+                deleteCount++;
+                break;
+            }
+        }
+    }
+
+    return deleteCount;
+};
+```
+
+
+> ### 100. Same Tree
+
+Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+
+Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+Example 1:\
+Input: p = [1,2,3], q = [1,2,3]\
+Output: true
+
+Example 2:\
+Input: p = [1,2], q = [1,null,2]\
+Output: false
+
+Example 3:\
+Input: p = [1,2,1], q = [1,1,2]\
+Output: false
+
+```js
+var isSameTree = function(p, q) {
+    if (!p && !q) return true;    // Both trees are empty
+    if (!p || !q) return false;   // One tree is empty
+    if (p.val !== q.val) return false; // Values don't match
+    
+    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+};
+```
+
+> ### 700. Search in a Binary Search Tree
+
+You are given the root of a binary search tree (BST) and an integer val.
+
+Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
+
+Example 1:\
+Input: root = [4,2,7,1,3], val = 2\
+Output: [2,1,3]
+
+Example 2:\
+Input: root = [4,2,7,1,3], val = 5\
+Output: []
+
+### **Algorithm: BST Search**
+- If `root` is `null`, return `null`.
+- If `root.val === val`, return `root`.
+- If `val < root.val`, search in `root.left`, else search in `root.right`.
+
+### **Recursive JavaScript Code**
+```javascript
+var searchBST = function(root, val) {
+    if (!root || root.val === val) return root;
+    return val < root.val ? searchBST(root.left, val) : searchBST(root.right);
+};
+```
+
+### **Iterative JavaScript Code**
+```javascript
+var searchBST = function(root, val) {
+    while (root) {
+        if (root.val === val) return root;
+        root = val < root.val ? root.left : root.right;
+    }
+    return null;
+};
+```
+
+> ### 572. Subtree of Another Tree
+
+Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
+
+A subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.
+
+ 
+
+Example 1:
+
+
+Input: root = [3,4,5,1,2], subRoot = [4,1,2]
+Output: true
+Example 2:
+
+
+Input: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]
+Output: false
+
+
+### **Algorithm: Subtree Check using Tree Comparison**  
+- If `subRoot` is `null`, return `true`.  
+- If `root` is `null`, return `false`.  
+- Check if `root` and `subRoot` are the same using a helper function.  
+- Recursively check `root.left` and `root.right` for `subRoot`.  
+
+### **JavaScript Code**
+```javascript
+var isSubtree = function(root, subRoot) {
+    if (!root) return false;
+    if (isSameTree(root, subRoot)) return true;
+    return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+};
+
+var isSameTree = function(p, q) {
+    if (!p && !q) return true;
+    if (!p || !q || p.val !== q.val) return false;
+    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+};
+```
+
+> ### 404. Sum of Left Leaves
+Easy
+Topics
+Companies
+Given the root of a binary tree, return the sum of all left leaves.
+
+A leaf is a node with no children. A left leaf is a leaf that is the left child of another node.
+
+ 
+
+Example 1:
+
+
+Input: root = [3,9,20,null,null,15,7]
+Output: 24
+Explanation: There are two left leaves in the binary tree, with values 9 and 15 respectively.
+Example 2:
+
+Input: root = [1]
+Output: 0
+
+
+### **Algorithm: DFS Traversal**  
+- If the current node has a left child that is a leaf, add its value to the sum.  
+- Recursively traverse the left and right subtrees.  
+- Return the total sum of left leaves.  
+
+### **JavaScript Code**
+```javascript
+var sumOfLeftLeaves = function(root) {
+    if (!root) return 0;
+    
+    let sum = 0;
+    if (root.left && !root.left.left && !root.left.right) {
+        sum += root.left.val;
+    }
+    
+    return sum + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+};
+```
+
+
+> ### 1022. Sum of Root To Leaf Binary Numbers
+You are given the root of a binary tree where each node has a value 0 or 1. Each root-to-leaf path represents a binary number starting with the most significant bit.
+
+For example, if the path is 0 -> 1 -> 1 -> 0 -> 1, then this could represent 01101 in binary, which is 13.
+For all leaves in the tree, consider the numbers represented by the path from the root to that leaf. Return the sum of these numbers.
+
+The test cases are generated so that the answer fits in a 32-bits integer.
+
+Example 1:\
+Input: root = [1,0,1,0,1,0,1]\
+Output: 22\
+Explanation: (100) + (101) + (110) + (111) = 4 + 5 + 6 + 7 = 22
+
+Example 2:\
+Input: root = [0]\
+Output: 0
+
+### **Algorithm: DFS Traversal**  
+- Use Depth-First Search (DFS) to traverse the tree.  
+- Maintain the current binary number as you go deeper.  
+- When reaching a leaf node, convert the binary number to decimal and add it to the sum.  
+- Return the total sum of all root-to-leaf paths.  
+
+### **JavaScript Code**
+```javascript
+var sumRootToLeaf = function(root, sum = 0) {
+    if (!root) return 0;
+    
+    sum = (sum << 1) | root.val; // Shift left and add current value
+    
+    if (!root.left && !root.right) return sum; // If it's a leaf, return sum
+    
+    return sumRootToLeaf(root.left, sum) + sumRootToLeaf(root.right, sum);
+};
+```
+
+
+also
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var sumRootToLeaf = function(root) {
+    const nums = [];
+
+    const traverse = (node, path) => {
+        if (!node) {
+            return;
+        }
+        
+        path += node.val;
+
+        if (!node.left && !node.right) {
+            nums.push(path);
+            return;
+        }
+
+        traverse(node.left, path)
+        traverse(node.right, path)
+    }
+
+    traverse(root, '')
+
+    return nums.reduce((sum, n) => sum + parseInt(n, 2), 0)
+};
+```
+
+
+> ### 101. Symmetric Tree
+
+Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+ 
+
+Example 1:
+
+
+Input: root = [1,2,2,3,4,4,3]
+Output: true
+Example 2:
+
+
+Input: root = [1,2,2,null,3,null,3]
+Output: false
+
+
+### **Algorithm: Recursive DFS**  
+- A tree is symmetric if the left subtree is a mirror of the right subtree.  
+- Recursively check:  
+  - Both left and right subtrees must have the same value.  
+  - The left child of the left subtree should match the right child of the right subtree, and vice versa.  
+
+### **JavaScript Code**
+```javascript
+var isSymmetric = function(root) {
+    if (!root) return true;
+    
+    function isMirror(t1, t2) {
+        if (!t1 || !t2) return t1 === t2;
+        if (t1.val !== t2.val) return false;
+        return isMirror(t1.left, t2.right) && isMirror(t1.right, t2.left);
+    }
+    
+    return isMirror(root.left, root.right);
+};
+```
+
+
+> ### 653. Two Sum IV - Input is a BST
+Given the root of a binary search tree and an integer k, return true if there exist two elements in the BST such that their sum is equal to k, or false otherwise.
+
+Example 1:\
+Input: root = [5,3,6,2,4,null,7], k = 9\
+Output: true
+
+Example 2:\
+Input: root = [5,3,6,2,4,null,7], k = 28\
+Output: false
+
+### **Algorithm: Inorder Traversal + Hash Set**  
+- Perform an inorder traversal to access elements in sorted order.  
+- Use a `Set` to check if `k - node.val` exists.  
+- If found, return `true`; otherwise, continue traversal.  
+
+### **JavaScript Code**
+```javascript
+var findTarget = function(root, k) {
+    let set = new Set();
+
+    function dfs(node) {
+        if (!node) return false;
+        if (set.has(k - node.val)) return true;
+        set.add(node.val);
+        return dfs(node.left) || dfs(node.right);
+    }
+
+    return dfs(root);
+};
+```
+
+
+> ### 617. Merge Two Binary Trees
+
+You are given two binary trees root1 and root2.
+
+Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.
+
+Return the merged tree.
+
+Note: The merging process must start from the root nodes of both trees.
+
+ 
+
+Example 1:
+
+
+Input: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
+Output: [3,4,5,5,4,null,7]
+Example 2:
+
+Input: root1 = [1], root2 = [1,2]
+Output: [2,2]
+
+### **Algorithm: DFS (Recursive Approach)**
+- If one of the trees is `null`, return the other tree.
+- Otherwise, sum the values of the current nodes.
+- Recursively merge the left and right children.
+
+### **JavaScript Code**
+```javascript
+var mergeTrees = function(root1, root2) {
+    if (!root1) return root2;
+    if (!root2) return root1;
+    
+    root1.val += root2.val;
+    root1.left = mergeTrees(root1.left, root2.left);
+    root1.right = mergeTrees(root1.right, root2.right);
+    
+    return root1;
+};
+```
+**Time Complexity:** \(O(\min(N, M))\)  
+**Space Complexity:** \(O(\min(N, M))\) (recursive call stack)  
+
+This approach is cleaner and easier to understand. It directly modifies `root1`, reducing extra memory usage.
