@@ -10,76 +10,7 @@
 - [BFS and DFS algorithm  ](#8-bfs-and-dfs-algorithm)
 - [Backtracking algorithm  ](#9-backtracking-algorithm)
 
-
-## Try to learn binary search in array
-
-> ### 704. Binary Search
-
-Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
-
-You must write an algorithm with O(log n) runtime complexity.
-
-Example 1:
-
-Input: nums = [-1,0,3,5,9,12], target = 9\
-Output: 4\
-Explanation: 9 exists in nums and its index is 4
-
-Example 2:
-
-Input: nums = [-1,0,3,5,9,12], target = 2\
-Output: -1\
-Explanation: 2 does not exist in nums so return -1
-
-### **Algorithm: Binary Search (Iterative)**  
-
-#### **Approach:**
-- Since the array is **sorted**, we use **Binary Search**, which runs in **O(log N)**.
-- We maintain `left` and `right` pointers to track the search space.
-- At each step:
-  - Compute `mid = Math.floor((left + right) / 2)`.
-  - Compare `nums[mid]` with `target`:
-    - If equal, return `mid`.
-    - If smaller, search in the right half (`left = mid + 1`).
-    - If larger, search in the left half (`right = mid - 1`).
-- If we exit the loop, return `-1` (not found).
-
-
-
-### **JavaScript Solution**
-```javascript
-// Algorithm: Binary Search (Iterative)
-function search(nums, target) {
-    let left = 0, right = nums.length - 1;
-
-    while (left <= right) {
-        let mid = Math.floor((left + right) / 2);
-
-        if (nums[mid] === target) return mid;
-        if (nums[mid] < target) left = mid + 1;
-        else right = mid - 1;
-    }
-
-    return -1; // Target not found
-}
-
-// Test Cases
-console.log(search([-1,0,3,5,9,12], 9));  // Output: 4
-console.log(search([-1,0,3,5,9,12], 2));  // Output: -1
-console.log(search([1,2,3,4,5,6,7], 4));  // Output: 3
-console.log(search([5], 5));              // Output: 0
-console.log(search([], 3));               // Output: -1
-```
-
-
-
-### **Time Complexity:**  
-- \( O(\log N) \) → Binary Search halves the search space each step.
-
-### **Space Complexity:**  
-- \( O(1) \) → Uses only a few variables.
-
-
+<br>
 
 ## The Big O
 The Big O is basically `worst-case` running `time` of an `algorithm` as the input size increases
@@ -167,6 +98,60 @@ function factorial(n) {
 <br>
 
 ## Various alogorithm used in DSA
+
+<br>
+
+> ## Binary Search Algo O(log n)
+
+<br>
+
+> ### 704. Binary Search 
+
+Given an array of integers nums which is `sorted in ascending order`, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
+
+Example 1:\
+Input: nums = [-1,0,3,5,9,12], target = 9\
+Output: 4\
+Explanation: 9 exists in nums and its index is 4
+
+Example 2:\
+Input: nums = [-1,0,3,5,9,12], target = 2\
+Output: -1\
+Explanation: 2 does not exist in nums so return -1
+
+**Algorithm: Binary Search (Iterative)**  
+
+- We maintain `left` and `right` pointers to track the search space.
+- At each step:
+  - Compute `mid = Math.floor((left + right) / 2)`.
+  - Compare `nums[mid]` with `target`:
+    - If equal, return `mid`.
+    - If smaller, search in the right half (`left = mid + 1`).
+    - If larger, search in the left half (`right = mid - 1`).
+- If we exit the loop, return `-1` (not found).
+
+```javascript
+function search(nums, target) {
+    let left = 0, right = nums.length - 1;
+
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2);
+
+        if (nums[mid] === target) return mid;
+        if (nums[mid] < target) left = mid + 1;
+        else right = mid - 1;
+    }
+
+    return -1; // Target not found
+}
+
+// Test Cases
+console.log(search([-1,0,3,5,9,12], 9));  // Output: 4
+console.log(search([-1,0,3,5,9,12], 2));  // Output: -1
+console.log(search([1,2,3,4,5,6,7], 4));  // Output: 3
+console.log(search([5], 5));              // Output: 0
+console.log(search([], 3));               // Output: -1
+```
 
 <br>
 
