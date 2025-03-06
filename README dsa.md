@@ -103,8 +103,6 @@ function factorial(n) {
 
 > ## Binary Search Algo O(log n)
 
-<br>
-
 > ### 704. Binary Search 
 
 Given an array of integers nums which is `sorted in ascending order`, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
@@ -120,6 +118,8 @@ Output: -1\
 Explanation: 2 does not exist in nums so return -1
 
 **Algorithm: Binary Search (Iterative)**  
+
+<details>
 
 - We maintain `left` and `right` pointers to track the search space.
 - At each step:
@@ -152,6 +152,8 @@ console.log(search([1,2,3,4,5,6,7], 4));  // Output: 3
 console.log(search([5], 5));              // Output: 0
 console.log(search([], 3));               // Output: -1
 ```
+
+</details>
 
 <br>
 
@@ -329,7 +331,7 @@ D            - 500\
 M            - 1000
 
 I can be placed before V (5) and X (10) to make 4 and 9. \
-X can be placed before L (50) and C (100) to make 40 and 90.\ 
+X can be placed before L (50) and C (100) to make 40 and 90.\
 C can be placed before D (500) and M (1000) to make 400 and 900.
 
 
@@ -589,18 +591,17 @@ console.log(findPivotIndex(nums)); // Output: 3
 <br>
 
 > ### 1413. Minimum Value to Get Positive Step by Step Sum
-Given an array of integers nums, you start with an initial positive value startValue.
-
-In each iteration, you calculate the step by step sum of startValue plus elements in nums (from left to right).
-
+Given an array of integers nums, you start with an initial positive value startValue.\
+In each iteration, you calculate the step by step sum of startValue plus elements in nums (from left to right).\
 Return the minimum positive value of startValue such that the step by step sum is never less than 1.
 
 Example 1:
 
 Input: nums = [-3,2,-3,4,2]\
 Output: 5\
-Explanation: If you choose startValue = 4, in the third iteration your step by step sum is less than 1.\
-step by step sum\
+Explanation: If you choose startValue = 4, in the third iteration your step by step sum is less than 1.
+
+**step by step sum**
 startVal=4 | startVal =5| nums\
 (4 -3 ) = 1  | (5 -3 ) = 2    |  -3\
 (1 +2 ) = 3  | (2 +2 ) = 4    |   2\
@@ -956,38 +957,36 @@ console.log(judgeSquareSum(1000)); // Output: true (6^2 + 28^2 = 1000)
 
 > ### 849. Maximize Distance to Closest Person
 
-You are given an array representing a row of seats where seats[i] = 1 represents a person sitting in the ith seat, and seats[i] = 0 represents that the ith seat is empty (0-indexed).
-
-There is at least one empty seat, and at least one person sitting.
-
+You are given an array representing a row of seats where seats[i] = 1 represents a person sitting in the ith seat, and seats[i] = 0 represents that the ith seat is empty.\
+There is at least one empty seat, and at least one person sitting.\
 Alex wants to sit in the seat such that the distance between him and the closest person to him is maximized. 
 
 Return that maximum distance to the closest person.
 
-Example 1:
+**Example 1:**
 
 Input: seats = [1,0,0,0,1,0,1]\
 Output: 2\
-Explanation:\ 
+Explanation:\
 If Alex sits in the second open seat (i.e. seats[2]), then the closest person has distance 2.\
 If Alex sits in any other open seat, the closest person has distance 1.\
 Thus, the maximum distance to the closest person is 2.
 
-Example 2:
+**Example 2:**
 
 Input: seats = [1,0,0,0]\
 Output: 3\
-Explanation:\ 
+Explanation:\
 If Alex sits in the last seat (i.e. seats[3]), the closest person is 3 seats away.\
 This is the maximum distance possible, so the answer is 3.
 
-Example 3:
+**Example 3:**
 
 Input: seats = [0,1]\
 Output: 1
 
+<details>
 
-### **Algorithm: Two-Pointer Traversal**
 #### **Approach:**
 1. **Find the first occupied seat** → This helps in handling leading empty seats.
 2. **Find the last occupied seat** → This helps in handling trailing empty seats.
@@ -1030,20 +1029,11 @@ console.log(maxDistToClosest([1,0,0,1]));       // Output: 1
 console.log(maxDistToClosest([0,0,1,0,1,0,0,0])); // Output: 3
 ```
 
-Let's walk through an example step by step:
-
-### **Example:**
 #### **Input:**  
 ```js
 seats = [1,0,0,0,1,0,1]
 ```
 
-#### **Step 1: Identify First and Last Occupied Seats**
-- We traverse the array and look for occupied seats (`1`).
-- **First occupied seat:** Index `0`
-- **Last occupied seat:** Index `6`
-
-#### **Step 2: Traverse the Array**
 We maintain a variable `prev` to store the index of the last occupied seat and compute the maximum distance.
 
 | Index | Seat Value | Action |
@@ -1057,7 +1047,7 @@ We maintain a variable `prev` to store the index of the last occupied seat and c
 | 6      | 1         | **Found occupied seat at index 6**, compute the gap: `(6 - 4) / 2 = 1`, no change to `maxDist` |
 
 
-
+</details>
 
 <br>
 
@@ -1254,7 +1244,7 @@ var findMaxAverage = function(nums, k) {
 
 <br>
 
-> ### Max Consecutive Ones
+> ### 1004. Max Consecutive Ones
 
 Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.
 
@@ -1291,12 +1281,13 @@ var longestOnes = function(nums, k) {
         l++;
     }
    
-        maxLength = Math.max(maxLength, r-l+1)
-        r++;
+    maxLength = Math.max(maxLength, r-l+1)
+    r++;
 
   }  
   return maxLength;
 };
+longestOnes([1,1,1,0,0,0,1,1,1,1,0],2)
 ```
 
 <br>
