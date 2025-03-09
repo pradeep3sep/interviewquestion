@@ -1264,6 +1264,8 @@ dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
 
 [Youtube video for concept](https://youtu.be/7FE5Q_Bqzw8?si=uKw4xkjOtPBZzeUi&t=132)
 
+<details>
+
 ```js
 var longestOnes = function(nums, k) {
   let l =0;
@@ -1289,6 +1291,8 @@ var longestOnes = function(nums, k) {
 };
 longestOnes([1,1,1,0,0,0,1,1,1,1,0],2)
 ```
+
+</details>
 
 <br>
 
@@ -1319,6 +1323,8 @@ Example 3:
 Input: s = "QQQW"\
 Output: 2\
 Explanation: We can replace the first "QQ" to "ER". 
+
+<details>
 
 ### Approach
 
@@ -1383,6 +1389,7 @@ console.log(balancedString(s)); // Output: 3
 
 This approach ensures an efficient solution with a time complexity of \(O(n)\).
 
+</details>
 
 <br>
 
@@ -2038,6 +2045,8 @@ Input: s = "aa", goal = "aa"\
 Output: true\
 Explanation: You can swap s[0] = 'a' and s[1] = 'a' to get "aa", which is equal to goal.
 
+<details>
+
 ```js
 function buddyStrings(s, goal) {
     if (s.length !== goal.length) return false;
@@ -2062,6 +2071,8 @@ function buddyStrings(s, goal) {
            s[diffs[1]] === goal[diffs[0]];
 }
 ```
+
+</details>
 
 <br>
 
@@ -18552,40 +18563,37 @@ var minCostToMoveChips = function(position) {
 
 This approach efficiently finds the minimum cost to move all chips to the same position. 🚀
 
+<br>
 
 > ### 1422. Maximum Score After Splitting a String
-Easy
-Topics
-Companies
-Hint
-Given a string s of zeros and ones, return the maximum score after splitting the string into two non-empty substrings (i.e. left substring and right substring).
 
-The score after splitting a string is the number of zeros in the left substring plus the number of ones in the right substring.
-
- 
+Given a string **s** of **zeros and ones**, return the maximum score after splitting the string into two non-empty substrings. The score after splitting a string is the number of zeros in the left substring plus the number of ones in the right substring.
 
 Example 1:
 
-Input: s = "011101"
-Output: 5 
-Explanation: 
-All possible ways of splitting s into two non-empty substrings are:
-left = "0" and right = "11101", score = 1 + 4 = 5 
-left = "01" and right = "1101", score = 1 + 3 = 4 
-left = "011" and right = "101", score = 1 + 2 = 3 
-left = "0111" and right = "01", score = 1 + 1 = 2 
+Input: s = "011101"\
+Output: 5 \
+Explanation:\ 
+All possible ways of splitting s into two non-empty substrings are:\
+left = "0" and right = "11101", score = 1 + 4 = 5\
+left = "01" and right = "1101", score = 1 + 3 = 4\
+left = "011" and right = "101", score = 1 + 2 = 3\
+left = "0111" and right = "01", score = 1 + 1 = 2\
 left = "01110" and right = "1", score = 2 + 1 = 3
+
 Example 2:
 
-Input: s = "00111"
-Output: 5
+Input: s = "00111"\
+Output: 5\
 Explanation: When left = "00" and right = "111", we get the maximum score = 2 + 3 = 5
+
 Example 3:
 
-Input: s = "1111"
+Input: s = "1111"\
 Output: 3
 
-### **Algorithm: Prefix Count and Iteration**
+**Algorithm: Prefix Count and Iteration**
+
 1. **Count Total Ones:** First, count the total number of `1`s in the string.
 2. **Iterate Over Possible Splits:**
    - Maintain `leftZeros` (count of `0`s in the left substring).
@@ -18593,9 +18601,7 @@ Output: 3
    - Update the maximum score for each split.
 3. **Ensure Non-Empty Substrings:** The split is only considered between `0` and `n-1`.
 
----
 
-### **JavaScript Code**
 ```javascript
 var maxScore = function(s) {
     let totalOnes = 0, leftZeros = 0, maxScore = 0;
@@ -18618,11 +18624,3 @@ var maxScore = function(s) {
     return maxScore;
 };
 ```
-
----
-
-### **Complexity Analysis**
-- **Time Complexity:** \(O(n)\) (One pass for counting `1`s and one pass for checking splits).
-- **Space Complexity:** \(O(1)\) (Uses only a few integer variables).
-
-This approach efficiently finds the maximum score by balancing zeros on the left and ones on the right. 🚀
