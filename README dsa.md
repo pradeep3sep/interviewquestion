@@ -3368,6 +3368,8 @@ class LinkedList {
         this.head = previous;
     }
 
+
+    // leetcode : 83
     // remove duplicates from a sorted singly linked list 
     removeDuplicates() {
         let current = this.head;
@@ -18624,3 +18626,454 @@ var maxScore = function(s) {
     return maxScore;
 };
 ```
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** \(O(n)\) (One pass for counting `1`s and one pass for checking splits).
+- **Space Complexity:** \(O(1)\) (Uses only a few integer variables).
+
+This approach efficiently finds the maximum score by balancing zeros on the left and ones on the right. 🚀
+
+
+> ### 111. Minimum Depth of Binary Tree
+
+Given a binary tree, find its minimum depth.
+
+The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+
+Note: A leaf is a node with no children.
+
+ 
+
+Example 1:
+
+
+Input: root = [3,9,20,null,null,15,7]
+Output: 2
+Example 2:
+
+Input: root = [2,null,3,null,4,null,5,null,6]
+Output: 5
+
+### **Algorithm: BFS (Breadth-First Search)**
+The **minimum depth** of a binary tree is the shortest path from the root to a leaf node. BFS is ideal for this because it finds the shortest path efficiently.
+
+### **Steps:**
+1. **Use a Queue:** Start BFS from the root.
+2. **Track Depth:** Store `(node, depth)` in the queue.
+3. **Find First Leaf Node:** The first leaf node encountered gives the minimum depth.
+
+---
+
+### **JavaScript Code (BFS Approach)**
+```javascript
+var minDepth = function(root) {
+    if (!root) return 0;
+
+    let queue = [[root, 1]];  // Store [node, depth]
+    
+    while (queue.length > 0) {
+        let [node, depth] = queue.shift();
+        
+        // If it's a leaf node, return the depth
+        if (!node.left && !node.right) return depth;
+
+        // Add children to the queue with incremented depth
+        if (node.left) queue.push([node.left, depth + 1]);
+        if (node.right) queue.push([node.right, depth + 1]);
+    }
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** \(O(n)\) (Each node is visited once).
+- **Space Complexity:** \(O(n)\) (In the worst case, the queue holds all nodes in a single level).
+
+---
+
+### **Alternative Approach: DFS (Recursive)**
+DFS can also be used, but it may explore deeper unnecessary paths before finding the shortest one.
+
+```javascript
+var minDepth = function(root) {
+    if (!root) return 0;
+    if (!root.left) return 1 + minDepth(root.right);
+    if (!root.right) return 1 + minDepth(root.left);
+    return 1 + Math.min(minDepth(root.left), minDepth(root.right));
+};
+```
+
+🚀 **BFS is recommended** because it finds the shortest depth **faster** than DFS!
+
+
+alos
+
+```js
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+var minDepth = function (root) {
+    if (!root) return 0
+
+    const queue = [[root, 1]]
+
+    while (queue.length > 0) {
+        const [node, depth] = queue.shift()
+
+        if (!node.left && !node.right) return depth
+
+        if (node.left) queue.push([node.left, depth + 1])
+        if (node.right) queue.push([node.right, depth + 1])
+    }
+};
+```
+
+> ### 543. Diameter of Binary Tree
+
+Given the root of a binary tree, return the length of the diameter of the tree.
+
+The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+The length of a path between two nodes is represented by the number of edges between them.
+
+Example 1:\
+Input: root = [1,2,3,4,5]\
+Output: 3\
+Explanation: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
+
+Example 2:\
+Input: root = [1,2]\
+Output: 1
+
+### **Algorithm: Depth-First Search (DFS)**
+We use **DFS (Postorder Traversal)** to calculate the depth of each subtree and update the diameter.
+
+### **Steps:**
+1. **Define a helper function** that returns the height of the subtree.
+2. **Compute height** recursively for left and right subtrees.
+3. **Update diameter** as `leftHeight + rightHeight` (max path through current node).
+4. **Return max depth** of left and right subtree to continue recursion.
+
+---
+
+### **JavaScript Code**
+```javascript
+class TreeNode {
+    constructor(val, left = null, right = null) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+var diameterOfBinaryTree = function(root) {
+    let diameter = 0;
+
+    function depth(node) {
+        if (!node) return 0;
+        
+        let left = depth(node.left);
+        let right = depth(node.right);
+        
+        diameter = Math.max(diameter, left + right);
+        
+        return Math.max(left, right) + 1;
+    }
+
+    depth(root);
+    return diameter;
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** **O(n)** (Each node is visited once)
+- **Space Complexity:** **O(h)** (Recursive stack, where `h` is tree height)
+
+🚀 **Efficient and simple DFS approach!**
+
+
+> ### 938. Range Sum of BST
+Easy
+Topics
+Companies
+Given the root node of a binary search tree and two integers low and high, return the sum of values of all nodes with a value in the inclusive range [low, high].
+
+ 
+
+Example 1:
+
+
+Input: root = [10,5,15,3,7,null,18], low = 7, high = 15
+Output: 32
+Explanation: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
+Example 2:
+
+
+Input: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
+Output: 23
+Explanation: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
+ 
+### **Algorithm: Depth-First Search (DFS)**
+We use **DFS (Preorder Traversal)** to explore the tree and sum only the nodes within the range `[low, high]`.
+
+### **Steps:**
+1. **Base Case:** If the node is `null`, return `0`.
+2. **Check node value:**
+   - If `node.val` is in `[low, high]`, add it to the sum.
+   - If `node.val > low`, search the **left subtree**.
+   - If `node.val < high`, search the **right subtree**.
+3. **Return the total sum**.
+
+---
+
+### **JavaScript Code**
+```javascript
+class TreeNode {
+    constructor(val, left = null, right = null) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+var rangeSumBST = function(root, low, high) {
+    if (!root) return 0;
+    
+    let sum = 0;
+    
+    if (root.val >= low && root.val <= high) {
+        sum += root.val;
+    }
+    
+    if (root.val > low) {
+        sum += rangeSumBST(root.left, low, high);
+    }
+    
+    if (root.val < high) {
+        sum += rangeSumBST(root.right, low, high);
+    }
+    
+    return sum;
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity:** **O(n)** (Worst case, visiting all nodes)
+- **Space Complexity:** **O(h)** (Recursive stack, where `h` is tree height)
+
+🚀 **Optimized for BST traversal!**
+
+
+> ### 657. Robot Return to Origin
+Easy
+Topics
+Companies
+There is a robot starting at the position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves.
+
+You are given a string moves that represents the move sequence of the robot where moves[i] represents its ith move. Valid moves are 'R' (right), 'L' (left), 'U' (up), and 'D' (down).
+
+Return true if the robot returns to the origin after it finishes all of its moves, or false otherwise.
+
+Note: The way that the robot is "facing" is irrelevant. 'R' will always make the robot move to the right once, 'L' will always make it move left, etc. Also, assume that the magnitude of the robot's movement is the same for each move.
+
+ 
+
+Example 1:
+
+Input: moves = "UD"
+Output: true
+Explanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.
+Example 2:
+
+Input: moves = "LL"
+Output: false
+Explanation: The robot moves left twice. It ends up two "moves" to the left of the origin. We return false because it is not at the origin at the end of its moves.
+ 
+
+Constraints:
+
+1 <= moves.length <= 2 * 104
+moves only contains the characters 'U', 'D', 'L' and 'R'.
+
+
+### **Algorithm: Hash Map Counting**  
+The problem can be solved efficiently by counting the number of moves in each direction. The robot returns to the origin if:  
+- The **number of 'U' moves** equals the **number of 'D' moves**.  
+- The **number of 'L' moves** equals the **number of 'R' moves**.  
+
+### **Optimized JavaScript Solution**
+```javascript
+var judgeCircle = function(moves) {
+    let x = 0, y = 0;
+
+    for (let move of moves) {
+        if (move === 'U') y++;
+        else if (move === 'D') y--;
+        else if (move === 'L') x--;
+        else if (move === 'R') x++;
+    }
+
+    return x === 0 && y === 0;
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity**: **O(n)** (Iterates through the moves string once).  
+- **Space Complexity**: **O(1)** (Uses only a few integer variables).  
+
+### **Alternative Approach (Using Hash Map)**
+If you prefer a **more structured** approach using a **hash map**, this version counts occurrences of each move:
+```javascript
+var judgeCircle = function(moves) {
+    let count = { 'U': 0, 'D': 0, 'L': 0, 'R': 0 };
+
+    for (let move of moves) {
+        count[move]++;
+    }
+
+    return count['U'] === count['D'] && count['L'] === count['R'];
+};
+```
+🔹 **This method also runs in O(n) time but is slightly less efficient due to object lookups.**
+
+
+> ### 501. Find Mode in Binary Search Tree
+
+Given the root of a binary search tree (BST) with duplicates, return all the mode(s) (i.e., the most frequently occurred element) in it.
+
+If the tree has more than one mode, return them in any order.
+
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than or equal to the node's key.
+The right subtree of a node contains only nodes with keys greater than or equal to the node's key.
+Both the left and right subtrees must also be binary search trees.
+ 
+
+Example 1:
+
+
+Input: root = [1,null,2,2]
+Output: [2]
+Example 2:
+
+Input: root = [0]
+Output: [0]
+
+### **Algorithm: Inorder Traversal with Frequency Count**  
+Since an **inorder traversal** of a BST results in a sorted sequence, we can traverse the tree while keeping track of the **current frequency** of each value. The most frequently occurring value(s) will be the **mode(s)**.
+
+---
+
+### **Optimized JavaScript Solution**
+```javascript
+var findMode = function(root) {
+    let modes = [], maxCount = 0, currentCount = 0, prev = null;
+
+    const inorder = (node) => {
+        if (!node) return;
+
+        inorder(node.left);
+
+        // Process current node
+        if (prev === node.val) {
+            currentCount++;
+        } else {
+            currentCount = 1;
+        }
+        prev = node.val;
+
+        if (currentCount > maxCount) {
+            maxCount = currentCount;
+            modes = [node.val]; // Reset modes
+        } else if (currentCount === maxCount) {
+            modes.push(node.val);
+        }
+
+        inorder(node.right);
+    };
+
+    inorder(root);
+    return modes;
+};
+```
+
+---
+
+### **Complexity Analysis**
+- **Time Complexity**: **O(n)** (Traverses the tree once using inorder traversal).
+- **Space Complexity**: **O(1)** (Only stores a few variables and the modes list).
+
+---
+
+### **Alternative Approach: Hash Map Counting**
+Another approach is using a **hash map** to count occurrences, then finding the maximum count:
+```javascript
+var findMode = function(root) {
+    let count = new Map();
+    let maxCount = 0, modes = [];
+
+    const traverse = (node) => {
+        if (!node) return;
+
+        count.set(node.val, (count.get(node.val) || 0) + 1);
+        maxCount = Math.max(maxCount, count.get(node.val));
+
+        traverse(node.left);
+        traverse(node.right);
+    };
+
+    traverse(root);
+
+    for (let [key, value] of count) {
+        if (value === maxCount) modes.push(key);
+    }
+
+    return modes;
+};
+```
+🔹 **This method takes extra space (O(n)) but is easier to understand.**
+
+
+> ### 110. Balanced Binary Tree
+Easy
+Topics
+Companies
+Given a binary tree, determine if it is height-balanced.
+
+ 
+
+Example 1:
+
+
+Input: root = [3,9,20,null,null,15,7]
+Output: true
+Example 2:
+
+
+Input: root = [1,2,2,3,3,null,null,4,4]
+Output: false
+Example 3:
+
+Input: root = []
+Output: true
+
