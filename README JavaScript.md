@@ -24,9 +24,6 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
 
 > ### Type of NaN is Number
 
-<br>
-
-
 > ### Type of Null if object.
 
 <br>
@@ -59,14 +56,17 @@ This process occurs inside the **JavaScript Execution Context (JEC)**, which con
 - **Memory (Variable Environment)** – Stores variables and functions.  
 - **Thread of Execution** – Executes the code line by line.  
 
-## **1. Memory Creation Phase (Creation Phase)**
+<br>
+
+**1. Memory Creation Phase (Creation Phase)**
 Before executing the code, JavaScript first scans the script and sets up memory for variables and functions.  
-### **Steps:**
+
+**Steps:**
 - **Variables are stored in memory with `undefined`.**  
 - **Functions are stored entirely in memory (hoisting).**  
 - The `this` keyword is assigned based on execution context (global or function scope).
 
-### **Example:**
+**Example:**
 ```js
 console.log(a); // undefined
 console.log(foo()); // "Hello"
@@ -78,18 +78,18 @@ function foo() {
 }
 ```
 
-### **How Memory is Set Up:**
+**How Memory is Set Up:**
 | Variable | Value in Memory |
 |----------|---------------|
 | `a`      | `undefined`   |
 | `foo`    | `function() { return "Hello"; }` |
 
+<br>
 
-
-## **2. Code Execution Phase**
+**2. Code Execution Phase**
 After memory allocation, the code executes line by line.
 
-### **Steps:**
+**Steps:**
 1. `console.log(a);`  
    - `a` is accessed → prints `undefined` (due to hoisting).  
 2. `console.log(foo());`  
@@ -97,8 +97,9 @@ After memory allocation, the code executes line by line.
 3. `var a = 10;`  
    - `a` is updated from `undefined` to `10`.  
 
+<br>
 
-### **Execution Context Lifecycle**
+**Execution Context Lifecycle**
 Each function call creates a new **Execution Context** with its own memory and execution thread.  
 After execution, the function's context is destroyed (except closures).
 
@@ -115,7 +116,8 @@ function outer() {
 outer();
 ```
 
-### **Execution Context Stack (Call Stack)**
+**Execution Context Stack (Call Stack)**
+
 1. **Global Execution Context (GEC)**
    - Stores `outer` function.
 2. **Outer Function Execution Context**
@@ -124,13 +126,6 @@ outer();
    - Stores `y = 10`, accesses `x`, executes `console.log(15)`, then removed.  
 4. **Outer function finishes and is removed.**
 5. **Global Execution Context remains until script finishes.**
-
----
-
-### **Summary**
-- **Memory Creation Phase**: Variables set to `undefined`, functions stored entirely.  
-- **Execution Phase**: Code runs line by line, updating values.  
-- **Call Stack manages execution contexts**, removing them after execution.  
 
 <br>
 
@@ -192,7 +187,7 @@ eg==>  console.log("2" * "3") gives 6, basically the string to number
 > ### **Dot Notation vs Bracket Notation**
 
 - **Dot Notation**:
-  - Used to access an object's property statically.
+  - Used to access an object's property `statically`.
   - Example:  
     ```js
     const person = {
@@ -762,7 +757,7 @@ eg: `Array.prototype` `has all` the `built-in` method of array like `map, filter
 > ### Call, Apply, and Bind  
 
 - Call, Apply, and Bind : It is use for `function borrowing`
-- Function borowwing allows us to use the method of one object on another object without having to make a copy of that method and maintain it in two separate places.
+- Function borrowing allows us to `use the method of one object on another object` without having to make a copy of that method and maintain it in two separate places.
 
 #### **Call**  
 - **Use:** It is used for function borrowing.  
@@ -877,7 +872,7 @@ const paragraphs = text.split('\n').filter((para) => para.trim() !== '').length;
 
 > ### What is the purpose of template tag in html
 
-The `<template>` tag in HTML is used to define a reusable fragment of HTML that is not rendered when the page loads. Instead, it can be cloned and inserted into the DOM dynamically using JavaScript.
+The `<template>` tag in HTML is used to define a `reusable fragment of HTML that is not rendered when the page loads`. Instead, it can be cloned and inserted into the DOM dynamically using JavaScript.
 
 ```html
 
@@ -1610,7 +1605,12 @@ In JavaScript, scope determines the visibility and accessibility of variables, f
 3. **Block Scope**
 4. **Module Scope**
 
-### 1. Global Scope
+<br>
+
+**Global Scope**
+
+<details>
+
 Variables declared `outside any function or block` have global scope. They can be accessed from anywhere in the code.
 
 ```js
@@ -1624,7 +1624,14 @@ showGlobalVar();
 console.log(globalVar); // I am a global variable
 ```
 
-### 2. Function Scope
+</details>
+
+<br>
+
+**Function Scope**
+
+<details>
+
 Variables declared `within a function` are `accessible` only `within that function`. JavaScript uses the `var` keyword for function-scoped variables.
 
 ```js
@@ -1643,8 +1650,14 @@ if(1){
 }
 console.log(a) // "a"
 ```
+</details>
 
-### 3. Block Scope
+<br>
+
+**Block Scope**
+
+<details>
+
 Variables declared with `let` or `const` within a block (e.g., within `{}` , like if block, for loop block but not function {}) are only accessible within that block. Block scope is a feature introduced in ES6.
 
 ```js
@@ -1661,8 +1674,14 @@ console.log(blockConst); // ReferenceError: blockConst is not defined
 
 - only let and const are blocked scope. variable declared with var end up in the closest function scope.
 
+</details>
 
-### 4. Module Scope
+<br>
+
+**Module Scope**
+
+<details>
+
 When using ES6 modules, variables, functions, and classes declared in a module are scoped to that module. They are not added to the global scope.
 
 ```js
@@ -1677,9 +1696,14 @@ console.log(moduleVar); // I am a module-scoped variable
 console.log(window.moduleVar); // undefined
 ```
 
+</details>
+
 ### Differentiating Scope with Examples
 
-#### Global vs. Function Scope
+<br>
+
+**Global vs. Function Scope**
+
 
 ```js
 var globalVar = "I am global";
@@ -1694,7 +1718,9 @@ testScope();
 console.log(functionVar); // ReferenceError: functionVar is not defined
 ```
 
-#### Function Scope vs. Block Scope
+<br>
+
+**Function Scope vs. Block Scope**
 
 ```js
 function testFunctionScope() {
