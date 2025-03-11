@@ -4141,6 +4141,7 @@ Each context in callstack has two phases:-
 👉 Hoisting of Functions ( declaration and expression ) \
 👉 Hoisting of Classes ( declaration and expression )
 
+<br>
 
 **Hoisting of Variables**
 
@@ -4151,6 +4152,7 @@ var name = "Jayesh";
 console.log(name); // Jayesh
 ```
 
+<br>
 
 **case 2:-** let and const variables ( Temporal Dead Zone :- Technically they are also hoisted )\
 
@@ -4171,6 +4173,8 @@ const language = "javaScript";
 console.log(language); // javaScript
 ```
 
+<br>
+
 **case 3:-** global variables
 ```js
 console.log(a); // Uncaught ReferenceError: a is not defined
@@ -4182,6 +4186,8 @@ console.log(a); // 4
 
 **Hoisting of functions**
 
+<br>
+
 **case 1:-** function declaration
 ```js
 displayName(); // Jc
@@ -4190,6 +4196,8 @@ function displayName() {
 }
 displayName(); // Jc
 ```
+
+<br>
 
 **case 2:-** function expression
 
@@ -4211,6 +4219,8 @@ const getNameTDZ = function () {
 };
 getNameTDZ(); // Jayesh
 ```
+
+<br>
 
 **case 3:-** Arrow function ( similar to function expression )
 
@@ -4237,6 +4247,8 @@ getNameArrowTDZ(); // Jayesh
 
 **Hoisting of Classes**
 
+<br>
+
 **case 1:-** class declaration
 ```js
 var jayesh = new Person("jayesh", 24); // Uncaught ReferenceError: Cannot access 'Person' before initialization ( TDZ )
@@ -4252,6 +4264,7 @@ const jc = new Person("jc", 24);
 console.log(jc); // Person { name: 'jc', age: 24 }
 ```
 
+<br>
 
 **case 2:-** class expression
 
@@ -4326,6 +4339,8 @@ Array-Like Object it is an usual object - {}, keys are numbers and has a length 
 - ES6 uses the `class` keyword, `constructor` for initialization, and `extends` and `super` for inheritance, making the code more intuitive.
 -  Methods are defined directly within the class body, while ES5 relies on function constructors and manually manipulating the prototype chain.
 -   ES6 also introduces static methods and the `new.target` meta-property, enhancing functionality and ease of use. Overall, ES6 classes simplify object-oriented programming in JavaScript, addressing the verbosity and complexity of ES5.
+
+<br>
 
 > ### What is the difference between classical inheritance and prototypal inheritance? (solution is below code)
 
