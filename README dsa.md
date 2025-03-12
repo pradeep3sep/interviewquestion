@@ -16225,18 +16225,37 @@ var twoSum = function(numbers, target) {
 
 </details>
 
+<br>
+
 > ### 766. Toeplitz Matrix
-Given an m x n matrix, return true if the matrix is Toeplitz. Otherwise, return false.\
+Given an `m x n matrix`, return `true` if the matrix is `Toeplitz`. Otherwise, return `false`.\
 A matrix is Toeplitz if every diagonal from top-left to bottom-right has the same elements.
+
+<br>
 
 Example 1:
 
+```
+[1  2  3  4]
+[5  1  2  3]
+[9  5  1  2]
+```
+
 Input: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]\
-Output: true\
+Output: true
+
 Explanation:\
 In the above grid, the diagonals are:\
-"[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]".\
-In each diagonal all elements are the same, so the answer is True.
+- "[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]".\
+- In each diagonal all elements are the same, so the answer is True.
+
+
+<br>
+
+```
+[1  2]
+[2  2]
+```
 
 Example 2:
 
@@ -16246,13 +16265,10 @@ Explanation:\
 The diagonal "[1, 2]" has different elements.
 
 
-### **Approach: Check Each Diagonal**
 A **Toeplitz Matrix** has the property that every diagonal from **top-left to bottom-right** contains the same values.  
 This means that for every element at position `(i, j)`, it must be equal to the element at `(i+1, j+1)` (if they exist).
 
----
 
-### **Optimized JavaScript Solution**
 ```javascript
 var isToeplitzMatrix = function(matrix) {
     let rows = matrix.length, cols = matrix[0].length;
@@ -16265,69 +16281,54 @@ var isToeplitzMatrix = function(matrix) {
     
     return true;
 };
+isToeplitzMatrix([[1,2,3,4],[5,1,2,3],[9,5,1,2]])
 ```
 
----
-
-### **Explanation**
-1. **Iterate through the matrix**, but **ignore the last row and last column** (since they don’t have a diagonal to compare).
-2. **Check diagonals:**  
-   - If `matrix[i][j] !== matrix[i + 1][j + 1]`, return `false` (not Toeplitz).
-3. If no mismatches are found, return `true`.
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** **O(m × n)** (each element is checked once).  
-- **Space Complexity:** **O(1)** (only a few variables are used, no extra data structures).  
-
-This is the most efficient approach for checking a **Toeplitz Matrix**! 🚀
+<br>
 
 
 > ### 908. Smallest Range I
-Easy
-Topics
-Companies
-You are given an integer array nums and an integer k.
 
-In one operation, you can choose any index i where 0 <= i < nums.length and change nums[i] to nums[i] + x where x is an integer from the range [-k, k]. You can apply this operation at most once for each index i.
+You are given an integer array `nums` and an integer `k`.
 
-The score of nums is the difference between the maximum and minimum elements in nums.
+In one operation, you can choose any index `i where 0 <= i < nums.length` and change `nums[i] to nums[i] + x` where `x` is an integer from the range `[-k, k]`. You can apply this operation **at most once** for each index `i`.
 
-Return the minimum score of nums after applying the mentioned operation at most once for each index in it.
+The `score of nums` is the difference between the maximum and minimum elements in `nums`.
 
- 
+Return the `minimum score of nums` after applying the mentioned operation at most once for each index in it.
+
+<br>
 
 Example 1:
 
-Input: nums = [1], k = 0
-Output: 0
+Input: nums = [1], k = 0\
+Output: 0\
 Explanation: The score is max(nums) - min(nums) = 1 - 1 = 0.
+
 Example 2:
 
-Input: nums = [0,10], k = 2
-Output: 6
+Input: nums = [0,10], k = 2\
+Output: 6\
 Explanation: Change nums to be [2, 8]. The score is max(nums) - min(nums) = 8 - 2 = 6.
+
 Example 3:
 
-Input: nums = [1,3,6], k = 3
-Output: 0
+Input: nums = [1,3,6], k = 3\
+Output: 0\
 Explanation: Change nums to be [4, 4, 4]. The score is max(nums) - min(nums) = 4 - 4 = 0.
 
-### **Approach: Mathematical Reduction**
+<br>
+
+<details>
+
 To minimize the score, we should **reduce the difference** between the maximum and minimum values in `nums`.  
 Each number in `nums` can be increased or decreased by at most `k`, so:
 
 - The **maximum possible value** is `max(nums) - k`
 - The **minimum possible value** is `min(nums) + k`
-- The new score will be:  
-  \[
-  \text{new score} = \max(0, (\max(\text{nums}) - k) - (\min(\text{nums}) + k))
-  \]
+- The new score will be: new score = max(0, (max(nums) - k) - (min(nums) + k))
 
----
 
-### **Optimized JavaScript Solution**
 ```javascript
 var smallestRangeI = function(nums, k) {
     let minNum = Math.min(...nums);
@@ -16335,25 +16336,9 @@ var smallestRangeI = function(nums, k) {
     return Math.max(0, (maxNum - k) - (minNum + k));
 };
 ```
+</details>
 
----
-
-### **Explanation**
-1. **Find the min and max values** of `nums`.
-2. **Apply the range reduction** formula:  
-   - Reduce `max` by `k`
-   - Increase `min` by `k`
-   - Compute the new difference, ensuring it’s **at least 0**.
-3. **Return the minimum possible score**.
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** **O(n)** (finding `min` and `max`).  
-- **Space Complexity:** **O(1)** (only a few variables are used).
-
-This is the most efficient approach for solving **Smallest Range I**. 🚀
-
+<br>
 
 > ### 645. Set Mismatch
 
