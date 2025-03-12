@@ -16175,42 +16175,40 @@ var robotSim = function(commands, obstacles) {
 };
 ```
 
+<br>
 
 > ### 167. Two Sum II - Input Array Is Sorted
 
-Given a 1-indexed array of integers numbers that is already sorted in non-decreasing order, find two numbers such that they add up to a specific target number. Let these two numbers be numbers[index1] and numbers[index2] where 1 <= index1 < index2 <= numbers.length.
-
 Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
-
-The tests are generated such that there is exactly one solution. You may not use the same element twice.
 
 Your solution must use only constant extra space.
 
- 
+<br>
 
 Example 1:
 
-Input: numbers = [2,7,11,15], target = 9
-Output: [1,2]
+Input: numbers = [2,7,11,15], target = 9\
+Output: [1,2]\
 Explanation: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
+
 Example 2:
 
-Input: numbers = [2,3,4], target = 6
-Output: [1,3]
+Input: numbers = [2,3,4], target = 6\
+Output: [1,3]\
 Explanation: The sum of 2 and 4 is 6. Therefore index1 = 1, index2 = 3. We return [1, 3].
+
 Example 3:
 
-Input: numbers = [-1,0], target = -1
-Output: [1,2]
+Input: numbers = [-1,0], target = -1\
+Output: [1,2]\
 Explanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].
 
+<details>
 
-### **Approach: Two-Pointer Technique**
-Since the array is **already sorted**, we can use a **two-pointer approach** to find the two numbers in **O(N) time** with **O(1) extra space**.
+If space was not constrained then we can use two sum
 
----
+**Approach: Two-Pointer Technique** - Since the array is **already sorted**, we can use a **two-pointer approach**
 
-### **Optimized JavaScript Solution**
 ```javascript
 var twoSum = function(numbers, target) {
     let left = 0, right = numbers.length - 1;
@@ -16225,34 +16223,7 @@ var twoSum = function(numbers, target) {
 };
 ```
 
----
-
-### **Explanation**
-1. **Initialize two pointers:**
-   - `left = 0` (start of the array).
-   - `right = numbers.length - 1` (end of the array).
-   
-2. **While `left < right`:**
-   - Compute `sum = numbers[left] + numbers[right]`.
-   - If `sum == target`, return **1-based indices** `[left + 1, right + 1]`.
-   - If `sum < target`, move `left++` (increase sum).
-   - If `sum > target`, move `right--` (decrease sum).
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** **O(N)** (each element is checked at most once).
-- **Space Complexity:** **O(1)** (constant extra space).
-
----
-
-### **Why This is Optimal?**
-✅ **Uses the sorted property** for an efficient **two-pointer** approach.  
-✅ **Avoids extra space** (no hash maps needed).  
-✅ **Fast execution** (O(N) vs O(N²) for brute force).  
-
-This is the best approach for sorted arrays! 🚀
-
+</details>
 
 > ### 766. Toeplitz Matrix
 Given an m x n matrix, return true if the matrix is Toeplitz. Otherwise, return false.\
@@ -19077,3 +19048,69 @@ Example 3:
 Input: root = []
 Output: true
 
+
+### Algorithm: Depth-First Search (DFS) with Height Calculation  
+
+A **Balanced Binary Tree** is a binary tree in which the depth of the two subtrees of every node never differs by more than **1**. We can check this using a **recursive DFS approach**, where we calculate the height of each subtree and determine if the tree is balanced.
+
+---
+
+### **Approach**
+1. Use a helper function that calculates the height of the tree recursively.
+2. If any subtree is unbalanced (height difference > 1), return `-1` as an indicator.
+3. If all nodes satisfy the balance condition, return `true`.
+
+---
+
+### **Implementation in JavaScript**
+```javascript
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+function isBalanced(root) {
+  function checkHeight(node) {
+    if (!node) return 0;
+
+    let leftHeight = checkHeight(node.left);
+    if (leftHeight === -1) return -1; // Left subtree is unbalanced
+
+    let rightHeight = checkHeight(node.right);
+    if (rightHeight === -1) return -1; // Right subtree is unbalanced
+
+    if (Math.abs(leftHeight - rightHeight) > 1) return -1; // Current node is unbalanced
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  return checkHeight(root) !== -1;
+}
+
+// Example Usage
+let tree = new TreeNode(1, 
+  new TreeNode(2, new TreeNode(3), new TreeNode(4)), 
+  new TreeNode(2, new TreeNode(4), new TreeNode(3))
+);
+console.log(isBalanced(tree)); // Output: true
+
+let unbalancedTree = new TreeNode(1, 
+  new TreeNode(2, 
+    new TreeNode(3, 
+      new TreeNode(4) // Extra depth here makes it unbalanced
+    )
+  )
+);
+console.log(isBalanced(unbalancedTree)); // Output: false
+```
+
+---
+
+### **Time & Space Complexity**
+- **Time Complexity:** \(O(n)\) → Since we visit each node once.
+- **Space Complexity:** \(O(h)\) → Due to recursive stack space, where \(h\) is the height of the tree.
+
+Would you like an **iterative approach** as well? 🚀
