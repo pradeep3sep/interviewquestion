@@ -108,14 +108,14 @@ function factorial(n) {
 Given an array of integers nums which is `sorted in ascending order`, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1.
 
 Example 1:\
-Input: nums = [-1,0,3,5,9,12], target = 9\
-Output: 4\
-Explanation: 9 exists in nums and its index is 4
+**Input**: nums = [-1,0,3,5,9,12], target = 9\
+**Output**: 4\
+**Explanation**: 9 exists in nums and its index is 4
 
 Example 2:\
-Input: nums = [-1,0,3,5,9,12], target = 2\
-Output: -1\
-Explanation: 2 does not exist in nums so return -1
+**Input**: nums = [-1,0,3,5,9,12], target = 2\
+**Output**: -1\
+**Explanation**: 2 does not exist in nums so return -1
 
 **Algorithm: Binary Search (Iterative)**  
 
@@ -146,11 +146,11 @@ function search(nums, target) {
 }
 
 // Test Cases
-console.log(search([-1,0,3,5,9,12], 9));  // Output: 4
-console.log(search([-1,0,3,5,9,12], 2));  // Output: -1
-console.log(search([1,2,3,4,5,6,7], 4));  // Output: 3
-console.log(search([5], 5));              // Output: 0
-console.log(search([], 3));               // Output: -1
+console.log(search([-1,0,3,5,9,12], 9));  // **Output**: 4
+console.log(search([-1,0,3,5,9,12], 2));  // **Output**: -1
+console.log(search([1,2,3,4,5,6,7], 4));  // **Output**: 3
+console.log(search([5], 5));              // **Output**: 0
+console.log(search([], 3));               // **Output**: -1
 ```
 
 </details>
@@ -169,26 +169,26 @@ Given an integer array nums, return the length of its longest harmonious subsequ
 
 Example 1:
 
-Input: nums = [1,3,2,2,5,2,3,7]\
-Output: 5
+**Input**: nums = [1,3,2,2,5,2,3,7]\
+**Output**: 5
 
-Explanation:\
+**Explanation**:\
 The longest harmonious subsequence is [3,2,2,2,3].
 
 Example 2:
 
-Input: nums = [1,2,3,4]\
-Output: 2
+**Input**: nums = [1,2,3,4]\
+**Output**: 2
 
-Explanation:\
+**Explanation**:\
 The longest harmonious subsequences are [1,2], [2,3], and [3,4], all of which have a length of 2.
 
 Example 3:
 
-Input: nums = [1,1,1,1]\
-Output: 0
+**Input**: nums = [1,1,1,1]\
+**Output**: 0
 
-Explanation:\
+**Explanation**:\
 No harmonic subsequence exists.
 
 video - https://youtu.be/Gu9aKI7Oj_I?si=cL7FY5gknzV-fjmY&t=284
@@ -216,9 +216,9 @@ var findLHS = function(nums) {
 };
 
 // Example usage:
-console.log(findLHS([1, 3, 2, 2, 5, 2, 3, 7])); // Output: 5
-console.log(findLHS([1, 2, 3, 4]));             // Output: 2
-console.log(findLHS([1, 1, 1, 1]));             // Output: 0
+console.log(findLHS([1, 3, 2, 2, 5, 2, 3, 7])); // **Output**: 5
+console.log(findLHS([1, 2, 3, 4]));             // **Output**: 2
+console.log(findLHS([1, 1, 1, 1]));             // **Output**: 0
 ```
 
 </details>
@@ -231,14 +231,14 @@ Given two integer arrays nums1 and nums2, return an array of their intersection.
 
 Example 1:
 
-Input: nums1 = [1,2,2,1], nums2 = [2,2]\
-Output: [2,2]
+**Input**: nums1 = [1,2,2,1], nums2 = [2,2]\
+**Output**: [2,2]
 
 Example 2:
 
-Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]\
-Output: [4,9]
-Explanation: [9,4] is also accepted.
+**Input**: nums1 = [4,9,5], nums2 = [9,4,9,8,4]\
+**Output**: [4,9]
+**Explanation**: [9,4] is also accepted.
 
 
 <details>
@@ -265,10 +265,10 @@ var intersect = function(nums1, nums2) {
 };
 
 // Example 1
-console.log(intersect([1, 2, 2, 1], [2, 2])); // Output: [2, 2]
+console.log(intersect([1, 2, 2, 1], [2, 2])); // **Output**: [2, 2]
 
 // Example 2
-console.log(intersect([4, 9, 5], [9, 4, 9, 8, 4])); // Output: [4, 9]
+console.log(intersect([4, 9, 5], [9, 4, 9, 8, 4])); // **Output**: [4, 9]
 ```
 
 </details>
@@ -280,19 +280,19 @@ console.log(intersect([4, 9, 5], [9, 4, 9, 8, 4])); // Output: [4, 9]
 
 Example 1:
 
-Input: nums = [2,7,11,15], target = 9\
-Output: [0,1]\
-Explanation: Because nums[0] + nums[1] == 9, we return [0, 1].
+**Input**: nums = [2,7,11,15], target = 9\
+**Output**: [0,1]\
+**Explanation**: Because nums[0] + nums[1] == 9, we return [0, 1].
 
 Example 2:
 
-Input: nums = [3,2,4], target = 6\
-Output: [1,2]
+**Input**: nums = [3,2,4], target = 6\
+**Output**: [1,2]
 
 Example 3:
 
-Input: nums = [3,3], target = 6\
-Output: [0,1]
+**Input**: nums = [3,3], target = 6\
+**Output**: [0,1]
 
 yt - https://youtu.be/KLlXCFG5TnA
 
@@ -337,21 +337,21 @@ C can be placed before D (500) and M (1000) to make 400 and 900.
 
 Example 1:
 
-Input: s = "III"\
-Output: 3\
-Explanation: III = 3.
+**Input**: s = "III"\
+**Output**: 3\
+**Explanation**: III = 3.
 
 Example 2:
 
-Input: s = "LVIII"\
-Output: 58\
-Explanation: L = 50, V= 5, III = 3.
+**Input**: s = "LVIII"\
+**Output**: 58\
+**Explanation**: L = 50, V= 5, III = 3.
 
 Example 3:
 
-Input: s = "MCMXCIV"\
-Output: 1994\
-Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+**Input**: s = "MCMXCIV"\
+**Output**: 1994\
+**Explanation**: M = 1000, CM = 900, XC = 90 and IV = 4.
 
 <details>
 
@@ -384,11 +384,11 @@ function romanToInt(roman) {
 }
 
 // Example usage
-console.log(romanToInt("III"));    // Output: 3
-console.log(romanToInt("IV"));     // Output: 4
-console.log(romanToInt("IX"));     // Output: 9
-console.log(romanToInt("LVIII"));  // Output: 58
-console.log(romanToInt("MCMXCIV"));// Output: 1994
+console.log(romanToInt("III"));    // **Output**: 3
+console.log(romanToInt("IV"));     // **Output**: 4
+console.log(romanToInt("IX"));     // **Output**: 9
+console.log(romanToInt("LVIII"));  // **Output**: 58
+console.log(romanToInt("MCMXCIV"));// **Output**: 1994
 ```
 </details>
 
@@ -509,8 +509,8 @@ function getRangeSum(prefixSum, l, r) {
 const arr = [2, 4, 6, 8, 10];
 const prefixSum = buildPrefixSumArray(arr);
 
-console.log(getRangeSum(prefixSum, 1, 3)); // Output: 18 (4 + 6 + 8)
-console.log(getRangeSum(prefixSum, 0, 2)); // Output: 12 (2 + 4 + 6)
+console.log(getRangeSum(prefixSum, 1, 3)); // **Output**: 18 (4 + 6 + 8)
+console.log(getRangeSum(prefixSum, 0, 2)); // **Output**: 12 (2 + 4 + 6)
 ```
 </details>
 
@@ -530,9 +530,9 @@ Return the leftmost pivot index. If no such index exists, return -1.
 
 Example 1:
 
-Input: nums = [1,7,3,6,5,6]\
-Output: 3\
-Explanation:\
+**Input**: nums = [1,7,3,6,5,6]\
+**Output**: 3\
+**Explanation**:\
 The pivot index is 3.\
 Left sum = nums[0] + nums[1] + nums[2] = 1 + 7 + 3 = 11\
 Right sum = nums[4] + nums[5] = 5 + 6 = 11
@@ -540,16 +540,16 @@ Right sum = nums[4] + nums[5] = 5 + 6 = 11
 
 Example 2:
 
-Input: nums = [1,2,3]\
-Output: -1\
-Explanation:\
+**Input**: nums = [1,2,3]\
+**Output**: -1\
+**Explanation**:\
 There is no index that satisfies the conditions in the problem statement.
 
 Example 3:
 
-Input: nums = [2,1,-1]\
-Output: 0\
-Explanation:\
+**Input**: nums = [2,1,-1]\
+**Output**: 0\
+**Explanation**:\
 The pivot index is 0.\
 Left sum = 0 (no elements to the left of index 0)\
 Right sum = nums[1] + nums[2] = 1 + -1 = 0
@@ -584,7 +584,7 @@ function findPivotIndex(nums) {
 
 // Example Usage:
 const nums = [1, 7, 3, 6, 5, 6];
-console.log(findPivotIndex(nums)); // Output: 3
+console.log(findPivotIndex(nums)); // **Output**: 3
 ```
 </details>
 
@@ -597,9 +597,9 @@ Return the minimum positive value of startValue such that the step by step sum i
 
 Example 1:
 
-Input: nums = [-3,2,-3,4,2]\
-Output: 5\
-Explanation: If you choose startValue = 4, in the third iteration your step by step sum is less than 1.
+**Input**: nums = [-3,2,-3,4,2]\
+**Output**: 5\
+**Explanation**: If you choose startValue = 4, in the third iteration your step by step sum is less than 1.
 
 **step by step sum**
 startVal=4 | startVal =5| nums\
@@ -611,14 +611,14 @@ startVal=4 | startVal =5| nums\
 
 Example 2:
 
-Input: nums = [1,2]
-Output: 1
-Explanation: Minimum start value should be positive. 
+**Input**: nums = [1,2]
+**Output**: 1
+**Explanation**: Minimum start value should be positive. 
 
 Example 3:
 
-Input: nums = [1,-2,-3]
-Output: 5
+**Input**: nums = [1,-2,-3]
+**Output**: 5
 
 `Video:` https://youtu.be/acIkZpmbiaA?si=zNiN1UkCKzastQ1S
 
@@ -642,9 +642,9 @@ function minStartValue(nums) {
 }
 
 // Example Usage
-console.log(minStartValue([-3, 2, -3, 4, 2])); // Output: 5
-console.log(minStartValue([1, 2]));            // Output: 1
-console.log(minStartValue([1, -2, -3]));       // Output: 5
+console.log(minStartValue([-3, 2, -3, 4, 2])); // **Output**: 5
+console.log(minStartValue([1, 2]));            // **Output**: 1
+console.log(minStartValue([1, -2, -3]));       // **Output**: 5
 ```
 
 </Details>
@@ -660,15 +660,15 @@ Return the earliest year with the maximum population.
 
 Example 1:
 
-Input: logs = [[1993,1999],[2000,2010]]\
-Output: 1993\
-Explanation: The maximum population is 1, and 1993 is the earliest year with this population.
+**Input**: logs = [[1993,1999],[2000,2010]]\
+**Output**: 1993\
+**Explanation**: The maximum population is 1, and 1993 is the earliest year with this population.
 
 Example 2:
 
-Input: logs = [[1950,1961],[1960,1971],[1970,1981]]\
-Output: 1960\
-Explanation:\
+**Input**: logs = [[1950,1961],[1960,1971],[1970,1981]]\
+**Output**: 1960\
+**Explanation**:\
 The maximum population is 2, and it had happened in years 1960 and 1970.\
 The earlier year between them is 1960.
 
@@ -712,14 +712,14 @@ The path does not need to start or end at the root or a leaf, but it must go dow
 
 Example 1:
 
-Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8\
-Output: 3\
-Explanation: The paths that sum to 8 are shown.
+**Input**: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8\
+**Output**: 3\
+**Explanation**: The paths that sum to 8 are shown.
 
 Example 2:
 
-Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22\
-Output: 3
+**Input**: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22\
+**Output**: 3
 
 `video:` https://youtu.be/UQzXYDN49cs?si=jxPPtTM3alVIQ5JF
 
@@ -777,7 +777,7 @@ const root = new TreeNode(10,
 );
 
 const targetSum = 8;
-console.log(pathSum(root, targetSum)); // Output: 3
+console.log(pathSum(root, targetSum)); // **Output**: 3
 ```
 
 </Details>
@@ -859,14 +859,14 @@ Example 1:
 
 ![screenshot](images/water.jpg)
 
-Input: height = [1,8,6,2,5,4,8,3,7]\
-Output: 49\
-Explanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
+**Input**: height = [1,8,6,2,5,4,8,3,7]\
+**Output**: 49\
+**Explanation**: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.
 
 Example 2:
 
-Input: height = [1,1]\
-Output: 1
+**Input**: height = [1,1]\
+**Output**: 1
 
 [Youtube video for concept](https://youtu.be/EbkMABpP52U?si=oVee2x5W2xPP7dN3&t=869)
 
@@ -909,14 +909,14 @@ Given a non-negative integer c, decide whether there're two integers a and b suc
 
 Example 1:
 
-Input: c = 5\
-Output: true\
-Explanation: 1 * 1 + 2 * 2 = 5
+**Input**: c = 5\
+**Output**: true\
+**Explanation**: 1 * 1 + 2 * 2 = 5
 
 Example 2:
 
-Input: c = 3\
-Output: false
+**Input**: c = 3\
+**Output**: false
 
 <details>
 
@@ -944,11 +944,11 @@ var judgeSquareSum = function(c) {
 };
 
 // Example test cases
-console.log(judgeSquareSum(5)); // Output: true (1^2 + 2^2 = 5)
-console.log(judgeSquareSum(3)); // Output: false
-console.log(judgeSquareSum(4)); // Output: true (0^2 + 2^2 = 4)
-console.log(judgeSquareSum(25)); // Output: true (3^2 + 4^2 = 25)
-console.log(judgeSquareSum(1000)); // Output: true (6^2 + 28^2 = 1000)
+console.log(judgeSquareSum(5)); // **Output**: true (1^2 + 2^2 = 5)
+console.log(judgeSquareSum(3)); // **Output**: false
+console.log(judgeSquareSum(4)); // **Output**: true (0^2 + 2^2 = 4)
+console.log(judgeSquareSum(25)); // **Output**: true (3^2 + 4^2 = 25)
+console.log(judgeSquareSum(1000)); // **Output**: true (6^2 + 28^2 = 1000)
 ```
 
 </details>
@@ -965,25 +965,25 @@ Return that maximum distance to the closest person.
 
 **Example 1:**
 
-Input: seats = [1,0,0,0,1,0,1]\
-Output: 2\
-Explanation:\
+**Input**: seats = [1,0,0,0,1,0,1]\
+**Output**: 2\
+**Explanation**:\
 If Alex sits in the second open seat (i.e. seats[2]), then the closest person has distance 2.\
 If Alex sits in any other open seat, the closest person has distance 1.\
 Thus, the maximum distance to the closest person is 2.
 
 **Example 2:**
 
-Input: seats = [1,0,0,0]\
-Output: 3\
-Explanation:\
+**Input**: seats = [1,0,0,0]\
+**Output**: 3\
+**Explanation**:\
 If Alex sits in the last seat (i.e. seats[3]), the closest person is 3 seats away.\
 This is the maximum distance possible, so the answer is 3.
 
 **Example 3:**
 
-Input: seats = [0,1]\
-Output: 1
+**Input**: seats = [0,1]\
+**Output**: 1
 
 <details>
 
@@ -1022,14 +1022,14 @@ function maxDistToClosest(seats) {
 }
 
 // Test Cases
-console.log(maxDistToClosest([1,0,0,0,1,0,1])); // Output: 2
-console.log(maxDistToClosest([1,0,0,0]));       // Output: 3
-console.log(maxDistToClosest([0,1]));           // Output: 1
-console.log(maxDistToClosest([1,0,0,1]));       // Output: 1
-console.log(maxDistToClosest([0,0,1,0,1,0,0,0])); // Output: 3
+console.log(maxDistToClosest([1,0,0,0,1,0,1])); // **Output**: 2
+console.log(maxDistToClosest([1,0,0,0]));       // **Output**: 3
+console.log(maxDistToClosest([0,1]));           // **Output**: 1
+console.log(maxDistToClosest([1,0,0,1]));       // **Output**: 1
+console.log(maxDistToClosest([0,0,1,0,1,0,0,0])); // **Output**: 3
 ```
 
-#### **Input:**  
+#### ****Input**:**  
 ```js
 seats = [1,0,0,0,1,0,1]
 ```
@@ -1081,20 +1081,20 @@ Return the maximum number of operations you can perform on the array.
 
 Example 1:
 
-Input: nums = [1,2,3,4], k = 5\
-Output: 2
+**Input**: nums = [1,2,3,4], k = 5\
+**Output**: 2
 
-Explanation: Starting with nums = [1,2,3,4]:\
+**Explanation**: Starting with nums = [1,2,3,4]:\
 - Remove numbers 1 and 4, then nums = [2,3]\
 - Remove numbers 2 and 3, then nums = []\
 There are no more pairs that sum up to 5, hence a total of 2 operations.
 
 Example 2:
 
-Input: nums = [3,1,3,4,3], k = 6\
-Output: 1
+**Input**: nums = [3,1,3,4,3], k = 6\
+**Output**: 1
 
-Explanation: Starting with nums = [3,1,3,4,3]:\
+**Explanation**: Starting with nums = [3,1,3,4,3]:\
 - Remove the first two 3's, then nums = [1,4,3]\
 There are no more pairs that sum up to 6, hence a total of 1 operation.
 
@@ -1131,18 +1131,18 @@ Return the number of pairs of songs for which their total duration in seconds is
 
 Example 1:
 
-Input: time = [30,20,150,100,40]\
-Output: 3\
-Explanation: Three pairs have a total duration divisible by 60:\
+**Input**: time = [30,20,150,100,40]\
+**Output**: 3\
+**Explanation**: Three pairs have a total duration divisible by 60:\
 (time[0] = 30, time[2] = 150): total duration 180\
 (time[1] = 20, time[3] = 100): total duration 120\
 (time[1] = 20, time[4] = 40): total duration 60
 
 Example 2:
 
-Input: time = [60,60,60]\
-Output: 3\
-Explanation: All three pairs have a total duration of 120, which is divisible by 60.
+**Input**: time = [60,60,60]\
+**Output**: 3\
+**Explanation**: All three pairs have a total duration of 120, which is divisible by 60.
 
 <details>
 
@@ -1175,10 +1175,10 @@ function numPairsDivisibleBy60(time) {
 
 // Example usage:
 const time1 = [30, 20, 150, 100, 40];
-console.log(numPairsDivisibleBy60(time1)); // Output: 3
+console.log(numPairsDivisibleBy60(time1)); // **Output**: 3
 
 const time2 = [60, 60, 60];
-console.log(numPairsDivisibleBy60(time2)); // Output: 3
+console.log(numPairsDivisibleBy60(time2)); // **Output**: 3
 ```
 </details>
 
@@ -1213,14 +1213,14 @@ How to Identify Sliding Window Problems:
 
 Example 1:
 
-Input: nums = [1,12,-5,-6,50,3], k = 4\
-Output: 12.75\
-Explanation: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
+**Input**: nums = [1,12,-5,-6,50,3], k = 4\
+**Output**: 12.75\
+**Explanation**: Maximum average is (12 - 5 - 6 + 50) / 4 = 51 / 4 = 12.75
 
 Example 2:
 
-Input: nums = [5], k = 1\
-Output: 5.00
+**Input**: nums = [5], k = 1\
+**Output**: 5.00
 
 <details>
 
@@ -1250,16 +1250,16 @@ Given a binary array nums and an integer k, return the maximum number of consecu
 
 Example 1:
 
-Input: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2\
-Output: 6\
-Explanation: [1,1,1,0,0,.1,.1,.1,.1,.1,.1]\
+**Input**: nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2\
+**Output**: 6\
+**Explanation**: [1,1,1,0,0,.1,.1,.1,.1,.1,.1]\
 dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
 
 Example 2:
 
-Input: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3\
-Output: 10\
-Explanation: [0,0,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,0,0,0,1,1,1,1]\
+**Input**: nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3\
+**Output**: 10\
+**Explanation**: [0,0,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,0,0,0,1,1,1,1]\
 dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
 
 [Youtube video for concept](https://youtu.be/7FE5Q_Bqzw8?si=uKw4xkjOtPBZzeUi&t=132)
@@ -1308,21 +1308,21 @@ Return the minimum length of the substring that can be replaced with any other s
 
 Example 1:
 
-Input: s = "QWER"\
-Output: 0\
-Explanation: s is already balanced.
+**Input**: s = "QWER"\
+**Output**: 0\
+**Explanation**: s is already balanced.
 
 Example 2:
 
-Input: s = "QQWE"\
-Output: 1\
-Explanation: We need to replace a 'Q' to 'R', so that "RQWE" (or "QRWE") is balanced.
+**Input**: s = "QQWE"\
+**Output**: 1\
+**Explanation**: We need to replace a 'Q' to 'R', so that "RQWE" (or "QRWE") is balanced.
 
 Example 3:
 
-Input: s = "QQQW"\
-Output: 2\
-Explanation: We can replace the first "QQ" to "ER". 
+**Input**: s = "QQQW"\
+**Output**: 2\
+**Explanation**: We can replace the first "QQ" to "ER". 
 
 <details>
 
@@ -1374,11 +1374,11 @@ function balancedString(s) {
 
 // Example usage:
 const s = "WQWRQQQW";
-console.log(balancedString(s)); // Output: 3
+console.log(balancedString(s)); // **Output**: 3
 ```
 
 
-### Explanation
+### **Explanation**
 
 1. **Initial Count**: Calculate the count of `'Q'`, `'W'`, `'E'`, and `'R'` in the string.
 2. **Sliding Window**:
@@ -1537,7 +1537,7 @@ head.next.next.next = new ListNode(4);
 head.next.next.next.next = new ListNode(5);
 
 let middle = findMiddle(head);
-console.log(middle.value);  // Output: 3 (Middle of the list)
+console.log(middle.value);  // **Output**: 3 (Middle of the list)
 ```
 </details>
 
@@ -1559,7 +1559,7 @@ headEven.next.next.next.next = new ListNode(5);
 headEven.next.next.next.next.next = new ListNode(6);
 
 let middleEven = findMiddle(headEven);
-console.log(middleEven.value);  // Output: 4 (First middle of the list)
+console.log(middleEven.value);  // **Output**: 4 (First middle of the list)
 ```
 
 In this case, the slow pointer will point to `4`, the first middle element.
@@ -1617,11 +1617,11 @@ function nextGreaterElements(nums) {
 
 // Example usage:
 let nums = [2, 1, 2, 4, 3];
-console.log(nextGreaterElements(nums)); // Output: [4, 2, 4, -1, -1]
+console.log(nextGreaterElements(nums)); // **Output**: [4, 2, 4, -1, -1]
 ```
 
 
-### Explanation:
+### **Explanation**:
 - **Stack stores indices**: The stack contains indices of the elements in the array.
 - **While condition**: If the current element is greater than the element at the top of the stack, pop from the stack, and update the result for that index.
 - **Push the index**: Push the current index onto the stack to process later.
@@ -1834,7 +1834,7 @@ const permutations = permute(input);
 console.log(permutations);
 ```
 
-### Output:
+### **Output**:
 ```
 [ 'ABC', 'ACB', 'BAC', 'BCA', 'CBA', 'CAB' ]
 ```
@@ -1860,15 +1860,15 @@ If no such second minimum value exists, output -1 instead.
 
 Example 1:
 
-Input: root = [2,2,5,null,null,5,7]\
-Output: 5\
-Explanation: The smallest value is 2, the second smallest value is 5.
+**Input**: root = [2,2,5,null,null,5,7]\
+**Output**: 5\
+**Explanation**: The smallest value is 2, the second smallest value is 5.
 
 Example 2:
 
-Input: root = [2,2,2]\
-Output: -1\
-Explanation: The smallest value is 2, but there isn't any second smallest value.
+**Input**: root = [2,2,2]\
+**Output**: -1\
+**Explanation**: The smallest value is 2, but there isn't any second smallest value.
 
 ```js
 var findSecondMinimumValue = function(root) {
@@ -1904,7 +1904,7 @@ const root = {
     }
 };
 
-console.log(findSecondMinimumValue(root)); // Output: 5 `
+console.log(findSecondMinimumValue(root)); // **Output**: 5 `
 ```
 
 <br>
@@ -1966,19 +1966,19 @@ Given a string s, return true if the s can be palindrome after deleting at most 
 
 Example 1:
 
-Input: s = "aba"\
-Output: true
+**Input**: s = "aba"\
+**Output**: true
 
 Example 2:
 
-Input: s = "abca"\
-Output: true\
-Explanation: You could delete the character 'c'.
+**Input**: s = "abca"\
+**Output**: true\
+**Explanation**: You could delete the character 'c'.
 
 Example 3:
 
-Input: s = "abc"\
-Output: false
+**Input**: s = "abc"\
+**Output**: false
 
 <details>
 
@@ -2029,21 +2029,21 @@ For example, swapping at indices 0 and 2 in "abcd" results in "cbad".
 
 Example 1:
 
-Input: s = "ab", goal = "ba"\
-Output: true\
-Explanation: You can swap s[0] = 'a' and s[1] = 'b' to get "ba", which is equal to goal.\
+**Input**: s = "ab", goal = "ba"\
+**Output**: true\
+**Explanation**: You can swap s[0] = 'a' and s[1] = 'b' to get "ba", which is equal to goal.\
 
 Example 2:
 
-Input: s = "ab", goal = "ab"\
-Output: false\
-Explanation: The only letters you can swap are s[0] = 'a' and s[1] = 'b', which results in "ba" != goal.
+**Input**: s = "ab", goal = "ab"\
+**Output**: false\
+**Explanation**: The only letters you can swap are s[0] = 'a' and s[1] = 'b', which results in "ba" != goal.
 
 Example 3:
 
-Input: s = "aa", goal = "aa"\
-Output: true\
-Explanation: You can swap s[0] = 'a' and s[1] = 'a' to get "aa", which is equal to goal.
+**Input**: s = "aa", goal = "aa"\
+**Output**: true\
+**Explanation**: You can swap s[0] = 'a' and s[1] = 'a' to get "aa", which is equal to goal.
 
 <details>
 
@@ -2100,23 +2100,23 @@ A subsequence is an array that can be derived from another array by deleting som
 
 Example 1:
 
-Input: nums = [2,1,3,3], k = 2\
-Output: [3,3]\
-Explanation:\
+**Input**: nums = [2,1,3,3], k = 2\
+**Output**: [3,3]\
+**Explanation**:\
 The subsequence has the largest sum of 3 + 3 = 6.
 
 Example 2:
 
-Input: nums = [-1,-2,3,4], k = 3\
-Output: [-1,3,4]\
-Explanation:\
+**Input**: nums = [-1,-2,3,4], k = 3\
+**Output**: [-1,3,4]\
+**Explanation**:\
 The subsequence has the largest sum of -1 + 3 + 4 = 6.
 
 Example 3:
 
-Input: nums = [3,4,3,3], k = 2\
-Output: [3,4]\
-Explanation:\
+**Input**: nums = [3,4,3,3], k = 2\
+**Output**: [3,4]\
+**Explanation**:\
 The subsequence has the largest sum of 3 + 4 = 7. \
 Another possible subsequence is [4, 3].
 
@@ -2175,7 +2175,7 @@ console.log(isSubsequence("abc", "ahbgdc")); // true
 console.log(isSubsequence("axc", "ahbgdc")); // false
 ```
 
-### Explanation:
+### **Explanation**:
 - `s1` is the string we're checking as a subsequence.
 - `s2` is the main string.
 - The code uses two pointers (`i` for `s1`, and `j` for `s2`). It traverses `s2`, and when characters match, the pointer `i` is incremented. If all characters of `s1` are matched before the end of `s2`, then `s1` is a subsequence of `s2`.
@@ -2192,11 +2192,11 @@ This approach runs in O(n) time complexity, where `n` is the length of `s2`.
 
 **Input**: txt = “BACDGABCDA”,  **pat** = “ABCD”\
 **Output**: [0, 5, 6]\
-**Explanation**: “BACD” is at 0, “ABCD” at 5 and “BCDA” at 6
+****Explanation****: “BACD” is at 0, “ABCD” at 5 and “BCDA” at 6
 
 **Input**: txt = “AAABABAA”, **pat** = “AABA”   \
 **Output**:  [0, 1, 4]\
-**Explanation**: “AAAB” is at 0, “AABA” at 5 and “ABAA” at 6
+****Explanation****: “AAAB” is at 0, “AABA” at 5 and “ABAA” at 6
 
 
 <details>
@@ -2259,7 +2259,7 @@ let indices = findAnagrams(text, pattern);
 console.log("Anagram start indices:", indices);
 ```
 
-### Explanation:
+### **Explanation**:
 - We convert each character to an index (`0` for `'a'`, `1` for `'b'`, etc.) using the `charToIndex` function.
 - We create two frequency arrays (`patternCount` and `windowCount`):
   - `patternCount` stores the frequency of characters in the pattern.
@@ -2343,7 +2343,7 @@ let rank = lexicographicRank(str);
 console.log(`Lexicographic rank of "${str}" is: ${rank}`);
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Precompute Factorials**:
    - The `precomputeFactorials` function precomputes the factorial values for numbers from 0 to `n`. This reduces the time spent on calculating factorials during the rank calculation.
@@ -2366,7 +2366,7 @@ For the string `"STRING"`:
    - For `'T'`, count smaller characters and add corresponding permutations.
 4. Sum the contributions of all characters to get the lexicographic rank.
 
-### Output:
+### **Output**:
 
 For the input `"STRING"`:
 
@@ -2394,20 +2394,20 @@ Given two strings str1 and str2, return the `largest` string x such that x divid
 
 Example 1:
 
-Input: str1 = "ABCABC", str2 = "ABC"\
-Output: "ABC"
+**Input**: str1 = "ABCABC", str2 = "ABC"\
+**Output**: "ABC"
 
 
 Example 2:
 
-Input: str1 = "ABABAB", str2 = "ABAB"\
-Output: "AB"
+**Input**: str1 = "ABABAB", str2 = "ABAB"\
+**Output**: "AB"
 
 
 Example 3:
 
-Input: str1 = "LEET", str2 = "CODE"\
-Output: ""
+**Input**: str1 = "LEET", str2 = "CODE"\
+**Output**: ""
 
 <details>
 
@@ -2455,7 +2455,7 @@ This is a recursive algorithm, meaning the function repeatedly calls itself with
 Example Calculation: GCD of 48 and 18\
 Let’s break it down step by step:
 
-Initial Input: a = 48, b = 18
+Initial **Input**: a = 48, b = 18
 
 remainder = 48 % 18 = 12\
 Call gcd(18, 12).\
@@ -2484,15 +2484,15 @@ maxLength gives the the length of repeation of the identical segment `base` in t
 > ### 345. Reverse Vowels of a String
 
 Example 1:\
-Input: s = "IceCreAm"\
-Output: "AceCreIm"
+**Input**: s = "IceCreAm"\
+**Output**: "AceCreIm"
 
-Explanation:\
+**Explanation**:\
 The vowels in s are ['I', 'e', 'e', 'A']. On reversing the vowels, s becomes "AceCreIm".
 
 Example 2:\
-Input: s = "leetcode"\
-Output: "leotcede"
+**Input**: s = "leetcode"\
+**Output**: "leotcede"
 
 Hint is here that we have used the `two pointer therorem`.
 
@@ -2531,13 +2531,13 @@ You must write an algorithm that runs in `O(n)` time and `without using the divi
 
 Example 1:
 
-Input: nums = [1,2,3,4]\
-Output: [24,12,8,6]
+**Input**: nums = [1,2,3,4]\
+**Output**: [24,12,8,6]
 
 Example 2:
 
-Input: nums = [-1,1,0,-3,3]\
-Output: [0,0,9,0,0]
+**Input**: nums = [-1,1,0,-3,3]\
+**Output**: [0,0,9,0,0]
 
 <details>
 
@@ -2588,21 +2588,21 @@ Given an integer array nums, return true if there exists a triple of indices `(i
 
 Example 1:
 
-Input: nums = [1,2,3,4,5]\
-Output: true\
-Explanation: Any triplet where i < j < k is valid.
+**Input**: nums = [1,2,3,4,5]\
+**Output**: true\
+**Explanation**: Any triplet where i < j < k is valid.
 
 Example 2:
 
-Input: nums = [5,4,3,2,1]\
-Output: false\
-Explanation: No triplet exists.
+**Input**: nums = [5,4,3,2,1]\
+**Output**: false\
+**Explanation**: No triplet exists.
 
 Example 3:
 
-Input: nums = [2,1,5,0,4,6]\
-Output: true\
-Explanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
+**Input**: nums = [2,1,5,0,4,6]\
+**Output**: true\
+**Explanation**: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.
 
 <details>
 
@@ -2649,21 +2649,21 @@ You must write an algorithm that uses only constant extra space.
 
 Example 1:
 
-Input: chars = ["a","a","b","b","c","c","c"]\
-Output: Return 6, and the first 6 characters of the input array should be: ["a","2","b","2","c","3"]\
-Explanation: The groups are "aa", "bb", and "ccc". This compresses to "a2b2c3".
+**Input**: chars = ["a","a","b","b","c","c","c"]\
+**Output**: Return 6, and the first 6 characters of the input array should be: ["a","2","b","2","c","3"]\
+**Explanation**: The groups are "aa", "bb", and "ccc". This compresses to "a2b2c3".
 
 Example 2:
 
-Input: chars = ["a"]\
-Output: Return 1, and the first character of the input array should be: ["a"]\
-Explanation: The only group is "a", which remains uncompressed since it's a single character.
+**Input**: chars = ["a"]\
+**Output**: Return 1, and the first character of the input array should be: ["a"]\
+**Explanation**: The only group is "a", which remains uncompressed since it's a single character.
 
 Example 3:
 
-Input: chars = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]\
-Output: Return 4, and the first 4 characters of the input array should be: ["a","b","1","2"].\
-Explanation: The groups are "a" and "bbbbbbbbbbbb". This compresses to "ab12".
+**Input**: chars = ["a","b","b","b","b","b","b","b","b","b","b","b","b"]\
+**Output**: Return 4, and the first 4 characters of the input array should be: ["a","b","1","2"].\
+**Explanation**: The groups are "a" and "bbbbbbbbbbbb". This compresses to "ab12".
 
 
 ### Implementation in JavaScript
@@ -2701,13 +2701,13 @@ function compress(chars) {
 
 // Example Usage
 const chars1 = ["a","a","b","b","c","c","c"];
-console.log(compress(chars1)); // Output: 6, chars1 = ["a","2","b","2","c","3"]
+console.log(compress(chars1)); // **Output**: 6, chars1 = ["a","2","b","2","c","3"]
 
 const chars2 = ["a"];
-console.log(compress(chars2)); // Output: 1, chars2 = ["a"]
+console.log(compress(chars2)); // **Output**: 1, chars2 = ["a"]
 
 const chars3 = ["a","b","b","b","b","b","b","b","b","b","b","b","b"];
-console.log(compress(chars3)); // Output: 4, chars3 = ["a","b","1","2"]
+console.log(compress(chars3)); // **Output**: 4, chars3 = ["a","b","1","2"]
 
 ```
 
@@ -2756,7 +2756,7 @@ console.log(leftMostRepeatingChar("abbcc")) // 1
 console.log(leftMostRepeatingChar("abcd")) // -1
 ```
 
-### Explanation:
+### **Explanation**:
 - A map (`map`) keeps track of the characters you've seen.
 - The loop runs from the right end to the left, so whenever a character repeats, we update the `leftMostIdx`.
 - This ensures that the leftmost repeating character is captured first.
@@ -2792,7 +2792,7 @@ function leftMostNonRepeatingChar(str) {
 
 // Example usage:
 const str = "abacabad";
-console.log(leftMostNonRepeatingChar(str)); // Output: "c"
+console.log(leftMostNonRepeatingChar(str)); // **Output**: "c"
 ```
 
 
@@ -2875,11 +2875,11 @@ const occurrences = KMPSearch(text, pattern);
 console.log("Pattern found at index:", occurrences);
 ```
 
-### Explanation:
+### **Explanation**:
 - **computeLPSArray**: Prepares the LPS array to optimize the search by storing the length of the previous longest prefix that is also a suffix.
 - **KMPSearch**: This function uses the LPS array to perform the actual search, skipping unnecessary comparisons based on the LPS values.
 
-### Example Output:
+### Example **Output**:
 ```
 Pattern found at index: [10]
 ```
@@ -3573,18 +3573,18 @@ myLinkedList.push(2)
 
 Example 1:
 
-Input: list1 = [1,2,4], list2 = [1,3,4]\
-Output: [1,1,2,3,4,4]
+**Input**: list1 = [1,2,4], list2 = [1,3,4]\
+**Output**: [1,1,2,3,4,4]
 
 Example 2:
 
-Input: list1 = [], list2 = []\
-Output: []
+**Input**: list1 = [], list2 = []\
+**Output**: []
 
 Example 3:
 
-Input: list1 = [], list2 = [0]\
-Output: [0]
+**Input**: list1 = [], list2 = [0]\
+**Output**: [0]
 
 ```js
 // Solution 1
@@ -3921,7 +3921,7 @@ console.log("Reversed List in groups of K:");
 printList(head);
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Reverse First K Nodes**: In the first loop, we reverse the first `K` nodes by keeping track of the previous node (`prev`), the current node (`current`), and the next node (`next`). This process continues for `K` nodes.
 
@@ -4049,7 +4049,7 @@ console.log("Cloned List with Random Pointers:");
 printListWithRandom(clonedHead);
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Step 1: Clone nodes and link them next to the original nodes**:
    - For each node in the original list, a new cloned node is created and inserted right after the original node. This step creates interleaved original and cloned nodes.
@@ -4242,16 +4242,16 @@ twoStacks.push2(30);
 twoStacks.push2(35);
 
 // Print both stacks
-twoStacks.printStack1();  // Output: Stack 1: 5 -> 10 -> 15
-twoStacks.printStack2();  // Output: Stack 2: 35 -> 30 -> 25
+twoStacks.printStack1();  // **Output**: Stack 1: 5 -> 10 -> 15
+twoStacks.printStack2();  // **Output**: Stack 2: 35 -> 30 -> 25
 
 // Pop elements from both stacks
-twoStacks.pop1();  // Output: 15 popped from Stack 1
-twoStacks.pop2();  // Output: 35 popped from Stack 2
+twoStacks.pop1();  // **Output**: 15 popped from Stack 1
+twoStacks.pop2();  // **Output**: 35 popped from Stack 2
 
 // Print both stacks after popping
-twoStacks.printStack1();  // Output: Stack 1: 5 -> 10
-twoStacks.printStack2();  // Output: Stack 2: 30 -> 25
+twoStacks.printStack1();  // **Output**: Stack 1: 5 -> 10
+twoStacks.printStack2();  // **Output**: Stack 2: 30 -> 25
 
 ```
 
@@ -4259,9 +4259,9 @@ twoStacks.printStack2();  // Output: Stack 2: 30 -> 25
 
 Example 1:
 
-Input: s = "leet**cod*e"\
-Output: "lecoe"\
-Explanation: Performing the removals from left to right:\
+**Input**: s = "leet**cod*e"\
+**Output**: "lecoe"\
+**Explanation**: Performing the removals from left to right:\
 - The closest character to the 1st star is 't' in "leet**cod*e". s becomes "lee*cod*e".\
 - The closest character to the 2nd star is 'e' in "lee*cod*e". s becomes "lecod*e".\
 - The closest character to the 3rd star is 'd' in "lecod*e". s becomes "lecoe".\
@@ -4269,9 +4269,9 @@ There are no more stars, so we return "lecoe".
 
 Example 2:
 
-Input: s = "erase*****"\
-Output: ""\
-Explanation: The entire string is removed, so we return an empty string.
+**Input**: s = "erase*****"\
+**Output**: ""\
+**Explanation**: The entire string is removed, so we return an empty string.
 
 ```js
 function removeStars(s) {
@@ -4293,7 +4293,7 @@ function removeStars(s) {
 
 // Example usage
 const input = "leet**cod*e";
-console.log(removeStars(input)); // Output: "lecoe"
+console.log(removeStars(input)); // **Output**: "lecoe"
 ```
 
 more solution
@@ -4331,21 +4331,21 @@ Find out the state of the asteroids after all collisions. If two asteroids meet,
 
 Example 1:
 
-Input: asteroids = [5,10,-5]
-Output: [5,10]
-Explanation: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
+**Input**: asteroids = [5,10,-5]
+**Output**: [5,10]
+**Explanation**: The 10 and -5 collide resulting in 10. The 5 and 10 never collide.
 
 Example 2:
 
-Input: asteroids = [8,-8]
-Output: []
-Explanation: The 8 and -8 collide exploding each other.
+**Input**: asteroids = [8,-8]
+**Output**: []
+**Explanation**: The 8 and -8 collide exploding each other.
 
 Example 3:
 
-Input: asteroids = [10,2,-5]
-Output: [10]
-Explanation: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
+**Input**: asteroids = [10,2,-5]
+**Output**: [10]
+**Explanation**: The 2 and -5 collide resulting in -5. The 10 and -5 collide resulting in 10.
 
 
 ```js
@@ -4389,18 +4389,18 @@ var asteroidCollision = function (asteroids) {
 
 Example 1:
 
-Input: s = "3[a]2[bc]"\
-Output: "aaabcbc"
+**Input**: s = "3[a]2[bc]"\
+**Output**: "aaabcbc"
 
 Example 2:
 
-Input: s = "3[a2[c]]"\
-Output: "accaccacc"
+**Input**: s = "3[a2[c]]"\
+**Output**: "accaccacc"
 
 Example 3:
 
-Input: s = "2[abc]3[cd]ef"\
-Output: "abcabccdcdcdef"
+**Input**: s = "2[abc]3[cd]ef"\
+**Output**: "abcabccdcdcdef"
 
 ```js
 function decodeString(s) {
@@ -4432,8 +4432,8 @@ function decodeString(s) {
 }
 
 // Example usage:
-console.log(decodeString("3[a2[c]]")); // Output: "accaccacc"
-console.log(decodeString("2[abc]3[cd]ef")); // Output: "abcabccdcdcdef"
+console.log(decodeString("3[a2[c]]")); // **Output**: "accaccacc"
+console.log(decodeString("2[abc]3[cd]ef")); // **Output**: "abcabccdcdcdef"
 ```
 
 
@@ -4454,7 +4454,7 @@ The corresponding span values are:
 Span:   [1, 1, 1, 2, 1, 4, 6]
 ```
 
-### Explanation:
+### **Explanation**:
 - On day 1 (price = 100), the span is 1 because there are no previous prices.
 - On day 2 (price = 80), the span is 1 because 80 is smaller than 100.
 - On day 3 (price = 60), the span is 1 because 60 is smaller than 80.
@@ -4502,16 +4502,16 @@ function calculateSpan(prices) {
 // Example usage:
 let prices = [100, 80, 60, 70, 60, 75, 85];
 let result = calculateSpan(prices);
-console.log(result);  // Output: [1, 1, 1, 2, 1, 4, 6]
+console.log(result);  // **Output**: [1, 1, 1, 2, 1, 4, 6]
 ```
 
-### Explanation of the Code:
+### **Explanation** of the Code:
 - We maintain an array `span[]` that stores the span for each day.
 - We also maintain a stack that stores the indices of stock prices. The stack is used to find the most recent day where the stock price was higher than the current day’s price.
 - For each day `i`, we pop elements from the stack as long as the stock price on previous days is less than or equal to the price on day `i`.
 - The span for day `i` is calculated as the difference between the current day’s index `i` and the index of the top of the stack (which gives the previous day with a higher price). If no such day exists, the span is `i + 1`.
 
-### Example Output:
+### Example **Output**:
 ```
 [1, 1, 1, 2, 1, 4, 6]
 ```
@@ -4549,7 +4549,7 @@ The output array (previous greater elements) will be:
 pge = [-1, 10, 4, -1, -1, 40, 40]
 ```
 
-### Explanation:
+### **Explanation**:
 - For `arr[0] = 10`, there is no previous element, so `pge[0] = -1`.
 - For `arr[1] = 4`, the previous greater element is `10`, so `pge[1] = 10`.
 - For `arr[2] = 2`, the previous greater element is `4`, so `pge[2] = 4`.
@@ -4596,10 +4596,10 @@ function previousGreaterElement(arr) {
 // Example usage:
 let arr = [10, 4, 2, 20, 40, 12, 30];
 let result = previousGreaterElement(arr);
-console.log(result);  // Output: [-1, 10, 4, -1, -1, 40, 40]
+console.log(result);  // **Output**: [-1, 10, 4, -1, -1, 40, 40]
 ```
 
-### Explanation of the Code:
+### **Explanation** of the Code:
 
 - **Stack**: The stack is used to keep track of the previous elements that are candidates to be the "previous greater element" for the current element.
 - **For loop**: We loop through the array once from left to right.
@@ -4657,7 +4657,7 @@ The output array (next greater elements) will be:
 nge = [5, 25, 25, -1, 8, -1, -1, -1]
 ```
 
-### Explanation:
+### **Explanation**:
 - For `arr[0] = 4`, the next greater element is `5`.
 - For `arr[1] = 5`, the next greater element is `25`.
 - For `arr[2] = 2`, the next greater element is `25`.
@@ -4704,10 +4704,10 @@ function nextGreaterElement(arr) {
 // Example usage:
 let arr = [4, 5, 2, 25, 7, 8, 6, 3];
 let result = nextGreaterElement(arr);
-console.log(result);  // Output: [5, 25, 25, -1, 8, -1, -1, -1]
+console.log(result);  // **Output**: [5, 25, 25, -1, 8, -1, -1, -1]
 ```
 
-### Explanation of the Code:
+### **Explanation** of the Code:
 
 - **Stack**: The stack is used to keep track of the potential **next greater elements** as we traverse the array from right to left.
 - **For loop**: We start the loop from the last element (`n-1`) and go down to the first element (`i = 0`).
@@ -4767,7 +4767,7 @@ The output should be:
 10
 ```
 
-### Explanation:
+### **Explanation**:
 The largest rectangle can be formed between bars with heights `[5, 6]` with an area of `5 * 2 = 10`.
 
 ### Approach using Stack:
@@ -4811,10 +4811,10 @@ function largestRectangleArea(heights) {
 // Example usage:
 let heights = [2, 1, 5, 6, 2, 3];
 let result = largestRectangleArea(heights);
-console.log(result);  // Output: 10
+console.log(result);  // **Output**: 10
 ```
 
-### Explanation of the Code:
+### **Explanation** of the Code:
 
 - **Stack**: We maintain a stack of indices representing the bars in increasing order of height.
 - **Current Height**: In each iteration, we check if the current bar is shorter than the bar at the top of the stack.
@@ -4931,10 +4931,10 @@ let matrix = [
   ['1', '0', '0', '1', '0']
 ];
 
-console.log(maximalRectangle(matrix));  // Output: 6
+console.log(maximalRectangle(matrix));  // **Output**: 6
 ```
 
-### Explanation of the Code:
+### **Explanation** of the Code:
 
 1. **Maximal Rectangle Calculation**:
    - We traverse each row of the matrix, treating the row as the base of a histogram.
@@ -5049,15 +5049,15 @@ minStack.push(5);
 minStack.push(3);
 minStack.push(7);
 minStack.push(2);
-console.log(minStack.getMin()); // Output: 2
+console.log(minStack.getMin()); // **Output**: 2
 minStack.pop();
-console.log(minStack.getMin()); // Output: 3
+console.log(minStack.getMin()); // **Output**: 3
 minStack.pop();
-console.log(minStack.top());    // Output: 3
-console.log(minStack.getMin()); // Output: 3
+console.log(minStack.top());    // **Output**: 3
+console.log(minStack.getMin()); // **Output**: 3
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **push(x)**:
    - If the stack is empty, `x` becomes the new minimum and is pushed onto the stack.
@@ -5181,7 +5181,7 @@ function infixToPostfix(exp) {
 
 // Example usage:
 let infixExp = "A+(B*C-(D/E^F)*G)*H";
-console.log(infixToPostfix(infixExp)); // Output: "ABC*DEF^/G*-H*+"
+console.log(infixToPostfix(infixExp)); // **Output**: "ABC*DEF^/G*-H*+"
 ```
 
 #### 2. **Postfix Evaluation Using a Stack**:   ( [Youtube video](https://www.youtube.com/watch?v=5B6jw4wOJR0&ab_channel=ApnaCollege) )
@@ -5230,7 +5230,7 @@ function evaluatePostfix(exp) {
 
 // Example usage:
 let postfixExp = "231*+9-";
-console.log(evaluatePostfix(postfixExp)); // Output: -4
+console.log(evaluatePostfix(postfixExp)); // **Output**: -4
 ```
 
 #### 3. **Infix to Prefix Conversion Using a Stack**:   
@@ -5272,7 +5272,7 @@ function infixToPrefix(exp) {
 
 // Example usage:
 let infixExp2 = "A+(B*C-(D/E^F)*G)*H";
-console.log(infixToPrefix(infixExp2)); // Output: "+A*+*BC-*^/DEFGH"
+console.log(infixToPrefix(infixExp2)); // **Output**: "+A*+*BC-*^/DEFGH"
 ```
 
 #### 4. **Prefix Evaluation Using a Stack**:
@@ -5321,7 +5321,7 @@ function evaluatePrefix(exp) {
 
 // Example usage:
 let prefixExp = "-+2*31/9";
-console.log(evaluatePrefix(prefixExp)); // Output: -4
+console.log(evaluatePrefix(prefixExp)); // **Output**: -4
 ```
 
 ### Summary:
@@ -5423,10 +5423,10 @@ let linkedQueue = new LinkedListQueue();
 linkedQueue.enqueue(10);
 linkedQueue.enqueue(20);
 linkedQueue.enqueue(30);
-console.log(linkedQueue.printQueue());  // Output: 10 20 30
-console.log(linkedQueue.dequeue());     // Output: 10
-console.log(linkedQueue.frontElement()); // Output: 20
-console.log(linkedQueue.isEmpty());     // Output: false
+console.log(linkedQueue.printQueue());  // **Output**: 10 20 30
+console.log(linkedQueue.dequeue());     // **Output**: 10
+console.log(linkedQueue.frontElement()); // **Output**: 20
+console.log(linkedQueue.isEmpty());     // **Output**: false
 ```
 
 Time complexity table for operations on a **Linked List-based Queue**:
@@ -5512,10 +5512,10 @@ let stack = new StackUsingQueues();
 stack.push(10);
 stack.push(20);
 stack.push(30);
-console.log(stack.top());    // Output: 30
-console.log(stack.pop());    // Output: 30
-console.log(stack.top());    // Output: 20
-console.log(stack.isEmpty()); // Output: false
+console.log(stack.top());    // **Output**: 30
+console.log(stack.pop());    // **Output**: 30
+console.log(stack.top());    // **Output**: 20
+console.log(stack.isEmpty()); // **Output**: false
 ```
 
 #### Time Complexity:
@@ -5609,10 +5609,10 @@ let stack2 = new StackUsingQueues2();
 stack2.push(10);
 stack2.push(20);
 stack2.push(30);
-console.log(stack2.top());    // Output: 30
-console.log(stack2.pop());    // Output: 30
-console.log(stack2.top());    // Output: 20
-console.log(stack2.isEmpty()); // Output: false
+console.log(stack2.top());    // **Output**: 30
+console.log(stack2.pop());    // **Output**: 30
+console.log(stack2.top());    // **Output**: 20
+console.log(stack2.isEmpty()); // **Output**: false
 ```
 
 #### Time Complexity:
@@ -5696,11 +5696,11 @@ queue.enqueue(2);
 queue.enqueue(3);
 queue.enqueue(4);
 
-console.log("Original Queue: " + queue.printQueue());  // Output: 1 2 3 4
+console.log("Original Queue: " + queue.printQueue());  // **Output**: 1 2 3 4
 
 reverseQueue(queue);
 
-console.log("Reversed Queue: " + queue.printQueue());  // Output: 4 3 2 1
+console.log("Reversed Queue: " + queue.printQueue());  // **Output**: 4 3 2 1
 ```
 
 #### Time Complexity:
@@ -5742,11 +5742,11 @@ queue2.enqueue(2);
 queue2.enqueue(3);
 queue2.enqueue(4);
 
-console.log("Original Queue: " + queue2.printQueue());  // Output: 1 2 3 4
+console.log("Original Queue: " + queue2.printQueue());  // **Output**: 1 2 3 4
 
 reverseQueueRecursively(queue2);
 
-console.log("Reversed Queue: " + queue2.printQueue());  // Output: 4 3 2 1
+console.log("Reversed Queue: " + queue2.printQueue());  // **Output**: 4 3 2 1
 ```
 
 #### Time Complexity:
@@ -5819,14 +5819,14 @@ let generatedNumbers = generateNumbersWithDigits(digits, n);
 console.log("Generated Numbers:", generatedNumbers);
 ```
 
-### Output:
+### **Output**:
 For the example above, the output will be:
 
 ```
 Generated Numbers: ['5', '6', '55', '56', '65', '66']
 ```
 
-### Explanation:
+### **Explanation**:
 - The queue initially holds `["5","6"]`.
 - Then, for each number dequeued (like `5`), we append the digits `5,6` to it, resulting in `['55', '56']` being added to the queue.
 - This process continues for each dequeued number until we've generated `n` numbers.
@@ -6028,14 +6028,14 @@ deque.addRear(2);
 deque.addFront(0);
 deque.addFront(-1);
 
-deque.printDeque(); // Output: -1 0 1 2
-console.log("Front element:", deque.getFront()); // Output: -1
-console.log("Rear element:", deque.getRear()); // Output: 2
+deque.printDeque(); // **Output**: -1 0 1 2
+console.log("Front element:", deque.getFront()); // **Output**: -1
+console.log("Rear element:", deque.getRear()); // **Output**: 2
 
 deque.removeFront();
 deque.removeRear();
 
-deque.printDeque(); // Output: 0 1
+deque.printDeque(); // **Output**: 0 1
 ```
 
 ### Time Complexity:
@@ -6173,14 +6173,14 @@ deque.addRear(2);
 deque.addFront(0);
 deque.addFront(-1);
 
-deque.printDeque(); // Output: -1 0 1 2
-console.log("Front element:", deque.getFront()); // Output: -1
-console.log("Rear element:", deque.getRear()); // Output: 2
+deque.printDeque(); // **Output**: -1 0 1 2
+console.log("Front element:", deque.getFront()); // **Output**: -1
+console.log("Rear element:", deque.getRear()); // **Output**: 2
 
 deque.removeFront();
 deque.removeRear();
 
-deque.printDeque(); // Output: 0 1
+deque.printDeque(); // **Output**: 0 1
 ```
 
 ### Time Complexity:
@@ -6390,7 +6390,7 @@ console.log("After deletion:");
 console.log(JSON.stringify(root, null, 2));
 ```
 
-### Explanation:
+### **Explanation**:
 
 - **Case 1 (Leaf Node)**: When the node has no children, the node is set to `null`.
 - **Case 2 (One Child)**: When the node has only one child, the node is replaced by its child.
@@ -6535,7 +6535,7 @@ console.log("Floor of", key, "is", findFloor(bst.root, key)); // Floor of 6 is 5
 console.log("Ceiling of", key, "is", findCeil(bst.root, key)); // Ceiling of 6 is 7
 ```
 
-### Explanation:
+### **Explanation**:
 - **Floor**: Traverse the tree, and if you find a node that is less than or equal to the target, move right, but keep track of the most recent value that meets this condition.
 - **Ceiling**: Traverse the tree, and if you find a node greater than or equal to the target, move left, but keep track of the most recent value that meets this condition.
 
@@ -6724,7 +6724,7 @@ console.log("In-order traversal of the balanced AVL tree:");
 avl.inOrder(avl.root);  // Output will be in sorted order
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Insertion**: The `insert` function inserts a node like in a regular BST, but after every insertion, it checks if the tree has become unbalanced. If it has, appropriate rotations (right, left, left-right, or right-left) are performed to balance the tree.
 2. **Rotation**: Right and left rotations are performed to restore balance when necessary.
 
@@ -6742,20 +6742,20 @@ According to the definition of LCA on Wikipedia: “The lowest common ancestor i
 
 Example 1:
 
-Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8\
-Output: 6\
-Explanation: The LCA of nodes 2 and 8 is 6.
+**Input**: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8\
+**Output**: 6\
+**Explanation**: The LCA of nodes 2 and 8 is 6.
 
 Example 2:
 
-Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4\
-Output: 2\
-Explanation: The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+**Input**: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4\
+**Output**: 2\
+**Explanation**: The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
 
 Example 3:
 
-Input: root = [2,1], p = 2, q = 1\
-Output: 2
+**Input**: root = [2,1], p = 2, q = 1\
+**Output**: 2
 
 `video: (first see code)` https://www.youtube.com/watch?v=cOjLyASDJcc
 
@@ -6868,7 +6868,7 @@ let result = bst.findKthSmallest(k);
 console.log(`The ${k}th smallest element is ${result}`);
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Node class**:
    - Each node stores the value `data`, pointers to `left` and `right` children, and a `size` attribute that represents the size of the subtree rooted at the current node.
    
@@ -6941,10 +6941,10 @@ root.left.left = new TreeNode(2);
 root.left.right = new TreeNode(7);
 root.right.right = new TreeNode(20);
 
-console.log(isValidBST(root)); // Output: true
+console.log(isValidBST(root)); // **Output**: true
 ```
 
-### Explanation:
+### **Explanation**:
 1. The function `isValidBST` takes three arguments: the current node (`node`), and optional `min` and `max` bounds.
 2. For each node, it checks if the node's value lies within the valid range defined by `min` and `max`.
 3. The function is called recursively for both left and right subtrees, updating the bounds accordingly.
@@ -7037,7 +7037,7 @@ function inorderPrint(node) {
 inorderPrint(root); // Output should be: 2, 5, 7, 10, 15, 20
 ```
 
-### Explanation:
+### **Explanation**:
 - **In-order Traversal**: The tree is traversed in-order (left -> node -> right). For a valid BST, the in-order traversal will result in values in increasing order.
 - **Identify Swapped Nodes**: The algorithm detects two nodes that violate this order.
   - The first node (`first`) is identified when the current node value is less than the previous node value.
@@ -7122,7 +7122,7 @@ if (result) {
 }
 ```
 
-### Explanation:
+### **Explanation**:
 1. **In-order Traversal**: We traverse the tree in-order, which guarantees that the values will be sorted in ascending order.
 2. **Two-pointer Technique**: Once we have the sorted array, we use two pointers (`left` and `right`). The `left` pointer starts from the beginning, and the `right` pointer starts from the end. We move them based on the sum of the values they point to:
    - If the sum is equal to the target, we return the pair.
@@ -7168,7 +7168,7 @@ if (!found) {
 }
 ```
 
-### Explanation:
+### **Explanation**:
 - As you traverse the tree, you store each value in the set.
 - For each node, you check if its complement (`target - node.value`) exists in the set. If it does, you have found a pair.
 - This approach runs in `O(n)` time and uses `O(n)` space for the set.
@@ -7229,10 +7229,10 @@ root.right.right = new Node(6);
 
 // Calculate the height of the tree
 let treeHeight = height(root);
-console.log("Height of the binary tree is:", treeHeight);  // Output: 2
+console.log("Height of the binary tree is:", treeHeight);  // **Output**: 2
 ```
 
-### Explanation:
+### **Explanation**:
 In this example:
 - The binary tree looks like this:
   ```
@@ -7307,7 +7307,7 @@ console.log(`Nodes at distance ${k} from the root:`);
 printNodesAtDistanceK(root, k); 
 ```
 
-### Explanation:
+### **Explanation**:
 Given the following binary tree:
 ```
         10
@@ -7413,14 +7413,14 @@ function allocateBooks(books, students) {
 const books = [12, 34, 67, 90]; // Number of pages in books.
 const students = 2; // Number of students.
 
-console.log(allocateBooks(books, students)); // Output: 113
+console.log(allocateBooks(books, students)); // **Output**: 113
 ```
 
 
 
-### Explanation of Example
-- **Input:** `books = [12, 34, 67, 90], students = 2`
-- **Output:** `113`
+### **Explanation** of Example
+- ****Input**:** `books = [12, 34, 67, 90], students = 2`
+- ****Output**:** `113`
 - **Reason:** 
   - Allocate `[12, 34, 67]` to the first student (total = 113 pages).
   - Allocate `[90]` to the second student (total = 90 pages).
@@ -7516,12 +7516,12 @@ const root2 = new TreeNode(3,
     )
 );
 
-console.log(leafSimilar(root1, root2)); // Output: true
+console.log(leafSimilar(root1, root2)); // **Output**: true
 ```
 
 
 
-### Explanation:
+### **Explanation**:
 1. **Tree Traversal**: Use a helper function `getLeaves` to recursively collect the leaves of a tree.
 2. **Comparison**: Compare the leaf sequences for both trees to determine if they are identical.
 
@@ -7626,7 +7626,7 @@ function countDistinctElements(arr) {
 
 // Example usage:
 const array = [1, 2, 3, 4, 1, 2, 5];
-console.log(countDistinctElements(array)); // Output: 5
+console.log(countDistinctElements(array)); // **Output**: 5
 ```
 
 This solution has a time complexity of 𝑂(𝑛) because inserting elements into a Set and checking for duplicates is efficient.
@@ -7658,10 +7658,10 @@ function elementFrequencies(arr) {
 
 // Example usage:
 const array = [1, 2, 3, 4, 1, 2, 5];
-console.log(Object.fromEntries(elementFrequencies(array))); // Output: {1: 2, 2: 2, 3: 1, 4: 1, 5: 1}
+console.log(Object.fromEntries(elementFrequencies(array))); // **Output**: {1: 2, 2: 2, 3: 1, 4: 1, 5: 1}
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Map**: We use a `Map` to store each unique element and its frequency.
 2. **Loop and Count**: For each element in the array, we check if it exists in the `Map`. If it does, we increment its count; otherwise, we initialize it with `1`.
 3. **Output**: The function returns a `Map`, where each key is an element, and the corresponding value is its frequency.
@@ -7696,10 +7696,10 @@ function arrayIntersection(arr1, arr2) {
 // Example usage:
 const array1 = [1, 2, 3, 4, 5];
 const array2 = [4, 5, 6, 7, 8];
-console.log(arrayIntersection(array1, array2)); // Output: [4, 5]
+console.log(arrayIntersection(array1, array2)); // **Output**: [4, 5]
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Convert to Set**: We convert `arr1` to a `Set` (`set1`) to make lookups for elements in `arr2` efficient.
 2. **Intersection Set**: We create another `Set` to store elements found in both arrays, ensuring that each element is added only once.
 3. **Convert Back to Array**: Finally, we convert the `Set` back to an array to return the result.
@@ -7725,10 +7725,10 @@ function arrayUnion(arr1, arr2) {
 // Example usage:
 const array1 = [1, 2, 3, 4, 5];
 const array2 = [4, 5, 6, 7, 8];
-console.log(arrayUnion(array1, array2)); // Output: [1, 2, 3, 4, 5, 6, 7, 8]
+console.log(arrayUnion(array1, array2)); // **Output**: [1, 2, 3, 4, 5, 6, 7, 8]
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Combine Arrays**: Use the spread operator `...` to merge `arr1` and `arr2` into a single array.
 2. **Remove Duplicates**: Pass the combined array into a `Set`, which will automatically remove duplicates, resulting in the unique union of both arrays.
 3. **Convert Back to Array**: Finally, convert the `Set` back to an array for the final result.
@@ -7766,10 +7766,10 @@ function findPairWithSum(arr, targetSum) {
 // Example usage:
 const array = [3, 5, 2, -4, 8, 11];
 const target = 7;
-console.log(findPairWithSum(array, target)); // Output: [5, 2]
+console.log(findPairWithSum(array, target)); // **Output**: [5, 2]
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Set for Lookups**: We use a `Set` called `seenNumbers` to store numbers we’ve already encountered.
 2. **Calculate Complement**: For each element `num`, calculate the `complement` as `targetSum - num`.
 3. **Check in Set**: If the `complement` is already in `seenNumbers`, we’ve found the pair `[complement, num]` that adds up to `targetSum`.
@@ -7808,10 +7808,10 @@ function hasZeroSumSubarray(arr) {
 
 // Example usage:
 const array = [4, 2, -3, 1, 6];
-console.log(hasZeroSumSubarray(array)); // Output: true
+console.log(hasZeroSumSubarray(array)); // **Output**: true
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Cumulative Sum**: We keep a running total, `cumulativeSum`, as we iterate through the array.
 2. **Check for Zero Sum**: 
    - If `cumulativeSum` is `0`, a subarray from the start to the current index has a zero sum.
@@ -7864,7 +7864,7 @@ const target = 33;
 console.log(subarrayWithGivenSum(array, target)); // Output: [20, 3, 10]
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Sliding Window**: We use two pointers, `start` and `end`, to represent the current subarray.
 2. **Expand and Shrink Window**: 
    - Add elements to `currentSum` by moving `end`.
@@ -7912,10 +7912,10 @@ function subarrayWithGivenSumMixed(arr, targetSum) {
 // Example usage:
 const arrayMixed = [10, 2, -2, -20, 10];
 const targetMixed = -10;
-console.log(subarrayWithGivenSumMixed(arrayMixed, targetMixed)); // Output: [10, 2, -2, -20]
+console.log(subarrayWithGivenSumMixed(arrayMixed, targetMixed)); // **Output**: [10, 2, -2, -20]
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Cumulative Sum**: We maintain a cumulative sum as we iterate through the array.
 2. **Check for Target Sum**:
    - If `cumulativeSum` equals `targetSum`, we have found a subarray from the start.
@@ -7935,21 +7935,21 @@ Given an integer array nums, find the subarray with the largest sum, and return 
 
 Example 1:
 
-Input: nums = [-2,1,-3,4,-1,2,1,-5,4]\
-Output: 6\
-Explanation: The subarray [4,-1,2,1] has the largest sum 6.
+**Input**: nums = [-2,1,-3,4,-1,2,1,-5,4]\
+**Output**: 6\
+**Explanation**: The subarray [4,-1,2,1] has the largest sum 6.
 
 Example 2:
 
-Input: nums = [1]\
-Output: 1\
-Explanation: The subarray [1] has the largest sum 1.
+**Input**: nums = [1]\
+**Output**: 1\
+**Explanation**: The subarray [1] has the largest sum 1.
 
 Example 3:
 
-Input: nums = [5,4,-1,7,8]\
-Output: 23\
-Explanation: The subarray [5,4,-1,7,8] has the largest sum 23.
+**Input**: nums = [5,4,-1,7,8]\
+**Output**: 23\
+**Explanation**: The subarray [5,4,-1,7,8] has the largest sum 23.
 
 ```js
 function maxSubArray(nums) {
@@ -7969,7 +7969,7 @@ function maxSubArray(nums) {
 
 // Example usage
 const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
-console.log(maxSubArray(nums)); // Output: 6 (Subarray: [4, -1, 2, 1])
+console.log(maxSubArray(nums)); // **Output**: 6 (Subarray: [4, -1, 2, 1])
 ```
 
 <br>
@@ -8018,10 +8018,10 @@ function longestSubarrayWithGivenSum(arr, targetSum) {
 // Example usage:
 const array = [10, 5, 2, 7, 1, 9];
 const target = 15;
-console.log(longestSubarrayWithGivenSum(array, target)); // Output: 4 ([5, 2, 7, 1])
+console.log(longestSubarrayWithGivenSum(array, target)); // **Output**: 4 ([5, 2, 7, 1])
 ```
 
-### Explanation
+### **Explanation**
 1. **Cumulative Sum**: We maintain a cumulative sum as we iterate through the array.
 2. **Check for Target Sum**:
    - If `cumulativeSum` equals `targetSum`, we’ve found a subarray from the start of the array to the current index with the target sum.
@@ -8074,10 +8074,10 @@ function findMaxLength(nums) {
 
 // Example usage
 const binaryArray = [0, 1, 0, 1, 1, 0, 0];
-console.log(findMaxLength(binaryArray)); // Output: 6
+console.log(findMaxLength(binaryArray)); // **Output**: 6
 ```
 
-### Explanation
+### **Explanation**
 1. Replace `0` with `-1` in the binary array: `[0, 1, 0, 1, 1, 0, 0]` → `[-1, 1, -1, 1, 1, -1, -1]`.
 2. Compute the prefix sum as you traverse:
    - At each index, check if the prefix sum has been seen before.
@@ -8147,12 +8147,12 @@ function countDistinctElements(arr, k) {
 // Example Usage:
 const arr = [1, 2, 1, 3, 4, 2, 3];
 const k = 4;
-console.log(countDistinctElements(arr, k)); // Output: [3, 4, 4, 3]
+console.log(countDistinctElements(arr, k)); // **Output**: [3, 4, 4, 3]
 ```
 
 
 
-### Explanation of the Example
+### **Explanation** of the Example
 Given `arr = [1, 2, 1, 3, 4, 2, 3]` and `k = 4`:
 1. First window `[1, 2, 1, 3]`: Distinct elements = {1, 2, 3} → Count = 3
 2. Second window `[2, 1, 3, 4]`: Distinct elements = {1, 2, 3, 4} → Count = 4
@@ -8352,8 +8352,8 @@ myGraph.addEdge(4, 5);
 console.log("Graph display:");
 myGraph.display();
 
-console.log("DFS Recursive:", myGraph.dfsRecursive(0)); // Expected Output: [0, 1, 3, 4, 5, 2]
-console.log("DFS Iterative:", myGraph.dfsIterative(0)); // Expected Output: [0, 2, 1, 4, 5, 3]
+console.log("DFS Recursive:", myGraph.dfsRecursive(0)); // Expected **Output**: [0, 1, 3, 4, 5, 2]
+console.log("DFS Iterative:", myGraph.dfsIterative(0)); // Expected **Output**: [0, 2, 1, 4, 5, 3]
 
 
 ```
@@ -8368,9 +8368,9 @@ Given an array rooms where rooms[i] is the set of keys that you can obtain if yo
 
 Example 1:
 
-Input: rooms = [[1],[2],[3],[]]\
-Output: true\
-Explanation:\
+**Input**: rooms = [[1],[2],[3],[]]\
+**Output**: true\
+**Explanation**:\
 We visit room 0 and pick up key 1.\
 We then visit room 1 and pick up key 2.\
 We then visit room 2 and pick up key 3.\
@@ -8379,9 +8379,9 @@ Since we were able to visit every room, we return true.
 
 Example 2:
 
-Input: rooms = [[1,3],[3,0,1],[2],[0]]\
-Output: false\
-Explanation: We can not enter room number 2 since the only key that unlocks it is in that room.
+**Input**: rooms = [[1,3],[3,0,1],[2],[0]]\
+**Output**: false\
+**Explanation**: We can not enter room number 2 since the only key that unlocks it is in that room.
 
 `video: ` https://youtu.be/d0J-s0ZdYsY?si=wCQqajThu2f-014K
 
@@ -8473,10 +8473,10 @@ myGraph.addEdge(4, 5);
 console.log("Graph display:");
 myGraph.display();
 
-console.log("Shortest path from 0 to 5:", myGraph.shortestPath(0, 5));  // Expected Output: [0, 1, 4, 5]
+console.log("Shortest path from 0 to 5:", myGraph.shortestPath(0, 5));  // Expected **Output**: [0, 1, 4, 5]
 ```
 
-### Explanation:
+### **Explanation**:
 1. **`queue = [[start]]`**: The queue holds paths, not just vertices. Initially, the path only contains the start vertex.
 2. **Visited Set**: Keeps track of visited vertices to avoid cycles.
 3. **BFS Process**: 
@@ -8569,10 +8569,10 @@ myGraph.addEdge("D", "C");
 console.log("Graph display:");
 myGraph.display();
 
-console.log("Topological Sort:", myGraph.topologicalSort());  // Expected Output: [ 'F', 'A', 'B', 'D', 'C' ]
+console.log("Topological Sort:", myGraph.topologicalSort());  // Expected **Output**: [ 'F', 'A', 'B', 'D', 'C' ]
 ```
 
-### Explanation:
+### **Explanation**:
 1. **Graph Representation**: The graph is represented as an adjacency list, where each vertex has a directed edge pointing to its neighbors.
 2. **DFS for Topological Sort**:
    - **Visited Set**: A set is used to track visited vertices.
@@ -8702,10 +8702,10 @@ myGraph.addEdge("D", "C");
 console.log("Graph display:");
 myGraph.display();
 
-console.log("Topological Sort:", myGraph.topologicalSort());  // Expected Output: [ 'F', 'A', 'B', 'D', 'C' ]
+console.log("Topological Sort:", myGraph.topologicalSort());  // Expected **Output**: [ 'F', 'A', 'B', 'D', 'C' ]
 ```
 
-### Explanation:
+### **Explanation**:
 1. **In-degree Calculation**:
    - For each vertex, the in-degree is calculated by counting how many incoming edges it has. This is stored in the `inDegree` object.
    - Vertices with no incoming edges (in-degree = 0) are the ones that can be processed immediately.
@@ -8819,10 +8819,10 @@ myGraph.addEdge("1", "3");
 console.log("Graph display:");
 myGraph.display();
 
-console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected Output: true
+console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected **Output**: true
 ```
 
-### Explanation:
+### **Explanation**:
 1. **DFS Traversal**: The DFS traversal starts from a vertex, marks it as visited, and then recursively explores its neighbors.
 2. **Cycle Detection**: During traversal, if you encounter a visited vertex that is not the parent of the current vertex, it indicates a cycle.
 3. **Handling Disconnected Graphs**: The algorithm checks each component in case the graph is disconnected.
@@ -8927,10 +8927,10 @@ myGraph.addEdge("B", "D");
 console.log("Graph display:");
 myGraph.display();
 
-console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected Output: true
+console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected **Output**: true
 ```
 
-### Explanation:
+### **Explanation**:
 1. **DFS Traversal**: For each vertex, the algorithm performs a DFS to explore all its neighbors recursively.
 2. **Recursion Stack**: The recursion stack helps keep track of the vertices currently being visited. If a back edge is found (i.e., revisiting a vertex that’s still in the recursion stack), a cycle is detected.
 3. **Cycle Detection**: If any back edge is found during DFS traversal, a cycle exists in the graph.
@@ -9036,10 +9036,10 @@ myGraph.addEdge("B", "D");
 console.log("Graph display:");
 myGraph.display();
 
-console.log("Cycle detected using Kahn's Algorithm:", myGraph.hasCycleKahns());  // Expected Output: true
+console.log("Cycle detected using Kahn's Algorithm:", myGraph.hasCycleKahns());  // Expected **Output**: true
 ```
 
-### Explanation:
+### **Explanation**:
 1. **In-degree Calculation**: First, the in-degree (number of incoming edges) of each vertex is calculated.
 2. **Processing Queue**: All vertices with in-degree 0 are enqueued. These are vertices with no dependencies, so they can be safely processed.
 3. **Cycle Detection**: As you process vertices, you reduce the in-degrees of their neighbors. If you cannot process all vertices, it means there are some vertices with in-degrees that never reached 0, indicating a cycle.
@@ -9176,14 +9176,14 @@ let shortestPaths = graph.shortestPath("0");
 console.log("Shortest distances from source vertex 0:", shortestPaths);
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Graph Initialization**: The graph is represented using an adjacency list where each vertex has a list of neighbors with associated weights.
 2. **Topological Sort**: A helper function `topologicalSortUtil` is used to recursively perform a DFS and push vertices onto a stack in post-order. The vertices are processed in the reverse order of the stack to guarantee that each vertex is processed before its descendants.
 3. **Relaxation**: For each vertex in the topologically sorted order, we check each neighbor and update its shortest distance using dynamic programming.
 4. **Result**: The `shortestPath` function computes the shortest distances from the source vertex to every other vertex in the DAG.
 
-### Example Output:
+### Example **Output**:
 ```
 Shortest distances from source vertex 0:
 { '0': 0, '1': 5, '2': 3, '3': 11, '4': 7, '5': 10 }
@@ -9378,7 +9378,7 @@ graph.addEdge('D', 'E', 2);
 graph.primMST();
 ```
 
-### Output:
+### **Output**:
 
 ```
 Edge: A - B, Weight: 2
@@ -9387,7 +9387,7 @@ Edge: B - D, Weight: 1
 Edge: D - E, Weight: 2
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Graph Representation**: The graph is represented as an adjacency list, where each vertex stores a list of neighbors and the weight of the edge connecting them.
    
@@ -9598,14 +9598,14 @@ console.log("Distances:", result.distances);  // Shortest distances from source 
 graph.printPath(result.previous, "D");        // Print the shortest path from A to D
 ```
 
-### Output:
+### **Output**:
 
 ```
 Distances: { A: 0, B: 4, C: 2, D: 5, E: 6 }
 Shortest path to D: A -> C -> D
 ```
 
-### Explanation:
+### **Explanation**:
 - **Graph Representation**: The graph is represented using an adjacency list, where each vertex stores a list of its neighbors along with the edge weight.
   
 - **Dijkstra's Algorithm**:
@@ -9762,13 +9762,13 @@ let sccs = g.kosaraju();
 console.log("Strongly Connected Components:", sccs);
 ```
 
-### Output:
+### **Output**:
 
 ```
 Strongly Connected Components: [ [ 4 ], [ 3 ], [ 0, 1, 2 ] ]
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Original DFS (fillOrder)**:
    - We start by performing a DFS on the original graph. As each vertex finishes, we push it onto the stack. This ensures that vertices with no outgoing edges are processed first.
@@ -9874,7 +9874,7 @@ g.addEdge(4, 3, -3);
 g.bellmanFord(0);
 ```
 
-### Output:
+### **Output**:
 
 ```
 Vertex   Distance from Source
@@ -9885,7 +9885,7 @@ Vertex   Distance from Source
 4         1
 ```
 
-### Explanation:
+### **Explanation**:
 - **Graph Representation**: The graph is represented using an edge list. Each edge is stored as a tuple \([u, v, w]\), where \(u\) is the start vertex, \(v\) is the end vertex, and \(w\) is the edge weight.
   
 - **Bellman-Ford Algorithm**:
@@ -9912,7 +9912,7 @@ If we add an edge to create a negative weight cycle, such as:
 g.addEdge(2, 4, -6);
 ```
 
-Now running the algorithm would output:
+Now running the algorithm would **Output**:
 
 ```
 Graph contains a negative weight cycle.
@@ -10056,7 +10056,7 @@ g.addEdge(0, 4);
 g.findBridges();
 ```
 
-### Output:
+### **Output**:
 
 ```
 Bridges in the graph:
@@ -10065,7 +10065,7 @@ Bridge between vertices 3 and 4
 Bridge between vertices 4 and 5
 ```
 
-### Explanation:
+### **Explanation**:
 - **Edge (1, 2)** is a bridge because removing it will disconnect vertex 2 from the rest of the graph.
 - **Edge (3, 4)** is a bridge because removing it will disconnect vertices 4 and 5 from the rest of the graph.
 - **Edge (4, 5)** is a bridge because removing it will disconnect vertex 5.
@@ -10181,13 +10181,13 @@ const result = activitySelection(activities);
 console.log("Selected activities:", result);
 ```
 
-### Output:
+### **Output**:
 
 ```
 Selected activities: [ [ 1, 3 ], [ 4, 6 ], [ 6, 8 ], [ 8, 9 ] ]
 ```
 
-### Explanation:
+### **Explanation**:
 - The sorted activities based on finish time are: \([1,3]\), \([4,6]\), \([2,5]\), \([5,7]\), \([6,8]\), \([8,9]\).
 - The selected activities are: \([1,3]\), \([4,6]\), \([6,8]\), \([8,9]\), ensuring maximum activity selection without any overlaps.
 
@@ -10292,12 +10292,12 @@ const maxValue = fractionalKnapsack(items, capacity);
 console.log("Maximum value in knapsack:", maxValue);
 ```
 
-### Output:
+### **Output**:
 ```
 Maximum value in knapsack: 240
 ```
 
-### Explanation:
+### **Explanation**:
 - The items are sorted by their value-to-weight ratio.
 - The algorithm adds full Item 1 and Item 2 to the knapsack and then takes a fraction (two-thirds) of Item 3 to fill the remaining capacity.
 - The total value is 240, which is the maximum value that can be obtained for the given knapsack capacity.
@@ -10411,13 +10411,13 @@ console.log("Scheduled jobs:", result.timeSlots);
 console.log("Total profit:", result.totalProfit);
 ```
 
-### Output:
+### **Output**:
 ```
 Scheduled jobs: [ { id: 'J3', deadline: 2, profit: 27 }, { id: 'J1', deadline: 2, profit: 100 }, { id: 'J5', deadline: 3, profit: 15 } ]
 Total profit: 142
 ```
 
-### Explanation:
+### **Explanation**:
 - The algorithm schedules the jobs with the highest profit in the latest available time slots.
 - The final job sequence is \( J3, J1, J5 \), and the total profit is 142.
 
@@ -10531,7 +10531,7 @@ const maze = [
 solveMaze(maze);
 ```
 
-### Example Output:
+### Example **Output**:
 
 For the given `maze`:
 
@@ -10558,7 +10558,7 @@ One possible solution:
 
 This path takes the rat from the top-left corner to the bottom-right corner by following open cells (1).
 
-### Explanation:
+### **Explanation**:
 
 1. **isSafe function**:
    - Checks if the move is valid by ensuring the position is within bounds and the cell is not blocked (`1`).
@@ -10673,7 +10673,7 @@ console.log("Solutions:");
 solutions.forEach((solution) => console.log(solution.join("\n"), "\n"));
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **isSafe function**:
    - It checks if placing a queen at `board[row][col]` is valid by checking:
@@ -10808,7 +10808,7 @@ solveSudoku(board);
 console.log(board);
 ```
 
-### Example Output:
+### Example **Output**:
 
 For the given initial `board`, the output will be a valid solved Sudoku:
 
@@ -10826,7 +10826,7 @@ For the given initial `board`, the output will be a valid solved Sudoku:
 ]
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **isValid function**:
    - This function checks if placing the number `num` in the position `board[row][col]` is valid by ensuring that:
@@ -10878,16 +10878,16 @@ Given an integer array nums representing the amount of money of each house, retu
 
 Example 1:
 
-Input: nums = [1,2,3,1]\
-Output: 4\
-Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).\
+**Input**: nums = [1,2,3,1]\
+**Output**: 4\
+**Explanation**: Rob house 1 (money = 1) and then rob house 3 (money = 3).\
 Total amount you can rob = 1 + 3 = 4.
 
 Example 2:
 
-Input: nums = [2,7,9,3,1]\
-Output: 12\
-Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).\
+**Input**: nums = [2,7,9,3,1]\
+**Output**: 12\
+**Explanation**: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).\
 Total amount you can rob = 2 + 9 + 1 = 12.
 
 
@@ -10911,8 +10911,8 @@ function rob(nums) {
 }
 
 // Example usage:
-console.log(rob([1, 2, 3, 1])); // Output: 4
-console.log(rob([2, 7, 9, 3, 1])); // Output: 12
+console.log(rob([1, 2, 3, 1])); // **Output**: 4
+console.log(rob([2, 7, 9, 3, 1])); // **Output**: 12
 ```
 
 
@@ -10930,16 +10930,16 @@ Each time you can either climb 1 or 2 steps. In how many distinct ways can you c
 
 Example 1:
 
-Input: n = 2
-Output: 2
-Explanation: There are two ways to climb to the top.
+**Input**: n = 2
+**Output**: 2
+**Explanation**: There are two ways to climb to the top.
 1. 1 step + 1 step
 2. 2 steps
 Example 2:
 
-Input: n = 3
-Output: 3
-Explanation: There are three ways to climb to the top.
+**Input**: n = 3
+**Output**: 3
+**Explanation**: There are three ways to climb to the top.
 1. 1 step + 1 step + 1 step
 2. 1 step + 2 steps
 3. 2 steps + 1 step
@@ -10964,8 +10964,8 @@ function climbStairs(n) {
 }
 
 // Example usage:
-console.log(climbStairs(2)); // Output: 2
-console.log(climbStairs(3)); // Output: 3
+console.log(climbStairs(2)); // **Output**: 2
+console.log(climbStairs(3)); // **Output**: 3
 ```
 
 
@@ -11001,7 +11001,7 @@ function fib(n, memo = {}) {
     return memo[n];
 }
 
-console.log(fib(10)); // Output: 55
+console.log(fib(10)); // **Output**: 55
 ```
 
 **Fibonacci using DP (Tabulation):**
@@ -11021,7 +11021,7 @@ function fib(n) {
     return dp[n];
 }
 
-console.log(fib(10)); // Output: 55
+console.log(fib(10)); // **Output**: 55
 ```
 
 
@@ -11056,7 +11056,7 @@ const weights = [1, 3, 4, 5];
 const values = [1, 4, 5, 7];
 const W = 7;
 
-console.log(knapsack(weights, values, W)); // Output: 9
+console.log(knapsack(weights, values, W)); // **Output**: 9
 ```
 
 3. **Longest Common Subsequence (LCS)**:   ( [Youtube video](https://www.youtube.com/watch?v=0yvOxPwe3Dg&ab_channel=AnujBhaiya) )
@@ -11083,7 +11083,7 @@ function lcs(str1, str2) {
     return dp[m][n];
 }
 
-console.log(lcs("abcdgh", "aedfhr")); // Output: 3 (The LCS is "adh")
+console.log(lcs("abcdgh", "aedfhr")); // **Output**: 3 (The LCS is "adh")
 ```
 
 4. **Longest Increasing Subsequence (LIS)**:     ( [Youtube video](https://www.youtube.com/watch?v=okgM58Tv9jQ&ab_channel=ApnaCollege) )
@@ -11108,7 +11108,7 @@ function lis(arr) {
 }
 
 const arr = [10, 22, 9, 33, 21, 50, 41, 60, 80];
-console.log(lis(arr)); // Output: 6 (The LIS is [10, 22, 33, 50, 60, 80])
+console.log(lis(arr)); // **Output**: 6 (The LIS is [10, 22, 33, 50, 60, 80])
 ```
 
 #### maximum sum increasing subsequence
@@ -11118,9 +11118,9 @@ The **Maximum Sum Increasing Subsequence** (MSIS) problem is a variation of the 
 Given an array of integers, find the sum of the maximum sum subsequence that is strictly increasing.
 
 ### Example:
-- Input: `[1, 101, 2, 3, 100, 4, 5]`
-- Output: `106`
-  - Explanation: The subsequence with the maximum sum is `[1, 2, 3, 100]` which sums to `106`.
+- **Input**: `[1, 101, 2, 3, 100, 4, 5]`
+- **Output**: `106`
+  - **Explanation**: The subsequence with the maximum sum is `[1, 2, 3, 100]` which sums to `106`.
 
 ### Dynamic Programming Approach:
 
@@ -11154,10 +11154,10 @@ function maxSumIncreasingSubsequence(arr) {
 
 // Example usage:
 const arr = [1, 101, 2, 3, 100, 4, 5];
-console.log(maxSumIncreasingSubsequence(arr)); // Output: 106
+console.log(maxSumIncreasingSubsequence(arr)); // **Output**: 106
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Initialization**: The `dp` array is initialized with the same values as the input array since the minimum subsequence ending at each index is the element itself.
 2. **Update the dp array**:
@@ -11207,7 +11207,7 @@ function editDistance(str1, str2) {
     return dp[m][n];
 }
 
-console.log(editDistance("kitten", "sitting")); // Output: 3
+console.log(editDistance("kitten", "sitting")); // **Output**: 3
 ```
 
 > ### coin change problem using DP   ( [Youtube video](https://www.youtube.com/watch?v=-NTaXJ7BBXs&ab_channel=AnujBhaiya) )
@@ -11257,10 +11257,10 @@ function coinChange(coins, amount) {
 // Example usage:
 const coins = [1, 2, 5];
 const amount = 11;
-console.log(coinChange(coins, amount)); // Output: 3 (5 + 5 + 1)
+console.log(coinChange(coins, amount)); // **Output**: 3 (5 + 5 + 1)
 ```
 
-### Explanation:
+### **Explanation**:
 
 - The `dp[]` array stores the minimum number of coins required to make each amount.
 - For every amount `i`, we loop through the list of coins. If the coin can contribute to the current amount (`i - coin >= 0`), we update the value of `dp[i]` by comparing the current value of `dp[i]` and `dp[i - coin] + 1` (where `+1` is for including the current coin).
@@ -11277,7 +11277,7 @@ The problem asks to find out how many different ways we can make a given amount 
 #### Example:
 - Coins: `[1, 2, 5]`
 - Amount: `5`
-- Output: `4` (The combinations are `[1,1,1,1,1]`, `[1,1,1,2]`, `[1,2,2]`, and `[5]`).
+- **Output**: `4` (The combinations are `[1,1,1,1,1]`, `[1,1,1,2]`, `[1,2,2]`, and `[5]`).
 
 #### Dynamic Programming Solution (Number of Ways):
 
@@ -11304,10 +11304,10 @@ function countWays(coins, amount) {
 // Example usage:
 const coins = [1, 2, 5];
 const amount = 5;
-console.log(countWays(coins, amount)); // Output: 4
+console.log(countWays(coins, amount)); // **Output**: 4
 ```
 
-### Explanation:
+### **Explanation**:
 
 - The `dp[]` array stores the number of ways to make each amount.
 - For each coin, we update all amounts that can be made using that coin.
@@ -11341,9 +11341,9 @@ Each element in the array represents the maximum number of steps that can be tak
 Given an array of integers `arr[]` where each element represents the maximum number of steps that can be taken forward from that element, you need to find the **minimum number of jumps** to reach the end of the array, starting from the first element.
 
 ### Example:
-- Input: `[2, 3, 1, 1, 2, 4, 2, 0, 1, 1]`
-- Output: `4`
-  - Explanation: The minimum jumps to reach the end are `2 → 3 → 4 → end`.
+- **Input**: `[2, 3, 1, 1, 2, 4, 2, 0, 1, 1]`
+- **Output**: `4`
+  - **Explanation**: The minimum jumps to reach the end are `2 → 3 → 4 → end`.
 
 ### Dynamic Programming Approach:
 
@@ -11378,10 +11378,10 @@ function minJumps(arr) {
 
 // Example usage:
 const arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1];
-console.log(minJumps(arr)); // Output: 4
+console.log(minJumps(arr)); // **Output**: 4
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Initialization**:
    - The `dp[]` array is initialized with `Infinity`, except for `dp[0]` which is `0` because no jumps are needed to reach the first index.
@@ -11440,10 +11440,10 @@ function minJumps(arr) {
 
 // Example usage:
 const arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1];
-console.log(minJumps(arr)); // Output: 4
+console.log(minJumps(arr)); // **Output**: 4
 ```
 
-### Explanation of Greedy Approach:
+### **Explanation** of Greedy Approach:
 1. Start with the number of `steps` available at the first index, and keep track of `maxReach`, which is the farthest point we can reach at any point.
 2. Whenever the number of `steps` becomes `0`, a jump is necessary, so increment the `jumps` counter.
 3. The process continues until we reach the last index.
@@ -11707,7 +11707,7 @@ class Heap {
 }
 ```
 
-### Explanation:
+### **Explanation**:
 1. **`heapify()`**: The `heapify` function starts from the last non-leaf node (the parent of the last element) and performs the sink down operation on every node up to the root. This ensures that the entire array satisfies the heap property.
    - The last non-leaf node is at index `Math.floor((n - 1) / 2)`, where `n` is the size of the heap (or array).
 2. **`#sinkDown()`**: This is the same as before and ensures that each node satisfies the heap property by swapping the current node with its larger child if necessary.
@@ -11719,7 +11719,7 @@ Now, you can create a heap from any random array by passing it to the constructo
 let randomArray = [3, 9, 2, 1, 4, 5];
 let heap = new Heap(randomArray);
 
-console.log(heap.getHeap());  // Output: The array rearranged as a valid max-heap
+console.log(heap.getHeap());  // **Output**: The array rearranged as a valid max-heap
 ```
 
 If you run this, the `randomArray` will be rearranged to form a valid max-heap.
@@ -11854,7 +11854,7 @@ class Heap {
 }
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Heapify**: The array is first heapified using the `heapify()` function.
 2. **Heap Sort**:
@@ -11990,7 +11990,7 @@ class PriorityQueue {
 }
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **Insert**: When inserting an element, we add it to the end of the heap (array) and then "bubble up" to ensure the heap property is maintained (i.e., parents are larger than children for a max-heap).
    
@@ -12142,7 +12142,7 @@ let sortedArray = sortKSortedArray(arr, k);
 console.log("Sorted array:", sortedArray);
 ```
 
-### Explanation:
+### **Explanation**:
 
 1. **MinHeap Class**: This is a standard min-heap implementation with methods to `insert`, `extractMin`, `bubbleUp`, and `sinkDown` to maintain the heap property.
 2. **sortKSortedArray Function**:
@@ -12269,7 +12269,7 @@ console.log("Level Order Traversal Line by Line:");
 levelOrderTraversalLineByLine(root);
 ```
 
-### Output:
+### **Output**:
 For the following binary tree:
 ```
         1
@@ -12286,7 +12286,7 @@ The output of the level order traversal, line by line, will be:
 4 5 6 7
 ```
 
-### Explanation:
+### **Explanation**:
 - The root node `1` is printed first (level 0).
 - Then nodes `2` and `3` (children of `1`) are printed on the next line (level 1).
 - Finally, nodes `4`, `5`, `6`, and `7` (children of `2` and `3`) are printed on the next line (level 2).
@@ -12591,9 +12591,9 @@ Example 1:
 2 | 7 | 7
 ```
 
-Input: grid = [[3,2,1],[1,7,6],[2,7,7]]\
-Output: 1\
-Explanation: There is 1 equal row and column pair:
+**Input**: grid = [[3,2,1],[1,7,6],[2,7,7]]\
+**Output**: 1\
+**Explanation**: There is 1 equal row and column pair:
 - (Row 2, Column 1): [2,7,7]
 
 
@@ -12610,9 +12610,9 @@ Example 2:
 ```
 
 
-Input: grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]\
-Output: 3\
-Explanation: There are 3 equal row and column pairs:
+**Input**: grid = [[3,1,2,2],[1,4,4,5],[2,4,2,2],[2,4,2,2]]\
+**Output**: 3\
+**Explanation**: There are 3 equal row and column pairs:
 - (Row 0, Column 0): [3,1,2,2]
 - (Row 2, Column 2): [2,4,2,2]
 - (Row 3, Column 2): [2,4,2,2]
@@ -12648,7 +12648,7 @@ function equalRowAndColumnPairs(matrix) {
 
 // Example usage:
 const matrix = [[3,2,1],[1,7,6],[2,7,7]];
-console.log(equalRowAndColumnPairs(matrix)); // Output: 1
+console.log(equalRowAndColumnPairs(matrix)); // **Output**: 1
 ```
 
 
@@ -12660,14 +12660,14 @@ If there is no common prefix, return an empty string "".
 
 Example 1:
 
-Input: strs = ["flower","flow","flight"]\
-Output: "fl"
+**Input**: strs = ["flower","flow","flight"]\
+**Output**: "fl"
 
 Example 2:
 
-Input: strs = ["dog","racecar","car"]\
-Output: ""\
-Explanation: There is no common prefix among the input strings.
+**Input**: strs = ["dog","racecar","car"]\
+**Output**: ""\
+**Explanation**: There is no common prefix among the input strings.
 
 ```js
 function longestCommonPrefix(strs) {
@@ -12692,7 +12692,7 @@ function longestCommonPrefix(strs) {
 
 // Example Usage
 const strings = ["flower", "flow", "flight"];
-console.log(longestCommonPrefix(strings)); // Output: "fl"
+console.log(longestCommonPrefix(strings)); // **Output**: "fl"
 ```
 
 > ### 121. Best Time to Buy and Sell Stock
@@ -12705,16 +12705,16 @@ Return the maximum profit you can achieve from this transaction. If you cannot a
 
 Example 1:
 
-Input: prices = [7,1,5,3,6,4]\
-Output: 5\
-Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\
+**Input**: prices = [7,1,5,3,6,4]\
+**Output**: 5\
+**Explanation**: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\
 Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
 
 Example 2:
 
-Input: prices = [7,6,4,3,1]\
-Output: 0\
-Explanation: In this case, no transactions are done and the max profit = 0.
+**Input**: prices = [7,6,4,3,1]\
+**Output**: 0\
+**Explanation**: In this case, no transactions are done and the max profit = 0.
 
 ```js
 var maxProfit = function(prices) {
@@ -12745,9 +12745,9 @@ Return the minimum cost to fly every person to a city such that exactly n people
 
 Example 1:
 
-Input: costs = [[10,20],[30,200],[400,50],[30,20]]\
-Output: 110\
-Explanation:\ 
+**Input**: costs = [[10,20],[30,200],[400,50],[30,20]]\
+**Output**: 110\
+**Explanation**:\ 
 The first person goes to city A for a cost of 10.\
 The second person goes to city A for a cost of 30.\
 The third person goes to city B for a cost of 50.\
@@ -12757,13 +12757,13 @@ The total minimum cost is 10 + 30 + 50 + 20 = 110 to have half the people interv
 
 Example 2:
 
-Input: costs = [[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]]\
-Output: 1859
+**Input**: costs = [[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]]\
+**Output**: 1859
 
 Example 3:
 
-Input: costs = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,359],[631,42]]
-Output: 3086
+**Input**: costs = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,359],[631,42]]
+**Output**: 3086
 
 `video :` https://youtu.be/d-B_gk_gJtQ?si=9-KHhO0SYdM62wBe&t=304
 
@@ -12791,13 +12791,13 @@ function twoCitySchedCost(costs) {
 
 // Example usage
 const costs1 = [[10,20],[30,200],[400,50],[30,20]];
-console.log(twoCitySchedCost(costs1)); // Output: 110
+console.log(twoCitySchedCost(costs1)); // **Output**: 110
 
 const costs2 = [[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]];
-console.log(twoCitySchedCost(costs2)); // Output: 1859
+console.log(twoCitySchedCost(costs2)); // **Output**: 1859
 
 const costs3 = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,359],[631,42]];
-console.log(twoCitySchedCost(costs3)); // Output: 3086
+console.log(twoCitySchedCost(costs3)); // **Output**: 3086
 ```
 
 
@@ -12808,24 +12808,24 @@ Return the maximum difference. If no such i and j exists, return -1.
 
 Example 1:
 
-Input: nums = [7,1,5,4]\
-Output: 4\
-Explanation:\
+**Input**: nums = [7,1,5,4]\
+**Output**: 4\
+**Explanation**:\
 The maximum difference occurs with i = 1 and j = 2, nums[j] - nums[i] = 5 - 1 = 4.\
 Note that with i = 1 and j = 0, the difference nums[j] - nums[i] = 7 - 1 = 6, but i > j, so it is not valid.
 
 Example 2:
 
-Input: nums = [9,4,3,2]\
-Output: -1\
-Explanation:\
+**Input**: nums = [9,4,3,2]\
+**Output**: -1\
+**Explanation**:\
 There is no i and j such that i < j and nums[i] < nums[j].
 
 Example 3:
 
-Input: nums = [1,5,2,10]\
-Output: 9\
-Explanation:\
+**Input**: nums = [1,5,2,10]\
+**Output**: 9\
+**Explanation**:\
 The maximum difference occurs with i = 0 and j = 3, nums[j] - nums[i] = 10 - 1 = 9.
 
 Note - Basically iterate karenge, point pe min number compare kr k store karenge aur usi min se differnece nikal k store karenge
@@ -12848,10 +12848,10 @@ function maximumDifference(nums) {
 }
 
 // Example 1:
-console.log(maximumDifference([7, 1, 5, 4])); // Output: 4
+console.log(maximumDifference([7, 1, 5, 4])); // **Output**: 4
 
 // Example 2:
-console.log(maximumDifference([9, 4, 3, 2])); // Output: -1
+console.log(maximumDifference([9, 4, 3, 2])); // **Output**: -1
 ```
 
 
@@ -12862,18 +12862,18 @@ You must implement a solution with a `linear runtime complexity and use only con
 
 Example 1:
 
-Input: nums = [2,2,1]\
-Output: 1
+**Input**: nums = [2,2,1]\
+**Output**: 1
 
 Example 2:
 
-Input: nums = [4,1,2,1,2]\
-Output: 4
+**Input**: nums = [4,1,2,1,2]\
+**Output**: 4
 
 Example 3:
 
-Input: nums = [1]\
-Output: 1
+**Input**: nums = [1]\
+**Output**: 1
 
 ```js
 function singleNumber(nums) {
@@ -12897,9 +12897,9 @@ You are given an API bool isBadVersion(version) which returns whether version is
 
 Example 1:
 
-Input: n = 5, bad = 4\
-Output: 4\
-Explanation:\
+**Input**: n = 5, bad = 4\
+**Output**: 4\
+**Explanation**:\
 call isBadVersion(3) -> false\
 call isBadVersion(5) -> true\
 call isBadVersion(4) -> true\
@@ -12907,8 +12907,8 @@ Then 4 is the first bad version.
 
 Example 2:
 
-Input: n = 1, bad = 1\
-Output: 1
+**Input**: n = 1, bad = 1\
+**Output**: 1
 
 ```js
 /**
@@ -12958,13 +12958,13 @@ The transpose of a matrix is the matrix flipped over its main diagonal, switchin
 
 Example 1:
 
-Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]\
-Output: [[1,4,7],[2,5,8],[3,6,9]]
+**Input**: matrix = [[1,2,3],[4,5,6],[7,8,9]]\
+**Output**: [[1,4,7],[2,5,8],[3,6,9]]
 
 Example 2:
 
-Input: matrix = [[1,2,3],[4,5,6]]\
-Output: [[1,4],[2,5],[3,6]]
+**Input**: matrix = [[1,2,3],[4,5,6]]\
+**Output**: [[1,4],[2,5],[3,6]]
 
 ```js
 function transpose(matrix) {
@@ -12991,21 +12991,21 @@ An array nums is strictly increasing if nums[i] < nums[i+1] for all 0 <= i < num
 
 Example 1:
 
-Input: nums = [1,1,1]
-Output: 3\
-Explanation: You can do the following operations:\
+**Input**: nums = [1,1,1]
+**Output**: 3\
+**Explanation**: You can do the following operations:\
 1) Increment nums[2], so nums becomes [1,1,2].\
 2) Increment nums[1], so nums becomes [1,2,2].\
 3) Increment nums[2], so nums becomes [1,2,3].
 
 Example 2:
 
-Input: nums = [1,5,2,4,1]\
-Output: 14\
+**Input**: nums = [1,5,2,4,1]\
+**Output**: 14\
 Example 3:
 
-Input: nums = [8]\
-Output: 0
+**Input**: nums = [8]\
+**Output**: 0
 
 `video: `https://youtu.be/ttznU-BTqTk
 
@@ -13033,15 +13033,15 @@ In one move, you can increment n - 1 elements of the array by 1.
 
 Example 1:
 
-Input: nums = [1,2,3]\
-Output: 3\
-Explanation: Only three moves are needed (remember each move increments two elements):\
+**Input**: nums = [1,2,3]\
+**Output**: 3\
+**Explanation**: Only three moves are needed (remember each move increments two elements):\
 [1,2,3]  =>  [2,3,3]  =>  [3,4,3]  =>  [4,4,4]
 
 Example 2:
 
-Input: nums = [1,1,1]\
-Output: 0
+**Input**: nums = [1,1,1]\
+**Output**: 0
 
 To solve this problem, we can approach it mathematically. `Instead of incrementing \( n - 1 \) elements in each move, we can think of this as decrementing one element (effectively shifting the perspective)`. This approach simplifies the problem to finding the total difference between all elements and the smallest element.
 
@@ -13069,13 +13069,13 @@ var minMoves = function(nums) {
 };
 
 // Example 1
-console.log(minMoves([1, 2, 3])); // Output: 3
+console.log(minMoves([1, 2, 3])); // **Output**: 3
 
 // Example 2
-console.log(minMoves([1, 1, 1])); // Output: 0
+console.log(minMoves([1, 1, 1])); // **Output**: 0
 ```
 
-### Explanation:
+### **Explanation**:
 - In the example `[1, 2, 3]`, the smallest element is `1`. 
 - The total moves are `(2 - 1) + (3 - 1) = 1 + 2 = 3`. 
 - The array becomes `[4, 4, 4]` after 3 moves.
@@ -13093,9 +13093,9 @@ Return true if n is a happy number, and false if not.
 
 Example 1:
 
-Input: n = 19\
-Output: true\
-Explanation:\
+**Input**: n = 19\
+**Output**: true\
+**Explanation**:\
 12 + 92 = 82\
 82 + 22 = 68\
 62 + 82 = 100\
@@ -13103,8 +13103,8 @@ Explanation:\
 
 Example 2:
 
-Input: n = 2\
-Output: false
+**Input**: n = 2\
+**Output**: false
 
 ```js
 
@@ -13146,21 +13146,21 @@ Return the largest possible sum of the array after modifying it in this way.
 
 Example 1:
 
-Input: nums = [4,2,3], k = 1\
-Output: 5\
-Explanation: Choose index 1 and nums becomes [4,-2,3].
+**Input**: nums = [4,2,3], k = 1\
+**Output**: 5\
+**Explanation**: Choose index 1 and nums becomes [4,-2,3].
 
 Example 2:
 
-Input: nums = [3,-1,0,2], k = 3\
-Output: 6\
-Explanation: Choose indices (1, 2, 2) and nums becomes [3,1,0,2].
+**Input**: nums = [3,-1,0,2], k = 3\
+**Output**: 6\
+**Explanation**: Choose indices (1, 2, 2) and nums becomes [3,1,0,2].
 
 Example 3:
 
-Input: nums = [2,-3,-1,5,-4], k = 2\
-Output: 13\
-Explanation: Choose indices (1, 4) and nums becomes [2,3,-1,5,4].
+**Input**: nums = [2,-3,-1,5,-4], k = 2\
+**Output**: 13\
+**Explanation**: Choose indices (1, 4) and nums becomes [2,3,-1,5,4].
 
 
 `video:` https://www.youtube.com/watch?v=8GDHYgbxTN4
@@ -13188,10 +13188,10 @@ function largestSumAfterKNegations(nums, k) {
 }
 
 // Example 1
-console.log(largestSumAfterKNegations([4, 2, 3], 1)); // Output: 5
+console.log(largestSumAfterKNegations([4, 2, 3], 1)); // **Output**: 5
 
 // Example 2
-console.log(largestSumAfterKNegations([3, -1, 0, 2], 3)); // Output: 6
+console.log(largestSumAfterKNegations([3, -1, 0, 2], 3)); // **Output**: 6
 ```
 
 
@@ -13204,24 +13204,24 @@ Find and return the maximum profit you can achieve.
 
 Example 1:
 
-Input: prices = [7,1,5,3,6,4]\
-Output: 7\
-Explanation: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.\
+**Input**: prices = [7,1,5,3,6,4]\
+**Output**: 7\
+**Explanation**: Buy on day 2 (price = 1) and sell on day 3 (price = 5), profit = 5-1 = 4.\
 Then buy on day 4 (price = 3) and sell on day 5 (price = 6), profit = 6-3 = 3.\
 Total profit is 4 + 3 = 7.
 
 Example 2:
 
-Input: prices = [1,2,3,4,5]\
-Output: 4\
-Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.\
+**Input**: prices = [1,2,3,4,5]\
+**Output**: 4\
+**Explanation**: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.\
 Total profit is 4.
 
 Example 3:
 
-Input: prices = [7,6,4,3,1]\
-Output: 0\
-Explanation: There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.
+**Input**: prices = [7,6,4,3,1]\
+**Output**: 0\
+**Explanation**: There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.
 
 `video:` https://www.youtube.com/watch?v=Q7v239y-Tik
 
@@ -13246,7 +13246,7 @@ var maxProfit = function(prices) {
 
 // Example usage:
 const prices = [7, 1, 5, 3, 6, 4];
-console.log(maxProfit(prices)); // Output: 7
+console.log(maxProfit(prices)); // **Output**: 7
 ```
 
 
@@ -13264,9 +13264,9 @@ You are given two integer arrays students and sandwiches where sandwiches[i] is 
 
 Example 1:
 
-Input: students = [1,1,0,0], sandwiches = [0,1,0,1]\
-Output: 0 \
-Explanation:\
+**Input**: students = [1,1,0,0], sandwiches = [0,1,0,1]\
+**Output**: 0 \
+**Explanation**:\
 - Front student leaves the top sandwich and returns to the end of the line making students = [1,0,0,1].\
 - Front student leaves the top sandwich and returns to the end of the line making students = [0,0,1,1].\
 - Front student takes the top sandwich and leaves the line making students = [0,1,1] and sandwiches = [1,0,1].\
@@ -13279,8 +13279,8 @@ Hence all students are able to eat.
 
 Example 2:
 
-Input: students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]\
-Output: 3
+**Input**: students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]\
+**Output**: 3
 
 ```js
 function countStudents(students, sandwiches) {
@@ -13322,9 +13322,9 @@ Return the maximum total number of units that can be put on the truck.
 
 Example 1:
 
-Input: boxTypes = [[1,3],[2,2],[3,1]], truckSize = 4\
-Output: 8\
-Explanation: There are:\
+**Input**: boxTypes = [[1,3],[2,2],[3,1]], truckSize = 4\
+**Output**: 8\
+**Explanation**: There are:\
 - 1 box of the first type that contains 3 units.\
 - 2 boxes of the second type that contain 2 units each.\
 - 3 boxes of the third type that contain 1 unit each.\
@@ -13333,8 +13333,8 @@ The total number of units will be = (1 * 3) + (2 * 2) + (1 * 1) = 8.
 
 Example 2:
 
-Input: boxTypes = [[5,10],[2,5],[4,7],[3,9]], truckSize = 10\
-Output: 91
+**Input**: boxTypes = [[5,10],[2,5],[4,7],[3,9]], truckSize = 10\
+**Output**: 91
 
 ```js
 /**
@@ -13366,8 +13366,8 @@ var maximumUnits = function(boxTypes, truckSize) {
 };
 
 // Example usage:
-console.log(maximumUnits([[1,3],[2,2],[3,1]], 4)); // Output: 8
-console.log(maximumUnits([[5,10],[2,5],[4,7],[3,9]], 10)); // Output: 91
+console.log(maximumUnits([[1,3],[2,2],[3,1]], 4)); // **Output**: 8
+console.log(maximumUnits([[5,10],[2,5],[4,7],[3,9]], 10)); // **Output**: 91
 ```
 
 > ### 2027. Minimum Moves to Convert String
@@ -13379,24 +13379,24 @@ Return the minimum number of moves required so that all the characters of s are 
 
 Example 1:
 
-Input: s = "XXX"\
-Output: 1\
-Explanation: XXX -> OOO\
+**Input**: s = "XXX"\
+**Output**: 1\
+**Explanation**: XXX -> OOO\
 We select all the 3 characters and convert them in one move.
 
 Example 2:
 
-Input: s = "XXOX"\
-Output: 2\
-Explanation: XXOX -> OOOX -> OOOO\
+**Input**: s = "XXOX"\
+**Output**: 2\
+**Explanation**: XXOX -> OOOX -> OOOO\
 We select the first 3 characters in the first move, and convert them to 'O'.\
 Then we select the last 3 characters and convert them so that the final string contains all 'O's.
 
 Example 3:
 
-Input: s = "OOOO"\
-Output: 0\
-Explanation: There are no 'X's in s to convert.
+**Input**: s = "OOOO"\
+**Output**: 0\
+**Explanation**: There are no 'X's in s to convert.
 
 ```js
 function minimumMoves(s) {
@@ -13418,9 +13418,9 @@ function minimumMoves(s) {
 }
 
 // Example usage:
-console.log(minimumMoves("XXX")); // Output: 1
-console.log(minimumMoves("XXOX")); // Output: 2
-console.log(minimumMoves("OXOXOX")); // Output: 2
+console.log(minimumMoves("XXX")); // **Output**: 1
+console.log(minimumMoves("XXOX")); // **Output**: 2
+console.log(minimumMoves("OXOXOX")); // **Output**: 2
 ```
 
 
@@ -13434,15 +13434,15 @@ Note that the solution with the given constraints is guaranteed to be unique. Al
 
 Example 1:
 
-Input: nums = [4,3,10,9,8]\
-Output: [10,9]\
-Explanation: The subsequences [10,9] and [10,8] are minimal such that the sum of their elements is strictly greater than the sum of elements not included. However, the subsequence [10,9] has the maximum total sum of its elements. 
+**Input**: nums = [4,3,10,9,8]\
+**Output**: [10,9]\
+**Explanation**: The subsequences [10,9] and [10,8] are minimal such that the sum of their elements is strictly greater than the sum of elements not included. However, the subsequence [10,9] has the maximum total sum of its elements. 
 
 Example 2:
 
-Input: nums = [4,4,7,6,7]\
-Output: [7,7,6]\
-Explanation: The subsequence [7,7] has the sum of its elements equal to 14 which is not strictly greater than the sum of elements not included (14 = 4 + 4 + 6). Therefore, the subsequence [7,6,7] is the minimal satisfying the conditions. Note the subsequence has to be returned in non-increasing order.  
+**Input**: nums = [4,4,7,6,7]\
+**Output**: [7,7,6]\
+**Explanation**: The subsequence [7,7] has the sum of its elements equal to 14 which is not strictly greater than the sum of elements not included (14 = 4 + 4 + 6). Therefore, the subsequence [7,6,7] is the minimal satisfying the conditions. Note the subsequence has to be returned in non-increasing order.  
  
 ```js
 var minSubsequence = function(nums) {
@@ -13476,15 +13476,15 @@ It is guaranteed that the graph of paths forms a line without any loop, therefor
 
 Example 1:
 
-Input: paths = [["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]]\
-Output: "Sao Paulo" \
-Explanation: Starting at "London" city you will reach "Sao Paulo" city which is the destination city. Your trip consist of: "London" -> "New York" -> "Lima" -> "Sao Paulo".
+**Input**: paths = [["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]]\
+**Output**: "Sao Paulo" \
+**Explanation**: Starting at "London" city you will reach "Sao Paulo" city which is the destination city. Your trip consist of: "London" -> "New York" -> "Lima" -> "Sao Paulo".
 
 Example 2:
 
-Input: paths = [["B","C"],["D","B"],["C","A"]]\
-Output: "A"\
-Explanation: All possible trips are:\
+**Input**: paths = [["B","C"],["D","B"],["C","A"]]\
+**Output**: "A"\
+**Explanation**: All possible trips are:\
 "D" -> "B" -> "C" -> "A".\
 "B" -> "C" -> "A".\
 "C" -> "A".\
@@ -13493,8 +13493,8 @@ Clearly the destination city is "A".
 
 Example 3:
 
-Input: paths = [["A","Z"]]\
-Output: "Z"
+**Input**: paths = [["A","Z"]]\
+**Output**: "Z"
 
 ```js
 /**
@@ -13521,15 +13521,15 @@ var destCity = function(paths) {
 
 // Example 1
 console.log(destCity([["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]])); 
-// Output: "Sao Paulo"
+// **Output**: "Sao Paulo"
 
 // Example 2
 console.log(destCity([["B","C"],["D","B"],["C","A"]])); 
-// Output: "A"
+// **Output**: "A"
 
 // Example 3
 console.log(destCity([["A","Z"]])); 
-// Output: "Z"
+// **Output**: "Z"
 ```
 
 > ### 532. K-diff Pairs in an Array
@@ -13544,22 +13544,22 @@ Notice that |val| denotes the absolute value of val.
 
 Example 1:
 
-Input: nums = [3,1,4,1,5], k = 2\
-Output: 2\
-Explanation: There are two 2-diff pairs in the array, (1, 3) and (3, 5).\
+**Input**: nums = [3,1,4,1,5], k = 2\
+**Output**: 2\
+**Explanation**: There are two 2-diff pairs in the array, (1, 3) and (3, 5).\
 Although we have two 1s in the input, we should only return the number of unique pairs.
 
 Example 2:
 
-Input: nums = [1,2,3,4,5], k = 1\
-Output: 4\
-Explanation: There are four 1-diff pairs in the array, (1, 2), (2, 3), (3, 4) and (4, 5).
+**Input**: nums = [1,2,3,4,5], k = 1\
+**Output**: 4\
+**Explanation**: There are four 1-diff pairs in the array, (1, 2), (2, 3), (3, 4) and (4, 5).
 
 Example 3:
 
-Input: nums = [1,3,1,5,4], k = 0\
-Output: 1\
-Explanation: There is one 0-diff pair in the array, (1, 1).
+**Input**: nums = [1,3,1,5,4], k = 0\
+**Output**: 1\
+**Explanation**: There is one 0-diff pair in the array, (1, 1).
 
 ```js
 /**
@@ -13594,15 +13594,15 @@ var findPairs = function(nums, k) {
 
 // Example 1
 console.log(findPairs([3,1,4,1,5], 2)); 
-// Output: 2
+// **Output**: 2
 
 // Example 2
 console.log(findPairs([1,2,3,4,5], 1)); 
-// Output: 4
+// **Output**: 4
 
 // Example 3
 console.log(findPairs([1,3,1,5,4], 0)); 
-// Output: 1
+// **Output**: 1
 ```
 
 
@@ -13615,21 +13615,21 @@ Given n, return the total amount of money he will have in the Leetcode bank at t
 
 Example 1:
 
-Input: n = 4\
-Output: 10\
-Explanation: After the 4th day, the total is 1 + 2 + 3 + 4 = 10.
+**Input**: n = 4\
+**Output**: 10\
+**Explanation**: After the 4th day, the total is 1 + 2 + 3 + 4 = 10.
 
 Example 2:
 
-Input: n = 10\
-Output: 37\
-Explanation: After the 10th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4) = 37. Notice that on the 2nd Monday, Hercy only puts in $2.
+**Input**: n = 10\
+**Output**: 37\
+**Explanation**: After the 10th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4) = 37. Notice that on the 2nd Monday, Hercy only puts in $2.
 
 Example 3:
 
-Input: n = 20\
-Output: 96\
-Explanation: After the 20th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4 + 5 + 6 + 7 + 8) + (3 + 4 + 5 + 6 + 7 + 8) = 96.
+**Input**: n = 20\
+**Output**: 96\
+**Explanation**: After the 20th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4 + 5 + 6 + 7 + 8) + (3 + 4 + 5 + 6 + 7 + 8) = 96.
 
 ```js
 /**
@@ -13652,15 +13652,15 @@ var totalMoney = function(n) {
 
 // Example 1
 console.log(totalMoney(4)); 
-// Output: 10
+// **Output**: 10
 
 // Example 2
 console.log(totalMoney(10)); 
-// Output: 37
+// **Output**: 37
 
 // Example 3
 console.log(totalMoney(20)); 
-// Output: 96
+// **Output**: 96
 ```
 
 
@@ -13671,9 +13671,9 @@ Return an integer array answer where answer[i] is the answer to the ith query.
 
 Example 1:
 
-Input: nums = [1,2,3,4], queries = [[1,0],[-3,1],[-4,0],[2,3]]\
-Output: [8,6,2,4]\
-Explanation: At the beginning, the array is [1,2,3,4].\
+**Input**: nums = [1,2,3,4], queries = [[1,0],[-3,1],[-4,0],[2,3]]\
+**Output**: [8,6,2,4]\
+**Explanation**: At the beginning, the array is [1,2,3,4].\
 After adding 1 to nums[0], the array is [2,2,3,4], and the sum of even values is 2 + 2 + 4 = 8.\
 After adding -3 to nums[1], the array is [2,-1,3,4], and the sum of even values is 2 + 4 = 6.\
 After adding -4 to nums[0], the array is [-2,-1,3,4], and the sum of even values is -2 + 4 = 2.\
@@ -13681,8 +13681,8 @@ After adding 2 to nums[3], the array is [-2,-1,3,6], and the sum of even values 
 
 Example 2:
 
-Input: nums = [1], queries = [[4,0]]\
-Output: [0]
+**Input**: nums = [1], queries = [[4,0]]\
+**Output**: [0]
 
 `video:`https://www.youtube.com/watch?v=2bjRM_6hDsI
 
@@ -13715,12 +13715,12 @@ function sumEvenAfterQueries(nums, queries) {
 // Example 1
 const nums1 = [1, 2, 3, 4];
 const queries1 = [[1, 0], [-3, 1], [-4, 0], [2, 3]];
-console.log(sumEvenAfterQueries(nums1, queries1)); // Output: [8, 6, 2, 4]
+console.log(sumEvenAfterQueries(nums1, queries1)); // **Output**: [8, 6, 2, 4]
 
 // Example 2
 const nums2 = [1];
 const queries2 = [[4, 0]];
-console.log(sumEvenAfterQueries(nums2, queries2)); // Output: [0]
+console.log(sumEvenAfterQueries(nums2, queries2)); // **Output**: [0]
 ```
 
 
@@ -13729,15 +13729,15 @@ Given an integer array nums, return the largest perimeter of a triangle with a `
 
 Example 1:
 
-Input: nums = [2,1,2]\
-Output: 5\
-Explanation: You can form a triangle with three side lengths: 1, 2, and 2.
+**Input**: nums = [2,1,2]\
+**Output**: 5\
+**Explanation**: You can form a triangle with three side lengths: 1, 2, and 2.
 
 Example 2:
 
-Input: nums = [1,2,1,10]\
-Output: 0\
-Explanation:\ 
+**Input**: nums = [1,2,1,10]\
+**Output**: 0\
+**Explanation**:\ 
 You cannot use the side lengths 1, 1, and 2 to form a triangle.\
 You cannot use the side lengths 1, 1, and 10 to form a triangle.\
 You cannot use the side lengths 1, 2, and 10 to form a triangle.\
@@ -13764,11 +13764,11 @@ function largestPerimeter(nums) {
 
 // Example 1
 const nums1 = [2, 1, 2];
-console.log(largestPerimeter(nums1)); // Output: 5
+console.log(largestPerimeter(nums1)); // **Output**: 5
 
 // Example 2
 const nums2 = [1, 2, 1, 10];
-console.log(largestPerimeter(nums2)); // Output: 0
+console.log(largestPerimeter(nums2)); // **Output**: 0
 ```
 
 > ### 914. X of a Kind in a Deck of Cards
@@ -13782,15 +13782,15 @@ Return true if such partition is possible, or false otherwise.
 
 Example 1:
 
-Input: deck = [1,2,3,4,4,3,2,1]\
-Output: true\
-Explanation: Possible partition [1,1],[2,2],[3,3],[4,4].
+**Input**: deck = [1,2,3,4,4,3,2,1]\
+**Output**: true\
+**Explanation**: Possible partition [1,1],[2,2],[3,3],[4,4].
 
 Example 2:
 
-Input: deck = [1,1,1,2,2,2,3,3]\
-Output: false\
-Explanation: No possible partition.
+**Input**: deck = [1,1,1,2,2,2,3,3]\
+**Output**: false\
+**Explanation**: No possible partition.
 
 `video:` https://youtu.be/UvpXInRkZ3Q?si=gsImTBuuojY_hXAY
 
@@ -13811,8 +13811,8 @@ function hasGroupsSizeX(deck) {
 }
 
 // Example Usage
-console.log(hasGroupsSizeX([1, 2, 3, 4, 4, 3, 2, 1])); // Output: true
-console.log(hasGroupsSizeX([1, 1, 1, 2, 2, 2, 3, 3])); // Output: false
+console.log(hasGroupsSizeX([1, 2, 3, 4, 4, 3, 2, 1])); // **Output**: true
+console.log(hasGroupsSizeX([1, 1, 1, 2, 2, 2, 3, 3])); // **Output**: false
 ```
 
 
@@ -13824,18 +13824,18 @@ Given an array of integers arr, return true if and only if it is a valid mountai
 
 Example 1:
 
-Input: arr = [2,1]\
-Output: false
+**Input**: arr = [2,1]\
+**Output**: false
 
 Example 2:
 
-Input: arr = [3,5,5]\
-Output: false
+**Input**: arr = [3,5,5]\
+**Output**: false
 
 Example 3:
 
-Input: arr = [0,3,2,1]\
-Output: true
+**Input**: arr = [0,3,2,1]\
+**Output**: true
 
 
 ```js
@@ -13873,15 +13873,15 @@ For example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.
 
 Example 1:
 
-Input: x = 4\
-Output: 2\
-Explanation: The square root of 4 is 2, so we return 2.
+**Input**: x = 4\
+**Output**: 2\
+**Explanation**: The square root of 4 is 2, so we return 2.
 
 Example 2:
 
-Input: x = 8\
-Output: 2\
-Explanation: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.
+**Input**: x = 8\
+**Output**: 2\
+**Explanation**: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.
 
 
 <details>
@@ -13921,22 +13921,22 @@ Each substring is balanced. Return the maximum number of balanced strings you ca
 
 Example 1:
 
-Input: s = "RLRRLLRLRL"\
-Output: 4\
-Explanation: s can be split into "RL", "RRLL", "RL", "RL", each substring contains same number of 'L' and 'R'.
+**Input**: s = "RLRRLLRLRL"\
+**Output**: 4\
+**Explanation**: s can be split into "RL", "RRLL", "RL", "RL", each substring contains same number of 'L' and 'R'.
 
 Example 2:
 
-Input: s = "RLRRRLLRLL"\
-Output: 2\
-Explanation: s can be split into "RL", "RRRLLRLL", each substring contains same number of 'L' and 'R'.\
+**Input**: s = "RLRRRLLRLL"\
+**Output**: 2\
+**Explanation**: s can be split into "RL", "RRRLLRLL", each substring contains same number of 'L' and 'R'.\
 Note that s cannot be split into "RL", "RR", "RL", "LR", "LL", because the 2nd and 5th substrings are not balanced.
 
 Example 3:
 
-Input: s = "LLLLRRRR"\
-Output: 1\
-Explanation: s can be split into "LLLLRRRR".
+**Input**: s = "LLLLRRRR"\
+**Output**: 1\
+**Explanation**: s can be split into "LLLLRRRR".
 
 <details>
 
@@ -13958,7 +13958,7 @@ Explanation: s can be split into "LLLLRRRR".
 ### **Example Walkthrough**
 #### **Example 1:**
 ```plaintext
-Input: "RLRRLLRLRL"
+**Input**: "RLRRLLRLRL"
 ```
 We process the string character by character:
 
@@ -13975,7 +13975,7 @@ We process the string character by character:
 | 9    | R    | 1                           | No                         |
 | 10   | L    | 0                           | ✅ Yes → `count = 4`       |
 
-**Final Output:** `4`
+**Final **Output**:** `4`
 
 ### **Code Implementation**
 ```javascript
@@ -13991,10 +13991,10 @@ var balancedStringSplit = function(s) {
 };
 
 // Example test cases
-console.log(balancedStringSplit("RLRRLLRLRL")); // Output: 4
-console.log(balancedStringSplit("RLRRRLLRLL")); // Output: 2
-console.log(balancedStringSplit("LLLLRRRR"));   // Output: 1
-console.log(balancedStringSplit("LRLR"));       // Output: 2
+console.log(balancedStringSplit("RLRRLLRLRL")); // **Output**: 4
+console.log(balancedStringSplit("RLRRRLLRLL")); // **Output**: 2
+console.log(balancedStringSplit("LLLLRRRR"));   // **Output**: 1
+console.log(balancedStringSplit("LRLR"));       // **Output**: 2
 ```
 </details>
 
@@ -14007,9 +14007,9 @@ The distance between two indices i and j is abs(i - j), where abs is the absolut
 
 Example 1:
 
-Input: s = "loveleetcode", c = "e"\
-Output: [3,2,1,0,1,0,0,1,2,2,1,0]\
-Explanation: The character 'e' appears at indices 3, 5, 6, and 11 (0-indexed).\
+**Input**: s = "loveleetcode", c = "e"\
+**Output**: [3,2,1,0,1,0,0,1,2,2,1,0]\
+**Explanation**: The character 'e' appears at indices 3, 5, 6, and 11 (0-indexed).\
 The closest occurrence of 'e' for index 0 is at index 3, so the distance is abs(0 - 3) = 3.\
 The closest occurrence of 'e' for index 1 is at index 3, so the distance is abs(1 - 3) = 2.\
 For index 4, there is a tie between the 'e' at index 3 and the 'e' at index 5, but the distance is still the same: abs(4 - 3) == abs(4 - 5) = 1.\
@@ -14017,8 +14017,8 @@ The closest occurrence of 'e' for index 8 is at index 6, so the distance is abs(
 
 Example 2:
 
-Input: s = "aaab", c = "b"\
-Output: [3,2,1,0]
+**Input**: s = "aaab", c = "b"\
+**Output**: [3,2,1,0]
 
 video - https://youtu.be/NJ294ovmUB4?si=wfqeen7_5mv_senR&t=55
 
@@ -14054,8 +14054,8 @@ var shortestToChar = function(s, c) {
 };
 
 // Example test cases
-console.log(shortestToChar("loveleetcode", "e")); // Output: [3,2,1,0,1,0,0,1,2,2,1,0]
-console.log(shortestToChar("aaab", "b")); // Output: [3,2,1,0]
+console.log(shortestToChar("loveleetcode", "e")); // **Output**: [3,2,1,0,1,0,0,1,2,2,1,0]
+console.log(shortestToChar("aaab", "b")); // **Output**: [3,2,1,0]
 ```
 
 > ### 35. Search Insert Position
@@ -14066,18 +14066,18 @@ You must write an algorithm with O(log n) runtime complexity.
 
 Example 1:
 
-Input: nums = [1,3,5,6], target = 5\
-Output: 2
+**Input**: nums = [1,3,5,6], target = 5\
+**Output**: 2
 
 Example 2:
 
-Input: nums = [1,3,5,6], target = 2\
-Output: 1
+**Input**: nums = [1,3,5,6], target = 2\
+**Output**: 1
 
 Example 3:
 
-Input: nums = [1,3,5,6], target = 7\
-Output: 4
+**Input**: nums = [1,3,5,6], target = 7\
+**Output**: 4
 
 
 ```js
@@ -14114,20 +14114,20 @@ Given an integer n, return the number of good integers in the range [1, n].
 
 Example 1:
 
-Input: n = 10\
-Output: 4\
-Explanation: There are four good numbers in the range [1, 10] : 2, 5, 6, 9.\
+**Input**: n = 10\
+**Output**: 4\
+**Explanation**: There are four good numbers in the range [1, 10] : 2, 5, 6, 9.\
 Note that 1 and 10 are not good numbers, since they remain unchanged after rotating.
 
 Example 2:
 
-Input: n = 1\
-Output: 0
+**Input**: n = 1\
+**Output**: 0
 
 Example 3:
 
-Input: n = 2\
-Output: 1
+**Input**: n = 2\
+**Output**: 1
 
 video - https://youtu.be/J8rh2Yacu0c?si=pAE3oA3lMHuvLS8F
 
@@ -14179,9 +14179,9 @@ var rotatedDigits = function(n) {
 };
 
 // Example test cases
-console.log(rotatedDigits(10)); // Output: 4
-console.log(rotatedDigits(20)); // Output: 9
-console.log(rotatedDigits(30)); // Output: 15
+console.log(rotatedDigits(10)); // **Output**: 4
+console.log(rotatedDigits(20)); // **Output**: 9
+console.log(rotatedDigits(30)); // **Output**: 15
 ```
 
 
@@ -14197,22 +14197,22 @@ A string is called palindrome if is one that reads the same backward as well as 
 
 Example 1:
 
-Input: s = "ababa"\
-Output: 1\
-Explanation: s is already a palindrome, so its entirety can be removed in a single step.
+**Input**: s = "ababa"\
+**Output**: 1\
+**Explanation**: s is already a palindrome, so its entirety can be removed in a single step.
 
 Example 2:
 
-Input: s = "abb"\
-Output: 2\
-Explanation: "abb" -> "bb" -> "".\
+**Input**: s = "abb"\
+**Output**: 2\
+**Explanation**: "abb" -> "bb" -> "".\
 Remove palindromic subsequence "a" then "bb".
 
 Example 3:
 
-Input: s = "baabb"\
-Output: 2\
-Explanation: "baabb" -> "b" -> "". \
+**Input**: s = "baabb"\
+**Output**: 2\
+**Explanation**: "baabb" -> "b" -> "". \
 Remove palindromic subsequence "baab" then "b".
 
 
@@ -14229,10 +14229,10 @@ var removePalindromeSub = function(s) {
 };
 
 // Example test cases
-console.log(removePalindromeSub("ababa")); // Output: 1
-console.log(removePalindromeSub("abb"));   // Output: 2
-console.log(removePalindromeSub("baabb")); // Output: 2
-console.log(removePalindromeSub(""));      // Output: 0 (Empty string needs no steps)
+console.log(removePalindromeSub("ababa")); // **Output**: 1
+console.log(removePalindromeSub("abb"));   // **Output**: 2
+console.log(removePalindromeSub("baabb")); // **Output**: 2
+console.log(removePalindromeSub(""));      // **Output**: 0 (Empty string needs no steps)
 ```
 
 
@@ -14246,15 +14246,15 @@ Return the final string after all such duplicate removals have been made. It can
 
 Example 1:
 
-Input: s = "abbaca"\
-Output: "ca"\
-Explanation:\
+**Input**: s = "abbaca"\
+**Output**: "ca"\
+**Explanation**:\
 For example, in "abbaca" we could remove "bb" since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is "aaca", of which only "aa" is possible, so the final string is "ca".
 
 Example 2:
 
-Input: s = "azxxzy"\
-Output: "ay"
+**Input**: s = "azxxzy"\
+**Output**: "ay"
 
 ### **Optimized Approach Using Stack (O(n) Time, O(n) Space)**
 
@@ -14285,10 +14285,10 @@ var removeDuplicates = function(s) {
 };
 
 // Example test cases
-console.log(removeDuplicates("abbaca")); // Output: "ca"
-console.log(removeDuplicates("azxxzy")); // Output: "ay"
-console.log(removeDuplicates("aabbcc")); // Output: ""
-console.log(removeDuplicates("abc"));    // Output: "abc"
+console.log(removeDuplicates("abbaca")); // **Output**: "ca"
+console.log(removeDuplicates("azxxzy")); // **Output**: "ay"
+console.log(removeDuplicates("aabbcc")); // **Output**: ""
+console.log(removeDuplicates("abc"));    // **Output**: "abc"
 ```
 
 > ### 231. Power of Two/Three, (replace 2 with 3 in soln)
@@ -14299,20 +14299,20 @@ An integer n is a power of two, if there exists an integer x such that n == 2x.
 
 Example 1:
 
-Input: n = 1\
-Output: true\
-Explanation: 20 = 1
+**Input**: n = 1\
+**Output**: true\
+**Explanation**: 20 = 1
 
 Example 2:
 
-Input: n = 16\
-Output: true\
-Explanation: 24 = 16
+**Input**: n = 16\
+**Output**: true\
+**Explanation**: 24 = 16
 
 Example 3:
 
-Input: n = 3\
-Output: false
+**Input**: n = 3\
+**Output**: false
 
 ### **Optimized Approach: Using Iteration (O(log n))**  
 
@@ -14348,25 +14348,25 @@ Increment the large integer by one and return the resulting array of digits.
 
 Example 1:
 
-Input: digits = [1,2,3]\
-Output: [1,2,4]\
-Explanation: The array represents the integer 123.\
+**Input**: digits = [1,2,3]\
+**Output**: [1,2,4]\
+**Explanation**: The array represents the integer 123.\
 Incrementing by one gives 123 + 1 = 124.\
 Thus, the result should be [1,2,4].
 
 Example 2:
 
-Input: digits = [4,3,2,1]\
-Output: [4,3,2,2]\
-Explanation: The array represents the integer 4321.\
+**Input**: digits = [4,3,2,1]\
+**Output**: [4,3,2,2]\
+**Explanation**: The array represents the integer 4321.\
 Incrementing by one gives 4321 + 1 = 4322.\
 Thus, the result should be [4,3,2,2].
 
 Example 3:
 
-Input: digits = [9]\
-Output: [1,0]\
-Explanation: The array represents the integer 9.\
+**Input**: digits = [9]\
+**Output**: [1,0]\
+**Explanation**: The array represents the integer 9.\
 Incrementing by one gives 9 + 1 = 10.\
 Thus, the result should be [1,0].
 
@@ -14395,7 +14395,7 @@ console.log(plusOne([9,9,9]));   // [1,0,0,0]
 console.log(plusOne([0]));       // [1]
 ```
 
-### **Explanation**
+### ****Explanation****
 1. **Iterate from the last digit** and check:
    - If it's `<9`, simply increment and return.
    - If it's `9`, set it to `0` and continue (carry propagation).
@@ -14411,21 +14411,21 @@ Your task is to solve it in O(log(n)) time complexity.
 
 Example 1:
 
-Input: arr = [0,1,0]
+**Input**: arr = [0,1,0]
 
-Output: 1
+**Output**: 1
 
 Example 2:
 
-Input: arr = [0,2,1,0]
+**Input**: arr = [0,2,1,0]
 
-Output: 1
+**Output**: 1
 
 Example 3:
 
-Input: arr = [0,10,5,2]
+**Input**: arr = [0,10,5,2]
 
-Output: 1
+**Output**: 1
 
 ### **Optimal Approach: Binary Search (O(log n))**
 Since the array first increases to a peak and then decreases, we can use **binary search** to efficiently locate the peak.
@@ -14452,13 +14452,13 @@ var peakIndexInMountainArray = function(arr) {
 };
 
 // Example Test Cases
-console.log(peakIndexInMountainArray([0,1,0]));  // Output: 1
-console.log(peakIndexInMountainArray([0,2,1,0])); // Output: 1
-console.log(peakIndexInMountainArray([0,10,5,2])); // Output: 1
-console.log(peakIndexInMountainArray([1,3,5,7,9,8,6,4,2])); // Output: 4
+console.log(peakIndexInMountainArray([0,1,0]));  // **Output**: 1
+console.log(peakIndexInMountainArray([0,2,1,0])); // **Output**: 1
+console.log(peakIndexInMountainArray([0,10,5,2])); // **Output**: 1
+console.log(peakIndexInMountainArray([1,3,5,7,9,8,6,4,2])); // **Output**: 4
 ```
 
-### **Explanation**
+### ****Explanation****
 1. **Initialize Binary Search**:
    - `left = 0`, `right = arr.length - 1`
 2. **Binary Search Condition**:
@@ -14476,20 +14476,20 @@ Formally, we can partition the array if we can find indexes i + 1 < j with (arr[
 
 Example 1:
 
-Input: arr = [0,2,1,-6,6,-7,9,1,2,0,1]\
-Output: true\
-Explanation: 0 + 2 + 1 = -6 + 6 - 7 + 9 + 1 = 2 + 0 + 1
+**Input**: arr = [0,2,1,-6,6,-7,9,1,2,0,1]\
+**Output**: true\
+**Explanation**: 0 + 2 + 1 = -6 + 6 - 7 + 9 + 1 = 2 + 0 + 1
 
 Example 2:
 
-Input: arr = [0,2,1,-6,6,7,9,-1,2,0,1]\
-Output: false
+**Input**: arr = [0,2,1,-6,6,7,9,-1,2,0,1]\
+**Output**: false
 
 Example 3:
 
-Input: arr = [3,3,6,5,-2,2,5,1,-9,4]\
-Output: true\
-Explanation: 3 + 3 = 6 = 5 - 2 + 2 + 5 + 1 - 9 + 4
+**Input**: arr = [3,3,6,5,-2,2,5,1,-9,4]\
+**Output**: true\
+**Explanation**: 3 + 3 = 6 = 5 - 2 + 2 + 5 + 1 - 9 + 4
 
 ### **Optimal Approach: One-Pass Greedy Solution (O(n))**
 Since we need to split the array into **three equal sum parts**, we first compute the **total sum**. If the total sum is **not divisible by 3**, it's **impossible** to partition the array.
@@ -14520,12 +14520,12 @@ var canThreePartsEqualSum = function(arr) {
 };
 
 // Example Test Cases
-console.log(canThreePartsEqualSum([0,2,1,-6,6,-7,9,1,2,0,1]));  // Output: true
-console.log(canThreePartsEqualSum([0,2,1,-6,6,7,9,-1,2,0,1]));  // Output: false
-console.log(canThreePartsEqualSum([3,3,6,5,-2,2,5,1,-9,4]));    // Output: true
+console.log(canThreePartsEqualSum([0,2,1,-6,6,-7,9,1,2,0,1]));  // **Output**: true
+console.log(canThreePartsEqualSum([0,2,1,-6,6,7,9,-1,2,0,1]));  // **Output**: false
+console.log(canThreePartsEqualSum([3,3,6,5,-2,2,5,1,-9,4]));    // **Output**: true
 ```
 
-### **Explanation**
+### ****Explanation****
 1. **Compute Total Sum**:
    - If the total sum is not divisible by `3`, return **false**.
    - Otherwise, set `targetSum = totalSum / 3`.
@@ -14549,15 +14549,15 @@ Given an integer num, return its complement.
 
 Example 1:
 
-Input: num = 5\
-Output: 2\
-Explanation: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
+**Input**: num = 5\
+**Output**: 2\
+**Explanation**: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
 
 Example 2:
 
-Input: num = 1\
-Output: 0\
-Explanation: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
+**Input**: num = 1\
+**Output**: 0\
+**Explanation**: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
 
 ```js
 var findComplement = function(num) {
@@ -14567,9 +14567,9 @@ var findComplement = function(num) {
 };
 
 // Example Test Cases
-console.log(findComplement(5));  // Output: 2
-console.log(findComplement(1));  // Output: 0
-console.log(findComplement(10)); // Output: 5
+console.log(findComplement(5));  // **Output**: 2
+console.log(findComplement(1));  // **Output**: 0
+console.log(findComplement(10)); // **Output**: 5
 ```
 
 
@@ -14583,17 +14583,17 @@ Return the minimum cost to reach the top of the floor.
 
 Example 1:
 
-Input: cost = [10,15,20]\
-Output: 15\
-Explanation: You will start at index 1.\
+**Input**: cost = [10,15,20]\
+**Output**: 15\
+**Explanation**: You will start at index 1.\
 - Pay 15 and climb two steps to reach the top.\
 The total cost is 15.
 
 Example 2:
 
-Input: cost = [1,100,1,1,1,100,1,1,100,1]\
-Output: 6\
-Explanation: You will start at index 0.
+**Input**: cost = [1,100,1,1,1,100,1,1,100,1]\
+**Output**: 6\
+**Explanation**: You will start at index 0.
 - Pay 1 and climb two steps to reach index 2.
 - Pay 1 and climb two steps to reach index 4.
 - Pay 1 and climb two steps to reach index 6.
@@ -14633,8 +14633,8 @@ var minCostClimbingStairs = function(cost) {
 };
 
 // Example test cases:
-console.log(minCostClimbingStairs([10, 15, 20])); // Output: 15
-console.log(minCostClimbingStairs([1,100,1,1,1,100,1,1,100,1])); // Output: 6
+console.log(minCostClimbingStairs([10, 15, 20])); // **Output**: 15
+console.log(minCostClimbingStairs([1,100,1,1,1,100,1,1,100,1])); // **Output**: 6
 ```
 
 
@@ -14648,13 +14648,13 @@ Return the maximum distance.
 
 Example 1:
 
-Input: arrays = [[1,2,3],[4,5],[1,2,3]]
-Output: 4
-Explanation: One way to reach the maximum distance 4 is to pick 1 in the first or third array and pick 5 in the second array.
+**Input**: arrays = [[1,2,3],[4,5],[1,2,3]]
+**Output**: 4
+**Explanation**: One way to reach the maximum distance 4 is to pick 1 in the first or third array and pick 5 in the second array.
 Example 2:
 
-Input: arrays = [[1],[1]]
-Output: 0
+**Input**: arrays = [[1],[1]]
+**Output**: 0
 
 ### **Optimized Approach (O(m) Time)**
 1. Keep track of:
@@ -14687,8 +14687,8 @@ var maxDistance = function(arrays) {
 };
 
 // Example test cases:
-console.log(maxDistance([[1,2,3],[4,5],[1,2,3]]));  // Output: 4
-console.log(maxDistance([[1],[1]]));  // Output: 0
+console.log(maxDistance([[1,2,3],[4,5],[1,2,3]]));  // **Output**: 4
+console.log(maxDistance([[1],[1]]));  // **Output**: 0
 ```
 
 > ### 1544. Make The String Great
@@ -14710,22 +14710,22 @@ Notice that an empty string is also good.
 
 Example 1:
 
-Input: s = "leEeetcode"\
-Output: "leetcode"\
-Explanation: In the first step, either you choose i = 1 or i = 2, both will result "leEeetcode" to be reduced to "leetcode".
+**Input**: s = "leEeetcode"\
+**Output**: "leetcode"\
+**Explanation**: In the first step, either you choose i = 1 or i = 2, both will result "leEeetcode" to be reduced to "leetcode".
 
 Example 2:
 
-Input: s = "abBAcC"\
-Output: ""\
-Explanation: We have many possible scenarios, and all lead to the same answer. For example:\
+**Input**: s = "abBAcC"\
+**Output**: ""\
+**Explanation**: We have many possible scenarios, and all lead to the same answer. For example:\
 "abBAcC" --> "aAcC" --> "cC" --> ""\
 "abBAcC" --> "abBA" --> "aA" --> ""
 
 Example 3:
 
-Input: s = "s"\
-Output: "s"
+**Input**: s = "s"\
+**Output**: "s"
 
 **Solution: Using a Stack**
 **To remove adjacent bad character pairs, we can use a stack:**
@@ -14752,9 +14752,9 @@ var makeGood = function(s) {
 };
 
 // Example test cases:
-console.log(makeGood("leEeetcode")); // Output: "leetcode"
-console.log(makeGood("abBAcC")); // Output: ""
-console.log(makeGood("s")); // Output: "s"
+console.log(makeGood("leEeetcode")); // **Output**: "leetcode"
+console.log(makeGood("abBAcC")); // **Output**: ""
+console.log(makeGood("s")); // **Output**: "s"
 ```
 
 
@@ -14765,21 +14765,21 @@ A lucky number is an element of the matrix such that it is the minimum element i
 
 Example 1:
 
-Input: matrix = [[3,7,8],[9,11,13],[15,16,17]]\
-Output: [15]\
-Explanation: 15 is the only lucky number since it is the minimum in its row and the maximum in its column.
+**Input**: matrix = [[3,7,8],[9,11,13],[15,16,17]]\
+**Output**: [15]\
+**Explanation**: 15 is the only lucky number since it is the minimum in its row and the maximum in its column.
 
 Example 2:
 
-Input: matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]\
-Output: [12]\
-Explanation: 12 is the only lucky number since it is the minimum in its row and the maximum in its column.
+**Input**: matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]\
+**Output**: [12]\
+**Explanation**: 12 is the only lucky number since it is the minimum in its row and the maximum in its column.
 
 Example 3:
 
-Input: matrix = [[7,8],[1,2]]\
-Output: [7]\
-Explanation: 7 is the only lucky number since it is the minimum in its row and the maximum in its column.
+**Input**: matrix = [[7,8],[1,2]]\
+**Output**: [7]\
+**Explanation**: 7 is the only lucky number since it is the minimum in its row and the maximum in its column.
 
 
 ```js
@@ -14806,15 +14806,15 @@ Letters are case sensitive, for example, "Aa" is not considered a palindrome.
 
 Example 1:
 
-Input: s = "abccccdd"\
-Output: 7\
-Explanation: One longest palindrome that can be built is "dccaccd", whose length is 7.
+**Input**: s = "abccccdd"\
+**Output**: 7\
+**Explanation**: One longest palindrome that can be built is "dccaccd", whose length is 7.
 
 Example 2:
 
-Input: s = "a"\
-Output: 1\
-Explanation: The longest palindrome that can be built is "a", whose length is 1.
+**Input**: s = "a"\
+**Output**: 1\
+**Explanation**: The longest palindrome that can be built is "a", whose length is 1.
 
 To form the **longest palindrome**, we need to consider the frequency of each character:
 - **Even counts** can always be fully used in a palindrome.
@@ -14844,9 +14844,9 @@ var longestPalindrome = function(s) {
 };
 
 // Example test cases:
-console.log(longestPalindrome("abccccdd")); // Output: 7
-console.log(longestPalindrome("a"));        // Output: 1
-console.log(longestPalindrome("bb"));       // Output: 2
+console.log(longestPalindrome("abccccdd")); // **Output**: 7
+console.log(longestPalindrome("a"));        // **Output**: 1
+console.log(longestPalindrome("bb"));       // **Output**: 2
 ```
 
 
@@ -14858,9 +14858,9 @@ Return the answer in an array.
 
 Example 1:
 
-Input: nums = [8,1,2,2,3]\
-Output: [4,0,1,1,3]\
-Explanation: \
+**Input**: nums = [8,1,2,2,3]\
+**Output**: [4,0,1,1,3]\
+**Explanation**: \
 For nums[0]=8 there exist four smaller numbers than it (1, 2, 2 and 3). \
 For nums[1]=1 does not exist any smaller number than it.\
 For nums[2]=2 there exist one smaller number than it (1).\ 
@@ -14869,13 +14869,13 @@ For nums[4]=3 there exist three smaller numbers than it (1, 2 and 2).
 
 Example 2:
 
-Input: nums = [6,5,4,8]\
-Output: [2,1,0,3]
+**Input**: nums = [6,5,4,8]\
+**Output**: [2,1,0,3]
 
 Example 3:
 
-Input: nums = [7,7,7,7]\
-Output: [0,0,0,0]
+**Input**: nums = [7,7,7,7]\
+**Output**: [0,0,0,0]
 
 ```js
 var smallerNumbersThanCurrent = function(nums) {
@@ -14892,9 +14892,9 @@ var smallerNumbersThanCurrent = function(nums) {
 };
 
 // Example test cases:
-console.log(smallerNumbersThanCurrent([8,1,2,2,3])); // Output: [4,0,1,1,3]
-console.log(smallerNumbersThanCurrent([6,5,4,8]));   // Output: [2,1,0,3]
-console.log(smallerNumbersThanCurrent([7,7,7,7]));   // Output: [0,0,0,0]
+console.log(smallerNumbersThanCurrent([8,1,2,2,3])); // **Output**: [4,0,1,1,3]
+console.log(smallerNumbersThanCurrent([6,5,4,8]));   // **Output**: [2,1,0,3]
+console.log(smallerNumbersThanCurrent([7,7,7,7]));   // **Output**: [0,0,0,0]
 ```
 
 > ### 1374. Generate a String With Characters That Have Odd Counts
@@ -14905,20 +14905,20 @@ The returned string must contain only lowercase English letters. If there are mu
 
 Example 1:
 
-Input: n = 4\
-Output: "pppz"\
-Explanation: "pppz" is a valid string since the character 'p' occurs three times and the character 'z' occurs once. Note that there are many other valid strings such as "ohhh" and "love".
+**Input**: n = 4\
+**Output**: "pppz"\
+**Explanation**: "pppz" is a valid string since the character 'p' occurs three times and the character 'z' occurs once. Note that there are many other valid strings such as "ohhh" and "love".
 
 Example 2:
 
-Input: n = 2\
-Output: "xy"\
-Explanation: "xy" is a valid string since the characters 'x' and 'y' occur once. Note that there are many other valid strings such as "ag" and "ur".
+**Input**: n = 2\
+**Output**: "xy"\
+**Explanation**: "xy" is a valid string since the characters 'x' and 'y' occur once. Note that there are many other valid strings such as "ag" and "ur".
 
 Example 3:
 
-Input: n = 7\
-Output: "holasss"
+**Input**: n = 7\
+**Output**: "holasss"
 
 
 ### **Approach**
@@ -14935,9 +14935,9 @@ var generateTheString = function(n) {
 };
 
 // Example test cases:
-console.log(generateTheString(4)); // Output: "aaab" or similar
-console.log(generateTheString(2)); // Output: "ab" or similar
-console.log(generateTheString(7)); // Output: "aaaaaaa"
+console.log(generateTheString(4)); // **Output**: "aaab" or similar
+console.log(generateTheString(2)); // **Output**: "ab" or similar
+console.log(generateTheString(7)); // **Output**: "aaaaaaa"
 ```
 
 
@@ -14959,13 +14959,13 @@ AB -> 28 \
 
 Example 1:
 
-Input: columnNumber = 1\
-Output: "A"
+**Input**: columnNumber = 1\
+**Output**: "A"
 
 Example 2:
 
-Input: columnNumber = 28\
-Output: "AB"
+**Input**: columnNumber = 28\
+**Output**: "AB"
 
 #### Approach:
 - This problem follows a **Base-26** number system, similar to how we represent numbers in decimal (Base-10).
@@ -14999,9 +14999,9 @@ function convertToTitle(columnNumber) {
 }
 
 // Test Cases
-console.log(convertToTitle(1));   // Output: "A"
-console.log(convertToTitle(28));  // Output: "AB"
-console.log(convertToTitle(701)); // Output: "ZY"
+console.log(convertToTitle(1));   // **Output**: "A"
+console.log(convertToTitle(28));  // **Output**: "AB"
+console.log(convertToTitle(701)); // **Output**: "ZY"
 console.log(convertToTitle(2147483647)); // Large case
 ```
 
@@ -15023,13 +15023,13 @@ AB -> 28 \
  
 Example 1:
 
-Input: columnTitle = "A"\
-Output: 1
+**Input**: columnTitle = "A"\
+**Output**: 1
 
 Example 2:
 
-Input: columnTitle = "AB"\
-Output: 28
+**Input**: columnTitle = "AB"\
+**Output**: 28
 
 #### Approach:
 - This problem follows a **Base-26** number system, similar to how we convert numbers in decimal (Base-10).
@@ -15061,9 +15061,9 @@ function titleToNumber(columnTitle) {
 }
 
 // Test Cases
-console.log(titleToNumber("A"));    // Output: 1
-console.log(titleToNumber("AB"));   // Output: 28
-console.log(titleToNumber("ZY"));   // Output: 701
+console.log(titleToNumber("A"));    // **Output**: 1
+console.log(titleToNumber("AB"));   // **Output**: 28
+console.log(titleToNumber("ZY"));   // **Output**: 701
 console.log(titleToNumber("FXSHRXW")); // Large case
 ```
 
@@ -15076,21 +15076,21 @@ Given an integer n, return its complement.
 
 Example 1:
 
-Input: n = 5\
-Output: 2\
-Explanation: 5 is "101" in binary, with complement "010" in binary, which is 2 in base-10.
+**Input**: n = 5\
+**Output**: 2\
+**Explanation**: 5 is "101" in binary, with complement "010" in binary, which is 2 in base-10.
 
 Example 2:
 
-Input: n = 7\
-Output: 0\
-Explanation: 7 is "111" in binary, with complement "000" in binary, which is 0 in base-10.
+**Input**: n = 7\
+**Output**: 0\
+**Explanation**: 7 is "111" in binary, with complement "000" in binary, which is 0 in base-10.
 
 Example 3:
 
-Input: n = 10\
-Output: 5\
-Explanation: 10 is "1010" in binary, with complement "0101" in binary, which is 5 in base-10.
+**Input**: n = 10\
+**Output**: 5\
+**Explanation**: 10 is "1010" in binary, with complement "0101" in binary, which is 5 in base-10.
 
 ### **Algorithm: String-Based Approach (Without Bit Manipulation)**  
 
@@ -15112,11 +15112,11 @@ function bitwiseComplement(n) {
 }
 
 // Test Cases
-console.log(bitwiseComplement(5));  // Output: 2
-console.log(bitwiseComplement(7));  // Output: 0
-console.log(bitwiseComplement(10)); // Output: 5
-console.log(bitwiseComplement(0));  // Output: 1
-console.log(bitwiseComplement(1));  // Output: 0
+console.log(bitwiseComplement(5));  // **Output**: 2
+console.log(bitwiseComplement(7));  // **Output**: 0
+console.log(bitwiseComplement(10)); // **Output**: 5
+console.log(bitwiseComplement(0));  // **Output**: 1
+console.log(bitwiseComplement(1));  // **Output**: 0
 ```
 
 ### **Time Complexity:**  
@@ -15137,22 +15137,22 @@ The distance between two cells (r1, c1) and (r2, c2) is |r1 - r2| + |c1 - c2|.
 
 Example 1:
 
-Input: rows = 1, cols = 2, rCenter = 0, cCenter = 0\
-Output: [[0,0],[0,1]]\
-Explanation: The distances from (0, 0) to other cells are: [0,1]
+**Input**: rows = 1, cols = 2, rCenter = 0, cCenter = 0\
+**Output**: [[0,0],[0,1]]\
+**Explanation**: The distances from (0, 0) to other cells are: [0,1]
 
 Example 2:
 
-Input: rows = 2, cols = 2, rCenter = 0, cCenter = 1\
-Output: [[0,1],[0,0],[1,1],[1,0]]\
-Explanation: The distances from (0, 1) to other cells are: [0,1,1,2]\
+**Input**: rows = 2, cols = 2, rCenter = 0, cCenter = 1\
+**Output**: [[0,1],[0,0],[1,1],[1,0]]\
+**Explanation**: The distances from (0, 1) to other cells are: [0,1,1,2]\
 The answer [[0,1],[1,1],[0,0],[1,0]] would also be accepted as correct.
 
 Example 3:
 
-Input: rows = 2, cols = 3, rCenter = 1, cCenter = 2\
-Output: [[1,2],[0,2],[1,1],[0,1],[1,0],[0,0]]\
-Explanation: The distances from (1, 2) to other cells are: [0,1,1,2,2,3]\
+**Input**: rows = 2, cols = 3, rCenter = 1, cCenter = 2\
+**Output**: [[1,2],[0,2],[1,1],[0,1],[1,0],[0,0]]\
+**Explanation**: The distances from (1, 2) to other cells are: [0,1,1,2,2,3]\
 There are other answers that would also be accepted as correct, such as [[1,2],[1,1],[0,2],[1,0],[0,1],[0,0]].
 
 ### **Algorithm: Sorting by Manhattan Distance**
@@ -15191,7 +15191,7 @@ var allCellsDistOrder = function(rows, cols, rCenter, cCenter) {
 ```
 
 ### **Example Walkthrough**
-#### **Input:**
+#### ****Input**:**
 ```js
 rows = 2, cols = 2, rCenter = 0, cCenter = 1
 ```
@@ -15226,15 +15226,15 @@ Note that the word should be built from left to right with each additional chara
 
 Example 1:
 
-Input: words = ["w","wo","wor","worl","world"]\
-Output: "world"\
-Explanation: The word "world" can be built one character at a time by "w", "wo", "wor", and "worl".
+**Input**: words = ["w","wo","wor","worl","world"]\
+**Output**: "world"\
+**Explanation**: The word "world" can be built one character at a time by "w", "wo", "wor", and "worl".
 
 Example 2:
 
-Input: words = ["a","banana","app","appl","ap","apply","apple"]\
-Output: "apple"\
-Explanation: Both "apply" and "apple" can be built from other words in the dictionary. However, "apple" is lexicographically smaller than "apply".
+**Input**: words = ["a","banana","app","appl","ap","apply","apple"]\
+**Output**: "apple"\
+**Explanation**: Both "apply" and "apple" can be built from other words in the dictionary. However, "apple" is lexicographically smaller than "apply".
 
 ```js
 var longestWord = function(words) {
@@ -15259,7 +15259,7 @@ var longestWord = function(words) {
 };
 ```
 
-### **Explanation of the Code**
+### ****Explanation** of the Code**
 The given function `longestWord(words)` finds the longest word that can be built one character at a time by other words in the list. If there are multiple possible answers, it returns the lexicographically smallest one.
 
 
@@ -15361,15 +15361,15 @@ You examine the typed characters of the keyboard. Return True if it is possible 
 
 Example 1:
 
-Input: name = "alex", typed = "aaleex"\
-Output: true\
-Explanation: 'a' and 'e' in 'alex' were long pressed.
+**Input**: name = "alex", typed = "aaleex"\
+**Output**: true\
+**Explanation**: 'a' and 'e' in 'alex' were long pressed.
 
 Example 2:
 
-Input: name = "saeed", typed = "ssaaedd"\
-Output: false\
-Explanation: 'e' must have been pressed twice, but it was not in the typed output.
+**Input**: name = "saeed", typed = "ssaaedd"\
+**Output**: false\
+**Explanation**: 'e' must have been pressed twice, but it was not in the typed output.
 
 
 ### **Algorithm: Two Pointers Approach**
@@ -15414,7 +15414,7 @@ var isLongPressedName = function(name, typed) {
 
 ### **Example Walkthrough**
 #### **Example 1**
-**Input:**  
+****Input**:**  
 ```js
 name = "alex", typed = "aaleex"
 ```
@@ -15429,11 +15429,11 @@ name = "alex", typed = "aaleex"
 | 3 | 5 | 'x' | 'x' | Match | `i++`, `j++` |
 | 4 | 6 | - | - | End | ✅ Return `true` |
 
-**Output:** `true`
+****Output**:** `true`
 
 
 #### **Example 2**
-**Input:**  
+****Input**:**  
 ```js
 name = "saeed", typed = "ssaaedd"
 ```
@@ -15445,7 +15445,7 @@ name = "saeed", typed = "ssaaedd"
 | 1 | 2 | 'a' | 'a' | Match | `i++`, `j++` |
 | 2 | 3 | 'e' | 'a' | Mismatch | ❌ Return `false` |
 
-**Output:** `false`
+****Output**:** `false`
 
 
 ### **Time Complexity Analysis**
@@ -15483,16 +15483,16 @@ Return the reformatted license key.
 
 Example 1:
 
-Input: s = "5F3Z-2e-9-w", k = 4\
-Output: "5F3Z-2E9W"\
-Explanation: The string s has been split into two parts, each part has 4 characters.\
+**Input**: s = "5F3Z-2e-9-w", k = 4\
+**Output**: "5F3Z-2E9W"\
+**Explanation**: The string s has been split into two parts, each part has 4 characters.\
 Note that the two extra dashes are not needed and can be removed.
 
 Example 2:
 
-Input: s = "2-5g-3-J", k = 2\
-Output: "2-5G-3J"\
-Explanation: The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.
+**Input**: s = "2-5g-3-J", k = 2\
+**Output**: "2-5G-3J"\
+**Explanation**: The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.
 
 ### **Algorithm: String Processing with Grouping**
 We can solve this problem by:
@@ -15550,7 +15550,7 @@ s = "5F3Z-2e-9-w", k = 4
    - `"2E9W"`
 5. Join with dashes → `"5F3Z-2E9W"`
 
-**Output:**  
+****Output**:**  
 ```js
 "5F3Z-2E9W"
 ```
@@ -15569,7 +15569,7 @@ s = "2-5g-3-J", k = 2
    - `"3J"`
 5. Join with dashes → `"2-5G-3J"`
 
-**Output:**  
+****Output**:**  
 ```js
 "2-5G-3J"
 ```
@@ -15578,17 +15578,17 @@ s = "2-5g-3-J", k = 2
 ✅ **Already formatted input**  
 ```js
 s = "ABCD-EFGH", k = 4
-// Output: "ABCD-EFGH"
+// **Output**: "ABCD-EFGH"
 ```
 ✅ **All dashes input**  
 ```js
 s = "---", k = 3
-// Output: ""
+// **Output**: ""
 ```
 ✅ **Small `k` value**  
 ```js
 s = "abcdef", k = 1
-// Output: "A-B-C-D-E-F"
+// **Output**: "A-B-C-D-E-F"
 ```
 
 > ### 205. Isomorphic Strings
@@ -15601,11 +15601,11 @@ All occurrences of a character must be replaced with another character while pre
 
 Example 1:
 
-Input: s = "egg", t = "add"
+**Input**: s = "egg", t = "add"
 
-Output: true
+**Output**: true
 
-Explanation:
+**Explanation**:
 
 The strings s and t can be made identical by:
 
@@ -15614,19 +15614,19 @@ Mapping 'g' to 'd'.
 
 Example 2:
 
-Input: s = "foo", t = "bar"
+**Input**: s = "foo", t = "bar"
 
-Output: false
+**Output**: false
 
-Explanation:
+**Explanation**:
 
 The strings s and t can not be made identical as 'o' needs to be mapped to both 'a' and 'r'.
 
 Example 3:
 
-Input: s = "paper", t = "title"
+**Input**: s = "paper", t = "title"
 
-Output: true
+**Output**: true
 
 ### **Approach**
 1. Use two hash maps:
@@ -15694,18 +15694,18 @@ Return the number that I picked.
 
 Example 1:
 
-Input: n = 10, pick = 6\
-Output: 6
+**Input**: n = 10, pick = 6\
+**Output**: 6
 
 Example 2:
 
-Input: n = 1, pick = 1\
-Output: 1
+**Input**: n = 1, pick = 1\
+**Output**: 1
 
 Example 3:
 
-Input: n = 2, pick = 1\
-Output: 1
+**Input**: n = 2, pick = 1\
+**Output**: 1
 
 ### **Approach: Binary Search**
 - Since we get feedback on whether our guess is too high or too low, **binary search** is the most efficient approach.
@@ -15739,7 +15739,7 @@ var guessNumber = function(n) {
 
 
 ### **Example Walkthrough**
-#### **Input:** `n = 10, pick = 6`
+#### ****Input**:** `n = 10, pick = 6`
 1. `mid = (1 + 10) / 2 = 5`
    - `guess(5) → 1` (pick is larger) → Update `left = 6`
 2. `mid = (6 + 10) / 2 = 8`
@@ -15747,7 +15747,7 @@ var guessNumber = function(n) {
 3. `mid = (6 + 7) / 2 = 6`
    - `guess(6) → 0` (found pick) → **Return 6**
 
-#### **Output:** `6`
+#### ****Output**:** `6`
 
 
 > ### 893. Groups of Special-Equivalent Strings
@@ -15769,17 +15769,17 @@ Return the number of groups of special-equivalent strings from words.
 
 Example 1:
 
-Input: words = ["abcd","cdab","cbad","xyzz","zzxy","zzyx"]\
-Output: 3\
-Explanation:\ 
+**Input**: words = ["abcd","cdab","cbad","xyzz","zzxy","zzyx"]\
+**Output**: 3\
+**Explanation**:\ 
 One group is ["abcd", "cdab", "cbad"], since they are all pairwise special equivalent, and none of the other strings is all pairwise special equivalent to these.\
 The other two groups are ["xyzz", "zzxy"] and ["zzyx"].\
 Note that in particular, "zzxy" is not special equivalent to "zzyx".
 
 Example 2:
 
-Input: words = ["abc","acb","bac","bca","cab","cba"]\
-Output: 3
+**Input**: words = ["abc","acb","bac","bca","cab","cba"]\
+**Output**: 3
 
 ### **Approach: Normalization & Hashing**
 - Since we can swap even-indexed and odd-indexed characters independently, two words are **special-equivalent** if:
@@ -15820,7 +15820,7 @@ var numSpecialEquivGroups = function(words) {
 
 
 ### **Example Walkthrough**
-#### **Input:** 
+#### ****Input**:** 
 ```js
 words = ["abcd","cdab","cbad","xyzz","zzxy","zzyx"]
 ```
@@ -15837,7 +15837,7 @@ words = ["abcd","cdab","cbad","xyzz","zzxy","zzyx"]
 { "ac-bd", "xz-yz", "zx-zy" }
 ```
 
-#### **Output:** `3`
+#### ****Output**:** `3`
 
 > ### 172. Factorial Trailing Zeroes
 
@@ -15847,20 +15847,20 @@ Note that n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1.
 
 Example 1:
 
-Input: n = 3\
-Output: 0\
-Explanation: 3! = 6, no trailing zero.
+**Input**: n = 3\
+**Output**: 0\
+**Explanation**: 3! = 6, no trailing zero.
 
 Example 2:
 
-Input: n = 5\
-Output: 1\
-Explanation: 5! = 120, one trailing zero.
+**Input**: n = 5\
+**Output**: 1\
+**Explanation**: 5! = 120, one trailing zero.
 
 Example 3:
 
-Input: n = 0\
-Output: 0
+**Input**: n = 0\
+**Output**: 0
 
 ### **Approach: Count Factors of 5**
 Trailing zeroes in \( n! \) come from factors of **10**, which is formed by **2 × 5**. Since multiples of **2** are more frequent than **5**, the number of trailing zeroes is determined by the number of times **5** appears as a factor.
@@ -15938,14 +15938,14 @@ The test cases are generated so that a unique mapping will always exist.
 
 Example 1:
 
-Input: s = "10#11#12"\
-Output: "jkab"\
-Explanation: "j" -> "10#" , "k" -> "11#" , "a" -> "1" , "b" -> "2".
+**Input**: s = "10#11#12"\
+**Output**: "jkab"\
+**Explanation**: "j" -> "10#" , "k" -> "11#" , "a" -> "1" , "b" -> "2".
 
 Example 2:
 
-Input: s = "1326#"\
-Output: "acz"
+**Input**: s = "1326#"\
+**Output**: "acz"
 
 ### **Solution**
 ```javascript
@@ -15966,7 +15966,7 @@ var freqAlphabets = function(s) {
 };
 ```
 
-### **Explanation**
+### ****Explanation****
 1. **Iterate using a `for` loop**:
    - If the current character is part of a `10#-26#` mapping:
      - Extract two digits (`s[i]` and `s[i+1]`).
@@ -15999,9 +15999,9 @@ Return the stack operations needed to build target following the mentioned rules
 
 Example 1:
 
-Input: target = [1,3], n = 3\
-Output: ["Push","Push","Pop","Push"]\
-Explanation: Initially the stack s is empty. The last element is the top of the stack.\
+**Input**: target = [1,3], n = 3\
+**Output**: ["Push","Push","Pop","Push"]\
+**Explanation**: Initially the stack s is empty. The last element is the top of the stack.\
 Read 1 from the stream and push it to the stack. s = [1].\
 Read 2 from the stream and push it to the stack. s = [1,2].\
 Pop the integer on the top of the stack. s = [1].\
@@ -16009,18 +16009,18 @@ Read 3 from the stream and push it to the stack. s = [1,3].
 
 Example 2:
 
-Input: target = [1,2,3], n = 3\
-Output: ["Push","Push","Push"]\
-Explanation: Initially the stack s is empty. The last element is the top of the stack.\
+**Input**: target = [1,2,3], n = 3\
+**Output**: ["Push","Push","Push"]\
+**Explanation**: Initially the stack s is empty. The last element is the top of the stack.\
 Read 1 from the stream and push it to the stack. s = [1].\
 Read 2 from the stream and push it to the stack. s = [1,2].\
 Read 3 from the stream and push it to the stack. s = [1,2,3].
 
 Example 3:
 
-Input: target = [1,2], n = 4\
-Output: ["Push","Push"]\
-Explanation: Initially the stack s is empty. The last element is the top of the stack.\
+**Input**: target = [1,2], n = 4\
+**Output**: ["Push","Push"]\
+**Explanation**: Initially the stack s is empty. The last element is the top of the stack.\
 Read 1 from the stream and push it to the stack. s = [1].\
 Read 2 from the stream and push it to the stack. s = [1,2].\
 Since the stack (from the bottom to the top) is equal to target, we stop the stack operations.\
@@ -16055,7 +16055,7 @@ var buildArray = function(target, n) {
 };
 ```
 
-### **Explanation**
+### ****Explanation****
 1. **Iterate from `1` to `n`** (simulating the stream).
 2. **Push every number onto the stack**.
 3. **If the number is not in `target`**, immediately `"Pop"` it.
@@ -16090,11 +16090,11 @@ West means -X direction.
 
 Example 1:
 
-Input: commands = [4,-1,3], obstacles = []
+**Input**: commands = [4,-1,3], obstacles = []
 
-Output: 25
+**Output**: 25
 
-Explanation:
+**Explanation**:
 
 The robot starts at (0, 0):
 
@@ -16105,11 +16105,11 @@ The furthest point the robot ever gets from the origin is (3, 4), which squared 
 
 Example 2:
 
-Input: commands = [4,-1,4,-2,4], obstacles = [[2,4]]
+**Input**: commands = [4,-1,4,-2,4], obstacles = [[2,4]]
 
-Output: 65
+**Output**: 65
 
-Explanation:
+**Explanation**:
 
 The robot starts at (0, 0):
 
@@ -16122,11 +16122,11 @@ The furthest point the robot ever gets from the origin is (1, 8), which squared 
 
 Example 3:
 
-Input: commands = [6,-1,-1,6], obstacles = [[0,0]]
+**Input**: commands = [6,-1,-1,6], obstacles = [[0,0]]
 
-Output: 36
+**Output**: 36
 
-Explanation:
+**Explanation**:
 
 The robot starts at (0, 0):
 
@@ -16187,21 +16187,21 @@ Your solution must use only constant extra space.
 
 Example 1:
 
-Input: numbers = [2,7,11,15], target = 9\
-Output: [1,2]\
-Explanation: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
+**Input**: numbers = [2,7,11,15], target = 9\
+**Output**: [1,2]\
+**Explanation**: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
 
 Example 2:
 
-Input: numbers = [2,3,4], target = 6\
-Output: [1,3]\
-Explanation: The sum of 2 and 4 is 6. Therefore index1 = 1, index2 = 3. We return [1, 3].
+**Input**: numbers = [2,3,4], target = 6\
+**Output**: [1,3]\
+**Explanation**: The sum of 2 and 4 is 6. Therefore index1 = 1, index2 = 3. We return [1, 3].
 
 Example 3:
 
-Input: numbers = [-1,0], target = -1\
-Output: [1,2]\
-Explanation: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].
+**Input**: numbers = [-1,0], target = -1\
+**Output**: [1,2]\
+**Explanation**: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].
 
 <details>
 
@@ -16241,29 +16241,30 @@ Example 1:
 [9  5  1  2]
 ```
 
-Input: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]\
-Output: true
-
-Explanation:\
-In the above grid, the diagonals are:\
+**Input**: matrix = [[1,2,3,4],[5,1,2,3],[9,5,1,2]]\
+**Output**: true\
+**Explanation**:\
+In the above grid, the diagonals are:
 - "[9]", "[5, 5]", "[1, 1, 1]", "[2, 2, 2]", "[3, 3]", "[4]".\
 - In each diagonal all elements are the same, so the answer is True.
 
 
 <br>
 
+Example 2:
+
 ```
 [1  2]
 [2  2]
 ```
 
-Example 2:
-
-Input: matrix = [[1,2],[2,2]]\
-Output: false\
-Explanation:\
+**Input**: matrix = [[1,2],[2,2]]\
+**Output**: false\
+**Explanation**:\
 The diagonal "[1, 2]" has different elements.
 
+
+<details>
 
 A **Toeplitz Matrix** has the property that every diagonal from **top-left to bottom-right** contains the same values.  
 This means that for every element at position `(i, j)`, it must be equal to the element at `(i+1, j+1)` (if they exist).
@@ -16284,6 +16285,8 @@ var isToeplitzMatrix = function(matrix) {
 isToeplitzMatrix([[1,2,3,4],[5,1,2,3],[9,5,1,2]])
 ```
 
+</details>
+
 <br>
 
 
@@ -16301,21 +16304,21 @@ Return the `minimum score of nums` after applying the mentioned operation at mos
 
 Example 1:
 
-Input: nums = [1], k = 0\
-Output: 0\
-Explanation: The score is max(nums) - min(nums) = 1 - 1 = 0.
+**Input**: nums = [1], k = 0\
+**Output**: 0\
+**Explanation**: The score is max(nums) - min(nums) = 1 - 1 = 0.
 
 Example 2:
 
-Input: nums = [0,10], k = 2\
-Output: 6\
-Explanation: Change nums to be [2, 8]. The score is max(nums) - min(nums) = 8 - 2 = 6.
+**Input**: nums = [0,10], k = 2\
+**Output**: 6\
+**Explanation**: Change nums to be [2, 8]. The score is max(nums) - min(nums) = 8 - 2 = 6.
 
 Example 3:
 
-Input: nums = [1,3,6], k = 3\
-Output: 0\
-Explanation: Change nums to be [4, 4, 4]. The score is max(nums) - min(nums) = 4 - 4 = 0.
+**Input**: nums = [1,3,6], k = 3\
+**Output**: 0\
+**Explanation**: Change nums to be [4, 4, 4]. The score is max(nums) - min(nums) = 4 - 4 = 0.
 
 <br>
 
@@ -16352,40 +16355,33 @@ Find the number that occurs twice and the number that is missing and return them
 
 Example 1:
 
-Input: nums = [1,2,2,4]
-Output: [2,3]
+**Input**: nums = [1,2,2,4]\
+**Output**: [2,3]
 
 Example 2:
 
-Input: nums = [1,1]
-Output: [1,2]
+**Input**: nums = [1,1]\
+**Output**: [1,2]
 
 Example 3:
 
-Input: nums = [2,2]
-Output: [2,1]
+**Input**: nums = [2,2]
+**Output**: [2,1]
 
-### **Approach: Hashing**
-#### **Algorithm**
-1. Use a **Set** to track seen numbers.
-2. Find the **duplicate number** (appears twice).
-3. Find the **missing number** (sum difference).
 
----
+<details>
 
-### **JavaScript Solution**
 ```javascript
 var findErrorNums = function(nums) {
     let numSet = new Set();
     let duplicate, missing;
-    let n = nums.length;
     
     for (let num of nums) {
         if (numSet.has(num)) duplicate = num;
         numSet.add(num);
     }
 
-    for (let i = 1; i <= n; i++) {
+    for (let i = 1; i <= nums.length; i++) {
         if (!numSet.has(i)) {
             missing = i;
             break;
@@ -16395,77 +16391,49 @@ var findErrorNums = function(nums) {
     return [duplicate, missing];
 };
 ```
+</details>
 
----
-
-### **Explanation**
-1. **Detect the duplicate:**  
-   - Use a `Set` to check if a number appears twice.
-2. **Find the missing number:**  
-   - Iterate from `1` to `n` and check which number is missing.
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** **O(n)** (two passes)
-- **Space Complexity:** **O(n)** (using `Set`)
-
-#### **Optimized Approach (Math-Based)**
-Instead of using a Set, we can use **sum formulas**:
-1. **Find duplicate** using `actual sum - expected sum`.
-2. **Find missing** using `sum of squares difference`.
-
-Would you like the optimized **O(1) space** approach? 🚀
-
+<br>
 
 > ### 1021. Remove Outermost Parentheses
 
-A valid parentheses string is either empty "", "(" + A + ")", or A + B, where A and B are valid parentheses strings, and + represents string concatenation.
-
 For example, "", "()", "(())()", and "(()(()))" are all valid parentheses strings.
-A valid parentheses string s is primitive if it is nonempty, and there does not exist a way to split it into s = A + B, with A and B nonempty valid parentheses strings.
-
-Given a valid parentheses string s, consider its primitive decomposition: s = P1 + P2 + ... + Pk, where Pi are primitive valid parentheses strings.
 
 Return s after removing the outermost parentheses of every primitive string in the primitive decomposition of s.
 
 Example 1:
 
-Input: s = "(()())(())"\
-Output: "()()()"\
-Explanation: \
+**Input**: s = "(()())(())"\
+**Output**: "()()()"\
+**Explanation**: \
 The input string is "(()())(())", with primitive decomposition "(()())" + "(())".\
 After removing outer parentheses of each part, this is "()()" + "()" = "()()()".
 
 Example 2:
 
-Input: s = "(()())(())(()(()))"\
-Output: "()()()()(())"\
-Explanation: \
+**Input**: s = "(()())(())(()(()))"\
+**Output**: "()()()()(())"\
+**Explanation**: \
 The input string is "(()())(())(()(()))", with primitive decomposition "(()())" + "(())" + "(()(()))".\
 After removing outer parentheses of each part, this is "()()" + "()" + "()(())" = "()()()()(())".
 
 Example 3:
 
-Input: s = "()()"\
-Output: ""\
-Explanation:\ 
+**Input**: s = "()()"\
+**Output**: ""\
+**Explanation**:\ 
 The input string is "()()", with primitive decomposition "()" + "()".\
 After removing outer parentheses of each part, this is "" + "" = "".
 
+<details>
 
-
-### **Approach: Stack-Based Counting**
-#### **Algorithm**
 1. Use a **counter (`depth`)** to track the nesting level of parentheses.
 2. Iterate through the string `s`:
    - If encountering `'('`, increase `depth`. **Only append if `depth > 1`** (i.e., it's not the outermost).
    - If encountering `')'`, **only append if `depth > 1`**, then decrease `depth`.
 3. Return the modified string.
 
----
 
-### **JavaScript Solution**
 ```javascript
 var removeOuterParentheses = function(s) {
     let result = "";
@@ -16481,7 +16449,6 @@ var removeOuterParentheses = function(s) {
 };
 ```
 
-
 ### **Step-by-step execution:**
 | Index | Char | Depth Before | Action | Depth After | Result |
 |--------|------|-------------|--------|------------|--------|
@@ -16496,45 +16463,41 @@ var removeOuterParentheses = function(s) {
 | 8      | `)`  | 2           | **Add `)`**, then decrease depth | 1 | `"()()()"` |
 | 9      | `)`  | 1           | Decrease depth, **do not add** | 0 | `"()()()"` |
 
+</details>
+
+<br>
 
 > ### 997. Find the Town Judge
 
-In a town, there are n people labeled from 1 to n. There is a rumor that one of these people is secretly the town judge.
+In a town, there are `n` people labeled from `1 to n`. There is a rumor that one of these people is secretly the town judge.
 
 If the town judge exists, then:
 
-The town judge trusts nobody.\
-Everybody (except for the town judge) trusts the town judge.\
-There is exactly one person that satisfies properties 1 and 2.\
-You are given an array trust where trust[i] = [ai, bi] representing that the person labeled ai trusts the person labeled bi. If a trust relationship does not exist in trust array, then such a trust relationship does not exist.
+1. The town judge trusts nobody.
+2. Everybody (except for the town judge) trusts the town judge.
+3. There is exactly one person that satisfies properties `1` and `2`.
 
-Return the label of the town judge if the town judge exists and can be identified, or return -1 otherwise.
+You are given an array `trust` where `trust[i] = [ai, bi]` representing that the person labeled `ai` trusts the person labeled `bi`. If a trust relationship does not exist in `trust` array, then such a trust relationship does not exist.
+
+Return the label of the town judge if the town judge exists and can be identified, or return `-1` otherwise.
 
 Example 1:
 
-Input: n = 2, trust = [[1,2]]\
-Output: 2
+**Input**: n = 2, trust = [[1,2]]\
+**Output**: 2
 
 Example 2:
 
-Input: n = 3, trust = [[1,3],[2,3]]\
-Output: 3
+**Input**: n = 3, trust = [[1,3],[2,3]]\
+**Output**: 3
 
 Example 3:
 
-Input: n = 3, trust = [[1,3],[2,3],[3,1]]\
-Output: -1
+**Input**: n = 3, trust = [[1,3],[2,3],[3,1]]\
+**Output**: -1
 
-Your current implementation has several issues:  
+<details>
 
-1. **Incorrect Trust Counting**:  
-   - The town judge **trusts nobody** but is **trusted by (n-1) people**.  
-   - Your code counts **both trusting and being trusted**, which is incorrect.  
-
-2. **Incorrect Return Condition**:  
-   - The town judge should have a **trust count of (n-1)** but should **not appear as a truster**.  
-
-### **Corrected Approach**
 - Use **two arrays**:
   - `trustCount[i]`: Number of people **trusting** person `i`.
   - `trustedBy[i]`: Number of people **trusted by** person `i`.
@@ -16545,9 +16508,7 @@ Your current implementation has several issues:
   - `trustCount[j] == 0` (does not trust anyone).
   - `trustedBy[j] == n - 1` (trusted by everyone else).
 
----
 
-### **Fixed Code**
 ```javascript
 var findJudge = function(n, trust) {
     if (n === 1 && trust.length === 0) return 1; // Edge case: Single person is the judge
@@ -16566,64 +16527,55 @@ var findJudge = function(n, trust) {
     return -1; // No judge found
 };
 ```
+</details>  
 
----
-
-### **Explanation**
-1. **Initialization**  
-   - `trustCount[i]` starts at `0` for all `1 ≤ i ≤ n`.  
-
-2. **Processing the `trust` Array**  
-   - If `a` trusts `b`, **decrease** `trustCount[a]` (since a cannot be a judge).  
-   - **Increase** `trustCount[b]` (b is trusted).  
-
-3. **Finding the Judge**  
-   - The judge should have `trustCount[i] == n - 1`.  
-   - If found, return that person; otherwise, return `-1`.  
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** **O(N)** (One pass to process trust, one pass to find judge).  
-- **Space Complexity:** **O(N)** (Array of size `n+1`).  
-
-This ensures correctness while maintaining efficiency. 🚀
-
+<br>
 
 > ### 598. Range Addition II
-Easy
-Topics
-Companies
-You are given an m x n matrix M initialized with all 0's and an array of operations ops, where ops[i] = [ai, bi] means M[x][y] should be incremented by one for all 0 <= x < ai and 0 <= y < bi.
+
+You are given an `m x n` matrix `M` initialized with all `0's` and an array of operations `ops`, where `ops[i] = [ai, bi]` means `M[x][y]` should be incremented by one for all `0 <= x < ai` and `0 <= y < bi`.
 
 Count and return the number of maximum integers in the matrix after performing all the operations.
 
- 
-
 Example 1:
 
+```
+| 0 | 0 | 0 |
+| 0 | 0 | 0 |
+| 0 | 0 | 0 |
 
-Input: m = 3, n = 3, ops = [[2,2],[3,3]]
-Output: 4
-Explanation: The maximum integer in M is 2, and there are four of it in M. So return 4.
+➡
+
+| 1 | 1 | 0 |
+| 1 | 1 | 0 |
+| 0 | 0 | 0 |
+
+➡
+
+| 2 | 2 | 1 |
+| 2 | 2 | 1 |
+| 1 | 1 | 1 |
+
+```
+
+**Input**: m = 3, n = 3, ops = [[2,2],[3,3]]\
+**Output**: 4\
+****Explanation****: The maximum integer in M is 2, and there are four of it in M. So return 4.
+
+
 Example 2:
 
-Input: m = 3, n = 3, ops = [[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]
+**Input**: m = 3, n = 3, ops = [[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]\
+**Output**: 4
 
-
-### **Algorithm: Find Minimum Range**
-#### **Key Insight**
-Each operation `ops[i] = [ai, bi]` increases values in a **top-left submatrix** of size `ai × bi`.  
-The **maximum value** in the final matrix appears in the **smallest overlapping region** affected by all operations.
+<details>
 
 #### **Steps**
 1. The area that gets incremented the most is the **smallest intersection** of all operations.
 2. Find the **minimum ai** (`minRow`) and **minimum bi** (`minCol`) from `ops`.
 3. The result is simply `minRow * minCol`, since that submatrix contains the maximum values.
 
----
 
-### **Code (JavaScript)**
 ```javascript
 var maxCount = function(m, n, ops) {
     if (ops.length === 0) return m * n; // If no operations, all elements remain 0
@@ -16639,103 +16591,41 @@ var maxCount = function(m, n, ops) {
 };
 ```
 
----
+</details>
 
-### **Example Walkthrough**
-#### **Example 1**
-```plaintext
-Input: m = 3, n = 3, ops = [[2,2],[3,3]]
-```
-- **Step 1:** Find `minRow` and `minCol`
-  - `ops = [[2,2], [3,3]]`
-  - `minRow = min(2,3) = 2`
-  - `minCol = min(2,3) = 2`
-- **Step 2:** The maximum value appears in a `2×2` region.
-- **Output:** `2 × 2 = 4`
-
-#### **Example 2**
-```plaintext
-Input: m = 3, n = 3, ops = [[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]
-```
-- **Step 1:** Find `minRow` and `minCol`
-  - Minimum row size in `ops = 2`
-  - Minimum col size in `ops = 2`
-- **Step 2:** The `2×2` area contains the maximum value.
-- **Output:** `4`
-
----
-
-### **Complexity Analysis**
-- **Time Complexity:** **O(k)** → We iterate through `ops` once.
-- **Space Complexity:** **O(1)** → Only a few integer variables used.
-
----
-
-### **Edge Cases**
-1. **No operations (`ops = []`)** → Return `m * n`.
-2. **Single operation covering full matrix (`ops = [[m,n]]`)** → Return `m * n`.
-3. **Different sizes in ops (`ops = [[1,3], [3,1]]`)** → Find the smallest overlap.
-
+<br>
 
 > ### 27. Remove Element
-Easy
-Topics
-Companies
-Hint
+
 Given an integer array nums and an integer val, remove all occurrences of val in nums in-place. The order of the elements may be changed. Then return the number of elements in nums which are not equal to val.
-
-Consider the number of elements in nums which are not equal to val be k, to get accepted, you need to do the following things:
-
-Change the array nums such that the first k elements of nums contain the elements which are not equal to val. The remaining elements of nums are not important as well as the size of nums.
-Return k.
-Custom Judge:
-
-The judge will test your solution with the following code:
-
-int[] nums = [...]; // Input array
-int val = ...; // Value to remove
-int[] expectedNums = [...]; // The expected answer with correct length.
-                            // It is sorted with no values equaling val.
-
-int k = removeElement(nums, val); // Calls your implementation
-
-assert k == expectedNums.length;
-sort(nums, 0, k); // Sort the first k elements of nums
-for (int i = 0; i < actualLength; i++) {
-    assert nums[i] == expectedNums[i];
-}
-If all assertions pass, then your solution will be accepted.
-
- 
 
 Example 1:
 
-Input: nums = [3,2,2,3], val = 3
-Output: 2, nums = [2,2,_,_]
-Explanation: Your function should return k = 2, with the first two elements of nums being 2.
+**Input**: nums = [3,2,2,3], val = 3\
+**Output**: 2, nums = [2,2,_,_]\
+**Explanation**: Your function should return k = 2, with the first two elements of nums being 2.\
 It does not matter what you leave beyond the returned k (hence they are underscores).
+
+
 Example 2:
 
-Input: nums = [0,1,2,2,3,0,4,2], val = 2
-Output: 5, nums = [0,1,4,0,3,_,_,_]
-Explanation: Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.
-Note that the five elements can be returned in any order.
+**Input**: nums = [0,1,2,2,3,0,4,2], val = 2\
+**Output**: 5, nums = [0,1,4,0,3,_,_,_]\
+**Explanation**: Your function should return k = 5, with the first five elements of nums containing 0, 0, 1, 3, and 4.\
+Note that the five elements can be returned in any order.\
 It does not matter what you leave beyond the returned k (hence they are underscores).
 
 
-### **Algorithm: Two-Pointer Approach**
-We use a **two-pointer technique** to efficiently remove all occurrences of `val` from `nums` **in-place**.
+<details>
 
-### **Approach**
+**Algorithm: Two-Pointer Approach**
 1. Use a **slow pointer (`k`)** to track where to place the next valid element (not equal to `val`).
 2. Iterate through `nums` with a **fast pointer (`i`)**:
    - If `nums[i]` **is not** `val`, store it at `nums[k]` and increment `k`.
    - Otherwise, skip it.
 3. After the loop, `k` represents the **number of valid elements** in `nums`, and the first `k` elements contain the correct values.
 
----
 
-### **Code (JavaScript)**
 ```javascript
 var removeElement = function(nums, val) {
     let k = 0; // Slow pointer
@@ -16749,35 +16639,9 @@ var removeElement = function(nums, val) {
     
     return k; // Number of valid elements
 };
+removeElement([0,1,2,2,3,0,4,2],2)
 ```
 
----
-
-### **Example Walkthrough**
-#### **Example 1**
-```plaintext
-Input: nums = [3,2,2,3], val = 3
-```
-**Step-by-step Execution:**
-| i  | nums[i] | Action                  | nums (modified)  | k  |
-|----|--------|-------------------------|----------------|----|
-| 0  | 3      | Skip                     | [3,2,2,3]      | 0  |
-| 1  | 2      | Store at `nums[0]`        | [2,2,2,3]      | 1  |
-| 2  | 2      | Store at `nums[1]`        | [2,2,2,3]      | 2  |
-| 3  | 3      | Skip                      | [2,2,2,3]      | 2  |
-
-**Final Output:**
-```plaintext
-k = 2
-Modified nums = [2,2,_,_]
-```
-
----
-
-#### **Example 2**
-```plaintext
-Input: nums = [0,1,2,2,3,0,4,2], val = 2
-```
 **Step-by-step Execution:**
 | i  | nums[i] | Action                 | nums (modified)     | k  |
 |----|--------|------------------------|--------------------|----|
@@ -16790,25 +16654,15 @@ Input: nums = [0,1,2,2,3,0,4,2], val = 2
 | 6  | 4      | Store at `nums[4]`      | [0,1,3,0,4,0,4,2] | 5  |
 | 7  | 2      | Skip                    | [0,1,3,0,4,0,4,2] | 5  |
 
-**Final Output:**
+**Final **Output**:**
 ```plaintext
 k = 5
 Modified nums = [0,1,3,0,4,_,_,_]
 ```
 
----
+</details>
 
-### **Complexity Analysis**
-- **Time Complexity:** **O(n)** → We iterate through `nums` once.
-- **Space Complexity:** **O(1)** → We modify `nums` in-place without extra memory.
-
----
-
-### **Edge Cases**
-1. **No elements to remove:** `nums = [1,2,3]`, `val = 4` → Output `3`, array remains unchanged.
-2. **All elements removed:** `nums = [2,2,2]`, `val = 2` → Output `0`, empty array.
-3. **Empty array:** `nums = []`, `val = 2` → Output `0`.
-
+<br>
 
 > ### 566. Reshape the Matrix
 Easy
@@ -16828,13 +16682,13 @@ If the reshape operation with given parameters is possible and legal, output the
 Example 1:
 
 
-Input: mat = [[1,2],[3,4]], r = 1, c = 4
-Output: [[1,2,3,4]]
+**Input**: mat = [[1,2],[3,4]], r = 1, c = 4
+**Output**: [[1,2,3,4]]
 Example 2:
 
 
-Input: mat = [[1,2],[3,4]], r = 2, c = 4
-Output: [[1,2],[3,4]]
+**Input**: mat = [[1,2],[3,4]], r = 2, c = 4
+**Output**: [[1,2],[3,4]]
 
 
 ### **Algorithm: Flatten & Reshape**
@@ -16871,7 +16725,7 @@ var matrixReshape = function(mat, r, c) {
 ### **Example Walkthrough**
 #### **Example 1**
 ```js
-Input: mat = [[1,2],[3,4]], r = 1, c = 4
+**Input**: mat = [[1,2],[3,4]], r = 1, c = 4
 ```
 - Flattened: `[1,2,3,4]`
 - Reshaped: `[[1,2,3,4]]`
@@ -16880,7 +16734,7 @@ Input: mat = [[1,2],[3,4]], r = 1, c = 4
 
 #### **Example 2**
 ```js
-Input: mat = [[1,2],[3,4]], r = 2, c = 4
+**Input**: mat = [[1,2],[3,4]], r = 2, c = 4
 ```
 - Cannot reshape since `2 × 2 ≠ 2 × 4`, so return `mat`.
 
@@ -16916,17 +16770,17 @@ Return the 2D grid after applying shift operation k times.
 Example 1:
 
 
-Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
-Output: [[9,1,2],[3,4,5],[6,7,8]]
+**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+**Output**: [[9,1,2],[3,4,5],[6,7,8]]
 Example 2:
 
 
-Input: grid = [[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], k = 4
-Output: [[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]]
+**Input**: grid = [[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], k = 4
+**Output**: [[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]]
 Example 3:
 
-Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9
-Output: [[1,2,3],[4,5,6],[7,8,9]]
+**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9
+**Output**: [[1,2,3],[4,5,6],[7,8,9]]
 
 
 ### **Algorithm: Flatten, Rotate, and Rebuild**
@@ -16969,7 +16823,7 @@ var shiftGrid = function(grid, k) {
 ### **Example Walkthrough**
 #### **Example 1**
 ```js
-Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
 ```
 1. **Flattened**: `[1,2,3,4,5,6,7,8,9]`
 2. **Rotate 1 step**: `[9,1,2,3,4,5,6,7,8]`
@@ -16983,7 +16837,7 @@ Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
 
 #### **Example 2**
 ```js
-Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9
+**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9
 ```
 1. **Flattened**: `[1,2,3,4,5,6,7,8,9]`
 2. **Optimize `k = 9 % 9 = 0`**, so no change.
@@ -17012,13 +16866,13 @@ Given two binary strings a and b, return their sum as a binary string.
 
 Example 1:
 
-Input: a = "11", b = "1"\
-Output: "100"
+**Input**: a = "11", b = "1"\
+**Output**: "100"
 
 Example 2:
 
-Input: a = "1010", b = "1011"\
-Output: "10101"
+**Input**: a = "1010", b = "1011"\
+**Output**: "10101"
 
 ### **Algorithm: Bit-by-Bit Addition (Simulating Binary Addition)**
 We perform binary addition similar to how we add numbers manually:
@@ -17055,19 +16909,19 @@ var addBinary = function(a, b) {
 ### **Example Walkthrough**
 #### **Example 1**
 ```js
-Input: a = "11", b = "1"
+**Input**: a = "11", b = "1"
 ```
 **Steps:**
 1. `1 + 1 = 10` → bit: `0`, carry: `1`
 2. `1 + 0 + 1 = 10` → bit: `0`, carry: `1`
 3. `carry 1` → bit: `1`
-✅ **Output:** `"100"`
+✅ ****Output**:** `"100"`
 
 ---
 
 #### **Example 2**
 ```js
-Input: a = "1010", b = "1011"
+**Input**: a = "1010", b = "1011"
 ```
 **Steps:**
 1. `0 + 1 = 1` → bit: `1`, carry: `0`
@@ -17075,7 +16929,7 @@ Input: a = "1010", b = "1011"
 3. `0 + 0 + 1 = 1` → bit: `1`, carry: `0`
 4. `1 + 1 = 10` → bit: `0`, carry: `1`
 5. `carry 1` → bit: `1`
-✅ **Output:** `"10101"`
+✅ ****Output**:** `"10101"`
 
 ---
 
@@ -17091,14 +16945,14 @@ This method efficiently performs binary addition without converting to decimal, 
 Given the root of a binary tree, return the average value of the nodes on each level in the form of an array. Answers within 10-5 of the actual answer will be accepted.
  
 Example 1:\
-Input: root = [3,9,20,null,null,15,7]\
-Output: [3.00000,14.50000,11.00000]\
-Explanation: The average value of nodes on level 0 is 3, on level 1 is 14.5, and on level 2 is 11.\
+**Input**: root = [3,9,20,null,null,15,7]\
+**Output**: [3.00000,14.50000,11.00000]\
+****Explanation****: The average value of nodes on level 0 is 3, on level 1 is 14.5, and on level 2 is 11.\
 Hence return [3, 14.5, 11].
 
 Example 2:\
-Input: root = [3,9,20,15,7]\
-Output: [3.00000,14.50000,11.00000]
+**Input**: root = [3,9,20,15,7]\
+**Output**: [3.00000,14.50000,11.00000]
 
 ## **Algorithm: Breadth-First Search (BFS)**  
 We will use **Level Order Traversal** (BFS) with a queue to compute the average of each level.
@@ -17149,7 +17003,7 @@ var averageOfLevels = function(root) {
 ### **Example Walkthrough**
 #### **Example 1**
 ```js
-Input: root = [3,9,20,null,null,15,7]
+**Input**: root = [3,9,20,null,null,15,7]
 
 Tree structure:
         3
@@ -17175,7 +17029,7 @@ Tree structure:
    - Average = `22 / 2 = 11.00000`
    - **Queue:** `[]` (Tree processed)
 
-✅ **Output:** `[3.00000, 14.50000, 11.00000]`
+✅ ****Output**:** `[3.00000, 14.50000, 11.00000]`
 
 ---
 
@@ -17195,12 +17049,12 @@ Given the root of a binary tree, return all root-to-leaf paths in any order.
 A leaf is a node with no children.
 
 Example 1:\
-Input: root = [1,2,3,null,5]\
-Output: ["1->2->5","1->3"]
+**Input**: root = [1,2,3,null,5]\
+**Output**: ["1->2->5","1->3"]
 
 Example 2:\
-Input: root = [1]\
-Output: ["1"]
+**Input**: root = [1]\
+**Output**: ["1"]
 
 ## **Algorithm: DFS (Depth-First Search)**
 We use **Depth-First Search (DFS)** to traverse the tree and record all root-to-leaf paths.
@@ -17248,7 +17102,7 @@ var binaryTreePaths = function(root) {
 ### **Example Walkthrough**
 #### **Example 1**
 ```js
-Input: root = [1,2,3,null,5]
+**Input**: root = [1,2,3,null,5]
 ```
 Binary Tree:
 ```
@@ -17261,20 +17115,20 @@ Binary Tree:
 - **DFS Traversal Paths**:
   - `1 -> 2 -> 5`
   - `1 -> 3`
-✅ **Output:** `["1->2->5", "1->3"]`
+✅ ****Output**:** `["1->2->5", "1->3"]`
 
 ---
 
 #### **Example 2**
 ```js
-Input: root = [1]
+**Input**: root = [1]
 ```
 Binary Tree:
 ```
   1
 ```
 - **DFS Path:** `"1"`
-✅ **Output:** `["1"]`
+✅ ****Output**:** `["1"]`
 
 ---
 
@@ -17291,15 +17145,15 @@ Given the root node of a binary tree, your task is to create a string representa
 
 Example 1:
 
-Input: root = [1,2,3,4]\
-Output: "1(2(4))(3)"\
-Explanation: Originally, it needs to be "1(2(4)())(3()())", but you need to omit all the empty parenthesis pairs. And it will be "1(2(4))(3)".
+**Input**: root = [1,2,3,4]\
+**Output**: "1(2(4))(3)"\
+****Explanation****: Originally, it needs to be "1(2(4)())(3()())", but you need to omit all the empty parenthesis pairs. And it will be "1(2(4))(3)".
 
 Example 2:
 
-Input: root = [1,2,3,null,4]\
-Output: "1(2()(4))(3)"\
-Explanation: Almost the same as the first example, except the () after 2 is necessary to indicate the absence of a left child for 2 and the presence of a right child.
+**Input**: root = [1,2,3,null,4]\
+**Output**: "1(2()(4))(3)"\
+****Explanation****: Almost the same as the first example, except the () after 2 is necessary to indicate the absence of a left child for 2 and the presence of a right child.
 
 
 ## **Algorithm: Preorder Traversal with String Construction**  
@@ -17344,7 +17198,7 @@ var tree2str = function(root) {
 ### **Example Walkthrough**
 #### **Example 1**
 ```js
-Input: root = [1,2,3,4]
+**Input**: root = [1,2,3,4]
 ```
 **Tree Structure:**
 ```
@@ -17357,13 +17211,13 @@ Input: root = [1,2,3,4]
 - Root: `"1"`
 - Left subtree: `"2(4)"`
 - Right subtree: `"3"`
-✅ **Output:** `"1(2(4))(3)"`
+✅ ****Output**:** `"1(2(4))(3)"`
 
 ---
 
 #### **Example 2**
 ```js
-Input: root = [1,2,3,null,4]
+**Input**: root = [1,2,3,null,4]
 ```
 **Tree Structure:**
 ```
@@ -17376,7 +17230,7 @@ Input: root = [1,2,3,null,4]
 - Root: `"1"`
 - Left subtree: `"2()(4)"` (empty `()` needed to indicate missing left child)
 - Right subtree: `"3"`
-✅ **Output:** `"1(2()(4))(3)"`
+✅ ****Output**:** `"1(2()(4))(3)"`
 
 ---
 
@@ -17394,15 +17248,15 @@ height-balanced
 
 Example 1:
 
-Input: nums = [-10,-3,0,5,9]\
-Output: [0,-3,9,-10,null,5]\
-Explanation: [0,-10,5,null,-3,null,9] is also accepted:
+**Input**: nums = [-10,-3,0,5,9]\
+**Output**: [0,-3,9,-10,null,5]\
+****Explanation****: [0,-10,5,null,-3,null,9] is also accepted:
 
 Example 2:
 
-Input: nums = [1,3]\
-Output: [3,1]\
-Explanation: [1,null,3] and [3,1] are both height-balanced BSTs.
+**Input**: nums = [1,3]\
+**Output**: [3,1]\
+****Explanation****: [1,null,3] and [3,1] are both height-balanced BSTs.
 
 
  ## **Algorithm: Recursive Divide and Conquer (Binary Search Approach)**  
@@ -17437,7 +17291,7 @@ var sortedArrayToBST = function(nums) {
 ### **Example Walkthrough**
 #### **Example 1**
 ```js
-Input: nums = [-10, -3, 0, 5, 9]
+**Input**: nums = [-10, -3, 0, 5, 9]
 ```
 **Recursive Calls:**
 ```
@@ -17462,7 +17316,7 @@ nums = [-10, -3, 0, 5, 9] → mid = 2 → root = 0
 
 ### **Example 2**
 ```js
-Input: nums = [1, 3]
+**Input**: nums = [1, 3]
 ```
 **Recursive Calls:**
 ```
@@ -17494,17 +17348,17 @@ Substrings that occur multiple times are counted the number of times they occur.
 
 Example 1:
 
-Input: s = "00110011"\
-Output: 6\
-Explanation: There are 6 substrings that have equal number of consecutive 1's and 0's: "0011", "01", "1100", "10", "0011", and "01".\
+**Input**: s = "00110011"\
+**Output**: 6\
+****Explanation****: There are 6 substrings that have equal number of consecutive 1's and 0's: "0011", "01", "1100", "10", "0011", and "01".\
 Notice that some of these substrings repeat and are counted the number of times they occur.\
 Also, "00110011" is not a valid substring because all the 0's (and 1's) are not grouped together.
 
 Example 2:
 
-Input: s = "10101"\
-Output: 4\
-Explanation: There are 4 substrings: "10", "01", "10", "01" that have equal number of consecutive 1's and 0's.
+**Input**: s = "10101"\
+**Output**: 4\
+****Explanation****: There are 4 substrings: "10", "01", "10", "01" that have equal number of consecutive 1's and 0's.
 
 ## **Algorithm: Group Count Method**  
 This problem can be solved efficiently using the **group count** method instead of brute force substring checking.
@@ -17551,7 +17405,7 @@ var countBinarySubstrings = function(s) {
 ### **Example Walkthrough**
 #### **Example 1**
 ```js
-Input: s = "00110011"
+**Input**: s = "00110011"
 ```
 **Step-by-step processing:**
 - Groups: `[2,2,2,2]` (two `0`s, two `1`s, two `0`s, two `1`s)
@@ -17559,11 +17413,11 @@ Input: s = "00110011"
   - `min(2,2) = 2`
   - `min(2,2) = 2`
   - `min(2,2) = 2`
-- ✅ **Output:** `6`
+- ✅ ****Output**:** `6`
 
 #### **Example 2**
 ```js
-Input: s = "10101"
+**Input**: s = "10101"
 ```
 **Step-by-step processing:**
 - Groups: `[1,1,1,1,1]`
@@ -17572,7 +17426,7 @@ Input: s = "10101"
   - `min(1,1) = 1`
   - `min(1,1) = 1`
   - `min(1,1) = 1`
-- ✅ **Output:** `4`
+- ✅ ****Output**:** `4`
 
 ---
 
@@ -17594,18 +17448,18 @@ Note that in a binary tree, the root node is at the depth 0, and children of eac
 
 Example 1:
 
-Input: root = [1,2,3,4], x = 4, y = 3\
-Output: false
+**Input**: root = [1,2,3,4], x = 4, y = 3\
+**Output**: false
 
 Example 2:
 
-Input: root = [1,2,3,null,4,null,5], x = 5, y = 4\
-Output: true
+**Input**: root = [1,2,3,null,4,null,5], x = 5, y = 4\
+**Output**: true
 
 Example 3:
 
-Input: root = [1,2,3,null,4], x = 2, y = 3
-Output: false
+**Input**: root = [1,2,3,null,4], x = 2, y = 3
+**Output**: false
 
 ## **Algorithm: BFS (Level Order Traversal)**
 To determine if two nodes `x` and `y` are **cousins**, we need to check:  
@@ -17662,30 +17516,30 @@ var isCousins = function(root, x, y) {
 ### **Example Walkthrough**
 #### **Example 1**
 ```js
-Input: root = [1,2,3,4], x = 4, y = 3
+**Input**: root = [1,2,3,4], x = 4, y = 3
 ```
 - Level 1: `[1]`
 - Level 2: `[2, 3]`
 - Level 3: `[4]`
 - **x = 4 (parent = 2), y = 3 (parent = 1)**
-- ✅ **Output:** `false` (different depths)
+- ✅ ****Output**:** `false` (different depths)
 
 #### **Example 2**
 ```js
-Input: root = [1,2,3,null,4,null,5], x = 5, y = 4
+**Input**: root = [1,2,3,null,4,null,5], x = 5, y = 4
 ```
 - Level 1: `[1]`
 - Level 2: `[2, 3]`
 - Level 3: `[4, 5]`
 - **x = 5 (parent = 3), y = 4 (parent = 2)**
-- ✅ **Output:** `true` (same depth, different parents)
+- ✅ ****Output**:** `true` (same depth, different parents)
 
 #### **Example 3**
 ```js
-Input: root = [1,2,3,null,4], x = 2, y = 3
+**Input**: root = [1,2,3,null,4], x = 2, y = 3
 ```
 - **x = 2 (parent = 1), y = 3 (parent = 1)**
-- ❌ **Output:** `false` (same parent)
+- ❌ ****Output**:** `false` (same parent)
 
 ---
 
@@ -17763,26 +17617,26 @@ Return the number of columns that you will delete.
 
 Example 1:
 
-Input: strs = ["cba","daf","ghi"]
-Output: 1
-Explanation: The grid looks as follows:
+**Input**: strs = ["cba","daf","ghi"]
+**Output**: 1
+****Explanation****: The grid looks as follows:
   cba
   daf
   ghi
 Columns 0 and 2 are sorted, but column 1 is not, so you only need to delete 1 column.
 Example 2:
 
-Input: strs = ["a","b"]
-Output: 0
-Explanation: The grid looks as follows:
+**Input**: strs = ["a","b"]
+**Output**: 0
+****Explanation****: The grid looks as follows:
   a
   b
 Column 0 is the only column and is sorted, so you will not delete any columns.
 Example 3:
 
-Input: strs = ["zyx","wvu","tsr"]
-Output: 3
-Explanation: The grid looks as follows:
+**Input**: strs = ["zyx","wvu","tsr"]
+**Output**: 3
+****Explanation****: The grid looks as follows:
   zyx
   wvu
   tsr
@@ -17815,16 +17669,16 @@ Given the roots of two binary trees p and q, write a function to check if they a
 Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
 
 Example 1:\
-Input: p = [1,2,3], q = [1,2,3]\
-Output: true
+**Input**: p = [1,2,3], q = [1,2,3]\
+**Output**: true
 
 Example 2:\
-Input: p = [1,2], q = [1,null,2]\
-Output: false
+**Input**: p = [1,2], q = [1,null,2]\
+**Output**: false
 
 Example 3:\
-Input: p = [1,2,1], q = [1,1,2]\
-Output: false
+**Input**: p = [1,2,1], q = [1,1,2]\
+**Output**: false
 
 ```js
 var isSameTree = function(p, q) {
@@ -17843,12 +17697,12 @@ You are given the root of a binary search tree (BST) and an integer val.
 Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
 
 Example 1:\
-Input: root = [4,2,7,1,3], val = 2\
-Output: [2,1,3]
+**Input**: root = [4,2,7,1,3], val = 2\
+**Output**: [2,1,3]
 
 Example 2:\
-Input: root = [4,2,7,1,3], val = 5\
-Output: []
+**Input**: root = [4,2,7,1,3], val = 5\
+**Output**: []
 
 ### **Algorithm: BST Search**
 - If `root` is `null`, return `null`.
@@ -17885,13 +17739,13 @@ A subtree of a binary tree tree is a tree that consists of a node in tree and al
 Example 1:
 
 
-Input: root = [3,4,5,1,2], subRoot = [4,1,2]
-Output: true
+**Input**: root = [3,4,5,1,2], subRoot = [4,1,2]
+**Output**: true
 Example 2:
 
 
-Input: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]
-Output: false
+**Input**: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]
+**Output**: false
 
 
 ### **Algorithm: Subtree Check using Tree Comparison**  
@@ -17928,13 +17782,13 @@ A leaf is a node with no children. A left leaf is a leaf that is the left child 
 Example 1:
 
 
-Input: root = [3,9,20,null,null,15,7]
-Output: 24
-Explanation: There are two left leaves in the binary tree, with values 9 and 15 respectively.
+**Input**: root = [3,9,20,null,null,15,7]
+**Output**: 24
+****Explanation****: There are two left leaves in the binary tree, with values 9 and 15 respectively.
 Example 2:
 
-Input: root = [1]
-Output: 0
+**Input**: root = [1]
+**Output**: 0
 
 
 ### **Algorithm: DFS Traversal**  
@@ -17966,13 +17820,13 @@ For all leaves in the tree, consider the numbers represented by the path from th
 The test cases are generated so that the answer fits in a 32-bits integer.
 
 Example 1:\
-Input: root = [1,0,1,0,1,0,1]\
-Output: 22\
-Explanation: (100) + (101) + (110) + (111) = 4 + 5 + 6 + 7 = 22
+**Input**: root = [1,0,1,0,1,0,1]\
+**Output**: 22\
+****Explanation****: (100) + (101) + (110) + (111) = 4 + 5 + 6 + 7 = 22
 
 Example 2:\
-Input: root = [0]\
-Output: 0
+**Input**: root = [0]\
+**Output**: 0
 
 ### **Algorithm: DFS Traversal**  
 - Use Depth-First Search (DFS) to traverse the tree.  
@@ -18044,13 +17898,13 @@ Given the root of a binary tree, check whether it is a mirror of itself (i.e., s
 Example 1:
 
 
-Input: root = [1,2,2,3,4,4,3]
-Output: true
+**Input**: root = [1,2,2,3,4,4,3]
+**Output**: true
 Example 2:
 
 
-Input: root = [1,2,2,null,3,null,3]
-Output: false
+**Input**: root = [1,2,2,null,3,null,3]
+**Output**: false
 
 
 ### **Algorithm: Recursive DFS**  
@@ -18079,12 +17933,12 @@ var isSymmetric = function(root) {
 Given the root of a binary search tree and an integer k, return true if there exist two elements in the BST such that their sum is equal to k, or false otherwise.
 
 Example 1:\
-Input: root = [5,3,6,2,4,null,7], k = 9\
-Output: true
+**Input**: root = [5,3,6,2,4,null,7], k = 9\
+**Output**: true
 
 Example 2:\
-Input: root = [5,3,6,2,4,null,7], k = 28\
-Output: false
+**Input**: root = [5,3,6,2,4,null,7], k = 28\
+**Output**: false
 
 ### **Algorithm: Inorder Traversal + Hash Set**  
 - Perform an inorder traversal to access elements in sorted order.  
@@ -18123,12 +17977,12 @@ Note: The merging process must start from the root nodes of both trees.
 Example 1:
 
 
-Input: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
-Output: [3,4,5,5,4,null,7]
+**Input**: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
+**Output**: [3,4,5,5,4,null,7]
 Example 2:
 
-Input: root1 = [1], root2 = [1,2]
-Output: [2,2]
+**Input**: root1 = [1], root2 = [1,2]
+**Output**: [2,2]
 
 ### **Algorithm: DFS (Recursive Approach)**
 - If one of the trees is `null`, return the other tree.
@@ -18162,13 +18016,13 @@ In Pascal's triangle, each number is the sum of the two numbers directly above i
 
 Example 1:
 
-Input: numRows = 5\
-Output: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
+**Input**: numRows = 5\
+**Output**: [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]]
 
 Example 2:
 
-Input: numRows = 1\
-Output: [[1]]
+**Input**: numRows = 1\
+**Output**: [[1]]
 
 ### **Algorithm: Dynamic Construction**
 1. Initialize a result array `res` with the first row as `[1]`.
@@ -18224,16 +18078,16 @@ In Pascal's triangle, each number is the sum of the two numbers directly above i
 
 Example 1:
 
-Input: rowIndex = 3
-Output: [1,3,3,1]
+**Input**: rowIndex = 3
+**Output**: [1,3,3,1]
 Example 2:
 
-Input: rowIndex = 0
-Output: [1]
+**Input**: rowIndex = 0
+**Output**: [1]
 Example 3:
 
-Input: rowIndex = 1
-Output: [1,1]
+**Input**: rowIndex = 1
+**Output**: [1,1]
 
 
 ### **Algorithm: Iterative Approach (O(n²) Time, O(n) Space)**
@@ -18305,9 +18159,9 @@ Return true if the path crosses itself at any point, that is, if at any time you
 Example 1:
 
 
-Input: path = "NES"
-Output: false 
-Explanation: Notice that the path doesn't cross any point more than once.
+**Input**: path = "NES"
+**Output**: false 
+****Explanation****: Notice that the path doesn't cross any point more than once.
 
 
 ### **Algorithm: Hash Set for Tracking Visited Positions (O(n) Time, O(n) Space)**  
@@ -18365,23 +18219,23 @@ A leaf is a node with no children.
 Example 1:
 
 
-Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
-Output: true
-Explanation: The root-to-leaf path with the target sum is shown.
+**Input**: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+**Output**: true
+****Explanation****: The root-to-leaf path with the target sum is shown.
 Example 2:
 
 
-Input: root = [1,2,3], targetSum = 5
-Output: false
-Explanation: There are two root-to-leaf paths in the tree:
+**Input**: root = [1,2,3], targetSum = 5
+**Output**: false
+****Explanation****: There are two root-to-leaf paths in the tree:
 (1 --> 2): The sum is 3.
 (1 --> 3): The sum is 4.
 There is no root-to-leaf path with sum = 5.
 Example 3:
 
-Input: root = [], targetSum = 0
-Output: false
-Explanation: Since the tree is empty, there are no root-to-leaf paths.
+**Input**: root = [], targetSum = 0
+**Output**: false
+****Explanation****: Since the tree is empty, there are no root-to-leaf paths.
  
 
 Constraints:
@@ -18472,21 +18326,21 @@ Return the minimum cost needed to move all the chips to the same position.
 Example 1:
 
 
-Input: position = [1,2,3]
-Output: 1
-Explanation: First step: Move the chip at position 3 to position 1 with cost = 0.
+**Input**: position = [1,2,3]
+**Output**: 1
+****Explanation****: First step: Move the chip at position 3 to position 1 with cost = 0.
 Second step: Move the chip at position 2 to position 1 with cost = 1.
 Total cost is 1.
 Example 2:
 
 
-Input: position = [2,2,2,3,3]
-Output: 2
-Explanation: We can move the two chips at position  3 to position 2. Each move has cost = 1. The total cost = 2.
+**Input**: position = [2,2,2,3,3]
+**Output**: 2
+****Explanation****: We can move the two chips at position  3 to position 2. Each move has cost = 1. The total cost = 2.
 Example 3:
 
-Input: position = [1,1000000000]
-Output: 1
+**Input**: position = [1,1000000000]
+**Output**: 1
  
  ### **Algorithm: Counting Odd and Even Positions**
 1. Chips at **even positions** can be moved to any other even position at **zero cost**.
@@ -18529,9 +18383,9 @@ Given a string **s** of **zeros and ones**, return the maximum score after split
 
 Example 1:
 
-Input: s = "011101"\
-Output: 5 \
-Explanation:\ 
+**Input**: s = "011101"\
+**Output**: 5 \
+****Explanation****:\ 
 All possible ways of splitting s into two non-empty substrings are:\
 left = "0" and right = "11101", score = 1 + 4 = 5\
 left = "01" and right = "1101", score = 1 + 3 = 4\
@@ -18541,14 +18395,14 @@ left = "01110" and right = "1", score = 2 + 1 = 3
 
 Example 2:
 
-Input: s = "00111"\
-Output: 5\
-Explanation: When left = "00" and right = "111", we get the maximum score = 2 + 3 = 5
+**Input**: s = "00111"\
+**Output**: 5\
+**Explanation**: When left = "00" and right = "111", we get the maximum score = 2 + 3 = 5
 
 Example 3:
 
-Input: s = "1111"\
-Output: 3
+**Input**: s = "1111"\
+**Output**: 3
 
 **Algorithm: Prefix Count and Iteration**
 
@@ -18606,12 +18460,12 @@ Note: A leaf is a node with no children.
 Example 1:
 
 
-Input: root = [3,9,20,null,null,15,7]
-Output: 2
+**Input**: root = [3,9,20,null,null,15,7]
+**Output**: 2
 Example 2:
 
-Input: root = [2,null,3,null,4,null,5,null,6]
-Output: 5
+**Input**: root = [2,null,3,null,4,null,5,null,6]
+**Output**: 5
 
 ### **Algorithm: BFS (Breadth-First Search)**
 The **minimum depth** of a binary tree is the shortest path from the root to a leaf node. BFS is ideal for this because it finds the shortest path efficiently.
@@ -18706,13 +18560,13 @@ The diameter of a binary tree is the length of the longest path between any two 
 The length of a path between two nodes is represented by the number of edges between them.
 
 Example 1:\
-Input: root = [1,2,3,4,5]\
-Output: 3\
-Explanation: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
+**Input**: root = [1,2,3,4,5]\
+**Output**: 3\
+**Explanation**: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
 
 Example 2:\
-Input: root = [1,2]\
-Output: 1
+**Input**: root = [1,2]\
+**Output**: 1
 
 ### **Algorithm: Depth-First Search (DFS)**
 We use **DFS (Postorder Traversal)** to calculate the depth of each subtree and update the diameter.
@@ -18774,15 +18628,15 @@ Given the root node of a binary search tree and two integers low and high, retur
 Example 1:
 
 
-Input: root = [10,5,15,3,7,null,18], low = 7, high = 15
-Output: 32
-Explanation: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
+**Input**: root = [10,5,15,3,7,null,18], low = 7, high = 15
+**Output**: 32
+**Explanation**: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
 Example 2:
 
 
-Input: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
-Output: 23
-Explanation: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
+**Input**: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
+**Output**: 23
+**Explanation**: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
  
 ### **Algorithm: Depth-First Search (DFS)**
 We use **DFS (Preorder Traversal)** to explore the tree and sum only the nodes within the range `[low, high]`.
@@ -18853,14 +18707,14 @@ Note: The way that the robot is "facing" is irrelevant. 'R' will always make the
 
 Example 1:
 
-Input: moves = "UD"
-Output: true
-Explanation: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.
+**Input**: moves = "UD"
+**Output**: true
+**Explanation**: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.
 Example 2:
 
-Input: moves = "LL"
-Output: false
-Explanation: The robot moves left twice. It ends up two "moves" to the left of the origin. We return false because it is not at the origin at the end of its moves.
+**Input**: moves = "LL"
+**Output**: false
+**Explanation**: The robot moves left twice. It ends up two "moves" to the left of the origin. We return false because it is not at the origin at the end of its moves.
  
 
 Constraints:
@@ -18928,12 +18782,12 @@ Both the left and right subtrees must also be binary search trees.
 Example 1:
 
 
-Input: root = [1,null,2,2]
-Output: [2]
+**Input**: root = [1,null,2,2]
+**Output**: [2]
 Example 2:
 
-Input: root = [0]
-Output: [0]
+**Input**: root = [0]
+**Output**: [0]
 
 ### **Algorithm: Inorder Traversal with Frequency Count**  
 Since an **inorder traversal** of a BST results in a sorted sequence, we can traverse the tree while keeping track of the **current frequency** of each value. The most frequently occurring value(s) will be the **mode(s)**.
@@ -19021,17 +18875,17 @@ Given a binary tree, determine if it is height-balanced.
 Example 1:
 
 
-Input: root = [3,9,20,null,null,15,7]
-Output: true
+**Input**: root = [3,9,20,null,null,15,7]
+**Output**: true
 Example 2:
 
 
-Input: root = [1,2,2,3,3,null,null,4,4]
-Output: false
+**Input**: root = [1,2,2,3,3,null,null,4,4]
+**Output**: false
 Example 3:
 
-Input: root = []
-Output: true
+**Input**: root = []
+**Output**: true
 
 
 ### Algorithm: Depth-First Search (DFS) with Height Calculation  
@@ -19080,7 +18934,7 @@ let tree = new TreeNode(1,
   new TreeNode(2, new TreeNode(3), new TreeNode(4)), 
   new TreeNode(2, new TreeNode(4), new TreeNode(3))
 );
-console.log(isBalanced(tree)); // Output: true
+console.log(isBalanced(tree)); // **Output**: true
 
 let unbalancedTree = new TreeNode(1, 
   new TreeNode(2, 
@@ -19089,7 +18943,7 @@ let unbalancedTree = new TreeNode(1,
     )
   )
 );
-console.log(isBalanced(unbalancedTree)); // Output: false
+console.log(isBalanced(unbalancedTree)); // **Output**: false
 ```
 
 ---
