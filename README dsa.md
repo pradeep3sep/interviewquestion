@@ -237,7 +237,7 @@ Example 1:
 Example 2:
 
 **Input**: nums1 = [4,9,5], nums2 = [9,4,9,8,4]\
-**Output**: [4,9]
+**Output**: [4,9]\
 **Explanation**: [9,4] is also accepted.
 
 
@@ -611,13 +611,13 @@ startVal=4 | startVal =5| nums\
 
 Example 2:
 
-**Input**: nums = [1,2]
-**Output**: 1
+**Input**: nums = [1,2]\
+**Output**: 1\
 **Explanation**: Minimum start value should be positive. 
 
 Example 3:
 
-**Input**: nums = [1,-2,-3]
+**Input**: nums = [1,-2,-3]\
 **Output**: 5
 
 `Video:` https://youtu.be/acIkZpmbiaA?si=zNiN1UkCKzastQ1S
@@ -2192,11 +2192,11 @@ This approach runs in O(n) time complexity, where `n` is the length of `s2`.
 
 **Input**: txt = “BACDGABCDA”,  **pat** = “ABCD”\
 **Output**: [0, 5, 6]\
-****Explanation****: “BACD” is at 0, “ABCD” at 5 and “BCDA” at 6
+**Explanation**: “BACD” is at 0, “ABCD” at 5 and “BCDA” at 6
 
 **Input**: txt = “AAABABAA”, **pat** = “AABA”   \
 **Output**:  [0, 1, 4]\
-****Explanation****: “AAAB” is at 0, “AABA” at 5 and “ABAA” at 6
+**Explanation**: “AAAB” is at 0, “AABA” at 5 and “ABAA” at 6
 
 
 <details>
@@ -7420,7 +7420,7 @@ console.log(allocateBooks(books, students)); // **Output**: 113
 
 ### **Explanation** of Example
 - ****Input**:** `books = [12, 34, 67, 90], students = 2`
-- ****Output**:** `113`
+- **Output** `113`
 - **Reason:** 
   - Allocate `[12, 34, 67]` to the first student (total = 113 pages).
   - Allocate `[90]` to the second student (total = 90 pages).
@@ -14395,7 +14395,7 @@ console.log(plusOne([9,9,9]));   // [1,0,0,0]
 console.log(plusOne([0]));       // [1]
 ```
 
-### ****Explanation****
+### **Explanation**
 1. **Iterate from the last digit** and check:
    - If it's `<9`, simply increment and return.
    - If it's `9`, set it to `0` and continue (carry propagation).
@@ -14458,7 +14458,7 @@ console.log(peakIndexInMountainArray([0,10,5,2])); // **Output**: 1
 console.log(peakIndexInMountainArray([1,3,5,7,9,8,6,4,2])); // **Output**: 4
 ```
 
-### ****Explanation****
+### **Explanation**
 1. **Initialize Binary Search**:
    - `left = 0`, `right = arr.length - 1`
 2. **Binary Search Condition**:
@@ -14525,7 +14525,7 @@ console.log(canThreePartsEqualSum([0,2,1,-6,6,7,9,-1,2,0,1]));  // **Output**: f
 console.log(canThreePartsEqualSum([3,3,6,5,-2,2,5,1,-9,4]));    // **Output**: true
 ```
 
-### ****Explanation****
+### **Explanation**
 1. **Compute Total Sum**:
    - If the total sum is not divisible by `3`, return **false**.
    - Otherwise, set `targetSum = totalSum / 3`.
@@ -15429,7 +15429,7 @@ name = "alex", typed = "aaleex"
 | 3 | 5 | 'x' | 'x' | Match | `i++`, `j++` |
 | 4 | 6 | - | - | End | ✅ Return `true` |
 
-****Output**:** `true`
+**Output** `true`
 
 
 #### **Example 2**
@@ -15445,7 +15445,7 @@ name = "saeed", typed = "ssaaedd"
 | 1 | 2 | 'a' | 'a' | Match | `i++`, `j++` |
 | 2 | 3 | 'e' | 'a' | Mismatch | ❌ Return `false` |
 
-****Output**:** `false`
+**Output** `false`
 
 
 ### **Time Complexity Analysis**
@@ -15550,7 +15550,7 @@ s = "5F3Z-2e-9-w", k = 4
    - `"2E9W"`
 5. Join with dashes → `"5F3Z-2E9W"`
 
-****Output**:**  
+**Output**  
 ```js
 "5F3Z-2E9W"
 ```
@@ -15569,7 +15569,7 @@ s = "2-5g-3-J", k = 2
    - `"3J"`
 5. Join with dashes → `"2-5G-3J"`
 
-****Output**:**  
+**Output**  
 ```js
 "2-5G-3J"
 ```
@@ -15747,7 +15747,7 @@ var guessNumber = function(n) {
 3. `mid = (6 + 7) / 2 = 6`
    - `guess(6) → 0` (found pick) → **Return 6**
 
-#### ****Output**:** `6`
+#### **Output** `6`
 
 
 > ### 893. Groups of Special-Equivalent Strings
@@ -15837,7 +15837,7 @@ words = ["abcd","cdab","cbad","xyzz","zzxy","zzyx"]
 { "ac-bd", "xz-yz", "zx-zy" }
 ```
 
-#### ****Output**:** `3`
+#### **Output** `3`
 
 > ### 172. Factorial Trailing Zeroes
 
@@ -15966,7 +15966,7 @@ var freqAlphabets = function(s) {
 };
 ```
 
-### ****Explanation****
+### **Explanation**
 1. **Iterate using a `for` loop**:
    - If the current character is part of a `10#-26#` mapping:
      - Extract two digits (`s[i]` and `s[i+1]`).
@@ -16055,7 +16055,7 @@ var buildArray = function(target, n) {
 };
 ```
 
-### ****Explanation****
+### **Explanation**
 1. **Iterate from `1` to `n`** (simulating the stream).
 2. **Push every number onto the stack**.
 3. **If the number is not in `target`**, immediately `"Pop"` it.
@@ -16560,7 +16560,7 @@ Example 1:
 
 **Input**: m = 3, n = 3, ops = [[2,2],[3,3]]\
 **Output**: 4\
-****Explanation****: The maximum integer in M is 2, and there are four of it in M. So return 4.
+**Explanation**: The maximum integer in M is 2, and there are four of it in M. So return 4.
 
 
 Example 2:
@@ -16665,10 +16665,7 @@ Modified nums = [0,1,3,0,4,_,_,_]
 <br>
 
 > ### 566. Reshape the Matrix
-Easy
-Topics
-Companies
-Hint
+
 In MATLAB, there is a handy function called reshape which can reshape an m x n matrix into a new one with a different size r x c keeping its original data.
 
 You are given an m x n matrix mat and two integers r and c representing the number of rows and the number of columns of the wanted reshaped matrix.
@@ -16677,29 +16674,24 @@ The reshaped matrix should be filled with all the elements of the original matri
 
 If the reshape operation with given parameters is possible and legal, output the new reshaped matrix; Otherwise, output the original matrix.
 
- 
+<br> 
 
-Example 1:
-
-
-**Input**: mat = [[1,2],[3,4]], r = 1, c = 4
+Example 1:\
+**Input**: mat = [[1,2],[3,4]], r = 1, c = 4\
 **Output**: [[1,2,3,4]]
-Example 2:
 
 
-**Input**: mat = [[1,2],[3,4]], r = 2, c = 4
+Example 2:\
+**Input**: mat = [[1,2],[3,4]], r = 2, c = 4\
 **Output**: [[1,2],[3,4]]
 
+<details>
 
-### **Algorithm: Flatten & Reshape**
 - **Step 1**: Check if reshaping is possible:  
   - If `m * n !== r * c`, return `mat` as reshaping is not possible.
 - **Step 2**: Flatten the original matrix into a 1D array.
 - **Step 3**: Construct the new matrix row by row using the 1D array.
 
----
-
-### **JavaScript Code**
 ```javascript
 var matrixReshape = function(mat, r, c) {
     let m = mat.length, n = mat[0].length;
@@ -16720,79 +16712,42 @@ var matrixReshape = function(mat, r, c) {
 };
 ```
 
----
+</details>
 
-### **Example Walkthrough**
-#### **Example 1**
-```js
-**Input**: mat = [[1,2],[3,4]], r = 1, c = 4
-```
-- Flattened: `[1,2,3,4]`
-- Reshaped: `[[1,2,3,4]]`
-
-✅ **Output**: `[[1,2,3,4]]`
-
-#### **Example 2**
-```js
-**Input**: mat = [[1,2],[3,4]], r = 2, c = 4
-```
-- Cannot reshape since `2 × 2 ≠ 2 × 4`, so return `mat`.
-
-✅ **Output**: `[[1,2],[3,4]]`
-
----
-
-### **Complexity Analysis**
-- **Flattening the matrix** → \(O(m \times n)\)
-- **Building the new matrix** → \(O(r \times c)\)
-- **Total Complexity** → \(O(m \times n)\) (since \(m \times n = r \times c\))
-
-This is an efficient approach that maintains row-wise order. 🚀
-
-
+<br>
 
 > ### 1260. Shift 2D Grid
-Easy
-Topics
-Companies
-Hint
+
 Given a 2D grid of size m x n and an integer k. You need to shift the grid k times.
 
 In one shift operation:
 
-Element at grid[i][j] moves to grid[i][j + 1].
-Element at grid[i][n - 1] moves to grid[i + 1][0].
-Element at grid[m - 1][n - 1] moves to grid[0][0].
+Element at grid[i][j] moves to grid[i][j + 1].\
+Element at grid[i][n - 1] moves to grid[i + 1][0].\
+Element at grid[m - 1][n - 1] moves to grid[0][0].\
 Return the 2D grid after applying shift operation k times.
 
  
 
-Example 1:
-
-
-**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+Example 1:\
+**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1\
 **Output**: [[9,1,2],[3,4,5],[6,7,8]]
-Example 2:
 
-
-**Input**: grid = [[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], k = 4
+Example 2:\
+**Input**: grid = [[3,8,1,9],[19,7,2,5],[4,6,11,10],[12,0,21,13]], k = 4\
 **Output**: [[12,0,21,13],[3,8,1,9],[19,7,2,5],[4,6,11,10]]
-Example 3:
 
-**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9
+Example 3:\
+**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9\
 **Output**: [[1,2,3],[4,5,6],[7,8,9]]
 
+<details>
 
-### **Algorithm: Flatten, Rotate, and Rebuild**
-#### **Steps:**
 1. **Flatten the grid into a 1D array**: Since the grid is row-wise stored, convert it into a 1D array.
 2. **Optimize `k`**: Since shifting `k` times is equivalent to shifting `k % (m * n)` times, update `k = k % (m * n)`.
 3. **Rotate the 1D array**: Move the last `k` elements to the front.
 4. **Rebuild the 2D grid**: Convert the rotated 1D array back into a 2D grid.
 
----
-
-### **JavaScript Code**
 ```javascript
 var shiftGrid = function(grid, k) {
     let m = grid.length, n = grid[0].length;
@@ -16818,12 +16773,9 @@ var shiftGrid = function(grid, k) {
 };
 ```
 
----
-
-### **Example Walkthrough**
-#### **Example 1**
+**Example 1**
 ```js
-**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
+Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 1
 ```
 1. **Flattened**: `[1,2,3,4,5,6,7,8,9]`
 2. **Rotate 1 step**: `[9,1,2,3,4,5,6,7,8]`
@@ -16835,9 +16787,9 @@ var shiftGrid = function(grid, k) {
    ```
 ✅ **Output**: `[[9,1,2],[3,4,5],[6,7,8]]`
 
-#### **Example 2**
+**Example 2**
 ```js
-**Input**: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9
+Input: grid = [[1,2,3],[4,5,6],[7,8,9]], k = 9
 ```
 1. **Flattened**: `[1,2,3,4,5,6,7,8,9]`
 2. **Optimize `k = 9 % 9 = 0`**, so no change.
@@ -16849,32 +16801,27 @@ var shiftGrid = function(grid, k) {
    ```
 ✅ **Output**: `[[1,2,3],[4,5,6],[7,8,9]]`
 
----
+</details>
 
-### **Complexity Analysis**
-- **Flattening the grid** → \(O(m \times n)\)
-- **Rotating the array** → \(O(m \times n)\)
-- **Rebuilding the grid** → \(O(m \times n)\)
-- **Total Complexity** → \(O(m \times n)\), which is efficient.
-
-This approach keeps the order intact and ensures optimal shifting without unnecessary iterations. 🚀
-
+<br>
 
 > ### 67. Add Binary
 
 Given two binary strings a and b, return their sum as a binary string.
 
 Example 1:
-
 **Input**: a = "11", b = "1"\
 **Output**: "100"
 
 Example 2:
-
 **Input**: a = "1010", b = "1011"\
 **Output**: "10101"
 
-### **Algorithm: Bit-by-Bit Addition (Simulating Binary Addition)**
+
+<br>
+
+**Algorithm: Bit-by-Bit Addition (Simulating Binary Addition)**
+
 We perform binary addition similar to how we add numbers manually:
 1. **Start from the rightmost bit (LSB)**.
 2. **Add corresponding bits** from both strings along with any carry from the previous addition.
@@ -16883,9 +16830,7 @@ We perform binary addition similar to how we add numbers manually:
 5. **If there's a leftover carry, append it** to the result.
 6. **Return the final sum in reversed order**.
 
----
 
-### **JavaScript Code**
 ```javascript
 var addBinary = function(a, b) {
     let i = a.length - 1, j = b.length - 1;
@@ -16902,9 +16847,8 @@ var addBinary = function(a, b) {
     
     return result;
 };
+addBinary("1010","1011")
 ```
-
----
 
 ### **Example Walkthrough**
 #### **Example 1**
@@ -16915,7 +16859,7 @@ var addBinary = function(a, b) {
 1. `1 + 1 = 10` → bit: `0`, carry: `1`
 2. `1 + 0 + 1 = 10` → bit: `0`, carry: `1`
 3. `carry 1` → bit: `1`
-✅ ****Output**:** `"100"`
+✅ **Output** `"100"`
 
 ---
 
@@ -16929,7 +16873,7 @@ var addBinary = function(a, b) {
 3. `0 + 0 + 1 = 1` → bit: `1`, carry: `0`
 4. `1 + 1 = 10` → bit: `0`, carry: `1`
 5. `carry 1` → bit: `1`
-✅ ****Output**:** `"10101"`
+✅ **Output** `"10101"`
 
 ---
 
@@ -16940,405 +16884,7 @@ var addBinary = function(a, b) {
 This method efficiently performs binary addition without converting to decimal, ensuring precision and speed! 🚀
 
 
-> ### 637. Average of Levels in Binary Tree
-
-Given the root of a binary tree, return the average value of the nodes on each level in the form of an array. Answers within 10-5 of the actual answer will be accepted.
- 
-Example 1:\
-**Input**: root = [3,9,20,null,null,15,7]\
-**Output**: [3.00000,14.50000,11.00000]\
-****Explanation****: The average value of nodes on level 0 is 3, on level 1 is 14.5, and on level 2 is 11.\
-Hence return [3, 14.5, 11].
-
-Example 2:\
-**Input**: root = [3,9,20,15,7]\
-**Output**: [3.00000,14.50000,11.00000]
-
-## **Algorithm: Breadth-First Search (BFS)**  
-We will use **Level Order Traversal** (BFS) with a queue to compute the average of each level.
-
----
-
-### **Approach:**
-1. **Initialize a queue** with the root node.
-2. **Iterate through levels** using BFS:
-   - At each level:
-     - Compute the sum of all nodes in the level.
-     - Compute the average by dividing the sum by the number of nodes at that level.
-     - Store the average in the result array.
-     - Add child nodes of the current level to the queue.
-3. **Return the result array** after processing all levels.
-
----
-
-### **Code (JavaScript)**
-```javascript
-var averageOfLevels = function(root) {
-    if (!root) return [];
-
-    let result = [];
-    let queue = [root];
-
-    while (queue.length > 0) {
-        let levelSize = queue.length;
-        let levelSum = 0;
-
-        for (let i = 0; i < levelSize; i++) {
-            let node = queue.shift();
-            levelSum += node.val;
-
-            if (node.left) queue.push(node.left);
-            if (node.right) queue.push(node.right);
-        }
-
-        result.push(levelSum / levelSize);
-    }
-    
-    return result;
-};
-```
-
----
-
-### **Example Walkthrough**
-#### **Example 1**
-```js
-**Input**: root = [3,9,20,null,null,15,7]
-
-Tree structure:
-        3
-       / \
-      9   20
-         /  \
-        15   7
-```
-
-#### **Step-by-Step Execution**
-1. **Level 0:** `[3]`
-   - Sum = 3
-   - Average = `3 / 1 = 3.00000`
-   - **Queue:** `[9, 20]`
-
-2. **Level 1:** `[9, 20]`
-   - Sum = `9 + 20 = 29`
-   - Average = `29 / 2 = 14.50000`
-   - **Queue:** `[15, 7]`
-
-3. **Level 2:** `[15, 7]`
-   - Sum = `15 + 7 = 22`
-   - Average = `22 / 2 = 11.00000`
-   - **Queue:** `[]` (Tree processed)
-
-✅ ****Output**:** `[3.00000, 14.50000, 11.00000]`
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** \(O(N)\) (Each node is processed once)
-- **Space Complexity:** \(O(N)\) (Queue stores up to one level at a time)
-
----
-
-This BFS approach ensures an efficient and clean solution to the problem! 🚀
-
-
-> ### 257. Binary Tree Paths
-
-Given the root of a binary tree, return all root-to-leaf paths in any order.
-
-A leaf is a node with no children.
-
-Example 1:\
-**Input**: root = [1,2,3,null,5]\
-**Output**: ["1->2->5","1->3"]
-
-Example 2:\
-**Input**: root = [1]\
-**Output**: ["1"]
-
-## **Algorithm: DFS (Depth-First Search)**
-We use **Depth-First Search (DFS)** to traverse the tree and record all root-to-leaf paths.
-
----
-
-### **Approach**
-1. **Edge Case**: If `root` is `null`, return an empty array `[]`.
-2. Use **DFS recursion**:
-   - Append the current node's value to a temporary path.
-   - If the node is a **leaf** (no left or right child), add the path to the result array.
-   - If not a leaf, continue DFS for **left** and **right** children.
-3. **Return the result** containing all root-to-leaf paths.
-
----
-
-### **Optimized JavaScript Code**
-```javascript
-var binaryTreePaths = function(root) {
-    if (!root) return [];
-
-    let result = [];
-    
-    function dfs(node, path) {
-        if (!node) return;
-
-        path += node.val; // Add current node value to the path
-
-        if (!node.left && !node.right) {
-            result.push(path); // If it's a leaf, add to result
-        } else {
-            path += "->"; // Add separator for next node
-            dfs(node.left, path);
-            dfs(node.right, path);
-        }
-    }
-    
-    dfs(root, "");
-    return result;
-};
-```
-
----
-
-### **Example Walkthrough**
-#### **Example 1**
-```js
-**Input**: root = [1,2,3,null,5]
-```
-Binary Tree:
-```
-    1
-   / \
-  2   3
-   \
-    5
-```
-- **DFS Traversal Paths**:
-  - `1 -> 2 -> 5`
-  - `1 -> 3`
-✅ ****Output**:** `["1->2->5", "1->3"]`
-
----
-
-#### **Example 2**
-```js
-**Input**: root = [1]
-```
-Binary Tree:
-```
-  1
-```
-- **DFS Path:** `"1"`
-✅ ****Output**:** `["1"]`
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** \(O(N)\) → We visit each node once.
-- **Space Complexity:** \(O(N)\) → Recursion stack for DFS in worst case (skewed tree).
-
-This **DFS-based** solution is both **efficient and elegant** for finding all root-to-leaf paths! 🚀
-
-
-> ### 606. Construct String from Binary Tree
-
-Given the root node of a binary tree, your task is to create a string representation of the tree following a specific set of formatting rules.
-
-Example 1:
-
-**Input**: root = [1,2,3,4]\
-**Output**: "1(2(4))(3)"\
-****Explanation****: Originally, it needs to be "1(2(4)())(3()())", but you need to omit all the empty parenthesis pairs. And it will be "1(2(4))(3)".
-
-Example 2:
-
-**Input**: root = [1,2,3,null,4]\
-**Output**: "1(2()(4))(3)"\
-****Explanation****: Almost the same as the first example, except the () after 2 is necessary to indicate the absence of a left child for 2 and the presence of a right child.
-
-
-## **Algorithm: Preorder Traversal with String Construction**  
-We traverse the binary tree **preorder** (root → left → right) and construct the string according to the problem's rules.
-
----
-
-### **Approach**
-1. **Base Case:**  
-   - If the node is `null`, return an **empty string**.
-2. **Root Processing:**  
-   - Convert the node value to a string.
-3. **Recursive Calls for Left & Right Children:**  
-   - If the left child exists, recursively process it inside **parentheses**.
-   - If the right child exists:
-     - If the left child is **missing**, include empty `()` to preserve structure.
-     - Otherwise, process the right child inside **parentheses**.
-
----
-
-### **Optimized JavaScript Code**
-```javascript
-var tree2str = function(root) {
-    if (!root) return ""; // Base case
-
-    let result = root.val.toString();
-
-    if (root.left || root.right) { // Add left subtree if it exists or right subtree forces empty ()
-        result += "(" + tree2str(root.left) + ")";
-    }
-
-    if (root.right) { // Add right subtree if it exists
-        result += "(" + tree2str(root.right) + ")";
-    }
-
-    return result;
-};
-```
-
----
-
-### **Example Walkthrough**
-#### **Example 1**
-```js
-**Input**: root = [1,2,3,4]
-```
-**Tree Structure:**
-```
-    1
-   / \
-  2   3
- /
-4
-```
-- Root: `"1"`
-- Left subtree: `"2(4)"`
-- Right subtree: `"3"`
-✅ ****Output**:** `"1(2(4))(3)"`
-
----
-
-#### **Example 2**
-```js
-**Input**: root = [1,2,3,null,4]
-```
-**Tree Structure:**
-```
-    1
-   / \
-  2   3
-   \
-    4
-```
-- Root: `"1"`
-- Left subtree: `"2()(4)"` (empty `()` needed to indicate missing left child)
-- Right subtree: `"3"`
-✅ ****Output**:** `"1(2()(4))(3)"`
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** \(O(N)\) → We traverse each node once.
-- **Space Complexity:** \(O(H)\) → Call stack depth depends on tree height.
-
-This **DFS-based** approach ensures an accurate **preorder traversal** while handling parentheses correctly. 🚀
-
-
-> ### 108. Convert Sorted Array to Binary Search Tree
-
-Given an integer array nums where the elements are sorted in ascending order, convert it to a 
-height-balanced
-
-Example 1:
-
-**Input**: nums = [-10,-3,0,5,9]\
-**Output**: [0,-3,9,-10,null,5]\
-****Explanation****: [0,-10,5,null,-3,null,9] is also accepted:
-
-Example 2:
-
-**Input**: nums = [1,3]\
-**Output**: [3,1]\
-****Explanation****: [1,null,3] and [3,1] are both height-balanced BSTs.
-
-
- ## **Algorithm: Recursive Divide and Conquer (Binary Search Approach)**  
-To construct a **height-balanced** Binary Search Tree (BST) from a sorted array, we use the **middle element** as the root. This ensures that the left and right subtrees are as balanced as possible.
-
----
-
-### **Approach**
-1. **Find the middle element** of the array and make it the root.
-2. **Recursively apply the same process** to the left half for the left subtree and the right half for the right subtree.
-3. **Base case:** If the subarray is empty, return `null`.
-
----
-
-### **JavaScript Code**
-```javascript
-var sortedArrayToBST = function(nums) {
-    if (!nums.length) return null; // Base case: empty array -> null node
-
-    let mid = Math.floor(nums.length / 2);
-    let root = new TreeNode(nums[mid]); // Middle element as root
-    
-    root.left = sortedArrayToBST(nums.slice(0, mid));  // Left subtree from left half
-    root.right = sortedArrayToBST(nums.slice(mid + 1)); // Right subtree from right half
-
-    return root;
-};
-```
-
----
-
-### **Example Walkthrough**
-#### **Example 1**
-```js
-**Input**: nums = [-10, -3, 0, 5, 9]
-```
-**Recursive Calls:**
-```
-nums = [-10, -3, 0, 5, 9] → mid = 2 → root = 0
-    Left subtree: [-10, -3] → mid = 1 → root = -3
-        Left: [-10] → root = -10
-        Right: null
-    Right subtree: [5, 9] → mid = 1 → root = 9
-        Left: [5] → root = 5
-        Right: null
-```
-✅ **Output (BST Representation)**:
-```
-        0
-       /  \
-    -3     9
-   /     /
--10    5
-```
-
----
-
-### **Example 2**
-```js
-**Input**: nums = [1, 3]
-```
-**Recursive Calls:**
-```
-nums = [1, 3] → mid = 1 → root = 3
-    Left subtree: [1] → root = 1
-    Right subtree: null
-```
-✅ **Output (BST Representation)**:
-```
-   3
-  /
- 1
-```
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** \(O(N)\) → Each element is processed once.
-- **Space Complexity:** \(O(N)\) → Recursive stack for depth \(O(\log N)\), but array slicing takes extra space.
-
-This **Divide and Conquer** approach ensures an optimal height-balanced BST. 🚀
-
+<br>
 
 > ### 696. Count Binary Substrings
 
@@ -17350,7 +16896,7 @@ Example 1:
 
 **Input**: s = "00110011"\
 **Output**: 6\
-****Explanation****: There are 6 substrings that have equal number of consecutive 1's and 0's: "0011", "01", "1100", "10", "0011", and "01".\
+**Explanation**: There are 6 substrings that have equal number of consecutive 1's and 0's: "0011", "01", "1100", "10", "0011", and "01".\
 Notice that some of these substrings repeat and are counted the number of times they occur.\
 Also, "00110011" is not a valid substring because all the 0's (and 1's) are not grouped together.
 
@@ -17358,14 +16904,9 @@ Example 2:
 
 **Input**: s = "10101"\
 **Output**: 4\
-****Explanation****: There are 4 substrings: "10", "01", "10", "01" that have equal number of consecutive 1's and 0's.
+**Explanation**: There are 4 substrings: "10", "01", "10", "01" that have equal number of consecutive 1's and 0's.
 
-## **Algorithm: Group Count Method**  
-This problem can be solved efficiently using the **group count** method instead of brute force substring checking.
 
----
-
-### **Approach**
 1. **Group Consecutive Characters:**  
    - Traverse the string `s` and count consecutive `0`s and `1`s.
    - Store these counts in an array.
@@ -17377,9 +16918,8 @@ This problem can be solved efficiently using the **group count** method instead 
      - `curr` = current group's length.
    - Sum up these values to get the final result.
 
----
 
-### **JavaScript Code**
+
 ```javascript
 var countBinarySubstrings = function(s) {
     let count = 0;
@@ -17400,12 +16940,10 @@ var countBinarySubstrings = function(s) {
 };
 ```
 
----
+**Example 1**
 
-### **Example Walkthrough**
-#### **Example 1**
 ```js
-**Input**: s = "00110011"
+Input: s = "00110011"
 ```
 **Step-by-step processing:**
 - Groups: `[2,2,2,2]` (two `0`s, two `1`s, two `0`s, two `1`s)
@@ -17413,11 +16951,11 @@ var countBinarySubstrings = function(s) {
   - `min(2,2) = 2`
   - `min(2,2) = 2`
   - `min(2,2) = 2`
-- ✅ ****Output**:** `6`
+- ✅ **Output** `6`
 
-#### **Example 2**
+**Example 2**
 ```js
-**Input**: s = "10101"
+Input: s = "10101"
 ```
 **Step-by-step processing:**
 - Groups: `[1,1,1,1,1]`
@@ -17426,220 +16964,56 @@ var countBinarySubstrings = function(s) {
   - `min(1,1) = 1`
   - `min(1,1) = 1`
   - `min(1,1) = 1`
-- ✅ ****Output**:** `4`
+- ✅ **Output**: `4`
 
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** \(O(n)\) → Single pass to count groups.
-- **Space Complexity:** \(O(1)\) → Constant extra space.
-
-This **efficient greedy approach** avoids generating substrings explicitly and runs in **linear time**. 🚀
-
-
-
-> ### 993. Cousins in Binary Tree
-
-Given the root of a binary tree with unique values and the values of two different nodes of the tree x and y, return true if the nodes corresponding to the values x and y in the tree are cousins, or false otherwise.
-
-Two nodes of a binary tree are cousins if they have the same depth with different parents.
-
-Note that in a binary tree, the root node is at the depth 0, and children of each depth k node are at the depth k + 1.
-
-Example 1:
-
-**Input**: root = [1,2,3,4], x = 4, y = 3\
-**Output**: false
-
-Example 2:
-
-**Input**: root = [1,2,3,null,4,null,5], x = 5, y = 4\
-**Output**: true
-
-Example 3:
-
-**Input**: root = [1,2,3,null,4], x = 2, y = 3
-**Output**: false
-
-## **Algorithm: BFS (Level Order Traversal)**
-To determine if two nodes `x` and `y` are **cousins**, we need to check:  
-1. **Same Depth** → `x` and `y` must be at the same level in the tree.  
-2. **Different Parents** → `x` and `y` must have different parent nodes.  
-
----
-
-### **Approach**
-1. **Use BFS (Queue-Based Level Order Traversal)**:
-   - Traverse the tree level by level.
-   - Track the **parent** and **depth** of `x` and `y` as we traverse.
-
-2. **Check Cousin Conditions**:
-   - If `x` and `y` are found at the **same depth** but have **different parents**, return `true`.
-   - Otherwise, return `false`.
-
----
-
-### **JavaScript Code**
-```javascript
-var isCousins = function(root, x, y) {
-    if (!root) return false;
-
-    let queue = [[root, null]]; // Store node and its parent
-
-    while (queue.length) {
-        let size = queue.length;
-        let xParent = null, yParent = null; // Track parents of x and y
-
-        for (let i = 0; i < size; i++) {
-            let [node, parent] = queue.shift();
-
-            if (node.val === x) xParent = parent;
-            if (node.val === y) yParent = parent;
-
-            if (node.left) queue.push([node.left, node]);
-            if (node.right) queue.push([node.right, node]);
-        }
-
-        // If both x and y are found in the same level but have different parents, they are cousins
-        if (xParent && yParent) return xParent !== yParent;
-
-        // If only one of x or y is found in this level, they cannot be cousins
-        if (xParent || yParent) return false;
-    }
-
-    return false;
-};
-```
-
----
-
-### **Example Walkthrough**
-#### **Example 1**
-```js
-**Input**: root = [1,2,3,4], x = 4, y = 3
-```
-- Level 1: `[1]`
-- Level 2: `[2, 3]`
-- Level 3: `[4]`
-- **x = 4 (parent = 2), y = 3 (parent = 1)**
-- ✅ ****Output**:** `false` (different depths)
-
-#### **Example 2**
-```js
-**Input**: root = [1,2,3,null,4,null,5], x = 5, y = 4
-```
-- Level 1: `[1]`
-- Level 2: `[2, 3]`
-- Level 3: `[4, 5]`
-- **x = 5 (parent = 3), y = 4 (parent = 2)**
-- ✅ ****Output**:** `true` (same depth, different parents)
-
-#### **Example 3**
-```js
-**Input**: root = [1,2,3,null,4], x = 2, y = 3
-```
-- **x = 2 (parent = 1), y = 3 (parent = 1)**
-- ❌ ****Output**:** `false` (same parent)
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** \(O(N)\) → Each node is visited once.  
-- **Space Complexity:** \(O(N)\) → Queue stores nodes level-wise.  
-
-This **BFS approach efficiently finds cousins** in **linear time** using **level order traversal**. 🚀
-
-
-
-also
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @param {number} x
- * @param {number} y
- * @return {boolean}
- */
-var isCousins = function(root, x, y) {
-    
-    const map = new Map()
-
-    const explore = (parent, node, lvl) => {
-
-        // If node is null, stop
-        if (!node) return
-
-        // Set the Current value to have its parent and the level
-        map.set(node.val, {parent, level: lvl})
-
-        // Run the func for the children, 
-        //    - using current node val as parent
-        //    - the children as node
-        //    - and incrementing lvl
-        explore(node.val, node.left, lvl + 1)
-        explore(node.val, node.right, lvl + 1)
-    }
-    
-    explore(null, root, 0)
-    
-    const xVal = map.get(x) 
-    const yVal = map.get(y) 
-
-    return (xVal.parent !== yVal.parent && xVal.level === yVal.level)
-};
-```
+<br>
 
 > ### 944. Delete Columns to Make Sorted
-Easy
-Topics
-Companies
+
 You are given an array of n strings strs, all of the same length.
 
 The strings can be arranged such that there is one on each line, making a grid.
 
-For example, strs = ["abc", "bce", "cae"] can be arranged as follows:
-abc
-bce
+- For example, `strs = ["abc", "bce", "cae"]` can be arranged as follows:
+abc\
+bce\
 cae
-You want to delete the columns that are not sorted lexicographically. In the above example (0-indexed), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are sorted, while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
+
+You want to `delete` the columns that are `not sorted lexicographically`. In the above example (`0-indexed`), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are sorted, while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
 
 Return the number of columns that you will delete.
 
- 
+<br>
 
 Example 1:
 
 **Input**: strs = ["cba","daf","ghi"]
 **Output**: 1
-****Explanation****: The grid looks as follows:
-  cba
-  daf
-  ghi
+**Explanation**: The grid looks as follows:
+  cba\
+  daf\
+  ghi\
 Columns 0 and 2 are sorted, but column 1 is not, so you only need to delete 1 column.
+
+
 Example 2:
 
 **Input**: strs = ["a","b"]
 **Output**: 0
-****Explanation****: The grid looks as follows:
-  a
-  b
+**Explanation**: The grid looks as follows:
+  a\
+  b\
 Column 0 is the only column and is sorted, so you will not delete any columns.
+
+
 Example 3:
 
 **Input**: strs = ["zyx","wvu","tsr"]
 **Output**: 3
-****Explanation****: The grid looks as follows:
-  zyx
-  wvu
-  tsr
+**Explanation**: The grid looks as follows:
+  zyx\
+  wvu\
+  tsr\
 All 3 columns are not sorted, so you will delete all 3.
 
 
@@ -17661,358 +17035,19 @@ var minDeletionSize = function(strs) {
 };
 ```
 
-
-> ### 100. Same Tree
-
-Given the roots of two binary trees p and q, write a function to check if they are the same or not.
-
-Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
-
-Example 1:\
-**Input**: p = [1,2,3], q = [1,2,3]\
-**Output**: true
-
-Example 2:\
-**Input**: p = [1,2], q = [1,null,2]\
-**Output**: false
-
-Example 3:\
-**Input**: p = [1,2,1], q = [1,1,2]\
-**Output**: false
-
-```js
-var isSameTree = function(p, q) {
-    if (!p && !q) return true;    // Both trees are empty
-    if (!p || !q) return false;   // One tree is empty
-    if (p.val !== q.val) return false; // Values don't match
-    
-    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
-};
-```
-
-> ### 700. Search in a Binary Search Tree
-
-You are given the root of a binary search tree (BST) and an integer val.
-
-Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
-
-Example 1:\
-**Input**: root = [4,2,7,1,3], val = 2\
-**Output**: [2,1,3]
-
-Example 2:\
-**Input**: root = [4,2,7,1,3], val = 5\
-**Output**: []
-
-### **Algorithm: BST Search**
-- If `root` is `null`, return `null`.
-- If `root.val === val`, return `root`.
-- If `val < root.val`, search in `root.left`, else search in `root.right`.
-
-### **Recursive JavaScript Code**
-```javascript
-var searchBST = function(root, val) {
-    if (!root || root.val === val) return root;
-    return val < root.val ? searchBST(root.left, val) : searchBST(root.right);
-};
-```
-
-### **Iterative JavaScript Code**
-```javascript
-var searchBST = function(root, val) {
-    while (root) {
-        if (root.val === val) return root;
-        root = val < root.val ? root.left : root.right;
-    }
-    return null;
-};
-```
-
-> ### 572. Subtree of Another Tree
-
-Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
-
-A subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.
-
- 
-
-Example 1:
-
-
-**Input**: root = [3,4,5,1,2], subRoot = [4,1,2]
-**Output**: true
-Example 2:
-
-
-**Input**: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]
-**Output**: false
-
-
-### **Algorithm: Subtree Check using Tree Comparison**  
-- If `subRoot` is `null`, return `true`.  
-- If `root` is `null`, return `false`.  
-- Check if `root` and `subRoot` are the same using a helper function.  
-- Recursively check `root.left` and `root.right` for `subRoot`.  
-
-### **JavaScript Code**
-```javascript
-var isSubtree = function(root, subRoot) {
-    if (!root) return false;
-    if (isSameTree(root, subRoot)) return true;
-    return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
-};
-
-var isSameTree = function(p, q) {
-    if (!p && !q) return true;
-    if (!p || !q || p.val !== q.val) return false;
-    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
-};
-```
-
-> ### 404. Sum of Left Leaves
-Easy
-Topics
-Companies
-Given the root of a binary tree, return the sum of all left leaves.
-
-A leaf is a node with no children. A left leaf is a leaf that is the left child of another node.
-
- 
-
-Example 1:
-
-
-**Input**: root = [3,9,20,null,null,15,7]
-**Output**: 24
-****Explanation****: There are two left leaves in the binary tree, with values 9 and 15 respectively.
-Example 2:
-
-**Input**: root = [1]
-**Output**: 0
-
-
-### **Algorithm: DFS Traversal**  
-- If the current node has a left child that is a leaf, add its value to the sum.  
-- Recursively traverse the left and right subtrees.  
-- Return the total sum of left leaves.  
-
-### **JavaScript Code**
-```javascript
-var sumOfLeftLeaves = function(root) {
-    if (!root) return 0;
-    
-    let sum = 0;
-    if (root.left && !root.left.left && !root.left.right) {
-        sum += root.left.val;
-    }
-    
-    return sum + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
-};
-```
-
-
-> ### 1022. Sum of Root To Leaf Binary Numbers
-You are given the root of a binary tree where each node has a value 0 or 1. Each root-to-leaf path represents a binary number starting with the most significant bit.
-
-For example, if the path is 0 -> 1 -> 1 -> 0 -> 1, then this could represent 01101 in binary, which is 13.
-For all leaves in the tree, consider the numbers represented by the path from the root to that leaf. Return the sum of these numbers.
-
-The test cases are generated so that the answer fits in a 32-bits integer.
-
-Example 1:\
-**Input**: root = [1,0,1,0,1,0,1]\
-**Output**: 22\
-****Explanation****: (100) + (101) + (110) + (111) = 4 + 5 + 6 + 7 = 22
-
-Example 2:\
-**Input**: root = [0]\
-**Output**: 0
-
-### **Algorithm: DFS Traversal**  
-- Use Depth-First Search (DFS) to traverse the tree.  
-- Maintain the current binary number as you go deeper.  
-- When reaching a leaf node, convert the binary number to decimal and add it to the sum.  
-- Return the total sum of all root-to-leaf paths.  
-
-### **JavaScript Code**
-```javascript
-var sumRootToLeaf = function(root, sum = 0) {
-    if (!root) return 0;
-    
-    sum = (sum << 1) | root.val; // Shift left and add current value
-    
-    if (!root.left && !root.right) return sum; // If it's a leaf, return sum
-    
-    return sumRootToLeaf(root.left, sum) + sumRootToLeaf(root.right, sum);
-};
-```
-
-
-also
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {number}
- */
-var sumRootToLeaf = function(root) {
-    const nums = [];
-
-    const traverse = (node, path) => {
-        if (!node) {
-            return;
-        }
-        
-        path += node.val;
-
-        if (!node.left && !node.right) {
-            nums.push(path);
-            return;
-        }
-
-        traverse(node.left, path)
-        traverse(node.right, path)
-    }
-
-    traverse(root, '')
-
-    return nums.reduce((sum, n) => sum + parseInt(n, 2), 0)
-};
-```
-
-
-> ### 101. Symmetric Tree
-
-Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
-
- 
-
-Example 1:
-
-
-**Input**: root = [1,2,2,3,4,4,3]
-**Output**: true
-Example 2:
-
-
-**Input**: root = [1,2,2,null,3,null,3]
-**Output**: false
-
-
-### **Algorithm: Recursive DFS**  
-- A tree is symmetric if the left subtree is a mirror of the right subtree.  
-- Recursively check:  
-  - Both left and right subtrees must have the same value.  
-  - The left child of the left subtree should match the right child of the right subtree, and vice versa.  
-
-### **JavaScript Code**
-```javascript
-var isSymmetric = function(root) {
-    if (!root) return true;
-    
-    function isMirror(t1, t2) {
-        if (!t1 || !t2) return t1 === t2;
-        if (t1.val !== t2.val) return false;
-        return isMirror(t1.left, t2.right) && isMirror(t1.right, t2.left);
-    }
-    
-    return isMirror(root.left, root.right);
-};
-```
-
-
-> ### 653. Two Sum IV - Input is a BST
-Given the root of a binary search tree and an integer k, return true if there exist two elements in the BST such that their sum is equal to k, or false otherwise.
-
-Example 1:\
-**Input**: root = [5,3,6,2,4,null,7], k = 9\
-**Output**: true
-
-Example 2:\
-**Input**: root = [5,3,6,2,4,null,7], k = 28\
-**Output**: false
-
-### **Algorithm: Inorder Traversal + Hash Set**  
-- Perform an inorder traversal to access elements in sorted order.  
-- Use a `Set` to check if `k - node.val` exists.  
-- If found, return `true`; otherwise, continue traversal.  
-
-### **JavaScript Code**
-```javascript
-var findTarget = function(root, k) {
-    let set = new Set();
-
-    function dfs(node) {
-        if (!node) return false;
-        if (set.has(k - node.val)) return true;
-        set.add(node.val);
-        return dfs(node.left) || dfs(node.right);
-    }
-
-    return dfs(root);
-};
-```
-
-
-> ### 617. Merge Two Binary Trees
-
-You are given two binary trees root1 and root2.
-
-Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.
-
-Return the merged tree.
-
-Note: The merging process must start from the root nodes of both trees.
-
- 
-
-Example 1:
-
-
-**Input**: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]
-**Output**: [3,4,5,5,4,null,7]
-Example 2:
-
-**Input**: root1 = [1], root2 = [1,2]
-**Output**: [2,2]
-
-### **Algorithm: DFS (Recursive Approach)**
-- If one of the trees is `null`, return the other tree.
-- Otherwise, sum the values of the current nodes.
-- Recursively merge the left and right children.
-
-### **JavaScript Code**
-```javascript
-var mergeTrees = function(root1, root2) {
-    if (!root1) return root2;
-    if (!root2) return root1;
-    
-    root1.val += root2.val;
-    root1.left = mergeTrees(root1.left, root2.left);
-    root1.right = mergeTrees(root1.right, root2.right);
-    
-    return root1;
-};
-```
-**Time Complexity:** \(O(\min(N, M))\)  
-**Space Complexity:** \(O(\min(N, M))\) (recursive call stack)  
-
-This approach is cleaner and easier to understand. It directly modifies `root1`, reducing extra memory usage.
-
+<br>
 
 > ### 118. Pascal's Triangle
 
-Given an integer numRows, return the first numRows of Pascal's triangle.
-
 In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
+
+```
+    1
+   1 1
+  1 2 1
+ 1 3 3 1
+1 4 6 4 1
+```
 
 Example 1:
 
@@ -18024,7 +17059,10 @@ Example 2:
 **Input**: numRows = 1\
 **Output**: [[1]]
 
-### **Algorithm: Dynamic Construction**
+
+<details>
+
+**Algorithm: Dynamic Construction**
 1. Initialize a result array `res` with the first row as `[1]`.
 2. For each new row:
    - Start with `1`.
@@ -18032,9 +17070,7 @@ Example 2:
    - End with `1`.
 3. Repeat until `numRows` is reached.
 
----
 
-### **JavaScript Code (O(n²) Time)**
 ```javascript
 var generate = function(numRows) {
     let res = [[1]];
@@ -18055,51 +17091,38 @@ var generate = function(numRows) {
 };
 ```
 
----
+</details>
 
-### **Complexity Analysis**
-- **Time Complexity:** \(O(n^2)\) (Each row computation involves a loop)
-- **Space Complexity:** \(O(n^2)\) (Stores all rows)
-
-This approach efficiently constructs Pascal’s triangle up to `numRows`. 🚀
-
-
+<br>
 
 > ### 119. Pascal's Triangle II
-Easy
-Topics
-Companies
+
 Given an integer rowIndex, return the rowIndexth (0-indexed) row of the Pascal's triangle.
 
 In Pascal's triangle, each number is the sum of the two numbers directly above it as shown:
 
 
- 
-
-Example 1:
-
-**Input**: rowIndex = 3
+Example 1:\
+**Input**: rowIndex = 3\
 **Output**: [1,3,3,1]
-Example 2:
 
-**Input**: rowIndex = 0
+Example 2:\
+**Input**: rowIndex = 0\
 **Output**: [1]
-Example 3:
 
-**Input**: rowIndex = 1
+Example 3:\
+**Input**: rowIndex = 1\
 **Output**: [1,1]
 
 
-### **Algorithm: Iterative Approach (O(n²) Time, O(n) Space)**
+**Algorithm: Iterative Approach (O(n²) Time, O(n) Space)**
 1. Start with `row = [1]`.
 2. Iterate `rowIndex` times:
    - Compute the new row using the previous row.
    - Each value (except the first and last) is the sum of two adjacent values from the previous row.
 3. Return the final computed row.
 
----
 
-### **JavaScript Code**
 ```javascript
 var getRow = function(rowIndex) {
     let row = [1];
@@ -18117,9 +17140,8 @@ var getRow = function(rowIndex) {
 };
 ```
 
----
+**Another Method**
 
-### **Optimized Space Approach (O(n²) Time, O(n) Space)**
 Instead of creating a new array for each row, update the same array from the back.
 
 ```javascript
@@ -18136,46 +17158,29 @@ var getRow = function(rowIndex) {
 };
 ```
 
----
-
-### **Complexity Analysis**
-- **Time Complexity:** \(O(n^2)\) (Since each row computation requires summing adjacent values)
-- **Space Complexity:** \(O(n)\) (Only one row is stored)
-
-This optimized approach efficiently generates the required Pascal's triangle row. 🚀
-
+<br>
 
 > ### 1496. Path Crossing
-Easy
-Topics
-Companies
-Hint
+
 Given a string path, where path[i] = 'N', 'S', 'E' or 'W', each representing moving one unit north, south, east, or west, respectively. You start at the origin (0, 0) on a 2D plane and walk on the path specified by path.
 
 Return true if the path crosses itself at any point, that is, if at any time you are on a location you have previously visited. Return false otherwise.
 
  
 
-Example 1:
+Example 1:\
+**Input**: path = "NES"\
+**Output**: false\
+**Explanation**: Notice that the path doesn't cross any point more than once.
+
+Example 2:\
+**Input**: path = "NESWW"\
+**Output**: true\
+**Explanation**: Notice that the path visits the origin twice.
 
 
-**Input**: path = "NES"
-**Output**: false 
-****Explanation****: Notice that the path doesn't cross any point more than once.
+<details>
 
-
-### **Algorithm: Hash Set for Tracking Visited Positions (O(n) Time, O(n) Space)**  
-1. Start at the origin `(0,0)`.
-2. Use a `Set` to track visited coordinates.
-3. Iterate over the path:
-   - Move in the corresponding direction.
-   - If the new position is already in the set, return `true` (path crosses itself).
-   - Otherwise, add the new position to the set.
-4. If no crossing is found, return `false`.
-
----
-
-### **JavaScript Code**
 ```javascript
 var isPathCrossing = function(path) {
     let x = 0, y = 0;
@@ -18197,152 +17202,41 @@ var isPathCrossing = function(path) {
 };
 ```
 
----
+</details>
 
-### **Complexity Analysis**
-- **Time Complexity:** \(O(n)\), where \(n\) is the length of `path` (each step is processed once).
-- **Space Complexity:** \(O(n)\), storing up to \(n\) visited coordinates.
-
-This solution efficiently tracks visited positions and detects crossings in a single pass. 🚀
-
-
-> ### 112. Path Sum
-Easy
-Topics
-Companies
-Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
-
-A leaf is a node with no children.
-
- 
-
-Example 1:
-
-
-**Input**: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
-**Output**: true
-****Explanation****: The root-to-leaf path with the target sum is shown.
-Example 2:
-
-
-**Input**: root = [1,2,3], targetSum = 5
-**Output**: false
-****Explanation****: There are two root-to-leaf paths in the tree:
-(1 --> 2): The sum is 3.
-(1 --> 3): The sum is 4.
-There is no root-to-leaf path with sum = 5.
-Example 3:
-
-**Input**: root = [], targetSum = 0
-**Output**: false
-****Explanation****: Since the tree is empty, there are no root-to-leaf paths.
- 
-
-Constraints:
-
-The number of nodes in the tree is in the range [0, 5000].
--1000 <= Node.val <= 1000
--1000 <= targetSum <= 1000
-
-
-### **Algorithm: Depth-First Search (DFS)**
-1. If the tree is empty, return `false`.
-2. Use **DFS (recursion)**:
-   - Subtract the current node’s value from `targetSum`.
-   - If it's a **leaf node** and `targetSum == 0`, return `true`.
-   - Recursively check the left and right subtree.
-3. If any recursive call returns `true`, return `true`.
-
----
-
-### **JavaScript Code**
-```javascript
-var hasPathSum = function(root, targetSum) {
-    if (!root) return false;
-
-    targetSum -= root.val;
-    if (!root.left && !root.right) return targetSum === 0;
-    
-    return hasPathSum(root.left, targetSum) || hasPathSum(root.right, targetSum);
-};
-```
-
----
-
-### **Complexity Analysis**
-- **Time Complexity:** \(O(n)\) (Visit each node once).
-- **Space Complexity:** \(O(h)\) (Call stack depth = tree height, worst-case \(O(n)\) for skewed tree).
-
-This solution efficiently finds a valid root-to-leaf path that sums to `targetSum`. 🚀
-
-
-also 
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @param {number} targetSum
- * @return {boolean}
- */
-var hasPathSum = function(root, targetSum) {
-    if(!root) {
-        return false
-    }
-    if(!root.right && !root.left) {
-        return targetSum === root.val
-    }
-
-    return (
-        hasPathSum(root.left, targetSum-root.val) ||
-        hasPathSum(root.right, targetSum-root.val)
-    )
-};
-```
-
+<br>
 
 > ### 1217. Minimum Cost to Move Chips to The Same Position
-Easy
-Topics
-Companies
-Hint
-We have n chips, where the position of the ith chip is position[i].
 
-We need to move all the chips to the same position. In one step, we can change the position of the ith chip from position[i] to:
+We have `n` chips, where the position of the `ith` chip is `position[i]`.
 
-position[i] + 2 or position[i] - 2 with cost = 0.
-position[i] + 1 or position[i] - 1 with cost = 1.
+We need to move all the chips to `the same position`. In one step, we can change the position of the ith chip from position[i] to:
+
+- `position[i] + 2` or `position[i] - 2` with `cost = 0`.
+- `position[i] + 1` or `position[i] - 1` with `cost = 1`.
+
 Return the minimum cost needed to move all the chips to the same position.
 
- 
-
-Example 1:
-
-
-**Input**: position = [1,2,3]
-**Output**: 1
-****Explanation****: First step: Move the chip at position 3 to position 1 with cost = 0.
-Second step: Move the chip at position 2 to position 1 with cost = 1.
+Example 1:\
+**Input**: position = [1,2,3]\
+**Output**: 1\
+**Explanation**: First step: Move the chip at position 3 to position 1 with cost = 0.\
+Second step: Move the chip at position 2 to position 1 with cost = 1.\
 Total cost is 1.
-Example 2:
 
 
-**Input**: position = [2,2,2,3,3]
-**Output**: 2
-****Explanation****: We can move the two chips at position  3 to position 2. Each move has cost = 1. The total cost = 2.
-Example 3:
+Example 2:\
+**Input**: position = [2,2,2,3,3]\
+**Output**: 2\
+**Explanation**: We can move the two chips at position  3 to position 2. Each move has cost = 1. The total cost = 2.
 
-**Input**: position = [1,1000000000]
+Example 3:\
+**Input**: position = [1,1000000000]\
 **Output**: 1
  
- ### **Algorithm: Counting Odd and Even Positions**
+<details>
+
+**Algorithm: Counting Odd and Even Positions**
 1. Chips at **even positions** can be moved to any other even position at **zero cost**.
 2. Chips at **odd positions** can be moved to any other odd position at **zero cost**.
 3. Moving a chip from **even to odd or vice versa costs 1 per chip**.
@@ -18351,9 +17245,7 @@ Example 3:
    - Count the number of chips at **even** positions.
    - The minimum of these two counts is the answer.
 
----
 
-### **JavaScript Code**
 ```javascript
 var minCostToMoveChips = function(position) {
     let odd = 0, even = 0;
@@ -18366,14 +17258,7 @@ var minCostToMoveChips = function(position) {
     return Math.min(odd, even);
 };
 ```
-
----
-
-### **Complexity Analysis**
-- **Time Complexity:** \(O(n)\) (Loop through the array once).
-- **Space Complexity:** \(O(1)\) (Only two variables used).
-
-This approach efficiently finds the minimum cost to move all chips to the same position. 🚀
+</details>
 
 <br>
 
@@ -18385,7 +17270,7 @@ Example 1:
 
 **Input**: s = "011101"\
 **Output**: 5 \
-****Explanation****:\ 
+**Explanation**:\ 
 All possible ways of splitting s into two non-empty substrings are:\
 left = "0" and right = "11101", score = 1 + 4 = 5\
 left = "01" and right = "1101", score = 1 + 3 = 4\
@@ -18436,299 +17321,29 @@ var maxScore = function(s) {
     return maxScore;
 };
 ```
-```
 
----
-
-### **Complexity Analysis**
-- **Time Complexity:** \(O(n)\) (One pass for counting `1`s and one pass for checking splits).
-- **Space Complexity:** \(O(1)\) (Uses only a few integer variables).
-
-This approach efficiently finds the maximum score by balancing zeros on the left and ones on the right. 🚀
-
-
-> ### 111. Minimum Depth of Binary Tree
-
-Given a binary tree, find its minimum depth.
-
-The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
-
-Note: A leaf is a node with no children.
-
- 
-
-Example 1:
-
-
-**Input**: root = [3,9,20,null,null,15,7]
-**Output**: 2
-Example 2:
-
-**Input**: root = [2,null,3,null,4,null,5,null,6]
-**Output**: 5
-
-### **Algorithm: BFS (Breadth-First Search)**
-The **minimum depth** of a binary tree is the shortest path from the root to a leaf node. BFS is ideal for this because it finds the shortest path efficiently.
-
-### **Steps:**
-1. **Use a Queue:** Start BFS from the root.
-2. **Track Depth:** Store `(node, depth)` in the queue.
-3. **Find First Leaf Node:** The first leaf node encountered gives the minimum depth.
-
----
-
-### **JavaScript Code (BFS Approach)**
-```javascript
-var minDepth = function(root) {
-    if (!root) return 0;
-
-    let queue = [[root, 1]];  // Store [node, depth]
-    
-    while (queue.length > 0) {
-        let [node, depth] = queue.shift();
-        
-        // If it's a leaf node, return the depth
-        if (!node.left && !node.right) return depth;
-
-        // Add children to the queue with incremented depth
-        if (node.left) queue.push([node.left, depth + 1]);
-        if (node.right) queue.push([node.right, depth + 1]);
-    }
-};
-```
-
----
-
-### **Complexity Analysis**
-- **Time Complexity:** \(O(n)\) (Each node is visited once).
-- **Space Complexity:** \(O(n)\) (In the worst case, the queue holds all nodes in a single level).
-
----
-
-### **Alternative Approach: DFS (Recursive)**
-DFS can also be used, but it may explore deeper unnecessary paths before finding the shortest one.
-
-```javascript
-var minDepth = function(root) {
-    if (!root) return 0;
-    if (!root.left) return 1 + minDepth(root.right);
-    if (!root.right) return 1 + minDepth(root.left);
-    return 1 + Math.min(minDepth(root.left), minDepth(root.right));
-};
-```
-
-🚀 **BFS is recommended** because it finds the shortest depth **faster** than DFS!
-
-
-alos
-
-```js
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
-/**
- * @param {TreeNode} root
- * @return {number}
- */
-var minDepth = function (root) {
-    if (!root) return 0
-
-    const queue = [[root, 1]]
-
-    while (queue.length > 0) {
-        const [node, depth] = queue.shift()
-
-        if (!node.left && !node.right) return depth
-
-        if (node.left) queue.push([node.left, depth + 1])
-        if (node.right) queue.push([node.right, depth + 1])
-    }
-};
-```
-
-> ### 543. Diameter of Binary Tree
-
-Given the root of a binary tree, return the length of the diameter of the tree.
-
-The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
-
-The length of a path between two nodes is represented by the number of edges between them.
-
-Example 1:\
-**Input**: root = [1,2,3,4,5]\
-**Output**: 3\
-**Explanation**: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
-
-Example 2:\
-**Input**: root = [1,2]\
-**Output**: 1
-
-### **Algorithm: Depth-First Search (DFS)**
-We use **DFS (Postorder Traversal)** to calculate the depth of each subtree and update the diameter.
-
-### **Steps:**
-1. **Define a helper function** that returns the height of the subtree.
-2. **Compute height** recursively for left and right subtrees.
-3. **Update diameter** as `leftHeight + rightHeight` (max path through current node).
-4. **Return max depth** of left and right subtree to continue recursion.
-
----
-
-### **JavaScript Code**
-```javascript
-class TreeNode {
-    constructor(val, left = null, right = null) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-var diameterOfBinaryTree = function(root) {
-    let diameter = 0;
-
-    function depth(node) {
-        if (!node) return 0;
-        
-        let left = depth(node.left);
-        let right = depth(node.right);
-        
-        diameter = Math.max(diameter, left + right);
-        
-        return Math.max(left, right) + 1;
-    }
-
-    depth(root);
-    return diameter;
-};
-```
-
----
-
-### **Complexity Analysis**
-- **Time Complexity:** **O(n)** (Each node is visited once)
-- **Space Complexity:** **O(h)** (Recursive stack, where `h` is tree height)
-
-🚀 **Efficient and simple DFS approach!**
-
-
-> ### 938. Range Sum of BST
-Easy
-Topics
-Companies
-Given the root node of a binary search tree and two integers low and high, return the sum of values of all nodes with a value in the inclusive range [low, high].
-
- 
-
-Example 1:
-
-
-**Input**: root = [10,5,15,3,7,null,18], low = 7, high = 15
-**Output**: 32
-**Explanation**: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
-Example 2:
-
-
-**Input**: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10
-**Output**: 23
-**Explanation**: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
- 
-### **Algorithm: Depth-First Search (DFS)**
-We use **DFS (Preorder Traversal)** to explore the tree and sum only the nodes within the range `[low, high]`.
-
-### **Steps:**
-1. **Base Case:** If the node is `null`, return `0`.
-2. **Check node value:**
-   - If `node.val` is in `[low, high]`, add it to the sum.
-   - If `node.val > low`, search the **left subtree**.
-   - If `node.val < high`, search the **right subtree**.
-3. **Return the total sum**.
-
----
-
-### **JavaScript Code**
-```javascript
-class TreeNode {
-    constructor(val, left = null, right = null) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-var rangeSumBST = function(root, low, high) {
-    if (!root) return 0;
-    
-    let sum = 0;
-    
-    if (root.val >= low && root.val <= high) {
-        sum += root.val;
-    }
-    
-    if (root.val > low) {
-        sum += rangeSumBST(root.left, low, high);
-    }
-    
-    if (root.val < high) {
-        sum += rangeSumBST(root.right, low, high);
-    }
-    
-    return sum;
-};
-```
-
----
-
-### **Complexity Analysis**
-- **Time Complexity:** **O(n)** (Worst case, visiting all nodes)
-- **Space Complexity:** **O(h)** (Recursive stack, where `h` is tree height)
-
-🚀 **Optimized for BST traversal!**
-
+<br>
 
 > ### 657. Robot Return to Origin
-Easy
-Topics
-Companies
+
 There is a robot starting at the position (0, 0), the origin, on a 2D plane. Given a sequence of its moves, judge if this robot ends up at (0, 0) after it completes its moves.
 
-You are given a string moves that represents the move sequence of the robot where moves[i] represents its ith move. Valid moves are 'R' (right), 'L' (left), 'U' (up), and 'D' (down).
+You are given a string moves are 'R' (right), 'L' (left), 'U' (up), and 'D' (down).
 
 Return true if the robot returns to the origin after it finishes all of its moves, or false otherwise.
 
-Note: The way that the robot is "facing" is irrelevant. 'R' will always make the robot move to the right once, 'L' will always make it move left, etc. Also, assume that the magnitude of the robot's movement is the same for each move.
-
- 
-
-Example 1:
-
-**Input**: moves = "UD"
-**Output**: true
+Example 1:\
+**Input**: moves = "UD"\
+**Output**: true\
 **Explanation**: The robot moves up once, and then down once. All moves have the same magnitude, so it ended up at the origin where it started. Therefore, we return true.
-Example 2:
 
-**Input**: moves = "LL"
-**Output**: false
+Example 2:\
+**Input**: moves = "LL"\
+**Output**: false\
 **Explanation**: The robot moves left twice. It ends up two "moves" to the left of the origin. We return false because it is not at the origin at the end of its moves.
  
+<details>
 
-Constraints:
-
-1 <= moves.length <= 2 * 104
-moves only contains the characters 'U', 'D', 'L' and 'R'.
-
-
-### **Algorithm: Hash Map Counting**  
-The problem can be solved efficiently by counting the number of moves in each direction. The robot returns to the origin if:  
-- The **number of 'U' moves** equals the **number of 'D' moves**.  
-- The **number of 'L' moves** equals the **number of 'R' moves**.  
-
-### **Optimized JavaScript Solution**
 ```javascript
 var judgeCircle = function(moves) {
     let x = 0, y = 0;
@@ -18744,14 +17359,7 @@ var judgeCircle = function(moves) {
 };
 ```
 
----
-
-### **Complexity Analysis**
-- **Time Complexity**: **O(n)** (Iterates through the moves string once).  
-- **Space Complexity**: **O(1)** (Uses only a few integer variables).  
-
-### **Alternative Approach (Using Hash Map)**
-If you prefer a **more structured** approach using a **hash map**, this version counts occurrences of each move:
+**Alternative Approach (Using Hash Map)**
 ```javascript
 var judgeCircle = function(moves) {
     let count = { 'U': 0, 'D': 0, 'L': 0, 'R': 0 };
@@ -18763,193 +17371,7 @@ var judgeCircle = function(moves) {
     return count['U'] === count['D'] && count['L'] === count['R'];
 };
 ```
-🔹 **This method also runs in O(n) time but is slightly less efficient due to object lookups.**
+</details>
 
+<br>
 
-> ### 501. Find Mode in Binary Search Tree
-
-Given the root of a binary search tree (BST) with duplicates, return all the mode(s) (i.e., the most frequently occurred element) in it.
-
-If the tree has more than one mode, return them in any order.
-
-Assume a BST is defined as follows:
-
-The left subtree of a node contains only nodes with keys less than or equal to the node's key.
-The right subtree of a node contains only nodes with keys greater than or equal to the node's key.
-Both the left and right subtrees must also be binary search trees.
- 
-
-Example 1:
-
-
-**Input**: root = [1,null,2,2]
-**Output**: [2]
-Example 2:
-
-**Input**: root = [0]
-**Output**: [0]
-
-### **Algorithm: Inorder Traversal with Frequency Count**  
-Since an **inorder traversal** of a BST results in a sorted sequence, we can traverse the tree while keeping track of the **current frequency** of each value. The most frequently occurring value(s) will be the **mode(s)**.
-
----
-
-### **Optimized JavaScript Solution**
-```javascript
-var findMode = function(root) {
-    let modes = [], maxCount = 0, currentCount = 0, prev = null;
-
-    const inorder = (node) => {
-        if (!node) return;
-
-        inorder(node.left);
-
-        // Process current node
-        if (prev === node.val) {
-            currentCount++;
-        } else {
-            currentCount = 1;
-        }
-        prev = node.val;
-
-        if (currentCount > maxCount) {
-            maxCount = currentCount;
-            modes = [node.val]; // Reset modes
-        } else if (currentCount === maxCount) {
-            modes.push(node.val);
-        }
-
-        inorder(node.right);
-    };
-
-    inorder(root);
-    return modes;
-};
-```
-
----
-
-### **Complexity Analysis**
-- **Time Complexity**: **O(n)** (Traverses the tree once using inorder traversal).
-- **Space Complexity**: **O(1)** (Only stores a few variables and the modes list).
-
----
-
-### **Alternative Approach: Hash Map Counting**
-Another approach is using a **hash map** to count occurrences, then finding the maximum count:
-```javascript
-var findMode = function(root) {
-    let count = new Map();
-    let maxCount = 0, modes = [];
-
-    const traverse = (node) => {
-        if (!node) return;
-
-        count.set(node.val, (count.get(node.val) || 0) + 1);
-        maxCount = Math.max(maxCount, count.get(node.val));
-
-        traverse(node.left);
-        traverse(node.right);
-    };
-
-    traverse(root);
-
-    for (let [key, value] of count) {
-        if (value === maxCount) modes.push(key);
-    }
-
-    return modes;
-};
-```
-🔹 **This method takes extra space (O(n)) but is easier to understand.**
-
-
-> ### 110. Balanced Binary Tree
-Easy
-Topics
-Companies
-Given a binary tree, determine if it is height-balanced.
-
- 
-
-Example 1:
-
-
-**Input**: root = [3,9,20,null,null,15,7]
-**Output**: true
-Example 2:
-
-
-**Input**: root = [1,2,2,3,3,null,null,4,4]
-**Output**: false
-Example 3:
-
-**Input**: root = []
-**Output**: true
-
-
-### Algorithm: Depth-First Search (DFS) with Height Calculation  
-
-A **Balanced Binary Tree** is a binary tree in which the depth of the two subtrees of every node never differs by more than **1**. We can check this using a **recursive DFS approach**, where we calculate the height of each subtree and determine if the tree is balanced.
-
----
-
-### **Approach**
-1. Use a helper function that calculates the height of the tree recursively.
-2. If any subtree is unbalanced (height difference > 1), return `-1` as an indicator.
-3. If all nodes satisfy the balance condition, return `true`.
-
----
-
-### **Implementation in JavaScript**
-```javascript
-class TreeNode {
-  constructor(val, left = null, right = null) {
-    this.val = val;
-    this.left = left;
-    this.right = right;
-  }
-}
-
-function isBalanced(root) {
-  function checkHeight(node) {
-    if (!node) return 0;
-
-    let leftHeight = checkHeight(node.left);
-    if (leftHeight === -1) return -1; // Left subtree is unbalanced
-
-    let rightHeight = checkHeight(node.right);
-    if (rightHeight === -1) return -1; // Right subtree is unbalanced
-
-    if (Math.abs(leftHeight - rightHeight) > 1) return -1; // Current node is unbalanced
-
-    return Math.max(leftHeight, rightHeight) + 1;
-  }
-
-  return checkHeight(root) !== -1;
-}
-
-// Example Usage
-let tree = new TreeNode(1, 
-  new TreeNode(2, new TreeNode(3), new TreeNode(4)), 
-  new TreeNode(2, new TreeNode(4), new TreeNode(3))
-);
-console.log(isBalanced(tree)); // **Output**: true
-
-let unbalancedTree = new TreeNode(1, 
-  new TreeNode(2, 
-    new TreeNode(3, 
-      new TreeNode(4) // Extra depth here makes it unbalanced
-    )
-  )
-);
-console.log(isBalanced(unbalancedTree)); // **Output**: false
-```
-
----
-
-### **Time & Space Complexity**
-- **Time Complexity:** \(O(n)\) → Since we visit each node once.
-- **Space Complexity:** \(O(h)\) → Due to recursive stack space, where \(h\) is the height of the tree.
-
-Would you like an **iterative approach** as well? 🚀
