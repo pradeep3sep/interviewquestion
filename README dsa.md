@@ -10876,20 +10876,22 @@ You are a professional robber planning to rob houses along a street. Each house 
 
 Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
 
-Example 1:
+<br>
 
+Example 1:\
 **Input**: nums = [1,2,3,1]\
 **Output**: 4\
 **Explanation**: Rob house 1 (money = 1) and then rob house 3 (money = 3).\
 Total amount you can rob = 1 + 3 = 4.
 
-Example 2:
 
+Example 2:\
 **Input**: nums = [2,7,9,3,1]\
 **Output**: 12\
 **Explanation**: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).\
 Total amount you can rob = 2 + 9 + 1 = 12.
 
+<details>
 
 `video solution :`https://youtu.be/73r3KWiEvyk
 
@@ -10914,31 +10916,33 @@ function rob(nums) {
 console.log(rob([1, 2, 3, 1])); // **Output**: 4
 console.log(rob([2, 7, 9, 3, 1])); // **Output**: 12
 ```
+</details>
 
+<br>
 
 > ### 70. Climbing Stairs
-Attempted
-Easy
-Topics
-Companies
-Hint
+
 You are climbing a staircase. It takes n steps to reach the top.
 
-Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?
+Each time you can either climb 1 or 2 steps. In how many `distinct ways` can you climb to the top?
 
  
 
-Example 1:
-
-**Input**: n = 2
+Example 1:\
+**Input**: n = 2\
 **Output**: 2
+
 **Explanation**: There are two ways to climb to the top.
 1. 1 step + 1 step
 2. 2 steps
-Example 2:
 
-**Input**: n = 3
+
+Example 2:\
+**Input**: n = 3\
 **Output**: 3
+
+<details>
+
 **Explanation**: There are three ways to climb to the top.
 1. 1 step + 1 step + 1 step
 2. 1 step + 2 steps
@@ -10968,7 +10972,9 @@ console.log(climbStairs(2)); // **Output**: 2
 console.log(climbStairs(3)); // **Output**: 3
 ```
 
+</details>
 
+<br>
 
 **Fibonacci Sequence**:
    - One of the simplest examples of DP.
@@ -11210,6 +11216,8 @@ function editDistance(str1, str2) {
 console.log(editDistance("kitten", "sitting")); // **Output**: 3
 ```
 
+<br>
+
 > ### coin change problem using DP   ( [Youtube video](https://www.youtube.com/watch?v=-NTaXJ7BBXs&ab_channel=AnujBhaiya) )
 
 https://www.geeksforgeeks.org/coin-change-dp-7/
@@ -11330,6 +11338,7 @@ console.log(countWays(coins, amount)); // **Output**: 4
 - In **minimum coins**, we are looking for the smallest number of coins that sum to the target.
 - In **number of ways**, we are counting how many possible combinations sum to the target.
 
+<br>
 
 > ### Minimum Jumps to Reach End - Dynamic Programming
 
@@ -11600,6 +11609,8 @@ class Heap {
     }
 }
 ```
+
+<br>
 
 > ### given random array, rearrange array to form the heap
 
@@ -12029,6 +12040,7 @@ If you want to implement a **min-priority queue**, where the smallest element ha
 - Change comparisons in `insert` and `sinkDown` so that smaller elements are moved upwards (for `bubbleUp`) and downwards (for `sinkDown`).
 
 
+<br>
 
 > ### Sort a K Sorted Array ( [Youtube video](https://www.youtube.com/watch?v=dYfM6J1y0mU&ab_channel=AdityaVerma) )
 
@@ -12651,6 +12663,7 @@ const matrix = [[3,2,1],[1,7,6],[2,7,7]];
 console.log(equalRowAndColumnPairs(matrix)); // **Output**: 1
 ```
 
+<br>
 
 > ### 14. Longest Common Prefix
 
@@ -12658,16 +12671,17 @@ Write a function to find the longest common prefix string amongst an array of st
 
 If there is no common prefix, return an empty string "".
 
-Example 1:
 
+Example 1:\
 **Input**: strs = ["flower","flow","flight"]\
 **Output**: "fl"
 
-Example 2:
-
+Example 2:\
 **Input**: strs = ["dog","racecar","car"]\
 **Output**: ""\
 **Explanation**: There is no common prefix among the input strings.
+
+<details>
 
 ```js
 function longestCommonPrefix(strs) {
@@ -12695,26 +12709,33 @@ const strings = ["flower", "flow", "flight"];
 console.log(longestCommonPrefix(strings)); // **Output**: "fl"
 ```
 
+
+</details>
+
+<br>
+
 > ### 121. Best Time to Buy and Sell Stock
 
-You are given an array prices where prices[i] is the price of a given stock on the ith day.
-
+You are given an array prices where prices[i] is the price of a given stock on the ith day.\
 You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
 
 Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
 
-Example 1:
+<br>
 
+Example 1:\
 **Input**: prices = [7,1,5,3,6,4]\
 **Output**: 5\
 **Explanation**: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\
 Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
 
-Example 2:
 
+Example 2:\
 **Input**: prices = [7,6,4,3,1]\
 **Output**: 0\
 **Explanation**: In this case, no transactions are done and the max profit = 0.
+
+<details>
 
 ```js
 var maxProfit = function(prices) {
@@ -12736,6 +12757,9 @@ var maxProfit = function(prices) {
 maxProfit([7,1,5,3,6,4])
 ```
 
+</details>
+
+<br>
 
 > ### 1029. Two City Scheduling
 
@@ -12743,8 +12767,9 @@ A company is planning to interview 2n people. Given the array costs where costs[
 
 Return the minimum cost to fly every person to a city such that exactly n people arrive in each city.
 
-Example 1:
+<br>
 
+Example 1:\
 **Input**: costs = [[10,20],[30,200],[400,50],[30,20]]\
 **Output**: 110\
 **Explanation**:\ 
@@ -12755,15 +12780,18 @@ The fourth person goes to city B for a cost of 20.\
 
 The total minimum cost is 10 + 30 + 50 + 20 = 110 to have half the people interviewing in each city.
 
-Example 2:
 
+
+Example 2:\
 **Input**: costs = [[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]]\
 **Output**: 1859
 
-Example 3:
 
+Example 3:\
 **Input**: costs = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,359],[631,42]]
 **Output**: 3086
+
+<details>
 
 `video :` https://youtu.be/d-B_gk_gJtQ?si=9-KHhO0SYdM62wBe&t=304
 
@@ -12800,33 +12828,40 @@ const costs3 = [[515,563],[451,713],[537,709],[343,819],[855,779],[457,60],[650,
 console.log(twoCitySchedCost(costs3)); // **Output**: 3086
 ```
 
+</details>
+
+<br>
 
 > ### 2016. Maximum Difference Between Increasing Elements
 Given a 0-indexed integer array nums of size n, find the maximum difference between nums[i] and nums[j] (i.e., nums[j] - nums[i]), such that 0 <= i < j < n and nums[i] < nums[j].
 
 Return the maximum difference. If no such i and j exists, return -1.
 
-Example 1:
+<br>
 
+Example 1:\
 **Input**: nums = [7,1,5,4]\
 **Output**: 4\
 **Explanation**:\
 The maximum difference occurs with i = 1 and j = 2, nums[j] - nums[i] = 5 - 1 = 4.\
 Note that with i = 1 and j = 0, the difference nums[j] - nums[i] = 7 - 1 = 6, but i > j, so it is not valid.
 
-Example 2:
 
+
+Example 2:\
 **Input**: nums = [9,4,3,2]\
 **Output**: -1\
 **Explanation**:\
 There is no i and j such that i < j and nums[i] < nums[j].
 
-Example 3:
 
+Example 3:\
 **Input**: nums = [1,5,2,10]\
 **Output**: 9\
 **Explanation**:\
 The maximum difference occurs with i = 0 and j = 3, nums[j] - nums[i] = 10 - 1 = 9.
+
+<details>
 
 Note - Basically iterate karenge, point pe min number compare kr k store karenge aur usi min se differnece nikal k store karenge
 
@@ -12853,6 +12888,11 @@ console.log(maximumDifference([7, 1, 5, 4])); // **Output**: 4
 // Example 2:
 console.log(maximumDifference([9, 4, 3, 2])); // **Output**: -1
 ```
+</details>
+
+
+<br>
+
 
 
 > ### 136. Single Number
@@ -12860,20 +12900,19 @@ Given a non-empty array of integers nums, every element appears twice except for
 
 You must implement a solution with a `linear runtime complexity and use only constant extra space.`
 
-Example 1:
-
+Example 1:\
 **Input**: nums = [2,2,1]\
 **Output**: 1
 
-Example 2:
-
+Example 2:\
 **Input**: nums = [4,1,2,1,2]\
 **Output**: 4
 
-Example 3:
-
+Example 3:\
 **Input**: nums = [1]\
 **Output**: 1
+
+<details>
 
 ```js
 function singleNumber(nums) {
@@ -12885,6 +12924,8 @@ function singleNumber(nums) {
 }
 ```
 
+</details>
+
 > ### 278. First Bad Version
 
 You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.
@@ -12893,7 +12934,9 @@ Suppose you have n versions [1, 2, ..., n] and you want to find out the first ba
 
 You are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.
 
- 
+
+<br>
+
 
 Example 1:
 
@@ -12910,21 +12953,9 @@ Example 2:
 **Input**: n = 1, bad = 1\
 **Output**: 1
 
-```js
-/**
- * Definition for isBadVersion()
- * 
- * @param {integer} version - The version number
- * @return {boolean} - Returns whether the version is bad
- * isBadVersion = function(version) {
- *     // API implementation
- * };
- */
+<details>
 
-/**
- * @param {function} isBadVersion()
- * @return {function}
- */
+```js
 var solution = function(isBadVersion) {
     /**
      * @param {integer} n - Total number of versions
@@ -12950,6 +12981,12 @@ var solution = function(isBadVersion) {
 
 ```
 
+</details>
+
+
+<br>
+
+
 
 > ### 867. Transpose Matrix
 Given a 2D integer array matrix, return the transpose of matrix.
@@ -12966,6 +13003,8 @@ Example 2:
 **Input**: matrix = [[1,2,3],[4,5,6]]\
 **Output**: [[1,4],[2,5],[3,6]]
 
+<details>
+
 ```js
 function transpose(matrix) {
     let rows = matrix.length;
@@ -12980,6 +13019,13 @@ function transpose(matrix) {
     return result;
 }
 ```
+
+</details>
+
+
+<br>
+
+
 
 > ### 1827. Minimum Operations to Make the Array Increasing
 You are given an integer array nums (0-indexed). In one operation, you can choose an element of the array and increment it by 1.
@@ -13007,6 +13053,8 @@ Example 3:
 **Input**: nums = [8]\
 **Output**: 0
 
+<details>
+
 `video: `https://youtu.be/ttznU-BTqTk
 
 ```js
@@ -13026,6 +13074,10 @@ function minOperations(nums) {
 }
 ```
 
+</details>
+
+<br>
+
 > ### 453. Minimum Moves to Equal Array Elements
 Given an integer array nums of size n, return the minimum number of moves required to make all array elements equal.
 
@@ -13043,20 +13095,11 @@ Example 2:
 **Input**: nums = [1,1,1]\
 **Output**: 0
 
-To solve this problem, we can approach it mathematically. `Instead of incrementing \( n - 1 \) elements in each move, we can think of this as decrementing one element (effectively shifting the perspective)`. This approach simplifies the problem to finding the total difference between all elements and the smallest element.
+<details>
 
-### Algorithm:
-1. Find the smallest element in the array (`min`).
-2. Calculate the difference between each element and this minimum.
-3. The total difference is the minimum number of moves required.
-
-Here’s the implementation in JavaScript:
+To solve this problem, we can approach it mathematically. `Instead of incrementing (n-1) elements in each move, we can think of this as decrementing one element (effectively shifting the perspective)`. This approach simplifies the problem to finding the total difference between all elements and the smallest element.
 
 ```javascript
-/**
- * @param {number[]} nums
- * @return {number}
- */
 var minMoves = function(nums) {
     const min = Math.min(...nums);
     let moves = 0;
@@ -13075,14 +13118,17 @@ console.log(minMoves([1, 2, 3])); // **Output**: 3
 console.log(minMoves([1, 1, 1])); // **Output**: 0
 ```
 
-### **Explanation**:
 - In the example `[1, 2, 3]`, the smallest element is `1`. 
 - The total moves are `(2 - 1) + (3 - 1) = 1 + 2 = 3`. 
 - The array becomes `[4, 4, 4]` after 3 moves.
 
+</details>
+
+
+<br>
+
 
 > ### 202. Happy Number
-Write an algorithm to determine if a number n is happy.
 
 A happy number is a number defined by the following process:
 
@@ -13091,23 +13137,30 @@ Repeat the process until the number equals 1 (where it will stay), or it loops e
 Those numbers for which this process ends in 1 are happy.\
 Return true if n is a happy number, and false if not.
 
-Example 1:
 
+<br>
+
+
+Example 1:\
 **Input**: n = 19\
 **Output**: true\
 **Explanation**:\
-12 + 92 = 82\
-82 + 22 = 68\
-62 + 82 = 100\
-12 + 02 + 02 = 1
+1^2 + 9^2 = 82\
+8^2 + 2^2 = 68\
+6^2 + 8^2 = 100\
+1^2 + 0^2 + 0^2 = 1
 
-Example 2:
 
+<br>
+
+
+Example 2:\
 **Input**: n = 2\
 **Output**: false
 
-```js
+<details>
 
+```js
 function sumDigitSquare(n) {
   	n = n+ ''
     let sum = 0;
@@ -13135,6 +13188,10 @@ isHappy(2)
 isHappy(19)
 ```
 
+</details>
+
+
+<br>
 
 > ### 1005. Maximize Sum Of Array After K Negations
 Given an integer array nums and an integer k, modify the array in the following way:
@@ -13144,24 +13201,22 @@ You should apply this process exactly k times. You may choose the same index i m
 
 Return the largest possible sum of the array after modifying it in this way.
 
-Example 1:
-
+Example 1:\
 **Input**: nums = [4,2,3], k = 1\
 **Output**: 5\
 **Explanation**: Choose index 1 and nums becomes [4,-2,3].
 
-Example 2:
-
+Example 2:\
 **Input**: nums = [3,-1,0,2], k = 3\
 **Output**: 6\
 **Explanation**: Choose indices (1, 2, 2) and nums becomes [3,1,0,2].
 
-Example 3:
-
+Example 3:\
 **Input**: nums = [2,-3,-1,5,-4], k = 2\
 **Output**: 13\
 **Explanation**: Choose indices (1, 4) and nums becomes [2,3,-1,5,4].
 
+<details>
 
 `video:` https://www.youtube.com/watch?v=8GDHYgbxTN4
 
@@ -13193,6 +13248,11 @@ console.log(largestSumAfterKNegations([4, 2, 3], 1)); // **Output**: 5
 // Example 2
 console.log(largestSumAfterKNegations([3, -1, 0, 2], 3)); // **Output**: 6
 ```
+</details>
+
+
+<br>
+
 
 
 > ### 122. Best Time to Buy and Sell Stock II
@@ -13223,14 +13283,12 @@ Example 3:
 **Output**: 0\
 **Explanation**: There is no way to make a positive profit, so we never buy the stock to achieve the maximum profit of 0.
 
+<details>
+
 `video:` https://www.youtube.com/watch?v=Q7v239y-Tik
 
 
 ```js
-/**
- * @param {number[]} prices
- * @return {number}
- */
 var maxProfit = function(prices) {
     let profit = 0;
     
@@ -13248,7 +13306,9 @@ var maxProfit = function(prices) {
 const prices = [7, 1, 5, 3, 6, 4];
 console.log(maxProfit(prices)); // **Output**: 7
 ```
+</details>
 
+<br>
 
 > ### 1700. Number of Students Unable to Eat Lunch
 
@@ -13282,6 +13342,11 @@ Example 2:
 **Input**: students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]\
 **Output**: 3
 
+<br>
+
+
+<details>
+
 ```js
 function countStudents(students, sandwiches) {
     let studentQueue = students;
@@ -13308,6 +13373,9 @@ function countStudents(students, sandwiches) {
     return 0; // All students were able to eat
 }
 ```
+</details>
+
+<br>
 
 
 > ### 1710. Maximum Units on a Truck
@@ -13336,12 +13404,11 @@ Example 2:
 **Input**: boxTypes = [[5,10],[2,5],[4,7],[3,9]], truckSize = 10\
 **Output**: 91
 
+<br>
+
+<details>
+
 ```js
-/**
- * @param {number[][]} boxTypes
- * @param {number} truckSize
- * @return {number}
- */
 var maximumUnits = function(boxTypes, truckSize) {
     // Sort boxTypes in descending order based on the number of units per box
     boxTypes.sort((a, b) => b[1] - a[1]);
@@ -13369,6 +13436,10 @@ var maximumUnits = function(boxTypes, truckSize) {
 console.log(maximumUnits([[1,3],[2,2],[3,1]], 4)); // **Output**: 8
 console.log(maximumUnits([[5,10],[2,5],[4,7],[3,9]], 10)); // **Output**: 91
 ```
+</details>
+
+<br>
+
 
 > ### 2027. Minimum Moves to Convert String
 You are given a string s consisting of n characters which are either 'X' or 'O'.
@@ -13398,6 +13469,8 @@ Example 3:
 **Output**: 0\
 **Explanation**: There are no 'X's in s to convert.
 
+<details>
+
 ```js
 function minimumMoves(s) {
     let moves = 0; // To count the minimum number of moves
@@ -13422,6 +13495,11 @@ console.log(minimumMoves("XXX")); // **Output**: 1
 console.log(minimumMoves("XXOX")); // **Output**: 2
 console.log(minimumMoves("OXOXOX")); // **Output**: 2
 ```
+</details>
+
+
+<br>
+
 
 
 > ### 1403. Minimum Subsequence in Non-Increasing Order
@@ -13444,6 +13522,10 @@ Example 2:
 **Output**: [7,7,6]\
 **Explanation**: The subsequence [7,7] has the sum of its elements equal to 14 which is not strictly greater than the sum of elements not included (14 = 4 + 4 + 6). Therefore, the subsequence [7,6,7] is the minimal satisfying the conditions. Note the subsequence has to be returned in non-increasing order.  
  
+<br>
+
+<details>
+
 ```js
 var minSubsequence = function(nums) {
     // Sort the array in descending order
@@ -13467,6 +13549,9 @@ var minSubsequence = function(nums) {
     return subsequence;
 };
 ```
+</details>
+
+<br>
 
 
 > ### 1436. Destination City
@@ -13496,11 +13581,9 @@ Example 3:
 **Input**: paths = [["A","Z"]]\
 **Output**: "Z"
 
+<details>
+
 ```js
-/**
- * @param {string[][]} paths
- * @return {string}
- */
 var destCity = function(paths) {
     const startCities = new Set();
 
@@ -13531,6 +13614,10 @@ console.log(destCity([["B","C"],["D","B"],["C","A"]]));
 console.log(destCity([["A","Z"]])); 
 // **Output**: "Z"
 ```
+</details>
+
+<br>
+
 
 > ### 532. K-diff Pairs in an Array
 Given an array of integers nums and an integer k, return the number of unique k-diff pairs in the array.
@@ -13561,12 +13648,9 @@ Example 3:
 **Output**: 1\
 **Explanation**: There is one 0-diff pair in the array, (1, 1).
 
+<details>
+
 ```js
-/**
- * @param {number[]} nums
- * @param {number} k
- * @return {number}
- */
 var findPairs = function(nums, k) {
     if (k < 0) return 0; // Difference cannot be negative
     
@@ -13604,6 +13688,11 @@ console.log(findPairs([1,2,3,4,5], 1));
 console.log(findPairs([1,3,1,5,4], 0)); 
 // **Output**: 1
 ```
+</details>
+
+
+<br>
+
 
 
 > ### 1716. Calculate Money in Leetcode Bank
@@ -13631,11 +13720,10 @@ Example 3:
 **Output**: 96\
 **Explanation**: After the 20th day, the total is (1 + 2 + 3 + 4 + 5 + 6 + 7) + (2 + 3 + 4 + 5 + 6 + 7 + 8) + (3 + 4 + 5 + 6 + 7 + 8) = 96.
 
+<details>
+
 ```js
-/**
- * @param {number} n
- * @return {number}
- */
+
 var totalMoney = function(n) {
     let total = 0;
     let weekStart = 1; // Money deposited on the first day of the week
@@ -13662,6 +13750,11 @@ console.log(totalMoney(10));
 console.log(totalMoney(20)); 
 // **Output**: 96
 ```
+</details>
+
+
+<br>
+
 
 
 > ### 985. Sum of Even Numbers After Queries
@@ -13683,6 +13776,8 @@ Example 2:
 
 **Input**: nums = [1], queries = [[4,0]]\
 **Output**: [0]
+
+<details>
 
 `video:`https://www.youtube.com/watch?v=2bjRM_6hDsI
 
@@ -13722,6 +13817,11 @@ const nums2 = [1];
 const queries2 = [[4, 0]];
 console.log(sumEvenAfterQueries(nums2, queries2)); // **Output**: [0]
 ```
+</details>
+
+
+<br>
+
 
 
 > ### 976. Largest Perimeter Triangle
@@ -13742,6 +13842,8 @@ You cannot use the side lengths 1, 1, and 2 to form a triangle.\
 You cannot use the side lengths 1, 1, and 10 to form a triangle.\
 You cannot use the side lengths 1, 2, and 10 to form a triangle.\
 As we cannot use any three side lengths to form a triangle of non-zero area, we return 0.
+
+<details>
 
 `video:` https://youtu.be/1dmbC4I7yZE
 
@@ -13770,6 +13872,11 @@ console.log(largestPerimeter(nums1)); // **Output**: 5
 const nums2 = [1, 2, 1, 10];
 console.log(largestPerimeter(nums2)); // **Output**: 0
 ```
+</details>
+
+
+<br>
+
 
 > ### 914. X of a Kind in a Deck of Cards
 You are given an integer array deck where deck[i] represents the number written on the ith card.
@@ -13791,6 +13898,8 @@ Example 2:
 **Input**: deck = [1,1,1,2,2,2,3,3]\
 **Output**: false\
 **Explanation**: No possible partition.
+
+<details>
 
 `video:` https://youtu.be/UvpXInRkZ3Q?si=gsImTBuuojY_hXAY
 
@@ -13814,6 +13923,11 @@ function hasGroupsSizeX(deck) {
 console.log(hasGroupsSizeX([1, 2, 3, 4, 4, 3, 2, 1])); // **Output**: true
 console.log(hasGroupsSizeX([1, 1, 1, 2, 2, 2, 3, 3])); // **Output**: false
 ```
+</details>
+
+
+<br>
+
 
 
 > ### 941. Valid Mountain Array
@@ -13837,6 +13951,7 @@ Example 3:
 **Input**: arr = [0,3,2,1]\
 **Output**: true
 
+<details>
 
 ```js
 var validMountainArray = function (arr) {
@@ -13859,6 +13974,7 @@ var validMountainArray = function (arr) {
   return pivot;
 };
 ```
+</details>
 
 <br>
 
@@ -13919,28 +14035,27 @@ Given a balanced string s, split it into some number of substrings such that:
 
 Each substring is balanced. Return the maximum number of balanced strings you can obtain.
 
-Example 1:
 
+Example 1:\
 **Input**: s = "RLRRLLRLRL"\
 **Output**: 4\
 **Explanation**: s can be split into "RL", "RRLL", "RL", "RL", each substring contains same number of 'L' and 'R'.
 
-Example 2:
 
+Example 2:\
 **Input**: s = "RLRRRLLRLL"\
 **Output**: 2\
 **Explanation**: s can be split into "RL", "RRRLLRLL", each substring contains same number of 'L' and 'R'.\
 Note that s cannot be split into "RL", "RR", "RL", "LR", "LL", because the 2nd and 5th substrings are not balanced.
 
-Example 3:
 
+Example 3:\
 **Input**: s = "LLLLRRRR"\
 **Output**: 1\
 **Explanation**: s can be split into "LLLLRRRR".
 
 <details>
 
-#### **Approach: Greedy with Balance Tracking**
 1. **Initialize two variables:**
    - `balance = 0` → This tracks the difference between the count of 'R' and 'L'.
    - `count = 0` → This keeps track of how many balanced substrings we have found.
@@ -13955,10 +14070,9 @@ Example 3:
 
 4. **Return `count` at the end.**
 
-### **Example Walkthrough**
-#### **Example 1:**
-```plaintext
-**Input**: "RLRRLLRLRL"
+**Example:**
+```
+Input: "RLRRLLRLRL"
 ```
 We process the string character by character:
 
@@ -13977,7 +14091,6 @@ We process the string character by character:
 
 **Final **Output**:** `4`
 
-### **Code Implementation**
 ```javascript
 var balancedStringSplit = function(s) {
     let balance = 0, count = 0;
@@ -13990,7 +14103,6 @@ var balancedStringSplit = function(s) {
     return count;
 };
 
-// Example test cases
 console.log(balancedStringSplit("RLRRLLRLRL")); // **Output**: 4
 console.log(balancedStringSplit("RLRRRLLRLL")); // **Output**: 2
 console.log(balancedStringSplit("LLLLRRRR"));   // **Output**: 1
@@ -13998,12 +14110,15 @@ console.log(balancedStringSplit("LRLR"));       // **Output**: 2
 ```
 </details>
 
+<br>
 
 > ### 821. Shortest Distance to a Character
 
-Given a string s and a character c that occurs in s, return an array of integers answer where answer.length == s.length and answer[i] is the distance from index i to the closest occurrence of character c in s.
+Given a `string s` and a `character c` that occurs in s, return an array of integers answer where answer.length == s.length and answer[i] is the distance from index i to the closest occurrence of character c in s.
 
 The distance between two indices i and j is abs(i - j), where abs is the absolute value function.
+
+<br>
 
 Example 1:
 
@@ -14015,22 +14130,24 @@ The closest occurrence of 'e' for index 1 is at index 3, so the distance is abs(
 For index 4, there is a tie between the 'e' at index 3 and the 'e' at index 5, but the distance is still the same: abs(4 - 3) == abs(4 - 5) = 1.\
 The closest occurrence of 'e' for index 8 is at index 6, so the distance is abs(8 - 6) = 2.
 
+
+
 Example 2:
 
 **Input**: s = "aaab", c = "b"\
 **Output**: [3,2,1,0]
 
+<details>
+
 video - https://youtu.be/NJ294ovmUB4?si=wfqeen7_5mv_senR&t=55
 
-### **Algorithm Name: Two-Pass Approach (Forward & Backward Scan)**  
+**Algorithm Name: Two-Pass Approach (Forward & Backward Scan)**  
 
-#### **Optimal Approach Using Two-Pass Traversal**
+**Optimal Approach Using Two-Pass Traversal**
 We solve this problem efficiently in **O(n) time** by scanning the string twice:  
 1. **First Pass (Left to Right):** Track the closest occurrence of `c` from the left.
 2. **Second Pass (Right to Left):** Track the closest occurrence from the right and update distances.
 
-
-### **Implementation in JavaScript**
 ```javascript
 var shortestToChar = function(s, c) {
     let n = s.length;
@@ -14057,6 +14174,11 @@ var shortestToChar = function(s, c) {
 console.log(shortestToChar("loveleetcode", "e")); // **Output**: [3,2,1,0,1,0,0,1,2,2,1,0]
 console.log(shortestToChar("aaab", "b")); // **Output**: [3,2,1,0]
 ```
+</details>
+
+
+<br>
+
 
 > ### 35. Search Insert Position
 
@@ -14064,21 +14186,19 @@ Given a sorted array of distinct integers and a target value, return the index i
 
 You must write an algorithm with O(log n) runtime complexity.
 
-Example 1:
-
+Example 1:\
 **Input**: nums = [1,3,5,6], target = 5\
 **Output**: 2
 
-Example 2:
-
+Example 2:\
 **Input**: nums = [1,3,5,6], target = 2\
 **Output**: 1
 
-Example 3:
-
+Example 3:\
 **Input**: nums = [1,3,5,6], target = 7\
 **Output**: 4
 
+<details>
 
 ```js
 var searchInsert = function(nums, target) {
@@ -14099,6 +14219,11 @@ var searchInsert = function(nums, target) {
     return left; // Target not found, return insertion index
 };
 ```
+</details>
+
+
+<br>
+
 
 > ### 788. Rotated Digits
 
@@ -14184,6 +14309,7 @@ console.log(rotatedDigits(20)); // **Output**: 9
 console.log(rotatedDigits(30)); // **Output**: 15
 ```
 
+<br>
 
 > ### 1332. Remove Palindromic Subsequences
 
@@ -14215,14 +14341,13 @@ Example 3:
 **Explanation**: "baabb" -> "b" -> "". \
 Remove palindromic subsequence "baab" then "b".
 
+<details>
 
-### **Key Observations**
 1. **If the string `s` is already a palindrome**, we can remove it in **1 step**.
 2. **If `s` is not a palindrome**, we can always remove all `'a'` characters in one step and all `'b'` characters in another step.  
    - This guarantees that the entire string will be removed in **2 steps**.
 
 
-### **Optimized JavaScript Implementation**
 ```javascript
 var removePalindromeSub = function(s) {
     return s === s.split('').reverse().join('') ? 1 : 2;
@@ -14234,6 +14359,7 @@ console.log(removePalindromeSub("abb"));   // **Output**: 2
 console.log(removePalindromeSub("baabb")); // **Output**: 2
 console.log(removePalindromeSub(""));      // **Output**: 0 (Empty string needs no steps)
 ```
+</details>
 
 <br>
 
@@ -15524,52 +15650,42 @@ s = "abcdef", k = 1
 // **Output**: "A-B-C-D-E-F"
 ```
 
-> ### 205. Isomorphic Strings
+<br>
 
-Given two strings s and t, determine if they are isomorphic.
+> ### 205. Isomorphic Strings
 
 Two strings s and t are isomorphic if the characters in s can be replaced to get t.
 
 All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.
 
-Example 1:
-
-**Input**: s = "egg", t = "add"
-
-**Output**: true
-
-**Explanation**:
-
-The strings s and t can be made identical by:
-
+Example 1:\
+**Input**: s = "egg", t = "add"\
+**Output**: true\
+**Explanation**:\
+The strings s and t can be made identical by:\
 Mapping 'e' to 'a'.\
 Mapping 'g' to 'd'.
 
-Example 2:
 
-**Input**: s = "foo", t = "bar"
-
-**Output**: false
-
-**Explanation**:
-
+Example 2:\
+**Input**: s = "foo", t = "bar"\
+**Output**: false\
+**Explanation**:\
 The strings s and t can not be made identical as 'o' needs to be mapped to both 'a' and 'r'.
 
-Example 3:
-
-**Input**: s = "paper", t = "title"
-
+Example 3:\
+**Input**: s = "paper", t = "title"\
 **Output**: true
 
-### **Approach**
+
+<details>
+
 1. Use two hash maps:
    - One to map characters from `s` to `t`.
    - Another to ensure no two characters in `s` map to the same character in `t`.
 2. Traverse both strings simultaneously, checking if the mapping is consistent.
 
-**Here we have added 2 object to cross check each other data**
 
-### **Code Implementation**
 ```javascript
 var isIsomorphic = function(s, t) {
     if (s.length !== t.length) return false;
@@ -15580,8 +15696,7 @@ var isIsomorphic = function(s, t) {
     for (let i = 0; i < s.length; i++) {
         let charS = s[i], charT = t[i];
 
-        if ((mapST.has(charS) && mapST.get(charS) !== charT) || 
-            (mapTS.has(charT) && mapTS.get(charT) !== charS)) {
+        if ((mapST.has(charS) && mapST.get(charS) !== charT) || (mapTS.has(charT) && mapTS.get(charT) !== charS)) {
             return false;
         }
 
@@ -15591,97 +15706,21 @@ var isIsomorphic = function(s, t) {
     
     return true;
 };
+isIsomorphic("egg","add")
 ```
 
-### **Complexity Analysis**
-- **Time Complexity**: `O(N)`, where `N` is the length of `s` and `t` (single pass).
-- **Space Complexity**: `O(1)`, since there are only 26 possible characters.
 
-### **Example Walkthrough**
-#### **Input**:  
 ```js
 s = "egg", t = "add"
-```
-#### **Mappings**:
 - `'e' → 'a'`
 - `'g' → 'd'`
+```
 
 Since mappings are consistent, output is `true`.
 
+</details>
 
-> ### 374. Guess Number Higher or Lower
-We are playing the Guess Game. The game is as follows:
-
-I pick a number from 1 to n. You have to guess which number I picked.
-
-Every time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.
-
-You call a pre-defined API int guess(int num), which returns three possible results:
-
--1: Your guess is higher than the number I picked (i.e. num > pick).\
-1: Your guess is lower than the number I picked (i.e. num < pick).\
-0: your guess is equal to the number I picked (i.e. num == pick).\
-Return the number that I picked.
-
- 
-
-Example 1:
-
-**Input**: n = 10, pick = 6\
-**Output**: 6
-
-Example 2:
-
-**Input**: n = 1, pick = 1\
-**Output**: 1
-
-Example 3:
-
-**Input**: n = 2, pick = 1\
-**Output**: 1
-
-### **Approach: Binary Search**
-- Since we get feedback on whether our guess is too high or too low, **binary search** is the most efficient approach.
-- Start with a search range from `1` to `n`.
-- Repeatedly guess the middle number and adjust the range based on the API response.
-- Stop when we find the correct number.
-
-
-### **Code Implementation (JavaScript)**
-```javascript
-var guessNumber = function(n) {
-    let left = 1, right = n;
-    
-    while (left <= right) {
-        let mid = Math.floor((left + right) / 2);
-        let res = guess(mid);
-        
-        if (res === 0) return mid;  // Found the pick
-        else if (res === -1) right = mid - 1;  // Pick is smaller
-        else left = mid + 1;  // Pick is larger
-    }
-    
-    return -1;  // This case won't be reached in a valid game.
-};
-```
-
-
-### **Complexity Analysis**
-- **Binary Search Time Complexity**: \(O(\log n)\) since we halve the search space each time.
-- **Space Complexity**: \(O(1)\) as we use only a few integer variables.
-
-
-### **Example Walkthrough**
-#### ****Input**:** `n = 10, pick = 6`
-1. `mid = (1 + 10) / 2 = 5`
-   - `guess(5) → 1` (pick is larger) → Update `left = 6`
-2. `mid = (6 + 10) / 2 = 8`
-   - `guess(8) → -1` (pick is smaller) → Update `right = 7`
-3. `mid = (6 + 7) / 2 = 6`
-   - `guess(6) → 0` (found pick) → **Return 6**
-
-#### **Output** `6`
-
+<br>
 
 > ### 893. Groups of Special-Equivalent Strings
 
@@ -15772,50 +15811,35 @@ words = ["abcd","cdab","cbad","xyzz","zzxy","zzyx"]
 
 #### **Output** `3`
 
+<br>
+
 > ### 172. Factorial Trailing Zeroes
 
 Given an integer n, return the number of trailing zeroes in n!.
 
 Note that n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1.
 
-Example 1:
-
+Example 1:\
 **Input**: n = 3\
 **Output**: 0\
 **Explanation**: 3! = 6, no trailing zero.
 
-Example 2:
-
+Example 2:\
 **Input**: n = 5\
 **Output**: 1\
 **Explanation**: 5! = 120, one trailing zero.
 
-Example 3:
-
+Example 3:\
 **Input**: n = 0\
 **Output**: 0
 
-### **Approach: Count Factors of 5**
-Trailing zeroes in \( n! \) come from factors of **10**, which is formed by **2 × 5**. Since multiples of **2** are more frequent than **5**, the number of trailing zeroes is determined by the number of times **5** appears as a factor.
+<details>
 
+**Approach: Count Factors of 5**
+Trailing zeroes in (n!) come from factors of **10**, which is formed by **2 × 5**. Since multiples of **2** are more frequent than **5**, the number of trailing zeroes is determined by the number of times **5** appears as a factor.
 
 **basically koi number ke end me 0 hota h it means ye 5 ka divisble h, uske ander ek 5 h, to 5 ka count kr lo, 0 ka count apne aap mil jayega**
 
-
-#### **Formula:**
-Count the number of multiples of \( 5, 25, 125, \dots \) in \( n \):
-
-\[
-\text{Zeroes} = \frac{n}{5} + \frac{n}{25} + \frac{n}{125} + \dots
-\]
-
-This accounts for numbers like:
-- \( 5, 10, 15, 20, ... \) (each contributes one factor of 5)
-- \( 25, 50, 75, ... \) (each contributes an **extra** factor of 5)
-- \( 125, 250, ... \) (each contributes yet **another** extra factor of 5)
-
-
-### **Code Implementation (JavaScript)**
 ```javascript
 var trailingZeroes = function(n) {
     let count = 0;
@@ -15829,35 +15853,9 @@ var trailingZeroes = function(n) {
 };
 ```
 
+</details>
 
-### **Complexity Analysis**
-- **Time Complexity**: \( O(\log n) \) (since we divide \( n \) by 5 in each step)
-- **Space Complexity**: \( O(1) \) (only a few integer variables used)
-
-
-### **Example Walkthrough**
-#### **Example 1:**
-```js
-n = 5
-```
-- \( 5! = 120 \), has **one trailing zero**.
-- \( \frac{5}{5} = 1 \) → Answer: `1`
-
-#### **Example 2:**
-```js
-n = 10
-```
-- \( 10! = 3,628,800 \), has **two trailing zeroes**.
-- \( \frac{10}{5} = 2 \) → Answer: `2`
-
-#### **Example 3:**
-```js
-n = 25
-```
-- \( 25! \) has **6 trailing zeroes**.
-- \( \frac{25}{5} = 5 \), \( \frac{25}{25} = 1 \)
-- Total: `5 + 1 = 6`
-
+<br>
 
 > ### 1309. Decrypt String from Alphabet to Integer Mapping
 
@@ -15867,20 +15865,22 @@ Characters ('a' to 'i') are represented by ('1' to '9') respectively.\
 Characters ('j' to 'z') are represented by ('10#' to '26#') respectively.\
 Return the string formed after mapping.
 
-The test cases are generated so that a unique mapping will always exist.
+<br>
 
-Example 1:
-
+Example 1:\
 **Input**: s = "10#11#12"\
 **Output**: "jkab"\
 **Explanation**: "j" -> "10#" , "k" -> "11#" , "a" -> "1" , "b" -> "2".
 
-Example 2:
 
+
+Example 2:\
 **Input**: s = "1326#"\
 **Output**: "acz"
 
-### **Solution**
+
+<details>
+
 ```javascript
 var freqAlphabets = function(s) {
     let res = "";
@@ -15897,9 +15897,9 @@ var freqAlphabets = function(s) {
     
     return res;
 };
+freqAlphabets("10#11#12")
 ```
 
-### **Explanation**
 1. **Iterate using a `for` loop**:
    - If the current character is part of a `10#-26#` mapping:
      - Extract two digits (`s[i]` and `s[i+1]`).
@@ -15911,6 +15911,10 @@ var freqAlphabets = function(s) {
    - `'a' = 1 + 96 = 97` (ASCII)
    - `'z' = 26 + 96 = 122` (ASCII)
 
+
+</details>
+
+<br>
 
 
 > ### 1441. Build an Array With Stack Operations
@@ -16000,6 +16004,7 @@ var buildArray = function(target, n) {
 
 This **greedy approach** ensures an **optimal sequence of operations** while keeping it simple! 🚀
 
+<br>
 
 > ### 874. Walking Robot Simulation
 
@@ -16007,45 +16012,41 @@ A robot on an infinite XY-plane starts at point (0, 0) facing north. The robot r
 
 -2: Turn left 90 degrees.\
 -1: Turn right 90 degrees.\
-1 <= k <= 9: Move forward k units, one unit at a time.\
+1 <= k <= 9: Move forward k units, one unit at a time.
+
+
 Some of the grid squares are obstacles. The ith obstacle is at grid point obstacles[i] = (xi, yi). If the robot runs into an obstacle, it will stay in its current location (on the block adjacent to the obstacle) and move onto the next command.
 
 Return the maximum squared Euclidean distance that the robot reaches at any point in its path (i.e. if the distance is 5, return 25).
 
-Note:
-
-There can be an obstacle at (0, 0). If this happens, the robot will ignore the obstacle until it has moved off the origin. However, it will be unable to return to (0, 0) due to the obstacle.\
-North means +Y direction.\
-East means +X direction.\
-South means -Y direction.\
-West means -X direction.
+**Note**:
+- There can be an obstacle at (0, 0). If this happens, the robot will ignore the obstacle until it has moved off the origin. However, it will be unable to return to (0, 0) due to the obstacle.\
+- North means +Y direction.\
+- East means +X direction.\
+- South means -Y direction.\
+- West means -X direction.
  
+<br>
 
-Example 1:
-
-**Input**: commands = [4,-1,3], obstacles = []
-
+Example 1:\
+**Input**: commands = [4,-1,3], obstacles = []\
 **Output**: 25
 
-**Explanation**:
-
-The robot starts at (0, 0):
-
+**Explanation**:\
+The robot starts at (0, 0):\
 Move north 4 units to (0, 4).\
 Turn right.\
 Move east 3 units to (3, 4).\
 The furthest point the robot ever gets from the origin is (3, 4), which squared is 32 + 42 = 25 units away.
 
-Example 2:
 
-**Input**: commands = [4,-1,4,-2,4], obstacles = [[2,4]]
 
+Example 2:\
+**Input**: commands = [4,-1,4,-2,4], obstacles = [[2,4]]\
 **Output**: 65
 
-**Explanation**:
-
-The robot starts at (0, 0):
-
+**Explanation**:\
+The robot starts at (0, 0):\
 Move north 4 units to (0, 4).\
 Turn right.\
 Move east 1 unit and get blocked by the obstacle at (2, 4), robot is at (1, 4).\
@@ -16053,21 +16054,22 @@ Turn left.\
 Move north 4 units to (1, 8).\
 The furthest point the robot ever gets from the origin is (1, 8), which squared is 12 + 82 = 65 units away.
 
-Example 3:
 
-**Input**: commands = [6,-1,-1,6], obstacles = [[0,0]]
-
+Example 3:\
+**Input**: commands = [6,-1,-1,6], obstacles = [[0,0]]\
 **Output**: 36
 
-**Explanation**:
-
-The robot starts at (0, 0):
-
-Move north 6 units to (0, 6).
+**Explanation**:\
+The robot starts at (0, 0):\
+Move north 6 units to (0, 6).\
 Turn right.\
 Turn right.\
 Move south 5 units and get blocked by the obstacle at (0,0), robot is at (0, 1).\
 The furthest point the robot ever gets from the origin is (0, 6), which squared is 62 = 36 units away.
+
+
+
+<details>
 
 ```js
 var robotSim = function(commands, obstacles) {
@@ -16108,30 +16110,29 @@ var robotSim = function(commands, obstacles) {
 };
 ```
 
+</details>
+
 <br>
 
 > ### 167. Two Sum II - Input Array Is Sorted
 
-Return the indices of the two numbers, index1 and index2, added by one as an integer array [index1, index2] of length 2.
+Return the indices of the two numbers, index1 and index2, added by one as an integer array `[index1, index2]` of length 2.
 
-Your solution must use only constant extra space.
+Your solution must use only `constant extra space`.
 
 <br>
 
-Example 1:
-
+Example 1:\
 **Input**: numbers = [2,7,11,15], target = 9\
 **Output**: [1,2]\
 **Explanation**: The sum of 2 and 7 is 9. Therefore, index1 = 1, index2 = 2. We return [1, 2].
 
-Example 2:
-
+Example 2:\
 **Input**: numbers = [2,3,4], target = 6\
 **Output**: [1,3]\
 **Explanation**: The sum of 2 and 4 is 6. Therefore index1 = 1, index2 = 3. We return [1, 3].
 
-Example 3:
-
+Example 3:\
 **Input**: numbers = [-1,0], target = -1\
 **Output**: [1,2]\
 **Explanation**: The sum of -1 and 0 is -1. Therefore index1 = 1, index2 = 2. We return [1, 2].
