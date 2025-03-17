@@ -7825,7 +7825,9 @@ console.log(hasZeroSumSubarray(array)); // **Output**: true
 
 
 
-> ### Subarray with given sum   https://www.youtube.com/watch?v=Ofl4KgFhLsM&ab_channel=Techdose
+> ### Subarray with given sum   
+
+https://www.youtube.com/watch?v=Ofl4KgFhLsM&ab_channel=Techdose
 
 To find a subarray with a given sum in an unsorted array of positive integers, you can use a sliding window technique with two pointers. If the array contains both positive and negative integers, we can use a cumulative sum approach with a `Map`.
 
@@ -7973,6 +7975,7 @@ console.log(maxSubArray(nums)); // **Output**: 6 (Subarray: [4, -1, 2, 1])
 ```
 
 <br>
+
 > ### Longest subarray with given sum
 
 To find the longest subarray with a given sum in an unsorted array, we can use a cumulative sum approach with a `Map`. This solution works efficiently for arrays containing both positive and negative integers.
