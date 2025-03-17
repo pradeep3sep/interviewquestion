@@ -14235,6 +14235,7 @@ console.log(removePalindromeSub("baabb")); // **Output**: 2
 console.log(removePalindromeSub(""));      // **Output**: 0 (Empty string needs no steps)
 ```
 
+<br>
 
 > ### 1047. Remove All Adjacent Duplicates In String
 
@@ -14244,23 +14245,22 @@ We repeatedly make duplicate removals on s until we no longer can.
 
 Return the final string after all such duplicate removals have been made. It can be proven that the answer is unique.
 
-Example 1:
+<br>
 
+Example 1:\
 **Input**: s = "abbaca"\
 **Output**: "ca"\
 **Explanation**:\
 For example, in "abbaca" we could remove "bb" since the letters are adjacent and equal, and this is the only possible move.  The result of this move is that the string is "aaca", of which only "aa" is possible, so the final string is "ca".
 
-Example 2:
-
+Example 2:\
 **Input**: s = "azxxzy"\
 **Output**: "ay"
 
-### **Optimized Approach Using Stack (O(n) Time, O(n) Space)**
+<details>
 
+**Algorithm**
 We can solve this problem efficiently using a **stack**. The idea is to iterate through the string and keep track of characters using a stack. Whenever we encounter a duplicate adjacent character (i.e., it matches the top of the stack), we remove it.
-
-### **Algorithm**
 1. **Initialize a stack** to store characters.
 2. **Iterate through `s`**:
    - If the stack is **not empty** and the current character is equal to the top of the stack, **pop** (remove) the top.
@@ -14268,7 +14268,6 @@ We can solve this problem efficiently using a **stack**. The idea is to iterate 
 3. **Return the final stack** as a string.
 
 
-### **Optimized JavaScript Implementation**
 ```javascript
 var removeDuplicates = function(s) {
     let stack = [];
@@ -14291,34 +14290,36 @@ console.log(removeDuplicates("aabbcc")); // **Output**: ""
 console.log(removeDuplicates("abc"));    // **Output**: "abc"
 ```
 
+</details>
+
+<br>
+
 > ### 231. Power of Two/Three, (replace 2 with 3 in soln)
 
 Given an integer n, return true if it is a power of two. Otherwise, return false.
 
 An integer n is a power of two, if there exists an integer x such that n == 2x.
 
-Example 1:
+<br>
 
+Example 1:\
 **Input**: n = 1\
 **Output**: true\
 **Explanation**: 20 = 1
 
-Example 2:
-
+Example 2:\
 **Input**: n = 16\
 **Output**: true\
 **Explanation**: 24 = 16
 
-Example 3:
-
+Example 3:\
 **Input**: n = 3\
 **Output**: false
 
-### **Optimized Approach: Using Iteration (O(log n))**  
+<details>
 
 If `n` is a power of two, it should be **divisible by 2 repeatedly** until it becomes `1`. Otherwise, it will have a remainder at some step.
 
-### **JavaScript Solution (Without Bitwise Operations)**  
 ```javascript
 var isPowerOfTwo = function(n) {
     if (n <= 0) return false; // Power of two must be positive
@@ -14339,6 +14340,9 @@ console.log(isPowerOfTwo(64)); // true
 console.log(isPowerOfTwo(0));  // false
 ```
 
+</details>
+
+<br>
 
 > ### 66. Plus One
 
@@ -14346,31 +14350,31 @@ You are given a large integer represented as an integer array digits, where each
 
 Increment the large integer by one and return the resulting array of digits.
 
-Example 1:
+<br>
 
+Example 1:\
 **Input**: digits = [1,2,3]\
 **Output**: [1,2,4]\
 **Explanation**: The array represents the integer 123.\
 Incrementing by one gives 123 + 1 = 124.\
 Thus, the result should be [1,2,4].
 
-Example 2:
-
+Example 2:\
 **Input**: digits = [4,3,2,1]\
 **Output**: [4,3,2,2]\
 **Explanation**: The array represents the integer 4321.\
 Incrementing by one gives 4321 + 1 = 4322.\
 Thus, the result should be [4,3,2,2].
 
-Example 3:
-
+Example 3:\
 **Input**: digits = [9]\
 **Output**: [1,0]\
 **Explanation**: The array represents the integer 9.\
 Incrementing by one gives 9 + 1 = 10.\
 Thus, the result should be [1,0].
 
-### **JavaScript Solution (O(n) Time, O(1) Space)**
+<details>
+
 ```javascript
 var plusOne = function(digits) {
     let n = digits.length;
@@ -14395,11 +14399,9 @@ console.log(plusOne([9,9,9]));   // [1,0,0,0]
 console.log(plusOne([0]));       // [1]
 ```
 
-### **Explanation**
-1. **Iterate from the last digit** and check:
-   - If it's `<9`, simply increment and return.
-   - If it's `9`, set it to `0` and continue (carry propagation).
-2. **If all digits were `9s`**, we need to insert `1` at the beginning.
+</details>
+
+<br>
 
 > ### 852. Peak Index in a Mountain Array
 
@@ -14407,31 +14409,24 @@ You are given an integer mountain array arr of length n where the values increas
 
 Return the index of the peak element.
 
-Your task is to solve it in O(log(n)) time complexity.
+Your task is to solve it in `O(log(n))` time complexity.
 
-Example 1:
-
-**Input**: arr = [0,1,0]
-
+Example 1:\
+**Input**: arr = [0,1,0]\
 **Output**: 1
 
-Example 2:
-
-**Input**: arr = [0,2,1,0]
-
+Example 2:\
+**Input**: arr = [0,2,1,0]\
 **Output**: 1
 
-Example 3:
-
-**Input**: arr = [0,10,5,2]
-
+Example 3:\
+**Input**: arr = [0,10,5,2]\
 **Output**: 1
 
-### **Optimal Approach: Binary Search (O(log n))**
+<details>
+
 Since the array first increases to a peak and then decreases, we can use **binary search** to efficiently locate the peak.
 
-
-### **JavaScript Solution (Binary Search)**
 ```javascript
 var peakIndexInMountainArray = function(arr) {
     let left = 0, right = arr.length - 1;
@@ -14458,44 +14453,36 @@ console.log(peakIndexInMountainArray([0,10,5,2])); // **Output**: 1
 console.log(peakIndexInMountainArray([1,3,5,7,9,8,6,4,2])); // **Output**: 4
 ```
 
-### **Explanation**
-1. **Initialize Binary Search**:
-   - `left = 0`, `right = arr.length - 1`
-2. **Binary Search Condition**:
-   - If `arr[mid] < arr[mid + 1]`, we move `left = mid + 1` (ascending part).
-   - Else, we move `right = mid` (descending part).
-3. **Termination**:
-   - `left` and `right` will eventually converge to the peak index.
+</details>
+
+<br>
 
 
 > ### 1013. Partition Array Into Three Parts With Equal Sum
 
 Given an array of integers arr, return true if we can partition the array into three non-empty parts with equal sums.
 
-Formally, we can partition the array if we can find indexes i + 1 < j with (arr[0] + arr[1] + ... + arr[i] == arr[i + 1] + arr[i + 2] + ... + arr[j - 1] == arr[j] + arr[j + 1] + ... + arr[arr.length - 1])
-
-Example 1:
-
+Example 1:\
 **Input**: arr = [0,2,1,-6,6,-7,9,1,2,0,1]\
 **Output**: true\
 **Explanation**: 0 + 2 + 1 = -6 + 6 - 7 + 9 + 1 = 2 + 0 + 1
 
-Example 2:
 
+Example 2:\
 **Input**: arr = [0,2,1,-6,6,7,9,-1,2,0,1]\
 **Output**: false
 
-Example 3:
 
+Example 3:\
 **Input**: arr = [3,3,6,5,-2,2,5,1,-9,4]\
 **Output**: true\
 **Explanation**: 3 + 3 = 6 = 5 - 2 + 2 + 5 + 1 - 9 + 4
 
-### **Optimal Approach: One-Pass Greedy Solution (O(n))**
+<details>
+
 Since we need to split the array into **three equal sum parts**, we first compute the **total sum**. If the total sum is **not divisible by 3**, it's **impossible** to partition the array.
 
 
-### **JavaScript Solution**
 ```javascript
 var canThreePartsEqualSum = function(arr) {
     let totalSum = arr.reduce((sum, num) => sum + num, 0);
@@ -14539,25 +14526,29 @@ console.log(canThreePartsEqualSum([3,3,6,5,-2,2,5,1,-9,4]));    // **Output**: t
    - If two partitions are found, return **true**.
    - Otherwise, return **false**.
 
+</details>
+
+<br>
 
 > ### 476. Number Complement (solution ka concept)
 
 The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
 
-For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
+For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.\
 Given an integer num, return its complement.
 
-Example 1:
-
+Example 1:\
 **Input**: num = 5\
 **Output**: 2\
 **Explanation**: The binary representation of 5 is 101 (no leading zero bits), and its complement is 010. So you need to output 2.
 
-Example 2:
 
+Example 2:\
 **Input**: num = 1\
 **Output**: 0\
 **Explanation**: The binary representation of 1 is 1 (no leading zero bits), and its complement is 0. So you need to output 0.
+
+<details>
 
 ```js
 var findComplement = function(num) {
@@ -14572,6 +14563,9 @@ console.log(findComplement(1));  // **Output**: 0
 console.log(findComplement(10)); // **Output**: 5
 ```
 
+</details>
+
+<br>
 
 > ### 746. Min Cost Climbing Stairs
 
@@ -14581,16 +14575,18 @@ You can either start from the step with index 0, or the step with index 1.
 
 Return the minimum cost to reach the top of the floor.
 
-Example 1:
+<br>
 
+Example 1:\
 **Input**: cost = [10,15,20]\
 **Output**: 15\
 **Explanation**: You will start at index 1.\
 - Pay 15 and climb two steps to reach the top.\
 The total cost is 15.
 
-Example 2:
+<br>
 
+Example 2:\
 **Input**: cost = [1,100,1,1,1,100,1,1,100,1]\
 **Output**: 6\
 **Explanation**: You will start at index 0.
@@ -14603,20 +14599,17 @@ Example 2:
 The total cost is 6.
 
 
-#### **Approach**
+<details>
+
 1. Define `dp[i]` as the minimum cost to reach step `i`.
 2. We can reach step `i` from:
    - Step `i - 1` with cost `cost[i - 1]`
    - Step `i - 2` with cost `cost[i - 2]`
 3. The recurrence relation:
-   \[
-   dp[i] = \min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])
-   \]
+   - dp[i] = \min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2])
 4. Start at either `cost[0]` or `cost[1]`, and calculate `dp` iteratively.
 
-
-
-### **Optimized JavaScript Solution (O(1) Space)**
+**Optimized JavaScript Solution (O(1) Space)**
 Instead of storing the entire `dp` array, we only keep track of the last two steps.
 
 ```javascript
@@ -14637,36 +14630,30 @@ console.log(minCostClimbingStairs([10, 15, 20])); // **Output**: 15
 console.log(minCostClimbingStairs([1,100,1,1,1,100,1,1,100,1])); // **Output**: 6
 ```
 
+<details>
+
+<br>
 
 > ### 624. Maximum Distance in Arrays
 
-You are given m arrays, where each array is sorted in ascending order.
+You are given m arrays, where each array is `sorted` in ascending order.
 
 You can pick up two integers from two different arrays (each array picks one) and calculate the distance. We define the distance between two integers a and b to be their absolute difference |a - b|.
 
 Return the maximum distance.
 
-Example 1:
-
-**Input**: arrays = [[1,2,3],[4,5],[1,2,3]]
-**Output**: 4
+Example 1:\
+**Input**: arrays = [[1,2,3],[4,5],[1,2,3]]\
+**Output**: 4\
 **Explanation**: One way to reach the maximum distance 4 is to pick 1 in the first or third array and pick 5 in the second array.
-Example 2:
 
-**Input**: arrays = [[1],[1]]
+
+Example 2:\
+**Input**: arrays = [[1],[1]]\
 **Output**: 0
 
-### **Optimized Approach (O(m) Time)**
-1. Keep track of:
-   - **Global min (`minVal`)** and **max (`maxVal`)** seen so far.
-   - Their **original indices** to ensure different arrays.
-2. Iterate through `arrays` and calculate:
-   - \(\left| \text{maxVal} - \text{min from current array} \right|\)  
-   - \(\left| \text{minVal} - \text{max from current array} \right|\)  
-3. Update `maxDistance` with the largest valid difference.
+<details>
 
-
-### **Efficient JavaScript Solution**
 ```javascript
 var maxDistance = function(arrays) {
     let minVal = arrays[0][0], maxVal = arrays[0][arrays[0].length - 1];
@@ -14691,45 +14678,47 @@ console.log(maxDistance([[1,2,3],[4,5],[1,2,3]]));  // **Output**: 4
 console.log(maxDistance([[1],[1]]));  // **Output**: 0
 ```
 
+</details>
+
+<br>
+
 > ### 1544. Make The String Great
 
-Given a string s of lower and upper case English letters.
+Given a string `s` of lower and upper case English letters.
 
-A good string is a string which doesn't have two adjacent characters s[i] and s[i + 1] where:
+A good string is a string which doesn't have **two adjacent characters** `s[i]` and `s[i + 1]` where:
 
-- 0 <= i <= s.length - 2
-- s[i] is a lower-case letter and s[i + 1] is the same letter but in upper-case or vice-versa.
+- `0 <= i <= s.length - 2`
+- `s[i]` is a lower-case letter and `s[i + 1]` is the same letter but in upper-case or **vice-versa**.
 
-To make the string good, you can choose two adjacent characters that make the string bad and remove them. You can keep doing this until the string becomes good.
+To make the string good, you can choose **two adjacent** characters that make the string bad and remove them. You can keep doing this until the string becomes good.
 
 Return the string after making it good. The answer is guaranteed to be unique under the given constraints.
 
-Notice that an empty string is also good.
+<br>
 
- 
-
-Example 1:
-
+Example 1:\
 **Input**: s = "leEeetcode"\
 **Output**: "leetcode"\
 **Explanation**: In the first step, either you choose i = 1 or i = 2, both will result "leEeetcode" to be reduced to "leetcode".
 
-Example 2:
 
+Example 2:\
 **Input**: s = "abBAcC"\
 **Output**: ""\
 **Explanation**: We have many possible scenarios, and all lead to the same answer. For example:\
 "abBAcC" --> "aAcC" --> "cC" --> ""\
 "abBAcC" --> "abBA" --> "aA" --> ""
 
-Example 3:
 
+Example 3:\
 **Input**: s = "s"\
 **Output**: "s"
 
-**Solution: Using a Stack**
-**To remove adjacent bad character pairs, we can use a stack:**
 
+<details>
+
+**Solution: Using a Stack**
 - Iterate through the string.
 - For each character:
 - If the stack is not empty and the top of the stack is the same letter but opposite case, remove it.
@@ -14757,30 +14746,31 @@ console.log(makeGood("abBAcC")); // **Output**: ""
 console.log(makeGood("s")); // **Output**: "s"
 ```
 
+</details>
+
+<br>
 
 > ### 1380. Lucky Numbers in a Matrix
-Given an m x n matrix of distinct numbers, return all lucky numbers in the matrix in any order.
+Given an `m x n matrix` of distinct numbers, `return all lucky numbers` in the matrix in any order.
 
 A lucky number is an element of the matrix such that it is the minimum element in its row and maximum in its column.
 
-Example 1:
-
+Example 1:\
 **Input**: matrix = [[3,7,8],[9,11,13],[15,16,17]]\
 **Output**: [15]\
 **Explanation**: 15 is the only lucky number since it is the minimum in its row and the maximum in its column.
 
-Example 2:
-
+Example 2:\
 **Input**: matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]\
 **Output**: [12]\
 **Explanation**: 12 is the only lucky number since it is the minimum in its row and the maximum in its column.
 
-Example 3:
-
+Example 3:\
 **Input**: matrix = [[7,8],[1,2]]\
 **Output**: [7]\
 **Explanation**: 7 is the only lucky number since it is the minimum in its row and the maximum in its column.
 
+<details>
 
 ```js
 var luckyNumbers  = function(matrix) {
@@ -14796,6 +14786,9 @@ var luckyNumbers  = function(matrix) {
 };
 ```
 
+</details>
+
+<br>
 
 > ### 409. Longest Palindrome
 
@@ -14804,17 +14797,18 @@ palindrome that can be built with those letters.
 
 Letters are case sensitive, for example, "Aa" is not considered a palindrome.
 
-Example 1:
-
+Example 1:\
 **Input**: s = "abccccdd"\
 **Output**: 7\
 **Explanation**: One longest palindrome that can be built is "dccaccd", whose length is 7.
 
-Example 2:
-
+Example 2:\
 **Input**: s = "a"\
 **Output**: 1\
 **Explanation**: The longest palindrome that can be built is "a", whose length is 1.
+
+
+<details>
 
 To form the **longest palindrome**, we need to consider the frequency of each character:
 - **Even counts** can always be fully used in a palindrome.
@@ -14848,7 +14842,9 @@ console.log(longestPalindrome("abccccdd")); // **Output**: 7
 console.log(longestPalindrome("a"));        // **Output**: 1
 console.log(longestPalindrome("bb"));       // **Output**: 2
 ```
+</details>
 
+<br>
 
 > ### 1365. How Many Numbers Are Smaller Than the Current Number
 
@@ -14877,6 +14873,9 @@ Example 3:
 **Input**: nums = [7,7,7,7]\
 **Output**: [0,0,0,0]
 
+
+<details>
+
 ```js
 var smallerNumbersThanCurrent = function(nums) {
     let sorted = [...nums].sort((a, b) => a - b);
@@ -14897,9 +14896,13 @@ console.log(smallerNumbersThanCurrent([6,5,4,8]));   // **Output**: [2,1,0,3]
 console.log(smallerNumbersThanCurrent([7,7,7,7]));   // **Output**: [0,0,0,0]
 ```
 
+</details>
+
+<br>
+
 > ### 1374. Generate a String With Characters That Have Odd Counts
 
-Given an integer n, return a string with n characters such that each character in such string occurs an odd number of times.
+Given an `integer n`, return a string with n characters such that `each character` in such string `occurs an odd number of times`.
 
 The returned string must contain only lowercase English letters. If there are multiples valid strings, return any of them.  
 
@@ -14920,15 +14923,14 @@ Example 3:
 **Input**: n = 7\
 **Output**: "holasss"
 
+<details>
 
-### **Approach**
 1. If `n` is **odd**, we can simply return `"a".repeat(n)`. Since all characters are `'a'`, it occurs `n` times, which is **odd**.
 2. If `n` is **even**, we need at least one character with an odd count. 
    - We can use `"a".repeat(n - 1) + "b"`, ensuring:
      - `'a'` appears `n - 1` times (odd when `n` is even).
      - `'b'` appears **once**, which is also odd.
 
-### **Implementation (JavaScript)**
 ```javascript
 var generateTheString = function(n) {
     return n % 2 === 1 ? "a".repeat(n) : "a".repeat(n - 1) + "b";
@@ -14940,6 +14942,9 @@ console.log(generateTheString(2)); // **Output**: "ab" or similar
 console.log(generateTheString(7)); // **Output**: "aaaaaaa"
 ```
 
+</details>
+
+<br>
 
 > ### 168. Excel Sheet Column Title
 
@@ -14957,22 +14962,16 @@ AB -> 28 \
 ...
  
 
-Example 1:
-
+Example 1:\
 **Input**: columnNumber = 1\
 **Output**: "A"
 
-Example 2:
-
+Example 2:\
 **Input**: columnNumber = 28\
 **Output**: "AB"
 
-#### Approach:
-- This problem follows a **Base-26** number system, similar to how we represent numbers in decimal (Base-10).
-- Since Excel columns start from `A` (1) to `Z` (26) and then `AA` (27), `AB` (28), etc., we need to map numbers accordingly.
-- The trick is to handle the **zero-based** nature of modular arithmetic by subtracting `1` from the column number before taking modulo.
+<details>
 
-#### Steps:
 1. Initialize an empty string `result` to store the column title.
 2. Use a loop to extract letters:
    - Subtract `1` from `columnNumber`.
@@ -14982,7 +14981,6 @@ Example 2:
 4. Reverse the result since characters are extracted from least significant to most significant.
 
 
-### **JavaScript Solution**
 ```javascript
 // Algorithm: Base-26 Encoding
 function convertToTitle(columnNumber) {
@@ -15005,6 +15003,9 @@ console.log(convertToTitle(701)); // **Output**: "ZY"
 console.log(convertToTitle(2147483647)); // Large case
 ```
 
+</details>
+
+<br>
 
 > ### 171. Excel Sheet Column Number
 
@@ -15021,34 +15022,23 @@ AA -> 27\
 AB -> 28 \
 ...
  
-Example 1:
-
+Example 1:\
 **Input**: columnTitle = "A"\
 **Output**: 1
 
-Example 2:
-
+Example 2:\
 **Input**: columnTitle = "AB"\
 **Output**: 28
 
-#### Approach:
-- This problem follows a **Base-26** number system, similar to how we convert numbers in decimal (Base-10).
-- Each letter contributes to the total value based on its position (like how digits work in decimal).
+
+<details>
+
 - To convert `"AB"` to `28`, we use:
   - `A = 1 → (1 × 26^1) = 26`
   - `B = 2 → (2 × 26^0) = 2`
   - **Total = 26 + 2 = 28**
 
-#### Steps:
-1. Initialize `result = 0`.
-2. Iterate over the string:
-   - Convert each character to a number: `charCode - 64` (since 'A' = 65).
-   - Multiply the result by `26` and add the new value.
-3. Return the final result.
-
-### **JavaScript Solution**
 ```javascript
-// Algorithm: Base-26 Decoding
 function titleToNumber(columnTitle) {
     let result = 0;
 
@@ -15060,72 +15050,15 @@ function titleToNumber(columnTitle) {
     return result;
 }
 
-// Test Cases
 console.log(titleToNumber("A"));    // **Output**: 1
 console.log(titleToNumber("AB"));   // **Output**: 28
 console.log(titleToNumber("ZY"));   // **Output**: 701
 console.log(titleToNumber("FXSHRXW")); // Large case
 ```
 
-> ### 1009. Complement of Base 10 Integer
+</details>
 
-The complement of an integer is the integer you get when you flip all the 0's to 1's and all the 1's to 0's in its binary representation.
-
-For example, The integer 5 is "101" in binary and its complement is "010" which is the integer 2.
-Given an integer n, return its complement.
-
-Example 1:
-
-**Input**: n = 5\
-**Output**: 2\
-**Explanation**: 5 is "101" in binary, with complement "010" in binary, which is 2 in base-10.
-
-Example 2:
-
-**Input**: n = 7\
-**Output**: 0\
-**Explanation**: 7 is "111" in binary, with complement "000" in binary, which is 0 in base-10.
-
-Example 3:
-
-**Input**: n = 10\
-**Output**: 5\
-**Explanation**: 10 is "1010" in binary, with complement "0101" in binary, which is 5 in base-10.
-
-### **Algorithm: String-Based Approach (Without Bit Manipulation)**  
-
-#### **Approach:**  
-1. **Convert `n` to Binary String** → Use `n.toString(2)`.  
-2. **Flip Each Bit** → Replace `1` with `0` and `0` with `1`.  
-3. **Convert Back to Decimal** → Use `parseInt(flippedBinary, 2)`.  
-
-
-### **JavaScript Solution (Without Bit Manipulation)**  
-```javascript
-// Algorithm: String Manipulation
-function bitwiseComplement(n) {
-    if (n === 0) return 1; // Special case for 0
-
-    let binary = n.toString(2); // Convert to binary string
-    let flippedBinary = binary.split("").map(bit => bit === "1" ? "0" : "1").join(""); // Flip bits
-    return parseInt(flippedBinary, 2); // Convert back to decimal
-}
-
-// Test Cases
-console.log(bitwiseComplement(5));  // **Output**: 2
-console.log(bitwiseComplement(7));  // **Output**: 0
-console.log(bitwiseComplement(10)); // **Output**: 5
-console.log(bitwiseComplement(0));  // **Output**: 1
-console.log(bitwiseComplement(1));  // **Output**: 0
-```
-
-### **Time Complexity:**  
-- **\( O(\log N) \)** → Binary conversion & string operations depend on the number of bits in `n`.  
-
-### **Space Complexity:**  
-- **\( O(\log N) \)** → Storing the binary string & modified string.
-
-
+<br>
 
 > ### 1030. Matrix Cells in Distance Order
 
