@@ -1650,122 +1650,6 @@ console.log(nextGreaterElements(nums)); // **Output**: [4, 2, 4, -1, -1]
 
 [Back to Top](#table-of-contents)
 
-
-> ## 8. BFS and DFS algorithm
-
-BFS Algorithm
-- use Queue structure
-- Best for shortest path
-
-```js
-// Tree Traversal
-
-// BFS - Breadth First Search - is a vertex-based technique for finding the shortest path in the graph. 
-// also called as Level Order Traversal
-// It uses a `Queue data structure` that follows `first in first out`. 
-
-// In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h 
-// then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h,
-// jisko push kia h uske left and right ko Queue me add kr dete h 
-
-// It is slower than DFS.
-
-BFS() {
-    let currentNode = this.root;
-    let queue = [];
-    let results = [];
-
-    queue.push(currentNode);
-
-    while (queue.length) {
-        currentNode = queue.shift();
-        results.push(currentNode.value);
-
-        if (currentNode.left) queue.push(currentNode.left);
-        if (currentNode.right) queue.push(currentNode.right);
-    }
-
-    return results;
-}
-```
-
-
-DFS Algorithm
-- use recursion
-- Best for exploring all paths
-
-```js
-// DFS - Depth First Search - is an an edge-based technique. 
-
-// It uses the Stack data structure and performs two stages, 
-// first visited vertices are pushed into the stack, and 
-// second if there are no vertices then visited vertices are popped.
-
-// DFS is of 3 types - Preorder Traversal, Inorder Traversal, Postorder Traversal
-
-// Algorithm for Preorder Traversal:
-
-// Visit the root.
-// Traverse the left subtree, i.e., call Preorder(left->subtree)
-// Traverse the right subtree, i.e., call Preorder(right->subtree)
-
-DFSPreOrder() {
-    let results = [];
-
-    function traverse(currentNode) {
-        results.push(currentNode.value);
-
-        if (currentNode.left) traverse(currentNode.left);
-        if (currentNode.right) traverse(currentNode.right);
-    }
-
-    traverse(this.root);
-    return results;
-}
-
-
-// Algorithm for Postorder Traversal:
-
-// Traverse the left subtree, i.e., call Postorder(left->subtree)
-// Traverse the right subtree, i.e., call Postorder(right->subtree)
-// Visit the root
-
-DFSPostOrder() {
-    let results = [];
-
-    function traverse(currentNode) {
-        if (currentNode.left) traverse(currentNode.left);
-        if (currentNode.right) traverse(currentNode.right);
-
-        results.push(currentNode.value);
-    }
-
-    traverse(this.root);
-    return results;
-}
-
-// Algorithm for Inorder Traversal:
-
-// Traverse the left subtree, i.e., call Inorder(left->subtree)
-// Visit the root.
-// Traverse the right subtree, i.e., call Inorder(right->subtree)
-
-DFSInOrder() {
-    let results = [];
-
-    function traverse(currentNode) {
-        if (currentNode.left) traverse(currentNode.left);
-        
-        results.push(currentNode.value);
-        
-        if (currentNode.right) traverse(currentNode.right);   
-    }
-
-    traverse(this.root);
-    return results;
-}
-```
-
 <br>
 
 [Back to Top](#table-of-contents)
@@ -6297,6 +6181,1413 @@ let myTree = new BST()
 myTree
 ```
 
+> ### 8. BFS and DFS algorithm
+
+BFS Algorithm
+- use Queue structure
+- Best for shortest path
+
+
+**BFS - Breadth First Search**
+
+- is a vertex-based technique for finding the shortest path in the graph. 
+- also called as **Level Order Traversal**
+- It uses a `Queue data structure` that follows `first in first out`. 
+- It is slower than DFS.
+
+**In Simple term**
+In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h 
+then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h,
+jisko push kia h uske left and right ko Queue me add kr dete h 
+
+
+```js
+BFS() {
+    let currentNode = this.root;
+    let queue = [];
+    let results = [];
+
+    queue.push(currentNode);
+
+    while (queue.length) {
+        currentNode = queue.shift();
+        results.push(currentNode.value);
+
+        if (currentNode.left) queue.push(currentNode.left);
+        if (currentNode.right) queue.push(currentNode.right);
+    }
+
+    return results;
+}
+```
+
+> ### level order traversal line by line(in linked list form)
+```javascript
+// Node class to represent a binary tree node
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+// Function to perform level order traversal line by line
+function levelOrderTraversalLineByLine(root) {
+    if (root === null) {
+        return;
+    }
+
+    let queue = [];
+    queue.push(root); // Enqueue the root node
+
+    // Perform BFS
+    while (queue.length > 0) {
+        let levelSize = queue.length; // Number of nodes at the current level
+        let currentLevel = ""; // To accumulate node values for the current level
+
+        // Process all nodes at the current level
+        for (let i = 0; i < levelSize; i++) {
+            let currentNode = queue.shift(); // Dequeue the node
+
+            // Accumulate the current node's value
+            currentLevel += currentNode.value + " ";
+
+            // Enqueue the left and right children of the current node
+            if (currentNode.left !== null) {
+                queue.push(currentNode.left);
+            }
+            if (currentNode.right !== null) {
+                queue.push(currentNode.right);
+            }
+        }
+
+        // Print the entire level after processing
+        console.log(currentLevel.trim());
+    }
+}
+
+// Example usage:
+
+// Create the binary tree
+let root = new Node(1);
+root.left = new Node(2);
+root.right = new Node(3);
+root.left.left = new Node(4);
+root.left.right = new Node(5);
+root.right.left = new Node(6);
+root.right.right = new Node(7);
+
+// Perform level order traversal line by line
+console.log("Level Order Traversal Line by Line:");
+levelOrderTraversalLineByLine(root);
+```
+
+### **Output**:
+For the following binary tree:
+```
+        1
+       / \
+      2   3
+     / \ / \
+    4  5 6  7
+```
+
+The output of the level order traversal, line by line, will be:
+```
+1 
+2 3 
+4 5 6 7
+```
+
+### **Explanation**:
+- The root node `1` is printed first (level 0).
+- Then nodes `2` and `3` (children of `1`) are printed on the next line (level 1).
+- Finally, nodes `4`, `5`, `6`, and `7` (children of `2` and `3`) are printed on the next line (level 2).
+
+### Time Complexity:
+- **O(n)**, where `n` is the number of nodes in the tree. Each node is visited once.
+
+### Space Complexity:
+- **O(n)**, because in the worst case (a completely balanced tree), we might have to store all nodes of the last level in the queue, which can be up to `n/2` nodes.
+
+<br>
+
+**DFS - Depth First Search**
+- is an an edge-based technique. 
+- It uses the Stack data structure and performs two stages, 
+    - first visited vertices are pushed into the stack, and 
+    - second if there are no vertices then visited vertices are popped.
+
+- DFS is of 3 types
+    - Preorder Traversal, 
+    - Inorder Traversal, 
+    - Postorder Traversal
+
+DFS Algorithm
+- use recursion
+- Best for exploring all paths
+
+<br>
+
+**Algorithm for Preorder Traversal:**
+- Visit the root.
+- Traverse the left subtree, i.e., call Preorder(left->subtree)
+- Traverse the right subtree, i.e., call Preorder(right->subtree)
+
+```js
+DFSPreOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        results.push(currentNode.value);
+
+        if (currentNode.left) traverse(currentNode.left);
+        if (currentNode.right) traverse(currentNode.right);
+    }
+
+    traverse(this.root);
+    return results;
+}
+```
+
+<br>
+
+
+**Algorithm for Postorder Traversal:**
+- Traverse the left subtree, i.e., call Postorder(left->subtree)
+- Traverse the right subtree, i.e., call Postorder(right->subtree)
+- Visit the root
+
+> ### leetCode - Q 145
+
+```js
+DFSPostOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        if (!currentNode) return;
+
+        if (currentNode.left) traverse(currentNode.left);
+        if (currentNode.right) traverse(currentNode.right);
+
+        results.push(currentNode.value);
+    }
+
+    traverse(this.root);
+    return results;
+}
+```
+<br>
+
+**Algorithm for Inorder Traversal:**
+
+- Traverse the left subtree, i.e., call Inorder(left->subtree)
+- Visit the root.
+- Traverse the right subtree, i.e., call Inorder(right->subtree)
+```js
+DFSInOrder() {
+    let results = [];
+
+    function traverse(currentNode) {
+        if (currentNode.left) traverse(currentNode.left);
+        
+        results.push(currentNode.value);
+        
+        if (currentNode.right) traverse(currentNode.right);   
+    }
+
+    traverse(this.root);
+    return results;
+}
+```
+
+<br>
+
+> ### 637. Average of Levels in Binary Tree
+
+Given the root of a binary tree, return the average value of the nodes on each level in the form of an array. 
+ 
+Example 1:\
+**Input**: root = [3,9,20,null,null,15,7]\
+**Output**: [3.00000,14.50000,11.00000]\
+**Explanation**: The average value of nodes on level 0 is 3, on level 1 is 14.5, and on level 2 is 11.\
+Hence return [3, 14.5, 11].
+
+
+
+Example 2:\
+**Input**: root = [3,9,20,15,7]\
+**Output**: [3.00000,14.50000,11.00000]
+
+<details>
+
+```js
+Input: root = [3,9,20,null,null,15,7]
+
+Tree structure:
+        3
+       / \
+      9   20
+         /  \
+        15   7
+```
+
+**Step-by-Step Execution**
+1. **Level 0:** `[3]`
+   - Sum = 3
+   - Average = `3 / 1 = 3.00000`
+   - **Queue:** `[9, 20]`
+
+2. **Level 1:** `[9, 20]`
+   - Sum = `9 + 20 = 29`
+   - Average = `29 / 2 = 14.50000`
+   - **Queue:** `[15, 7]`
+
+3. **Level 2:** `[15, 7]`
+   - Sum = `15 + 7 = 22`
+   - Average = `22 / 2 = 11.00000`
+   - **Queue:** `[]` (Tree processed)
+
+✅ **Output**: `[3.00000, 14.50000, 11.00000]`
+
+
+We will use **Level Order Traversal** (BFS) with a queue to compute the average of each level.
+
+```javascript
+var averageOfLevels = function(root) {
+    if (!root) return [];
+
+    let result = [];
+    let queue = [root];
+
+    while (queue.length > 0) {
+        let levelSize = queue.length;
+        let levelSum = 0;
+
+        for (let i = 0; i < levelSize; i++) {
+            let node = queue.shift();
+            levelSum += node.val;
+
+            if (node.left) queue.push(node.left);
+            if (node.right) queue.push(node.right);
+        }
+
+        result.push(levelSum / levelSize);
+    }
+    
+    return result;
+};
+```
+
+</details>
+
+<br>
+
+> ### 257. Binary Tree Paths
+
+Given the root of a binary tree, return all root-to-leaf paths in any order.
+
+A leaf is a node with no children.
+
+Example 1:\
+**Input**: root = [1,2,3,null,5]\
+**Output**: ["1->2->5","1->3"]
+
+Example 2:\
+**Input**: root = [1]\
+**Output**: ["1"]
+
+
+
+<details>
+
+**Algorithm: DFS (Depth-First Search)**
+```javascript
+var binaryTreePaths = function(root) {
+    if (!root) return [];
+
+    let result = [];
+    
+    function dfs(node, path) {
+        if (!node) return;
+
+        path += node.val; // Add current node value to the path
+
+        if (!node.left && !node.right) {
+            result.push(path); // If it's a leaf, add to result
+        } else {
+            path += "->"; // Add separator for next node
+            dfs(node.left, path);
+            dfs(node.right, path);
+        }
+    }
+    
+    dfs(root, "");
+    return result;
+};
+```
+
+**Example**
+```js
+Input: root = [1,2,3,null,5]
+```
+
+Binary Tree:
+```
+    1
+   / \
+  2   3
+   \
+    5
+```
+- **DFS Traversal Paths**:
+  - `1 -> 2 -> 5`
+  - `1 -> 3`
+✅ **Output:** `["1->2->5", "1->3"]`
+
+</details>
+
+<br>
+
+
+> ### 606. Construct String from Binary Tree
+
+Given the root node of a binary tree, your task is to create a string representation of the tree following a specific set of formatting rules.
+
+Example 1:
+
+**Input**: root = [1,2,3,4]\
+**Output**: "1(2(4))(3)"\
+**Explanation**: Originally, it needs to be "1(2(4)())(3()())", but you need to omit all the empty parenthesis pairs. And it will be "1(2(4))(3)".
+
+Example 2:
+
+**Input**: root = [1,2,3,null,4]\
+**Output**: "1(2()(4))(3)"\
+**Explanation**: Almost the same as the first example, except the () after 2 is necessary to indicate the absence of a left child for 2 and the presence of a right child.
+
+
+<details>
+
+1. **Base Case:**  
+   - If the node is `null`, return an **empty string**.
+2. **Root Processing:**  
+   - Convert the node value to a string.
+3. **Recursive Calls for Left & Right Children:**  
+   - If the left child exists, recursively process it inside **parentheses**.
+   - If the right child exists:
+     - If the left child is **missing**, include empty `()` to preserve structure.
+     - Otherwise, process the right child inside **parentheses**.
+
+```javascript
+var tree2str = function(root) {
+    if (!root) return ""; // Base case
+
+    let result = root.val.toString();
+
+    if (root.left || root.right) { // Add left subtree if it exists or right subtree forces empty ()
+        result += "(" + tree2str(root.left) + ")";
+    }
+
+    if (root.right) { // Add right subtree if it exists
+        result += "(" + tree2str(root.right) + ")";
+    }
+
+    return result;
+};
+```
+
+</details>
+
+<br>
+
+> ### 108. Convert Sorted Array to Binary Search Tree
+
+Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced
+
+Example 1:
+
+**Input**: nums = [-10,-3,0,5,9]\
+**Output**: [0,-3,9,-10,null,5]\
+**Explanation**: [0,-10,5,null,-3,null,9] is also accepted:
+
+Example 2:
+
+**Input**: nums = [1,3]\
+**Output**: [3,1]\
+**Explanation**: [1,null,3] and [3,1] are both height-balanced BSTs.
+
+<details>
+
+**Algorithm: Recursive Divide and Conquer (Binary Search Approach)**  
+To construct a **height-balanced** Binary Search Tree (BST) from a sorted array, we use the **middle element** as the root. This ensures that the left and right subtrees are as balanced as possible.
+
+
+**Approach**
+1. **Find the middle element** of the array and make it the root.
+2. **Recursively apply the same process** to the left half for the left subtree and the right half for the right subtree.
+3. **Base case:** If the subarray is empty, return `null`.
+
+```javascript
+var sortedArrayToBST = function(nums) {
+    if (!nums.length) return null; // Base case: empty array -> null node
+
+    let mid = Math.floor(nums.length / 2);
+    let root = new TreeNode(nums[mid]); // Middle element as root
+    
+    root.left = sortedArrayToBST(nums.slice(0, mid));  // Left subtree from left half
+    root.right = sortedArrayToBST(nums.slice(mid + 1)); // Right subtree from right half
+
+    return root;
+};
+```
+
+**Example**
+```js
+Input: nums = [-10, -3, 0, 5, 9]
+```
+
+**Recursive Calls:**
+```
+nums = [-10, -3, 0, 5, 9] → mid = 2 → root = 0
+    Left subtree: [-10, -3] → mid = 1 → root = -3
+        Left: [-10] → root = -10
+        Right: null
+    Right subtree: [5, 9] → mid = 1 → root = 9
+        Left: [5] → root = 5
+        Right: null
+```
+
+✅ **Output (BST Representation)**:
+```
+        0
+       /  \
+    -3     9
+   /     /
+-10    5
+```
+</details>
+
+<br>
+
+> ### 993. Cousins in Binary Tree
+
+Given the root of a binary tree with unique values and the values of two different nodes of the tree x and y, return true if the nodes corresponding to the values x and y in the tree are cousins, or false otherwise.
+
+Two nodes of a binary tree are `cousins` if they have the `same depth` with `different parents`.
+
+Note that in a binary tree, the root node is at the depth 0, and children of each depth k node are at the depth k + 1.
+
+Example 1:\
+**Input**: root = [1,2,3,4], x = 4, y = 3\
+**Output**: false
+
+Example 2:\
+**Input**: root = [1,2,3,null,4,null,5], x = 5, y = 4\
+**Output**: true
+
+Example 3:\
+**Input**: root = [1,2,3,null,4], x = 2, y = 3
+**Output**: false
+
+
+<details>
+
+**Algorithm: BFS (Level Order Traversal)**
+1. **Use BFS (Queue-Based Level Order Traversal)**:
+   - Traverse the tree level by level.
+   - Track the **parent** and **depth** of `x` and `y` as we traverse.
+
+2. **Check Cousin Conditions**:
+   - If `x` and `y` are found at the **same depth** but have **different parents**, return `true`.
+   - Otherwise, return `false`.
+
+
+```javascript
+var isCousins = function(root, x, y) {
+    if (!root) return false;
+
+    let queue = [[root, null]]; // Store node and its parent
+
+    while (queue.length) {
+        let size = queue.length;
+        let xParent = null, yParent = null; // Track parents of x and y
+
+        for (let i = 0; i < size; i++) {
+            let [node, parent] = queue.shift();
+
+            if (node.val === x) xParent = parent;
+            if (node.val === y) yParent = parent;
+
+            if (node.left) queue.push([node.left, node]);
+            if (node.right) queue.push([node.right, node]);
+        }
+
+        // If both x and y are found in the same level but have different parents, they are cousins
+        if (xParent && yParent) return xParent !== yParent;
+
+        // If only one of x or y is found in this level, they cannot be cousins
+        if (xParent || yParent) return false;
+    }
+
+    return false;
+};
+```
+
+**Example 1**
+```js
+Input: root = [1,2,3,4], x = 4, y = 3
+```
+- Level 1: `[1]`
+- Level 2: `[2, 3]`
+- Level 3: `[4]`
+- **x = 4 (parent = 2), y = 3 (parent = 1)**
+- ✅ **Output** `false` (different depths)
+
+**Example 2**
+```js
+Input: root = [1,2,3,null,4,null,5], x = 5, y = 4
+```
+- Level 1: `[1]`
+- Level 2: `[2, 3]`
+- Level 3: `[4, 5]`
+- **x = 5 (parent = 3), y = 4 (parent = 2)**
+- ✅ **Output** `true` (same depth, different parents)
+
+
+This **BFS approach efficiently finds cousins** in **linear time** using **level order traversal**. 🚀
+
+also
+
+```js
+var isCousins = function(root, x, y) {
+    
+    const map = new Map()
+
+    const explore = (parent, node, lvl) => {
+
+        // If node is null, stop
+        if (!node) return
+
+        // Set the Current value to have its parent and the level
+        map.set(node.val, {parent, level: lvl})
+
+        // Run the func for the children, 
+        //    - using current node val as parent
+        //    - the children as node
+        //    - and incrementing lvl
+        explore(node.val, node.left, lvl + 1)
+        explore(node.val, node.right, lvl + 1)
+    }
+    
+    explore(null, root, 0)
+    
+    const xVal = map.get(x) 
+    const yVal = map.get(y) 
+
+    return (xVal.parent !== yVal.parent && xVal.level === yVal.level)
+};
+```
+</details>
+
+<br>
+
+> ### 100. Same Tree
+
+Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+
+Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+Example 1:\
+**Input**: p = [1,2,3], q = [1,2,3]\
+**Output**: true
+
+Example 2:\
+**Input**: p = [1,2], q = [1,null,2]\
+**Output**: false
+
+Example 3:\
+**Input**: p = [1,2,1], q = [1,1,2]\
+**Output**: false
+
+<details>
+
+```js
+var isSameTree = function(p, q) {
+    if (!p && !q) return true;    // Both trees are empty
+    if (!p || !q) return false;   // One tree is empty
+    if (p.val !== q.val) return false; // Values don't match
+    
+    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+};
+```
+</details>
+
+<br>
+
+> ### 700. Search in a Binary Search Tree
+
+You are given the root of a binary search tree (BST) and an integer val.
+
+Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
+
+Example 1:\
+**Input**: root = [4,2,7,1,3], val = 2\
+**Output**: [2,1,3]
+
+Example 2:\
+**Input**: root = [4,2,7,1,3], val = 5\
+**Output**: []
+
+<details>
+
+**Algorithm: BST Search**
+- If `root` is `null`, return `null`.
+- If `root.val === val`, return `root`.
+- If `val < root.val`, search in `root.left`, else search in `root.right`.
+
+**Recursive JavaScript Code**
+```javascript
+var searchBST = function(root, val) {
+    if (!root || root.val === val) return root;
+    return val < root.val ? searchBST(root.left, val) : searchBST(root.right);
+};
+```
+
+**Iterative JavaScript Code**
+```javascript
+var searchBST = function(root, val) {
+    while (root) {
+        if (root.val === val) return root;
+        root = val < root.val ? root.left : root.right;
+    }
+    return null;
+};
+```
+
+</details>
+
+<br>
+
+> ### 572. Subtree of Another Tree
+
+Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
+
+A subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.
+
+ 
+
+Example 1:\
+**Input**: root = [3,4,5,1,2], subRoot = [4,1,2]\
+**Output**: true
+
+
+Example 2:\
+**Input**: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]\
+**Output**: false
+
+<details>
+
+**Algorithm: Subtree Check using Tree Comparison**  
+- If `subRoot` is `null`, return `true`.  
+- If `root` is `null`, return `false`.  
+- Check if `root` and `subRoot` are the same using a helper function.  
+- Recursively check `root.left` and `root.right` for `subRoot`.  
+
+```javascript
+var isSubtree = function(root, subRoot) {
+    if (!root) return false;
+    if (isSameTree(root, subRoot)) return true;
+    return isSubtree(root.left, subRoot) || isSubtree(root.right, subRoot);
+};
+
+var isSameTree = function(p, q) {
+    if (!p && !q) return true;
+    if (!p || !q || p.val !== q.val) return false;
+    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+};
+```
+</details>
+
+<br>
+
+> ### 404. Sum of Left Leaves
+
+Given the root of a binary tree, return the sum of all left leaves.
+
+A leaf is a node with no children. A left leaf is a leaf that is the left child of another node.
+
+ 
+Example 1:\
+**Input**: root = [3,9,20,null,null,15,7]\
+**Output**: 24\
+**Explanation**: There are two left leaves in the binary tree, with values 9 and 15 respectively.
+
+
+Example 2:\
+**Input**: root = [1]\
+**Output**: 0
+
+<details>
+
+**Algorithm: DFS Traversal**  
+- If the current node has a left child that is a leaf, add its value to the sum.  
+- Recursively traverse the left and right subtrees.  
+- Return the total sum of left leaves.  
+
+```javascript
+var sumOfLeftLeaves = function(root) {
+    if (!root) return 0;
+    
+    let sum = 0;
+    if (root.left && !root.left.left && !root.left.right) {
+        sum += root.left.val;
+    }
+    
+    return sum + sumOfLeftLeaves(root.left) + sumOfLeftLeaves(root.right);
+};
+```
+</details>
+
+<br>
+
+> ### 1022. Sum of Root To Leaf Binary Numbers
+You are given the root of a binary tree where each node has a value 0 or 1. Each root-to-leaf path represents a binary number starting with the most significant bit.
+
+For example, if the path is 0 -> 1 -> 1 -> 0 -> 1, then this could represent 01101 in binary, which is 13.
+For all leaves in the tree, consider the numbers represented by the path from the root to that leaf. Return the sum of these numbers.
+
+<br>
+
+Example 1:\
+```
+       1
+      / \
+     0    1
+    / \   /\
+   0   1  0 1
+```
+
+**Input**: root = [1,0,1,0,1,0,1]\
+**Output**: 22\
+**Explanation**: (100) + (101) + (110) + (111) = 4 + 5 + 6 + 7 = 22
+
+Example 2:\
+**Input**: root = [0]\
+**Output**: 0
+
+
+<details>
+
+**Algorithm: DFS Traversal**  
+- Use Depth-First Search (DFS) to traverse the tree.  
+- Maintain the current binary number as you go deeper.  
+- When reaching a leaf node, convert the binary number to decimal and add it to the sum.  
+- Return the total sum of all root-to-leaf paths.  
+
+```javascript
+var sumRootToLeaf = function(root, sum = 0) {
+    if (!root) return 0;
+    
+    sum = (sum << 1) | root.val; // Shift left and add current value
+    
+    if (!root.left && !root.right) return sum; // If it's a leaf, return sum
+    
+    return sumRootToLeaf(root.left, sum) + sumRootToLeaf(root.right, sum);
+};
+```
+
+
+also
+
+```js
+var sumRootToLeaf = function(root) {
+    const nums = [];
+
+    const traverse = (node, path) => {
+        if (!node) {
+            return;
+        }
+        
+        path += node.val;
+
+        if (!node.left && !node.right) {
+            nums.push(path);
+            return;
+        }
+
+        traverse(node.left, path)
+        traverse(node.right, path)
+    }
+
+    traverse(root, '')
+
+    return nums.reduce((sum, n) => sum + parseInt(n, 2), 0)
+};
+```
+
+</details>
+
+<br>
+
+> ### 101. Symmetric Tree
+
+Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+Example 1:\
+**Input**: root = [1,2,2,3,4,4,3]\
+**Output**: true
+
+
+Example 2:\
+**Input**: root = [1,2,2,null,3,null,3]\
+**Output**: false
+
+<details>
+
+**Algorithm: Recursive DFS**  
+- A tree is symmetric if the left subtree is a mirror of the right subtree.  
+- Recursively check:  
+  - Both left and right subtrees must have the same value.  
+  - The left child of the left subtree should match the right child of the right subtree, and vice versa.  
+
+```javascript
+var isSymmetric = function(root) {
+    if (!root) return true;
+    
+    function isMirror(t1, t2) {
+        if (!t1 || !t2) return t1 === t2;
+        if (t1.val !== t2.val) return false;
+        return isMirror(t1.left, t2.right) && isMirror(t1.right, t2.left);
+    }
+    
+    return isMirror(root.left, root.right);
+};
+```
+</details>
+
+<br>
+
+> ### 653. Two Sum IV - Input is a BST
+Given the root of a binary search tree and an integer k, return true if there exist two elements in the BST such that their sum is equal to k, or false otherwise.
+
+Example 1:\
+**Input**: root = [5,3,6,2,4,null,7], k = 9\
+**Output**: true
+
+Example 2:\
+**Input**: root = [5,3,6,2,4,null,7], k = 28\
+**Output**: false
+
+
+<details>
+
+**Algorithm: Inorder Traversal + Hash Set**  
+- Perform an inorder traversal to access elements in sorted order.  
+- Use a `Set` to check if `k - node.val` exists.  
+- If found, return `true`; otherwise, continue traversal.  
+
+```javascript
+var findTarget = function(root, k) {
+    let set = new Set();
+
+    function dfs(node) {
+        if (!node) return false;
+        if (set.has(k - node.val)) return true;
+        set.add(node.val);
+        return dfs(node.left) || dfs(node.right);
+    }
+
+    return dfs(root);
+};
+```
+</details>
+
+<br>
+
+> ### 617. Merge Two Binary Trees
+
+You are given two binary trees root1 and root2.
+
+Imagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.
+
+Return the merged tree.
+
+
+Example 1:\
+**Input**: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]\
+**Output**: [3,4,5,5,4,null,7]
+
+
+Example 2:\
+**Input**: root1 = [1], root2 = [1,2]\
+**Output**: [2,2]
+
+<details>
+
+**Algorithm: DFS (Recursive Approach)**
+- If one of the trees is `null`, return the other tree.
+- Otherwise, sum the values of the current nodes.
+- Recursively merge the left and right children.
+
+```javascript
+var mergeTrees = function(root1, root2) {
+    if (!root1) return root2;
+    if (!root2) return root1;
+    
+    root1.val += root2.val;
+    root1.left = mergeTrees(root1.left, root2.left);
+    root1.right = mergeTrees(root1.right, root2.right);
+    
+    return root1;
+};
+```
+
+</details>
+
+<br>
+
+
+
+> ### 112. Path Sum
+
+Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+
+A leaf is a node with no children.
+
+Example 1:\
+
+```
+       ✅5
+      / \
+     ✅4   8
+    /   / \
+   ✅11  13  4
+  /  \      \
+ 7    ✅2      1
+```
+
+**Input**: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22\
+**Output**: true\
+**Explanation**: The root-to-leaf path with the target sum is shown.
+
+
+Example 2:\
+**Input**: root = [1,2,3], targetSum = 5\
+**Output**: false\
+**Explanation**: There are two root-to-leaf paths in the tree:\
+(1 --> 2): The sum is 3.\
+(1 --> 3): The sum is 4.\
+There is no root-to-leaf path with sum = 5.
+ 
+
+<details>
+
+**Algorithm: Depth-First Search (DFS)**
+1. If the tree is empty, return `false`.
+2. Use **DFS (recursion)**:
+   - Subtract the current node’s value from `targetSum`.
+   - If it's a **leaf node** and `targetSum == 0`, return `true`.
+   - Recursively check the left and right subtree.
+3. If any recursive call returns `true`, return `true`.
+
+
+```javascript
+var hasPathSum = function(root, targetSum) {
+    if (!root) return false;
+
+    targetSum -= root.val;
+    if (!root.left && !root.right) return targetSum === 0;
+    
+    return hasPathSum(root.left, targetSum) || hasPathSum(root.right, targetSum);
+};
+```
+
+also 
+
+```js
+var hasPathSum = function(root, targetSum) {
+    if(!root) {
+        return false
+    }
+    if(!root.right && !root.left) {
+        return targetSum === root.val
+    }
+
+    return (
+        hasPathSum(root.left, targetSum-root.val) ||
+        hasPathSum(root.right, targetSum-root.val)
+    )
+};
+```
+</details>
+
+
+<br>
+
+
+
+> ### 111. Minimum Depth of Binary Tree
+
+Given a binary tree, find its minimum depth.
+
+The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+
+Note: A leaf is a node with no children.
+
+ 
+
+Example 1:\
+**Input**: root = [3,9,20,null,null,15,7]\
+**Output**: 2
+
+
+Example 2:\
+**Input**: root = [2,null,3,null,4,null,5,null,6]\
+**Output**: 5
+
+
+<details>
+
+**Algorithm: BFS (Breadth-First Search)**
+The **minimum depth** of a binary tree is the shortest path from the root to a leaf node. BFS is ideal for this because it finds the shortest path efficiently.
+
+**Steps:**
+1. **Use a Queue:** Start BFS from the root.
+2. **Track Depth:** Store `(node, depth)` in the queue.
+3. **Find First Leaf Node:** The first leaf node encountered gives the minimum depth.
+
+
+```javascript
+var minDepth = function(root) {
+    if (!root) return 0;
+
+    let queue = [[root, 1]];  // Store [node, depth]
+    
+    while (queue.length > 0) {
+        let [node, depth] = queue.shift();
+        
+        // If it's a leaf node, return the depth
+        if (!node.left && !node.right) return depth;
+
+        // Add children to the queue with incremented depth
+        if (node.left) queue.push([node.left, depth + 1]);
+        if (node.right) queue.push([node.right, depth + 1]);
+    }
+};
+```
+
+**Alternative Approach: DFS (Recursive)**
+DFS can also be used, but it may explore deeper unnecessary paths before finding the shortest one.
+
+```javascript
+var minDepth = function(root) {
+    if (!root) return 0;
+    if (!root.left) return 1 + minDepth(root.right);
+    if (!root.right) return 1 + minDepth(root.left);
+    return 1 + Math.min(minDepth(root.left), minDepth(root.right));
+};
+```
+
+🚀 **BFS is recommended** because it finds the shortest depth **faster** than DFS!
+
+
+alos
+
+```js
+var minDepth = function (root) {
+    if (!root) return 0
+
+    const queue = [[root, 1]]
+
+    while (queue.length > 0) {
+        const [node, depth] = queue.shift()
+
+        if (!node.left && !node.right) return depth
+
+        if (node.left) queue.push([node.left, depth + 1])
+        if (node.right) queue.push([node.right, depth + 1])
+    }
+};
+```
+<details>
+
+<br>
+
+> ### 543. Diameter of Binary Tree
+
+The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+The length of a path between two nodes is represented by the number of edges between them.
+
+Example 1:\
+**Input**: root = [1,2,3,4,5]\
+**Output**: 3\
+**Explanation**: 3 is the length of the path [4,2,1,3] or [5,2,1,3].
+
+Example 2:\
+**Input**: root = [1,2]\
+**Output**: 1
+
+<details>
+
+We use **DFS (Postorder Traversal)** to calculate the depth of each subtree and update the diameter.
+
+1. **Define a helper function** that returns the height of the subtree.
+2. **Compute height** recursively for left and right subtrees.
+3. **Update diameter** as `leftHeight + rightHeight` (max path through current node).
+4. **Return max depth** of left and right subtree to continue recursion.
+
+```javascript
+var diameterOfBinaryTree = function(root) {
+    let diameter = 0;
+
+    function depth(node) {
+        if (!node) return 0;
+        
+        let left = depth(node.left);
+        let right = depth(node.right);
+        
+        diameter = Math.max(diameter, left + right);
+        
+        return Math.max(left, right) + 1;
+    }
+
+    depth(root);
+    return diameter;
+};
+```
+
+<details>
+
+<br>
+
+
+> ### 938. Range Sum of BST
+
+Given the root node of a binary search tree and two integers low and high, return the sum of values of all nodes with a value in the inclusive range [low, high].
+
+Example 1:\
+**Input**: root = [10,5,15,3,7,null,18], low = 7, high = 15\
+**Output**: 32\
+**Explanation**: Nodes 7, 10, and 15 are in the range [7, 15]. 7 + 10 + 15 = 32.
+
+
+Example 2:\
+**Input**: root = [10,5,15,3,7,13,18,1,null,6], low = 6, high = 10\
+**Output**: 23\
+**Explanation**: Nodes 6, 7, and 10 are in the range [6, 10]. 6 + 7 + 10 = 23.
+ 
+
+<details>
+
+We use **DFS (Preorder Traversal)** to explore the tree and sum only the nodes within the range `[low, high]`.
+1. **Base Case:** If the node is `null`, return `0`.
+2. **Check node value:**
+   - If `node.val` is in `[low, high]`, add it to the sum.
+   - If `node.val > low`, search the **left subtree**.
+   - If `node.val < high`, search the **right subtree**.
+3. **Return the total sum**.
+
+```javascript
+var rangeSumBST = function(root, low, high) {
+    if (!root) return 0;
+    
+    let sum = 0;
+    
+    if (root.val >= low && root.val <= high) {
+        sum += root.val;
+    }
+    
+    if (root.val > low) {
+        sum += rangeSumBST(root.left, low, high);
+    }
+    
+    if (root.val < high) {
+        sum += rangeSumBST(root.right, low, high);
+    }
+    
+    return sum;
+};
+```
+<details>
+
+
+<br>
+
+
+> ### 501. Find Mode in Binary Search Tree
+
+Given the root of a binary search tree (BST) with duplicates, return all the mode(s) (i.e., the most frequently occurred element) in it.
+
+If the tree has more than one mode, return them in any order.
+
+Assume a BST is defined as follows:
+
+- The left subtree of a node contains only nodes with keys less than or equal to the node's key.
+- The right subtree of a node contains only nodes with keys greater than or equal to the node's key.
+- Both the left and right subtrees must also be binary search trees.
+ 
+
+Example 1:\
+**Input**: root = [1,null,2,2]\
+**Output**: [2]
+
+
+Example 2:\
+**Input**: root = [0]\
+**Output**: [0]
+
+
+<details>
+
+**Algorithm: Inorder Traversal with Frequency Count**  
+Since an **inorder traversal** of a BST results in a sorted sequence, we can traverse the tree while keeping track of the **current frequency** of each value. The most frequently occurring value(s) will be the **mode(s)**.
+
+```javascript
+var findMode = function(root) {
+    let modes = [], maxCount = 0, currentCount = 0, prev = null;
+
+    const inorder = (node) => {
+        if (!node) return;
+
+        inorder(node.left);
+
+        // Process current node
+        if (prev === node.val) {
+            currentCount++;
+        } else {
+            currentCount = 1;
+        }
+        prev = node.val;
+
+        if (currentCount > maxCount) {
+            maxCount = currentCount;
+            modes = [node.val]; // Reset modes
+        } else if (currentCount === maxCount) {
+            modes.push(node.val);
+        }
+
+        inorder(node.right);
+    };
+
+    inorder(root);
+    return modes;
+};
+```
+
+**Alternative Approach: Hash Map Counting**
+Another approach is using a **hash map** to count occurrences, then finding the maximum count:
+```javascript
+var findMode = function(root) {
+    let count = new Map();
+    let maxCount = 0, modes = [];
+
+    const traverse = (node) => {
+        if (!node) return;
+
+        count.set(node.val, (count.get(node.val) || 0) + 1);
+        maxCount = Math.max(maxCount, count.get(node.val));
+
+        traverse(node.left);
+        traverse(node.right);
+    };
+
+    traverse(root);
+
+    for (let [key, value] of count) {
+        if (value === maxCount) modes.push(key);
+    }
+
+    return modes;
+};
+```
+🔹 **This method takes extra space (O(n)) but is easier to understand.**
+
+<details>
+
+<br>
+
+
+> ### 110. Balanced Binary Tree
+
+Given a binary tree, determine if it is height-balanced.
+
+Example 1:\
+**Input**: root = [3,9,20,null,null,15,7]\
+**Output**: true
+
+
+Example 2:\
+**Input**: root = [1,2,2,3,3,null,null,4,4]\
+**Output**: false
+
+
+Example 3:\
+**Input**: root = []\
+**Output**: true
+
+<details>
+
+**Algorithm: Depth-First Search (DFS) with Height Calculation**
+
+A **Balanced Binary Tree** is a binary tree in which the depth of the two subtrees of every node never differs by more than **1**. We can check this using a **recursive DFS approach**, where we calculate the height of each subtree and determine if the tree is balanced.
+
+**Approach**
+1. Use a helper function that calculates the height of the tree recursively.
+2. If any subtree is unbalanced (height difference > 1), return `-1` as an indicator.
+3. If all nodes satisfy the balance condition, return `true`.
+
+
+```javascript
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+function isBalanced(root) {
+  function checkHeight(node) {
+    if (!node) return 0;
+
+    let leftHeight = checkHeight(node.left);
+    if (leftHeight === -1) return -1; // Left subtree is unbalanced
+
+    let rightHeight = checkHeight(node.right);
+    if (rightHeight === -1) return -1; // Right subtree is unbalanced
+
+    if (Math.abs(leftHeight - rightHeight) > 1) return -1; // Current node is unbalanced
+
+    return Math.max(leftHeight, rightHeight) + 1;
+  }
+
+  return checkHeight(root) !== -1;
+}
+
+// Example Usage
+let tree = new TreeNode(1, 
+  new TreeNode(2, new TreeNode(3), new TreeNode(4)), 
+  new TreeNode(2, new TreeNode(4), new TreeNode(3))
+);
+console.log(isBalanced(tree)); // **Output**: true
+
+let unbalancedTree = new TreeNode(1, 
+  new TreeNode(2, 
+    new TreeNode(3, 
+      new TreeNode(4) // Extra depth here makes it unbalanced
+    )
+  )
+);
+console.log(isBalanced(unbalancedTree)); // **Output**: false
+```
+</details>
+
+<br>
+
+
 > ### Delete a node in BST ( [Youtube video](https://www.youtube.com/watch?v=petKaikRiIA&ab_channel=AnujBhaiya) )
 
 In a Binary Search Tree (BST), deletion of a node requires three different cases to handle:
@@ -8598,7 +9889,7 @@ The topological sort outputs a valid order like `[ 'F', 'A', 'B', 'D', 'C' ]`, w
 ### Time Complexity:
 - The time complexity is \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges, as it performs DFS for each vertex and processes each edge once.
 
-
+<br>
 
 > ### Topological sorting using kahn's alogorithm ie BFS alogrithm approach ( [Youtube video](https://www.youtube.com/watch?v=6XmzL04mlgQ&ab_channel=CodeHelp-byBabbar) )
 
@@ -8734,6 +10025,7 @@ console.log("Topological Sort:", myGraph.topologicalSort());  // Expected **Outp
 - It ensures that for every directed edge `u -> v`, vertex `u` comes before vertex `v` in the topological order.
 - It can also detect cycles, as a cycle in the graph will prevent some vertices from having in-degree 0, causing the algorithm to fail.
 
+<br>
 
 > ### Detect Cycle in Undirected Graph  ( [Youtube video](https://www.youtube.com/watch?v=UPfUFoWjk5w&t=402s&ab_channel=AnujBhaiya) )
 
@@ -8833,6 +10125,7 @@ console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected **
 ### Time Complexity:
 - **Time Complexity**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges, because we visit each vertex and edge once.
 
+<br>
 
 > ### Detect Cycle in directed Graph ( [Youtube video](https://www.youtube.com/watch?v=GLxfoaZlRqs&t=64s&ab_channel=AnujBhaiya) )
 
@@ -10085,6 +11378,8 @@ Bridge between vertices 4 and 5
 ### Summary:
 Bridges in a graph are important structural components that, if removed, can split the graph into disconnected parts. By using DFS with discovery times and low values, we can efficiently find all the bridges in a graph in linear time, making this technique invaluable for network analysis and robustness studies.
 
+<br>
+
 > ### Greedy Algorithm
 
 **Below is GFG defination**
@@ -10097,6 +11392,8 @@ The steps to define a greedy algorithm are:
 2. Identify the greedy choice: Determine the locally optimal choice at each step based on the current state.
 3. Make the greedy choice: Select the greedy choice and update the current state.
 4. Repeat: Continue making greedy choices until a solution is reached.
+
+<br>
 
 > ### Activity Selection Problem using Greedy Method  ( [Youtube video](https://www.youtube.com/watch?v=U4UoR9vq238&ab_channel=AnujBhaiya) )
 
@@ -10210,6 +11507,7 @@ The key idea is that by selecting the activity that finishes the earliest, we ma
 ### Summary:
 The **Activity Selection Problem** using the **Greedy Method** is an efficient way to select the maximum number of non-overlapping activities by always choosing the activity that finishes first. This approach ensures an optimal solution and is widely applicable in scheduling and resource allocation problems.
 
+<br>
 
 > ### Fractional Knapsack - Greedy Algorithm  ( [Youtube video](https://www.youtube.com/watch?v=2i5pclQprGk&ab_channel=ApnaCollege) )
 
@@ -10321,6 +11619,7 @@ The greedy algorithm works because we always make the choice that maximizes the 
 ### Summary:
 The **Fractional Knapsack Problem** is a variation of the knapsack problem where fractions of items can be taken. The **greedy method** efficiently solves this problem by always selecting the item (or fraction) with the highest value-to-weight ratio until the knapsack is full. This approach guarantees an optimal solution for the fractional variant of the knapsack problem.
 
+<br>
 
 > ### Job Sequencing Algorithm  ( [Youtube video](https://www.youtube.com/watch?v=Tpp7o0jQ-8w&ab_channel=GateSmashers) )
 
@@ -10585,7 +11884,7 @@ This path takes the rat from the top-left corner to the bottom-right corner by f
 ### Conclusion:
 This solution finds **one possible path** for the rat to reach the destination in the maze using a **backtracking** approach. If no path exists, it prints a message indicating that no solution is possible.
 
-
+<br>
 
 
 > ### N-Queen Problem   ( [Youtube video](https://www.youtube.com/watch?v=MHXR4PCY8c0&ab_channel=AnujBhaiya) )
@@ -10722,6 +12021,7 @@ These two solutions represent valid configurations where no two queens can attac
 ### Conclusion:
 The **N-Queen Problem** is an excellent example of using backtracking to solve a problem with constraints. The solution explores every possible configuration of queens on the board, backtracks when an invalid configuration is found, and finds all the valid solutions.
 
+<br>
 
 > ### sudoku problem   ( [Youtube video](https://www.youtube.com/watch?v=MHXR4PCY8c0&ab_channel=AnujBhaiya) )
 
@@ -10857,6 +12157,7 @@ For the given initial `board`, the output will be a valid solved Sudoku:
 ### Conclusion:
 This is a backtracking-based approach to solve the **Sudoku problem**. It tries to fill the grid one cell at a time, validating each placement according to Sudoku rules and backtracking when a conflict arises, ensuring that a valid solution is found.
 
+<br>
 
 > ### Dynamic Programming
 
@@ -10872,6 +12173,90 @@ The idea is to reuse the solution of sub-problems when there are overlapping sub
     - Solve the problem recursively but store the results of subproblems so that they can be reused without recalculating them.
 2. Tabulation (Bottom Up)
 
+
+Dynamic Programming or DP
+
+Dynamic Programming is a method used in mathematics and computer science to solve complex problems by breaking them down into simpler subproblems. 
+By solving each `subproblem only once and storing the results`, it `avoids redundant computations`, leading to more efficient solutions for a wide range of problems.
+
+How Does Dynamic Programming (DP) Work?
+- Identify Subproblems: Divide the main problem into smaller, independent subproblems.
+- Store Solutions: Solve each subproblem and store the solution in a table or array.
+- Build Up Solutions: Use the stored solutions to build up the solution to the main problem.
+- Avoid Redundancy: By storing solutions, DP ensures that each subproblem is solved only once, reducing computation time.
+
+When to Use Dynamic Programming (DP)?
+1. Optimal Substructure: Optimal substructure means that we combine the optimal results of subproblems to achieve the optimal result of the bigger problem
+2. Overlapping Subproblems: The same subproblems are solved repeatedly in different parts of the problem.
+
+
+example: 
+if we have taken example for fibnanchi series, then below code will be O(2^n).
+fib of 20 gives 6765 function calls
+
+https://www.geeksforgeeks.org/dynamic-programming/
+
+```js
+let counter = 0
+function fib(n){
+    counter++
+
+    if(n === 0 || n === 1){
+        return n
+    }
+    return fib(n-1) + fib(n-2)
+}
+fib(20)
+
+
+// now we optimzed through DP(using memoization), fib of 20 gives 39 function calls
+let memo = [];
+let counter = 0;
+
+function fib(n) {
+    counter++;
+    if (memo[n] !== undefined) {
+        return memo[n];
+    }
+    if (n === 0 || n === 1) {
+        return n;
+    }
+    memo[n] = fib(n - 1) + fib(n - 2);
+    return memo[n];
+}
+
+let n = 20;
+
+console.log('\nFib of', n, '=', fib(n));
+console.log('\nCounter:', counter);
+
+
+
+// In above case we are filling the array from the right side to left side, but below code fills from left to right side, which is much more optimized
+// fib of 20 gives 19 function calls
+let counter = 0;
+
+function fib(n) {
+    let fibList = [];
+    fibList[0] = 0;
+    fibList[1] = 1;
+
+    for (let index = 2; index <= n; index++) {
+        counter++;
+        fibList[index] = fibList[index - 1] + fibList[index - 2];
+    }
+
+    return fibList[n];
+}
+
+let n = 7;
+
+console.log('\nFib of', n, '=', fib(n));
+
+console.log('\nCounter:', counter);
+```
+
+<br>
 
 > ### 198. House Robber
 
@@ -12178,295 +13563,6 @@ This algorithm efficiently sorts the array while leveraging the property that ea
 
 
 ```js
-// Tree Traversal
-
-// BFS - Breadth First Search - is a vertex-based technique for finding the shortest path in the graph. 
-// also called as Level Order Traversal
-// It uses a `Queue data structure` that follows `first in first out`. 
-// In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h, jisko push kia h uske left and right ko Queue me add kr dete h 
-// It is slower than DFS.
-
-BFS() {
-    let currentNode = this.root;
-    let queue = [];
-    let results = [];
-
-    queue.push(currentNode);
-
-    while (queue.length) {
-        currentNode = queue.shift();
-        results.push(currentNode.value);
-
-        if (currentNode.left) queue.push(currentNode.left);
-        if (currentNode.right) queue.push(currentNode.right);
-    }
-
-    return results;
-}
-```
-> ### level order traversal line by line
-
-To perform a **level order traversal** of a binary tree **line by line** (i.e., printing each level of the tree on a new line), we can use a **queue** to process nodes level by level. For each node, we enqueue its left and right children, then after processing all nodes at the current level, we move on to the next level.
-
-### Approach:
-1. Use a queue to perform a **Breadth-First Search (BFS)**.
-2. For each level, track the number of nodes at that level.
-3. Print the nodes at each level before moving on to the next one.
-
-### Steps:
-1. Start by enqueuing the root node.
-2. While the queue is not empty, for each level:
-   - Count the number of nodes at the current level (`levelSize`).
-   - Dequeue all the nodes at this level and enqueue their children (if any).
-   - Print all nodes at the current level.
-3. Repeat this for each subsequent level.
-
-### Code Implementation in JavaScript:
-
-```javascript
-// Node class to represent a binary tree node
-class Node {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
-}
-
-// Function to perform level order traversal line by line
-function levelOrderTraversalLineByLine(root) {
-    if (root === null) {
-        return;
-    }
-
-    let queue = [];
-    queue.push(root); // Enqueue the root node
-
-    // Perform BFS
-    while (queue.length > 0) {
-        let levelSize = queue.length; // Number of nodes at the current level
-        let currentLevel = ""; // To accumulate node values for the current level
-
-        // Process all nodes at the current level
-        for (let i = 0; i < levelSize; i++) {
-            let currentNode = queue.shift(); // Dequeue the node
-
-            // Accumulate the current node's value
-            currentLevel += currentNode.value + " ";
-
-            // Enqueue the left and right children of the current node
-            if (currentNode.left !== null) {
-                queue.push(currentNode.left);
-            }
-            if (currentNode.right !== null) {
-                queue.push(currentNode.right);
-            }
-        }
-
-        // Print the entire level after processing
-        console.log(currentLevel.trim());
-    }
-}
-
-// Example usage:
-
-// Create the binary tree
-let root = new Node(1);
-root.left = new Node(2);
-root.right = new Node(3);
-root.left.left = new Node(4);
-root.left.right = new Node(5);
-root.right.left = new Node(6);
-root.right.right = new Node(7);
-
-// Perform level order traversal line by line
-console.log("Level Order Traversal Line by Line:");
-levelOrderTraversalLineByLine(root);
-```
-
-### **Output**:
-For the following binary tree:
-```
-        1
-       / \
-      2   3
-     / \ / \
-    4  5 6  7
-```
-
-The output of the level order traversal, line by line, will be:
-```
-1 
-2 3 
-4 5 6 7
-```
-
-### **Explanation**:
-- The root node `1` is printed first (level 0).
-- Then nodes `2` and `3` (children of `1`) are printed on the next line (level 1).
-- Finally, nodes `4`, `5`, `6`, and `7` (children of `2` and `3`) are printed on the next line (level 2).
-
-### Time Complexity:
-- **O(n)**, where `n` is the number of nodes in the tree. Each node is visited once.
-
-### Space Complexity:
-- **O(n)**, because in the worst case (a completely balanced tree), we might have to store all nodes of the last level in the queue, which can be up to `n/2` nodes.
-
-```js
-// DFS - Depth First Search - is an an edge-based technique. 
-// It uses the Stack data structure and performs two stages, first visited vertices are pushed into the stack, and second if there are no vertices then visited vertices are popped.
-
-// DFS is of 3 types - Preorder Traversal, Inorder Traversal, Postorder Traversal
-
-
-// Algorithm for Preorder Traversal:
-
-// Visit the root.
-// Traverse the left subtree, i.e., call Preorder(left->subtree)
-// Traverse the right subtree, i.e., call Preorder(right->subtree)
-
-DFSPreOrder() {
-    let results = [];
-
-    function traverse(currentNode) {
-        results.push(currentNode.value);
-
-        if (currentNode.left) traverse(currentNode.left);
-        if (currentNode.right) traverse(currentNode.right);
-    }
-
-    traverse(this.root);
-    return results;
-}
-
-
-// Algorithm for Postorder Traversal:
-
-// Traverse the left subtree, i.e., call Postorder(left->subtree)
-// Traverse the right subtree, i.e., call Postorder(right->subtree)
-// Visit the root
-
-// leetCode - Q 145
-DFSPostOrder() {
-    let results = [];
-
-    function traverse(currentNode) {
-        if (!currentNode) return;
-
-        if (currentNode.left) traverse(currentNode.left);
-        if (currentNode.right) traverse(currentNode.right);
-
-        results.push(currentNode.value);
-    }
-
-    traverse(this.root);
-    return results;
-}
-
-// Algorithm for Inorder Traversal:
-
-// Traverse the left subtree, i.e., call Inorder(left->subtree)
-// Visit the root.
-// Traverse the right subtree, i.e., call Inorder(right->subtree)
-
-DFSInOrder() {
-    let results = [];
-
-    function traverse(currentNode) {
-        if (currentNode.left) traverse(currentNode.left);
-        
-        results.push(currentNode.value);
-        
-        if (currentNode.right) traverse(currentNode.right);   
-    }
-
-    traverse(this.root);
-    return results;
-}
-
-
-// Dynamic Programming or DP
-
-// Dynamic Programming is a method used in mathematics and computer science to solve complex problems by breaking them down into simpler subproblems. 
-// By solving each `subproblem only once and storing the results`, it `avoids redundant computations`, leading to more efficient solutions for a wide range of problems.
-
-// How Does Dynamic Programming (DP) Work?
-// - Identify Subproblems: Divide the main problem into smaller, independent subproblems.
-// - Store Solutions: Solve each subproblem and store the solution in a table or array.
-// - Build Up Solutions: Use the stored solutions to build up the solution to the main problem.
-// - Avoid Redundancy: By storing solutions, DP ensures that each subproblem is solved only once, reducing computation time.
-
-// When to Use Dynamic Programming (DP)?
-// 1. Optimal Substructure: Optimal substructure means that we combine the optimal results of subproblems to achieve the optimal result of the bigger problem
-// 2. Overlapping Subproblems: The same subproblems are solved repeatedly in different parts of the problem.
-
-
-// example: 
-// if we have taken example for fibnanchi series, then below code will be O(2^n).
-// fib of 20 gives 6765 function calls
-
-// https://www.geeksforgeeks.org/dynamic-programming/
-
-let counter = 0
-function fib(n){
-    counter++
-
-    if(n === 0 || n === 1){
-        return n
-    }
-    return fib(n-1) + fib(n-2)
-}
-fib(20)
-
-
-// now we optimzed through DP(using memoization), fib of 20 gives 39 function calls
-let memo = [];
-let counter = 0;
-
-function fib(n) {
-    counter++;
-    if (memo[n] !== undefined) {
-        return memo[n];
-    }
-    if (n === 0 || n === 1) {
-        return n;
-    }
-    memo[n] = fib(n - 1) + fib(n - 2);
-    return memo[n];
-}
-
-let n = 20;
-
-console.log('\nFib of', n, '=', fib(n));
-console.log('\nCounter:', counter);
-
-
-
-// In above case we are filling the array from the right side to left side, but below code fills from left to right side, which is much more optimized
-// fib of 20 gives 19 function calls
-let counter = 0;
-
-function fib(n) {
-    let fibList = [];
-    fibList[0] = 0;
-    fibList[1] = 1;
-
-    for (let index = 2; index <= n; index++) {
-        counter++;
-        fibList[index] = fibList[index - 1] + fibList[index - 2];
-    }
-
-    return fibList[n];
-}
-
-let n = 7;
-
-console.log('\nFib of', n, '=', fib(n));
-
-console.log('\nCounter:', counter);
-```
-
-```js
 // Below are the basic sorts( bubble sort, selection sort, insertion sort)
 
 
@@ -12509,6 +13605,9 @@ function selectionSort(array) {
   return array;
 }
 ```
+
+<br>
+
 
 ## Bit Manipulation ( [Youtube video](https://www.youtube.com/watch?v=PP2d0dG1rRY) )
 
@@ -12594,7 +13693,10 @@ We just add the bit from right side, try to make it equal to number. then add 1 
    const invertBits = (n) => ~n;
    ```
 
-> ### Equal Row and Column Pairs
+<br>
+
+
+> ### 2352. Equal Row and Column Pairs
 
 Example 1:
 
@@ -12610,6 +13712,9 @@ Example 1:
 **Output**: 1\
 **Explanation**: There is 1 equal row and column pair:
 - (Row 2, Column 1): [2,7,7]
+
+
+<br>
 
 
 Example 2:
@@ -12631,6 +13736,9 @@ Example 2:
 - (Row 0, Column 0): [3,1,2,2]
 - (Row 2, Column 2): [2,4,2,2]
 - (Row 3, Column 2): [2,4,2,2]
+
+
+<details>
 
 ```js
 function equalRowAndColumnPairs(matrix) {
@@ -12665,6 +13773,8 @@ function equalRowAndColumnPairs(matrix) {
 const matrix = [[3,2,1],[1,7,6],[2,7,7]];
 console.log(equalRowAndColumnPairs(matrix)); // **Output**: 1
 ```
+
+</details>
 
 <br>
 
@@ -14241,7 +15351,6 @@ the rest of the numbers do not rotate to any other number and become invalid.\
 Given an integer n, return the number of good integers in the range [1, n].
 
 Example 1:
-
 **Input**: n = 10\
 **Output**: 4\
 **Explanation**: There are four good numbers in the range [1, 10] : 2, 5, 6, 9.\
