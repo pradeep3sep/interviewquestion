@@ -5433,7 +5433,7 @@ var diameterOfBinaryTree = function(root) {
 };
 ```
 
-<details>
+</details>
 
 <br>
 
@@ -5485,7 +5485,7 @@ var rangeSumBST = function(root, low, high) {
     return sum;
 };
 ```
-<details>
+</details>
 
 
 <br>
@@ -5579,7 +5579,7 @@ var findMode = function(root) {
 ```
 🔹 **This method takes extra space (O(n)) but is easier to understand.**
 
-<details>
+</details>
 
 <br>
 
