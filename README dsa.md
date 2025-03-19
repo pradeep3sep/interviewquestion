@@ -3399,7 +3399,7 @@ const l2 = {
 
 mergeTwoLists(l1, l2)
 ```
-<details>
+</details>
 
 <br>
 
@@ -3636,7 +3636,7 @@ console.log(head)
 
 3. **Returning the New Head**: After reversing each group of `K` nodes, the new head of the segment is returned (`prev`).
 
-<details>
+</details>
 
 <br>
 
@@ -3688,7 +3688,7 @@ function reverseKNodes(head, K) {
     return prev; // New head of the reversed segment
 }
 ```
-<details>
+</details>
 
 <br>
 
