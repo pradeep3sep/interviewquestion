@@ -5677,7 +5677,9 @@ In a Binary Search Tree (BST), deletion of a node requires three different cases
 
 Here is the JavaScript code for deleting a node in a BST:
 
-### Code for Deletion in a Binary Search Tree (BST): 
+**Code for Deletion in a Binary Search Tree (BST):**
+
+<details>
 
 ```js
 // Definition for a Binary Search Tree Node
@@ -5784,127 +5786,9 @@ console.log(JSON.stringify(root, null, 2));
 ```
 
 The node `70` is replaced with its in-order successor `80`, and the BST is updated accordingly.
+<details>
 
-> ### floor and ceil in BST  ( [Youtube video](https://www.youtube.com/watch?v=Sgz3SF_0wOw&ab_channel=AnujBhaiya) )
-
-To find the floor and ceiling of a given value in a Binary Search Tree (BST), we can use a recursive approach. Let's define what the "floor" and "ceiling" mean in the context of a BST:
-
-- **Floor** of a value `x` is the greatest value in the BST that is less than or equal to `x`.
-- **Ceiling** of a value `x` is the smallest value in the BST that is greater than or equal to `x`.
-
-### BST Node Structure
-```js
-class Node {
-  constructor(data) {
-    this.data = data;
-    this.left = null;
-    this.right = null;
-  }
-}
-```
-
-### Inserting Nodes into the BST
-```js
-class BST {
-  constructor() {
-    this.root = null;
-  }
-
-  insert(data) {
-    const newNode = new Node(data);
-    if (this.root === null) {
-      this.root = newNode;
-      return;
-    }
-
-    let current = this.root;
-    while (true) {
-      if (data < current.data) {
-        if (current.left === null) {
-          current.left = newNode;
-          break;
-        }
-        current = current.left;
-      } else {
-        if (current.right === null) {
-          current.right = newNode;
-          break;
-        }
-        current = current.right;
-      }
-    }
-  }
-}
-```
-
-### Floor and Ceil Functions
-The basic idea for both `floor` and `ceil` functions is to traverse the tree and keep track of the possible values while moving through the tree.
-
-#### Finding the Floor
-```js
-function findFloor(root, key) {
-  let floor = null;
-  let current = root;
-
-  while (current !== null) {
-    if (current.data === key) {
-      return current.data;
-    }
-    if (current.data < key) {
-      floor = current.data;
-      current = current.right;
-    } else {
-      current = current.left;
-    }
-  }
-
-  return floor;
-}
-```
-
-#### Finding the Ceiling
-```js
-function findCeil(root, key) {
-  let ceil = null;
-  let current = root;
-
-  while (current !== null) {
-    if (current.data === key) {
-      return current.data;
-    }
-    if (current.data > key) {
-      ceil = current.data;
-      current = current.left;
-    } else {
-      current = current.right;
-    }
-  }
-
-  return ceil;
-}
-```
-
-### Example Usage
-```js
-let bst = new BST();
-bst.insert(10);
-bst.insert(5);
-bst.insert(15);
-bst.insert(3);
-bst.insert(7);
-bst.insert(12);
-bst.insert(18);
-
-let key = 6;
-console.log("Floor of", key, "is", findFloor(bst.root, key)); // Floor of 6 is 5
-console.log("Ceiling of", key, "is", findCeil(bst.root, key)); // Ceiling of 6 is 7
-```
-
-### **Explanation**:
-- **Floor**: Traverse the tree, and if you find a node that is less than or equal to the target, move right, but keep track of the most recent value that meets this condition.
-- **Ceiling**: Traverse the tree, and if you find a node greater than or equal to the target, move left, but keep track of the most recent value that meets this condition.
-
-This solution runs in **O(h)** time complexity, where **h** is the height of the tree. For balanced trees, it would be **O(log n)**.
+<br>
 
 > ### AVL tree ( [Youtube video](https://www.youtube.com/watch?v=jDM6_TnYIqE&ab_channel=AbdulBari) )
 
@@ -5912,7 +5796,7 @@ An **AVL tree** is a type of `self-balancing binary search tree (BST)`. In an AV
 
 The height of an AVL tree is kept in check, ensuring that the time complexity for operations like insertion, deletion, and lookup is O(log n), where **n** is the number of nodes.
 
-### Key Operations in an AVL Tree:
+**Key Operations in an AVL Tree:**
 1. **Insertion**: Insert the node as in a normal BST and then check if the tree is balanced. If not, perform rotations to balance it.
 2. **Rotation**: There are four types of rotations that can be used to balance the tree after insertion or deletion:
    - Left rotation
@@ -5921,42 +5805,19 @@ The height of an AVL tree is kept in check, ensuring that the time complexity fo
    - Right-Left rotation
 3. **Balancing**: After every insertion or deletion, the balance factor (difference between the heights of left and right subtrees) of each node is checked. If it violates the AVL property (i.e., balance factor > 1 or < -1), the tree is rebalanced using rotations.
 
-### Balance Factor
+<br>
+
+
+#### Balance Factor
 For each node, the **balance factor** is calculated as:
 ```
 balance_factor = height(left subtree) - height(right subtree)
 ```
 The AVL property requires that the balance factor of every node should be in the range of [-1, 1].
 
-### AVL Tree Rotations
 
-#### 1. **Left Rotation**:
-Left rotation is performed when a node's right subtree becomes taller, causing the tree to become unbalanced.
-```text
-      z                            y
-     / \                          / \
-    T1  y      Left Rotate(z)     z   T3
-       / \   ---------------->   / \
-      T2  T3                    T1  T2
-```
-
-#### 2. **Right Rotation**:
-Right rotation is performed when a node's left subtree becomes taller, causing the tree to become unbalanced.
-```text
-      z                            y
-     / \                          / \
-    y   T4      Right Rotate(z)   x   z
-   / \        ---------------->     / \
-  x   T3                          T3  T4
-```
-
-#### 3. **Left-Right Rotation**:
-A left-right rotation is a combination of a left rotation followed by a right rotation. This is used when the tree becomes unbalanced because of a left-right case.
-
-#### 4. **Right-Left Rotation**:
-A right-left rotation is a combination of a right rotation followed by a left rotation. This is used when the tree becomes unbalanced because of a right-left case.
-
-### JavaScript Implementation of an AVL Tree
+**JavaScript Implementation of an AVL Tree**
+<details>
 
 ```js
 class Node {
@@ -6098,12 +5959,14 @@ avl.inOrder(avl.root);  // Output will be in sorted order
 - **Rotation**: O(1) because rotations only involve changing a few pointers and heights.
 - **In-order Traversal**: O(n), where **n** is the number of nodes.
 
-AVL trees ensure efficient searching, insertion, and deletion operations, with guaranteed logarithmic time complexity.
+<details>
+
+
+<br>
 
 > ### 235. Lowest Common Ancestor of a Binary Search Tree
-Given a binary search tree (BST), find the lowest common ancestor (LCA) node of two given nodes in the BST.
 
-According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).
 
 Example 1:
 
@@ -6124,6 +5987,8 @@ Example 3:
 
 `video: (first see code)` https://www.youtube.com/watch?v=cOjLyASDJcc
 
+<details>
+
 ```js
 var lowestCommonAncestor = function(root, p, q) {
     while (root) {
@@ -6143,137 +6008,17 @@ var lowestCommonAncestor = function(root, p, q) {
     return null; // This line is generally not reached
 };
 ```
+</details>
 
-
-
-
-> ### find kth smallest element, we tried here using the BST ( [Youtube video](https://www.youtube.com/watch?v=9TJYWh0adfk&ab_channel=takeUforward) )
-
-To achieve an **O(log n)** time complexity for finding the k-th smallest element, you can use a **Balanced Binary Search Tree (BST)**, such as an **Augmented BST** that keeps track of the size of the subtree rooted at each node.
-
-### Key Idea:
-- Each node in the BST stores:
-  1. The value.
-  2. A pointer to the left and right children.
-  3. The size of the subtree rooted at that node (including the node itself).
-
-With this additional information, you can efficiently find the k-th smallest element by comparing the size of the left subtree to `k`.
-
-### Operations:
-- Insert: **O(log n)** (in a balanced BST like AVL or Red-Black tree).
-- Find k-th smallest: **O(log n)** due to the additional size information maintained at each node.
-
-### JavaScript Code (Augmented BST):
-
-```javascript
-class Node {
-    constructor(data) {
-        this.data = data;
-        this.left = null;
-        this.right = null;
-        this.size = 1; // Keeps track of the size of the subtree rooted at this node
-    }
-}
-
-class AugmentedBST {
-    constructor() {
-        this.root = null;
-    }
-
-    insert(data) {
-        this.root = this._insert(this.root, data);
-    }
-
-    _insert(node, data) {
-        if (node === null) {
-            return new Node(data);
-        }
-
-        if (data < node.data) {
-            node.left = this._insert(node.left, data);
-        } else {
-            node.right = this._insert(node.right, data);
-        }
-
-        node.size = 1 + this._getSize(node.left) + this._getSize(node.right);
-        return node;
-    }
-
-    _getSize(node) {
-        return node ? node.size : 0;
-    }
-
-    findKthSmallest(k) {
-        if (k < 1 || k > this._getSize(this.root)) {
-            return null; // k is out of bounds
-        }
-        return this._findKthSmallest(this.root, k);
-    }
-
-    _findKthSmallest(node, k) {
-        const leftSize = this._getSize(node.left);
-
-        if (k === leftSize + 1) {
-            return node.data; // Found the k-th smallest element
-        } else if (k <= leftSize) {
-            return this._findKthSmallest(node.left, k); // Search in the left subtree
-        } else {
-            return this._findKthSmallest(node.right, k - leftSize - 1); // Search in the right subtree
-        }
-    }
-}
-
-// Example usage
-let bst = new AugmentedBST();
-let arr = [7, 10, 4, 3, 20, 15];
-arr.forEach(num => bst.insert(num));
-
-let k = 3;
-let result = bst.findKthSmallest(k);
-console.log(`The ${k}th smallest element is ${result}`);
-```
-
-### **Explanation**:
-1. **Node class**:
-   - Each node stores the value `data`, pointers to `left` and `right` children, and a `size` attribute that represents the size of the subtree rooted at the current node.
-   
-2. **AugmentedBST class**:
-   - **insert(data)**: Inserts a new element into the BST, updating the subtree sizes during the insertion process. This ensures that every node knows the size of the subtree rooted at itself.
-   - **findKthSmallest(k)**: Recursively finds the k-th smallest element by comparing the size of the left subtree with `k`.
-     - If `k` equals the size of the left subtree plus 1, the current node is the k-th smallest element.
-     - If `k` is smaller than or equal to the size of the left subtree, we recursively search in the left subtree.
-     - If `k` is larger, we search in the right subtree, adjusting `k` to account for the size of the left subtree.
-
-### Time Complexity:
-- **Insertion**: O(log n) in a balanced BST like an AVL tree or Red-Black tree.
-- **Find k-th smallest**: O(log n) due to the size information maintained at each node.
-
-### Example:
-
-For the array `[7, 10, 4, 3, 20, 15]`, the tree is built as follows:
-```
-        7 (size: 6)
-       / \
-   4 (2)  10 (3)
-   /      /  \
-3 (1)   15 (1) 20 (1)
-```
-- To find the 3rd smallest element, it looks at the root (7) and checks that the left subtree size is 2. Since `k = 3`, the root (7) is the 3rd smallest element.
-
-### Benefits:
-- **Balanced BSTs** like AVL or Red-Black trees guarantee **O(log n)** time complexity for both insertion and querying for the k-th smallest element.
-
-This approach is optimal for dynamic data (insertion, deletion) where maintaining sorted order is critical, and efficient querying is required.
-
-Let me know if you'd like further details or clarification!
-
-
+<br>
 
 > ### Check BST is valid or not ( [Youtube video](https://www.youtube.com/watch?v=9btwHI_84DM&ab_channel=AnujBhaiya) )
 
 A Binary Search Tree (BST) is a data structure where each node has at most two children. The left child node's value is smaller than the parent's, and the right child node's value is larger.
 
 To check if a tree is a valid BST in JavaScript, you can perform an in-order traversal and ensure that the values of the nodes are in increasing order. Here's a sample function to check if a tree is a valid BST:
+
+<details>
 
 ```js
 class TreeNode {
@@ -6309,37 +6054,21 @@ root.right.right = new TreeNode(20);
 console.log(isValidBST(root)); // **Output**: true
 ```
 
-### **Explanation**:
+**Explanation**:
 1. The function `isValidBST` takes three arguments: the current node (`node`), and optional `min` and `max` bounds.
 2. For each node, it checks if the node's value lies within the valid range defined by `min` and `max`.
-3. The function is called recursively for both left and right subtrees, updating the bounds accordingly.
-4. If any node violates the BST property, it returns `false`; otherwise, it returns `true`.
 
+<details>
+
+<br>
 
 > ### fix a BST with two nodes swapped
 
-When two nodes in a Binary Search Tree (BST) are swapped by mistake, the tree no longer satisfies the BST property. To fix this, you need to identify the two swapped nodes and swap them back to restore the tree's properties.
+<details>
 
-Here's a solution to fix a BST with two swapped nodes in JavaScript. The approach leverages an in-order traversal to identify the two nodes that were swapped, since the in-order traversal of a valid BST should yield a sorted sequence of values.
-
-### Steps:
-1. Perform an in-order traversal of the tree.
-2. During the traversal, identify two swapped nodes:
-   - The first node is the first node where the value decreases (i.e., `prev > current`).
-   - The second node is the node where the value is less than the previous node later in the traversal.
-3. Swap their values to fix the tree.
-
-### Code:
+**Approach** - in-order traversal
 
 ```js
-class TreeNode {
-  constructor(value) {
-    this.value = value;
-    this.left = null;
-    this.right = null;
-  }
-}
-
 function fixBST(root) {
   let first = null;
   let second = null;
@@ -6380,6 +6109,13 @@ function fixBST(root) {
 }
 
 // Example usage:
+class TreeNode {
+  constructor(value) {
+    this.value = value;
+    this.left = null;
+    this.right = null;
+  }
+}
 
 let root = new TreeNode(10);
 root.left = new TreeNode(5);
@@ -6390,41 +6126,28 @@ root.right.right = new TreeNode(20); // This should be 8
 
 // The tree is now invalid because nodes 8 and 15 are swapped
 fixBST(root);
-
-// After fixing, the tree should now be valid
-function inorderPrint(node) {
-  if (!node) return;
-  inorderPrint(node.left);
-  console.log(node.value);
-  inorderPrint(node.right);
-}
-
-inorderPrint(root); // Output should be: 2, 5, 7, 10, 15, 20
 ```
 
-### **Explanation**:
+**Explanation**:
 - **In-order Traversal**: The tree is traversed in-order (left -> node -> right). For a valid BST, the in-order traversal will result in values in increasing order.
 - **Identify Swapped Nodes**: The algorithm detects two nodes that violate this order.
   - The first node (`first`) is identified when the current node value is less than the previous node value.
   - The second node (`second`) is identified later when the anomaly appears again.
 - **Swap Values**: Once the two nodes are identified, their values are swapped to restore the BST property.
 
-This solution ensures that the BST is corrected in `O(n)` time, where `n` is the number of nodes in the tree, and uses `O(h)` space, where `h` is the height of the tree.
+</details>
 
+<br>
 
 > ### Pair with given sum in BST
 
-To find if there exists a pair of nodes in a Binary Search Tree (BST) that sums to a given value, you can take advantage of the BST property, which allows you to traverse the tree in sorted order. Here are two possible approaches:
+To find if there exists a pair of nodes in a Binary Search Tree (BST) that sums to a given value,
 
-### 1. In-order Traversal + Two Pointers (Optimal Solution)
+1. In-order Traversal + Two Pointers (Optimal Solution)
+- Perform an in-order traversal to extract the values of the BST in a sorted array.
+- Use the two-pointer technique on this array to find the pair with the given sum.
 
-This approach uses in-order traversal to convert the BST into a sorted array, and then uses a two-pointer technique to find the pair that adds up to the target sum.
-
-### Steps:
-1. Perform an in-order traversal to extract the values of the BST in a sorted array.
-2. Use the two-pointer technique on this array to find the pair with the given sum.
-
-### Code:
+<details>
 
 ```js
 class TreeNode {
@@ -6486,20 +6209,17 @@ if (result) {
   console.log('No pair found');
 }
 ```
+<details>
 
-### **Explanation**:
-1. **In-order Traversal**: We traverse the tree in-order, which guarantees that the values will be sorted in ascending order.
-2. **Two-pointer Technique**: Once we have the sorted array, we use two pointers (`left` and `right`). The `left` pointer starts from the beginning, and the `right` pointer starts from the end. We move them based on the sum of the values they point to:
-   - If the sum is equal to the target, we return the pair.
-   - If the sum is less than the target, we increment the `left` pointer to get a larger sum.
-   - If the sum is greater than the target, we decrement the `right` pointer to get a smaller sum.
+<br>
 
-This approach runs in `O(n)` time for both the traversal and the two-pointer search, where `n` is the number of nodes in the tree. It also requires `O(n)` space for the array storing the in-order traversal.
+2. Using HashSet (Alternative Approach)
 
-### 2. Using HashSet (Alternative Approach)
 Alternatively, you can use a HashSet to store the values you've seen so far as you traverse the tree. For each node, check if `target - currentNodeValue` exists in the set. If it does, you have found a pair.
 
 Here's a code example for this approach:
+
+<details>
 
 ```js
 function findPairWithSumBSTUsingSet(root, target) {
@@ -6539,34 +6259,22 @@ if (!found) {
 - This approach runs in `O(n)` time and uses `O(n)` space for the set.
 
 Both approaches are efficient for finding a pair with a given sum in a BST, with the first approach being more structured for sorted traversal and the second being more direct.
+</details>
 
-
+<br>
 
 > ### Q-104 - height of binary tree
 
 The **height of a binary tree** is the number of edges on the longest path from the root to a leaf node. It can also be defined as the number of levels in the tree minus one. The height of an empty tree is `-1`, and the height of a tree with a single node (the root) is `0`.
 
-### Recursive Approach:
-The height of a binary tree can be computed recursively by finding the maximum height of its left and right subtrees and adding `1` for the root.
 
-### Formula:
-The height of a node `n` is:
 ```
 height(n) = max(height(left subtree), height(right subtree)) + 1
 ```
 
-### Code Implementation in JavaScript:
+<details>
 
 ```javascript
-// Node class to represent a binary tree node
-class Node {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
-}
-
 // Function to calculate the height of a binary tree
 function height(node) {
     // Base case: if the tree is empty, the height is -1
@@ -6583,6 +6291,13 @@ function height(node) {
 }
 
 // Example usage:
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
 
 // Create the binary tree
 let root = new Node(1);
@@ -6597,46 +6312,27 @@ let treeHeight = height(root);
 console.log("Height of the binary tree is:", treeHeight);  // **Output**: 2
 ```
 
-### **Explanation**:
-In this example:
-- The binary tree looks like this:
-  ```
+**Explanation**:
+```
       1
      / \
     2   3
    / \   \
   4   5   6
-  ```
+```
 - The longest path is from the root `1` to any of the leaf nodes (`4`, `5`, or `6`). The number of edges in the longest path is `2`, so the height of the tree is `2`.
 
-### Time Complexity:
-- **O(n)**, where `n` is the number of nodes in the binary tree. This is because we visit each node exactly once to compute the height of its left and right subtrees.
+</details>
 
-### Space Complexity:
-- The space complexity is **O(h)**, where `h` is the height of the tree due to the recursive call stack. In the worst case (for a skewed tree), this could be **O(n)**, but for a balanced tree, it would be **O(log n)**.
-
+<br>
 
 > ### print nodes at distance k in BST 
 
-To print all nodes at a given distance \( k \) from the root in a **Binary Search Tree (BST)**, we can approach the problem recursively. At each recursive call, we reduce the distance \( k \) by 1, and when \( k = 0 \), we print the current node.
+To print all nodes at a given distance (k) from the root in a **Binary Search Tree (BST)**, we can approach the problem recursively. At each recursive call, we reduce the distance (k) by 1, and when (k=0), we print the current node.
 
-### Recursive Approach:
-- If the tree is empty (i.e., the node is `null`), we return.
-- If \( k = 0 \), print the node's value.
-- Otherwise, recursively call the function for both left and right children, decreasing \( k \) by 1.
-
-### Code Implementation in JavaScript:
+<details>
 
 ```javascript
-// Node class to represent a binary tree node
-class Node {
-    constructor(value) {
-        this.value = value;
-        this.left = null;
-        this.right = null;
-    }
-}
-
 // Function to print nodes at distance k
 function printNodesAtDistanceK(node, k) {
     // Base case: if the tree is empty, return
@@ -6656,6 +6352,13 @@ function printNodesAtDistanceK(node, k) {
 }
 
 // Example usage:
+class Node {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
 
 // Create the binary tree
 let root = new Node(10);
@@ -6681,137 +6384,23 @@ Given the following binary tree:
      / \   / \
     3   7 15  25
 ```
-- For \( k = 2 \), the nodes at this distance from the root are `3`, `7`, `15`, and `25`, since they are two edges away from the root (`10`).
+- For (k=2), the nodes at this distance from the root are `3`, `7`, `15`, and `25`, since they are two edges away from the root (`10`).
 
-### Time Complexity:
-- **O(n)**, where `n` is the number of nodes in the tree. The algorithm visits every node once.
+</details>
 
-### Space Complexity:
-- **O(h)**, where `h` is the height of the tree due to the recursive call stack. In the worst case (for a skewed tree), this could be **O(n)**, but for a balanced tree, it would be **O(log n)**.
-
-
-> ### Book Allocation or Allocate Books Problem ( [Youtube video](https://www.youtube.com/watch?v=JRAByolWqhw&ab_channel=ApnaCollege) )
-
-The **Book Allocation Problem** is a popular problem in Data Structures and Algorithms (DSA), often solved using **binary search**. The goal is to allocate books to students such that the maximum number of pages allocated to any student is minimized.  
-
-### Problem Description
-1. You are given an array `books[]` where each element represents the number of pages in a book.
-2. You have `students` number of students.
-3. The books must be distributed sequentially (i.e., a student can only be assigned consecutive books).
-4. Minimize the maximum pages a student has to read.
-
-
-
-### Approach to Solve
-The problem can be solved efficiently using **binary search** combined with a **greedy algorithm**:
-
-1. **Binary Search on the Maximum Number of Pages:**
-   - The lower bound is the book with the maximum pages (minimize the largest allocation).
-   - The upper bound is the sum of all pages (one student gets all books).
-
-2. **Check Feasibility (Helper Function):**
-   - Use a helper function to determine if it is possible to allocate books such that no student gets more than the current "mid" (from binary search).
-
-
-
-### Algorithm
-1. Start with `low = max(books)` and `high = sum(books)`.
-2. Perform binary search on this range:
-   - Find the `mid`.
-   - Check if allocation with `mid` as the maximum page is feasible.
-3. Adjust the search range based on feasibility:
-   - If feasible, minimize the `mid` (reduce upper bound).
-   - If not feasible, increase the `mid` (increase lower bound).
-4. Return the minimized maximum pages.
-
-
-
-### Implementation in JavaScript
-
-```javascript
-function isFeasible(books, students, maxPages) {
-    let studentCount = 1;
-    let pagesAllocated = 0;
-
-    for (let pages of books) {
-        if (pages > maxPages) {
-            return false; // A single book exceeds maxPages, not feasible.
-        }
-        
-        if (pagesAllocated + pages > maxPages) {
-            studentCount++; // Assign to the next student.
-            pagesAllocated = pages;
-
-            if (studentCount > students) {
-                return false; // Too many students required.
-            }
-        } else {
-            pagesAllocated += pages;
-        }
-    }
-    return true;
-}
-
-function allocateBooks(books, students) {
-    if (books.length < students) {
-        return -1; // Not enough books for all students.
-    }
-
-    let low = Math.max(...books);
-    let high = books.reduce((a, b) => a + b, 0);
-    let result = high;
-
-    while (low <= high) {
-        let mid = Math.floor((low + high) / 2);
-
-        if (isFeasible(books, students, mid)) {
-            result = mid; // Try for a better minimum.
-            high = mid - 1;
-        } else {
-            low = mid + 1; // Increase maxPages.
-        }
-    }
-    return result;
-}
-
-// Example Usage
-const books = [12, 34, 67, 90]; // Number of pages in books.
-const students = 2; // Number of students.
-
-console.log(allocateBooks(books, students)); // **Output**: 113
-```
-
-
-
-### **Explanation** of Example
-- ****Input**:** `books = [12, 34, 67, 90], students = 2`
-- **Output** `113`
-- **Reason:** 
-  - Allocate `[12, 34, 67]` to the first student (total = 113 pages).
-  - Allocate `[90]` to the second student (total = 90 pages).
-  - The maximum pages allocated to any student is minimized as `113`.
+<br>
 
 > ### Q-872- Leaf-Similar Trees
 
-The **Leaf-Similar Trees** problem is a common question in data structure and algorithm (DSA) interviews. Here's the problem statement and a JavaScript solution.
-
-
-
-### Problem Statement:
 Consider all the leaves of a binary tree, from left to right, to form a leaf value sequence. Two binary trees are considered "leaf-similar" if their leaf value sequences are the same.
 
 Given the roots of two binary trees, determine if they are leaf-similar.
-
-
 
 ### Approach:
 1. Traverse the trees using Depth-First Search (DFS).
 2. Collect all the leaf nodes into an array for both trees.
 3. Compare the two arrays.
 
-
-
-### JavaScript Solution:
 
 ```javascript
 // Definition for a binary tree node.
@@ -6894,313 +6483,19 @@ This approach has a time complexity of \(O(N + M)\), where \(N\) and \(M\) are t
 
 <br>
 
-> ###  Hash Table
-
-```js
-// A hash table uses a hash function to compute an index, also called a hash code, into an array of buckets or slots, from which the desired value can be found.
-// common example of hash table is object in JS.
-
-
-// charactristics of hashes
-// 1. They are one way
-// 2. Hashes are deterministic, means if you run nails through this equation and it produces the number, the next time you run nails it will produce same number
-
-// collision - It is a situation when we have an item that maps to that same spot in memory basically hash function generate same no for two different key.
-
-// hash function always give the same number when same input is passed through it
-
-// If we have a prime number. we get a more randomized distribution of the items, which is optimal.
-
-// Big O of hash table
-
-// - Access    => O(1) || O(n). (keep in we are here considering key not the value lookup)
-// - Insert    => O(1).
-// - Delete    => O(1).
-
-class HashTable {
-    constructor(size = 7){
-        this.dataMap = new Array(size)
-    }
-
-    _hash(key){
-        let hash = 0
-        for (let i = 0; i < key.length; i++) {
-            hash = (hash + key.charCodeAt(i) * 23) % this.dataMap.length
-        }
-        return hash
-    }
-
-    // O(1)
-    set(key, value){
-        let index = this._hash(key)
-        if(!this.dataMap[index]){
-            this.dataMap[index] = []  // O(1)
-        }
-        this.dataMap[index].push([key, value]) // O(1)
-        return this
-    }
-
-    // O(1) || O(n)
-    get(key) {
-        // we get the index position in table
-        let index = this._hash(key) // O(1)
-    
-        if (this.dataMap(index)) {
-
-            // Here we are looping becuse at particular index we have two or more data
-            for (let i = 0; i < this.dataMap[index].length; i++) { // O(1) || O(n)
-                if (this.dataMap[index][i][0] === key) {
-                    return this.dataMap[index][i][1]
-                }
-            }
-            return undefined // O(1)
-        }
-    }
-
-    keys(){
-        let allKeys = []
-
-        for (let i = 0; i < this.dataMap.length; i++) {
-            if(this.dataMap[i]){
-                for (let j = 0; j < this.dataMap[i].length; j++) {
-                    allKeys.push(this.dataMap[i][j][0])
-                }
-            }
-        }
-        return allKeys
-    }
-}
-
-let myHashtable = new HashTable()
-myHashtable
-
-```
-
-> ### Count Distinct Elements
-
-If we with other langueges then we have have hashset, in js we have set, which is similar to hashset
-
-```js
-function countDistinctElements(arr) {
-    // Use a Set to store unique elements from the array
-    const uniqueElements = new Set(arr);
-    
-    // Return the size of the Set, which is the count of distinct elements
-    return uniqueElements.size;
-}
-
-// Example usage:
-const array = [1, 2, 3, 4, 1, 2, 5];
-console.log(countDistinctElements(array)); // **Output**: 5
-```
-
-This solution has a time complexity of 𝑂(𝑛) because inserting elements into a Set and checking for duplicates is efficient.
-
-
-> ### Frequencies of array elements 
-
-I/P : [10, 12, 10, 15, 10, 20, 12, 12]
-
-O/P : 10 : 3
-      12 : 3
-      15 : 1
-      20 : 1
-
-
-If we with other langueges then we have have hashmap, in js we have map, which is similar to hashmap
-
-```javascript
-function elementFrequencies(arr) {
-    const frequencyMap = new Map();
-
-    // Loop through the array and update the frequency in the map
-    for (const element of arr) {
-        frequencyMap.set(element, (frequencyMap.get(element) || 0) + 1);
-    }
-
-    return frequencyMap;
-}
-
-// Example usage:
-const array = [1, 2, 3, 4, 1, 2, 5];
-console.log(Object.fromEntries(elementFrequencies(array))); // **Output**: {1: 2, 2: 2, 3: 1, 4: 1, 5: 1}
-```
-
-### **Explanation**:
-1. **Map**: We use a `Map` to store each unique element and its frequency.
-2. **Loop and Count**: For each element in the array, we check if it exists in the `Map`. If it does, we increment its count; otherwise, we initialize it with `1`.
-3. **Output**: The function returns a `Map`, where each key is an element, and the corresponding value is its frequency.
-
-This solution has a time complexity of \(O(n)\), as we are only looping through the array once.
-
-
-> ### Intersection of two arrays 
-
-To find the intersection of two arrays (i.e., the elements that appear in both arrays), you can use a `Set` in JavaScript to make the process more efficient. Here’s a solution:
-
-### Code:
-```javascript
-function arrayIntersection(arr1, arr2) {
-    // Convert the first array to a Set to remove duplicates and allow efficient lookups
-    const set1 = new Set(arr1);
-
-    // Use another Set to store the intersection to ensure unique elements in the result
-    const intersection = new Set();
-
-    // Loop through the second array and check if each element is in set1
-    for (const element of arr2) {
-        if (set1.has(element)) {
-            intersection.add(element);
-        }
-    }
-
-    // Convert the Set back to an array for the final result
-    return Array.from(intersection);
-}
-
-// Example usage:
-const array1 = [1, 2, 3, 4, 5];
-const array2 = [4, 5, 6, 7, 8];
-console.log(arrayIntersection(array1, array2)); // **Output**: [4, 5]
-```
-
-### **Explanation**:
-1. **Convert to Set**: We convert `arr1` to a `Set` (`set1`) to make lookups for elements in `arr2` efficient.
-2. **Intersection Set**: We create another `Set` to store elements found in both arrays, ensuring that each element is added only once.
-3. **Convert Back to Array**: Finally, we convert the `Set` back to an array to return the result.
-
-### Complexity:
-- **Time Complexity**: \(O(n + m)\), where \(n\) and \(m\) are the lengths of `arr1` and `arr2`, respectively. The Set operations allow efficient lookups and ensure each element is checked only once.
-
-
-> ### Union of two unsorted arrays
-
-To find the union of two unsorted arrays (i.e., all unique elements that appear in either array), you can use JavaScript's `Set` to handle duplicates efficiently. Here’s how to do it:
-
-### Code:
-```javascript
-function arrayUnion(arr1, arr2) {
-    // Combine both arrays and use Set to remove duplicates
-    const unionSet = new Set([...arr1, ...arr2]);
-
-    // Convert the Set back to an array for the final result
-    return Array.from(unionSet);
-}
-
-// Example usage:
-const array1 = [1, 2, 3, 4, 5];
-const array2 = [4, 5, 6, 7, 8];
-console.log(arrayUnion(array1, array2)); // **Output**: [1, 2, 3, 4, 5, 6, 7, 8]
-```
-
-### **Explanation**:
-1. **Combine Arrays**: Use the spread operator `...` to merge `arr1` and `arr2` into a single array.
-2. **Remove Duplicates**: Pass the combined array into a `Set`, which will automatically remove duplicates, resulting in the unique union of both arrays.
-3. **Convert Back to Array**: Finally, convert the `Set` back to an array for the final result.
-
-### Complexity:
-- **Time Complexity**: \(O(n + m)\), where \(n\) and \(m\) are the lengths of `arr1` and `arr2`, since inserting elements into a `Set` and removing duplicates is efficient.
-
-
-> ### Pair with given sum in unsorted array
-
-To find a pair of elements in an unsorted array that adds up to a given sum, you can use a `Set` for efficient lookups. This method is more optimal than using nested loops.
-
-### Code:
-```javascript
-function findPairWithSum(arr, targetSum) {
-    const seenNumbers = new Set();
-
-    for (const num of arr) {
-        // Calculate the required pair number to reach targetSum
-        const complement = targetSum - num;
-
-        // Check if the complement exists in the set
-        if (seenNumbers.has(complement)) {
-            return [complement, num]; // Return the pair
-        }
-
-        // Add the current number to the set
-        seenNumbers.add(num);
-    }
-
-    // Return null if no pair is found
-    return null;
-}
-
-// Example usage:
-const array = [3, 5, 2, -4, 8, 11];
-const target = 7;
-console.log(findPairWithSum(array, target)); // **Output**: [5, 2]
-```
-
-### **Explanation**:
-1. **Set for Lookups**: We use a `Set` called `seenNumbers` to store numbers we’ve already encountered.
-2. **Calculate Complement**: For each element `num`, calculate the `complement` as `targetSum - num`.
-3. **Check in Set**: If the `complement` is already in `seenNumbers`, we’ve found the pair `[complement, num]` that adds up to `targetSum`.
-4. **Add to Set**: If no pair is found yet, add `num` to the `Set` and continue.
-5. **Return Pair or Null**: Return the pair if found, or `null` if no such pair exists.
-
-### Complexity:
-- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, because checking for complements and adding elements to the `Set` both have an average time complexity of \(O(1)\).
-- **Space Complexity**: \(O(n)\) for the `Set`, which stores the elements we've seen so far.
-
-
-> ### Subarray with zero sum : keep in mind subarray means contineous
-
-To find a subarray with a zero sum in an unsorted array, we can use a `Set` to track cumulative sums. If the same cumulative sum appears twice, it means that the elements between these two occurrences sum to zero.
-
-### Code:
-```javascript
-function hasZeroSumSubarray(arr) {
-    const cumulativeSumSet = new Set();
-    let cumulativeSum = 0;
-
-    for (const num of arr) {
-        cumulativeSum += num;
-
-        // Check if cumulative sum is zero or it already exists in the set
-        if (cumulativeSum === 0 || cumulativeSumSet.has(cumulativeSum)) {
-            return true; // Found a subarray with zero sum
-        }
-
-        // Add the current cumulative sum to the set
-        cumulativeSumSet.add(cumulativeSum);
-    }
-
-    return false; // No subarray with zero sum found
-}
-
-// Example usage:
-const array = [4, 2, -3, 1, 6];
-console.log(hasZeroSumSubarray(array)); // **Output**: true
-```
-
-### **Explanation**:
-1. **Cumulative Sum**: We keep a running total, `cumulativeSum`, as we iterate through the array.
-2. **Check for Zero Sum**: 
-   - If `cumulativeSum` is `0`, a subarray from the start to the current index has a zero sum.
-   - If `cumulativeSum` has been seen before in `cumulativeSumSet`, it means the subarray between the two indices where this sum first appeared and the current index has a sum of zero.
-3. **Add to Set**: If neither condition is met, add `cumulativeSum` to the set and continue.
-4. **Return Result**: If we find a zero-sum subarray, return `true`; otherwise, return `false`.
-
-### Complexity:
-- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, as we are only iterating through the array once.
-- **Space Complexity**: \(O(n)\) for storing cumulative sums in the `Set`.
-
-
-
 > ### Subarray with given sum   
 
 https://www.youtube.com/watch?v=Ofl4KgFhLsM&ab_channel=Techdose
 
 To find a subarray with a given sum in an unsorted array of positive integers, you can use a sliding window technique with two pointers. If the array contains both positive and negative integers, we can use a cumulative sum approach with a `Map`.
 
+
+<details>
+
 ### Solution for Array with Positive Integers
 
 When all elements are positive, a sliding window technique is efficient.
 
-#### Code:
 ```javascript
 function subarrayWithGivenSum(arr, targetSum) {
     let start = 0;
@@ -7231,25 +6526,11 @@ const target = 33;
 console.log(subarrayWithGivenSum(array, target)); // Output: [20, 3, 10]
 ```
 
-### **Explanation**:
-1. **Sliding Window**: We use two pointers, `start` and `end`, to represent the current subarray.
-2. **Expand and Shrink Window**: 
-   - Add elements to `currentSum` by moving `end`.
-   - If `currentSum` exceeds `targetSum`, remove elements from the start of the window by moving `start`.
-3. **Check for Target Sum**: If `currentSum` equals `targetSum`, return the subarray.
-4. **Return Null if Not Found**: If no subarray matches, return `null`.
-
-### Complexity:
-- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, because each element is added and removed from `currentSum` at most once.
-- **Space Complexity**: \(O(1)\), if only the indices are returned; otherwise, \(O(n)\) for the returned subarray.
-
-
-
-### Solution for Array with Positive and Negative Integers
+**Solution for Array with Positive and Negative Integers**
 
 When the array contains both positive and negative integers, we use a `Map` to track cumulative sums.
 
-#### Code:
+
 ```javascript
 function subarrayWithGivenSumMixed(arr, targetSum) {
     const cumulativeSumMap = new Map();
@@ -7282,17 +6563,7 @@ const targetMixed = -10;
 console.log(subarrayWithGivenSumMixed(arrayMixed, targetMixed)); // **Output**: [10, 2, -2, -20]
 ```
 
-### **Explanation**:
-1. **Cumulative Sum**: We maintain a cumulative sum as we iterate through the array.
-2. **Check for Target Sum**:
-   - If `cumulativeSum` equals `targetSum`, we have found a subarray from the start.
-   - If `cumulativeSum - targetSum` exists in the map, the elements between the two cumulative sums form a subarray with the target sum.
-3. **Store in Map**: Add the current `cumulativeSum` and its index to the map.
-4. **Return Result**: If no subarray matches, return `null`.
-
-### Complexity:
-- **Time Complexity**: \(O(n)\), because we iterate through the array once.
-- **Space Complexity**: \(O(n)\), for storing cumulative sums in the `Map`.
+</details>
 
 <br>
 
@@ -7318,6 +6589,8 @@ Example 3:
 **Output**: 23\
 **Explanation**: The subarray [5,4,-1,7,8] has the largest sum 23.
 
+<details>
+
 ```js
 function maxSubArray(nums) {
     if (nums.length === 0) return 0; // Handle edge case
@@ -7338,6 +6611,7 @@ function maxSubArray(nums) {
 const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
 console.log(maxSubArray(nums)); // **Output**: 6 (Subarray: [4, -1, 2, 1])
 ```
+</details>
 
 <br>
 
@@ -7345,15 +6619,8 @@ console.log(maxSubArray(nums)); // **Output**: 6 (Subarray: [4, -1, 2, 1])
 
 To find the longest subarray with a given sum in an unsorted array, we can use a cumulative sum approach with a `Map`. This solution works efficiently for arrays containing both positive and negative integers.
 
-### Approach
-1. Use a cumulative sum variable to keep track of the sum of elements as we iterate through the array.
-2. Use a `Map` to store the first occurrence of each cumulative sum.
-3. For each element, calculate the cumulative sum up to that index.
-   - If the cumulative sum equals the target sum, the subarray from the start to the current index has the target sum.
-   - If `(cumulativeSum - targetSum)` exists in the map, it means there’s a subarray between the indices where this difference was first found and the current index that sums up to the target sum.
-   - Track the maximum length of such subarrays.
+<details>
 
-### Code
 ```javascript
 function longestSubarrayWithGivenSum(arr, targetSum) {
     const cumulativeSumMap = new Map();
@@ -7388,34 +6655,16 @@ const array = [10, 5, 2, 7, 1, 9];
 const target = 15;
 console.log(longestSubarrayWithGivenSum(array, target)); // **Output**: 4 ([5, 2, 7, 1])
 ```
+<details>
 
-### **Explanation**
-1. **Cumulative Sum**: We maintain a cumulative sum as we iterate through the array.
-2. **Check for Target Sum**:
-   - If `cumulativeSum` equals `targetSum`, we’ve found a subarray from the start of the array to the current index with the target sum.
-   - If `cumulativeSum - targetSum` exists in `cumulativeSumMap`, it means there is a subarray with the target sum between the previous occurrence of this difference and the current index.
-3. **Track Max Length**: For each matching subarray, calculate its length and update `maxLength` if it’s the longest found so far.
-4. **Store in Map**: We store each cumulative sum’s first occurrence index in the map to check for potential subarrays starting from that index.
-
-### Complexity
-- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, since we’re iterating through the array once.
-- **Space Complexity**: \(O(n)\), for storing cumulative sums in the map.
+<br>
 
 
 > ### Longest Subarray with equal number of 0s and 1s
 
 To find the longest subarray with an equal number of `0s` and `1s` in a binary array, you can use the **prefix sum** technique combined with a hash map for efficient lookup. Here's how it works:
 
-### Approach
-1. Replace all `0s` with `-1s` to transform the problem into finding a subarray with a sum of `0`.
-2. Use a hash map to store the first occurrence of each prefix sum.
-3. Traverse the array, updating the prefix sum and checking:
-   - If the prefix sum has been seen before, calculate the length of the subarray between the previous occurrence and the current index.
-   - Update the maximum length accordingly.
-4. If the prefix sum is `0`, it means the subarray from the start to the current index is balanced.
-
-### Code
-Here’s the implementation:
+<details>
 
 ```javascript
 function findMaxLength(nums) {
@@ -7445,28 +6694,24 @@ const binaryArray = [0, 1, 0, 1, 1, 0, 0];
 console.log(findMaxLength(binaryArray)); // **Output**: 6
 ```
 
-### **Explanation**
+**Explanation**
 1. Replace `0` with `-1` in the binary array: `[0, 1, 0, 1, 1, 0, 0]` → `[-1, 1, -1, 1, 1, -1, -1]`.
 2. Compute the prefix sum as you traverse:
    - At each index, check if the prefix sum has been seen before.
    - If yes, the subarray between the two occurrences of the prefix sum is balanced.
    - Update the maximum length accordingly.
 
-### Complexity
-- **Time Complexity**: \(O(n)\), where \(n\) is the length of the array, as we traverse the array once.
-- **Space Complexity**: \(O(n)\), for the hash map storing prefix sums.
+</details>
 
+<br>
 
 > ### Count Distinct Elements In Every Window
 
-Counting distinct elements in every window of size `k` is a common problem in DSA. Here's how you can solve it in JavaScript:
-
-### Problem
 You are given an array `arr[]` and an integer `k`. You need to count the distinct numbers in every contiguous subarray (window) of size `k`.
 
+<details>
 
-
-### Approach
+**Approach**
 1. Use a **sliding window technique** to traverse the array with a window size of `k`.
 2. Use a **hash map** to keep track of the frequency of elements in the current window.
 3. For each window:
@@ -7474,10 +6719,6 @@ You are given an array `arr[]` and an integer `k`. You need to count the distinc
    - Slide the window by:
      - Decreasing the frequency of the outgoing element.
      - Increasing the frequency of the incoming element.
-
-
-
-### Code Implementation
 
 ```javascript
 function countDistinctElements(arr, k) {
@@ -7520,7 +6761,7 @@ console.log(countDistinctElements(arr, k)); // **Output**: [3, 4, 4, 3]
 
 
 
-### **Explanation** of the Example
+**Explanation** of the Example
 Given `arr = [1, 2, 1, 3, 4, 2, 3]` and `k = 4`:
 1. First window `[1, 2, 1, 3]`: Distinct elements = {1, 2, 3} → Count = 3
 2. Second window `[2, 1, 3, 4]`: Distinct elements = {1, 2, 3, 4} → Count = 4
@@ -7529,56 +6770,61 @@ Given `arr = [1, 2, 1, 3, 4, 2, 3]` and `k = 4`:
 
 The result is `[3, 4, 4, 3]`.
 
+</details>
 
-
-### Time Complexity
-- **O(n)**:
-  - Traversing the array takes `O(n)`.
-  - Insertions and deletions in a hash map are `O(1)` on average.
-
-### Space Complexity
-- **O(k)**: The hash map stores at most `k` elements.
-
+<br>
 
 > ### Below is for the GRAPH
 
+<br>
 
 > ### Tree vs Graph
 ![screenshot](images/treevsgraph.png)
+
+<br>
 
 > ### Direct vs Indirect Graph
 
 ![screenshot](images/directVSindirect.png)
 
+<br>
+
 > ### Weight VS Unweighted Graph
 
 ![screenshot](images/wightVSunweight.png)
 
+<br>
+
 > ### Graph Represenation  -  Adjacency Matrix
 ![screenshot](images/adjacencyMatrix.png)
 
+<br>
 
 > ### Graph Represenation  -  Adjacency List
 ![screenshot](images/adjacencyList.png)
 
+<br>
 
+Graph major points
+- Graphs are `bidirectional`,
+- `Edge` is line while `vertics` is `point`.
+- When `adjacency matrix` is formed in graps, it is `symmetrical` in shape
+- We have both type ie adjacency list and matrix, but for the code purpose and efficiency we use the adjacency List
+- We create the adjacency list in object form.
+- Adjacency list is much more easy to maintain and much efficient so we will use this
+
+- Below is basic structure
 ```js
-
-// Graphs are bidirectional,
-// edge is line while vertics is point.
-// when adjacency matrix is formed in graps, it is symmetrical in shape
-// we have both type ie adjacency list and matrix, but for the code purpose and efficiency we use the adjacency List
-// we create the adjacency list in object form.
-// adjacency list is much more easy to maintain and much efficient so we will use this
-
-// Below is basic structure
 {
     vertex: [edge1, edge2]
 }
+```
 
+Below is the all the operations of graph
 
-// Graph code is below
+<details>
 
+```js
 class Graph {
     constructor(){
         this.adjacencyList = {}
@@ -7722,9 +6968,10 @@ myGraph.display();
 
 console.log("DFS Recursive:", myGraph.dfsRecursive(0)); // Expected **Output**: [0, 1, 3, 4, 5, 2]
 console.log("DFS Iterative:", myGraph.dfsIterative(0)); // Expected **Output**: [0, 2, 1, 4, 5, 3]
-
-
 ```
+</details>
+
+<br>
 
 > ### 841. Keys and Rooms
 
@@ -7733,6 +6980,8 @@ There are n rooms labeled from 0 to n - 1 and all the rooms are locked except fo
 When you visit a room, you may find a set of distinct keys in it. Each key has a number on it, denoting which room it unlocks, and you can take all of them with you to unlock the other rooms.
 
 Given an array rooms where rooms[i] is the set of keys that you can obtain if you visited room i, return true if you can visit all the rooms, or false otherwise.
+
+<br>
 
 Example 1:
 
@@ -7745,6 +6994,8 @@ We then visit room 2 and pick up key 3.\
 We then visit room 3.\
 Since we were able to visit every room, we return true.
 
+<br>
+
 Example 2:
 
 **Input**: rooms = [[1,3],[3,0,1],[2],[0]]\
@@ -7755,2481 +7006,28 @@ Example 2:
 
 `Algo:` Graph with DFS
 
-
-> ### shortest path in unweight graph ( [Youtube video](https://www.youtube.com/watch?v=yysA7ZM2jjA&ab_channel=HelloWorld) )
-
-```
-https://www.youtube.com/watch?v=abIEXKFpLNE&ab_channel=CodeHelp-byBabbar
-```
-
-To find the **shortest path in an unweighted graph**, you can use **Breadth-First Search (BFS)**. Since all edges in an unweighted graph have the same weight, BFS guarantees the shortest path by visiting nodes layer by layer.
-
-### BFS for Shortest Path
-
-Here’s how you can modify your existing `Graph` class to implement the shortest path using BFS:
-
-```javascript
-class Graph {
-    constructor(){
-        this.adjacencyList = {};
-    }
-
-    addVertex(vertex) {
-        if (!this.adjacencyList[vertex]) {
-            this.adjacencyList[vertex] = [];
-        }
-    }
-
-    addEdge(vertex1, vertex2) {
-        if (this.adjacencyList[vertex1] && this.adjacencyList[vertex2]) {
-            this.adjacencyList[vertex1].push(vertex2);
-            this.adjacencyList[vertex2].push(vertex1);
-        }
-    }
-
-    // BFS for Shortest Path
-    shortestPath(start, target) {
-        const queue = [[start]];  // Initialize queue with the start vertex as a path
-        const visited = new Set();  // To track visited vertices
-        visited.add(start);
-
-        while (queue.length) {
-            const path = queue.shift();  // Get the first path from the queue
-            const vertex = path[path.length - 1];  // Get the last vertex from the path
-
-            // If the last vertex is the target, return the path (shortest path)
-            if (vertex === target) {
-                return path;
-            }
-
-            // Loop through the neighbors of the current vertex
-            this.adjacencyList[vertex].forEach(neighbor => {
-                if (!visited.has(neighbor)) {  // If neighbor hasn't been visited
-                    visited.add(neighbor);  // Mark it as visited
-                    const newPath = [...path, neighbor];  // Create a new path with this neighbor
-                    queue.push(newPath);  // Add the new path to the queue
-                }
-            });
-        }
-
-        return null;  // Return null if no path found
-    }
-
-    // Display the graph
-    display() {
-        for (let vertex in this.adjacencyList) {
-            console.log(vertex, ":", this.adjacencyList[vertex]);
-        }
-    }
-}
-
-// Example usage
-let myGraph = new Graph();
-myGraph.addVertex(0);
-myGraph.addVertex(1);
-myGraph.addVertex(2);
-myGraph.addVertex(3);
-myGraph.addVertex(4);
-myGraph.addVertex(5);
-
-myGraph.addEdge(0, 1);
-myGraph.addEdge(0, 2);
-myGraph.addEdge(1, 3);
-myGraph.addEdge(1, 4);
-myGraph.addEdge(4, 5);
-
-console.log("Graph display:");
-myGraph.display();
-
-console.log("Shortest path from 0 to 5:", myGraph.shortestPath(0, 5));  // Expected **Output**: [0, 1, 4, 5]
-```
-
-### **Explanation**:
-1. **`queue = [[start]]`**: The queue holds paths, not just vertices. Initially, the path only contains the start vertex.
-2. **Visited Set**: Keeps track of visited vertices to avoid cycles.
-3. **BFS Process**: 
-   - Dequeue a path, check its last vertex.
-   - If this vertex is the target, the path is returned as it represents the shortest path.
-   - Otherwise, for each neighbor, a new path is created and added to the queue.
-4. **Termination**: The algorithm stops once the target is found, ensuring the shortest path is returned. If no path is found, it returns `null`.
-
-This BFS-based approach ensures that the first time the target vertex is found, you get the shortest path in terms of the number of edges.
-
-
-> ### Topological sort of graph using DFS  ( [Youtube video](https://www.youtube.com/watch?v=T_boOrr0rvk&ab_channel=CodeHelp-byBabbar) )
-
-**Topological sorting** is an algorithm used for **Directed Acyclic Graphs (DAGs)**. It orders the vertices in such a way that for every directed edge `u -> v`, vertex `u` comes before vertex `v`. A common way to perform topological sorting is through **DFS** (Depth-First Search).
-
-Here’s how you can implement **topological sorting** in your `Graph` class using DFS:
-
-### Topological Sort Using DFS:
-
-```javascript
-class Graph {
-    constructor(){
-        this.adjacencyList = {};
-    }
-
-    addVertex(vertex) {
-        if (!this.adjacencyList[vertex]) {
-            this.adjacencyList[vertex] = [];
-        }
-    }
-
-    addEdge(vertex1, vertex2) {
-        if (this.adjacencyList[vertex1] && this.adjacencyList[vertex2]) {
-            this.adjacencyList[vertex1].push(vertex2); // Directed edge from vertex1 to vertex2
-        }
-    }
-
-    // Topological Sort using DFS
-    topologicalSort() {
-        const visited = new Set();  // Track visited nodes
-        const stack = [];  // To store the topologically sorted elements
-
-        const dfs = (vertex) => {
-            visited.add(vertex);  // Mark the vertex as visited
-
-            // Visit all its neighbors (adjacent vertices)
-            this.adjacencyList[vertex].forEach(neighbor => {
-                if (!visited.has(neighbor)) {
-                    dfs(neighbor);  // Recursively visit unvisited neighbors
-                }
-            });
-
-            stack.push(vertex);  // Push the vertex onto the stack after visiting its neighbors
-        };
-
-        // Perform DFS on each vertex
-        for (let vertex in this.adjacencyList) {
-            if (!visited.has(vertex)) {
-                dfs(vertex);
-            }
-        }
-
-        // The stack contains the topological order in reverse
-        return stack.reverse();  // Reverse to get the correct topological order
-    }
-
-    // Display the graph
-    display() {
-        for (let vertex in this.adjacencyList) {
-            console.log(vertex, ":", this.adjacencyList[vertex]);
-        }
-    }
-}
-
-// Example usage
-let myGraph = new Graph();
-myGraph.addVertex("A");
-myGraph.addVertex("B");
-myGraph.addVertex("C");
-myGraph.addVertex("D");
-myGraph.addVertex("E");
-myGraph.addVertex("F");
-
-myGraph.addEdge("A", "D");
-myGraph.addEdge("F", "B");
-myGraph.addEdge("B", "D");
-myGraph.addEdge("F", "A");
-myGraph.addEdge("D", "C");
-
-console.log("Graph display:");
-myGraph.display();
-
-console.log("Topological Sort:", myGraph.topologicalSort());  // Expected **Output**: [ 'F', 'A', 'B', 'D', 'C' ]
-```
-
-### **Explanation**:
-1. **Graph Representation**: The graph is represented as an adjacency list, where each vertex has a directed edge pointing to its neighbors.
-2. **DFS for Topological Sort**:
-   - **Visited Set**: A set is used to track visited vertices.
-   - **Stack**: The stack keeps track of the vertices in reverse order of their completion (i.e., when all neighbors have been processed).
-   - For each vertex, if it hasn’t been visited, perform DFS on it, and once its neighbors are processed, push it onto the stack.
-   - After visiting all vertices, the stack contains the vertices in topological order (but in reverse, so we reverse it at the end).
-3. **Cycle Handling**: This method works for **Directed Acyclic Graphs (DAGs)**. If there's a cycle in the graph, topological sorting is not possible, and the algorithm should be adjusted to detect cycles in such cases (can be done by checking for back edges).
-
-### Example:
-In the above example, the graph has the following structure:
-
-```
-F → A → D → C
-    ↓    ↑
-    B ← F
-```
-
-The topological sort outputs a valid order like `[ 'F', 'A', 'B', 'D', 'C' ]`, which respects the directed edges in the graph.
-
-### Time Complexity:
-- The time complexity is \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges, as it performs DFS for each vertex and processes each edge once.
-
-<br>
-
-> ### Topological sorting using kahn's alogorithm ie BFS alogrithm approach ( [Youtube video](https://www.youtube.com/watch?v=6XmzL04mlgQ&ab_channel=CodeHelp-byBabbar) )
-
-
-### Kahn's Algorithm for Topological Sorting
-
-**Kahn's Algorithm** is a method to perform **topological sorting** of a **Directed Acyclic Graph (DAG)** using **BFS (Breadth-First Search)**. The algorithm works by repeatedly removing vertices with no incoming edges (in-degree = 0) and adding them to the topological order. This guarantees that for every directed edge `u -> v`, vertex `u` appears before vertex `v` in the topological order.
-
-### Steps in Kahn's Algorithm:
-1. **Calculate In-degree**: For each vertex in the graph, calculate its in-degree (the number of incoming edges).
-   
-2. **Initialize Queue**: Enqueue all vertices with an in-degree of `0` (these are the starting points that don't depend on any other vertices).
-
-3. **Process Queue**: While the queue is not empty:
-   - Dequeue a vertex and add it to the topological ordering.
-   - For each neighbor (vertex pointed to by the dequeued vertex), reduce its in-degree by 1. If the in-degree of any neighbor becomes `0`, enqueue that neighbor.
-
-4. **Check for Cycles**: Once the queue is empty, if the topological order contains all vertices, the graph is a DAG and the order is valid. If not, the graph contains a cycle (as some vertices will still have non-zero in-degrees).
-
-### Example
-
-```javascript
-class Graph {
-    constructor() {
-        this.adjacencyList = {};
-    }
-
-    addVertex(vertex) {
-        if (!this.adjacencyList[vertex]) {
-            this.adjacencyList[vertex] = [];
-        }
-    }
-
-    addEdge(vertex1, vertex2) {
-        if (this.adjacencyList[vertex1]) {
-            this.adjacencyList[vertex1].push(vertex2); // Directed edge from vertex1 to vertex2
-        }
-    }
-
-    // Kahn's Algorithm for Topological Sorting
-    topologicalSort() {
-        const inDegree = {};  // Stores the in-degree of each vertex
-        const queue = [];  // Queue for vertices with in-degree 0
-        const topologicalOrder = [];  // Result array
-
-        // Initialize in-degree of each vertex to 0
-        for (let vertex in this.adjacencyList) {
-            inDegree[vertex] = 0;
-        }
-
-        // Calculate in-degree of each vertex
-        for (let vertex in this.adjacencyList) {
-            this.adjacencyList[vertex].forEach(neighbor => {
-                inDegree[neighbor] = (inDegree[neighbor] || 0) + 1;
-            });
-        }
-
-        // Enqueue vertices with in-degree 0
-        for (let vertex in inDegree) {
-            if (inDegree[vertex] === 0) {
-                queue.push(vertex);
-            }
-        }
-
-        // Process the queue
-        while (queue.length > 0) {
-            const currentVertex = queue.shift();  // Dequeue a vertex with in-degree 0
-            topologicalOrder.push(currentVertex);  // Add it to the topological order
-
-            // For each neighbor, reduce its in-degree by 1
-            this.adjacencyList[currentVertex].forEach(neighbor => {
-                inDegree[neighbor] -= 1;
-                // If in-degree becomes 0, add the neighbor to the queue
-                if (inDegree[neighbor] === 0) {
-                    queue.push(neighbor);
-                }
-            });
-        }
-
-        // If the topological order doesn't contain all vertices, there is a cycle
-        if (topologicalOrder.length !== Object.keys(this.adjacencyList).length) {
-            return "Graph has a cycle!";
-        }
-
-        return topologicalOrder;
-    }
-}
-
-// Example usage
-let myGraph = new Graph();
-myGraph.addVertex("A");
-myGraph.addVertex("B");
-myGraph.addVertex("C");
-myGraph.addVertex("D");
-myGraph.addVertex("E");
-myGraph.addVertex("F");
-
-myGraph.addEdge("A", "D");
-myGraph.addEdge("F", "B");
-myGraph.addEdge("B", "D");
-myGraph.addEdge("F", "A");
-myGraph.addEdge("D", "C");
-
-console.log("Graph display:");
-myGraph.display();
-
-console.log("Topological Sort:", myGraph.topologicalSort());  // Expected **Output**: [ 'F', 'A', 'B', 'D', 'C' ]
-```
-
-### **Explanation**:
-1. **In-degree Calculation**:
-   - For each vertex, the in-degree is calculated by counting how many incoming edges it has. This is stored in the `inDegree` object.
-   - Vertices with no incoming edges (in-degree = 0) are the ones that can be processed immediately.
-   
-2. **Queue Initialization**:
-   - A queue is initialized with all vertices that have an in-degree of `0`, meaning they do not depend on any other vertex.
-
-3. **Processing Vertices**:
-   - Vertices are dequeued one by one, and for each dequeued vertex, its neighbors’ in-degrees are reduced by 1 (as their incoming edges are effectively "removed").
-   - If a neighbor’s in-degree becomes 0, it is enqueued since it can now be processed.
-
-4. **Cycle Detection**:
-   - If the topological sort contains fewer vertices than the total number of vertices in the graph, there is a cycle, meaning that not all vertices could be sorted.
-
-### Time Complexity:
-- **Time Complexity**: \( O(V + E) \), where \( V \) is the number of vertices and \( E \) is the number of edges. The algorithm visits every vertex and edge once.
-  
-### Space Complexity:
-- **Space Complexity**: \( O(V) \), since we store the in-degree for each vertex and use a queue for vertices with in-degree 0.
-
-### Key Points:
-- Kahn's Algorithm is used to perform topological sorting of a **DAG** using **BFS**.
-- It ensures that for every directed edge `u -> v`, vertex `u` comes before vertex `v` in the topological order.
-- It can also detect cycles, as a cycle in the graph will prevent some vertices from having in-degree 0, causing the algorithm to fail.
-
-<br>
-
-> ### Detect Cycle in Undirected Graph  ( [Youtube video](https://www.youtube.com/watch?v=UPfUFoWjk5w&t=402s&ab_channel=AnujBhaiya) )
-
-To detect a cycle in an **undirected graph**, you can use either **Depth-First Search (DFS)** or **Union-Find (Disjoint Set)** methods. Below, I will explain both approaches for cycle detection in undirected graphs.
-
-### 1. **Cycle Detection Using DFS**
-
-The idea behind using **DFS** for cycle detection is that if you revisit a vertex that has already been visited and it is not the parent of the current vertex, then a cycle exists.
-
-#### Steps:
-- Perform DFS traversal.
-- Keep track of visited nodes.
-- If you find a neighbor that has been visited and is not the parent of the current node, a cycle is detected.
-
-#### Code:
-
-```javascript
-class Graph {
-    constructor() {
-        this.adjacencyList = {};
-    }
-
-    addVertex(vertex) {
-        if (!this.adjacencyList[vertex]) {
-            this.adjacencyList[vertex] = [];
-        }
-    }
-
-    addEdge(vertex1, vertex2) {
-        if (this.adjacencyList[vertex1] && this.adjacencyList[vertex2]) {
-            this.adjacencyList[vertex1].push(vertex2);
-            this.adjacencyList[vertex2].push(vertex1);  // Undirected graph, so add edge in both directions
-        }
-    }
-
-    // Detect cycle using DFS
-    hasCycleDFS() {
-        const visited = new Set();  // Track visited vertices
-
-        const dfs = (vertex, parent) => {
-            visited.add(vertex);  // Mark the current vertex as visited
-
-            // Traverse neighbors
-            for (let neighbor of this.adjacencyList[vertex]) {
-                if (!visited.has(neighbor)) {
-                    if (dfs(neighbor, vertex)) return true;  // Recursively visit unvisited neighbors
-                }
-                // If the neighbor is visited and it's not the parent, we have a cycle
-                else if (neighbor !== parent) {
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        // Loop through all vertices to handle disconnected components
-        for (let vertex in this.adjacencyList) {
-            if (!visited.has(vertex)) {
-                if (dfs(vertex, null)) return true;  // Start DFS from unvisited vertex
-            }
-        }
-
-        return false;  // No cycle found
-    }
-
-    // Display the graph
-    display() {
-        for (let vertex in this.adjacencyList) {
-            console.log(vertex, ":", this.adjacencyList[vertex]);
-        }
-    }
-}
-
-// Example usage
-let myGraph = new Graph();
-myGraph.addVertex("0");
-myGraph.addVertex("1");
-myGraph.addVertex("2");
-myGraph.addVertex("3");
-
-myGraph.addEdge("0", "1");
-myGraph.addEdge("1", "2");
-myGraph.addEdge("2", "0");  // Creates a cycle
-myGraph.addEdge("1", "3");
-
-console.log("Graph display:");
-myGraph.display();
-
-console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected **Output**: true
-```
-
-### **Explanation**:
-1. **DFS Traversal**: The DFS traversal starts from a vertex, marks it as visited, and then recursively explores its neighbors.
-2. **Cycle Detection**: During traversal, if you encounter a visited vertex that is not the parent of the current vertex, it indicates a cycle.
-3. **Handling Disconnected Graphs**: The algorithm checks each component in case the graph is disconnected.
-
-### Time Complexity:
-- **Time Complexity**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges, because we visit each vertex and edge once.
-
-<br>
-
-> ### Detect Cycle in directed Graph ( [Youtube video](https://www.youtube.com/watch?v=GLxfoaZlRqs&t=64s&ab_channel=AnujBhaiya) )
-
-To detect a cycle in a **directed graph**, there are two common methods:
-
-1. **Depth-First Search (DFS) with Recursion Stack**
-2. **Kahn's Algorithm (Using Topological Sorting)**
-
-### 1. **Cycle Detection Using DFS (Recursion Stack)**
-
-In this method, we use a modified DFS traversal where we keep track of the recursion stack (the vertices currently being explored). If we revisit a vertex that is already in the recursion stack, it means there is a back edge, and hence a cycle exists.
-
-#### Steps:
-1. Perform DFS traversal of the graph.
-2. Maintain a `visited` array to track whether a vertex has been visited.
-3. Maintain a `recStack` (recursion stack) array to track vertices in the current path of recursion.
-4. If you find a vertex that is already in the recursion stack, a cycle is detected.
-
-#### Code:
-
-```javascript
-class Graph {
-    constructor() {
-        this.adjacencyList = {};
-    }
-
-    addVertex(vertex) {
-        if (!this.adjacencyList[vertex]) {
-            this.adjacencyList[vertex] = [];
-        }
-    }
-
-    addEdge(vertex1, vertex2) {
-        if (this.adjacencyList[vertex1]) {
-            this.adjacencyList[vertex1].push(vertex2);  // Directed edge from vertex1 to vertex2
-        }
-    }
-
-    // Detect cycle using DFS
-    hasCycleDFS() {
-        const visited = {};  // Track visited vertices
-        const recStack = {}; // Track vertices in the current recursion stack
-
-        // Helper function for DFS traversal
-        const dfs = (vertex) => {
-            if (!visited[vertex]) {
-                visited[vertex] = true;
-                recStack[vertex] = true;
-
-                // Traverse neighbors
-                for (let neighbor of this.adjacencyList[vertex]) {
-                    // If the neighbor is not visited, recursively visit it
-                    if (!visited[neighbor] && dfs(neighbor)) {
-                        return true;
-                    }
-                    // If the neighbor is in the recursion stack, we found a cycle
-                    else if (recStack[neighbor]) {
-                        return true;
-                    }
-                }
-            }
-
-            recStack[vertex] = false;  // Remove vertex from recursion stack when done
-            return false;
-        };
-
-        // Check each vertex for a cycle
-        for (let vertex in this.adjacencyList) {
-            if (dfs(vertex)) return true;
-        }
-
-        return false;  // No cycle found
-    }
-
-    // Display the graph
-    display() {
-        for (let vertex in this.adjacencyList) {
-            console.log(vertex, ":", this.adjacencyList[vertex]);
-        }
-    }
-}
-
-// Example usage
-let myGraph = new Graph();
-myGraph.addVertex("A");
-myGraph.addVertex("B");
-myGraph.addVertex("C");
-myGraph.addVertex("D");
-
-myGraph.addEdge("A", "B");
-myGraph.addEdge("B", "C");
-myGraph.addEdge("C", "A");  // This edge creates a cycle
-myGraph.addEdge("B", "D");
-
-console.log("Graph display:");
-myGraph.display();
-
-console.log("Cycle detected using DFS:", myGraph.hasCycleDFS());  // Expected **Output**: true
-```
-
-### **Explanation**:
-1. **DFS Traversal**: For each vertex, the algorithm performs a DFS to explore all its neighbors recursively.
-2. **Recursion Stack**: The recursion stack helps keep track of the vertices currently being visited. If a back edge is found (i.e., revisiting a vertex that’s still in the recursion stack), a cycle is detected.
-3. **Cycle Detection**: If any back edge is found during DFS traversal, a cycle exists in the graph.
-
-### Time Complexity:
-- **Time Complexity**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges. The graph is traversed once for DFS.
-  
-
-
-### 2. **Cycle Detection Using Kahn's Algorithm (Topological Sorting)**
-
-Another approach is to use **Kahn's Algorithm**, which is based on topological sorting. The idea is that if the graph contains a cycle, it is **impossible** to create a valid topological order. So, if you cannot sort all the vertices, a cycle exists.
-
-#### Steps:
-1. **In-degree Calculation**: Calculate the in-degree (number of incoming edges) of each vertex.
-2. **Queue Initialization**: Enqueue all vertices with in-degree 0 (starting points).
-3. **Process Queue**: Dequeue a vertex, reduce the in-degree of its neighbors by 1, and enqueue any neighbors whose in-degree becomes 0.
-4. **Cycle Detection**: If not all vertices can be processed (i.e., if the topological order doesn’t include all vertices), a cycle exists.
-
-#### Code:
-
-```javascript
-class Graph {
-    constructor() {
-        this.adjacencyList = {};
-    }
-
-    addVertex(vertex) {
-        if (!this.adjacencyList[vertex]) {
-            this.adjacencyList[vertex] = [];
-        }
-    }
-
-    addEdge(vertex1, vertex2) {
-        if (this.adjacencyList[vertex1]) {
-            this.adjacencyList[vertex1].push(vertex2);  // Directed edge from vertex1 to vertex2
-        }
-    }
-
-    // Detect cycle using Kahn's Algorithm (Topological Sort)
-    hasCycleKahns() {
-        const inDegree = {};  // Track in-degree of each vertex
-        const queue = [];     // Queue for vertices with in-degree 0
-        let visitedCount = 0; // Count of vertices added to the topological sort
-
-        // Initialize in-degree of each vertex
-        for (let vertex in this.adjacencyList) {
-            inDegree[vertex] = 0;
-        }
-
-        // Calculate in-degree of each vertex
-        for (let vertex in this.adjacencyList) {
-            this.adjacencyList[vertex].forEach(neighbor => {
-                inDegree[neighbor] = (inDegree[neighbor] || 0) + 1;
-            });
-        }
-
-        // Enqueue all vertices with in-degree 0
-        for (let vertex in inDegree) {
-            if (inDegree[vertex] === 0) {
-                queue.push(vertex);
-            }
-        }
-
-        // Process the vertices in the queue
-        while (queue.length > 0) {
-            const currentVertex = queue.shift();
-            visitedCount++;
-
-            // Reduce in-degree of neighbors and enqueue if their in-degree becomes 0
-            this.adjacencyList[currentVertex].forEach(neighbor => {
-                inDegree[neighbor]--;
-                if (inDegree[neighbor] === 0) {
-                    queue.push(neighbor);
-                }
-            });
-        }
-
-        // If not all vertices are visited, the graph has a cycle
-        return visitedCount !== Object.keys(this.adjacencyList).length;
-    }
-
-    // Display the graph
-    display() {
-        for (let vertex in this.adjacencyList) {
-            console.log(vertex, ":", this.adjacencyList[vertex]);
-        }
-    }
-}
-
-// Example usage
-let myGraph = new Graph();
-myGraph.addVertex("A");
-myGraph.addVertex("B");
-myGraph.addVertex("C");
-myGraph.addVertex("D");
-
-myGraph.addEdge("A", "B");
-myGraph.addEdge("B", "C");
-myGraph.addEdge("C", "A");  // This edge creates a cycle
-myGraph.addEdge("B", "D");
-
-console.log("Graph display:");
-myGraph.display();
-
-console.log("Cycle detected using Kahn's Algorithm:", myGraph.hasCycleKahns());  // Expected **Output**: true
-```
-
-### **Explanation**:
-1. **In-degree Calculation**: First, the in-degree (number of incoming edges) of each vertex is calculated.
-2. **Processing Queue**: All vertices with in-degree 0 are enqueued. These are vertices with no dependencies, so they can be safely processed.
-3. **Cycle Detection**: As you process vertices, you reduce the in-degrees of their neighbors. If you cannot process all vertices, it means there are some vertices with in-degrees that never reached 0, indicating a cycle.
-
-### Time Complexity:
-- **Time Complexity**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
-
-
-
-### Summary:
-
-- **DFS with Recursion Stack**: Detects a cycle by tracking vertices in the current recursion stack. It’s easier to understand and implement.
-- **Kahn's Algorithm (Topological Sort)**: Uses in-degree calculations and topological sorting to detect cycles. If not all vertices can be processed, a cycle exists.
-
-Both methods are effective for detecting cycles in **directed graphs**, but they work differently depending on the context of your problem.
-
-
-> ### shortest path in DAG ( [Youtube video](https://youtu.be/BNpWnXUhMC4?si=m_JJ4olsiBTj8fdL) )
-
-To find the **shortest path in a Directed Acyclic Graph (DAG)**, we can use **Topological Sorting** combined with **dynamic programming**. Since the graph is acyclic, topological sorting ensures that we process each vertex before its descendants, allowing us to calculate the shortest paths in a single pass.
-
-### Steps:
-1. **Topologically sort the graph**: This gives us a linear ordering of the vertices.
-2. **Relax edges**: Once we have the topological order, iterate over the vertices in this order and update the shortest distance to each of its neighbors.
-
-### Algorithm:
-1. **Initialize distances**: Set the distance to the source node to 0 and to all other nodes to infinity.
-2. **Topological sort**: Perform a topological sort of the DAG.
-3. **Relax edges**: For each vertex in topological order, update the distance to its neighbors if a shorter path is found.
-4. **Output shortest paths**: After processing all vertices, the shortest distances from the source node to all other nodes will be computed.
-
-### Code:
-
-```javascript
-class Graph {
-    constructor(vertices) {
-        this.vertices = vertices;
-        this.adjacencyList = new Map();
-    }
-
-    addVertex(vertex) {
-        this.adjacencyList.set(vertex, []);
-    }
-
-    addEdge(vertex1, vertex2, weight) {
-        this.adjacencyList.get(vertex1).push({ node: vertex2, weight: weight });
-    }
-
-    // Helper function for topological sorting using DFS
-    topologicalSortUtil(vertex, visited, stack) {
-        visited[vertex] = true;
-
-        // Visit all neighbors of the current vertex
-        let neighbors = this.adjacencyList.get(vertex);
-        for (let neighbor of neighbors) {
-            if (!visited[neighbor.node]) {
-                this.topologicalSortUtil(neighbor.node, visited, stack);
-            }
-        }
-
-        // Push the current vertex to the stack after visiting all neighbors
-        stack.push(vertex);
-    }
-
-    // Topological sort of the graph
-    topologicalSort() {
-        let stack = [];
-        let visited = {};
-        for (let i of this.adjacencyList.keys()) {
-            visited[i] = false;
-        }
-
-        // Call the recursive helper function for topological sort for each vertex
-        for (let i of this.adjacencyList.keys()) {
-            if (!visited[i]) {
-                this.topologicalSortUtil(i, visited, stack);
-            }
-        }
-
-        // Return stack in reverse order
-        return stack.reverse();
-    }
-
-    // Shortest path in DAG
-    shortestPath(source) {
-        let stack = this.topologicalSort();
-        let distances = {};
-
-        // Initialize distances to all vertices as infinity, and the source vertex as 0
-        for (let vertex of this.adjacencyList.keys()) {
-            distances[vertex] = Infinity;
-        }
-        distances[source] = 0;
-
-        // Process vertices in topological order
-        while (stack.length) {
-            let currentVertex = stack.shift();  // Get the next vertex from the stack
-
-            // Update the distance of all adjacent vertices of the dequeued vertex
-            if (distances[currentVertex] !== Infinity) {
-                for (let neighbor of this.adjacencyList.get(currentVertex)) {
-                    let newDistance = distances[currentVertex] + neighbor.weight;
-                    if (newDistance < distances[neighbor.node]) {
-                        distances[neighbor.node] = newDistance;
-                    }
-                }
-            }
-        }
-
-        return distances;
-    }
-}
-
-// Example usage
-let graph = new Graph(6);
-graph.addVertex("0");
-graph.addVertex("1");
-graph.addVertex("2");
-graph.addVertex("3");
-graph.addVertex("4");
-graph.addVertex("5");
-
-graph.addEdge("0", "1", 5);
-graph.addEdge("0", "2", 3);
-graph.addEdge("1", "3", 6);
-graph.addEdge("1", "2", 2);
-graph.addEdge("2", "4", 4);
-graph.addEdge("2", "5", 2);
-graph.addEdge("2", "3", 7);
-graph.addEdge("3", "5", 1);
-graph.addEdge("4", "5", 6);
-
-let shortestPaths = graph.shortestPath("0");
-console.log("Shortest distances from source vertex 0:", shortestPaths);
-```
-
-### **Explanation**:
-
-1. **Graph Initialization**: The graph is represented using an adjacency list where each vertex has a list of neighbors with associated weights.
-2. **Topological Sort**: A helper function `topologicalSortUtil` is used to recursively perform a DFS and push vertices onto a stack in post-order. The vertices are processed in the reverse order of the stack to guarantee that each vertex is processed before its descendants.
-3. **Relaxation**: For each vertex in the topologically sorted order, we check each neighbor and update its shortest distance using dynamic programming.
-4. **Result**: The `shortestPath` function computes the shortest distances from the source vertex to every other vertex in the DAG.
-
-### Example **Output**:
-```
-Shortest distances from source vertex 0:
-{ '0': 0, '1': 5, '2': 3, '3': 11, '4': 7, '5': 10 }
-```
-
-### Time Complexity:
-- **Topological Sorting**: \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
-- **Relaxation**: \(O(V + E)\), since we process each vertex and its adjacent edges once.
-
-Thus, the total time complexity is \(O(V + E)\).
-
-### Notes:
-- **No negative-weight cycles**: Since the graph is a DAG, we don’t have to worry about negative-weight cycles, making this approach efficient and straightforward.
-- **Applicability**: This algorithm is ideal for tasks scheduling, dependency resolution, and other problems where tasks are represented as a DAG.
-
-
-> ### Prim's Algorithm | Minimum Spanning Tree  ( [Youtube video](https://www.youtube.com/watch?v=kXiqvMykeJA&t=214s&ab_channel=AnujBhaiya) )
-
-**Prim's Algorithm** is a greedy algorithm that is used to find the **Minimum Spanning Tree (MST)** for a weighted, undirected graph. The Minimum Spanning Tree of a graph is a subset of edges that connects all vertices together without any cycles and with the minimum possible total edge weight.
-
-### Steps of Prim's Algorithm:
-1. **Start with any vertex**: Begin with an arbitrary vertex as part of the MST.
-2. **Grow the MST**: At each step, add the smallest edge that connects a vertex in the MST to a vertex outside the MST.
-3. **Repeat**: Continue the process until all vertices are included in the MST.
-
-### Key Points:
-- The algorithm maintains two sets of vertices:
-  1. **Vertices included in the MST** (already processed).
-  2. **Vertices not yet included** (yet to be processed).
-- At each iteration, Prim's algorithm picks the vertex with the minimum edge weight that connects a vertex in the MST with a vertex outside the MST.
-
-### Algorithm:
-1. Create a **min-heap** or use a priority queue to always pick the smallest edge weight.
-2. Keep a **visited** set to track the vertices already added to the MST.
-3. Keep updating the edge weights of adjacent vertices and choose the smallest one.
-
-### Prim's Algorithm in JavaScript:
-
-```javascript
-class MinHeap {
-    constructor() {
-        this.heap = [];
-    }
-
-    insert(node, key) {
-        this.heap.push({ node, key });
-        this.bubbleUp();
-    }
-
-    bubbleUp() {
-        let index = this.heap.length - 1;
-        while (index > 0) {
-            let element = this.heap[index];
-            let parentIndex = Math.floor((index - 1) / 2);
-            let parent = this.heap[parentIndex];
-            if (element.key >= parent.key) break;
-            this.heap[index] = parent;
-            this.heap[parentIndex] = element;
-            index = parentIndex;
-        }
-    }
-
-    extractMin() {
-        const min = this.heap[0];
-        const end = this.heap.pop();
-        if (this.heap.length > 0) {
-            this.heap[0] = end;
-            this.sinkDown(0);
-        }
-        return min;
-    }
-
-    sinkDown(index) {
-        const length = this.heap.length;
-        const element = this.heap[index];
-        while (true) {
-            let leftChildIndex = 2 * index + 1;
-            let rightChildIndex = 2 * index + 2;
-            let leftChild, rightChild;
-            let swap = null;
-
-            if (leftChildIndex < length) {
-                leftChild = this.heap[leftChildIndex];
-                if (leftChild.key < element.key) {
-                    swap = leftChildIndex;
-                }
-            }
-
-            if (rightChildIndex < length) {
-                rightChild = this.heap[rightChildIndex];
-                if (
-                    (swap === null && rightChild.key < element.key) ||
-                    (swap !== null && rightChild.key < leftChild.key)
-                ) {
-                    swap = rightChildIndex;
-                }
-            }
-
-            if (swap === null) break;
-            this.heap[index] = this.heap[swap];
-            this.heap[swap] = element;
-            index = swap;
-        }
-    }
-
-    isEmpty() {
-        return this.heap.length === 0;
-    }
-}
-
-class Graph {
-    constructor(vertices) {
-        this.vertices = vertices;
-        this.adjacencyList = new Map();
-    }
-
-    addVertex(vertex) {
-        this.adjacencyList.set(vertex, []);
-    }
-
-    addEdge(vertex1, vertex2, weight) {
-        this.adjacencyList.get(vertex1).push({ node: vertex2, weight });
-        this.adjacencyList.get(vertex2).push({ node: vertex1, weight });
-    }
-
-    // Prim's algorithm for Minimum Spanning Tree (MST)
-    primMST() {
-        const minHeap = new MinHeap();
-        const mstSet = new Set();  // Tracks vertices included in the MST
-        const parent = {};         // Stores the MST edges
-        const key = {};            // Stores the minimum weight edge for each vertex
-
-        // Initialize the key of all vertices to infinity and pick the first vertex as the starting point
-        for (let vertex of this.adjacencyList.keys()) {
-            key[vertex] = Infinity;
-            parent[vertex] = null;
-        }
-
-        // Start from an arbitrary vertex (let's pick the first one)
-        let startVertex = [...this.adjacencyList.keys()][0];
-        key[startVertex] = 0;
-        minHeap.insert(startVertex, 0);
-
-        while (!minHeap.isEmpty()) {
-            let { node: currentVertex } = minHeap.extractMin();
-
-            // If the current vertex is already in the MST set, skip it
-            if (mstSet.has(currentVertex)) continue;
-
-            // Add the current vertex to the MST set
-            mstSet.add(currentVertex);
-
-            // Process all the adjacent vertices of the current vertex
-            let neighbors = this.adjacencyList.get(currentVertex);
-            for (let neighbor of neighbors) {
-                let { node: adjacentVertex, weight } = neighbor;
-
-                // If adjacent vertex is not in the MST and the current edge is the smallest so far, update the key
-                if (!mstSet.has(adjacentVertex) && weight < key[adjacentVertex]) {
-                    key[adjacentVertex] = weight;
-                    parent[adjacentVertex] = currentVertex;
-                    minHeap.insert(adjacentVertex, weight);
-                }
-            }
-        }
-
-        // Print the resulting MST
-        for (let vertex in parent) {
-            if (parent[vertex] !== null) {
-                console.log(`Edge: ${parent[vertex]} - ${vertex}, Weight: ${key[vertex]}`);
-            }
-        }
-    }
-}
-
-// Example Usage
-let graph = new Graph(5);
-graph.addVertex('A');
-graph.addVertex('B');
-graph.addVertex('C');
-graph.addVertex('D');
-graph.addVertex('E');
-
-graph.addEdge('A', 'B', 2);
-graph.addEdge('A', 'C', 3);
-graph.addEdge('B', 'C', 1);
-graph.addEdge('B', 'D', 1);
-graph.addEdge('C', 'D', 5);
-graph.addEdge('B', 'E', 4);
-graph.addEdge('D', 'E', 2);
-
-graph.primMST();
-```
-
-### **Output**:
-
-```
-Edge: A - B, Weight: 2
-Edge: B - C, Weight: 1
-Edge: B - D, Weight: 1
-Edge: D - E, Weight: 2
-```
-
-### **Explanation**:
-
-1. **Graph Representation**: The graph is represented as an adjacency list, where each vertex stores a list of neighbors and the weight of the edge connecting them.
-   
-2. **Priority Queue (Min-Heap)**: Prim's algorithm uses a **min-heap** to efficiently extract the vertex with the smallest edge weight. In each iteration, it picks the vertex with the smallest key value that has not yet been added to the MST.
-   
-3. **Key and Parent Arrays**: 
-   - The `key` array keeps track of the minimum edge weight for each vertex.
-   - The `parent` array keeps track of the parent of each vertex in the MST, helping us reconstruct the tree.
-
-4. **MST Construction**: The algorithm starts from an arbitrary vertex and grows the MST by adding the smallest edge connecting a new vertex to the tree at each step.
-
-### Time Complexity:
-
-- **Min-Heap operations**: Insert and extract-min operations take \(O(\log V)\) time.
-- **Total Complexity**: \(O((V + E) \log V)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
-
-### Notes:
-- Prim's algorithm is efficient for dense graphs.
-- It’s similar to **Dijkstra’s algorithm**, but instead of finding the shortest paths from a source to all vertices, it finds the minimum spanning tree.
-
-
-
-> ### Dijkstra's Algorithm | Single Source Shortest Path Algorithm in Graph  ( [Youtube video](https://www.youtube.com/watch?v=wjxCG6dOwcY&ab_channel=AnujBhaiya) )
-
-
-**Dijkstra's Algorithm** is a greedy algorithm used to find the **shortest path** from a **single source vertex** to all other vertices in a weighted graph. Unlike Prim's algorithm (which is used for Minimum Spanning Trees), Dijkstra's algorithm finds the shortest path between the source node and all other nodes.
-
-### Key Concepts:
-- **Single Source Shortest Path**: It calculates the minimum cost (shortest path) from a starting vertex (source) to all other vertices.
-- **Non-negative edge weights**: Dijkstra’s algorithm assumes that all edge weights are non-negative. For graphs with negative weights, **Bellman-Ford algorithm** is used.
-- **Priority Queue/Min-Heap**: This helps to efficiently get the next vertex with the minimum distance.
-
-### How Dijkstra's Algorithm Works:
-1. **Initialize distances**: Set the distance to the source vertex to 0, and to all other vertices as infinity.
-2. **Use a priority queue (min-heap)**: This is used to always process the vertex with the smallest known distance.
-3. **Relax edges**: For each vertex, check all of its neighbors. If the distance through the current vertex is smaller than the previously known distance, update the distance.
-4. **Repeat until all vertices are processed**: Continue until the priority queue is empty.
-
-### Algorithm:
-
-1. **Initialization**:
-   - Set the distance of the source vertex to 0 and all other vertices to infinity.
-   - Insert the source vertex into a priority queue (min-heap).
-
-2. **Processing**:
-   - Extract the vertex with the minimum distance from the priority queue.
-   - Update the distances to its neighbors if a shorter path is found (relax the edges).
-   - Insert the updated neighbors into the priority queue.
-
-3. **Termination**:
-   - The algorithm finishes when all vertices have been processed and their shortest distances have been found.
-
-### Dijkstra's Algorithm in JavaScript:
-
-```javascript
-class MinHeap {
-    constructor() {
-        this.heap = [];
-    }
-
-    insert(node, distance) {
-        this.heap.push({ node, distance });
-        this.bubbleUp();
-    }
-
-    bubbleUp() {
-        let index = this.heap.length - 1;
-        while (index > 0) {
-            let element = this.heap[index];
-            let parentIndex = Math.floor((index - 1) / 2);
-            let parent = this.heap[parentIndex];
-            if (element.distance >= parent.distance) break;
-            this.heap[index] = parent;
-            this.heap[parentIndex] = element;
-            index = parentIndex;
-        }
-    }
-
-    extractMin() {
-        const min = this.heap[0];
-        const end = this.heap.pop();
-        if (this.heap.length > 0) {
-            this.heap[0] = end;
-            this.sinkDown(0);
-        }
-        return min;
-    }
-
-    sinkDown(index) {
-        const length = this.heap.length;
-        const element = this.heap[index];
-        while (true) {
-            let leftChildIndex = 2 * index + 1;
-            let rightChildIndex = 2 * index + 2;
-            let leftChild, rightChild;
-            let swap = null;
-
-            if (leftChildIndex < length) {
-                leftChild = this.heap[leftChildIndex];
-                if (leftChild.distance < element.distance) {
-                    swap = leftChildIndex;
-                }
-            }
-
-            if (rightChildIndex < length) {
-                rightChild = this.heap[rightChildIndex];
-                if (
-                    (swap === null && rightChild.distance < element.distance) ||
-                    (swap !== null && rightChild.distance < leftChild.distance)
-                ) {
-                    swap = rightChildIndex;
-                }
-            }
-
-            if (swap === null) break;
-            this.heap[index] = this.heap[swap];
-            this.heap[swap] = element;
-            index = swap;
-        }
-    }
-
-    isEmpty() {
-        return this.heap.length === 0;
-    }
-}
-
-class Graph {
-    constructor() {
-        this.adjacencyList = new Map();
-    }
-
-    addVertex(vertex) {
-        this.adjacencyList.set(vertex, []);
-    }
-
-    addEdge(vertex1, vertex2, weight) {
-        this.adjacencyList.get(vertex1).push({ node: vertex2, weight });
-        this.adjacencyList.get(vertex2).push({ node: vertex1, weight });  // Remove this for directed graphs
-    }
-
-    // Dijkstra's Algorithm
-    dijkstra(source) {
-        let distances = {};
-        let previous = {};
-        let minHeap = new MinHeap();
-
-        // Initialize distances and previous
-        for (let vertex of this.adjacencyList.keys()) {
-            distances[vertex] = Infinity;
-            previous[vertex] = null;
-        }
-        distances[source] = 0;
-        minHeap.insert(source, 0);
-
-        // While the min-heap is not empty
-        while (!minHeap.isEmpty()) {
-            let { node: currentVertex, distance: currentDistance } = minHeap.extractMin();
-
-            // If the current distance is greater than the recorded distance, skip
-            if (currentDistance > distances[currentVertex]) continue;
-
-            // Process all neighbors of the current vertex
-            for (let neighbor of this.adjacencyList.get(currentVertex)) {
-                let distance = currentDistance + neighbor.weight;
-
-                // Only consider this path if it's shorter
-                if (distance < distances[neighbor.node]) {
-                    distances[neighbor.node] = distance;
-                    previous[neighbor.node] = currentVertex;
-                    minHeap.insert(neighbor.node, distance);
-                }
-            }
-        }
-
-        return { distances, previous };
-    }
-
-    // Helper function to print the shortest path from source to target
-    printPath(previous, target) {
-        let path = [];
-        let currentNode = target;
-        while (currentNode !== null) {
-            path.unshift(currentNode);
-            currentNode = previous[currentNode];
-        }
-        console.log(`Shortest path to ${target}:`, path.join(" -> "));
-    }
-}
-
-// Example Usage
-let graph = new Graph();
-graph.addVertex("A");
-graph.addVertex("B");
-graph.addVertex("C");
-graph.addVertex("D");
-graph.addVertex("E");
-
-graph.addEdge("A", "B", 4);
-graph.addEdge("A", "C", 2);
-graph.addEdge("B", "C", 5);
-graph.addEdge("B", "D", 10);
-graph.addEdge("C", "D", 3);
-graph.addEdge("C", "E", 8);
-graph.addEdge("D", "E", 1);
-
-let result = graph.dijkstra("A");
-console.log("Distances:", result.distances);  // Shortest distances from source to all vertices
-graph.printPath(result.previous, "D");        // Print the shortest path from A to D
-```
-
-### **Output**:
-
-```
-Distances: { A: 0, B: 4, C: 2, D: 5, E: 6 }
-Shortest path to D: A -> C -> D
-```
-
-### **Explanation**:
-- **Graph Representation**: The graph is represented using an adjacency list, where each vertex stores a list of its neighbors along with the edge weight.
-  
-- **Dijkstra's Algorithm**:
-  1. **Distances**: A dictionary keeps track of the shortest distance to each vertex from the source.
-  2. **Min-Heap**: The min-heap (or priority queue) allows for efficient extraction of the vertex with the smallest distance.
-  3. **Relaxation**: For each vertex, the distances to its neighbors are updated (relaxed) if a shorter path is found.
-  4. **Previous Array**: This keeps track of the parent vertex for each node, allowing the shortest path to be reconstructed later.
-
-### Time Complexity:
-- **Min-Heap operations**: Insertion and extraction from the min-heap take \(O(\log V)\).
-- **Relaxation**: Each vertex and its adjacent edges are processed once, taking \(O(V + E)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
-  
-Total time complexity: \(O((V + E) \log V)\).
-
-### Notes:
-- **Directed/Undirected Graph**: Dijkstra's algorithm works for both directed and undirected graphs.
-- **Non-negative weights**: It requires non-negative edge weights. If the graph contains negative weights, use the **Bellman-Ford algorithm**.
-- **Applications**: Dijkstra’s algorithm is widely used in network routing, mapping systems, and other shortest path problems.
-
-
-> ### Kosaraju's Algorithm for Strongly Connected Components   ( [Youtube video](https://www.youtube.com/watch?v=ndfjV_yHpgQ&ab_channel=CodeHelp-byBabbar) )
-
-
-**Kosaraju's Algorithm** is an efficient method for finding **Strongly Connected Components (SCCs)** in a directed graph. A **Strongly Connected Component** is a subgraph in which every vertex is reachable from every other vertex. The algorithm works in **O(V + E)** time, where \(V\) is the number of vertices and \(E\) is the number of edges.
-
-### Steps of Kosaraju's Algorithm:
-
-1. **Perform a Depth First Search (DFS)** on the original graph** and maintain a stack** of vertices in the order of their **finishing times** (when DFS finishes processing a vertex, push it to the stack). This ensures that vertices are processed in a decreasing order of their finishing times.
-   
-2. **Transpose the graph** (reverse the direction of all edges). This step creates a new graph where all edges are reversed.
-
-3. **Perform DFS on the transposed graph** in the order of the vertices in the stack. The vertices processed together during this DFS form a Strongly Connected Component (SCC).
-
-### Kosaraju's Algorithm Steps in Detail:
-
-1. **DFS on Original Graph**:
-   - Run a DFS on the original graph to compute the **finishing order** of vertices. This is done by pushing the vertices onto a stack when their DFS finishes.
-
-2. **Transpose the Graph**:
-   - Reverse the directions of all edges in the graph. This allows us to explore the SCCs in the reversed graph.
-
-3. **DFS on Transposed Graph**:
-   - Run DFS on the transposed graph, but in the **order defined by the stack** from the first step. Each DFS call that starts will find one SCC.
-
-### Kosaraju's Algorithm in JavaScript:
-
-```javascript
-class Graph {
-    constructor(vertices) {
-        this.vertices = vertices;
-        this.adjacencyList = new Map();
-    }
-
-    addVertex(vertex) {
-        this.adjacencyList.set(vertex, []);
-    }
-
-    addEdge(v, w) {
-        this.adjacencyList.get(v).push(w);
-    }
-
-    // Step 1: Perform DFS and push vertices in the stack in order of finishing time
-    fillOrder(v, visited, stack) {
-        visited[v] = true;
-        for (let neighbor of this.adjacencyList.get(v)) {
-            if (!visited[neighbor]) {
-                this.fillOrder(neighbor, visited, stack);
-            }
-        }
-        stack.push(v);  // Push vertex to the stack after it's fully processed
-    }
-
-    // Step 2: Create a transposed graph (reverse all edges)
-    getTranspose() {
-        let g = new Graph(this.vertices);
-        for (let vertex of this.adjacencyList.keys()) {
-            g.addVertex(vertex);
-        }
-        for (let vertex of this.adjacencyList.keys()) {
-            for (let neighbor of this.adjacencyList.get(vertex)) {
-                g.addEdge(neighbor, vertex);  // Reverse the edge
-            }
-        }
-        return g;
-    }
-
-    // Step 3: Perform DFS for each component in the transposed graph
-    dfs(v, visited, component) {
-        visited[v] = true;
-        component.push(v);  // Collect vertices of this SCC
-        for (let neighbor of this.adjacencyList.get(v)) {
-            if (!visited[neighbor]) {
-                this.dfs(neighbor, visited, component);
-            }
-        }
-    }
-
-    // Main function to find and print all strongly connected components (SCCs)
-    kosaraju() {
-        let stack = [];
-        let visited = {};
-
-        // Step 1: Mark all vertices as not visited
-        for (let vertex of this.adjacencyList.keys()) {
-            visited[vertex] = false;
-        }
-
-        // Step 1: Perform DFS to fill the stack with vertices in finishing order
-        for (let vertex of this.adjacencyList.keys()) {
-            if (!visited[vertex]) {
-                this.fillOrder(vertex, visited, stack);
-            }
-        }
-
-        // Step 2: Create the transposed graph
-        let transposedGraph = this.getTranspose();
-
-        // Step 3: Mark all vertices as not visited for DFS on the transposed graph
-        for (let vertex of this.adjacencyList.keys()) {
-            visited[vertex] = false;
-        }
-
-        // Step 4: Now process all vertices in the order defined by the stack
-        let stronglyConnectedComponents = [];
-        while (stack.length > 0) {
-            let vertex = stack.pop();
-
-            if (!visited[vertex]) {
-                let component = [];
-                transposedGraph.dfs(vertex, visited, component);
-                stronglyConnectedComponents.push(component);
-            }
-        }
-
-        return stronglyConnectedComponents;
-    }
-}
-
-// Example usage:
-let g = new Graph(5);
-g.addVertex(0);
-g.addVertex(1);
-g.addVertex(2);
-g.addVertex(3);
-g.addVertex(4);
-
-g.addEdge(0, 2);
-g.addEdge(2, 1);
-g.addEdge(1, 0);
-g.addEdge(0, 3);
-g.addEdge(3, 4);
-
-let sccs = g.kosaraju();
-console.log("Strongly Connected Components:", sccs);
-```
-
-### **Output**:
-
-```
-Strongly Connected Components: [ [ 4 ], [ 3 ], [ 0, 1, 2 ] ]
-```
-
-### **Explanation**:
-
-1. **Original DFS (fillOrder)**:
-   - We start by performing a DFS on the original graph. As each vertex finishes, we push it onto the stack. This ensures that vertices with no outgoing edges are processed first.
-   
-2. **Transpose the Graph**:
-   - In the second step, we reverse the direction of all edges. This step is crucial because it helps us "walk back" the graph and discover the SCCs.
-
-3. **DFS on the Transposed Graph**:
-   - We perform a DFS on the transposed graph, processing vertices in the reverse finishing order (from the stack). Each DFS traversal finds a strongly connected component.
-
-### Kosaraju’s Algorithm Time Complexity:
-
-- **First DFS**: \(O(V + E)\) where \(V\) is the number of vertices and \(E\) is the number of edges.
-- **Transpose the graph**: \(O(V + E)\), since reversing all edges takes linear time.
-- **Second DFS on the transposed graph**: \(O(V + E)\).
-
-Thus, the overall time complexity of Kosaraju's algorithm is **O(V + E)**.
-
-### Advantages:
-- Kosaraju’s algorithm is simple and efficient for finding all SCCs in a directed graph.
-  
-### Applications:
-- **Web crawlers**: Finding groups of interconnected websites.
-- **Graph theory problems**: Identifying modules or circular dependencies in large graphs.
-- **Social networks**: Analyzing groups of users who frequently interact with each other.
-
-Kosaraju's algorithm is an elegant solution for decomposing a directed graph into strongly connected components and can be easily implemented using depth-first search.
-
-
-> ### Bellman Ford Algorithm | Negative Weight Cycle Detection  ( [Youtube video](https://www.youtube.com/watch?v=RiWE52X5wdQ&ab_channel=AnujBhaiya) )
-
-**Bellman-Ford Algorithm** is a single-source shortest path algorithm that computes the shortest paths from a source vertex to all other vertices in a graph. It is more versatile than Dijkstra's algorithm because it can handle **graphs with negative weight edges**. However, it is slower with a time complexity of \(O(V \cdot E)\), where \(V\) is the number of vertices and \(E\) is the number of edges.
-
-### Key Features:
-- **Negative weights**: Bellman-Ford can handle graphs with negative weights, which makes it suitable for graphs where the cost of an edge can decrease the total path length.
-- **Negative weight cycles**: If a graph contains a **negative weight cycle**, Bellman-Ford can detect it. A negative weight cycle is a cycle whose total weight (sum of edge weights) is negative, and in such cases, the shortest path is not well-defined.
-
-### Steps of Bellman-Ford Algorithm:
-1. **Initialize distances**: Set the distance to the source vertex to 0 and all other vertices to infinity.
-2. **Relax all edges \(V - 1\) times**: For each vertex, iterate over all edges and update the distance if a shorter path is found.
-3. **Detect negative weight cycles**: After \(V - 1\) iterations, check one more time to see if any distance can still be updated. If any edge can still be relaxed, it means there is a negative weight cycle in the graph.
-
-### Bellman-Ford Algorithm in JavaScript:
-
-```javascript
-class Graph {
-    constructor(vertices) {
-        this.vertices = vertices;
-        this.edges = [];
-    }
-
-    // Add an edge from vertex u to vertex v with weight w
-    addEdge(u, v, w) {
-        this.edges.push([u, v, w]);
-    }
-
-    // Bellman-Ford Algorithm to find the shortest path from source vertex to all others
-    bellmanFord(source) {
-        let distances = Array(this.vertices).fill(Infinity);
-        distances[source] = 0;
-
-        // Step 2: Relax all edges V-1 times
-        for (let i = 1; i < this.vertices; i++) {
-            for (let [u, v, w] of this.edges) {
-                if (distances[u] !== Infinity && distances[u] + w < distances[v]) {
-                    distances[v] = distances[u] + w;
-                }
-            }
-        }
-
-        // Step 3: Check for negative weight cycles
-        for (let [u, v, w] of this.edges) {
-            if (distances[u] !== Infinity && distances[u] + w < distances[v]) {
-                console.log("Graph contains a negative weight cycle.");
-                return;
-            }
-        }
-
-        // Print shortest distances
-        this.printDistances(distances);
-    }
-
-    // Helper function to print the distance array
-    printDistances(distances) {
-        console.log("Vertex   Distance from Source");
-        for (let i = 0; i < this.vertices; i++) {
-            console.log(`${i} \t\t ${distances[i]}`);
-        }
-    }
-}
-
-// Example usage:
-let g = new Graph(5);
-g.addEdge(0, 1, -1);
-g.addEdge(0, 2, 4);
-g.addEdge(1, 2, 3);
-g.addEdge(1, 3, 2);
-g.addEdge(1, 4, 2);
-g.addEdge(3, 2, 5);
-g.addEdge(3, 1, 1);
-g.addEdge(4, 3, -3);
-
-g.bellmanFord(0);
-```
-
-### **Output**:
-
-```
-Vertex   Distance from Source
-0         0
-1         -1
-2         2
-3         -2
-4         1
-```
-
-### **Explanation**:
-- **Graph Representation**: The graph is represented using an edge list. Each edge is stored as a tuple \([u, v, w]\), where \(u\) is the start vertex, \(v\) is the end vertex, and \(w\) is the edge weight.
-  
-- **Bellman-Ford Algorithm**:
-  1. **Initialization**: The distance to the source vertex is set to 0, and all other distances are initialized to infinity.
-  2. **Relaxation**: In each iteration, we loop through all edges and attempt to "relax" them. If the current known distance to vertex \(v\) through \(u\) is shorter than the known distance, we update the distance for \(v\).
-  3. **Negative Cycle Detection**: After \(V - 1\) iterations, we perform one more iteration over all edges. If any edge can still be relaxed, it means there is a negative weight cycle.
-
-### Time Complexity:
-- **Relaxation**: The algorithm performs \(V - 1\) iterations over all \(E\) edges. Each iteration takes \(O(E)\), making the time complexity **O(V \cdot E)**.
-
-### Applications:
-- **Routing Algorithms**: Bellman-Ford is used in network routing protocols like **Routing Information Protocol (RIP)**.
-- **Currency Arbitrage**: In financial systems, Bellman-Ford can be used to detect arbitrage opportunities (which can be modeled as negative weight cycles).
-- **Graphs with Negative Weights**: When the graph contains negative weights, Bellman-Ford is a better option than Dijkstra’s algorithm.
-
-### Notes:
-- **Negative Weight Cycles**: If the graph contains a negative weight cycle, the algorithm will detect it. The presence of such a cycle makes it impossible to define the shortest path because distances can keep decreasing indefinitely.
-
-### Example of Negative Weight Cycle:
-
-If we add an edge to create a negative weight cycle, such as:
-
-```javascript
-g.addEdge(2, 4, -6);
-```
-
-Now running the algorithm would **Output**:
-
-```
-Graph contains a negative weight cycle.
-```
-
-This indicates the presence of a negative weight cycle that makes the shortest path undefined.
-
-> ### Articulation Point   ( [Youtube video](https://www.youtube.com/watch?v=jFZsDDB0-vo&ab_channel=AbdulBari) )
-
-https://www.geeksforgeeks.org/articulation-points-or-cut-vertices-in-a-graph/
-
-
-> ### Bridges in Graph
-
-In graph theory, **Bridges** (also called **cut-edges**) are edges that, when removed, increase the number of connected components in the graph. In other words, removing a bridge disconnects part of the graph, making it an important concept in network analysis for identifying vulnerable connections.
-
-### Key Concepts:
-- A **bridge** is an edge in a graph whose removal makes the graph disconnected.
-- In an undirected graph, a bridge is an edge that, if removed, increases the number of connected components.
-- Like articulation points, bridges are critical in ensuring the structural integrity of the graph.
-
-### Example:
-Consider the following graph:
-```
-   0 ---- 1 ---- 2
-    \      |
-     \     3
-      \    |
-       \   4
-        \  |
-         \ 5
-```
-In this graph:
-- The edge between vertices **1** and **2** is a bridge, because removing it will disconnect vertex 2 from the rest of the graph.
-- The edge between vertices **0** and **1** is **not** a bridge, because removing it will not disconnect the graph, as there is still a path between vertices 0 and 1 via vertex 4.
-
-### Finding Bridges Using DFS:
-
-To find all the bridges in a graph, we use a **Depth-First Search (DFS)** and the concepts of **discovery time** and **low values**. The basic idea is to perform a DFS traversal and, during the process, identify edges that, if removed, would disconnect the graph.
-
-### DFS Properties:
-- **Discovery time**: The time when a node is first visited during the DFS traversal.
-- **Low value**: The lowest discovery time reachable from a node's subtree (including back edges).
-
-### Conditions for a Bridge:
-- An edge \((u, v)\) is a bridge if there is no way to reach any of the ancestors of \(u\) from \(v\) or its descendants (i.e., if \(low[v] > disc[u]\)).
-
-### Steps to Find Bridges:
-1. **DFS Tree Construction**: Perform DFS traversal, marking discovery times and low values for each vertex.
-2. **Bridge Detection**: During the DFS, check the condition \(low[v] > disc[u]\) for each edge \((u, v)\). If true, the edge is a bridge.
-
-### Bridge Algorithm in JavaScript:
-
-```javascript
-class Graph {
-    constructor(vertices) {
-        this.vertices = vertices;
-        this.adjacencyList = new Map();
-        this.time = 0; // Track time in DFS traversal
-    }
-
-    addVertex(v) {
-        this.adjacencyList.set(v, []);
-    }
-
-    addEdge(v, w) {
-        this.adjacencyList.get(v).push(w);
-        this.adjacencyList.get(w).push(v);  // Undirected graph
-    }
-
-    // DFS based function to find all bridges
-    findBridges() {
-        let visited = Array(this.vertices).fill(false);
-        let disc = Array(this.vertices).fill(-1);  // Discovery times of visited vertices
-        let low = Array(this.vertices).fill(-1);   // Lowest discovery times reachable
-        let parent = Array(this.vertices).fill(-1);  // Parent vertices
-
-        // List to store bridges
-        let bridges = [];
-
-        // Call the recursive helper function to find bridges
-        for (let i = 0; i < this.vertices; i++) {
-            if (!visited[i]) {
-                this.dfs(i, visited, disc, low, parent, bridges);
-            }
-        }
-
-        // Output the bridges
-        console.log("Bridges in the graph:");
-        for (let [u, v] of bridges) {
-            console.log(`Bridge between vertices ${u} and ${v}`);
-        }
-    }
-
-    // Recursive DFS function to find bridges
-    dfs(u, visited, disc, low, parent, bridges) {
-        // Mark the current node as visited and set discovery time and low value
-        visited[u] = true;
-        disc[u] = low[u] = ++this.time;
-
-        // Go through all vertices adjacent to this vertex
-        for (let v of this.adjacencyList.get(u)) {
-            if (!visited[v]) {  // If v is not visited, make it a child of u in DFS tree
-                parent[v] = u;
-
-                // Recur for the child vertex
-                this.dfs(v, visited, disc, low, parent, bridges);
-
-                // Check if the subtree rooted at v has a connection back to one of u's ancestors
-                low[u] = Math.min(low[u], low[v]);
-
-                // Condition for bridge: if no back edge from subtree rooted at v
-                if (low[v] > disc[u]) {
-                    bridges.push([u, v]);
-                }
-
-            } else if (v !== parent[u]) {
-                // Update low value of u for parent function calls
-                low[u] = Math.min(low[u], disc[v]);
-            }
-        }
-    }
-}
-
-// Example usage:
-let g = new Graph(6);
-g.addVertex(0);
-g.addVertex(1);
-g.addVertex(2);
-g.addVertex(3);
-g.addVertex(4);
-g.addVertex(5);
-
-g.addEdge(0, 1);
-g.addEdge(1, 2);
-g.addEdge(1, 3);
-g.addEdge(3, 4);
-g.addEdge(4, 5);
-g.addEdge(0, 4);
-
-g.findBridges();
-```
-
-### **Output**:
-
-```
-Bridges in the graph:
-Bridge between vertices 1 and 2
-Bridge between vertices 3 and 4
-Bridge between vertices 4 and 5
-```
-
-### **Explanation**:
-- **Edge (1, 2)** is a bridge because removing it will disconnect vertex 2 from the rest of the graph.
-- **Edge (3, 4)** is a bridge because removing it will disconnect vertices 4 and 5 from the rest of the graph.
-- **Edge (4, 5)** is a bridge because removing it will disconnect vertex 5.
-
-### Time Complexity:
-- The time complexity of finding all the bridges is **O(V + E)**, where \(V\) is the number of vertices and \(E\) is the number of edges. This is because the algorithm performs a DFS traversal, visiting every vertex and edge exactly once.
-
-### Applications of Bridges:
-1. **Network Analysis**: Bridges help identify critical connections in computer networks or social networks, where the failure of certain connections can cause the network to split.
-2. **Road and Traffic Systems**: In a road network, bridges can represent critical roads whose failure or closure would disrupt traffic flow.
-3. **Communication Networks**: In telecommunications, bridges represent links between different parts of the network, and their failure could isolate sections of the network.
-4. **Vulnerability Analysis**: In system design or critical infrastructure, bridges are points where failures could cause significant disruptions, and identifying these can guide redundancy and reinforcement efforts.
-
-### Summary:
-Bridges in a graph are important structural components that, if removed, can split the graph into disconnected parts. By using DFS with discovery times and low values, we can efficiently find all the bridges in a graph in linear time, making this technique invaluable for network analysis and robustness studies.
-
-<br>
-
-> ### Greedy Algorithm
-
-**Below is GFG defination**
-Greedy algorithms are a class of algorithms that make locally optimal choices at each step with the hope of finding a global optimum solution. In these algorithms, decisions are made based on the information available at the current moment without considering the consequences of these decisions in the future. The key idea is to select the best possible choice at each step, leading to a solution that may not always be the most optimal but is often good enough for many problems.
-
-Steps for Creating a Greedy Algorithm
-The steps to define a greedy algorithm are:
-
-1. Define the problem: Clearly state the problem to be solved and the objective to be optimized.
-2. Identify the greedy choice: Determine the locally optimal choice at each step based on the current state.
-3. Make the greedy choice: Select the greedy choice and update the current state.
-4. Repeat: Continue making greedy choices until a solution is reached.
-
-<br>
-
-> ### Activity Selection Problem using Greedy Method  ( [Youtube video](https://www.youtube.com/watch?v=U4UoR9vq238&ab_channel=AnujBhaiya) )
-
-The **Activity Selection Problem** is a classic problem in which we are given a set of activities, each defined by a start and finish time, and the goal is to select the maximum number of non-overlapping activities that can be performed by a single person or machine. The **greedy method** is a popular approach to solve this problem optimally.
-
-### Problem Definition:
-You are given \( n \) activities with their start and finish times. Your goal is to select the maximum number of activities such that no two selected activities overlap. Each activity has a start time \( s[i] \) and a finish time \( f[i] \).
-
-### Greedy Strategy:
-The idea behind the greedy approach is to always select the activity that finishes the earliest, as this leaves the most room for other activities.
-
-### Steps of the Greedy Algorithm:
-1. **Sort activities** by their finish times in non-decreasing order.
-2. **Select the first activity** (the one that finishes the earliest).
-3. For each subsequent activity, if its start time is greater than or equal to the finish time of the previously selected activity, **select the activity**.
-4. Continue this process until all activities have been considered.
-
-### Example:
-
-Let's say we have the following activities with their start and finish times:
-
-| Activity | Start Time | Finish Time |
-|----------|------------|-------------|
-| A1       | 1          | 3           |
-| A2       | 2          | 5           |
-| A3       | 4          | 6           |
-| A4       | 6          | 8           |
-| A5       | 5          | 7           |
-| A6       | 8          | 9           |
-
-### Step-by-Step Process:
-1. **Sort by finish times**:
-
-   Sorted activities by finish time:
-
-   | Activity | Start Time | Finish Time |
-   |----------|------------|-------------|
-   | A1       | 1          | 3           |
-   | A3       | 4          | 6           |
-   | A2       | 2          | 5           |
-   | A5       | 5          | 7           |
-   | A4       | 6          | 8           |
-   | A6       | 8          | 9           |
-
-2. **Select the first activity** (A1).
-3. Now, select the next activity that starts after A1 finishes. The next non-overlapping activity is A3.
-4. Continue to select activities in this manner. The next activity after A3 is A4, and then A6.
-
-The selected activities are **A1, A3, A4, and A6**, with no overlap.
-
-### Greedy Algorithm Implementation in JavaScript:
-
-```javascript
-function activitySelection(activities) {
-    // Sort activities based on their finish times
-    activities.sort((a, b) => a[1] - b[1]);
-
-    let selectedActivities = [];
-    let lastFinishTime = 0;
-
-    // Select the first activity and then the next non-overlapping ones
-    for (let i = 0; i < activities.length; i++) {
-        let [start, finish] = activities[i];
-
-        if (start >= lastFinishTime) {
-            selectedActivities.push(activities[i]);
-            lastFinishTime = finish;  // Update the finish time
-        }
-    }
-
-    return selectedActivities;
-}
-
-// Example usage:
-const activities = [
-    [1, 3], // A1: Start = 1, Finish = 3
-    [2, 5], // A2: Start = 2, Finish = 5
-    [4, 6], // A3: Start = 4, Finish = 6
-    [6, 8], // A4: Start = 6, Finish = 8
-    [5, 7], // A5: Start = 5, Finish = 7
-    [8, 9], // A6: Start = 8, Finish = 9
-];
-
-const result = activitySelection(activities);
-console.log("Selected activities:", result);
-```
-
-### **Output**:
-
-```
-Selected activities: [ [ 1, 3 ], [ 4, 6 ], [ 6, 8 ], [ 8, 9 ] ]
-```
-
-### **Explanation**:
-- The sorted activities based on finish time are: \([1,3]\), \([4,6]\), \([2,5]\), \([5,7]\), \([6,8]\), \([8,9]\).
-- The selected activities are: \([1,3]\), \([4,6]\), \([6,8]\), \([8,9]\), ensuring maximum activity selection without any overlaps.
-
-### Time Complexity:
-- Sorting the activities takes **O(n log n)**, where \(n\) is the number of activities.
-- After sorting, selecting activities takes **O(n)**.
-Thus, the overall time complexity is **O(n log n)**.
-
-### Greedy Choice Property:
-The key idea is that by selecting the activity that finishes the earliest, we maximize the remaining time for future activities. This "greedy" choice ensures that we can always make the best possible decisions moving forward, leading to an optimal solution.
-
-### Applications:
-1. **Scheduling**: Allocating resources (such as meeting rooms) efficiently in time-scheduling problems.
-2. **Project Planning**: Ensuring tasks or projects are completed in the shortest time without conflicts.
-3. **CPU Scheduling**: Selecting processes in a way that maximizes CPU utilization while avoiding conflicts.
-
-### Summary:
-The **Activity Selection Problem** using the **Greedy Method** is an efficient way to select the maximum number of non-overlapping activities by always choosing the activity that finishes first. This approach ensures an optimal solution and is widely applicable in scheduling and resource allocation problems.
-
-<br>
-
-> ### Fractional Knapsack - Greedy Algorithm  ( [Youtube video](https://www.youtube.com/watch?v=2i5pclQprGk&ab_channel=ApnaCollege) )
-
-The **Fractional Knapsack Problem** is a classic **greedy algorithm** problem where you are given a set of items, each with a weight and a value, and you need to determine the maximum value you can carry in a knapsack with a weight limit. In this variation of the knapsack problem, you can take fractions of an item, meaning you can split the item if needed to maximize the total value.
-
-### Problem Statement:
-- You have a knapsack that can carry a maximum weight \( W \).
-- You are given \( n \) items, where each item \( i \) has a weight \( w[i] \) and a value \( v[i] \).
-- Your goal is to maximize the value of the items you can fit in the knapsack by potentially taking fractional amounts of the items.
-
-### Greedy Strategy:
-To solve the fractional knapsack problem, the greedy approach suggests picking items based on their **value-to-weight ratio** \( \frac{v[i]}{w[i]} \). The idea is to take as much of the item with the highest value per weight unit first, then the next, and so on until the knapsack is full.
-
-### Steps of the Greedy Algorithm:
-1. **Calculate the value-to-weight ratio** \( \frac{v[i]}{w[i]} \) for each item.
-2. **Sort the items** in descending order of their value-to-weight ratio.
-3. Start with an empty knapsack. For each item in the sorted list:
-   - If the entire item can fit into the knapsack, add it.
-   - If the item cannot fit, take the fraction of the item that will fill the knapsack to capacity.
-4. Continue until the knapsack is full or all items have been considered.
-
-### Example:
-Let's say we have 3 items with the following weights and values:
-
-- Item 1: weight = 10, value = 60
-- Item 2: weight = 20, value = 100
-- Item 3: weight = 30, value = 120
-
-And the knapsack capacity \( W \) is 50.
-
-### Steps:
-
-1. Compute the value-to-weight ratio for each item:
-   - Item 1: \( \frac{60}{10} = 6 \)
-   - Item 2: \( \frac{100}{20} = 5 \)
-   - Item 3: \( \frac{120}{30} = 4 \)
-
-2. Sort the items by the value-to-weight ratio in descending order:
-   - Item 1 (6), Item 2 (5), Item 3 (4)
-
-3. Select items for the knapsack:
-   - First, take all of Item 1 (weight 10, value 60), remaining capacity: \( 50 - 10 = 40 \)
-   - Then, take all of Item 2 (weight 20, value 100), remaining capacity: \( 40 - 20 = 20 \)
-   - Finally, take \( \frac{20}{30} \) (two-thirds) of Item 3, which gives a value of \( \frac{2}{3} \times 120 = 80 \)
-
-Total value: \( 60 + 100 + 80 = 240 \)
-
-### Fractional Knapsack Algorithm in JavaScript:
-
-```javascript
-function fractionalKnapsack(items, capacity) {
-    // Sort items by value-to-weight ratio in descending order
-    items.sort((a, b) => (b.value / b.weight) - (a.value / a.weight));
-
-    let totalValue = 0;
-
-    for (let i = 0; i < items.length; i++) {
-        let { weight, value } = items[i];
-
-        if (capacity >= weight) {
-            // If the item can be taken fully
-            totalValue += value;
-            capacity -= weight;
-        } else {
-            // Take the fraction of the remaining capacity
-            totalValue += (value / weight) * capacity;
-            break; // Knapsack is full
-        }
-    }
-
-    return totalValue;
-}
-
-// Example usage:
-const items = [
-    { weight: 10, value: 60 },  // Item 1
-    { weight: 20, value: 100 }, // Item 2
-    { weight: 30, value: 120 }, // Item 3
-];
-
-const capacity = 50;
-const maxValue = fractionalKnapsack(items, capacity);
-console.log("Maximum value in knapsack:", maxValue);
-```
-
-### **Output**:
-```
-Maximum value in knapsack: 240
-```
-
-### **Explanation**:
-- The items are sorted by their value-to-weight ratio.
-- The algorithm adds full Item 1 and Item 2 to the knapsack and then takes a fraction (two-thirds) of Item 3 to fill the remaining capacity.
-- The total value is 240, which is the maximum value that can be obtained for the given knapsack capacity.
-
-### Time Complexity:
-- Sorting the items by value-to-weight ratio takes \( O(n \log n) \).
-- The loop to add items to the knapsack takes \( O(n) \).
-Thus, the overall time complexity is **\( O(n \log n) \)**.
-
-### Greedy Choice Property:
-The greedy algorithm works because we always make the choice that maximizes the value per unit of weight, which ensures that we are optimizing at each step.
-
-### Applications:
-1. **Resource Allocation**: Allocating limited resources (like time, space, or bandwidth) where you can take fractions of each resource.
-2. **Investment Decisions**: When allocating funds to investments that can be fractionalized, and you want to maximize the return.
-3. **Cargo Loading**: In transport systems where fractional items can be loaded into containers, the aim is to maximize the value carried.
-
-### Summary:
-The **Fractional Knapsack Problem** is a variation of the knapsack problem where fractions of items can be taken. The **greedy method** efficiently solves this problem by always selecting the item (or fraction) with the highest value-to-weight ratio until the knapsack is full. This approach guarantees an optimal solution for the fractional variant of the knapsack problem.
-
-<br>
-
-> ### Job Sequencing Algorithm  ( [Youtube video](https://www.youtube.com/watch?v=Tpp7o0jQ-8w&ab_channel=GateSmashers) )
-
-The **Job Sequencing Problem** is a popular problem in **greedy algorithms** where you are given a set of jobs, each having a deadline and a profit associated with it. The objective is to schedule the jobs in such a way that you can maximize the total profit while ensuring that no more than one job is executed at a time, and each job is completed before its deadline.
-
-### Problem Statement:
-- You are given \( n \) jobs, each having a **deadline** and a **profit**.
-- Each job takes **one unit of time** to complete.
-- The objective is to find the maximum profit by scheduling jobs such that:
-  - No two jobs overlap.
-  - Each job is completed before or on its deadline.
-
-### Greedy Approach:
-To solve this problem optimally, a greedy approach is used where jobs are scheduled in descending order of their profits, and each job is assigned to the latest available time slot before its deadline (if available).
-
-### Algorithm Steps:
-1. **Sort the jobs** in descending order of their profit.
-2. **Iterate over each job** and try to schedule it in the latest available time slot before its deadline.
-3. If a slot is available, schedule the job; otherwise, skip it.
-
-### Example:
-
-Let's say we have the following jobs:
-
-| Job   | Deadline | Profit |
-|-------|----------|--------|
-| J1    | 2        | 100    |
-| J2    | 1        | 19     |
-| J3    | 2        | 27     |
-| J4    | 1        | 25     |
-| J5    | 3        | 15     |
-
-### Step-by-Step Process:
-1. **Sort jobs by profit**:
-   Sorted order: J1, J3, J4, J2, J5.
-
-2. **Create a time slot array**: Assume that there are \( t \) available slots (from 1 to max deadline).
-
-   For this example, the maximum deadline is 3, so we create 3 slots: \( [\_, \_, \_] \).
-
-3. **Schedule jobs**:
-   - **J1**: Deadline is 2. Place J1 in the latest available slot before or on 2. So, place J1 in slot 2.
-   - **J3**: Deadline is 2. Place J3 in the latest available slot before or on 2. Slot 2 is occupied, so place J3 in slot 1.
-   - **J4**: Deadline is 1. Slot 1 is already occupied, so J4 cannot be scheduled.
-   - **J2**: Deadline is 1. Slot 1 is occupied, so J2 cannot be scheduled.
-   - **J5**: Deadline is 3. Place J5 in the latest available slot before or on 3. So, place J5 in slot 3.
-
-Final schedule: \( [J3, J1, J5] \).
-
-The total profit is \( 27 + 100 + 15 = 142 \).
-
-### Job Sequencing Algorithm Implementation in JavaScript:
-
-```javascript
-function JobSequencing(jobs) {
-    // Sort the jobs based on their profit in descending order
-    jobs.sort((a, b) => b.profit - a.profit);
-
-    let maxDeadline = Math.max(...jobs.map(job => job.deadline));
-    let timeSlots = Array(maxDeadline).fill(null); // Array to store job schedule
-    let totalProfit = 0;
-
-    for (let i = 0; i < jobs.length; i++) {
-        // Find a free slot for the job (starting from the last possible slot)
-        for (let j = jobs[i].deadline - 1; j >= 0; j--) {
-            if (timeSlots[j] === null) {
-                timeSlots[j] = jobs[i];  // Schedule the job
-                totalProfit += jobs[i].profit; // Add to total profit
-                break; // Move to the next job after scheduling
-            }
+<details>
+
+```js
+var canVisitAllRooms = function(rooms) {
+    let visited = new Set();
+    
+    const dfs = (room) => {
+        if (visited.has(room)) return;
+        visited.add(room);
+        for (let key of rooms[room]) {
+            dfs(key);
         }
-    }
-
-    return {
-        timeSlots: timeSlots.filter(job => job !== null), // Jobs that are scheduled
-        totalProfit
     };
-}
-
-// Example usage
-const jobs = [
-    { id: "J1", deadline: 2, profit: 100 }, // Job 1
-    { id: "J2", deadline: 1, profit: 19 },  // Job 2
-    { id: "J3", deadline: 2, profit: 27 },  // Job 3
-    { id: "J4", deadline: 1, profit: 25 },  // Job 4
-    { id: "J5", deadline: 3, profit: 15 }   // Job 5
-];
-
-const result = JobSequencing(jobs);
-console.log("Scheduled jobs:", result.timeSlots);
-console.log("Total profit:", result.totalProfit);
+    
+    // Start DFS from room 0
+    dfs(0);
+    
+    // Check if all rooms were visited
+    return visited.size === rooms.length;
+};
 ```
-
-### **Output**:
-```
-Scheduled jobs: [ { id: 'J3', deadline: 2, profit: 27 }, { id: 'J1', deadline: 2, profit: 100 }, { id: 'J5', deadline: 3, profit: 15 } ]
-Total profit: 142
-```
-
-### **Explanation**:
-- The algorithm schedules the jobs with the highest profit in the latest available time slots.
-- The final job sequence is \( J3, J1, J5 \), and the total profit is 142.
-
-### Time Complexity:
-1. **Sorting the jobs** based on their profit takes \( O(n \log n) \), where \( n \) is the number of jobs.
-2. **Finding a slot** for each job takes \( O(n \times d) \), where \( d \) is the maximum deadline.
-
-Thus, the total time complexity is \( O(n \log n + n \times d) \), where \( n \) is the number of jobs and \( d \) is the maximum deadline.
-
-### Greedy Choice Property:
-The greedy approach works for the job sequencing problem because:
-- At each step, the algorithm makes a choice that seems to offer the most profit by selecting the job with the highest profit.
-- By doing so, it ensures that we don't miss any high-profit job that could fit within the remaining slots.
-
-### Applications:
-1. **Scheduling**: Optimal scheduling of jobs in manufacturing or computing to maximize profit or minimize cost.
-2. **Project Management**: Selecting the most profitable projects to undertake within given deadlines.
-3. **Task Assignment**: Assigning tasks to workers in a way that maximizes overall efficiency and profit.
-
-### Summary:
-The **Job Sequencing Problem** is solved optimally using a **greedy algorithm** that sorts jobs by their profit and assigns them to the latest available time slot before their deadline. This approach ensures the maximum profit can be obtained, and is widely applicable in scheduling and resource management problems.
-
-<br>
-
-> ### Rat In a Maze   ( [Youtube video](https://youtu.be/wjqSZy4pMT4?si=fFRwK9Xcp2Uq_XO5) )
-
-The **Rat in a Maze** problem is another classic **backtracking problem** where we need to find a path from the start to the destination in a maze (grid). The maze consists of cells that are either blocked (`0`) or open (`1`), and the objective is to move the rat from the top-left corner to the bottom-right corner by moving only in allowed directions (commonly right and down).
-
-### Problem:
-
-Given a maze represented by a \(N \times N\) grid, the rat can start at the top-left corner (0,0) and needs to reach the bottom-right corner (N-1, N-1). The rat can move **right**, **down**, **left**, or **up**. The goal is to find one possible path for the rat, ensuring it only moves through open cells (`1`) and doesn't move into blocked cells (`0`).
-
-### Approach:
-
-- The backtracking approach tries to move the rat in all possible directions (right, down, left, up).
-- If the rat reaches the destination, the path is valid.
-- If a move leads to an invalid position (out of bounds, blocked cell, or already visited cell), the algorithm backtracks and tries another direction.
-
-### JavaScript Code for **Rat in a Maze**:
-
-```javascript
-function solveMaze(maze) {
-    const N = maze.length;
-    const solution = Array.from({ length: N }, () => Array(N).fill(0)); // To store the solution path
-
-    // Helper function to check if the move is valid
-    function isSafe(maze, x, y) {
-        return (x >= 0 && x < N && y >= 0 && y < N && maze[x][y] === 1);
-    }
-
-    // Backtracking function to solve the maze
-    function solveMazeUtil(maze, x, y, solution) {
-        // If the rat reaches the destination (bottom-right corner)
-        if (x === N - 1 && y === N - 1 && maze[x][y] === 1) {
-            solution[x][y] = 1;
-            return true;
-        }
-
-        // Check if the current position is valid
-        if (isSafe(maze, x, y)) {
-            // Mark the current cell as part of the solution path
-            solution[x][y] = 1;
-
-            // Move to the right (x, y+1)
-            if (solveMazeUtil(maze, x, y + 1, solution)) {
-                return true;
-            }
-
-            // Move down (x+1, y)
-            if (solveMazeUtil(maze, x + 1, y, solution)) {
-                return true;
-            }
-
-            // Move to the left (x, y-1)
-            if (solveMazeUtil(maze, x, y - 1, solution)) {
-                return true;
-            }
-
-            // Move up (x-1, y)
-            if (solveMazeUtil(maze, x - 1, y, solution)) {
-                return true;
-            }
-
-            // If none of the above movements work, backtrack: unmark the current cell
-            solution[x][y] = 0;
-            return false;
-        }
-
-        return false; // Return false if the cell is not valid
-    }
-
-    // Main function to solve the maze
-    if (!solveMazeUtil(maze, 0, 0, solution)) {
-        console.log("No solution exists");
-        return false;
-    }
-
-    console.log("One possible solution:");
-    console.log(solution);
-    return solution;
-}
-
-// Example usage:
-const maze = [
-    [1, 0, 0, 0],
-    [1, 1, 0, 1],
-    [0, 1, 0, 0],
-    [1, 1, 1, 1]
-];
-
-solveMaze(maze);
-```
-
-### Example **Output**:
-
-For the given `maze`:
-
-```javascript
-[
-    [1, 0, 0, 0],
-    [1, 1, 0, 1],
-    [0, 1, 0, 0],
-    [1, 1, 1, 1]
-]
-```
-
-The possible output path will be:
-
-```
-One possible solution:
-[
-    [1, 0, 0, 0],
-    [1, 1, 0, 0],
-    [0, 1, 0, 0],
-    [0, 1, 1, 1]
-]
-```
-
-This path takes the rat from the top-left corner to the bottom-right corner by following open cells (1).
-
-### **Explanation**:
-
-1. **isSafe function**:
-   - Checks if the move is valid by ensuring the position is within bounds and the cell is not blocked (`1`).
-
-2. **solveMazeUtil function**:
-   - This is the recursive backtracking function that tries to move the rat in all four possible directions (right, down, left, up) from the current cell `(x, y)`.
-   - It marks the current cell as part of the solution (`solution[x][y] = 1`) and continues to explore further.
-   - If no valid move exists, it backtracks by unmarking the cell (`solution[x][y] = 0`).
-
-3. **Base Case**:
-   - The algorithm stops when the rat reaches the bottom-right corner `(N-1, N-1)`, indicating that the solution has been found.
-
-### Time Complexity:
-
-- The time complexity of this algorithm is \(O(2^{N^2})\) in the worst case, as each cell can potentially have multiple moves to explore and may involve a lot of backtracking.
-
-### Space Complexity:
-
-- The space complexity is \(O(N^2)\), which is the size of the solution array used to store the path.
-
-### Conclusion:
-This solution finds **one possible path** for the rat to reach the destination in the maze using a **backtracking** approach. If no path exists, it prints a message indicating that no solution is possible.
-
-<br>
-
-
-> ### N-Queen Problem   ( [Youtube video](https://www.youtube.com/watch?v=MHXR4PCY8c0&ab_channel=AnujBhaiya) )
-The **N-Queen Problem** is a classic problem in combinatorial optimization and a well-known example of **backtracking**. The task is to place **N queens** on an \( N \times N \) chessboard such that no two queens threaten each other. This means:
-
-1. No two queens can share the same **row**.
-2. No two queens can share the same **column**.
-3. No two queens can share the same **diagonal**.
-
-### Problem Definition:
-Given a chessboard of size \( N \times N \), the goal is to place N queens on the board such that:
-- No two queens can attack each other (no two queens should be on the same row, column, or diagonal).
-
-### Approach:
-
-The **backtracking approach** is used to solve the N-Queen problem efficiently. The idea is to place queens one by one in different columns of a row, and for each placement, check whether it leads to a solution. If it does not lead to a solution, the queen is removed, and we backtrack to the previous step to try another placement.
-
-### Steps:
-
-1. Start with the first row and place a queen in the first column.
-2. Move to the next row and try placing a queen in each column, one by one.
-3. For each placement, check if it is valid (i.e., no queens are placed in the same column or diagonal).
-4. If placing the queen in a particular column leads to a valid solution, move on to the next row. Otherwise, backtrack and try placing the queen in a different column.
-5. Repeat until queens are placed in all rows or no valid configuration is possible.
-
-### Algorithm:
-
-- The **base case** is when all queens are placed, meaning we’ve successfully placed a queen in each row.
-- The **backtracking** step involves trying all possible positions in the current row and then recursively trying to place queens in subsequent rows. If no valid placement is found in the current configuration, we backtrack to the previous row and try a different configuration.
-
-### Code Implementation (JavaScript):
-
-```javascript
-function solveNQueens(N) {
-    const result = [];
-    const board = Array.from({ length: N }, () => Array(N).fill('.'));
-
-    function isSafe(board, row, col, N) {
-        // Check the same column
-        for (let i = 0; i < row; i++) {
-            if (board[i][col] === 'Q') return false;
-        }
-
-        // Check the upper left diagonal
-        for (let i = row, j = col; i >= 0 && j >= 0; i--, j--) {
-            if (board[i][j] === 'Q') return false;
-        }
-
-        // Check the upper right diagonal
-        for (let i = row, j = col; i >= 0 && j < N; i--, j++) {
-            if (board[i][j] === 'Q') return false;
-        }
-
-        return true;
-    }
-
-    function placeQueens(board, row, N) {
-        if (row === N) {
-            // All queens are placed successfully, add the board configuration to the result
-            const copy = board.map((row) => row.join(''));
-            result.push(copy);
-            return;
-        }
-
-        for (let col = 0; col < N; col++) {
-            if (isSafe(board, row, col, N)) {
-                // Place the queen
-                board[row][col] = 'Q';
-                
-                // Recur to place the rest of the queens
-                placeQueens(board, row + 1, N);
-
-                // Backtrack: remove the queen and try another column
-                board[row][col] = '.';
-            }
-        }
-    }
-
-    placeQueens(board, 0, N);
-    return result;
-}
-
-// Example usage:
-const N = 4;
-const solutions = solveNQueens(N);
-console.log(`Number of solutions for N = ${N}: ${solutions.length}`);
-console.log("Solutions:");
-solutions.forEach((solution) => console.log(solution.join("\n"), "\n"));
-```
-
-### **Explanation**:
-
-1. **isSafe function**:
-   - It checks if placing a queen at `board[row][col]` is valid by checking:
-     - No other queen exists in the same column.
-     - No other queen exists in the upper left diagonal.
-     - No other queen exists in the upper right diagonal.
-
-2. **placeQueens function**:
-   - It is the main backtracking function that attempts to place queens row by row.
-   - If it successfully places a queen in the current row, it recursively moves to the next row.
-   - If placing a queen leads to a solution, it records the solution in `result`.
-   - If no valid placement is possible, it backtracks by removing the queen and trying other placements.
-
-3. **Result**:
-   - Each valid configuration of the board is stored in the `result` array, where each row is represented as a string.
-
-### Output Example for \( N = 4 \):
-
-```
-Number of solutions for N = 4: 2
-Solutions:
-.Q..
-...Q
-Q...
-..Q. 
-
-..Q.
-Q...
-...Q
-.Q..
-```
-
-These two solutions represent valid configurations where no two queens can attack each other.
-
-### Time Complexity:
-
-- The time complexity is **O(N!)** due to the factorial growth in the number of possible configurations as the size of the board increases. Each row has \( N \) options, and we try every possible arrangement.
-  
-### Space Complexity:
-
-- The space complexity is **O(N^2)** because we use a board of size \( N \times N \) to store the placements, and additional space is required for the recursion stack, which could go up to depth \( N \).
-
-### Conclusion:
-The **N-Queen Problem** is an excellent example of using backtracking to solve a problem with constraints. The solution explores every possible configuration of queens on the board, backtracks when an invalid configuration is found, and finds all the valid solutions.
-
-<br>
-
-> ### sudoku problem   ( [Youtube video](https://www.youtube.com/watch?v=MHXR4PCY8c0&ab_channel=AnujBhaiya) )
-
-The **Sudoku problem** is a classic example of a **constraint satisfaction problem** that can be solved using **backtracking**. The objective is to fill a \(9 \times 9\) grid with digits from 1 to 9 so that:
-
-1. Each row contains all digits from 1 to 9 without repetition.
-2. Each column contains all digits from 1 to 9 without repetition.
-3. Each of the nine \(3 \times 3\) sub-grids contains all digits from 1 to 9 without repetition.
-
-### Approach:
-
-The backtracking algorithm tries to place digits in empty cells one by one, checking if the placement is valid. If a valid placement is found, it moves to the next empty cell. If a placement leads to an invalid state (where the rules of Sudoku are violated), the algorithm backtracks by removing the last placed digit and trying the next possibility.
-
-### Steps:
-
-1. **Identify an empty cell** (i.e., a cell with a 0).
-2. **Try placing digits** from 1 to 9 in the empty cell.
-3. **Check if placing a digit is valid**:
-   - The digit should not already exist in the current row, column, or the \(3 \times 3\) sub-grid.
-4. If a valid digit is placed, **recur** to solve the rest of the grid.
-5. If placing any digit leads to an invalid solution, **backtrack** by resetting the current cell and trying the next digit.
-6. The algorithm stops when the entire grid is filled with valid digits.
-
-### JavaScript Code for Sudoku Solver:
-
-```javascript
-function solveSudoku(board) {
-    // Helper function to check if a digit can be placed in board[row][col]
-    function isValid(board, row, col, num) {
-        // Check if 'num' is not in the current row, column, or 3x3 box
-        for (let i = 0; i < 9; i++) {
-            // Check the row
-            if (board[row][i] === num) return false;
-
-            // Check the column
-            if (board[i][col] === num) return false;
-
-            // Check the 3x3 sub-grid
-            const boxRow = 3 * Math.floor(row / 3) + Math.floor(i / 3);
-            const boxCol = 3 * Math.floor(col / 3) + (i % 3);
-            if (board[boxRow][boxCol] === num) return false;
-        }
-        return true;
-    }
-
-    // Backtracking function to solve the board
-    function solve(board) {
-        for (let row = 0; row < 9; row++) {
-            for (let col = 0; col < 9; col++) {
-                if (board[row][col] === 0) { // Find an empty cell
-                    for (let num = 1; num <= 9; num++) { // Try digits 1 to 9
-                        if (isValid(board, row, col, num)) { // Check if valid
-                            board[row][col] = num; // Place the digit
-                            
-                            if (solve(board)) { // Recur to solve the rest of the grid
-                                return true; // Return true if the board is solved
-                            }
-
-                            board[row][col] = 0; // Backtrack by resetting the cell
-                        }
-                    }
-                    return false; // If no valid digit is found, return false
-                }
-            }
-        }
-        return true; // If the entire board is filled, return true
-    }
-
-    solve(board);
-    return board;
-}
-
-// Example usage:
-let board = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
-];
-
-solveSudoku(board);
-console.log(board);
-```
-
-### Example **Output**:
-
-For the given initial `board`, the output will be a valid solved Sudoku:
-
-```javascript
-[
-  [5, 3, 4, 6, 7, 8, 9, 1, 2],
-  [6, 7, 2, 1, 9, 5, 3, 4, 8],
-  [1, 9, 8, 3, 4, 2, 5, 6, 7],
-  [8, 5, 9, 7, 6, 1, 4, 2, 3],
-  [4, 2, 6, 8, 5, 3, 7, 9, 1],
-  [7, 1, 3, 9, 2, 4, 8, 5, 6],
-  [9, 6, 1, 5, 3, 7, 2, 8, 4],
-  [2, 8, 7, 4, 1, 9, 6, 3, 5],
-  [3, 4, 5, 2, 8, 6, 1, 7, 9]
-]
-```
-
-### **Explanation**:
-
-1. **isValid function**:
-   - This function checks if placing the number `num` in the position `board[row][col]` is valid by ensuring that:
-     - The number does not already exist in the current row.
-     - The number does not exist in the current column.
-     - The number does not exist in the \(3 \times 3\) sub-grid that contains the cell.
-
-2. **solve function (Backtracking)**:
-   - It iterates through the board to find an empty cell (i.e., `0`).
-   - For each empty cell, it tries placing digits from 1 to 9.
-   - If placing a digit is valid, it recurses to fill the rest of the board.
-   - If a valid solution is found, the function returns `true`. Otherwise, it backtracks by resetting the cell to `0`.
-
-3. **Base Case**:
-   - The algorithm stops when there are no empty cells left on the board, meaning a valid solution is found.
-
-### Time Complexity:
-
-- The time complexity of the backtracking algorithm is **exponential** in the worst case: \( O(9^M) \), where \( M \) is the number of empty cells on the board. Each empty cell can potentially take any digit from 1 to 9, making the search space large.
-
-### Space Complexity:
-
-- The space complexity is \( O(1) \) as we solve the problem in place using the given board, although the recursion stack may grow up to \( O(M) \) due to backtracking.
-
-### Conclusion:
-This is a backtracking-based approach to solve the **Sudoku problem**. It tries to fill the grid one cell at a time, validating each placement according to Sudoku rules and backtracking when a conflict arises, ensuring that a valid solution is found.
+</details>
 
 <br>
 
@@ -10248,25 +7046,10 @@ The idea is to reuse the solution of sub-problems when there are overlapping sub
 2. Tabulation (Bottom Up)
 
 
-Dynamic Programming or DP
-
-Dynamic Programming is a method used in mathematics and computer science to solve complex problems by breaking them down into simpler subproblems. 
-By solving each `subproblem only once and storing the results`, it `avoids redundant computations`, leading to more efficient solutions for a wide range of problems.
-
-How Does Dynamic Programming (DP) Work?
-- Identify Subproblems: Divide the main problem into smaller, independent subproblems.
-- Store Solutions: Solve each subproblem and store the solution in a table or array.
-- Build Up Solutions: Use the stored solutions to build up the solution to the main problem.
-- Avoid Redundancy: By storing solutions, DP ensures that each subproblem is solved only once, reducing computation time.
-
-When to Use Dynamic Programming (DP)?
-1. Optimal Substructure: Optimal substructure means that we combine the optimal results of subproblems to achieve the optimal result of the bigger problem
-2. Overlapping Subproblems: The same subproblems are solved repeatedly in different parts of the problem.
-
-
-example: 
+**Example:**
 if we have taken example for fibnanchi series, then below code will be O(2^n).
-fib of 20 gives 6765 function calls
+
+**fib of 20 gives 6765 function calls**
 
 https://www.geeksforgeeks.org/dynamic-programming/
 
@@ -10281,9 +7064,10 @@ function fib(n){
     return fib(n-1) + fib(n-2)
 }
 fib(20)
+```
 
-
-// now we optimzed through DP(using memoization), fib of 20 gives 39 function calls
+**Now we optimzed through DP(using memoization), fib of 20 gives 39 function calls**
+```js
 let memo = [];
 let counter = 0;
 
@@ -10303,11 +7087,13 @@ let n = 20;
 
 console.log('\nFib of', n, '=', fib(n));
 console.log('\nCounter:', counter);
+```
 
 
+- In above case we are filling the array from the right side to left side, but below code fills from left to right side, which is much more optimized
+- **fib of 20 gives 19 function calls**
 
-// In above case we are filling the array from the right side to left side, but below code fills from left to right side, which is much more optimized
-// fib of 20 gives 19 function calls
+```js
 let counter = 0;
 
 function fib(n) {
@@ -10388,7 +7174,6 @@ You are climbing a staircase. It takes n steps to reach the top.
 
 Each time you can either climb 1 or 2 steps. In how many `distinct ways` can you climb to the top?
 
- 
 
 Example 1:\
 **Input**: n = 2\
@@ -10438,69 +7223,12 @@ console.log(climbStairs(3)); // **Output**: 3
 
 <br>
 
-**Fibonacci Sequence**:
-   - One of the simplest examples of DP.
-   - The Fibonacci sequence is defined as:
-     \[
-     F(n) = F(n-1) + F(n-2)
-     \]
-     where \(F(0) = 0\) and \(F(1) = 1\).
-
-If we use the traditional recusive approach, its time complexity will be O(2ⁿ), where n is the input number.
-
-```js
-fibonacci = n => {
-  return n < 2 ? n : fibonacci(n - 1) + fibonacci(n - 2)
-}
-fibonacci(12)
-```
-
-But if we use the DP, considering both type which is below, then it will be O(n)
-
-**Fibonacci using DP (Memoization):**
-
-```javascript
-function fib(n, memo = {}) {
-    if (n <= 1) return n; // Base case
-
-    if (memo[n]) return memo[n]; // Check if already solved
-
-    memo[n] = fib(n - 1, memo) + fib(n - 2, memo); // Store the result
-    return memo[n];
-}
-
-console.log(fib(10)); // **Output**: 55
-```
-
-**Fibonacci using DP (Tabulation):**
-
-```javascript
-function fib(n) {
-    if (n <= 1) return n;
-
-    const dp = new Array(n + 1);
-    dp[0] = 0;
-    dp[1] = 1;
-
-    for (let i = 2; i <= n; i++) {
-        dp[i] = dp[i - 1] + dp[i - 2];
-    }
-
-    return dp[n];
-}
-
-console.log(fib(10)); // **Output**: 55
-```
-
-
-
-
-
-
-2. **0/1 Knapsack Problem**:
-   - Given a set of items, each with a weight and a value, determine the maximum value that can be obtained from selecting items without exceeding the given weight capacity.
+1. **0/1 Knapsack Problem**:
+- Given a set of items, each with a weight and a value, determine the maximum value that can be obtained from selecting items without exceeding the given weight capacity.
 
 **0/1 Knapsack using DP:**
+
+<details>
 
 ```javascript
 function knapsack(weights, values, W) {
@@ -10526,11 +7254,15 @@ const W = 7;
 
 console.log(knapsack(weights, values, W)); // **Output**: 9
 ```
+</details>
 
-3. **Longest Common Subsequence (LCS)**:   ( [Youtube video](https://www.youtube.com/watch?v=0yvOxPwe3Dg&ab_channel=AnujBhaiya) )
+<br>
+
+2. **Longest Common Subsequence (LCS)**:   ( [Youtube video](https://www.youtube.com/watch?v=0yvOxPwe3Dg&ab_channel=AnujBhaiya) )
    - Given two strings, find the length of their longest subsequence that appears in both strings.
 
 **LCS using DP:**
+<details>
 
 ```javascript
 function lcs(str1, str2) {
@@ -10553,11 +7285,15 @@ function lcs(str1, str2) {
 
 console.log(lcs("abcdgh", "aedfhr")); // **Output**: 3 (The LCS is "adh")
 ```
+</details>
 
-4. **Longest Increasing Subsequence (LIS)**:     ( [Youtube video](https://www.youtube.com/watch?v=okgM58Tv9jQ&ab_channel=ApnaCollege) )
+<br>
+
+3. **Longest Increasing Subsequence (LIS)**:     ( [Youtube video](https://www.youtube.com/watch?v=okgM58Tv9jQ&ab_channel=ApnaCollege) )
    - Given an array of integers, find the length of the longest subsequence where the numbers are in increasing order.
 
 **LIS using DP:**
+<details>
 
 ```javascript
 function lis(arr) {
@@ -10578,79 +7314,14 @@ function lis(arr) {
 const arr = [10, 22, 9, 33, 21, 50, 41, 60, 80];
 console.log(lis(arr)); // **Output**: 6 (The LIS is [10, 22, 33, 50, 60, 80])
 ```
+</details>
 
-#### maximum sum increasing subsequence
-The **Maximum Sum Increasing Subsequence** (MSIS) problem is a variation of the classic **Longest Increasing Subsequence** (LIS) problem. The goal is to find the increasing subsequence in an array where the sum of its elements is maximized.
+<br>
 
-### Problem Statement:
-Given an array of integers, find the sum of the maximum sum subsequence that is strictly increasing.
+4. **Edit Distance**:   ( [Youtube video](https://www.youtube.com/watch?v=eMnyEDYGobA&ab_channel=AnujBhaiya) )
+- The edit distance between two strings is the minimum number of operations required to convert one string into another (using insertions, deletions, or substitutions).
 
-### Example:
-- **Input**: `[1, 101, 2, 3, 100, 4, 5]`
-- **Output**: `106`
-  - **Explanation**: The subsequence with the maximum sum is `[1, 2, 3, 100]` which sums to `106`.
-
-### Dynamic Programming Approach:
-
-#### Approach:
-1. Create a `dp[]` array where `dp[i]` represents the maximum sum of the increasing subsequence that ends with the element `arr[i]`.
-2. Initialize `dp[i]` with `arr[i]` itself for all `i` since the smallest subsequence is the element itself.
-3. For each element `arr[i]`, check all previous elements `arr[j]` where `j < i` and if `arr[j] < arr[i]`, update `dp[i]` by checking if the subsequence sum ending at `arr[i]` can be increased by adding `arr[i]` to the subsequence ending at `arr[j]`.
-
-#### Recurrence Relation:
-- For each element `arr[i]`, `dp[i] = max(dp[i], dp[j] + arr[i])` for all `j` where `arr[j] < arr[i]` and `j < i`.
-
-#### JavaScript Code:
-
-```javascript
-function maxSumIncreasingSubsequence(arr) {
-    const n = arr.length;
-    const dp = [...arr]; // Initialize dp with the array values since each element is a subsequence by itself
-
-    // Fill the dp array using the recurrence relation
-    for (let i = 1; i < n; i++) {
-        for (let j = 0; j < i; j++) {
-            if (arr[i] > arr[j] && dp[i] < dp[j] + arr[i]) {
-                dp[i] = dp[j] + arr[i];
-            }
-        }
-    }
-
-    // The result will be the maximum value in the dp array
-    return Math.max(...dp);
-}
-
-// Example usage:
-const arr = [1, 101, 2, 3, 100, 4, 5];
-console.log(maxSumIncreasingSubsequence(arr)); // **Output**: 106
-```
-
-### **Explanation**:
-
-1. **Initialization**: The `dp` array is initialized with the same values as the input array since the minimum subsequence ending at each index is the element itself.
-2. **Update the dp array**:
-   - For each element `arr[i]`, check all previous elements `arr[j]` where `j < i`. If `arr[j]` is smaller than `arr[i]`, calculate if adding `arr[i]` to the subsequence ending at `arr[j]` gives a larger sum than the current subsequence ending at `arr[i]`.
-   - Update `dp[i]` accordingly.
-3. **Final Answer**: The maximum value in the `dp[]` array represents the sum of the maximum sum increasing subsequence.
-
-### Time Complexity:
-- **Time Complexity**: \(O(n^2)\), where `n` is the length of the input array. The two nested loops iterate through the array to calculate the maximum subsequence sum.
-- **Space Complexity**: \(O(n)\), for storing the `dp[]` array.
-
-### Optimized Approach:
-The above approach is already efficient for most cases, but if the array is very large, the time complexity \(O(n^2)\) might be an issue. Optimizing this problem further usually involves more advanced techniques, such as using data structures like binary indexed trees or segment trees, but the quadratic solution works well for standard problem sizes.
-
-### Summary:
-- **Maximum Sum Increasing Subsequence (MSIS)** problem is about finding an increasing subsequence with the maximum sum.
-- Using **Dynamic Programming**, we store the maximum sum at each position and build the solution iteratively.
-- The solution has a time complexity of \(O(n^2)\) with \(O(n)\) space.
-
-
-
-5. **Edit Distance**:   ( [Youtube video](https://www.youtube.com/watch?v=eMnyEDYGobA&ab_channel=AnujBhaiya) )
-   - The edit distance between two strings is the minimum number of operations required to convert one string into another (using insertions, deletions, or substitutions).
-
-**Edit Distance using DP:**
+<details>
 
 ```javascript
 function editDistance(str1, str2) {
@@ -10677,1011 +7348,8 @@ function editDistance(str1, str2) {
 
 console.log(editDistance("kitten", "sitting")); // **Output**: 3
 ```
-
+</details>
 <br>
-
-> ### coin change problem using DP   ( [Youtube video](https://www.youtube.com/watch?v=-NTaXJ7BBXs&ab_channel=AnujBhaiya) )
-
-https://www.geeksforgeeks.org/coin-change-dp-7/
-
-The **Coin Change Problem** is a classic dynamic programming problem where the goal is to find the fewest number of coins needed to make up a given amount, or count the number of possible ways to make the amount using available coins.
-
-### Problem:
-Given an array of coins of different denominations and a total amount, find:
-1. The **minimum number of coins** needed to make up the total.
-2. The **number of ways** to make up the total.
-
-### Approach 1: **Minimum Number of Coins (Fewest Coins)**
-The problem asks for the minimum number of coins that sum up to a given amount.
-
-#### Example:
-- Coins: `[1, 2, 5]`
-- Amount: `11`
-- We need to find the fewest coins required to make up `11`.
-
-#### Dynamic Programming Solution (Minimum Coins):
-
-1. We define a `dp[]` array where `dp[i]` represents the minimum number of coins needed to make up amount `i`.
-2. Initialize the `dp` array with a value larger than the possible minimum (infinity or a large number) since we'll be taking the minimum.
-3. Set `dp[0] = 0`, because no coins are needed to make an amount of 0.
-4. For each amount, check every coin and update `dp[amount]` based on the coins available.
-
-#### JavaScript Code (Fewest Coins using tabular):
-
-```javascript
-function coinChange(coins, amount) {
-    const dp = Array(amount + 1).fill(Infinity); // Initialize dp array with a large value (Infinity)
-    dp[0] = 0; // Base case: 0 coins are needed to make amount 0
-
-    for (let i = 1; i <= amount; i++) {
-        for (let coin of coins) {
-            if (i - coin >= 0) {
-                dp[i] = Math.min(dp[i], dp[i - coin] + 1);
-            }
-        }
-    }
-
-    return dp[amount] === Infinity ? -1 : dp[amount]; // Return -1 if it's not possible to make the amount
-}
-
-// Example usage:
-const coins = [1, 2, 5];
-const amount = 11;
-console.log(coinChange(coins, amount)); // **Output**: 3 (5 + 5 + 1)
-```
-
-### **Explanation**:
-
-- The `dp[]` array stores the minimum number of coins required to make each amount.
-- For every amount `i`, we loop through the list of coins. If the coin can contribute to the current amount (`i - coin >= 0`), we update the value of `dp[i]` by comparing the current value of `dp[i]` and `dp[i - coin] + 1` (where `+1` is for including the current coin).
-
-### Time Complexity:
-- **Time Complexity**: \(O(n \times m)\), where `n` is the total amount and `m` is the number of coins.
-- **Space Complexity**: \(O(n)\), where `n` is the size of the `dp[]` array.
-
-
-
-### Approach 2: **Number of Ways to Make the Amount**
-The problem asks to find out how many different ways we can make a given amount using the coins.
-
-#### Example:
-- Coins: `[1, 2, 5]`
-- Amount: `5`
-- **Output**: `4` (The combinations are `[1,1,1,1,1]`, `[1,1,1,2]`, `[1,2,2]`, and `[5]`).
-
-#### Dynamic Programming Solution (Number of Ways):
-
-1. Define a `dp[]` array where `dp[i]` represents the number of ways to make the amount `i`.
-2. Initialize `dp[0] = 1`, because there's 1 way to make an amount of 0 (by not using any coins).
-3. For each coin, iterate through all possible amounts and update the `dp[]` array.
-
-#### JavaScript Code (Number of Ways):
-
-```javascript
-function countWays(coins, amount) {
-    const dp = Array(amount + 1).fill(0); // Initialize dp array with 0
-    dp[0] = 1; // Base case: There is 1 way to make amount 0 (by using no coins)
-
-    for (let coin of coins) {
-        for (let i = coin; i <= amount; i++) {
-            dp[i] += dp[i - coin];
-        }
-    }
-
-    return dp[amount];
-}
-
-// Example usage:
-const coins = [1, 2, 5];
-const amount = 5;
-console.log(countWays(coins, amount)); // **Output**: 4
-```
-
-### **Explanation**:
-
-- The `dp[]` array stores the number of ways to make each amount.
-- For each coin, we update all amounts that can be made using that coin.
-- The idea is to add the number of ways to make amount `i - coin` to `dp[i]` because each way to make `i - coin` can be turned into a way to make `i` by adding the current coin.
-
-### Time Complexity:
-- **Time Complexity**: \(O(n \times m)\), where `n` is the total amount and `m` is the number of coins.
-- **Space Complexity**: \(O(n)\), where `n` is the size of the `dp[]` array.
-
-
-
-### Key Differences Between the Two Approaches:
-1. **Fewest Coins**: Finds the minimum number of coins required to make the amount.
-   - If it's impossible to make the amount with the given coins, it returns `-1`.
-2. **Number of Ways**: Counts the total number of ways to make the amount using the coins.
-   - It returns the total possible combinations to make the amount.
-
-### Summary:
-- Both approaches use **Dynamic Programming**.
-- In **minimum coins**, we are looking for the smallest number of coins that sum to the target.
-- In **number of ways**, we are counting how many possible combinations sum to the target.
-
-<br>
-
-> ### Minimum Jumps to Reach End - Dynamic Programming
-
-The **Minimum Jumps to Reach End** problem is a variation of the dynamic programming problems where we need to find the minimum number of jumps needed to reach the end of an array, starting from the first element.
-
-Each element in the array represents the maximum number of steps that can be taken forward from that element. The goal is to reach the last index of the array in the minimum number of jumps.
-
-### Problem Statement:
-Given an array of integers `arr[]` where each element represents the maximum number of steps that can be taken forward from that element, you need to find the **minimum number of jumps** to reach the end of the array, starting from the first element.
-
-### Example:
-- **Input**: `[2, 3, 1, 1, 2, 4, 2, 0, 1, 1]`
-- **Output**: `4`
-  - **Explanation**: The minimum jumps to reach the end are `2 → 3 → 4 → end`.
-
-### Dynamic Programming Approach:
-
-#### Approach:
-1. Create a `dp[]` array where `dp[i]` represents the minimum number of jumps needed to reach index `i` from index `0`.
-2. Initialize `dp[0] = 0` because no jumps are needed to stay at the starting point.
-3. For each index `i`, check if it is possible to jump to any of the next indices from `i` and update their corresponding `dp[]` values.
-   - If `i + arr[i] >= j`, update `dp[j] = min(dp[j], dp[i] + 1)`.
-
-#### Recurrence Relation:
-- For each index `i`, for all `j` where `i < j <= i + arr[i]`, we can update the number of jumps as:
-  - `dp[j] = min(dp[j], dp[i] + 1)`.
-
-#### JavaScript Code:
-
-```javascript
-function minJumps(arr) {
-    const n = arr.length;
-    if (n == 0 || arr[0] == 0) return -1; // If first element is 0, you can't move anywhere
-
-    const dp = Array(n).fill(Infinity); // Initialize dp array with Infinity
-    dp[0] = 0; // It takes 0 jumps to reach the first index
-
-    for (let i = 0; i < n; i++) {
-        for (let j = i + 1; j <= i + arr[i] && j < n; j++) {
-            dp[j] = Math.min(dp[j], dp[i] + 1);
-        }
-    }
-
-    return dp[n - 1] === Infinity ? -1 : dp[n - 1]; // Return the minimum jumps to reach the end
-}
-
-// Example usage:
-const arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1];
-console.log(minJumps(arr)); // **Output**: 4
-```
-
-### **Explanation**:
-
-1. **Initialization**:
-   - The `dp[]` array is initialized with `Infinity`, except for `dp[0]` which is `0` because no jumps are needed to reach the first index.
-  
-2. **Updating the dp array**:
-   - For each index `i`, we check if it's possible to reach any of the subsequent indices (up to `i + arr[i]`).
-   - If it is possible, we update the `dp[j]` for each of those indices with the minimum jumps required to reach them from index `i`.
-  
-3. **Final Answer**:
-   - After the loop, `dp[n-1]` will contain the minimum number of jumps needed to reach the last index.
-   - If `dp[n-1]` is still `Infinity`, it means it's not possible to reach the end of the array, so return `-1`.
-
-### Time Complexity:
-- **Time Complexity**: \(O(n^2)\), where `n` is the length of the input array. For each element, we are iterating over all reachable elements from that index.
-- **Space Complexity**: \(O(n)\), due to the space required for the `dp[]` array.
-
-
-
-### Optimized Greedy Approach:
-The dynamic programming solution works, but it can be further optimized using a greedy approach, which works in \(O(n)\) time.
-
-#### Greedy Approach:
-- The idea is to use a greedy technique to keep track of the **farthest index** that can be reached and the number of jumps needed.
-- Maintain two variables: `farthest` (the farthest index that can be reached so far) and `jumps` (the number of jumps made).
-- Each time you move beyond the current range of reachability, increment the jump count.
-
-#### JavaScript Code (Greedy):
-
-```javascript
-function minJumps(arr) {
-    const n = arr.length;
-    if (n <= 1) return 0; // If array has 1 element, no jumps needed
-    if (arr[0] == 0) return -1; // If first element is 0, can't move anywhere
-
-    let jumps = 1; // At least one jump is needed
-    let maxReach = arr[0]; // The maximum index reachable so far
-    let steps = arr[0]; // Steps left to make the next jump
-
-    for (let i = 1; i < n; i++) {
-        if (i == n - 1) return jumps; // If we have reached the last index
-
-        maxReach = Math.max(maxReach, i + arr[i]); // Update the maximum reach
-        steps--; // Use a step to move to the next index
-
-        if (steps == 0) { // If no more steps are left, we need to make a jump
-            jumps++; // Increment the jump count
-
-            if (i >= maxReach) return -1; // If we can't move further, return -1
-
-            steps = maxReach - i; // Reset the steps to the number of steps to reach the farthest point
-        }
-    }
-
-    return -1;
-}
-
-// Example usage:
-const arr = [2, 3, 1, 1, 2, 4, 2, 0, 1, 1];
-console.log(minJumps(arr)); // **Output**: 4
-```
-
-### **Explanation** of Greedy Approach:
-1. Start with the number of `steps` available at the first index, and keep track of `maxReach`, which is the farthest point we can reach at any point.
-2. Whenever the number of `steps` becomes `0`, a jump is necessary, so increment the `jumps` counter.
-3. The process continues until we reach the last index.
-
-### Time Complexity (Greedy):
-- **Time Complexity**: \(O(n)\), where `n` is the length of the array, as we traverse the array once.
-- **Space Complexity**: \(O(1)\), as only a constant amount of extra space is used.
-
-### Summary:
-- **Dynamic Programming Approach**: \(O(n^2)\) time complexity but is easier to understand.
-- **Greedy Approach**: \(O(n)\) time complexity and is more efficient for larger arrays.
-
-### Key Points of Dynamic Programming:
-
-- **Optimal Substructure**: The optimal solution of the problem can be constructed from the solutions of its subproblems.
-- **Overlapping Subproblems**: The same subproblems are solved multiple times, which is why memoization or tabulation helps in reducing redundant computations.
-- **Memoization (Top-Down)** vs **Tabulation (Bottom-Up)**: Memoization is typically recursive and stores results as they are computed. Tabulation builds up the solution iteratively from the smallest subproblem.
-  
-Dynamic programming is widely used in algorithm design, especially when brute-force approaches are inefficient due to redundant work. It provides a systematic approach to solving problems with overlapping subproblems and optimal substructure.
-
-
-```js
-// Heaps
-// Heap is like binary tree, but numbers are laid out in a different way
-// Each node has a value that is greater than each of its descendants, max value is at top.(ie Max heap, in min heap its is reverse)
-// heap can have duplicate node while binary tree do not.
-// when we add any value in heap, we add left to right and then we bubble up the heap, means repositioning so that highest be at the top
-
-
-class Heap {
-    #heap = [];
-
-    insert(value){
-        // here we added value
-        this.#heap.push(value)
-
-        // below we are bubbling up
-
-        let current = this.#heap.length - 1  // it is index
-
-        while(current > 0 && this.#heap[current] > this.#heap[this.#parent(current)]){
-            this.#swap(current, this.#parent(current))
-            current = this.#parent(current)
-        }
-    }
-
-    remove(){
-        if(this.#heap.length === 0){
-            return null
-        }
-
-        if(this.#heap.length === 1){
-            return this.#heap.pop()
-        }
-
-        const maxValue = this.#heap[0]
-        this.#heap[0] = this.#heap.pop()
-        this.#sinkDown(0)
-
-        return maxValue
-    }
-
-    deleteKey(index) {
-        if (index < 0 || index >= this.#heap.length) {
-            throw new Error('Index out of bounds');
-        }
-
-        // Swap the element to be deleted with the last element
-        this.#swap(index, this.#heap.length - 1);
-        
-        // Remove the last element (the one to be deleted)
-        this.#heap.pop();
-        
-        // If there are remaining elements, adjust the heap
-        if (index < this.#heap.length) {
-            // Try to sink down or bubble up to maintain the heap property
-            this.#sinkDown(index);
-            if (index > 0 && this.#heap[index] > this.#heap[this.#parent(index)]) {
-                this.#bubbleUp(index);
-            }
-        }
-    }
-
-    #bubbleUp(index) {
-        while (index > 0 && this.#heap[index] > this.#heap[this.#parent(index)]) {
-            this.#swap(index, this.#parent(index));
-            index = this.#parent(index);
-        }
-    }
-
-    decreaseKey(index, newValue){
-        if (index < 0 || index >= this.#heap.length) {
-            throw new Error('Index out of bounds');
-        }
-
-        if (newValue > this.#heap[index]) {
-            throw new Error('New value is greater than the current value');
-        }
-
-        // Update the value at the given index
-        this.#heap[index] = newValue;
-
-        // Sink down the value to restore the heap property
-        this.#sinkDown(index);
-    }
-
-    // sinkdown is rearranging the value in downward direction
-    #sinkDown(index) {
-        let maxIndex = index;
-        let size = this.#heap.length;
-        
-        while (true) {
-            let leftIndex = this.#leftChild(index);
-            let rightIndex = this.#rightChild(index);
-            
-            if (leftIndex < size && this.#heap[leftIndex] > this.#heap[maxIndex]) {
-                maxIndex = leftIndex;
-            }
-            
-            if (rightIndex < size && this.#heap[rightIndex] > this.#heap[maxIndex]) {
-                maxIndex = rightIndex;
-            }
-            
-            if (maxIndex !== index) {
-                this.#swap(index, maxIndex);
-                index = maxIndex;
-            } else {
-                return;
-            }
-        }
-    
-    }
-
-    
-
-    getHeap(){
-        return [...this.#heap]
-    }
-    
-    #leftChild(index){
-        return 2 * index + 1
-    }
-
-    #rightChild(index){
-        return 2 * index + 2
-    }
-
-    #parent(index){
-        return Math.floor((index - 1) / 2)
-    }
-
-    #swap(index1, index2){
-        [this.#heap[index1], this.#heap[index2]] = [this.#heap[index2], this.#heap[index1]]
-    }
-}
-```
-
-<br>
-
-> ### given random array, rearrange array to form the heap
-
-To rearrange a given random array into a heap, you can use the **heapify** algorithm. Heapifying transforms an unordered array into a valid binary heap. For a max-heap, each parent node should be greater than or equal to its children. This can be achieved by starting from the bottom-most non-leaf node and applying the **sink down** operation up to the root.
-
-The process involves:
-1. Identifying the last non-leaf node (the parent of the last element).
-2. Applying the sink down operation (also known as "heapify") on each node starting from the last non-leaf node up to the root.
-
-Here’s how you can implement this in the `Heap` class:
-
-### Heapify Function:
-
-```javascript
-class Heap {
-    #heap = [];
-
-    // Construct heap from an array
-    constructor(arr) {
-        this.#heap = arr;
-        this.heapify();
-    }
-
-    // Insert function remains the same
-    insert(value){
-        this.#heap.push(value);
-        let current = this.#heap.length - 1;
-
-        while(current > 0 && this.#heap[current] > this.#heap[this.#parent(current)]){
-            this.#swap(current, this.#parent(current));
-            current = this.#parent(current);
-        }
-    }
-
-    // Remove function remains the same
-    remove(){
-        if(this.#heap.length === 0){
-            return null;
-        }
-
-        if(this.#heap.length === 1){
-            return this.#heap.pop();
-        }
-
-        const maxValue = this.#heap[0];
-        this.#heap[0] = this.#heap.pop();
-        this.#sinkDown(0);
-
-        return maxValue;
-    }
-
-    // Heapify function to rearrange the array into a heap
-    heapify() {
-        let n = this.#heap.length;
-        // Start from the last non-leaf node and go upwards
-        for (let i = this.#parent(n - 1); i >= 0; i--) {
-            this.#sinkDown(i);
-        }
-    }
-
-    #sinkDown(index) {
-        let maxIndex = index;
-        let size = this.#heap.length;
-        
-        while (true) {
-            let leftIndex = this.#leftChild(index);
-            let rightIndex = this.#rightChild(index);
-            
-            if (leftIndex < size && this.#heap[leftIndex] > this.#heap[maxIndex]) {
-                maxIndex = leftIndex;
-            }
-            
-            if (rightIndex < size && this.#heap[rightIndex] > this.#heap[maxIndex]) {
-                maxIndex = rightIndex;
-            }
-            
-            if (maxIndex !== index) {
-                this.#swap(index, maxIndex);
-                index = maxIndex;
-            } else {
-                return;
-            }
-        }
-    }
-
-    getHeap(){
-        return [...this.#heap];
-    }
-
-    #leftChild(index){
-        return 2 * index + 1;
-    }
-
-    #rightChild(index){
-        return 2 * index + 2;
-    }
-
-    #parent(index){
-        return Math.floor((index - 1) / 2);
-    }
-
-    #swap(index1, index2){
-        [this.#heap[index1], this.#heap[index2]] = [this.#heap[index2], this.#heap[index1]];
-    }
-}
-```
-
-### **Explanation**:
-1. **`heapify()`**: The `heapify` function starts from the last non-leaf node (the parent of the last element) and performs the sink down operation on every node up to the root. This ensures that the entire array satisfies the heap property.
-   - The last non-leaf node is at index `Math.floor((n - 1) / 2)`, where `n` is the size of the heap (or array).
-2. **`#sinkDown()`**: This is the same as before and ensures that each node satisfies the heap property by swapping the current node with its larger child if necessary.
-
-### Usage:
-Now, you can create a heap from any random array by passing it to the constructor:
-
-```javascript
-let randomArray = [3, 9, 2, 1, 4, 5];
-let heap = new Heap(randomArray);
-
-console.log(heap.getHeap());  // **Output**: The array rearranged as a valid max-heap
-```
-
-If you run this, the `randomArray` will be rearranged to form a valid max-heap.
-
-
-> ### Heap Sort
-
-
-Heap sort is a comparison-based sorting algorithm that uses the properties of a binary heap to efficiently sort an array. It works in two main steps:
-
-1. **Heapify the array**: Convert the input array into a max-heap.
-2. **Sort the array**:
-   - Repeatedly swap the root (maximum value) of the heap with the last element.
-   - Reduce the heap size and call `sinkDown` (heapify) on the new root to maintain the heap property.
-   - Repeat this process until the array is sorted.
-
-### Steps for Heap Sort:
-1. **Heapify the entire array**.
-2. **Extract the maximum element** (which is at the root of the max-heap) and place it at the end of the array.
-3. **Reduce the heap size by 1** and repeat the process for the remaining heap.
-
-Here’s how you can implement heap sort in the `Heap` class:
-
-### Heap Sort Implementation:
-
-```javascript
-class Heap {
-    #heap = [];
-
-    // Construct heap from an array
-    constructor(arr) {
-        this.#heap = arr;
-        this.heapify();
-    }
-
-    // Insert function (not required for heap sort, but keeping it for completeness)
-    insert(value){
-        this.#heap.push(value);
-        let current = this.#heap.length - 1;
-
-        while(current > 0 && this.#heap[current] > this.#heap[this.#parent(current)]){
-            this.#swap(current, this.#parent(current));
-            current = this.#parent(current);
-        }
-    }
-
-    // Remove function (also not required for heap sort)
-    remove(){
-        if(this.#heap.length === 0){
-            return null;
-        }
-
-        if(this.#heap.length === 1){
-            return this.#heap.pop();
-        }
-
-        const maxValue = this.#heap[0];
-        this.#heap[0] = this.#heap.pop();
-        this.#sinkDown(0);
-
-        return maxValue;
-    }
-
-    // Heapify the array to build a valid max-heap
-    heapify() {
-        let n = this.#heap.length;
-        for (let i = this.#parent(n - 1); i >= 0; i--) {
-            this.#sinkDown(i);
-        }
-    }
-
-    // Heap sort function
-    heapSort() {
-        let n = this.#heap.length;
-
-        // First step: Heapify the array (already done in constructor)
-        // Second step: Repeatedly extract the maximum element and restore the heap
-        for (let i = n - 1; i > 0; i--) {
-            // Move the current max (root of heap) to the end of the array
-            this.#swap(0, i);
-            // Reduce the heap size and heapify the root element
-            this.#sinkDown(0, i);  // Pass 'i' to limit the heap size
-        }
-
-        return this.#heap;  // The sorted array
-    }
-
-    // Sink down function (modified to allow limiting the heap size for heap sort)
-    #sinkDown(index, size = this.#heap.length) {
-        let maxIndex = index;
-        
-        while (true) {
-            let leftIndex = this.#leftChild(index);
-            let rightIndex = this.#rightChild(index);
-            
-            if (leftIndex < size && this.#heap[leftIndex] > this.#heap[maxIndex]) {
-                maxIndex = leftIndex;
-            }
-            
-            if (rightIndex < size && this.#heap[rightIndex] > this.#heap[maxIndex]) {
-                maxIndex = rightIndex;
-            }
-            
-            if (maxIndex !== index) {
-                this.#swap(index, maxIndex);
-                index = maxIndex;
-            } else {
-                return;
-            }
-        }
-    }
-
-    getHeap(){
-        return [...this.#heap];
-    }
-
-    #leftChild(index){
-        return 2 * index + 1;
-    }
-
-    #rightChild(index){
-        return 2 * index + 2;
-    }
-
-    #parent(index){
-        return Math.floor((index - 1) / 2);
-    }
-
-    #swap(index1, index2){
-        [this.#heap[index1], this.#heap[index2]] = [this.#heap[index2], this.#heap[index1]];
-    }
-}
-```
-
-### **Explanation**:
-
-1. **Heapify**: The array is first heapified using the `heapify()` function.
-2. **Heap Sort**:
-   - In the `heapSort()` function, we start by swapping the root (the largest element in a max-heap) with the last element of the array.
-   - Then, we reduce the size of the heap by one and apply `#sinkDown()` to the root to maintain the heap property.
-   - This process is repeated until the entire array is sorted.
-
-### Usage:
-
-You can now perform heap sort on any array as follows:
-
-```javascript
-let randomArray = [3, 9, 2, 1, 4, 5];
-let heap = new Heap(randomArray);
-
-console.log("Unsorted array:", heap.getHeap());
-
-heap.heapSort();
-
-console.log("Sorted array:", heap.getHeap());
-```
-
-### Time Complexity:
-- **Heapify**: O(n)
-- **Heap Sort**: O(n log n)
-
-Heap sort is efficient, and in-place, and has a time complexity of **O(n log n)** for sorting an array. This implementation sorts the array in descending order because we are using a **max-heap**. If you want to sort in ascending order, simply reverse the result at the end.
-
-
-> ### Priority queue
-
-A **priority queue** is a special type of queue where each element is assigned a priority, and elements are dequeued in order of their priority rather than the order in which they were added. In the case of a **max-priority queue**, the highest priority (or the largest element) is dequeued first. In a **min-priority queue**, the smallest element is dequeued first.
-
-A **heap** is commonly used to implement a priority queue because heaps efficiently support the insertion and removal of elements with a time complexity of **O(log n)**.
-
-Let's extend the `Heap` class to implement a **priority queue**.
-
-### Priority Queue Implementation
-
-We will:
-1. **Insert** elements with priority.
-2. **Extract** elements based on their priority (i.e., either maximum or minimum depending on the type of heap).
-
-Here’s a max-priority queue (using a max-heap) implementation:
-
-```javascript
-class PriorityQueue {
-    #heap = [];
-
-    // Insert a new element with its priority
-    insert(value) {
-        this.#heap.push(value);
-        let current = this.#heap.length - 1;
-
-        // Bubble up to maintain the heap property
-        while (current > 0 && this.#heap[current] > this.#heap[this.#parent(current)]) {
-            this.#swap(current, this.#parent(current));
-            current = this.#parent(current);
-        }
-    }
-
-    // Remove and return the element with the highest priority (max element)
-    extractMax() {
-        if (this.#heap.length === 0) {
-            return null;  // If the heap is empty
-        }
-
-        if (this.#heap.length === 1) {
-            return this.#heap.pop();  // If there's only one element
-        }
-
-        const maxValue = this.#heap[0];  // The max element (root of the heap)
-        this.#heap[0] = this.#heap.pop();  // Move the last element to the root
-        this.#sinkDown(0);  // Sink down the new root to maintain heap property
-
-        return maxValue;  // Return the max element
-    }
-
-    // Peek at the highest priority element without removing it
-    peek() {
-        if (this.#heap.length === 0) {
-            return null;
-        }
-        return this.#heap[0];  // The root contains the highest priority element
-    }
-
-    // Sink down to maintain the heap property after removal
-    #sinkDown(index) {
-        let maxIndex = index;
-        let size = this.#heap.length;
-        
-        while (true) {
-            let leftIndex = this.#leftChild(index);
-            let rightIndex = this.#rightChild(index);
-            
-            if (leftIndex < size && this.#heap[leftIndex] > this.#heap[maxIndex]) {
-                maxIndex = leftIndex;
-            }
-            
-            if (rightIndex < size && this.#heap[rightIndex] > this.#heap[maxIndex]) {
-                maxIndex = rightIndex;
-            }
-            
-            if (maxIndex !== index) {
-                this.#swap(index, maxIndex);
-                index = maxIndex;
-            } else {
-                break;
-            }
-        }
-    }
-
-    // Get the current heap (optional for debugging purposes)
-    getHeap() {
-        return [...this.#heap];
-    }
-
-    #leftChild(index) {
-        return 2 * index + 1;
-    }
-
-    #rightChild(index) {
-        return 2 * index + 2;
-    }
-
-    #parent(index) {
-        return Math.floor((index - 1) / 2);
-    }
-
-    #swap(index1, index2) {
-        [this.#heap[index1], this.#heap[index2]] = [this.#heap[index2], this.#heap[index1]];
-    }
-}
-```
-
-### **Explanation**:
-
-1. **Insert**: When inserting an element, we add it to the end of the heap (array) and then "bubble up" to ensure the heap property is maintained (i.e., parents are larger than children for a max-heap).
-   
-2. **ExtractMax**: The highest-priority element (root) is extracted by swapping it with the last element, removing the last element, and then applying the `sinkDown` operation to restore the heap property.
-
-3. **Peek**: You can peek at the highest priority element (the root) without removing it.
-
-### Usage:
-
-```javascript
-let pq = new PriorityQueue();
-
-// Insert elements with priority
-pq.insert(10);
-pq.insert(20);
-pq.insert(5);
-pq.insert(30);
-
-console.log("Priority Queue:", pq.getHeap());  // [30, 20, 5, 10]
-
-// Extract max priority elements
-console.log("Extract Max:", pq.extractMax());  // 30
-console.log("Priority Queue after extract:", pq.getHeap());  // [20, 10, 5]
-
-// Peek at the highest priority element
-console.log("Peek Max:", pq.peek());  // 20
-```
-
-### Time Complexity:
-- **Insert**: O(log n)
-- **Extract Max**: O(log n)
-- **Peek**: O(1)
-
-### Min-Priority Queue:
-If you want to implement a **min-priority queue**, where the smallest element has the highest priority, you simply need to modify the `insert` and `extractMin` functions to compare elements in the opposite way. Specifically:
-- Change comparisons in `insert` and `sinkDown` so that smaller elements are moved upwards (for `bubbleUp`) and downwards (for `sinkDown`).
-
-
-<br>
-
-> ### Sort a K Sorted Array ( [Youtube video](https://www.youtube.com/watch?v=dYfM6J1y0mU&ab_channel=AdityaVerma) )
-
-A **K-sorted array** (also known as a nearly sorted array) is an array where each element is at most `K` positions away from its target position. The goal is to efficiently sort this array.
-
-To solve this problem, we can take advantage of a **min-heap**. The idea is to:
-1. Use a heap of size `K+1` to keep track of the next `K+1` elements. Since every element is at most `K` positions away, the minimum element among the first `K+1` elements is guaranteed to be in its correct position.
-2. As we move through the array, we extract the minimum element from the heap (which is in its correct position) and insert the next element from the array into the heap.
-
-### Algorithm Steps:
-1. Initialize a min-heap and insert the first `K+1` elements from the array into it.
-2. Pop the minimum element from the heap (this will be the smallest element and in the correct position) and insert the next element from the array into the heap.
-3. Repeat this process until you reach the end of the array.
-4. Once the array has been traversed, continue to extract the remaining elements from the heap and place them in the array.
-
-### Time Complexity:
-- Building the initial heap with `K+1` elements takes **O(K)**.
-- Extracting the minimum element and inserting a new element both take **O(log K)**, and since you do this for each element, the overall complexity is **O(n log K)**, where `n` is the total number of elements in the array.
-
-### Code Implementation:
-
-```javascript
-class MinHeap {
-    constructor() {
-        this.heap = [];
-    }
-
-    // Insert an element into the min-heap
-    insert(value) {
-        this.heap.push(value);
-        this.bubbleUp();
-    }
-
-    // Extract the minimum element from the heap
-    extractMin() {
-        if (this.heap.length === 0) return null;
-        if (this.heap.length === 1) return this.heap.pop();
-
-        const minValue = this.heap[0];
-        this.heap[0] = this.heap.pop();
-        this.sinkDown(0);
-
-        return minValue;
-    }
-
-    // Bubble up the last element to maintain heap property
-    bubbleUp() {
-        let index = this.heap.length - 1;
-        while (index > 0) {
-            let parentIndex = Math.floor((index - 1) / 2);
-            if (this.heap[index] >= this.heap[parentIndex]) break;
-
-            // Swap with parent
-            [this.heap[index], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[index]];
-            index = parentIndex;
-        }
-    }
-
-    // Sink down the root element to maintain heap property
-    sinkDown(index) {
-        let size = this.heap.length;
-        let leftChild = 2 * index + 1;
-        let rightChild = 2 * index + 2;
-        let smallest = index;
-
-        if (leftChild < size && this.heap[leftChild] < this.heap[smallest]) {
-            smallest = leftChild;
-        }
-        if (rightChild < size && this.heap[rightChild] < this.heap[smallest]) {
-            smallest = rightChild;
-        }
-
-        if (smallest !== index) {
-            // Swap and continue sinking down
-            [this.heap[index], this.heap[smallest]] = [this.heap[smallest], this.heap[index]];
-            this.sinkDown(smallest);
-        }
-    }
-}
-
-function sortKSortedArray(arr, k) {
-    let heap = new MinHeap();
-    let result = [];
-    let n = arr.length;
-
-    // Insert the first K+1 elements into the heap
-    for (let i = 0; i < Math.min(k + 1, n); i++) {
-        heap.insert(arr[i]);
-    }
-
-    // Process the remaining elements in the array
-    for (let i = k + 1; i < n; i++) {
-        result.push(heap.extractMin());  // Extract min element and place it in result
-        heap.insert(arr[i]);  // Insert next element from the array into the heap
-    }
-
-    // Extract the remaining elements from the heap
-    while (heap.heap.length > 0) {
-        result.push(heap.extractMin());
-    }
-
-    return result;
-}
-
-// Example usage:
-let arr = [6, 5, 3, 2, 8, 10, 9];
-let k = 3;
-
-console.log("Original K-sorted array:", arr);
-let sortedArray = sortKSortedArray(arr, k);
-console.log("Sorted array:", sortedArray);
-```
-
-### **Explanation**:
-
-1. **MinHeap Class**: This is a standard min-heap implementation with methods to `insert`, `extractMin`, `bubbleUp`, and `sinkDown` to maintain the heap property.
-2. **sortKSortedArray Function**:
-   - First, we insert the first `K+1` elements into the heap.
-   - We then go through the rest of the array, always extracting the minimum element and inserting the next element from the array into the heap.
-   - After processing all the elements, the remaining elements in the heap are extracted.
-
-### Example:
-
-For the array `[6, 5, 3, 2, 8, 10, 9]` with `K = 3`, the sorted array will be:
-
-```
-Original K-sorted array: [6, 5, 3, 2, 8, 10, 9]
-Sorted array: [2, 3, 5, 6, 8, 9, 10]
-```
-
-This algorithm efficiently sorts the array while leveraging the property that each element is at most `K` positions away from its target position.
-
-
-```js
-// Below are the basic sorts( bubble sort, selection sort, insertion sort)
-
-
-// Bubble sort
-// Bubble sort algorithm is an algorithm that sorts an array by comparing two adjacent elements and swapping them if they are not in the intended order. 
-// Here order can be anything like increasing or decreasing.
-// Bubble sort compares the element from index 0 and if the 0th index value is greater than 1st index value, then the values get swapped and if the 0th index value is less than the 1st index value, then nothing happens.
-
-// Next, the 1st index value compares to the 2nd index value, and then the 2nd index value compares to the 3rd index value, and so on…
-
-
-function bubbleSort(array) {
-  const n = array.length;
-  for (let i = n - 1; i > 0; i--) {
-    for (let j = 0; j < i; j++) {
-      if (array[j] > array[j + 1]) {
-        [array[j], array[j + 1]] = [array[j + 1], array[j]]; // Destructuring to swap
-      }
-    }
-  }
-  return array;
-}
-
-
-// Selection sort
-// The algorithm repeatedly selects the smallest (or largest) element from the unsorted portion of the list and swaps it with the first element of the unsorted part. This process is repeated for the remaining unsorted portion until the entire list is sorted.
-
-
-function selectionSort(array) {
-  const n = array.length;
-  for (let i = 0; i < n - 1; i++) {
-    let min = i;
-    for (let j = i + 1; j < n; j++) {
-      if (array[j] < array[min]) min = j;
-    }
-    if (i !== min) {
-      [array[i], array[min]] = [array[min], array[i]]; // Destructuring to swap
-    }
-  }
-  return array;
-}
-```
-
-<br>
-
 
 ## Bit Manipulation ( [Youtube video](https://www.youtube.com/watch?v=PP2d0dG1rRY) )
 
