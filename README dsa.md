@@ -3335,7 +3335,7 @@ function mergeTwoLists(list1, list2) {
     }
 }
 ```
-<details>
+</details>
 
 
 **Solution 2 - Iteration**
@@ -4234,7 +4234,7 @@ class BST {
 let myTree = new BST()
 myTree
 ```
-<details>
+</details>
 
 <br>
 
@@ -4414,7 +4414,7 @@ DFSPreOrder() {
     return results;
 }
 ```
-<details>
+</details>
 
 <br>
 
@@ -5786,7 +5786,7 @@ console.log(JSON.stringify(root, null, 2));
 ```
 
 The node `70` is replaced with its in-order successor `80`, and the BST is updated accordingly.
-<details>
+</details>
 
 <br>
 
@@ -5959,7 +5959,7 @@ avl.inOrder(avl.root);  // Output will be in sorted order
 - **Rotation**: O(1) because rotations only involve changing a few pointers and heights.
 - **In-order Traversal**: O(n), where **n** is the number of nodes.
 
-<details>
+</details>
 
 
 <br>
@@ -6058,7 +6058,7 @@ console.log(isValidBST(root)); // **Output**: true
 1. The function `isValidBST` takes three arguments: the current node (`node`), and optional `min` and `max` bounds.
 2. For each node, it checks if the node's value lies within the valid range defined by `min` and `max`.
 
-<details>
+</details>
 
 <br>
 
@@ -6209,7 +6209,7 @@ if (result) {
   console.log('No pair found');
 }
 ```
-<details>
+</details>
 
 <br>
 
@@ -6655,7 +6655,7 @@ const array = [10, 5, 2, 7, 1, 9];
 const target = 15;
 console.log(longestSubarrayWithGivenSum(array, target)); // **Output**: 4 ([5, 2, 7, 1])
 ```
-<details>
+</details>
 
 <br>
 
