@@ -9610,7 +9610,7 @@ console.log(minCostClimbingStairs([10, 15, 20])); // **Output**: 15
 console.log(minCostClimbingStairs([1,100,1,1,1,100,1,1,100,1])); // **Output**: 6
 ```
 
-<details>
+</details>
 
 <br>
 
