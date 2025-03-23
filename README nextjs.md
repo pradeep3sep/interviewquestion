@@ -1,4 +1,12 @@
-Note: It has page.js not index.js in folder
+Note: 
+- It has page.js not index.js in folder which serve as main file.
+- By default, all components are server side components only
+- "use client" directive added, the component should run on client side & server side
+- when we click on next Link button, the component which comes on route change runs on server side, not on client side
+- you can have "use client" or "use server" in single component, if both needed then make that component to two separate coponenent, and use them separately
+- in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that part separate component and add "use client" in that component and import it
+
+## 120 no ki video phir dekhni h
 
 > ### **App Router vs Pages Router in Next.js**  
 
@@ -114,9 +122,9 @@ In Next.js **App Router**, specific file names have special meanings. Here’s w
 
 ### **1. `layout.js / layout.tsx` (Layout File)**
 - Defines a persistent UI wrapper (like headers, sidebars, and footers) for all child pages.
-- Useful for nested layouts.
 - A layout is UI that is shared between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender.
 - Layouts are Server Components by default but can be set to a Client Component.
+- The root layout should have the html, body and metadata(metadata is reseved and must shared object) content
 - Layouts do not have access to the route segments below itself. To access all route segments, you can use `useSelectedLayoutSegment` or `useSelectedLayoutSegments` in a Client Component.
 
 
@@ -205,6 +213,39 @@ export default function NotFound() {
   return <h1>Page Not Found</h1>;
 }
 ```
+
+> ### we have not found function
+
+The `notFound` function allows you to render the `not-found file` within a route segment
+
+**notFound()**
+
+Invoking the `notFound()` function throws a NEXT_NOT_FOUND error and terminates rendering of the route segment in which it was thrown. Specifying a not-found file allows you to gracefully handle such errors by rendering a Not Found UI within the segment.
+
+basically, kisi condition pe hum chahte h ki nearest not found page render ho jaye, to ish function ko run karte h
+
+app/user/[id]/page.js
+```js
+import { notFound } from 'next/navigation'
+ 
+async function fetchUser(id) {
+  const res = await fetch('https://...')
+  if (!res.ok) return undefined
+  return res.json()
+}
+ 
+export default async function Profile({ params }) {
+  const { id } = await params
+  const user = await fetchUser(id)
+ 
+  if (!user) {
+    notFound()
+  }
+ 
+  // ...
+}
+```
+
 
 ---
 
@@ -318,11 +359,11 @@ Next.js **App Router** (`app/` directory) supports **dynamic routing** with brac
 
 ---
 
-## **1️⃣ `[folder]` → Dynamic Route Segment**  
-- **Creates a dynamic route based on a URL parameter**  
+> ### Dynamic Route Segment 
+- keep in mind that `params` is important thing
 - Example: `/products/[id]/page.tsx` → Matches `/products/123`, `/products/xyz`  
 
-📌 **Example Structure:**  
+
 ```
 /app
   /products
@@ -330,7 +371,7 @@ Next.js **App Router** (`app/` directory) supports **dynamic routing** with brac
       page.tsx  → Matches `/products/:id`
 ```
 
-📌 **Example Code (`app/products/[id]/page.tsx`):**  
+in app/products/[id]/page.tsx
 ```tsx
 export default function ProductPage({ params }) {
   return <h1>Product ID: {params.id}</h1>;
@@ -338,9 +379,10 @@ export default function ProductPage({ params }) {
 ```
 ✅ **URL:** `/products/42` → **Renders:** `Product ID: 42`  
 
----
+<br>
 
-## **2️⃣ `[...folder]` → Catch-All Route Segment**  
+> ### `[...folder]` → Catch-All Route Segment
+
 - **Matches multiple path segments after a base route**  
 - Example: `/docs/[...slug]/page.tsx` → Matches `/docs/setup/install`, `/docs/react/hooks`  
 
@@ -362,11 +404,13 @@ export default function DocsPage({ params }) {
 
 ---
 
-## **3️⃣ `[[...folder]]` → Optional Catch-All Route Segment**  
+**3️⃣ `[[...folder]]` → Optional Catch-All Route Segment**  
 - **Same as `[...folder]`, but also matches the base route itself**  
 - Example: `/blog/[[...slug]]/page.tsx` → Matches `/blog`, `/blog/nextjs`, `/blog/nextjs/app-router`  
 
-📌 **Example Structure:**  
+- basically cathing all route, which can deeply nested in single component
+
+**Example Structure:**  
 ```
 /app
   /blog
@@ -374,7 +418,7 @@ export default function DocsPage({ params }) {
       page.tsx  → Matches `/blog/:slug*` (including `/blog`)
 ```
 
-📌 **Example Code (`app/blog/[[...slug]]/page.tsx`):**  
+**Example Code (`app/blog/[[...slug]]/page.tsx`):**  
 ```tsx
 export default function BlogPage({ params }) {
   return (
@@ -1002,19 +1046,16 @@ export function formatDate(date: string) {
 
 Let me know if you need more details! 🚀
 
+<br>
 
-# **📌 Parallel & Intercepted Routes in Next.js (App Router)**  
+> ### Parallel & Intercepted Routes in Next.js (App Router)
 
-Next.js **App Router** allows creating advanced routing patterns using **Parallel Routes** and **Intercepted Routes**.
-
----
-
-## **1️⃣ Parallel Routes (`@folder`) → Named Slots**  
+**1️⃣ Parallel Routes (`@folder`) → Named Slots**  
 - **Used to render multiple pages in parallel inside a layout.**  
 - Each slot (`@folder`) **renders a separate route**, allowing **multiple views in a single layout**.  
 - Ideal for **dashboards with multiple panels**, **chat apps**, or **sidebars**.  
 
-### **📌 Example Structure:**
+**📌 Example Structure:**
 ```
 /app
   /dashboard
@@ -1026,8 +1067,11 @@ Next.js **App Router** allows creating advanced routing patterns using **Paralle
     page.tsx   → Main dashboard page
 ```
 
-### **📌 Example Code:**
-#### **`app/dashboard/layout.tsx` (Using Parallel Slots)**
+**📌 Example Code:**
+**`app/dashboard/layout.tsx` (Using Parallel Slots)**
+**Note**: In general scenario, layout gets children prop but when we use the parallel routes, we get all the parallel routes in layout, in our case it is analytics, & settings
+- Each nested page has its own environment like, separate loading,error,not-found, etc
+
 ```tsx
 export default function DashboardLayout({ analytics, settings }) {
   return (
@@ -1039,32 +1083,42 @@ export default function DashboardLayout({ analytics, settings }) {
 }
 ```
 
-#### **`app/dashboard/@analytics/page.tsx`**
+**`app/dashboard/@analytics/page.tsx`**
 ```tsx
 export default function AnalyticsPage() {
   return <h1>Analytics Panel</h1>;
 }
 ```
 
-#### **`app/dashboard/@settings/page.tsx`**
+**`app/dashboard/@settings/page.tsx`**
 ```tsx
 export default function SettingsPage() {
   return <h1>Settings Panel</h1>;
 }
 ```
 
-✅ **Visiting `/dashboard` Renders:**  
+**Visiting `/dashboard` Renders:**  
 ```
 -----------------------
 | Analytics | Settings |
 |   Panel   |  Panel   |
 -----------------------
 ```
-✅ **Allows loading multiple pages (slots) at once!**  
+**Allows loading multiple pages (slots) at once!**  
 
----
 
-## **2️⃣ Intercepted Routes (`(.)folder`, `(..)folder`, `(...)folder`)**  
+Note-
+When we don't have any page.js in parallel route then we can provide the default.js which works as default file for that parallel route
+
+eg: if we don't have the page.js in settings folder then we can provide the default.js in that folder
+
+- In Next.js Parallel Routes, the default.js (or default.tsx) file acts as a fallback component when a slot does not have a corresponding file
+- If a slot (e.g., @settings) does not receive a page, default.js renders instead.
+- if we provide the dynamic or static route inside the analytics, then that part will render only in Analytics part of total page
+
+<br>
+
+**2️⃣ Intercepted Routes (`(.)folder`, `(..)folder`, `(...)folder`)**  
 - Used to **override the normal navigation flow** by intercepting requests.  
 - Helps when **embedding a different page inside another page** (e.g., opening a modal instead of full navigation). 
 - For example, when clicking on a photo in a feed, you can display the photo in a modal, overlaying the feed. In this case, Next.js intercepts the /photo/123 route, masks the URL, and overlays it over /feed.
@@ -1076,7 +1130,7 @@ export default function SettingsPage() {
 ![BOM](/images/intercepting2.avif)
 
 
-### **📌 Types of Interception**
+**Types of Interception**
 | Syntax | Intercepts From |
 |--------|----------------|
 | **`(.)folder`** | Same level |
@@ -2145,6 +2199,364 @@ export default function Page() {
   )
 }
 ```
+
+
+> ### usePathname
+
+### **🔹 `usePathname` Hook in Next.js**
+The `usePathname` hook is part of **Next.js (App Router)** and is used to **get the current URL path** in a React component.
+
+---
+
+## **✅ Basic Usage**
+```jsx
+"use client";
+
+import { usePathname } from "next/navigation";
+
+export default function CurrentPath() {
+  const pathname = usePathname();
+
+  return <p>Current Path: {pathname}</p>;
+}
+```
+🔹 **Example Output:**  
+If the user is on `/dashboard`, it will display:
+```
+Current Path: /dashboard
+```
+
+---
+
+## **📌 When to Use `usePathname`?**
+✅ **Active Link Highlighting (Navigation Menus)**  
+✅ **Conditional Rendering Based on URL**  
+✅ **Breadcrumbs & Page Titles**  
+
+---
+
+## **📌 Example: Highlighting Active Links**
+```jsx
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+export default function Navbar() {
+  const pathname = usePathname();
+
+  return (
+    <nav>
+      <Link href="/" className={pathname === "/" ? "text-blue-500" : ""}>
+        Home
+      </Link>
+      <Link href="/about" className={pathname === "/about" ? "text-blue-500" : ""}>
+        About
+      </Link>
+    </nav>
+  );
+}
+```
+🔹 **Why?**  
+- The active link gets a blue color based on the `pathname`.
+
+---
+
+## **⚠️ Important Notes**
+1️⃣ **Works Only in Client Components**  
+   - `usePathname` only works inside `"use client"` components.  
+   - For **Server Components**, use `cookies()` or `headers()`.
+
+2️⃣ **Does Not Include Query Params (`?id=123`)**  
+   - If you need query params, use `useSearchParams()`.  
+
+---
+
+## **📌 `usePathname` vs. `useRouter()`**
+| Feature            | `usePathname`  | `useRouter()` |
+|-------------------|---------------|--------------|
+| **Gets current URL** | ✅ Yes | ✅ Yes |
+| **Includes query params?** | ❌ No | ✅ Yes (`router.query`) |
+| **Used for navigation?** | ❌ No | ✅ Yes (`router.push()`) |
+
+Would you like an example using both `usePathname` and `useSearchParams`? 🚀
+
+
+
+### **🔹 `useFormStatus` Hook in Next.js**
+The `useFormStatus` hook is a **React Server Action** utility in Next.js that helps manage **form submission states** in Server Components.  
+
+It allows you to:  
+✅ Detect if a form is **submitting** (`pending` state).  
+✅ Show **loading indicators** or **disable buttons** while submitting.  
+✅ Improve **user experience** by handling async form interactions properly.
+
+---
+
+## **✅ Basic Usage**
+```tsx
+"use client";
+
+import { useFormStatus } from "react-dom";
+
+function SubmitButton() {
+  const { pending } = useFormStatus(); // Get form status
+
+  return (
+    <button type="submit" disabled={pending}>
+      {pending ? "Submitting..." : "Submit"}
+    </button>
+  );
+}
+
+export default function Form() {
+  async function submitAction(formData) {
+    "use server"; // Server Action
+    await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate delay
+    console.log("Form submitted:", formData.get("name"));
+  }
+
+  return (
+    <form action={submitAction}>
+      <input type="text" name="name" placeholder="Enter name" required />
+      <SubmitButton />
+    </form>
+  );
+}
+```
+
+---
+
+## **📌 How It Works**
+1️⃣ **`useFormStatus()`** is used inside a **Client Component** to check if the form is submitting (`pending`).  
+2️⃣ The **submit button disables itself** (`disabled={pending}`) while the form is being processed.  
+3️⃣ The form uses a **Server Action (`"use server"`)** to handle submission without needing an API route.  
+
+---
+
+## **📌 Why Use `useFormStatus`?**
+✅ **Eliminates extra state management** (`useState` for loading not needed).  
+✅ **Optimized for Server Actions** (no need for `useEffect` or API calls).  
+✅ **Works seamlessly with Next.js Server Components**.  
+
+Would you like an example with **error handling and validation**? 🚀
+
+### **🔹 `useActionState` Hook in Next.js**  
+The `useActionState` hook in **Next.js (App Router)** is used to manage **form state** in Client Components when using **Server Actions**.  
+
+It helps with:  
+✅ **Managing form submission state** (loading, success, error).  
+✅ **Updating UI reactively** based on the form's response.  
+✅ **Eliminating the need for `useState` for form data handling**.  
+
+---
+
+## **✅ Basic Usage**
+```tsx
+"use client";
+
+import { useActionState } from "react";
+
+async function submitAction(prevState, formData) {
+  "use server"; // Server Action
+  const name = formData.get("name");
+
+  if (!name) {
+    return { error: "Name is required!" };
+  }
+
+  await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate API call
+  return { success: `Form submitted with name: ${name}` };
+}
+
+export default function Form() {
+  const [state, formAction, isPending] = useActionState(submitAction, null);
+
+  return (
+    <form action={formAction}>
+      <input type="text" name="name" placeholder="Enter name" required />
+      <button type="submit" disabled={isPending}>
+        {isPending ? "Submitting..." : "Submit"}
+      </button>
+
+      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {state?.success && <p className="text-green-500">{state.success}</p>}
+    </form>
+  );
+}
+```
+
+---
+
+## **📌 How It Works**
+1️⃣ **`useActionState(submitAction, initialState)`**  
+   - Tracks form state based on the **Server Action (`submitAction`)**.  
+   - `initialState` is `null` at the start.  
+
+2️⃣ **Returned values from `useActionState`**  
+   - `state` → Stores the **returned response** from the action (success/error).  
+   - `formAction` → The function to trigger the Server Action.  
+   - `isPending` → Boolean flag (`true` while submitting).  
+
+3️⃣ **Handles Form Submission with Server Actions**  
+   - If validation **fails**, an error message appears.  
+   - If submission **succeeds**, a success message appears.  
+
+---
+
+## **📌 Why Use `useActionState`?**
+✅ **Eliminates extra `useState` for form state**.  
+✅ **Works with Server Actions** (no need for an API route).  
+✅ **Optimized for handling form submissions and responses dynamically**.  
+
+Would you like an example with **real API integration**? 🚀
+
+
+
+### **🔹 `revalidatePath` in Next.js**
+`revalidatePath` is a **Server Action utility** in Next.js used to **manually revalidate cached data** for a specific route. eg get api gets cached on home page, you updated the data of homepage in db, but changes will not reflected, so you need to run this function after succesfull response of api which updates the db
+
+It helps when:  
+✅ You **mutate data** (e.g., after a form submission or database update).  
+✅ You want to **force fetch updated content** from a Server Component.  
+✅ You need to **bypass Next.js caching** for a particular route.  
+
+---
+
+## **✅ Basic Usage**
+```tsx
+"use server";
+
+import { revalidatePath } from "next/cache";
+
+export async function addItem(prevState, formData) {
+  const item = formData.get("item");
+
+  if (!item) {
+    return { error: "Item cannot be empty!" };
+  }
+
+  // Simulate adding data to a database
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // Revalidate the `/items` page to fetch new data
+  revalidatePath("/items");
+
+  return { success: "Item added successfully!" };
+}
+```
+
+---
+
+## **📌 How to Use with a Form**
+### **Client Component Form with `useActionState`**
+```tsx
+"use client";
+
+import { useActionState } from "react";
+import { addItem } from "./actions"; // Import Server Action
+
+export default function ItemForm() {
+  const [state, formAction, isPending] = useActionState(addItem, null);
+
+  return (
+    <form action={formAction}>
+      <input type="text" name="item" placeholder="Enter item" required />
+      <button type="submit" disabled={isPending}>
+        {isPending ? "Adding..." : "Add Item"}
+      </button>
+
+      {state?.error && <p className="text-red-500">{state.error}</p>}
+      {state?.success && <p className="text-green-500">{state.success}</p>}
+    </form>
+  );
+}
+```
+
+---
+
+## **📌 How It Works**
+1️⃣ **User submits the form** with an item.  
+2️⃣ The `addItem` **Server Action** runs, adding the item.  
+3️⃣ **`revalidatePath("/items")`** ensures the `/items` page **fetches fresh data** instead of using cached content.  
+4️⃣ The updated list appears immediately after form submission.  
+
+---
+
+## **📌 `revalidatePath` vs. `revalidateTag`**
+| Feature             | `revalidatePath`  | `revalidateTag`  |
+|-------------------|----------------|----------------|
+| **Use Case**       | Revalidates a specific **page** | Revalidates **data** marked with a tag |
+| **Scope**         | Affects only the given **path** | Affects all queries with a **specific tag** |
+| **Example**       | `revalidatePath("/dashboard")` | `revalidateTag("user-data")` |
+
+---
+
+## **🎯 When to Use `revalidatePath`?**
+✅ **After a form submission (CRUD operations)**  
+✅ **When updating user profile data**  
+✅ **When modifying a database and needing fresh data**  
+
+Would you like an example with **automatic revalidation after a database update**? 🚀
+
+
+
+## Meta data updation
+
+- The metadata object and generateMetadata function exports are only supported in Server Components.
+- You cannot export both the metadata object and generateMetadata function from the same route segment.
+
+<br>
+
+1. for static pages, we use meta data object
+
+layout.js | page.js
+```js
+export const metadata = {
+  title: '...',
+  description: '...',
+}
+ 
+export default function Page() {}
+```
+
+2. for dynamic websites
+
+we use generateMetadata function
+
+
+app/products/[id]/page.js
+```js
+export async function generateMetadata({ params, searchParams }, parent) {
+  // read route params
+  const { id } = await params
+ 
+  // fetch data
+  const product = await fetch(`https://.../${id}`).then((res) => res.json())
+ 
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
+ 
+  return {
+    title: product.title,
+    openGraph: {
+      images: ['/some-specific-page-image.jpg', ...previousImages],
+    },
+  }
+}
+ 
+export default function Page({ params, searchParams }) {}
+```
+
+- it should return an object
+
+
+more on below
+
+```
+https://nextjs.org/docs/app/api-reference/functions/generate-metadata
+```
+
 
 
 
