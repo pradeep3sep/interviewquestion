@@ -4,9 +4,9 @@ Note:
 - "use client" directive added, the component should run on client side & server side
 - when we click on next Link button, the component which comes on route change runs on server side, not on client side
 - you can have "use client" or "use server" in single component, if both needed then make that component to two separate coponenent, and use them separately
-- in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that part separate component and add "use client" in that component and import it
+- in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that hook part separate component and add "use client" in that component and import it
 
-## 120 no ki video phir dekhni h
+## 120, 150 no ki video phir dekhni h
 
 > ### **App Router vs Pages Router in Next.js**  
 
@@ -200,6 +200,8 @@ export default function Loading() {
   return <p>Loading...</p>;
 }
 ```
+
+- sometimes loading.js is not working as expected then in that condition we can use the `suspense with fallback` in that component
 
 ---
 
@@ -516,6 +518,7 @@ export function register() {
 - matcher allows you to filter Middleware to run on specific paths.
   - it can be single path or multiple paths
   - allows full regex
+- to make it work, add middleware.ts in root folder
 
 📌 **Example:**
 ```ts
@@ -969,20 +972,16 @@ node_modules/
 
 Let me know if you need more details! 🚀
 
-
+<br>
 
 ## **📌 Route Groups & Private Folders in Next.js (App Router)**  
 
-Next.js **App Router** (`app/` directory) allows structuring routes efficiently using **Route Groups** and **Private Folders**.  
-
----
-
-## **1️⃣ Route Groups → `(folder)`**  
+**1️⃣ Route Groups → `(folder)`**  
 - Used to **group related routes** **without affecting the URL structure**.  
-- Helps organize large projects by grouping routes logically.  
-- **Parent folder names do NOT appear in the URL.**  
+- **Parent folder names do NOT appear in the URL.**
+- In that group folder, we can create a layout.js which only works for that folder
 
-### **📌 Example Structure:**
+**📌 Example Structure:**
 ```
 /app
   /(dashboard)
@@ -991,11 +990,14 @@ Next.js **App Router** (`app/` directory) allows structuring routes efficiently 
     /settings
       page.tsx   → Renders `/settings`
 ```
-✅ **URL Path Output:**  
+
+
+**URL Path Output:**  
 - `/users` (NOT `/dashboard/users`)  
 - `/settings` (NOT `/dashboard/settings`)  
 
-### **📌 Example Code (`app/(dashboard)/users/page.tsx`):**
+
+**Example Code (`app/(dashboard)/users/page.tsx`):**
 ```tsx
 export default function UsersPage() {
   return <h1>User List</h1>;
@@ -1003,11 +1005,11 @@ export default function UsersPage() {
 ```
 ✅ **Visiting `/users` renders:** `"User List"`  
 
-💡 **Why Use Route Groups?**  
+
+**Why Use Route Groups?**  
 - Organizes routes **without affecting the URL**.  
 - Useful for layouts, authentication groups, or dashboards.  
 
----
 
 ## **2️⃣ Private Folders → `_folder`**  
 - Prefixing a folder with `_` **excludes it from the routing system**.  
@@ -1122,6 +1124,7 @@ eg: if we don't have the page.js in settings folder then we can provide the defa
 - Used to **override the normal navigation flow** by intercepting requests.  
 - Helps when **embedding a different page inside another page** (e.g., opening a modal instead of full navigation). 
 - For example, when clicking on a photo in a feed, you can display the photo in a modal, overlaying the feed. In this case, Next.js intercepts the /photo/123 route, masks the URL, and overlays it over /feed.
+- incept don't count @analytics as path, to count no of dots
 
 ![BOM](/images/intercepting1.avif)
 
@@ -1616,13 +1619,13 @@ export default function NotificationsPage() {
 
 Let me know if you need more details! 🚀
 
+<br>
 
 
 
+> ### **Next.js Route Handlers – Simplified Guide 🚀**  
 
-# **📌 Next.js Route Handlers – Simplified Guide 🚀**  
-
-## **🔹 What are Route Handlers?**  
+**What are Route Handlers?**  
 Route Handlers let you create custom API endpoints **inside the `app` directory** using Web APIs (`Request`, `Response`).
 
 Route Handlers in Next.js `replace API routes` and allow you to create custom backend logic inside the `/app/api` directory. They handle HTTP requests (GET, POST, PUT, DELETE, etc.) `without needing an external backend`.
@@ -1630,14 +1633,12 @@ Route Handlers in Next.js `replace API routes` and allow you to create custom ba
 ✅ **Equivalent to API Routes in the pages directory**  
 🚫 **Cannot use API Routes & Route Handlers together**  
 
----
 
-## **📌 Route Handler File: `route.js`**  
+**Route Handler File: `route.js`**  
 - Located inside `/app/api/`
 - Defines backend logic for that route  
 - Cannot exist at the same level as `page.js`  
 
-✅ **Example**  
 📂 Folder Structure:
 ```
 /app
@@ -1646,19 +1647,19 @@ Route Handlers in Next.js `replace API routes` and allow you to create custom ba
       route.js   → Handles `/api/users`
 ```
 
-### **✅ Basic Route Handler**
+**Basic Route Handler**
 ```js
-export async function GET() {
+export async function GET(request) {
+  console.log(request)
   return Response.json({ message: "Hello, Next.js!" });
 }
 ```
----
 
-## **🔹 Supported HTTP Methods**  
-✅ **GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS**  
-🚫 If an unsupported method is used, **Next.js returns 405 (Method Not Allowed).**  
+- In browser just hit, localhost:3000/api/users, you will see the console value
+- we have to always return response object
 
-### **✅ Example: Handling Multiple Methods**  
+
+**Example: Handling Multiple Methods**  
 ```js
 export async function GET() {
   return Response.json({ message: "GET request received" });
@@ -1669,7 +1670,8 @@ export async function POST(request) {
   return Response.json({ message: `POST request received: ${body.name}` });
 }
 ```
----
+
+<br>
 
 ## **🔹 Route Parameters & Query Parameters**  
 ✅ Extract route parameters from `{ params }`  
@@ -2558,7 +2560,155 @@ https://nextjs.org/docs/app/api-reference/functions/generate-metadata
 ```
 
 
+### **🔹 API Calling in Next.js (Server & Client Side)**  
+Next.js allows you to **fetch data** on both the **server side** (for performance & SEO) and the **client side** (for dynamic updates).  
 
+---
+
+# **1️⃣ Server-Side API Calls**  
+✅ **Best for SEO & performance**  
+✅ **Runs on the server** (not in the browser)  
+✅ **Data is fetched before rendering**  
+
+### **📌 Example: Server-Side Fetching with `fetch()`**  
+```tsx
+// app/page.js (Server Component)
+export default async function Home() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+  const post = await res.json();
+
+  return (
+    <div>
+      <h1>{post.title}</h1>
+      <p>{post.body}</p>
+    </div>
+  );
+}
+```
+🔹 This fetches data **on the server before rendering** and is sent **as static HTML to the browser**.  
+- In server component ie page.js, we directly await the api call function, 
+- every function(n number of fn) in server component ie page.js can be made async and call api
+
+---
+
+## **2️⃣ Client-Side API Calls**  
+✅ **Best for real-time updates**  
+✅ **Runs in the browser**  
+✅ **Data fetches after initial page load**  
+
+### **📌 Example: Client-Side Fetching with `useEffect`**
+```tsx
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function Home() {
+  const [post, setPost] = useState(null);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts/1")
+      .then((res) => res.json())
+      .then((data) => setPost(data));
+  }, []);
+
+  if (!post) return <p>Loading...</p>;
+
+  return (
+    <div>
+      <h1>{post.title}</h1>
+      <p>{post.body}</p>
+    </div>
+  );
+}
+```
+🔹 The data is **fetched after the page loads** (useful for interactive updates).  
+
+---
+
+## **3️⃣ Hybrid Approach: Server + Client Fetching**
+You can **preload data on the server** and **fetch additional data on the client**.
+
+```tsx
+// app/page.js (Server Component)
+import ClientComponent from "./ClientComponent";
+
+export default async function Home() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+  const post = await res.json();
+
+  return <ClientComponent post={post} />;
+}
+```
+
+```tsx
+// app/ClientComponent.js (Client Component)
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function ClientComponent({ post }) {
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    fetch(`https://jsonplaceholder.typicode.com/posts/${post.id}/comments`)
+      .then((res) => res.json())
+      .then((data) => setComments(data));
+  }, [post.id]);
+
+  return (
+    <div>
+      <h1>{post.title}</h1>
+      <p>{post.body}</p>
+
+      <h2>Comments:</h2>
+      {comments.length > 0
+        ? comments.map((c) => <p key={c.id}>{c.body}</p>)
+        : "Loading..."}
+    </div>
+  );
+}
+```
+🔹 **Post data** is **fetched on the server** for SEO, and **comments are fetched on the client** dynamically.  
+
+---
+
+## **4️⃣ API Calling in Server Actions (`use server`)**  
+✅ **Used inside Server Components**  
+✅ **No need for `useEffect`**  
+✅ **Best for forms & mutations**  
+
+```tsx
+"use server";
+
+export async function fetchUserData() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
+  return res.json();
+}
+```
+
+```tsx
+// app/page.js (Server Component)
+import { fetchUserData } from "./actions";
+
+export default async function Home() {
+  const user = await fetchUserData();
+
+  return <h1>{user.name}</h1>;
+}
+```
+🔹 **No API routes required!** Fetch data **directly inside a Server Component**.
+
+---
+
+# **📌 When to Use Each Approach?**
+| **Method**             | **Use Case**                                        |
+|----------------------|------------------------------------------------|
+| **Server-Side Fetching**  | SEO, fast initial page loads, static/dynamic pages |
+| **Client-Side Fetching**  | User interactions, real-time updates, lazy loading |
+| **Hybrid Approach**       | Preload important data + fetch extra client-side  |
+| **Server Actions**        | Secure API calls, form submissions, mutations |
+
+Would you like an example with **authentication and API calls?** 🚀
 
 
 
