@@ -7,7 +7,11 @@ Note:
 - you can have "use client" or "use server" in single component, if both needed then make that component to two separate coponenent, and use them separately
 - in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that hook part separate component and add "use client" in that component and import it
 
+<br>
+
 ## 120, 150,180 no ki video phir dekhni h
+
+<br>
 
 > ### **App Router vs Pages Router in Next.js**  
 
@@ -1314,7 +1318,13 @@ router.push('/dashboard', { scroll: false })
 <br>
 
 > ### Optimizing image
+
+```
+https://nextjs.org/docs/14/app/api-reference/components/image
+```
  
+- We have loader and loaderFile function in next/image, which helps in customizing the image url
+
 ```js
 import Image from 'next/image'
  
@@ -1345,6 +1355,17 @@ export default function Page() {
   )
 }
 ```
+
+
+- priority
+
+```js
+priority={false} // {false} | {true}
+```
+- When true, the image will be considered high priority and preload. Lazy loading is automatically disabled for images using priority.
+- true for logo image, in which we don't need the lazy loading
+
+
 
 **Remote images**
 
@@ -1461,6 +1482,65 @@ export default function RootLayout({
   )
 }
 ```
+<br>
+
+## Meta data updation
+- metadata can be provided in the page.js and layout.js
+- The metadata object and generateMetadata function exports are only supported in Server Components.
+- You cannot export both the metadata object and generateMetadata function from the same route segment.
+
+<br>
+
+1. for static pages, we use meta data object
+
+layout.js | page.js
+```js
+export const metadata = {
+  title: '...',
+  description: '...',
+}
+ 
+export default function Page() {}
+```
+
+2. for dynamic websites
+
+we use generateMetadata function
+
+
+app/products/[id]/page.js
+```js
+export async function generateMetadata({ params, searchParams }, parent) {
+  // read route params
+  const { id } = await params
+ 
+  // fetch data
+  const product = await fetch(`https://.../${id}`).then((res) => res.json())
+ 
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || []
+ 
+  return {
+    title: product.title,
+    openGraph: {
+      images: ['/some-specific-page-image.jpg', ...previousImages],
+    },
+  }
+}
+ 
+export default function Page({ params, searchParams }) {}
+```
+
+- it should return an object
+
+
+more on below
+
+```
+https://nextjs.org/docs/app/api-reference/functions/generate-metadata
+```
+
+<br>
 
 > ### Metadata
 
@@ -2704,62 +2784,6 @@ If you're not using `useOptimistic`, you can achieve similar results with **`use
 
 <br>
 
-## Meta data updation
-
-- The metadata object and generateMetadata function exports are only supported in Server Components.
-- You cannot export both the metadata object and generateMetadata function from the same route segment.
-
-<br>
-
-1. for static pages, we use meta data object
-
-layout.js | page.js
-```js
-export const metadata = {
-  title: '...',
-  description: '...',
-}
- 
-export default function Page() {}
-```
-
-2. for dynamic websites
-
-we use generateMetadata function
-
-
-app/products/[id]/page.js
-```js
-export async function generateMetadata({ params, searchParams }, parent) {
-  // read route params
-  const { id } = await params
- 
-  // fetch data
-  const product = await fetch(`https://.../${id}`).then((res) => res.json())
- 
-  // optionally access and extend (rather than replace) parent metadata
-  const previousImages = (await parent).openGraph?.images || []
- 
-  return {
-    title: product.title,
-    openGraph: {
-      images: ['/some-specific-page-image.jpg', ...previousImages],
-    },
-  }
-}
- 
-export default function Page({ params, searchParams }) {}
-```
-
-- it should return an object
-
-
-more on below
-
-```
-https://nextjs.org/docs/app/api-reference/functions/generate-metadata
-```
-
 
 ### **🔹 API Calling in Next.js (Server & Client Side)**  
 Next.js allows you to **fetch data** on both the **server side** (for performance & SEO) and the **client side** (for dynamic updates).  
@@ -2911,6 +2935,33 @@ export default async function Home() {
 
 Would you like an example with **authentication and API calls?** 🚀
 
+
+> ### props and searchparams
+
+- In page.js, params and searchparams are available, both are optional
+
+app/blog/[slug]/page.js
+```js
+export default function Page({ params, searchParams }) {
+  return <h1>My Page</h1>
+}
+```
+
+**props**
+```
+Example	                                URL                      	params
+app/shop/[slug]/page.js	               /shop/1	             { slug: '1' }
+app/shop/[category]/[item]/page.js	   /shop/1/2	           { category: '1', item: '2' }
+app/shop/[...slug]/page.js            	/shop/1/2	           { slug: ['1', '2'] }
+```
+
+**searchParams**
+```
+URL	               searchParams
+/shop?a=1         	{ a: '1' }
+/shop?a=1&b=2     	{ a: '1', b: '2' }
+/shop?a=1&a=2      	{ a: ['1', '2'] }
+```
 
 
 
