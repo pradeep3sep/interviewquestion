@@ -2030,6 +2030,39 @@ function Example() {
 ⚠️ **Tip:**  
 - If you don’t need to **measure the layout or block rendering**, always prefer `useEffect` to avoid unnecessary UI blocking.
 
+
+```js
+import React, { useState, useEffect, useLayoutEffect } from "react";
+
+function MyComponent() {
+  const [count, setCount] = useState(0);
+
+  // useEffect runs after the render cycle has completed
+  useEffect(() => {
+    // This code will run every time the component renders,
+    // after the render is complete.
+    console.log("useEffect running");
+  });
+
+  // useLayoutEffect runs synchronously immediately after the render cycle
+  useLayoutEffect(() => {
+    // This code will run every time the component renders,
+    // before the browser has a chance to paint the update to the screen.
+    // Be careful! This can cause visual inconsistencies.
+    console.log("useLayoutEffect running");
+  });
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
+In this example, when the Increment button is clicked, the useEffect hook will run after the component has been updated and re-rendered, whereas the useLayoutEffect hook will run before the update is painted to the screen. This means that if you were to use useLayoutEffect to update the UI, the user might see the UI update before the update is complete, which can cause visual inconsistencies. useEffect, on the other hand, runs after the update is complete and is therefore safer to use for updating the UI.
+
 <br>
 
 
@@ -2703,3 +2736,86 @@ npx cowsay "Hello World"
 - Ensuring the correct version of a package runs.  
 
 Would you like more real-world use cases for `npx`? 🚀
+
+
+> ### Create your own useState hook for your new vanilla javascript project.
+
+```js
+function useState(initialState) {
+  let state = initialState;
+  function setState(newState) {
+    //we can also add few conditions to validate the data.
+    state = newState;
+    render(); //your custom method to trigger page refresh on state change
+  }
+  return [state, setState];
+}
+```
+
+
+> ### Scenario Based - Dynamic Nested List Rendering
+
+Create a React component that renders a nested list from a given array of objects. Each object can have a name property and a nested children property, which is an array of objects with the same structure.
+
+The depth of nesting is unknown and can vary for different objects.
+
+Implement the React component to render the nested list based on the provided data.
+
+Example Data:
+
+```js
+const data = [
+  {
+    name: "Item 1",
+    children: [
+      {
+        name: "Subitem 1.1",
+        children: [
+          { name: "Subsubitem 1.1.1", children: [] },
+          { name: "Subsubitem 1.1.2", children: [] },
+        ],
+      },
+      { name: "Subitem 1.2", children: [] },
+    ],
+  },
+  {
+    name: "Item 2",
+    children: [
+      { name: "Subitem 2.1", children: [] },
+      { name: "Subitem 2.2", children: [] },
+    ],
+  },
+];
+```
+
+Solution -
+
+```js
+import React from "react";
+
+function NestedList({ data }) {
+  const renderNestedItems = (items) => {
+    return (
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>
+            {item.name}
+            {item.children.length > 0 && renderNestedItems(item.children)}
+          </li>
+        ))}
+      </ul>
+    );
+  };
+
+  return (
+    <div>
+      <h2>Nested List</h2>
+      {renderNestedItems(data)}
+    </div>
+  );
+}
+
+export default NestedList;
+```
+
+The component `NestedList` recursively renders a nested list using the provided `data` prop. It checks if the current item has children and, if so, calls the `renderNestedItems` function recursively to render the nested list.
