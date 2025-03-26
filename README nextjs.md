@@ -1,4 +1,4 @@
-Note: 
+Note below are for app router: 
 - Jo bhi logs terminal me aaye means wo server side execute hua and jo logs browser me aaye wo clinet side execute hua h
 - It has page.js not index.js in folder which serve as main file.
 - By default, all components are server side components only
@@ -17,7 +17,6 @@ Note:
 
 Next.js has two routing systems: **App Router** (introduced in Next.js 13) and **Pages Router** (the traditional routing system). Below is a comparison of both:
 
----
 
 ### **1. App Router (`app/` directory)**
 ✅ **Uses React Server Components (RSC)** – Mixes server and client components for better performance.  
@@ -40,7 +39,7 @@ Next.js has two routing systems: **App Router** (introduced in Next.js 13) and *
              ├── page.tsx  (Renders `/dashboard/settings`)
 ```
 
----
+<br>
 
 ### **2. Pages Router (`pages/` directory)**
 ✅ **File-based routing** – Each `.js/.ts` file inside `pages/` is a route.  
@@ -60,7 +59,7 @@ Next.js has two routing systems: **App Router** (introduced in Next.js 13) and *
        ├── users.js      (API route at `/api/users`)
 ```
 
----
+<br>
 
 ### **Comparison Table**
 | Feature               | **App Router (`app/`)** | **Pages Router (`pages/`)** |
@@ -74,7 +73,7 @@ Next.js has two routing systems: **App Router** (introduced in Next.js 13) and *
 | **Error Handling** | Uses `error.tsx` | Needs `getInitialProps()` or Error Boundaries |
 | **Best for**       | New projects, full-stack apps | Legacy projects, traditional SSR |
 
----
+
 
 ### **Which One Should You Use?**
 - **New Projects:** Use **App Router** (`app/`) for better performance and scalability.  
@@ -82,7 +81,7 @@ Next.js has two routing systems: **App Router** (introduced in Next.js 13) and *
 - **API-heavy apps:** App Router simplifies backend logic inside components.  
 - **SEO-focused apps:** Both are good, but App Router has better performance optimizations.  
 
-Let me know if you need more details! 🚀
+<br>
 
 
 > ### Importing Alias in TypeScript/JavaScript with Next.js
@@ -2963,9 +2962,6 @@ URL	               searchParams
 /shop?a=1&a=2      	{ a: ['1', '2'] }
 ```
 
-
-
-
 ---------------
 Ye dekhna h
 
@@ -2973,3 +2969,813 @@ Ye dekhna h
 - news wale project me parallel routing and interceptor dekhna h
 
 -----
+----------------------------------------Below are the notes for the page routing, above was app routing---------------------
+
+Note:
+- In this, instead of page.js, default render file will be index.js
+- In this, instead of app folder we have the pages folder
+
+
+
+### Index routes
+The router will automatically route files named index to the root of the directory.
+
+- `pages/index.js → "/"`
+- `pages/about.js → "/about"`
+- `pages/about/index.js → "/about"`
+- `pages/about/test.js → "/about/test "`
+- `pages/blog/index.js → "/blog"`
+- `pages/blog/first-post.js → "/blog/first-post"`
+
+
+### Pages with Dynamic Routes
+- `pages/posts/[id].js`, then it will be accessible at `posts/1`, `posts/2`, etc.
+- `pages/posts/[id]/client.js`, then it will be accessible at `posts/1/client`, `posts/2/client`, etc.
+- `pages/posts/[id]/[nestedId].js`, then it will be accessible at `posts/1/nesteval1`, `posts/2/nesteval2`, etc.
+
+
+### Catch-all Segments
+Dynamic Segments can be extended to `catch-all` subsequent segments by adding an ellipsis inside the brackets `[...segmentName]`.
+
+For example, `pages/shop/[...slug].js` will match `/shop/clothes`, but also `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`, and so on.
+
+
+```
+Route	                        Example URL     	              params
+pages/shop/[...slug].js	      /shop/a	                       { slug: ['a'] }
+pages/shop/[...slug].js	      /shop/a/b	                     { slug: ['a', 'b'] }
+pages/shop/[...slug].js	      /shop/a/b/c	                   { slug: ['a', 'b', 'c'] }
+```
+
+
+### Optional Catch-all Segments
+Catch-all Segments can be made `optional` by including the parameter in double square brackets: `[[...segmentName]]`.
+
+For example, `pages/shop/[[...slug]].js` will `also` match `/shop`, in addition to `/shop/clothes`, `/shop/clothes/tops`, `/shop/clothes/tops/t-shirts`.
+
+The difference between `catch-all` and optional `catch-all` segments is that with optional, the route without the parameter is also matched (/shop in the example above).
+
+
+```
+Route	                            Example URL	             params
+pages/shop/[[...slug]].js	        /shop	                   { slug: [] }
+pages/shop/[[...slug]].js	        /shop/a	                 { slug: ['a'] }
+pages/shop/[[...slug]].js	        /shop/a/b	               { slug: ['a', 'b'] }
+pages/shop/[[...slug]].js	        /shop/a/b/c	             { slug: ['a', 'b', 'c'] }
+```
+
+
+> ### 404.js will serve as not found page
+
+
+### In **Next.js**, you can retrieve dynamic route parameters using the **`useRouter`** hook from `next/router` or **`getServerSideProps` / `getStaticProps`**.  
+
+---
+
+### 1️⃣ **Using `useRouter` (Client-Side)**
+If you need to access the dynamic route parameters in a component, use `useRouter()`.
+
+#### **Example: `pages/product/[id].js`**
+```javascript
+import { useRouter } from "next/router";
+
+const ProductPage = () => {
+  const router = useRouter();
+  const { id } = router.query; // Get the dynamic param
+
+  return <h1>Product ID: {id}</h1>;
+};
+
+export default ProductPage;
+```
+🔹 **Note:** The `id` will be `undefined` on the first render in Next.js because it runs on the client side.
+
+---
+
+### 2️⃣ **Using `getServerSideProps` (Server-Side)**
+If you need to fetch data on each request, use `getServerSideProps()`.
+
+```javascript
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+
+  return {
+    props: { id }, // Pass to the component
+  };
+}
+
+const ProductPage = ({ id }) => {
+  return <h1>Product ID: {id}</h1>;
+};
+
+export default ProductPage;
+```
+🔹 **Best for:** When you need fresh data on each request.
+
+---
+
+### 3️⃣ **Using `getStaticProps` + `getStaticPaths` (Static Generation)**
+For static site generation (SSG), use `getStaticProps()` along with `getStaticPaths()`.
+
+```javascript
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: "1" } }, { params: { id: "2" } }], // Pre-generate pages for these IDs
+    fallback: false, // If false, undefined paths will return 404
+  };
+}
+
+export async function getStaticProps({ params }) {
+  return {
+    props: { id: params.id },
+  };
+}
+
+const ProductPage = ({ id }) => {
+  return <h1>Product ID: {id}</h1>;
+};
+
+export default ProductPage;
+```
+🔹 **Best for:** When you want to pre-generate pages at build time.
+
+---
+
+### 🎯 **When to Use What?**
+| Method | When to Use |
+|--------|------------|
+| `useRouter` | For client-side navigation (e.g., inside a component) |
+| `getServerSideProps` | For fetching fresh data on each request (SSR) |
+| `getStaticProps` + `getStaticPaths` | When pages can be pre-built (SSG) |
+
+Which one fits your case best? 🚀
+
+
+
+> ### ### **📌 `_app.js` in Next.js**
+In **Next.js**, the `_app.js` file is a **custom App component** that wraps all pages. It is used to:
+
+✅ **Persist layout** across pages  
+✅ **Inject global styles**  
+✅ **Provide global state or context**  
+✅ **Handle route changes (e.g., analytics, loaders, etc.)**
+
+---
+
+### **📌 Default `_app.js`**
+If you don't create `_app.js`, Next.js will use a default version automatically.  
+But if you want to customize it, create `pages/_app.js` and add:
+
+```javascript
+import '../styles/globals.css'; // Import global styles
+
+function MyApp({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+
+export default MyApp;
+```
+
+Here:
+- **`Component`**: The active page component  
+- **`pageProps`**: Props passed from `getInitialProps`, `getStaticProps`, or `getServerSideProps`
+
+---
+
+### **📌 Common Use Cases**
+#### **1️⃣ Persistent Layouts**
+If you want to keep a **navbar, footer, or sidebar** across all pages:
+```javascript
+import Navbar from '../components/Navbar';
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <>
+      <Navbar />
+      <Component {...pageProps} />
+    </>
+  );
+}
+
+export default MyApp;
+```
+
+---
+
+#### **2️⃣ Global State with Context API**
+Example: Using React Context to share state across pages.
+```javascript
+import { createContext, useState } from 'react';
+
+export const AppContext = createContext();
+
+function MyApp({ Component, pageProps }) {
+  const [user, setUser] = useState(null);
+
+  return (
+    <AppContext.Provider value={{ user, setUser }}>
+      <Component {...pageProps} />
+    </AppContext.Provider>
+  );
+}
+
+export default MyApp;
+```
+
+---
+
+#### **3️⃣ Handling Route Changes (e.g., Loading Indicator)**
+```javascript
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+
+function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const handleStart = () => setLoading(true);
+    const handleStop = () => setLoading(false);
+
+    router.events.on("routeChangeStart", handleStart);
+    router.events.on("routeChangeComplete", handleStop);
+    router.events.on("routeChangeError", handleStop);
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart);
+      router.events.off("routeChangeComplete", handleStop);
+      router.events.off("routeChangeError", handleStop);
+    };
+  }, [router]);
+
+  return (
+    <>
+      {loading && <p>Loading...</p>}
+      <Component {...pageProps} />
+    </>
+  );
+}
+
+export default MyApp;
+```
+---
+
+### **📌 When to Use `_app.js`?**
+| **Use Case** | **Use `_app.js`?** |
+|-------------|-----------------|
+| Global styles | ✅ Yes |
+| Persistent layout (Navbar/Footer) | ✅ Yes |
+| Global state (Context, Redux) | ✅ Yes |
+| Page-specific styles | ❌ No |
+| Page-specific logic | ❌ No |
+
+Would you like to see any advanced use cases? 🚀
+
+
+> ## Data Fetching
+
+## Static Generation -  Basically generate static when build command is done
+
+> ### 1. getStaticProps
+
+By default which have fixed data website called static website like Blog website, but sometimes we come the situation when we want static website which have some data from api or external source. In that condition we called the api during build(npm run build command) time, api gets called and update the component then page with that updated content, i want to build static website. Then we use getStaticProps function.
+
+
+- If you export a function called `getStaticProps` (Static Site Generation) from a page, Next.js will pre-render this page at build time using the props returned by `getStaticProps`.
+- `getStaticProps` always runs on the server and never on the client.
+-  the code written inside `getStaticProps` is removed from the client-side bundle, so it is not visible in client side js file
+- getStaticProps should return an object which which is passed as prop in page function, in below code we have passed props object which we gets inside the blog function
+
+```js
+// posts will be populated at build time by getStaticProps()
+export default function Blog({ posts }) {
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li>{post.title}</li>
+      ))}
+    </ul>
+  )
+}
+ 
+// This function gets called at build time on server-side.
+// It won't be called on client-side, so you can even do
+// direct database queries.
+export async function getStaticProps() {
+  // Call an external API endpoint to get posts.
+  // You can use any data fetching library
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+ 
+  // By returning { props: { posts } }, the Blog component
+  // will receive `posts` as a prop at build time
+  return {
+    props: {
+      posts,
+    },
+  }
+}
+```
+
+
+- When a page with getStaticProps is pre-rendered at build time, in addition to the page HTML file, Next.js generates a JSON file holding the result of running getStaticProps.
+- This JSON file will be used in client-side routing through next/link or next/router. When you navigate to a page that’s pre-rendered using getStaticProps, Next.js fetches this JSON file (pre-computed at build time) and uses it as the props for the page component. This means that client-side page transitions `will not call` getStaticProps as only the exported JSON is used.
+- getStaticProps can only be exported from a page. You cannot export it from non-page files, _app, _document, or _error.
+- Keep in mind, getStaticProps will run only in build time
+
+
+
+> ### 2. Incremental Static Regeneration (ISR)
+
+Let say we have created static website using getStaticProps in which we have called the api, we build and deployed it. But come to know api/db data changes then again we have to build and deploy the project. Instead of deploying again, we just pass revalidate time in seconds, means after mentioned time, you `hit/reload that url`  then you will gets the UI with updated data. Basically in mentioned time frame, you will get fixed data after the time passes you will get the updated data.
+
+
+```js
+function Blog({ posts }) {
+  return (
+    <ul>
+      {posts.map((post) => (
+        <li key={post.id}>{post.title}</li>
+      ))}
+    </ul>
+  )
+}
+ 
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// revalidation is enabled and a new request comes in
+export async function getStaticProps() {
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+ 
+  return {
+    props: {
+      posts,
+    },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 10 seconds
+    revalidate: 10, // In seconds
+  }
+}
+ 
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// the path has not been generated.
+export async function getStaticPaths() {
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+ 
+  // Get the paths we want to pre-render based on posts
+  const paths = posts.map((post) => ({
+    params: { id: post.id },
+  }))
+ 
+  // We'll pre-render only these paths at build time.
+  // { fallback: 'blocking' } will server-render pages
+  // on-demand if the path doesn't exist.
+  return { paths, fallback: 'blocking' }
+}
+ 
+export default Blog
+```
+
+
+When a request is made to a page that was pre-rendered at build time, it will initially show the cached page.
+
+- Any requests to the page after the initial request and before 10 seconds are also cached and instantaneous.
+- After the 10-second window, the next request will still show the cached (stale) page
+- Next.js triggers a regeneration of the page in the background.
+- Once the page generates successfully, Next.js will invalidate the cache and show the updated page. If the background regeneration fails, the old page would still be unaltered.
+
+
+If you set a `revalidate` time of 60, all visitors will see the same generated version of your site for one minute. The only way to invalidate the cache is from someone visiting that page after the minute has passed.
+
+Error handling and revalidation
+- If there is an error inside getStaticProps when handling background regeneration, or you manually throw an error, the last successfully generated page will continue to show. On the next subsequent request, Next.js will retry calling getStaticProps.
+```js
+export async function getStaticProps() {
+  // If this request throws an uncaught error, Next.js will
+  // not invalidate the currently shown page and
+  // retry getStaticProps on the next request.
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+ 
+  if (!res.ok) {
+    // If there is a server error, you might want to
+    // throw an error instead of returning so that the cache is not updated
+    // until the next successful request.
+    throw new Error(`Failed to fetch posts, received status ${res.status}`)
+  }
+ 
+  // If the request was successful, return the posts
+  // and revalidate every 10 seconds.
+  return {
+    props: {
+      posts,
+    },
+    revalidate: 10,
+  }
+}
+```
+
+Additonal return oject of getStaticProps
+
+```js
+return {
+    props: {
+      posts,
+    },
+    revalidate: 10,
+    notFound: true,
+    redirect: {
+      destination: '/',
+      permanent: false,
+      // statusCode: 301
+    },
+  }
+```
+
+below is more detail of `redirect` case
+```js
+export async function getStaticProps(context) {
+  const res = await fetch(`https://...`)
+  const data = await res.json()
+ 
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+        // statusCode: 301
+      },
+    }
+  }
+
+  if (!data.val) {
+    return {
+      notFound: true,
+    }
+  }
+ 
+  return {
+    props: { data }, // will be passed to the page component as props
+  }
+}
+```
+
+
+
+
+Note:
+Suppose you needed the params from the url, if you use the any hook then we have to make the component client side, in that case, getStaticProps comes with context, from which we can destructure required values
+
+in pages/[sku].js
+```js
+export async function getStaticProps(context) {
+  const { params } = context
+
+  return {
+    props: { message: `Next.js is awesome` }, // will be passed to the page component as props
+  }
+}
+```
+
+### Context parameter
+The context parameter is an object containing the following keys:
+
+
+| Name            | Description |
+|----------------|-------------|
+| `params`       | Contains the route parameters for pages using dynamic routes. For example, if the page name is `[id].js`, then `params` will look like `{ id: ... }`. You should use this together with `getStaticPaths`, which we'll explain later. |
+| `preview`      | (**Deprecated for `draftMode`**) `preview` is `true` if the page is in Preview Mode and `false` otherwise. |
+| `previewData`  | (**Deprecated for `draftMode`**) The preview data set by `setPreviewData`. |
+| `draftMode`    | `draftMode` is `true` if the page is in Draft Mode and `false` otherwise. |
+| `locale`       | Contains the active locale (if enabled). |
+| `locales`      | Contains all supported locales (if enabled). |
+| `defaultLocale`| Contains the configured default locale (if enabled). |
+| `revalidateReason` | Provides a reason for why the function was called. Can be one of: `"build"` (run at build time), `"stale"` (revalidate period expired, or running in development mode), `"on-demand"` (triggered via on-demand revalidation). |
+
+
+> ### 2. getStaticPaths - used in static page generation with dynamic route
+
+In above case, one challenge comes that we use `getStaticProps` for `dynamic(pages/[sku].js) routes` means we want `static pages` during build time for `dynamic value(sku)`. But we dont know in what range sku will lies, either it can be 1 or 2 or anything. So how next will know How many static pages he has to build. Then getStaticPaths comes as saviour
+
+
+If a page has `Dynamic Routes` and uses `getStaticProps`, it needs to define a `list of paths` to be `statically generated`.
+
+
+pages/repo/[name].js
+```js
+export async function getStaticPaths() {
+  return {
+    paths: [
+      {
+        params: {
+          name: 'next.js',
+        },
+      }, // See the "paths" section below
+    ],
+    fallback: true, // false or "blocking"
+  }
+}
+ 
+export async function getStaticProps() {
+  const res = await fetch('https://api.github.com/repos/vercel/next.js')
+  const repo = await res.json()
+  return { props: { repo } }
+}
+ 
+export default function Page({ repo }) {
+  return repo.stargazers_count
+}
+```
+
+- getStaticPaths will only run during build in production, it will not be called during runtime. 
+
+
+### fallback usages in getStaticPaths
+
+In `getStaticPaths`, the `fallback` key determines how Next.js handles paths that were not generated at build time. Here are the possible values and their behaviors:
+
+### `fallback: false`
+- Only the paths returned by `getStaticPaths` will be generated at build time.
+- Any other path will result in a **404 page**.
+- Best for **static sites** with a fixed number of pages.
+
+```javascript
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: '1' } }, { params: { id: '2' } }],
+    fallback: false, // Non-predefined paths will 404
+  };
+}
+```
+
+---
+
+### `fallback: true`
+- If a requested path is **not pre-generated**, Next.js will **render it on-demand on the server** and **cache it**.
+- The first request might take longer while the page is being generated.
+- Useful for large datasets where generating all pages at build time is impractical.
+
+```javascript
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: '1' } }],
+    fallback: true, // Other paths will be dynamically generated
+  };
+}
+```
+- You must handle the loading state in the component using `useRouter`:
+
+```javascript
+import { useRouter } from 'next/router';
+
+export default function Post({ data }) {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <p>Loading...</p>; // Show loading UI while page is generating
+  }
+
+  return <div>{data.content}</div>;
+}
+```
+
+---
+
+### `fallback: 'blocking'`
+- Works like `true`, but **without showing a loading state**.
+- The user waits for the page to generate **before seeing anything**.
+- Useful when you don’t want to handle `isFallback` in the UI.
+
+```javascript
+export async function getStaticPaths() {
+  return {
+    paths: [{ params: { id: '1' } }],
+    fallback: 'blocking', // Other paths will be generated but no loading UI
+  };
+}
+```
+
+### Summary
+| `fallback` Value  | Behavior |
+|-------------------|----------|
+| `false`          | Only pre-generated paths work, others 404 |
+| `true`           | Non-pre-generated paths show a loading state while being generated |
+| `'blocking'`     | Non-pre-generated paths are generated before showing anything |
+
+Let me know if you need further clarifications! 🚀
+
+
+
+## Dynamic Generation -  when no pregenerated/static page needed
+
+> ###  1. getServerSideProps
+
+- Next.js will `pre-render(not prebuild)` this page on each request using the data returned by getServerSideProps
+- This is useful if you want to fetch data that changes often, and have the page update to show the most current data.
+- it should return anything (1 or more) eg props, notFound, redirect
+
+
+pages/index.js
+```js
+export async function getServerSideProps(context) {
+  // Fetch data from external API
+  const res = await fetch('https://api.github.com/repos/vercel/next.js')
+  const repo = await res.json()
+  // Pass data to the page via props
+  return { props: { repo } }
+}
+ 
+export default function Page({ repo }) {
+  return (
+    <main>
+      <p>{repo.stargazers_count}</p>
+    </main>
+  )
+}
+```
+
+
+Context parameter
+- The context parameter is an object containing the following keys:
+
+| Name            | Description |
+|----------------|-------------|
+| `params`       | If this page uses a dynamic route, `params` contains the route parameters. If the page name is `[id].js`, then `params` will look like `{ id: ... }`. |
+| `req`          | The HTTP `IncomingMessage` object, with an additional `cookies` prop, which is an object with string keys mapping to string values of cookies. |
+| `res`          | The HTTP response object. |
+| `query`        | An object representing the query string, including dynamic route parameters. |
+| `preview`      | (**Deprecated for `draftMode`**) `preview` is `true` if the page is in Preview Mode and `false` otherwise. |
+| `previewData`  | (**Deprecated for `draftMode`**) The preview data set by `setPreviewData`. |
+| `draftMode`    | `draftMode` is `true` if the page is in Draft Mode and `false` otherwise. |
+| `resolvedUrl`  | A normalized version of the request URL that strips the `_next/data` prefix for client transitions and includes original query values. |
+| `locale`       | Contains the active locale (if enabled). |
+| `locales`      | Contains all supported locales (if enabled). |
+| `defaultLocale`| Contains the configured default locale (if enabled). |
+
+
+For props
+```js
+export async function getServerSideProps(context) {
+  return {
+    props: { message: `Next.js is awesome` }, // will be passed to the page component as props
+  }
+}
+```
+
+For notFound
+```js
+export async function getServerSideProps(context) {
+  const res = await fetch(`https://.../data`)
+  const data = await res.json()
+ 
+  if (!data) {
+    return {
+      notFound: true,
+    }
+  }
+ 
+  return {
+    props: { data }, // will be passed to the page component as props
+  }
+}
+```
+
+For redirect
+```js
+export async function getServerSideProps(context) {
+  const res = await fetch(`https://.../data`)
+  const data = await res.json()
+ 
+  if (!data) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    }
+  }
+ 
+  return {
+    props: {}, // will be passed to the page component as props
+  }
+}
+```
+
+- keep in mind that the server side running function like getServerSideProps, in which you can not write client slide hooks like useeffect or any other hook.
+- In page router, if you use any hook, then whole will not become the client side, only data which is used using the hook become the client and any function used inside hook becomes the client side, but in app router if you use any hook then whole component becomes clinent side. In that condition we try to make data regarding hook in separate components.
+
+
+
+> ### Adding meta data in component
+
+We use the `<Head/>` component
+
+```js
+import Head from 'next/head'
+ 
+function IndexPage() {
+  return (
+    <div>
+      <Head>
+        <title>My page title</title>
+        <title>{contextOfserverSideProp.title}</title>
+        <meta name="descriptuin" content="this is the content" />
+      </Head>
+    </div>
+  )
+}
+ 
+export default IndexPage
+```
+
+
+> ### _documents.js
+
+- _documents.js should be added directly in pages folder at root level
+- _app.js kind of wrapper which runs on every page but helps only to customize only `<body>` of DOM while _documents.js helps in customize entire HTML documents
+
+
+### **`_document.js` Usage in Next.js (Page Router)**  
+
+In Next.js (Page Router), **`_document.js`** is a custom document file that allows you to modify the **HTML and `<body>` structure** of your pages. It is used primarily for:  
+✅ Customizing the `<html>` and `<body>` structure.  
+✅ Adding **meta tags**, **CSS libraries**, or **custom fonts**.  
+✅ Improving **performance** by preloading assets.  
+
+---
+
+### **📌 How to Use `_document.js` in Page Router**
+#### **Step 1: Create the `_document.js` file**  
+📂 **Project Structure**  
+```
+/pages
+ ├── _document.js
+ ├── index.js
+```
+
+#### **Step 2: Implement `_document.js`**
+Create a `_document.js` file inside the `pages/` directory:
+```javascript
+// pages/_document.js
+import { Html, Head, Main, NextScript } from "next/document";
+import Document from "next/document";
+
+class MyDocument extends Document {
+  render() {
+    return (
+      <Html lang="en">
+        <Head> {/*   must be added */}
+          {/* Custom Meta Tags */}
+          <meta name="description" content="My Next.js App" />
+          <meta charSet="UTF-8" />
+
+          {/* Preconnect to external fonts */}
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+          {/* Custom Font Example */}
+          <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+            rel="stylesheet"
+          />
+        </Head> {/*   must be added */}
+        <body>
+          <Main />             {/*   must be added */}
+          <NextScript />       {/*   must be added */}
+        </body>
+      </Html>
+    );
+  }
+}
+
+export default MyDocument;
+```
+
+---
+
+### **📝 Explanation of Key Components**
+| Component      | Description |
+|---------------|------------|
+| `<Html>`      | Defines the root HTML element (`<html lang="en">`). |
+| `<Head>`      | Used to add meta tags, links, and fonts to the document head. |
+| `<Main>`      | This is where Next.js will render the app. |
+| `<NextScript>`| Injects Next.js scripts (for interactivity, hydration, etc.). |
+
+---
+
+### **🚀 When to Use `_document.js`?**
+✅ If you **want to modify** the document structure (e.g., add global meta tags, external stylesheets, fonts).  
+✅ When you **need to customize** the `<html>` or `<body>` (e.g., adding a custom class to `<body>`).  
+✅ If you **want to optimize performance** using `<link rel="preconnect">` for fonts or CDNs.  
+
+⛔ **Do NOT use `_document.js` for client-side components** (e.g., event listeners, dynamic imports). Instead, use `_app.js` for global logic.
+
+Let me know if you need more details! 🚀
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------
