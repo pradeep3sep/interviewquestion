@@ -3050,6 +3050,13 @@ pages/shop/[[...slug]].js	        /shop/a/b/c	             { slug: ['a', 'b', 'c
 - 404.js will serve as not found page
 - Here we can add 404.js at root level only in pages folder, we can not add separately in nested folder. One projet one 404 file
 
+pages/404.js
+```js
+export default function Custom404() {
+  return <h1>404 - Page Not Found</h1>
+}
+```
+
 <br>
 
 ### Retrieve dynamic route parameters
@@ -3120,6 +3127,76 @@ export default ProductPage;
 
 <br>
 
+### Shallow Routing
+
+Shallow routing allows you to change the URL without running data fetching methods again, that includes `getServerSideProps`, `getStaticProps`, and `getInitialProps`.
+
+You'll receive the updated pathname and the query via the router object (added by useRouter), without losing state.
+
+
+pages/index.js (Home Page)
+```js
+import { useRouter } from 'next/router';
+
+export default function Home() {
+  const router = useRouter();
+
+  const navigateWithShallowRouting = () => {
+    router.push('/about?name=John');
+  };
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h1>Shallow Routing Example</h1>
+      <p>Click the button below to navigate to the About page using shallow routing.</p>
+      <button onClick={navigateWithShallowRouting} style={{ padding: 10, fontSize: 16 }}>
+        Go to About (Shallow)
+      </button>
+    </div>
+  );
+}
+```
+
+
+pages/about.js (About Page)
+```js
+import { useRouter } from 'next/router';
+
+export default function About({ name }) {
+  const router = useRouter();
+
+  const updateQueryParam = () => {
+    router.push('/about?name=Alice', undefined, { shallow: true });
+  };
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h1>About Page</h1>
+      <p>Hello, {name}! Welcome to the About page.</p>
+      <button onClick={updateQueryParam} style={{ padding: 10, fontSize: 16 }}>
+        Change Name to Alice (Shallow)
+      </button>
+    </div>
+  );
+}
+
+// Fetch server-side data
+export async function getServerSideProps(context) {
+  console.log('Fetching data from the server...');
+
+  return {
+    props: {
+      name: context.query.name || 'Guest',
+    },
+  };
+}
+```
+
+**Note:** Just see the changes after removing/adding "undefined, { shallow: true }"
+
+
+<br>
+
 > ###  `_app.js` usage in Next.js
 In **Next.js**, the `_app.js` file `wraps all pages`. It is used to:
 
@@ -3144,7 +3221,7 @@ export default MyApp;
 ```
 
 Here:
-- **`Component`**: The active page component  
+- **`Component`**: The `active page component` 
 - **`pageProps`**: Props passed from `getInitialProps`, `getStaticProps`, or `getServerSideProps`
 
 <br>
@@ -3382,6 +3459,31 @@ export async function getStaticProps() {
 }
 ```
 
+### revalidate
+
+The revalidate property is the amount in seconds after which a page re-generation can occur (defaults to false or no revalidation).
+```js
+// This function gets called at build time on server-side.
+// It may be called again, on a serverless function, if
+// revalidation is enabled and a new request comes in
+export async function getStaticProps() {
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+ 
+  return {
+    props: {
+      posts,
+    },
+    // Next.js will attempt to re-generate the page:
+    // - When a request comes in
+    // - At most once every 10 seconds
+    revalidate: 10, // In seconds
+  }
+}
+```
+
+
+
 <br>
 
 ### Additonal return oject of getStaticProps
@@ -3502,6 +3604,44 @@ export default function Page({ repo }) {
 - getStaticPaths will only run during build in production, it will not be called during runtime. 
 
 
+pages/posts/[id].js
+```js
+function Post({ post }) {
+  // Render post...
+}
+ 
+// This function gets called at build time
+export async function getStaticPaths() {
+  // Call an external API endpoint to get posts
+  const res = await fetch('https://.../posts')
+  const posts = await res.json()
+ 
+  // Get the paths we want to pre-render based on posts
+  const paths = posts.map((post) => ({
+    params: { id: post.id },
+  }))
+ 
+  // We'll pre-render only these paths at build time.
+  // { fallback: false } means other routes should 404.
+  return { paths, fallback: false }
+}
+ 
+// This also gets called at build time
+export async function getStaticProps({ params }) {
+  // params contains the post `id`.
+  // If the route is like /posts/1, then params.id is 1
+  const res = await fetch(`https://.../posts/${params.id}`)
+  const post = await res.json()
+ 
+  // Pass post data to the page via props
+  return { props: { post } }
+}
+ 
+export default Post
+```
+
+<br>
+
 ### fallback usages in getStaticPaths
 
 In `getStaticPaths`, the `fallback` key determines how Next.js handles paths that were not generated at build time. Here are the possible values and their behaviors:
@@ -3527,6 +3667,61 @@ export async function getStaticPaths() {
 - If a requested path is **not pre-generated**, Next.js will **render it on-demand on the server** and **cache it**.
 - The first request might take longer while the page is being generated.
 - Useful for large datasets where generating all pages at build time is impractical.
+
+
+
+<br>
+
+Sure! Here’s a simpler breakdown of how `fallback: true` works in **Next.js**:
+
+### **What happens when `fallback: true`?**
+1. **Pre-rendered Pages at Build Time:**  
+   - The pages returned from `getStaticPaths` are **pre-rendered** during the build.
+  
+2. **Handling Unavailable Pages (No 404)**  
+   - If a user visits a page **not pre-generated**, instead of a **404 error**, Next.js **dynamically** generates it.
+
+3. **First Request for a Non-Generated Page:**  
+   - The user **sees a temporary fallback UI** (like a loading spinner).  
+   - Meanwhile, Next.js **runs `getStaticProps`** in the background to generate the page.
+
+4. **After Generation Completes:**  
+   - The page **updates automatically** for the user.  
+   - Next.js **saves the generated page** so future visits to the same URL are fast.
+
+5. **Crawlers & Client-side Navigation:**  
+   - **Search engines (Google, etc.)** don’t get the fallback UI; they wait for the page to be fully ready.  
+   - When navigating through **`next/link` or `next/router`**, the page behaves like `fallback: 'blocking'`, meaning it only loads when fully generated.
+
+6. **No Support for `output: 'export'` Mode**  
+   - `fallback: true` **does not work** when using `output: 'export'` (static HTML export).
+
+### **When should you use `fallback: true`?**
+- If you have **many pages that depend on data**, like a large e-commerce site.  
+- Instead of pre-generating **all** product pages, you **only pre-generate a few**.  
+- The rest are generated **on-demand when someone visits them**.  
+- This keeps **build times fast** while still using Static Generation.
+
+### **Important Note:**
+- `fallback: true` **does not update pages** after they’re generated.  
+  - To update pages, use **Incremental Static Regeneration (ISR)**.
+
+
+Once **User 1** visits a page that was not pre-generated, Next.js:  
+
+1. **Shows a fallback UI** (loader).  
+2. **Runs `getStaticProps`** to fetch data and generate the page.  
+3. **Saves (caches) the page** for future requests.  
+
+Now, when **User 2** visits the same page **later**, Next.js **serves the cached static page instantly**, without showing the loader again.  
+
+### ✅ **Final Behavior:**  
+- **User 1:** Sees the loader first, then the page loads.  
+- **User 2+:** Gets the fully generated page instantly (no loader).  
+
+This caching ensures **fast subsequent visits** while keeping build times short. 🚀
+
+<br>
 
 ```javascript
 export async function getStaticPaths() {
@@ -3556,7 +3751,8 @@ export default function Post({ data }) {
 
 **`fallback: 'blocking'`**
 - Works like `true`, but **without showing a loading state**.
-- The user waits for the page to generate **before seeing anything**.
+- The user waits for the page to generate **before seeing anything**, identical to SSR (hence why blocking) and then be cached for future requests so it only happens once per path.
+- At the same time, Next.js adds this path to the list of pre-rendered pages. Subsequent requests to the same path will serve the generated page, like other pages pre-rendered at build time.
 - Useful when you don’t want to handle `isFallback` in the UI.
 
 ```javascript
@@ -3584,6 +3780,9 @@ export async function getStaticPaths() {
 - Next.js will `pre-render(not prebuild)` this page on each request using the data returned by getServerSideProps
 - This is useful if you want to fetch data that changes often, and have the page update to show the most current data.
 - it should return anything (1 or more) eg props, notFound, redirect
+- getServerSideProps can only be exported from a `page`.
+- If an `error` is thrown inside getServerSideProps, it will show the `pages/500.js` file.
+
 
 
 pages/index.js
@@ -3781,6 +3980,544 @@ export default MyDocument;
 
 ⛔ **Do NOT use `_document.js` for client-side components** (e.g., event listeners, dynamic imports). Instead, use `_app.js` for global logic.
 
+
+<br>
+
+### Middleware.js 
+
+- It is added at root level in repo, not inside the app/pages folder
+- It has NextRequest and NextResponse, both have attached many method on it like 
+
+
+
+<br>
+
+### redirects in next.config.js
+
+next.config.js
+```js
+module.exports = {
+  async redirects() {
+    return [
+      // Basic redirect
+      {
+        source: '/about',
+        destination: '/',
+        permanent: true,
+      },
+      // Wildcard path matching
+      {
+        source: '/blog/:slug',
+        destination: '/news/:slug',
+        permanent: true,
+      },
+      // if the header `x-redirect-me` is present,
+      // this redirect will be applied
+      {
+        source: '/:path((?!another-page$).*)',
+        has: [
+          {
+            type: 'header',
+            key: 'x-redirect-me',
+          },
+        ],
+        permanent: false,
+        destination: '/another-page',
+      },
+    ]
+  },
+}
+```
+
+- permanent true or false - if true will use the 308 status code which instructs clients/search engines to cache the redirect forever, if false will use the 307 status code which is temporary and is not cached.
+
+> ### NextResponse.redirect in Middleware
+
+middleware addition
+
+```
+/my-next-app
+  ├── pages/
+  ├── middleware.js  ✅ (Ensure it's here)
+  ├── package.json
+```
+
+- Middleware will be invoked for `every route` in your project. 
+
+```js
+import { NextResponse } from 'next/server'
+ 
+// This function can be marked `async` if using `await` inside
+export function middleware(request) {
+  return NextResponse.redirect(new URL('/home', request.url))
+}
+ 
+// See "Matching Paths" below to learn more
+export const config = {
+  matcher: '/about/:path*',
+  // matcher: ['/about/:path*', '/dashboard/:path*'],     // multiple paths
+}
+```
+
+- There are many things which you can refer documentation
+
+<br>
+
+### API Routes `https://nextjs.org/docs/14/pages/building-your-application/routing/api-routes`
+
+API routes provide a solution to build a `public API` with Next.js.
+
+Any file inside the folder `pages/api` is mapped to `/api/*` and will be treated as an API endpoint instead of a `page`. They are server-side only bundles and won't increase your client-side bundle size.
+
+
+pages/api/hello.js
+```js
+export default function handler(req, res) {
+  res.status(200).json({ message: 'Hello from Next.js!' })
+}
+```
+
+- Setting cookies
+
+pages/api/cookie.js
+```js
+export default async function handler(req, res) {
+  res.setHeader('Set-Cookie', 'username=lee; Path=/; HttpOnly')
+  res.status(200).send('Cookie has been set.')
+}
+```
+
+- Reading cookies
+
+pages/api/cookie.js
+```js
+export default async function handler(req, res) {
+  const auth = req.cookies.authorization
+  // ...
+}
+```
+
+<br>
+
+### Bundle Analyzer
+
+`@next/bundle-analyzer` is a plugin for Next.js that helps you manage the size of your JavaScript modules.
+
+Installation
+```
+npm i @next/bundle-analyzer
+# or
+yarn add @next/bundle-analyzer
+# or
+pnpm add @next/bundle-analyzer
+```
+
+
+
+next.config.js
+```js
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+ 
+/** @type {import('next').NextConfig} */
+const nextConfig = {}
+ 
+module.exports = withBundleAnalyzer(nextConfig)
+```
+
+Run the following command to analyze your bundles: The report will open three new tabs in your browser
+
+```
+ANALYZE=true npm run build
+# or
+ANALYZE=true yarn build
+# or
+ANALYZE=true pnpm build
+```
+
+<br>
+
+
+### <Script>
+
+- used for adding external script
+
+app/dashboard/page.js
+```js
+import Script from 'next/script'
+ 
+export default function Dashboard() {
+  return (
+    <>
+      <Script src="https://example.com/script.js" />
+    </>
+  )
+}
+```
+<br>
+
+### userAgent
+
+it helps to get various things 
+
+middleware.js
+```js
+import { NextResponse, userAgent } from 'next/server'
+ 
+export function middleware(request) {
+  const url = request.nextUrl
+  const { device } = userAgent(request)
+  const viewport = device.type === 'mobile' ? 'mobile' : 'desktop'
+  url.searchParams.set('viewport', viewport)
+  return NextResponse.rewrite(url)
+}
+```
+
+1. isBot
+A boolean indicating whether the request comes from a known bot.
+
+2. browser
+An object containing information about the browser used in the request.
+
+- name: A string representing the browser's name, or undefined if not identifiable.
+- version: A string representing the browser's version, or undefined.
+
+3. device
+An object containing information about the device used in the request.
+
+- model: A string representing the model of the device, or undefined.
+- type: A string representing the type of the device, such as console, mobile, tablet, smarttv, wearable, embedded, or undefined.
+- vendor: A string representing the vendor of the device, or undefined.
+
+4. os
+An object containing information about the operating system.
+
+- name: A string representing the name of the OS, or undefined.
+- version: A string representing the version of the OS, or undefined.
+
+<br>
+
+### To configure the build folder name
+
+next.config.js
+```js
+module.exports = {
+  distDir: 'build',  // build instead of the default .next folder
+  productionBrowserSourceMaps: true,  // enable SourceMap in production
+  reactStrictMode: true,
+  trailingSlash: true,  // "/about/"" will redirect to "/about", to stop this use true  
+  compiler: {
+    removeConsole: true,  // to remove console from build
+    removeConsole: { // Remove console.* output except console.error
+      exclude: ['error'],
+    },
+  },
+}
+```
+
+### Setting headers through config file
+next.config.js
+```js
+module.exports = {
+  async headers() {
+    return [
+      {
+        source: '/about',
+        headers: [
+          {
+            key: 'x-custom-header',
+            value: 'my custom header value',
+          },
+          {
+            key: 'x-another-custom-header',
+            value: 'my other custom header value',
+          },
+        ],
+      },
+      // if the header `x-add-header` is present,
+      // the `x-another-header` header will be applied
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'header',
+            key: 'x-add-header',
+          },
+        ],
+        headers: [
+          {
+            key: 'x-another-header',
+            value: 'hello',
+          },
+        ],
+      },
+      // if the header `x-no-header` is not present,
+      // the `x-another-header` header will be applied
+      {
+        source: '/:path*',
+        missing: [
+          {
+            type: 'header',
+            key: 'x-no-header',
+          },
+        ],
+        headers: [
+          {
+            key: 'x-another-header',
+            value: 'hello',
+          },
+        ],
+      },
+      // if the source, query, and cookie are matched,
+      // the `x-authorized` header will be applied
+      {
+        source: '/specific/:path*',
+        has: [
+          {
+            type: 'query',
+            key: 'page',
+            // the page value will not be available in the
+            // header key/values since value is provided and
+            // doesn't use a named capture group e.g. (?<page>home)
+            value: 'home',
+          },
+          {
+            type: 'cookie',
+            key: 'authorized',
+            value: 'true',
+          },
+        ],
+        headers: [
+          {
+            key: 'x-authorized',
+            value: ':authorized',
+          },
+        ],
+      },
+    ]
+  },
+}
+
+```
+
+
+
+
+<br>
+
+### Continuous Integration (CI) Build Caching
+
+To improve build performance, Next.js saves a cache to `.next/cache` that is shared between builds.
+
+eg for **AWS CodeBuild**
+Add (or merge in) the following to your `buildspec.yml`:
+```
+cache:
+  paths:
+    - 'node_modules/**/*' # Cache `node_modules` for faster `yarn` or `npm i`
+    - '.next/cache/**/*' # Cache Next.js for faster application rebuilds
+```
+
+eg for **Bitbucket Pipelines**
+```
+definitions:
+  caches:
+    nextcache: .next/cache
+```
+
+Refer below url for more details and cases
+```
+https://nextjs.org/docs/14/pages/building-your-application/deploying/ci-build-caching
+```
+
+
+<br>
+
+### useRouter
+
+In normal react, we have to use external router package but in next router is setup by next. So to use router function we use below code
+
+```js
+import { useRouter } from 'next/router'
+ 
+function ActiveLink({ children, href }) {
+  const router = useRouter()
+  const style = {
+    marginRight: 10,
+    color: router.asPath === href ? 'red' : 'black',
+  }
+ 
+  const handleClick = (e) => {
+    e.preventDefault()
+    router.push(href)
+  }
+ 
+  return (
+    <a href={href} onClick={handleClick} style={style}>
+      {children}
+    </a>
+  )
+}
+ 
+export default ActiveLink
+```
+
+#### The router provide an object
+
+```js
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+export default function RouterDemo() {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.isReady) {
+      console.log('Router is ready:', router);
+    }
+  }, [router.isReady]);
+
+  return (
+    <div>
+      <h1>Next.js Router Object Demo</h1>
+      <ul>
+        <li><strong>pathname:</strong> {router.pathname}</li>               {/*String*/}
+        <li><strong>query:</strong> {JSON.stringify(router.query)}</li>     {/*Object*/}
+        <li><strong>asPath:</strong> {router.asPath}</li>                    {/*String*/}
+        <li><strong>isFallback:</strong> {String(router.isFallback)}</li>    {/*boolean*/}
+        <li><strong>basePath:</strong> {router.basePath}</li>                {/*String*/}
+        <li><strong>locale:</strong> {router.locale}</li>                     {/*String*/}
+        <li><strong>locales:</strong> {JSON.stringify(router.locales)}</li>    {/*String[]*/}
+        <li><strong>defaultLocale:</strong> {router.defaultLocale}</li>         {/*String*/}
+        <li><strong>domainLocales:</strong> {JSON.stringify(router.domainLocales)}</li>    
+        <li><strong>isReady:</strong> {String(router.isReady)}</li>
+        <li><strong>isPreview:</strong> {String(router.isPreview)}</li>
+      </ul>
+    </div>
+  );
+}
+```
+
+**Example Scenario**
+If you visit /product?id=123&color=blue, the output will be:
+
+```js
+pathname: /product
+query: {"id":"123","color":"blue"}
+asPath: /product?id=123&color=blue
+isFallback: false
+basePath: 
+locale: en
+locales: ["en","fr"]
+defaultLocale: en
+domainLocales: []
+isReady: true
+isPreview: false
+```
+
+#### router.events
+
+You can listen to different events happening inside the Next.js Router. Here's a list of supported events:
+
+- `routeChangeStart(url, { shallow })` - Fires when a route starts to change
+- `routeChangeComplete(url, { shallow })` - Fires when a route changed completely
+- `routeChangeError(err, url, { shallow })` - Fires when there's an error when changing routes, or a route load is cancelled
+  - `err.cancelled` - Indicates if the navigation was cancelled
+- `beforeHistoryChange(url, { shallow })` - Fires before changing the browser's history
+- `hashChangeStart(url, { shallow })` - Fires when the hash will change but not the page
+- `hashChangeComplete(url, { shallow })` - Fires when the hash has changed but not the page
+
+
+For example, to listen to the router event `routeChangeStart`, open or create `pages/_app.js` and subscribe to the event, like so:
+
+```js
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+ 
+export default function MyApp({ Component, pageProps }) {
+  const router = useRouter()
+ 
+  useEffect(() => {
+    const handleRouteChange = (url, { shallow }) => {
+      console.log(
+        `App is changing to ${url} ${
+          shallow ? 'with' : 'without'
+        } shallow routing`
+      )
+    }
+ 
+    router.events.on('routeChangeStart', handleRouteChange)
+ 
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method:
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [router])
+ 
+  return <Component {...pageProps} />
+}
+```
+<br>
+
+
+### **📌 Next.js Output File Tracing & Standalone Mode (Simplified Notes)**  
+
+#### **🚀 What is Output File Tracing?**  
+- Next.js **automatically traces** required files for production during `next build`.  
+- **Reduces deployment size** by including only necessary dependencies.  
+- Helps in **Docker deployments** by avoiding unnecessary files in `node_modules`.  
+
+---
+
+#### **🔹 How It Works**  
+1. **Next.js scans** `import`, `require`, and `fs` usage to find required files.  
+2. Generates a **`.nft.json` file** in `.next/`, listing dependencies per page.  
+3. These files can be copied to a **deployment location** for optimized production.  
+
+---
+
+#### **📂 Standalone Mode (Automatic Copying of Files)**  
+- Next.js **creates a `standalone/` folder** with only essential files for deployment.  
+- To enable, add this to `next.config.js`:  
+  ```javascript
+  module.exports = {
+    output: 'standalone',
+  };
+  ```
+- This allows deployment **without installing `node_modules`**.  
+
+---
+
+#### **🔹 What's Inside `standalone/`?**  
+✅ Only **necessary files** (minimizing deployment size).  
+✅ A **minimal `server.js` file** to run Next.js without `next start`.  
+❌ Does **not** include `public/` or `.next/static/` by default (should be handled by a CDN).  
+
+---
+
+#### **🎯 Why Use This?**  
+✅ **Faster & smaller deployments** (especially in Docker).  
+✅ **No need for `serverless` target** (which caused issues).  
+✅ **Optimized production builds** without extra dependencies.  
+
+for more
+
+```
+https://nextjs.org/docs/14/pages/api-reference/next-config-js/output
+```
+
+<br>
+
+ye wala aache se padhna h
+```
+https://nextjs.org/docs/14/pages/building-your-application/authentication
+https://nextjs.org/docs/14/pages/building-your-application/deploying/static-exports
+https://nextjs.org/docs/14/pages/building-your-application/upgrading
+
+https://nextjs.org/docs/14/pages/api-reference/next-config-js/rewrites
+```
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
