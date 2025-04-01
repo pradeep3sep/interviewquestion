@@ -6,6 +6,7 @@ Note below are for app router:
 - when we click on next Link button, the component which comes on route change runs on server side, not on client side
 - you can have "use client" or "use server" in single component, if both needed then make that component to two separate coponenent, and use them separately
 - in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that hook part separate component and add "use client" in that component and import it
+- Next caches very regressiveely in next 14
 
 <br>
 
@@ -128,21 +129,36 @@ In Next.js **App Router**, specific file names have special meanings. Here’s w
 - Defines a persistent UI wrapper (like headers, sidebars, and footers) for all child pages.
 - A layout is UI that is shared between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender.
 - Layouts are Server Components by default but can be set to a Client Component.
-- The root layout should have the html, body and metadata(metadata is reseved and must shared object) content
 - Layouts do not have access to the route segments below itself. To access all route segments, you can use `useSelectedLayoutSegment` or `useSelectedLayoutSegments` in a Client Component.
 
 
-📌 **Example:**
+- A root layout is the top-most layout in the root app directory. while other layout existed in route folder
+- The app directory must include a root app/layout.js.
+- The `root layout` should have the `html, body` and `metadata(metadata is reseved and must shared object) function`
+
+
 ```tsx
 // app/layout.tsx
-export default function Layout({ children }) {
+export default function RootLayout({ children }) {
   return (
-    <div>
-      <header>Header</header>
-      <main>{children}</main>
-    </div>
-  );
+    <html lang="en">
+      <body>{children}</body>
+    </html>
+  )
 }
+```
+
+### Props in layout
+1. children (required)
+2. params (optional)
+
+Params in layout in route folder, but params is not available in root layout.js
+
+```
+Example                                 	URL	                    params
+app/dashboard/[team]/layout.js	          /dashboard/1	          { team: '1' }
+app/shop/[tag]/[item]/layout.js	          /shop/1/2	              { tag: '1', item: '2' }
+app/blog/[...slug]/layout.js	            /blog/1/2	              { slug: ['1', '2'] }
 ```
 
 
@@ -186,18 +202,43 @@ export default async function DashboardPage() {
 📌 **Example:**
 ```tsx
 // app/dashboard/page.tsx → Renders /dashboard
-export default function Dashboard() {
-  return <h1>Dashboard Page</h1>;
+
+// app/blog/[slug]/page.js
+export default function Page({ params, searchParams }) {
+  return <h1>My Page</h1>
 }
 ```
 
----
+
+#### Props
+
+1. params (optional)
+
+| Path | Example URL | Params |
+|------|------------|--------|
+| `app/shop/[slug]/page.js` | `/shop/1` | `{ slug: '1' }` |
+| `app/shop/[category]/[item]/page.js` | `/shop/1/2` | `{ category: '1', item: '2' }` |
+| `app/shop/[...slug]/page.js` | `/shop/1/2` | `{ slug: ['1', '2'] }` |
+
+
+2. searchParams (optional)
+
+| URL | `searchParams` |
+|-----|---------------|
+| `/shop?a=1` | `{ a: '1' }` |
+| `/shop?a=1&b=2` | `{ a: '1', b: '2' }` |
+| `/shop?a=1&a=2` | `{ a: ['1', '2'] }` |
+
+
+
+
+<br>
 
 ### **3. `loading.js / loading.tsx` (Loading UI)**
 - Provides a loading state while fetching server-side data.
 - Uses React Suspense.
 
-📌 **Example:**
+
 ```tsx
 // app/dashboard/loading.tsx
 export default function Loading() {
@@ -207,7 +248,7 @@ export default function Loading() {
 
 - sometimes loading.js is not working as expected then in that condition we can use the `suspense with fallback` in that component
 
----
+<br>
 
 ### **4. `not-found.js / not-found.tsx` (Custom 404 Page)**
 - Handles 404 errors for missing pages inside a route.
@@ -217,6 +258,28 @@ export default function Loading() {
 // app/not-found.tsx
 export default function NotFound() {
   return <h1>Page Not Found</h1>;
+}
+```
+
+- By default, not-found is a Server Component. You can mark it as async to fetch and display data:
+
+```js
+import Link from 'next/link'
+import { headers } from 'next/headers'
+ 
+export default async function NotFound() {
+  const headersList = headers()
+  const domain = headersList.get('host')
+  const data = await getSiteData(domain)
+  return (
+    <div>
+      <h2>Not Found: {data.name}</h2>
+      <p>Could not find requested resource</p>
+      <p>
+        View <Link href="/blog">all posts</Link>
+      </p>
+    </div>
+  )
 }
 ```
 
@@ -230,8 +293,9 @@ Invoking the `notFound()` function throws a NEXT_NOT_FOUND error and terminates 
 
 basically, kisi condition pe hum chahte h ki nearest not found page render ho jaye, to ish function ko run karte h
 
-app/user/[id]/page.js
 ```js
+// app/user/[id]/page.js
+
 import { notFound } from 'next/navigation'
  
 async function fetchUser(id) {
@@ -264,22 +328,37 @@ export default async function Profile({ params }) {
 📌 **Example:**
 ```tsx
 // app/dashboard/error.tsx
-'use client';
-
+'use client' // Error components must be Client Components
+ 
+import { useEffect } from 'react'
+ 
 export default function Error({ error, reset }) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error)
+  }, [error])
+ 
   return (
     <div>
       <h2>Something went wrong!</h2>
-      <button onClick={() => reset()}>Try Again</button>
+      <button
+        onClick={
+          // Attempt to recover by trying to re-render the segment
+          () => reset()
+        }
+      >
+        Try again
+      </button>
     </div>
-  );
+  )
 }
 ```
 
----
+<br>
 
 ### **6. `global-error.js / global-error.tsx` (Global Error UI)**
 - Handles errors for the **entire application**.
+- To specifically handle errors in root `layout.js`
 - Placed inside `app/`.
 
 📌 **Example:**
@@ -303,12 +382,21 @@ export default function GlobalError({ error, reset }) {
 
 ### **7. `route.js / route.ts` (API Endpoint)**
 - Defines an **API route** for handling server-side requests.
+- it lies in api folder, which is backend folder. but it can also be used in pages folder
 
-📌 **Example:**
+
 ```ts
 // app/api/user/route.ts → API at /api/user
 export async function GET() {
   return Response.json({ name: 'John Doe' });
+}
+```
+
+below is for pages folder
+```js
+// app/dashboard/[team]/route.js
+export async function GET(request, context: { params }) {
+  const team = context.params.team // '1'
 }
 ```
 
@@ -317,6 +405,7 @@ export async function GET() {
 ### **8. `template.js / template.tsx` (Re-rendered Layout)**
 - Works **like `layout.tsx` but re-renders on navigation**.
 - Useful when you need a fresh layout for each visit.
+- Suspense Boundaries inside layouts only show the fallback the first time the Layout is loaded and not when switching pages. For templates, the fallback is shown on each navigation.
 
 📌 **Example:**
 ```tsx
@@ -337,6 +426,11 @@ export default function Template({ children }) {
 export default function Default() {
   return <p>No notifications available</p>;
 }
+```
+
+Need to see the condition on which default gets loaded
+```
+https://nextjs.org/docs/14/app/api-reference/file-conventions/default
 ```
 
 ---
@@ -503,14 +597,28 @@ module.exports = {
 
 ---
 
-## **📌 3. `instrumentation.ts` → OpenTelemetry & Instrumentation**
-- Used for performance monitoring and tracing requests.  
+## **📌 3. `instrumentation.js|ts` → OpenTelemetry & Instrumentation**
+- Used for performance monitoring and logging requests.  
 - Introduced in Next.js 13+ to integrate observability tools like OpenTelemetry.  
+- place the file in the root of your application or inside a src folder if using one, not in app/pages folder
 
-📌 **Example:**
-```ts
+- There are many 3rd party services for the telemetry, below is code for otel
+
+instrumentation.js
+```js
+import { registerOTel } from '@vercel/otel'
+ 
 export function register() {
-  console.log('OpenTelemetry instrumentation registered');
+  registerOTel('next-app')
+}
+```
+
+next.config.js
+```js
+module.exports = {
+  experimental: {
+    instrumentationHook: true,
+  },
 }
 ```
 
@@ -1521,7 +1629,9 @@ export async function generateMetadata({ params, searchParams }, parent) {
  
   return {
     title: product.title,
-    openGraph: {
+    openGraph: {        // This is how we can add the OG Details
+      title: 'Acme',
+      description: 'Acme is a...',
       images: ['/some-specific-page-image.jpg', ...previousImages],
     },
   }
@@ -1846,19 +1956,73 @@ export async function GET() {
   return Response.json({ referer });
 }
 ```
----
+<br>
 
 ## **🔹 Redirects**
-```js
-import { redirect } from "next/navigation";
 
-export async function GET() {
-  redirect("https://nextjs.org/");
+On Server components
+```js
+// app/team/[id]/page.js
+import { redirect } from 'next/navigation'
+ 
+async function fetchTeam(id) {
+  const res = await fetch('https://...')
+  if (!res.ok) return undefined
+  return res.json()
+}
+ 
+export default async function Profile({ params }) {
+  const team = await fetchTeam(params.id)
+  if (!team) {
+    redirect('/login')
+  }
+ 
+  // ...
 }
 ```
-🟢 Redirects to **Next.js website**  
 
----
+On client side
+- redirect can be used in a Client Component through a Server Action. If you need to use an event handler to redirect the user, you can use the useRouter hook.
+```js
+// app/client-redirect.jsx
+'use client'
+ 
+import { navigate } from './actions'
+ 
+export function ClientRedirect() {
+  return (
+    <form action={navigate}>
+      <input type="text" name="id" />
+      <button>Submit</button>
+    </form>
+  )
+}
+
+
+// app/actions.js
+'use server'
+ 
+import { redirect } from 'next/navigation'
+ 
+export async function navigate(data) {
+  redirect(`/posts/${data.get('id')}`)
+}
+```
+
+
+
+- props
+```js
+redirect(path, type)
+```
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `path` | `string` | The URL to redirect to. Can be a relative or absolute path. |
+| `type` | `'replace'` (default) or `'push'` (default in Server Actions) | The navigation type. |
+
+
+<br>
 
 ## **🔹 Streaming (For Large Responses or AI APIs)**  
 ```js
@@ -2059,12 +2223,21 @@ export default async function Page() {
 }
 ```
 
+Note: To call api on `server side` you can use `fetch directly` but on `client side` you have to `use-effect` and `inside` you can `call the api`
+
 
 ### **Caching Data in Next.js**
+
 
 Next.js extends the `native Web fetch()` API to allow each request on the server to set its own persistent caching semantics.
 
 Next.js **automatically caches `fetch` requests** to optimize performance and reduce redundant API calls. By default, when you use `fetch`, it **stores the response in a Data Cache** on the server, allowing **subsequent requests to reuse the cached data**.
+
+```js
+fetch(`https://...`, { cache: 'force-cache' | 'no-store' })
+```
+
+Note: If you don't provide a cache option, Next.js will `default` to `force-cache`, unless a dynamic function such as `cookies()` is used, in which case it will default to `no-store`.
 
 
 **1️⃣ Default Caching Behavior (`force-cache`)**
@@ -2156,6 +2329,11 @@ Time-based revalidation in Next.js ensures that cached data is **refreshed perio
 fetch(`https://...`, { next: { revalidate: false | 0 | number } })
 ```
 
+- `false` - Cache the resource indefinitely. Semantically equivalent to revalidate: Infinity. The HTTP cache may evict older resources over time.
+- `0` - Prevent the resource from being cached.
+- `number` - (in seconds) Specify the resource should have a cache lifetime of at most n seconds.
+
+
 **How It Works**
 - When you fetch data with `revalidate`, Next.js **stores it in the cache**.
 - After the specified time (in seconds), the cache **becomes stale**.
@@ -2178,6 +2356,9 @@ layout.js | page.js
 ```js
 export const revalidate = 3600 // revalidate at most every hour
 ```
+
+
+
 
 
 **Note**
@@ -2248,6 +2429,8 @@ export default async function Page() {
 
 You can then revalidate this fetch call tagged with `collection` by calling `revalidateTag` in a Server Action:
 
+- `revalidateTag` allows you to purge `cached data` on-demand for a specific cache tag.
+
 ```js
 'use server'
  
@@ -2257,6 +2440,32 @@ export default async function action() {
   revalidateTag('collection')
 }
 ```
+
+more example
+```js
+// app/actions.js
+'use server'
+ 
+import { revalidateTag } from 'next/cache'
+ 
+export default async function submit() {
+  await addPost()
+  revalidateTag('posts')
+}
+```
+
+```js
+// app/api/revalidate/route.js
+import { revalidateTag } from 'next/cache'
+ 
+export async function GET(request) {
+  const tag = request.nextUrl.searchParams.get('tag')
+  revalidateTag(tag)
+  return Response.json({ revalidated: true, now: Date.now() })
+}
+```
+
+
 
 **Error handling and revalidation**
 If an error is thrown while attempting to revalidate data, the last successfully generated data will continue to be served from the cache. On the next subsequent request, Next.js will retry revalidating the data.
@@ -2530,6 +2739,12 @@ export default function Navbar() {
 ```
 🔹 **Why?**  
 - The active link gets a blue color based on the `pathname`.
+
+
+Note: next/link will be same as nuxt link, but when child component have anchor(`<a></a>`) tag then we have different implementaion. below is url for detail
+```
+https://nextjs.org/docs/14/app/api-reference/components/link
+```
 
 ---
 
@@ -2962,16 +3177,272 @@ URL	               searchParams
 /shop?a=1&a=2      	{ a: ['1', '2'] }
 ```
 
+
+### Sharing data between components
+
+When fetching data on the server, there may be cases where you need to share data across different components. For example, you may have a layout and a page that depend on the same data.
+
+Instead of using `React Context` (which is not available on the server) or passing data as props, you can use `fetch` or React's `cache` function to fetch the same data in the components that need it, without worrying about making duplicate requests for the same data. This is because React extends `fetch` to automatically memoize data requests, and the `cache` function can be used when `fetch` is not available.
+
+
+
+> ### Cookies in pages
+```js
+import { cookies } from 'next/headers'
+ 
+export default function Page() {
+  const cookieStore = cookies()
+  const theme = cookieStore.get('theme')
+  return '...'
+}
+```
+- cookies().get(name)
+- cookies().getAll()
+- cookies().has(name)
+- cookies().set(name, value, options)   
+```js
+cookies().set({
+  name: 'name',
+  value: 'lee',
+  httpOnly: true,
+  path: '/',
+  maxAge: 0,
+  expires: Date.now(),
+})
+```
+- cookies().delete(name)
+
+<br>
+
+
+### useParams
+
+useParams is a `Client Component` hook that lets you read a route's dynamic params filled in by the current URL.
+
+```js
+// app/example-client-component.js
+'use client'
+ 
+import { useParams } from 'next/navigation'
+ 
+export default function ExampleClientComponent() {
+  const params = useParams()
+ 
+  // Route -> /shop/[tag]/[item]
+  // URL -> /shop/shoes/nike-air-max-97
+  // `params` -> { tag: 'shoes', item: 'nike-air-max-97' }
+  console.log(params)
+ 
+  return <></>
+}
+```
+
+| Route | URL | `useParams()` |
+|--------|----|--------------|
+| `app/shop/page.js` | `/shop` | `{}` |
+| `app/shop/[slug]/page.js` | `/shop/1` | `{ slug: '1' }` |
+| `app/shop/[tag]/[item]/page.js` | `/shop/1/2` | `{ tag: '1', item: '2' }` |
+| `app/shop/[...slug]/page.js` | `/shop/1/2` | `{ slug: ['1', '2'] }` |
+
+
+<br>
+
+### usePathname
+
+usePathname is a `Client Component hook` that lets you read the current URL's pathname.
+
+```js
+'use client'
+ 
+import { usePathname } from 'next/navigation'
+ 
+export default function ExampleClientComponent() {
+  const pathname = usePathname()
+  return <p>Current pathname: {pathname}</p>
+}
+```
+
+| URL | Returned Value |
+|-----|---------------|
+| `/` | `'/'` |
+| `/dashboard` | `'/dashboard'` |
+| `/dashboard?v=2` | `'/dashboard'` |
+| `/blog/hello-world` | `'/blog/hello-world'` |
+
+<br>
+
+### useRouter
+
+- most of things we get using usePathname and useParams
+- The useRouter hook allows you to programmatically change routes inside `Client Components`.
+
+```js
+// app/example-client-component.js
+
+'use client'
+ 
+import { useRouter } from 'next/navigation'
+ 
+export default function Page() {
+  const router = useRouter()
+ 
+  return (
+    <button type="button" onClick={() => router.push('/dashboard')}>
+      Dashboard
+    </button>
+  )
+}
+```
+
+#### other mehods of useRouter
+- router.push(href: string, { scroll: boolean })
+- router.replace(href: string, { scroll: boolean })
+- router.refresh()
+- router.back()
+- router.forward()
+
+<br>
+
+### Dynamic varibale in env file in next js
+
+Next.js will automatically expand variables that use `$` to reference other variables e.g. `$VARIABLE` inside of your `.env*` files
+
+```
+TWITTER_USER=nextjs
+TWITTER_URL=https://twitter.com/$TWITTER_USER
+```
+
+Note: If you need to use variable with a `$ in the actual value`, it needs to be escaped e.g. `\$`.
+
+
+In general only one `.env.local` file is needed. However, Next.js allows you to set defaults in `.env (all environments)`, `.env.development (development environment)`, and `.env.production (production environment)`.
+
+
+<br>
+
+### Dynamic Image Generation
+
+- The `ImageResponse` constructor allows you to generate `dynamic images` using JSX and CSS
+- useful for `creating social media images` such as Open Graph images, Twitter cards, and more.
+
+```js
+// app/about/route.js
+// browser url - http://localhost:3000/about
+import { ImageResponse } from 'next/og'
+ 
+export const runtime = 'edge'
+ 
+export async function GET() {
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          fontSize: 128,
+          background: 'white',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          textAlign: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        Hello world!
+      </div>
+    ),
+    {
+      width: 1200,
+      height: 600,
+    }
+  )
+}
+
+```
+
+
+<br>
+
+### JSON-LD
+
+recommendation for JSON-LD is to render structured data as a `<script>` tag in your `layout.js or page.js` components
+
+
+```js
+// app/products/[id]/page.js
+export default async function Page({ params }) {
+  const product = await getProduct(params.id)
+ 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    image: product.image,
+    description: product.description,
+  }
+ 
+  return (
+    <section>
+      {/* Add JSON-LD to your page */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      {/* ... */}
+    </section>
+  )
+}
+```
+
 ---------------
 Ye dekhna h
 
 - https://nextjs.org/docs/14/app/building-your-application/routing/dynamic-routes#generating-static-params
+- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata
+- https://nextjs.org/docs/14/app/api-reference/functions/generate-image-metadata
+- https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata
+- https://nextjs.org/docs/14/app/api-reference/functions/generate-sitemaps
+- https://nextjs.org/docs/14/app/api-reference/functions/generate-static-params
+- https://nextjs.org/docs/14/app/api-reference/functions/generate-viewport
+- https://nextjs.org/docs/14/app/api-reference/functions/headers
+- https://nextjs.org/docs/14/app/api-reference/functions/next-request
+- https://nextjs.org/docs/14/app/api-reference/functions/next-response
+- https://nextjs.org/docs/14/app/api-reference/functions/permanentRedirect
+- https://nextjs.org/docs/14/app/api-reference/functions/use-search-params
+- https://nextjs.org/docs/14/app/api-reference/functions/use-selected-layout-segment
+- https://nextjs.org/docs/14/app/api-reference/functions/use-selected-layout-segments
+- https://nextjs.org/docs/14/app/api-reference/functions/userAgent
+- https://nextjs.org/docs/14/app/api-reference/next-config-js/crossOrigin
+- https://nextjs.org/docs/14/app/api-reference/next-config-js/optimizePackageImports
+- https://nextjs.org/docs/14/app/api-reference/next-config-js/output
+- https://nextjs.org/docs/14/app/api-reference/next-config-js/redirects
+- https://nextjs.org/docs/14/app/api-reference/next-config-js/rewrites
+- https://nextjs.org/docs/14/app/api-reference/next-config-js/transpilePackages
+- https://nextjs.org/docs/14/app/building-your-application/deploying/static-exports
+- https://nextjs.org/docs/14/app/building-your-application/authentication
+Above is when you need to read authentication in detail
+- https://nextjs.org/docs/14/app/building-your-application/configuring/draft-mode
+- https://nextjs.org/docs/14/app/building-your-application/optimizing/videos
+- https://nextjs.org/docs/14/app/building-your-application/optimizing/fonts
+- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/app-icons
+- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/opengraph-image
+- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/robots
+- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/sitemap
+- https://nextjs.org/docs/14/app/building-your-application/optimizing/lazy-loading
+- https://nextjs.org/docs/14/app/building-your-application/optimizing/open-telemetry
+- https://nextjs.org/docs/14/app/building-your-application/optimizing/memory-usage
+- https://nextjs.org/docs/14/app/building-your-application/caching
+- https://nextjs.org/docs/14/app/building-your-application/rendering
+- https://nextjs.org/docs/14/app/building-your-application/data-fetching
+
 - news wale project me parallel routing and interceptor dekhna h
 ---------------
 
 <br>
 
 <br>
+
+
+
 
 ----------------------------------------Below are the notes for the page routing, above was app routing---------------------
 
@@ -3986,6 +4457,7 @@ export default MyDocument;
 ### Middleware.js 
 
 - It is added at root level in repo, not inside the app/pages folder
+- Middleware executes before routes are rendered. It's particularly useful for implementing custom server-side logic like authentication, logging, or handling redirects.
 - It has NextRequest and NextResponse, both have attached many method on it like 
 
 
@@ -4155,6 +4627,25 @@ export default function Dashboard() {
   )
 }
 ```
+
+
+
+| Prop       | Example                               | Type     |
+|------------|---------------------------------------|----------|
+| `src`      | `src="http://example.com/script"`    | `String`  |
+| `strategy` | `strategy="lazyOnload"`              | `String`  |
+| `onLoad`   | `onLoad={onLoadFunc}`                | `Function` |
+| `onReady`  | `onReady={onReadyFunc}`              | `Function` |
+| `onError`  | `onError={onErrorFunc}`              | `Function` |
+
+**Strategy prop**
+- `beforeInteractive`: Load the script before any Next.js code and before any page hydration occurs.
+- `afterInteractive`: (default) Load the script early but after some hydration on the page occurs.
+- `lazyOnload`: Load the script later during browser idle time.
+
+
+- Next.js ensures the script will only `load once`, even if a user navigates between multiple routes in the same layout, irrespective of addition in nested page.js
+
 <br>
 
 ### userAgent
