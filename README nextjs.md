@@ -1,90 +1,3 @@
-Note below are for app router: 
-- Jo bhi logs terminal me aaye means wo server side execute hua and jo logs browser me aaye wo clinet side execute hua h
-- It has page.js not index.js in folder which serve as main file.
-- By default, all components are server side components only
-- "use client" directive added, the component should run on client side & server side
-- when we click on next Link button, the component which comes on route change runs on server side, not on client side
-- you can have "use client" or "use server" in single component, if both needed then make that component to two separate coponenent, and use them separately
-- in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that hook part separate component and add "use client" in that component and import it
-- Next caches very regressiveely in next 14
-
-<br>
-
-## 120, 150,180 no ki video phir dekhni h
-
-<br>
-
-> ### **App Router vs Pages Router in Next.js**  
-
-Next.js has two routing systems: **App Router** (introduced in Next.js 13) and **Pages Router** (the traditional routing system). Below is a comparison of both:
-
-
-### **1. App Router (`app/` directory)**
-✅ **Uses React Server Components (RSC)** – Mixes server and client components for better performance.  
-✅ **File-based routing with React Suspense** – Each file inside `app/` becomes a route.  
-✅ **Layout System** – Allows nested layouts for better reusability.  
-✅ **Built-in Server Actions & API Routes** – Can handle backend logic inside React components.  
-✅ **Loading & Error Handling** – Uses special `loading.tsx` and `error.tsx` files.  
-✅ **Partial Prerendering** – Supports both static and dynamic rendering per component.  
-
-#### **Example Structure**
-```
-/app
-  ├── layout.tsx        (Layout for nested pages)
-  ├── page.tsx          (Renders as a page)
-  ├── loading.tsx       (Handles loading states)
-  ├── error.tsx         (Handles errors)
-  ├── dashboard/
-       ├── page.tsx     (Renders `/dashboard`)
-       ├── settings/
-             ├── page.tsx  (Renders `/dashboard/settings`)
-```
-
-<br>
-
-### **2. Pages Router (`pages/` directory)**
-✅ **File-based routing** – Each `.js/.ts` file inside `pages/` is a route.  
-✅ **Uses `getServerSideProps`, `getStaticProps`, and `getInitialProps`** for data fetching.  
-✅ **Traditional API Routes (`pages/api`)** – API endpoints live under `pages/api/`.  
-✅ **Good for legacy projects** – Well-tested and stable.  
-
-#### **Example Structure**
-```
-/pages
-  ├── index.js           (Renders `/`)
-  ├── about.js           (Renders `/about`)
-  ├── dashboard/
-       ├── index.js      (Renders `/dashboard`)
-       ├── settings.js   (Renders `/dashboard/settings`)
-  ├── api/
-       ├── users.js      (API route at `/api/users`)
-```
-
-<br>
-
-### **Comparison Table**
-| Feature               | **App Router (`app/`)** | **Pages Router (`pages/`)** |
-|----------------------|------------------|------------------|
-| **Rendering Mode**  | Supports RSC, SSR, and CSR | Uses SSR, SSG, CSR |
-| **Routing**        | File-based (React Suspense) | File-based (older model) |
-| **Data Fetching**  | Uses `fetch()`, React Server Components, `useEffect()` | Uses `getServerSideProps`, `getStaticProps` |
-| **API Routes**     | Can handle in component (`async function action()`) | Uses `pages/api/` directory |
-| **Middleware**     | Middleware (`middleware.ts`) | Middleware (`middleware.ts`) |
-| **Performance**    | Optimized with Server Components | Slightly less optimized |
-| **Error Handling** | Uses `error.tsx` | Needs `getInitialProps()` or Error Boundaries |
-| **Best for**       | New projects, full-stack apps | Legacy projects, traditional SSR |
-
-
-
-### **Which One Should You Use?**
-- **New Projects:** Use **App Router** (`app/`) for better performance and scalability.  
-- **Existing Projects:** Stick with **Pages Router** (`pages/`) unless migrating.  
-- **API-heavy apps:** App Router simplifies backend logic inside components.  
-- **SEO-focused apps:** Both are good, but App Router has better performance optimizations.  
-
-<br>
-
-
 > ### Importing Alias in TypeScript/JavaScript with Next.js
 
 ```js
@@ -119,19 +32,63 @@ tsconfig.json or jsconfig.json
 }
 ```
 
-### **Next.js Routing Files in the App Router (`app/` directory)**  
+<br>
 
-In Next.js **App Router**, specific file names have special meanings. Here’s what each does:  
+Note below are for app router: 
+- Jo bhi logs terminal me aaye means wo server side execute hua and jo logs browser me aaye wo clinet side execute hua h
+- It has page.js not index.js in folder which serve as main file.
+- By default, all components are server side components only
+- "use client" directive added, the component should run on client side & server side
+- when we click on next Link button, the component which comes on route change runs on server side, not on client side
+- you can have "use client" or "use server" in single component, if both needed then make that component to two separate coponenent, and use them separately
+- in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that hook part separate component and add "use client" in that component and import it
+- Next caches very regressiveely in next 14
 
----
+<br>
+
+## 120, 150,180 no ki video phir dekhni h
+
+<br>
+
+> ### **App Router vs Pages Router in Next.js**
+
+**1. App Router (`app/` directory) - "app" folder is at Top level**
+
+```
+/app
+  ├── layout.tsx        (Layout for nested pages)
+  ├── page.tsx          (Renders as a page)
+  ├── loading.tsx       (Handles loading states)
+  ├── error.tsx         (Handles errors)
+  ├── dashboard/
+       ├── page.tsx     (Renders `/dashboard`)
+       ├── settings/
+             ├── page.tsx  (Renders `/dashboard/settings`)
+```
+
+<br>
+
+**2. Pages Router (`pages/` directory) - "pages" folder is at Top leve**
+
+```
+/pages
+  ├── index.js           (Renders `/`)
+  ├── about.js           (Renders `/about`)
+  ├── dashboard/
+       ├── index.js      (Renders `/dashboard`)
+       ├── settings.js   (Renders `/dashboard/settings`)
+  ├── api/
+       ├── users.js      (API route at `/api/users`)
+```
+
+<br>
+
+> ### **Next.js Routing Files in the App Router (`app/` directory)**  
 
 ### **1. `layout.js / layout.tsx` (Layout File)**
-- Defines a persistent UI wrapper (like headers, sidebars, and footers) for all child pages.
-- A layout is UI that is shared between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender.
+- A layout is UI that is shared between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender. Act as persistent UI wrapper
 - Layouts are Server Components by default but can be set to a Client Component.
 - Layouts do not have access to the route segments below itself. To access all route segments, you can use `useSelectedLayoutSegment` or `useSelectedLayoutSegments` in a Client Component.
-
-
 - A root layout is the top-most layout in the root app directory. while other layout existed in route folder
 - The app directory must include a root app/layout.js.
 - The `root layout` should have the `html, body` and `metadata(metadata is reseved and must shared object) function`
@@ -139,6 +96,12 @@ In Next.js **App Router**, specific file names have special meanings. Here’s w
 
 ```tsx
 // app/layout.tsx
+
+export const metadata = {
+  title: '...',
+  description: '...',
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -148,25 +111,25 @@ export default function RootLayout({ children }) {
 }
 ```
 
-### Props in layout
+<br>
+
+**`Props` in layout**
 1. children (required)
 2. params (optional)
 
-Params in layout in route folder, but params is not available in root layout.js
-
-```
-Example                                 	URL	                    params
-app/dashboard/[team]/layout.js	          /dashboard/1	          { team: '1' }
-app/shop/[tag]/[item]/layout.js	          /shop/1/2	              { tag: '1', item: '2' }
-app/blog/[...slug]/layout.js	            /blog/1/2	              { slug: ['1', '2'] }
-```
+Params is available in layout.js of `route folder`, but params is `not available` in `root layout.js`
 
 
-Note: Passing data between a parent layout and its children is not possible. However, you can fetch the same data in a route more than once, and React will automatically dedupe the requests without affecting performance.
+| Example                               | URL            | `params`               |
+|---------------------------------------|---------------|------------------------|
+| `app/dashboard/[team]/layout.js`      | `/dashboard/1` | `{ team: '1' }`       |
+| `app/shop/[tag]/[item]/layout.js`     | `/shop/1/2`    | `{ tag: '1', item: '2' }` |
+| `app/blog/[...slug]/layout.js`        | `/blog/1/2`    | `{ slug: ['1', '2'] }` |
 
-Even if the same API call is made in layout.js and page.js, React will automatically deduplicate (dedupe) requests, ensuring the data is only fetched once.
 
-Example: layout.js and page.js Fetching the Same Data
+**Note**: Passing `data between a parent layout` and its `children` is `not possible`. However, you can `fetch the same data` in a route `more than once`, and the same API call is made in layout.js and page.js, React will automatically `deduplicate (dedupe)` requests, ensuring the data is only fetched once.
+
+**Example:**
 
 ```js
 // app/dashboard/layout.js
@@ -193,13 +156,12 @@ export default async function DashboardPage() {
 
 - Even though both files call the API, Next.js only makes one request (auto-deduping)!
 
----
+<br>
 
 ### **2. `page.js / page.tsx` (Page File)**
 - Defines an actual page route.
-- Required for rendering a route.
 
-📌 **Example:**
+
 ```tsx
 // app/dashboard/page.tsx → Renders /dashboard
 
@@ -209,16 +171,17 @@ export default function Page({ params, searchParams }) {
 }
 ```
 
+<br>
 
-#### Props
+**Props**
 
-1. params (optional)
+1. `params (optional)`
 
 | Path | Example URL | Params |
 |------|------------|--------|
-| `app/shop/[slug]/page.js` | `/shop/1` | `{ slug: '1' }` |
-| `app/shop/[category]/[item]/page.js` | `/shop/1/2` | `{ category: '1', item: '2' }` |
-| `app/shop/[...slug]/page.js` | `/shop/1/2` | `{ slug: ['1', '2'] }` |
+| app/shop/[slug]/page.js | /shop/1 | { slug: '1' } |
+| app/shop/[category]/[item]/page.js | /shop/1/2 | { category: '1', item: '2' } |
+| app/shop/[...slug]/page.js | /shop/1/2 | { slug: ['1', '2'] } |
 
 
 2. searchParams (optional)
