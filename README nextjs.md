@@ -83,7 +83,7 @@ Note below are for app router:
 
 <br>
 
-> ### **Next.js Routing Files in the App Router (`app/` directory)**  
+## **Next.js Routing Files in the App Router (`app/` directory)**  
 
 ### **1. `layout.js / layout.tsx` (Layout File)**
 - A layout is UI that is shared between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender. Act as persistent UI wrapper
@@ -401,13 +401,13 @@ export default function Default() {
 | `app/@sidebar/[artist]/default.js`          | `/zack`     | `{ artist: 'zack' }`      |
 | `app/@sidebar/[artist]/[album]/default.js`  | `/zack/next` | `{ artist: 'zack', album: 'next' }` |
 
-
+<br>
 
 ### **When Does `default.js` Load?**
 
 Let’s break it down in a simple way.  
 
-**1. Initial Folder Structure (Everything Works Fine)**
+### **1. Initial Folder Structure (Everything Works Fine)**
 ```
 app
  ├── dashboard
@@ -420,7 +420,7 @@ app
 
 
 
-**2. Now, You Introduce a Dynamic Route (`[detailId]`) or Nested Route**
+### **2. Now, You Introduce a Dynamic Route (`[detailId]`) or Nested Route**
 ```
 app
  ├── dashboard
@@ -438,7 +438,7 @@ app
 
 
 
-**3. How to Fix This?**
+### **3. How to Fix This?**
 You have **two solutions:**
 
 #### **Solution 1: Add `[detailId]` to `@revenue`**
@@ -510,11 +510,11 @@ app/
 <br>
 <br>
 
-### **Dynamic Routes in Next.js (App Router)**  
+## **Dynamic Routes in Next.js (App Router)**  
 
 Next.js **App Router** (`app/` directory) supports **dynamic routing** with bracket notation. Here’s how it works:  
 
----
+<br>
 
 > ### Dynamic Route Segment 
 - keep in mind that `params` is important thing
@@ -559,9 +559,10 @@ export default function DocsPage({ params }) {
 ```
 ✅ **URL:** `/docs/setup/install` → **Renders:** `Docs Path: setup / install`  
 
----
+<br>
 
-**3️⃣ `[[...folder]]` → Optional Catch-All Route Segment**  
+> ### `[[...folder]]` → Optional Catch-All Route Segment**  
+
 - **Same as `[...folder]`, but also matches the base route itself**  
 - Example: `/blog/[[...slug]]/page.tsx` → Matches `/blog`, `/blog/nextjs`, `/blog/nextjs/app-router`  
 
@@ -589,30 +590,21 @@ export default function BlogPage({ params }) {
 ✅ **URL:** `/blog/react` → **Renders:** `Blog Path: react`  
 ✅ **URL:** `/blog/nextjs/app-router` → **Renders:** `Blog Path: nextjs / app-router`  
 
----
-
-## **📌 Summary Table**
-| Dynamic Route Type  | Syntax         | Example Match |
-|--------------------|---------------|--------------|
-| **Dynamic Segment** | `[folder]` | `/products/42` → `{ id: "42" }` |
-| **Catch-All Route** | `[...folder]` | `/docs/setup/install` → `{ slug: ["setup", "install"] }` |
-| **Optional Catch-All** | `[[...folder]]` | `/blog`, `/blog/react` → `{ slug: ["react"] }` OR `{ slug: undefined }` |
-
-Let me know if you need more details! 🚀
+<br>
+<br>
 
 
-
-### **Key Configuration Files in a Next.js Project**  
+## **Key Configuration Files in a Next.js Project**  
 
 Next.js projects include several configuration files that control project settings, environment variables, and dependencies. Here’s a breakdown of each file and its purpose:  
 
----
+<br>
 
-## **📌 1. `next.config.js` → Next.js Configuration**
+### **1. `next.config.js` → Next.js Configuration**
 - The main configuration file for Next.js.  
 - Used to customize settings like `webpack`, `i18n`, `redirects`, `headers`, and more.  
 
-📌 **Example:**
+
 ```js
 // next.config.js
 module.exports = {
@@ -628,41 +620,17 @@ module.exports = {
 };
 ```
 
----
+<br>
 
-## **📌 2. `package.json` → Project Dependencies & Scripts**
-- Manages dependencies and scripts for the Next.js project.  
-- Defines installed packages and CLI scripts like `dev`, `build`, and `start`.  
-
-📌 **Example:**
-```json
-{
-  "name": "nextjs-app",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "next": "14.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
-  }
-}
-```
-
----
-
-## **📌 3. `instrumentation.js|ts` → OpenTelemetry & Instrumentation**
+### **2. `instrumentation.js|ts` → OpenTelemetry & Instrumentation**
 - Used for performance monitoring and logging requests.  
 - Introduced in Next.js 13+ to integrate observability tools like OpenTelemetry.  
 - place the file in the root of your application or inside a src folder if using one, not in app/pages folder
 
-- There are many 3rd party services for the telemetry, below is code for otel
+- There are many 3rd party services for the telemetry, `below is code for otel`.
 
-instrumentation.js
 ```js
+// instrumentation.js
 import { registerOTel } from '@vercel/otel'
  
 export function register() {
@@ -670,8 +638,8 @@ export function register() {
 }
 ```
 
-next.config.js
 ```js
+// next.config.js
 module.exports = {
   experimental: {
     instrumentationHook: true,
@@ -679,17 +647,17 @@ module.exports = {
 }
 ```
 
----
+<br>
 
-## **📌 4. `middleware.ts` → Next.js Middleware**
+### **3. `middleware.ts` → Next.js Middleware**
 - Runs **before** the request reaches a route.  
 - Useful for authentication, redirects, and request modifications.  
-- matcher allows you to filter Middleware to run on specific paths.
+- `matcher` allows you to filter Middleware to run on specific paths.
   - it can be single path or multiple paths
   - allows full regex
 - to make it work, add middleware.ts in root folder
 
-📌 **Example:**
+
 ```ts
 import { NextResponse } from 'next/server'
  
@@ -703,10 +671,10 @@ export const config = {
   matcher: '/about/:path*',
 }
 ```
-✅ **Applies to every request automatically when placed in the root of the `app/` or `pages/` directory.**
 
+<br>
 
-### NextResponse
+## NextResponse in next js
 
 The `NextResponse` API allows you to:
 
@@ -716,15 +684,16 @@ The `NextResponse` API allows you to:
 - Set response cookies
 - Set response headers
 
-### Using Cookies
+<br>
+
+#### Using Cookies
 
 - For incoming requests, cookies comes with the following methods: `get`, `getAll`, `set`, and `delete` cookies. You can check for the existence of a cookie with `has` or remove all cookies with `clear`.
 - For outgoing responses, cookies have the following methods `get`, `getAll`, `set`, and `delete`.
 
 
-
-middleware.js
 ```js
+// middleware.js
 import { NextResponse } from 'next/server'
  
 export function middleware(request) {
@@ -755,7 +724,7 @@ export function middleware(request) {
 }
 ```
 
-### Setting Headers
+#### Setting Headers
 
 ```js
 import { NextResponse } from 'next/server'
@@ -778,8 +747,10 @@ export function middleware(request) {
   return response
 }
 ```
+<br>
 
 ### CORS
+
 ```js
 import { NextResponse } from 'next/server'
  
@@ -825,17 +796,18 @@ export const config = {
 }
 ```
 
+<br>
+<br>
 
-### **`waitUntil` and `NextFetchEvent` in Next.js Middleware**
+## **`waitUntil` and `NextFetchEvent` in Next.js Middleware**
 In Next.js, Middleware runs **before a request is processed**. Sometimes, you might need to perform **asynchronous background tasks** without delaying the response. This is where `waitUntil` and `NextFetchEvent` come in.
 
----
+<br>
 
-## **1️⃣ What is `NextFetchEvent`?**
-`NextFetchEvent` is an object passed to Middleware that provides the `waitUntil` method. This allows you to run **long-running async tasks in the background** without blocking the response.
+### **1️⃣ What is `NextFetchEvent`?**
+`NextFetchEvent` is an object passed to `Middleware` that provides the `waitUntil` method. This allows you to run **long-running async tasks in the background** without blocking the response.
 
-📌 **Example: Basic Usage of `NextFetchEvent`**
-```javascript
+```js
 import { NextResponse } from "next/server";
 
 export function middleware(request, event) {
@@ -848,14 +820,12 @@ export function middleware(request, event) {
 ```
 🔹 Here, we send a logging request **in the background** while letting the request continue.  
 
----
+<br>
 
-## **2️⃣ Why Use `waitUntil`?**
+### **2️⃣ Why Use `waitUntil`?**
 By default, JavaScript's event loop might **cancel async tasks** if Middleware finishes execution early. `waitUntil` ensures the task **runs to completion** even after the middleware function returns.
 
----
-
-## **3️⃣ How `waitUntil` Works**
+**How `waitUntil` Works**
 - **Without `waitUntil`**, background tasks may be interrupted:
   ```javascript
   export function middleware(request) {
@@ -876,10 +846,13 @@ By default, JavaScript's event loop might **cancel async tasks** if Middleware f
   ```
   ✅ The logging request **will always complete**, even if Middleware finishes execution.
 
----
+<br>
 
-## **4️⃣ Real-World Use Cases**
-### **🔹 Logging Requests**
+### **4️⃣ Real-World Use Cases**
+
+<br>
+
+**🔹 Logging Requests**
 Track page visits or API calls without delaying user responses.
 ```javascript
 export function middleware(request, event) {
@@ -894,7 +867,7 @@ export function middleware(request, event) {
 }
 ```
 
-### **🔹 Background Token Refresh**
+**🔹 Background Token Refresh**
 Refresh authentication tokens **without blocking page loads**.
 ```javascript
 export function middleware(request, event) {
@@ -911,7 +884,7 @@ export function middleware(request, event) {
 }
 ```
 
-### **🔹 User Analytics Tracking**
+**🔹 User Analytics Tracking**
 Send user session data **without delaying the main request**.
 ```javascript
 export function middleware(request, event) {
@@ -926,18 +899,10 @@ export function middleware(request, event) {
 }
 ```
 
----
-
-## **5️⃣ Key Takeaways**
-✔ `NextFetchEvent` gives access to `waitUntil` in Middleware.  
-✔ `waitUntil` ensures async tasks **run to completion**.  
-✔ **Use cases:** logging, analytics, token refresh, etc.  
-✔ **Does not block** request execution.  
-
-🚀 **Now you can efficiently run background tasks in Next.js Middleware!**
-
+<br>
 
 ### Advance middleware
+
 ### **`skipMiddlewareUrlNormalize` and `skipTrailingSlashRedirect` in Next.js**
 
 Next.js automatically **normalizes URLs** and **redirects trailing slashes** unless you configure it otherwise. These two options allow you to **control this behavior** in Middleware.
