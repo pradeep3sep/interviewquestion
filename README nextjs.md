@@ -173,7 +173,7 @@ export default function Page({ params, searchParams }) {
 
 <br>
 
-**Props**
+### Props
 
 1. `params (optional)`
 
@@ -183,14 +183,15 @@ export default function Page({ params, searchParams }) {
 | app/shop/[category]/[item]/page.js | /shop/1/2 | { category: '1', item: '2' } |
 | app/shop/[...slug]/page.js | /shop/1/2 | { slug: ['1', '2'] } |
 
+<br>
 
 2. searchParams (optional)
 
-| URL | `searchParams` |
+| URL | searchParams |
 |-----|---------------|
-| `/shop?a=1` | `{ a: '1' }` |
-| `/shop?a=1&b=2` | `{ a: '1', b: '2' }` |
-| `/shop?a=1&a=2` | `{ a: ['1', '2'] }` |
+| /shop?a=1 | { a: '1' }` |
+| /shop?a=1&b=2 | { a: '1', b: '2' } |
+| /shop?a=1&a=2 | { a: ['1', '2'] } |
 
 
 
@@ -209,20 +210,21 @@ export default function Loading() {
 }
 ```
 
-- sometimes loading.js is not working as expected then in that condition we can use the `suspense with fallback` in that component
+- sometimes loading.js is not working as expected then in that condition we can use the `suspense with fallback` in that component, same as we do in react js
 
 <br>
 
 ### **4. `not-found.js / not-found.tsx` (Custom 404 Page)**
 - Handles 404 errors for missing pages inside a route.
 
-📌 **Example:**
-```tsx
+
+```js
 // app/not-found.tsx
 export default function NotFound() {
   return <h1>Page Not Found</h1>;
 }
 ```
+<br>
 
 - By default, not-found is a Server Component. You can mark it as async to fetch and display data:
 
@@ -245,8 +247,9 @@ export default async function NotFound() {
   )
 }
 ```
+<br>
 
-> ### we have not found function
+### we have not found function `notFound()`
 
 The `notFound` function allows you to render the `not-found file` within a route segment
 
@@ -254,7 +257,7 @@ The `notFound` function allows you to render the `not-found file` within a route
 
 Invoking the `notFound()` function throws a NEXT_NOT_FOUND error and terminates rendering of the route segment in which it was thrown. Specifying a not-found file allows you to gracefully handle such errors by rendering a Not Found UI within the segment.
 
-basically, kisi condition pe hum chahte h ki nearest not found page render ho jaye, to ish function ko run karte h
+**Inshort:** basically, kisi condition pe hum chahte h ki nearest not found page render ho jaye, to ish function ko run karte h
 
 ```js
 // app/user/[id]/page.js
@@ -279,8 +282,7 @@ export default async function Profile({ params }) {
 }
 ```
 
-
----
+<br>
 
 ### **5. `error.js / error.tsx` (Error UI)**
 - Handles errors **within a specific layout or page**.
@@ -324,7 +326,7 @@ export default function Error({ error, reset }) {
 - To specifically handle errors in root `layout.js`
 - Placed inside `app/`.
 
-📌 **Example:**
+
 ```tsx
 // app/global-error.tsx
 'use client';
@@ -341,11 +343,10 @@ export default function GlobalError({ error, reset }) {
 }
 ```
 
----
+<br>
 
 ### **7. `route.js / route.ts` (API Endpoint)**
-- Defines an **API route** for handling server-side requests.
-- it lies in api folder, which is backend folder. but it can also be used in pages folder
+- It lies in api folder, which is backend folder. but it can also be used in pages folder
 
 
 ```ts
@@ -363,14 +364,14 @@ export async function GET(request, context: { params }) {
 }
 ```
 
----
+<br>
 
 ### **8. `template.js / template.tsx` (Re-rendered Layout)**
 - Works **like `layout.tsx` but re-renders on navigation**.
 - Useful when you need a fresh layout for each visit.
 - Suspense Boundaries inside layouts only show the fallback the first time the Layout is loaded and not when switching pages. For templates, the fallback is shown on each navigation.
 
-📌 **Example:**
+
 ```tsx
 // app/dashboard/template.tsx
 export default function Template({ children }) {
@@ -378,10 +379,10 @@ export default function Template({ children }) {
 }
 ```
 
----
+<br>
 
 ### **9. `default.js / default.tsx` (Parallel Route Fallback Page)**
-- Used for **parallel routes** when no other route is matched.
+- Used for **parallel routes** when no other route is matched in the slot( slot is any part of parallel route).
 
 📌 **Example:**
 ```tsx
@@ -391,30 +392,123 @@ export default function Default() {
 }
 ```
 
-Need to see the condition on which default gets loaded
+**Props**
+
+**params (optional)**
+
+| Example                                      | URL         | `params`                  |
+|----------------------------------------------|------------|---------------------------|
+| `app/@sidebar/[artist]/default.js`          | `/zack`     | `{ artist: 'zack' }`      |
+| `app/@sidebar/[artist]/[album]/default.js`  | `/zack/next` | `{ artist: 'zack', album: 'next' }` |
+
+
+
+### **When Does `default.js` Load?**
+
+Let’s break it down in a simple way.  
+
+**1. Initial Folder Structure (Everything Works Fine)**
 ```
-https://nextjs.org/docs/14/app/api-reference/file-conventions/default
+app
+ ├── dashboard
+ │   ├── @analytics
+ │   │   ├── page.js       (Analytics UI)
+ │   ├── @revenue
+ │   │   ├── page.js       (Revenue UI)
+```
+- When you visit `/dashboard`, both **analytics** and **revenue** load correctly. ✅
+
+
+
+**2. Now, You Introduce a Dynamic Route (`[detailId]`) or Nested Route**
+```
+app
+ ├── dashboard
+ │   ├── @analytics
+ │   │   ├── page.js       (Analytics UI)
+ │   │   ├── [detailId]
+ │   │        ├── page.js
+ │   ├── @revenue
+ │   │   ├── page.js       (Revenue UI)
+```
+- Visiting `/dashboard` still works fine. ✅  
+- **Problem:** Visiting `/dashboard/tata` causes a **"Page Not Found"** error ❌  
+  - Next.js sees `[detailId]` in `@analytics`, so it expects a matching structure in `@revenue`.  
+  - Since `@revenue` doesn't have `[detailId]`, Next.js doesn't know what to render there.
+
+
+
+**3. How to Fix This?**
+You have **two solutions:**
+
+#### **Solution 1: Add `[detailId]` to `@revenue`**
+```
+app
+ ├── dashboard
+ │   ├── @analytics
+ │   │   ├── page.js
+ │   │   ├── [detailId]
+ │   │        ├── page.js
+ │   ├── @revenue
+ │   │   ├── page.js
+ │   │   ├── [detailId]    <-- Added this folder
+ │   │        ├── page.js
+```
+- Now both `@analytics` and `@revenue` handle `[detailId]`, so `/dashboard/tata` works fine. ✅  
+
+#### **Solution 2: Add `default.js` in `@revenue`**
+```
+app
+ ├── dashboard
+ │   ├── @analytics
+ │   │   ├── page.js
+ │   │   ├── [detailId]
+ │   │        ├── page.js
+ │   ├── @revenue
+ │   │   ├── default.js  <-- Fallback for all routes
+```
+- Now, whenever a nested route (`/dashboard/tata`) is visited:  
+  - `@analytics` loads `[detailId]/page.js`  
+  - `@revenue` loads `default.js` instead of breaking. ✅  
+
+
+
+### **Conclusion**
+- If a parallel route is missing for a dynamic route, Next.js throws an error.  
+- Either **match the folder structure** or use `default.js` to **provide fallback UI**.
+
+
+<br>
+<br>
+
+
+### Folder Structure of all files in next js
+
+```
+app/  
+├── layout.(js|jsx|tsx)          # Persistent layout wrapper for all pages  
+├── page.(js|jsx|tsx)            # Default route page (e.g., `/` route)  
+├── loading.(js|jsx|tsx)         # Suspense fallback for loading state  
+├── not-found.(js|jsx|tsx)       # Custom 404 page  
+├── error.(js|jsx|tsx)           # Handles errors in a specific route/page  
+├── global-error.(js|jsx|tsx)    # Handles global errors across the app  
+├── template.(js|jsx|tsx)        # Re-rendered layout (non-persistent)  
+├── default.(js|jsx|tsx)         # Default UI for parallel routes  
+│  
+├── api/  
+│   ├── route.(js|ts)           # API endpoint handler  
+│  
+├── another-route/               # Example sub-route  
+│   ├── layout.(js|jsx|tsx)      # Persistent layout for this route  
+│   ├── page.(js|jsx|tsx)        # Page for `/another-route`  
+│   ├── loading.(js|jsx|tsx)     # Loading state for this route  
+│   ├── error.(js|jsx|tsx)       # Error boundary for this route  
+│   ├── template.(js|jsx|tsx)    # Re-rendered layout (non-persistent)  
+
 ```
 
----
-
-### **📌 Summary Table**
-| File Name        | Extension | Purpose |
-|-----------------|-----------|---------|
-| `layout`        | `.js/.jsx/.tsx` | Persistent layout wrapper |
-| `page`          | `.js/.jsx/.tsx` | Defines a route page |
-| `loading`       | `.js/.jsx/.tsx` | Shows loading state (Suspense) |
-| `not-found`     | `.js/.jsx/.tsx` | Custom 404 page |
-| `error`         | `.js/.jsx/.tsx` | Handles errors in a specific page |
-| `global-error`  | `.js/.jsx/.tsx` | Handles errors globally |
-| `route`         | `.js/.ts` | API endpoint handler |
-| `template`      | `.js/.jsx/.tsx` | Re-rendered layout (non-persistent) |
-| `default`       | `.js/.jsx/.tsx` | Default UI for parallel routes |
-
-Let me know if you need further explanation! 🚀
-
-
-
+<br>
+<br>
 
 ### **Dynamic Routes in Next.js (App Router)**  
 
