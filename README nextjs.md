@@ -901,15 +901,11 @@ export function middleware(request, event) {
 
 <br>
 
-### Advance middleware
+## Advance middleware
 
 ### **`skipMiddlewareUrlNormalize` and `skipTrailingSlashRedirect` in Next.js**
 
-Next.js automatically **normalizes URLs** and **redirects trailing slashes** unless you configure it otherwise. These two options allow you to **control this behavior** in Middleware.
-
----
-
-## **1️⃣ `skipMiddlewareUrlNormalize`**
+#### **1️⃣ `skipMiddlewareUrlNormalize`**
 By default, Next.js **normalizes URLs** before passing them to Middleware. This means:
 - Removing duplicate slashes (`//`)
 - Decoding encoded characters (`%20` → space)
@@ -917,7 +913,7 @@ By default, Next.js **normalizes URLs** before passing them to Middleware. This 
 
 👉 **`skipMiddlewareUrlNormalize: true`** **prevents** Next.js from normalizing URLs before Middleware executes.
 
-📌 **Example**
+
 ```javascript
 export const config = {
   matcher: "/api/:path*",
@@ -929,21 +925,16 @@ export function middleware(request) {
   return NextResponse.next();
 }
 ```
-### **✅ When to Use?**
-✔ When your Middleware logic depends on the **original raw URL format**  
-✔ When handling **case-sensitive** or **encoded URLs**  
-✔ When working with **special characters in URLs**  
 
----
 
-## **2️⃣ `skipTrailingSlashRedirect`**
+#### **2️⃣ `skipTrailingSlashRedirect`**
 By default, Next.js **automatically redirects URLs** based on trailing slashes:
 - `/about/` → `/about`
 - `/blog/post/` → `/blog/post`
 
 👉 **`skipTrailingSlashRedirect: true`** **disables** this behavior in Middleware.
 
-📌 **Example**
+
 ```javascript
 export const config = {
   matcher: "/blog/:path*",
@@ -955,17 +946,10 @@ export function middleware(request) {
   return NextResponse.next();
 }
 ```
-### **✅ When to Use?**
-✔ When your routes **require trailing slashes** for proper behavior  
-✔ When handling **legacy URLs** that depend on a trailing slash  
-✔ When working with **external services that expect a specific URL format**  
 
----
 
-## **3️⃣ Using Both Together**
-You can **combine both options** to completely prevent Next.js from modifying the URL **before Middleware runs**.
+#### **3️⃣ Using Both Together**
 
-📌 **Example**
 ```javascript
 export const config = {
   matcher: "/api/:path*",
@@ -979,21 +963,12 @@ export function middleware(request) {
 }
 ```
 
-### **🚀 Summary**
-| Option | Default Behavior | Effect When Enabled |
-|--------|----------------|------------------|
-| `skipMiddlewareUrlNormalize` | Normalizes URL before Middleware | Preserves raw URL format |
-| `skipTrailingSlashRedirect` | Removes trailing slashes automatically | Keeps trailing slashes |
+<br>
+<br>
 
-👉 **Use these options when you need precise URL handling in Middleware!** 🚀
+## **`.env` Files → Environment Variables**
 
----
-
-## **📌 5. `.env` Files → Environment Variables**
-- Used to store API keys, database credentials, and other sensitive data.  
-- Next.js automatically loads variables from `.env` files.  
-
-📌 **Different Environment Files:**
+**Different Environment Files:**
 | File | Purpose |
 |------|---------|
 | `.env` | Default environment variables for all environments. |
@@ -1001,82 +976,26 @@ export function middleware(request) {
 | `.env.production` | Variables for production builds. |
 | `.env.development` | Variables for development mode. |
 
-📌 **Example (`.env.local`):**
+**Example (`.env.local`):**
 ```
 NEXT_PUBLIC_API_URL=https://api.example.com
 DATABASE_URL=postgres://user:pass@localhost:5432/db
 ```
 
-✅ **Access in Next.js:**  
+**Access in Next.js:**  
 ```ts
 console.log(process.env.NEXT_PUBLIC_API_URL);
 ```
 
----
+<br>
+<br>
 
-## **📌 6. `.eslintrc.json` → ESLint Configuration**
-- Configures ESLint rules for code linting and formatting.  
-- Helps enforce best practices and coding standards.  
 
-📌 **Example:**
-```json
-{
-  "extends": ["next/core-web-vitals"],
-  "rules": {
-    "react/no-unescaped-entities": "off"
-  }
-}
-```
-
----
-
-## **📌 7. `.gitignore` → Git Ignore File**
-- Specifies files and folders to **exclude** from Git commits.  
-
-📌 **Example:**
-```
-node_modules/
-.next/
-.env.local
-```
-
----
-
-## **📌 8. `next-env.d.ts` → TypeScript Declarations**
-- **Auto-generated** file that ensures TypeScript support in Next.js.  
-- **Do not edit** this file manually.  
-
-📌 **Example Content:**
-```ts
-/// <reference types="next" />
-/// <reference types="next/types/global" />
-```
-
----
-
-## **📌 9. `tsconfig.json` → TypeScript Configuration**
-- Configures TypeScript compiler options.  
-
-📌 **Example:**
-```json
-{
-  "compilerOptions": {
-    "strict": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/components/*": ["components/*"]
-    }
-  }
-}
-```
-
----
-
-## **📌 10. `jsconfig.json` → JavaScript Configuration**
+## **`jsconfig.json` → JavaScript Configuration**
 - Similar to `tsconfig.json`, but for **JavaScript projects**.  
 - Used for configuring paths and module resolution.  
 
-📌 **Example:**
+
 ```json
 {
   "compilerOptions": {
@@ -1088,34 +1007,17 @@ node_modules/
 }
 ```
 
----
-
-## **🚀 Summary Table**
-| File | Purpose |
-|------|---------|
-| `next.config.js` | Configures Next.js settings (e.g., redirects, images, webpack). |
-| `package.json` | Manages dependencies and project scripts. |
-| `instrumentation.ts` | Handles OpenTelemetry and observability. |
-| `middleware.ts` | Runs code before a request reaches a route (e.g., auth checks). |
-| `.env` Files | Store environment variables securely. |
-| `.eslintrc.json` | Configures ESLint for linting JavaScript/TypeScript. |
-| `.gitignore` | Specifies files/folders to ignore in Git. |
-| `next-env.d.ts` | Auto-generated TypeScript declaration file. |
-| `tsconfig.json` | Configures TypeScript compiler options. |
-| `jsconfig.json` | Configures JavaScript module resolution and paths. |
-
-Let me know if you need more details! 🚀
-
+<br>
 <br>
 
-## **📌 Route Groups & Private Folders in Next.js (App Router)**  
+## **Route Groups & Private Folders in Next.js (App Router)**  
 
-**1️⃣ Route Groups → `(folder)`**  
+### **1️⃣ Route Groups → `(folder)`**  
 - Used to **group related routes** **without affecting the URL structure**.  
 - **Parent folder names do NOT appear in the URL.**
 - In that group folder, we can create a layout.js which only works for that folder
 
-**📌 Example Structure:**
+
 ```
 /app
   /(dashboard)
@@ -1131,25 +1033,16 @@ Let me know if you need more details! 🚀
 - `/settings` (NOT `/dashboard/settings`)  
 
 
-**Example Code (`app/(dashboard)/users/page.tsx`):**
-```tsx
-export default function UsersPage() {
-  return <h1>User List</h1>;
-}
-```
-✅ **Visiting `/users` renders:** `"User List"`  
-
-
 **Why Use Route Groups?**  
 - Organizes routes **without affecting the URL**.  
 - Useful for layouts, authentication groups, or dashboards.  
 
 
-## **2️⃣ Private Folders → `_folder`**  
+### **2️⃣ Private Folders → `_folder`**  
 - Prefixing a folder with `_` **excludes it from the routing system**.  
 - Useful for organizing **utility files**, **components**, or **API helpers** inside `app/`.  
 
-### **📌 Example Structure:**
+
 ```
 /app
   /dashboard
@@ -1159,39 +1052,20 @@ export default function UsersPage() {
     helpers.ts   → NOT a route (ignored by Next.js)
 ```
 
-### **📌 Example Code (`app/_utils/helpers.ts`):**
-```ts
-export function formatDate(date: string) {
-  return new Date(date).toLocaleDateString();
-}
-```
-✅ **Cannot be accessed as a route (`/_utils/helpers`)**  
-✅ **Can be imported inside other components**  
+**Cannot be accessed as a route (`/_utils/helpers`)**  
+**Can be imported inside other components**   
 
-💡 **Why Use Private Folders?**  
-- Keep non-route files organized **inside the `app/` directory**.  
-- Prevent unnecessary public access to helper files.  
-
----
-
-## **🚀 Summary Table**
-| Feature | Syntax | Purpose |
-|---------|--------|---------|
-| **Route Groups** | `(folder)` | Groups routes **without affecting the URL** |
-| **Private Folders** | `_folder` | Excludes folder from routing (for utils, helpers, components) |
-
-Let me know if you need more details! 🚀
-
+<br>
 <br>
 
 > ### Parallel & Intercepted Routes in Next.js (App Router)
 
-**1️⃣ Parallel Routes (`@folder`) → Named Slots**  
+**Parallel Routes (`@folder`) → Named Slots**  
 - **Used to render multiple pages in parallel inside a layout.**  
 - Each slot (`@folder`) **renders a separate route**, allowing **multiple views in a single layout**.  
 - Ideal for **dashboards with multiple panels**, **chat apps**, or **sidebars**.  
+- basically 2 page ko single layout me rakhna h, jisse 2 separate error, layout etc separately manage kr sakte h single layout or common page me
 
-**📌 Example Structure:**
 ```
 /app
   /dashboard
@@ -1203,8 +1077,9 @@ Let me know if you need more details! 🚀
     page.tsx   → Main dashboard page
 ```
 
-**📌 Example Code:**
+**Example Code:**
 **`app/dashboard/layout.tsx` (Using Parallel Slots)**
+
 **Note**: In general scenario, layout gets children prop but when we use the parallel routes, we get all the parallel routes in layout, in our case it is analytics, & settings
 - Each nested page has its own environment like, separate loading,error,not-found, etc
 
@@ -1240,21 +1115,20 @@ export default function SettingsPage() {
 |   Panel   |  Panel   |
 -----------------------
 ```
-**Allows loading multiple pages (slots) at once!**  
 
+## **🚀 URL Behavior**
+| URL | Rendered Components |
+|-----|---------------------|
+| `/dashboard` | ✅ `layout.js` → `<analytics />` + `<settings />` |
+| `/dashboard?analytics=trending` | ✅ Updates only the analytics slot |
+| `/dashboard?settings=alerts` | ✅ Updates only the settings slot |
 
-Note-
-When we don't have any page.js in parallel route then we can provide the default.js which works as default file for that parallel route
-
-eg: if we don't have the page.js in settings folder then we can provide the default.js in that folder
-
-- In Next.js Parallel Routes, the default.js (or default.tsx) file acts as a fallback component when a slot does not have a corresponding file
-- If a slot (e.g., @settings) does not receive a page, default.js renders instead.
-- if we provide the dynamic or static route inside the analytics, then that part will render only in Analytics part of total page
 
 <br>
 
-**2️⃣ Intercepted Routes (`(.)folder`, `(..)folder`, `(...)folder`)**  
+<br>
+
+> ### **Intercepted Routes (`(.)folder`, `(..)folder`, `(...)folder`)**  
 - Used to **override the normal navigation flow** by intercepting requests.  
 - Helps when **embedding a different page inside another page** (e.g., opening a modal instead of full navigation). 
 - For example, when clicking on a photo in a feed, you can display the photo in a modal, overlaying the feed. In this case, Next.js intercepts the /photo/123 route, masks the URL, and overlays it over /feed.
@@ -1281,12 +1155,13 @@ eg: if we don't have the page.js in settings folder then we can provide the defa
 
 https://nextjs.org/docs/14/app/building-your-application/routing/intercepting-routes
 ```
----
 
-### **📌 Example 1: Same-Level Interception (`(.)folder`)**  
+<br>
+
+### **Example 1: Same-Level Interception (`(.)folder`)**  
 **Scenario:** Clicking on a post in `/feed` should show a modal instead of navigating away.  
 
-#### **📌 Example Structure:**
+**Example Structure:**
 ```
 /app
   /feed
@@ -1295,16 +1170,17 @@ https://nextjs.org/docs/14/app/building-your-application/routing/intercepting-ro
     [id]
       page.tsx → Intercepts `/feed/:id`
 ```
+<br>
 
-#### **📌 Example Code:**
-##### **`app/feed/page.tsx`**
+**📌 Example Code:**
 ```tsx
+// app/feed/page.tsx
 export default function FeedPage() {
   return <h1>Feed Page</h1>;
 }
 ```
 
-##### **`app/(.)post/[id]/page.tsx` (Intercepts from `/feed` and renders a modal)**
+**`app/(.)post/[id]/page.tsx` (Intercepts from `/feed` and renders a modal)**
 ```tsx
 export default function PostModal({ params }) {
   return <div className="modal">Post ID: {params.id}</div>;
@@ -1312,9 +1188,10 @@ export default function PostModal({ params }) {
 ```
 ✅ **Visiting `/feed/123` in `/feed` shows the modal instead of full navigation.**  
 
----
+<br>
+<br>
 
-### **📌 Example 2: One-Level Interception (`(..)folder`)**  
+### **Example 2: One-Level Interception (`(..)folder`)**  
 **Scenario:** Clicking on a product inside `/shop` should open a modal inside `/dashboard`, instead of navigating away.
 
 #### **📌 Example Structure:**
@@ -1332,20 +1209,21 @@ export default function PostModal({ params }) {
         page.tsx → Intercepts `/shop/products/:id` and opens in `/dashboard`
 ```
 
-##### **`app/dashboard/(..)products/[id]/page.tsx`**
 ```tsx
+// app/dashboard/(..)products/[id]/page.tsx
 export default function ProductModal({ params }) {
   return <div className="modal">Product ID: {params.id}</div>;
 }
 ```
 ✅ **Visiting `/shop/products/42` while in `/dashboard` opens a modal instead of a new page.**  
 
----
+<br>
+<br>
 
-### **📌 Example 3: Root-Level Interception (`(...)folder`)**  
+### **Example 3: Root-Level Interception (`(...)folder`)**  
 - Used when you want to **render a different page while keeping the user in the current route**.  
 
-#### **📌 Example Structure:**
+
 ```
 /app
   /about
@@ -1355,19 +1233,9 @@ export default function ProductModal({ params }) {
 ```
 ✅ **Visiting `/privacy` inside `/about` will keep you on `/about` while rendering the privacy page.**  
 
----
 
-## **🚀 Summary Table**
-| Feature | Syntax | Purpose |
-|---------|--------|---------|
-| **Parallel Routes** | `@folder` | Renders multiple views in the same layout |
-| **Same-Level Interception** | `(.)folder` | Intercepts requests at the same level |
-| **One-Level Up Interception** | `(..)folder` | Intercepts requests one level above |
-| **Two-Levels Up Interception** | `(..)(..)folder` | Intercepts requests two levels above |
-| **Root-Level Interception** | `(...)folder` | Intercepts from the root level |
-
-Let me know if you need more details! 🚀
-
+<br>
+<br>
 
 ## Component hierarchy
 components in special files of a route segment are rendered in a specific order. This hierarchy ensures layouts, error handling, and loading states work seamlessly.
@@ -1388,14 +1256,18 @@ In a nested route, the components of a segment will be nested inside the compone
 
 ![BOM](/images/hierarchy2.avif)
 
+<br>
+<br>
 
-> ## Colocation
+## Colocation
 
-However, even though route structure is defined through folders, a route is `not publicly accessible` until a `page.js or route.js` file is added to a route segment. This means that `project files` can be `safely colocated` inside route segments in the app directory without accidentally being routable.
+However, even though route structure is defined through folders, a route is `not publicly accessible` until a `page.js(for UI) or route.js(for API)` file is added to a route segment. This means that `project files` can be `safely colocated` inside route segments in the app directory without accidentally being routable.
 
 
 ![BOM](/images/colocation.avif)
 
+<br>
+<br>
 
 > ## Route groups
 
@@ -1408,10 +1280,14 @@ This indicates the folder is for organizational purposes and should `not be incl
 ![BOM](/images/groups.avif)
 
 <br>
+<br>
 
-> ### navigation in route ` <Link href={`/blog/${post.slug}`}>{post.title}</Link>`
+### navigation in route through `<Link href={/blog/${post.slug}}>{post.title}</Link>`
 
-> ### Scrolling to an id
+<br>
+<br>
+
+### Scrolling to an id
 
 If you'd like to scroll to a specific `id` on navigation, you can append your URL with a `#` hash link or just pass a hash link to the `href` prop
 
@@ -1421,10 +1297,13 @@ If you'd like to scroll to a specific `id` on navigation, you can append your UR
 // Output
 <a href="/dashboard#settings">Settings</a>
 ```
+<br>
+<br>
 
-> ### Disabling scroll restoration
+### Disabling scroll restoration
 
-The default behavior of the Next.js App Router is to `scroll to the top of a new route or to maintain the scroll position for backwards and forwards navigation`. If you'd like to disable this behavior, you can pass `scroll={false}` to the `<Link>` component, or `scroll: false` to `router.push()` or `router.replace()`.
+The default behavior of the Next.js App Router is to `scroll to the top of a new route or to maintain the scroll position for backwards and forwards navigation`.\
+If you'd like to disable this behavior, you can pass `scroll={false}` to the `<Link>` component, or `scroll: false` to `router.push()` or `router.replace()`.
 
 
 ```js
@@ -1445,13 +1324,16 @@ router.push('/dashboard', { scroll: false })
 
 
 <br>
+<br>
 
-> ### Optimizing image
+### Optimizing image
 
 ```
 https://nextjs.org/docs/14/app/api-reference/components/image
 ```
- 
+<br>
+
+- We can optimize image using the next/image
 - We have loader and loaderFile function in next/image, which helps in customizing the image url
 
 ```js
@@ -1461,13 +1343,14 @@ export default function Page() {
     return <Image src="" alt="" />
 }
 ```
+<br>
 
-**Local images**
+**Importing Local images**
 
-- Next.js will automatically determine the intrinsic `width` and `height` of your image based on the imported file. These values are used to determine the image ratio and prevent Cumulative Layout Shift while your image is loading.
+Next.js will automatically determine the intrinsic `width` and `height` of your image based on the imported file. These values are used to determine the image ratio and prevent Cumulative Layout Shift while your image is loading.
 
-- in app/page.tsx
 ```js
+// app/page.tsx
 import Image from 'next/image'
 import profilePic from './me.png'
  
@@ -1484,9 +1367,9 @@ export default function Page() {
   )
 }
 ```
+<br>
 
-
-- priority
+**Priority prop**
 
 ```js
 priority={false} // {false} | {true}
@@ -1494,14 +1377,14 @@ priority={false} // {false} | {true}
 - When true, the image will be considered high priority and preload. Lazy loading is automatically disabled for images using priority.
 - true for logo image, in which we don't need the lazy loading
 
+<br>
 
+**Importing Remote images**
 
-**Remote images**
+Since Next.js does not have access to remote files during the build process, you'll need to provide the `width, height and optional blurDataURL props manually`. The width and height attributes are used to infer the correct aspect ratio of image and avoid layout shift from the image loading in.
 
-- Since Next.js does not have access to remote files during the build process, you'll need to provide the `width, height and optional blurDataURL props manually`. The width and height attributes are used to infer the correct aspect ratio of image and avoid layout shift from the image loading in.
-
-- in app/page.tsx
 ```jsx
+// app/page.tsx
 import Image from 'next/image'
  
 export default function Page() {
@@ -1515,8 +1398,9 @@ export default function Page() {
   )
 }
 ```
+<br>
 
-- Then, to safely allow images from remote servers, you need to define a list of supported URL patterns in `next.config.js`. Be as specific as possible to prevent malicious usage. For example, the following configuration will only allow images from a specific AWS S3 bucket:
+Then, to safely allow images from remote servers, you need to define a list of supported URL patterns in `next.config.js`. Be as specific as possible to prevent malicious usage. For example, the following configuration will only allow images from a specific AWS S3 bucket:
 
 in next.config.ts
 ```js
@@ -1538,8 +1422,10 @@ const config: NextConfig = {
  
 export default config
 ```
+<br>
+<br>
 
-> ### Optimizing fonts
+### Optimizing fonts
 
 The `next/font` module automatically optimizes your fonts and removes external network requests for improved privacy and performance.
 
@@ -1563,8 +1449,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 }
 ```
 
+<br>
 
 **Google fonts**
+
 You can automatically self-host any Google Font. Fonts are included in the deployment and served from the same domain as your deployment, meaning no requests are sent to Google by the browser when the user visits your site.
 
 To start using a Google Font, import your chosen font from next/font/google:
@@ -1588,6 +1476,7 @@ export default function RootLayout({
   )
 }
 ```
+<br>
 
 **Local fonts**
 To use a local font, import your font from next/font/local and specify the src of your local font file in the public folder.
@@ -1612,18 +1501,19 @@ export default function RootLayout({
 }
 ```
 <br>
+<br>
 
 ## Meta data updation
-- metadata can be provided in the page.js and layout.js
-- The metadata object and generateMetadata function exports are only supported in Server Components.
-- You cannot export both the metadata object and generateMetadata function from the same route segment.
+- metadata can be `provided in` the `page.js` and `layout.js`
+- The `metadata object and generateMetadata function` exports are only `supported in Server Components`.
+- You `cannot export` `both` the metadata `object and generateMetadata function` from the `same route segment`.
 
 <br>
 
-1. for static pages, we use meta data object
+1. **For static pages, we use meta data object**
 
-layout.js | page.js
 ```js
+// layout.js | page.js
 export const metadata = {
   title: '...',
   description: '...',
@@ -1632,13 +1522,14 @@ export const metadata = {
 export default function Page() {}
 ```
 
-2. for dynamic websites
+<br>
 
-we use generateMetadata function
+2. **For dynamic websites we use generateMetadata function**
 
+- it should return an object
 
-app/products/[id]/page.js
 ```js
+// app/products/[id]/page.js
 export async function generateMetadata({ params, searchParams }, parent) {
   // read route params
   const { id } = await params
@@ -1662,8 +1553,8 @@ export async function generateMetadata({ params, searchParams }, parent) {
 export default function Page({ params, searchParams }) {}
 ```
 
-- it should return an object
 
+<br>
 
 more on below
 
@@ -1672,25 +1563,14 @@ https://nextjs.org/docs/app/api-reference/functions/generate-metadata
 ```
 
 <br>
+<br>
 
-> ### Metadata
+### redirects in next.config.js
+
+- redirects runs before Middleware.
 
 ```js
-import { Metadata } from 'next'
- 
-export const metadata: Metadata = {
-  title: 'Next.js',
-}
- 
-export default function Page() {
-  return '...'
-}
-```
-
-> ### redirects in next.config.js
-
-in next.config.js
-```js
+// next.config.js
 module.exports = {
   async redirects() {
     return [
@@ -1711,14 +1591,17 @@ module.exports = {
 }
 ```
 
-- redirects runs before Middleware.
+<br>
+
+### redirection in middleware.js
 
 **NextResponse.redirect in Middleware**
-- This is useful if you want to redirect users based on a condition (e.g. authentication, session management, etc) or have a large number of redirects.
-- For example, to redirect the user to a /login page if they are not authenticated:
+- This is useful if you want to `redirect` users `based on a condition` (e.g. authentication, session management, etc) or have a large number of redirects.
+- Middleware `runs after redirects` in `next.config.js` and `before rendering`.
+- For `example`, to `redirect the user to a /login page` if they are `not authenticated`
 
-in middleware.ts
 ```js
+// middleware.ts
 import { NextResponse, NextRequest } from 'next/server'
 import { authenticate } from 'auth-provider'
  
@@ -1739,250 +1622,9 @@ export const config = {
 }
 ```
 
-- Middleware runs after redirects in next.config.js and before rendering.
-
-
-
-## **📌 Parallel Routes in Next.js (App Router)**  
-
-### **🔹 What Are Parallel Routes?**  
-Parallel Routes in Next.js **allow multiple pages to render simultaneously** in different sections of the UI. This is useful when:  
-- **Different parts of a page have independent navigation** (e.g., a sidebar and main content)  
-- **Multiple layouts need to be displayed at once**  
-- **You want independent UI states without reloading the entire page**  
-
-- Parallel Routes allows you to simultaneously or conditionally render one or more pages within the same layout. eg considering a dashboard, you can use parallel routes to simultaneously render the team and analytics pages
-
-- basically 2 page ko single layout me rakhna h, jisse 2 separate error, layout etc separately manage kr sakte h single layout or common page me
-
----
-
-## **🔹 How Do Parallel Routes Work?**  
-Parallel Routes use **named slots (`@slotName`)**, which act as placeholders for different route components.  
-
-### **✅ Example: Parallel Dashboard Panels**  
-
-### **📌 Folder Structure**
-```
-/app
-  /dashboard
-    layout.js        → Layout for dashboard
-    /@feed
-      page.js        → `/dashboard`
-    /@notifications
-      page.js        → `/dashboard`
-```
-
-### **📌 `layout.js` (Defining Parallel Slots)**
-```tsx
-export default function DashboardLayout({ feed, notifications }) {
-  return (
-    <div className="dashboard">
-      <section>{feed}</section>
-      <aside>{notifications}</aside>
-    </div>
-  );
-}
-```
-- The **`feed` and `notifications` slots** render different routes **in parallel**.  
-
----
-
-### **📌 `@feed/page.js` (Main Feed)**
-```tsx
-export default function FeedPage() {
-  return <h1>News Feed</h1>;
-}
-```
-✅ **Rendered inside `<section>` in `layout.js`**  
-
----
-
-### **📌 `@notifications/page.js` (Sidebar Notifications)**
-```tsx
-export default function NotificationsPage() {
-  return <h1>Notifications</h1>;
-}
-```
-✅ **Rendered inside `<aside>` in `layout.js`**  
-
----
-
-## **🚀 URL Behavior**
-| URL | Rendered Components |
-|-----|---------------------|
-| `/dashboard` | ✅ `layout.js` → `<FeedPage />` + `<NotificationsPage />` |
-| `/dashboard?feed=trending` | ✅ Updates only the feed slot |
-| `/dashboard?notifications=alerts` | ✅ Updates only the notifications slot |
-
----
-
-## **🔹 Why Use Parallel Routes?**  
-✅ **Independent UI updates** (e.g., sidebar and feed update separately)  
-✅ **Better UX** (switching tabs doesn’t reload the whole page)  
-✅ **Optimized performance** (Next.js fetches only the needed part)  
-
----
-
-## **🚀 Summary**  
-- **Parallel Routes allow independent UI sections to update separately.**  
-- **Use `@slotName` to define multiple areas that render different routes.**  
-- **Great for dashboards, messaging apps, or any UI with independent sections.**  
-
-Let me know if you need more details! 🚀
-
 <br>
 
-
-
-> ### **Next.js Route Handlers – Simplified Guide 🚀**  
-
-**What are Route Handlers?**  
-Route Handlers let you create custom API endpoints **inside the `app` directory** using Web APIs (`Request`, `Response`).
-
-Route Handlers in Next.js `replace API routes` and allow you to create custom backend logic inside the `/app/api` directory. They handle HTTP requests (GET, POST, PUT, DELETE, etc.) `without needing an external backend`.
-
-✅ **Equivalent to API Routes in the pages directory**  
-🚫 **Cannot use API Routes & Route Handlers together**  
-
-
-**Route Handler File: `route.js`**  
-- Located inside `/app/api/`
-- Defines backend logic for that route  
-- Cannot exist at the same level as `page.js`  
-
-📂 Folder Structure:
-```
-/app
-  /api
-    /users
-      route.js   → Handles `/api/users`
-```
-
-**Basic Route Handler**
-```js
-export async function GET(request) {
-  console.log(request)
-  return Response.json({ message: "Hello, Next.js!" });
-}
-```
-
-- In browser just hit, localhost:3000/api/users, you will see the console value
-- we have to always return response object
-
-
-**Example: Handling Multiple Methods**  
-```js
-export async function GET() {
-  return Response.json({ message: "GET request received" });
-}
-
-export async function POST(request) {
-  const body = await request.json();
-  return Response.json({ message: `POST request received: ${body.name}` });
-}
-```
-
-<br>
-
-## **🔹 Route Parameters & Query Parameters**  
-✅ Extract route parameters from `{ params }`  
-✅ Extract query parameters using `request.nextUrl.searchParams`
-
-### **✅ Example: Dynamic Route (`/api/users/:id`)**
-```js
-export async function GET(_, { params }) {
-  return Response.json({ id: params.id, name: `User ${params.id}` });
-}
-```
-🟢 `GET /api/users/5` → `{ id: "5", name: "User 5" }`  
-
-### **✅ Example: Query Parameters (`?search=hello`)**
-```js
-export async function GET(request) {
-  const searchParams = request.nextUrl.searchParams;
-  const query = searchParams.get("search");
-  return Response.json({ query });
-}
-```
-🟢 `GET /api/search?search=hello` → `{ query: "hello" }`  
-
----
-
-## **🔹 Request Body Handling**  
-### **✅ JSON Request Body**
-```js
-export async function POST(request) {
-  const data = await request.json();
-  return Response.json({ received: data });
-}
-```
----
-
-## **🔹 Caching & Revalidation**  
-**🔹 Default:** `GET` requests are **cached**  
-- Let say on single, we have two component, and both component we calling same get api, instead of calling the api 2 times, next js will call one time and cache it and serve data to both component, even you navigate to other page and come again on same page, then it will not call even 1 time, it will use cache
-**🔹 To disable caching:**  
-1️⃣ Use **POST, PUT, DELETE**  
-2️⃣ Use **cookies, headers**  
-3️⃣ Set **dynamic mode**  
-
-### **✅ Example: Cached Data (Revalidate every 60s)**
-```js
-export async function GET() {
-  const res = await fetch("https://data.mongodb-api.com/...", {
-    next: { revalidate: 60 },
-  });
-  return Response.json(await res.json());
-}
-```
-
-Alternatively, you can use the revalidate segment config option:
-
-```js
-export const revalidate = 60
-```
----
-
-## **🔹 Cookies & Headers**  
-### **✅ Setting Cookies**
-app/api/route.js
-```js
-import { cookies } from 'next/headers'
- 
-export async function GET(request) {
-  const cookieStore = cookies()
-  const token = cookieStore.get('token')
- 
-  return new Response('Hello, Next.js!', {
-    status: 200,
-    headers: { 'Set-Cookie': `token=${token}` },
-  })
-}
-```
-
-
-app/api/route.js
-```js
-export async function GET(request) {
-  const token = request.cookies.get('token')
-}
-```
-
-### **✅ Reading Headers**
-```js
-import { headers } from "next/headers";
-
-export async function GET() {
-  const referer = headers().get("referer");
-  return Response.json({ referer });
-}
-```
-<br>
-
-## **🔹 Redirects**
-
-On Server components
+### redirection in Server components
 ```js
 // app/team/[id]/page.js
 import { redirect } from 'next/navigation'
@@ -2003,7 +1645,7 @@ export default async function Profile({ params }) {
 }
 ```
 
-On client side
+### redirection on client side
 - redirect can be used in a Client Component through a Server Action. If you need to use an event handler to redirect the user, you can use the useRouter hook.
 ```js
 // app/client-redirect.jsx
@@ -2033,7 +1675,7 @@ export async function navigate(data) {
 
 
 
-- props
+**props in redirect of server and client side component**
 ```js
 redirect(path, type)
 ```
@@ -2043,10 +1685,171 @@ redirect(path, type)
 | `path` | `string` | The URL to redirect to. Can be a relative or absolute path. |
 | `type` | `'replace'` (default) or `'push'` (default in Server Actions) | The navigation type. |
 
+<br>
+<br>
+
+## **Next.js Route Handlers – Simplified Guide 🚀**  
 
 <br>
 
-## **🔹 Streaming (For Large Responses or AI APIs)**  
+**What are Route Handlers?**  
+Route Handlers let you create custom API endpoints **inside the `app` directory** using Web APIs (`Request`, `Response`).
+
+Route Handlers in Next.js `replace API routes` and allow you to create custom backend logic inside the `/app/api` directory. They handle HTTP requests (GET, POST, PUT, DELETE, etc.) `without needing an external backend`.
+
+✅ **Equivalent to API Routes in the pages directory**  
+🚫 **Cannot use API Routes & Route Handlers together**  
+
+<br>
+
+**Route Handler File: `route.js`**  
+- Located inside `/app/api/`
+- Defines backend logic for that route  
+- Cannot exist at the same level as `page.js`  
+
+📂 Folder Structure:
+```
+/app
+  /api
+    /users
+      route.js   → Handles `/api/users`
+```
+
+<br>
+
+**Basic Route Handler**
+```js
+// app/api/users/route.js
+export async function GET(request) {
+  console.log(request)
+  return Response.json({ message: "Hello, Next.js!" });
+}
+```
+
+- In browser just hit, localhost:3000/api/users, you will see the console value
+- we have to always return response object
+
+<br<
+
+**Example: Handling Multiple Methods**  
+```js
+export async function GET() {
+  return Response.json({ message: "GET request received" });
+}
+
+export async function POST(request) {
+  const body = await request.json();
+  return Response.json({ message: `POST request received: ${body.name}` });
+}
+```
+
+<br>
+
+**Route Parameters & Query Parameters**  
+- Extract route parameters from `{ params }`  
+- Extract query parameters using `request.nextUrl.searchParams`
+
+
+**Example: Dynamic Route (`/api/users/:id`)**
+```js
+export async function GET(_, { params }) {
+  return Response.json({ id: params.id, name: `User ${params.id}` });
+}
+```
+🟢 `GET /api/users/5` → `{ id: "5", name: "User 5" }`  
+
+<br>
+
+**Example: Query Parameters (`?search=hello`)**
+```js
+export async function GET(request) {
+  const searchParams = request.nextUrl.searchParams;
+  const query = searchParams.get("search");
+  return Response.json({ query });
+}
+```
+🟢 `GET /api/search?search=hello` → `{ query: "hello" }`  
+
+<br>
+<br>
+
+**Request Body Handling**  
+```js
+export async function POST(request) {
+  const data = await request.json();
+  return Response.json({ received: data });
+}
+```
+
+<br>
+<br>
+
+**Caching & Revalidation**  
+
+**Default:** `GET` requests are **cached**  
+
+- Let say on single route, we have two component, and both component we calling same get api, instead of calling the api 2 times, next js will call one time and cache it and serve data to both component, even you navigate to other page and come again on same page, then it will not call even 1 time, it will use cache
+
+### **Example: Cached Data (Revalidate every 60s)**
+```js
+export async function GET() {
+  const res = await fetch("https://data.mongodb-api.com/...", {
+    next: { revalidate: 60 },
+  });
+  return Response.json(await res.json());
+}
+```
+
+Alternatively, you can use the revalidate segment config option:
+
+```js
+export const revalidate = 60
+```
+
+<br>
+<br>
+
+### **Cookies & Headers**  
+
+**Setting Cookies**
+```js
+// app/api/route.js
+import { cookies } from 'next/headers'
+ 
+export async function GET(request) {
+  const cookieStore = cookies()
+  const token = cookieStore.get('token')
+ 
+  return new Response('Hello, Next.js!', {
+    status: 200,
+    headers: { 'Set-Cookie': `token=${token}` },
+  })
+}
+```
+
+
+```js
+// app/api/route.js
+export async function GET(request) {
+  const token = request.cookies.get('token')
+}
+```
+<br>
+<br>
+
+### **Reading Headers**
+```js
+import { headers } from "next/headers";
+
+export async function GET() {
+  const referer = headers().get("referer");
+  return Response.json({ referer });
+}
+```
+<br>
+<br>
+
+### **Streaming (For Large Responses or AI APIs)**  
 ```js
 import OpenAI from "openai";
 import { OpenAIStream, StreamingTextResponse } from "ai";
@@ -2062,12 +1865,12 @@ export async function POST(req) {
   return new StreamingTextResponse(OpenAIStream(response));
 }
 ```
-🟢 Used for **real-time AI-generated content**  
+- Used for **real-time AI-generated content**  
 
+<br>
 
-
-app/api/chat/route.js
 ```js
+// app/api/chat/route.js
 import OpenAI from 'openai'
 import { OpenAIStream, StreamingTextResponse } from 'ai'
  
@@ -2093,9 +1896,11 @@ export async function POST(req) {
 
 These abstractions use the Web APIs to create a stream. You can also use the underlying Web APIs directly.
 
-app/api/route.js
 ```js
 // https://developer.mozilla.org/docs/Web/API/ReadableStream#convert_async_iterator_to_stream
+
+
+// app/api/route.js
 function iteratorToStream(iterator) {
   return new ReadableStream({
     async pull(controller) {
@@ -2134,25 +1939,10 @@ export async function GET() {
 }
 ```
 
+<br>
+<br>
 
----
-
-## **🔹 Webhooks (Handling External API Calls)**  
-```js
-export async function POST(request) {
-  try {
-    const payload = await request.text();
-    return new Response("Webhook received!", { status: 200 });
-  } catch (error) {
-    return new Response(`Webhook error: ${error.message}`, { status: 400 });
-  }
-}
-```
-🟢 **Used for third-party API notifications (e.g., Stripe, GitHub Webhooks).**  
-
----
-
-## **🔹 CORS (Cross-Origin Resource Sharing)**  
+### **CORS (Cross-Origin Resource Sharing)**  
 ```js
 export async function GET() {
   return new Response("Hello, Next.js!", {
@@ -2166,18 +1956,10 @@ export async function GET() {
 ```
 🟢 **Allows requests from any origin.**  
 
----
+<br>
+<br>
 
-## **🔹 Edge vs Node.js Runtime**  
-By default, Route Handlers run on **Node.js**.  
-To use **Edge Functions** for faster execution:  
-```js
-export const runtime = "edge";
-```
-
----
-
-## **🔹 Returning Non-UI Responses (XML, RSS, etc.)**
+### **Returning Non-UI Responses (XML, RSS, etc.)**
 ```js
 export async function GET() {
   return new Response(`<?xml version="1.0"?><rss><channel></channel></rss>`, {
@@ -2187,44 +1969,16 @@ export async function GET() {
 ```
 🟢 **For generating `robots.txt`, `sitemap.xml`, etc.**  
 
----
-
-## **🚀 Summary**
-| Feature | Implementation |
-|---------|---------------|
-| **Create API Routes** | ✅ `route.js` inside `/app/api/` |
-| **Handle GET Requests** | ✅ `export async function GET()` |
-| **Handle POST Requests** | ✅ `export async function POST(request)` |
-| **Use Route Params** | ✅ Extract from `{ params }` |
-| **Use Query Params** | ✅ `request.nextUrl.searchParams.get("key")` |
-| **Set Cookies** | ✅ `cookies().set("token", "abc123")` |
-| **Set Headers** | ✅ `headers().get("referer")` |
-| **Enable Streaming** | ✅ `return new StreamingTextResponse(stream)` |
-| **Handle Webhooks** | ✅ Read `request.text()` |
-| **CORS Support** | ✅ Set `Access-Control-Allow-Origin` in headers |
-| **Run on Edge Functions** | ✅ `export const runtime = "edge"` |
-| **Generate XML Responses** | ✅ `return new Response("<xml>...</xml>")` |
-
----
-
-### **🎯 Key Takeaways**
-✔️ **Route Handlers replace API Routes** in Next.js  
-✔️ **Supports all HTTP methods** (GET, POST, PUT, DELETE, etc.)  
-✔️ **Works with dynamic routes, query params, cookies, and headers**  
-✔️ **Supports caching, revalidation, and Edge runtime**  
-
-🔥 **Next.js Route Handlers simplify backend logic while staying in the same project!** 🚀  
-
-Let me know if you need more details! 💡
-
-
-
-
+<br>
+<br>
 
 ## Data Fetching, Caching, and Revalidating
 
-in app/page.js
+To call api on `server side` you can use `fetch directly` but on `client side` you have to `use-effect` and `inside` you can `call the api`
+
 ```js
+// app/page.js
+
 async function getData() {
   const res = await fetch('https://api.example.com/...')
   // The return value is *not* serialized
@@ -2245,8 +1999,9 @@ export default async function Page() {
 }
 ```
 
-Note: To call api on `server side` you can use `fetch directly` but on `client side` you have to `use-effect` and `inside` you can `call the api`
 
+<br>
+<br>
 
 ### **Caching Data in Next.js**
 
@@ -2259,10 +2014,13 @@ Next.js **automatically caches `fetch` requests** to optimize performance and re
 fetch(`https://...`, { cache: 'force-cache' | 'no-store' })
 ```
 
+<br>
+
 Note: If you don't provide a cache option, Next.js will `default` to `force-cache`, unless a dynamic function such as `cookies()` is used, in which case it will default to `no-store`.
 
+<br>
 
-**1️⃣ Default Caching Behavior (`force-cache`)**
+### 1. Default Caching Behavior (`force-cache`)
 By default, **Next.js caches all `fetch` requests on the server**, meaning:
 - The response **does not need to be fetched again** on every request.
 - Cached data is reused until it **expires** or is manually refreshed.
@@ -2271,8 +2029,7 @@ By default, **Next.js caches all `fetch` requests on the server**, meaning:
 ```javascript
 fetch('https://api.example.com/data', { cache: 'force-cache' });
 ```
-🔹 `force-cache` is **the default behavior** (even if not explicitly written).  
-🔹 The response is **cached and reused** across multiple requests.
+
 
 
 ```js
@@ -2294,12 +2051,17 @@ export default async function Page() {
 }
 ```
 
+<br>
 
-**2️⃣ When `fetch` is NOT Cached**
+### 2. When `fetch` is NOT Cached**
+
 There are **exceptions** where `fetch` does **not** use caching:
 
-**Inside a Server Action**
-Server Actions run **on-demand** and are meant for dynamic, interactive behavior.  
+<br>
+
+-  **Inside a Server Action**
+
+Server Actions run **on-demand** and are meant for dynamic, interactive behavior.\
 Since they can modify data, caching would cause stale results.
 
 ```javascript
@@ -2315,12 +2077,11 @@ export async function createUser(data) {
 ```
 ❌ The `fetch` request here is **not cached** because **Server Actions require fresh data**.
 
+<br>
 
+- **Inside a Route Handler using `POST`**
 
-**Inside a Route Handler using `POST`**
-Route Handlers (`app/api`) handle requests dynamically.  
-`POST` requests usually **send data** to the server and expect an immediate response.
-
+Route Handlers (`app/api`) handle requests dynamically.
 
 ```javascript
 export async function POST(request) {
@@ -2338,12 +2099,15 @@ This `fetch` **will not be cached** because:
 - `POST` requests are **meant to mutate data**.
 - Caching could **return outdated results**.
 
+<br>
+<br>
 
-
-### Revalidating Data
+## Revalidating Data
 Revalidation is the process of purging the Data Cache and re-fetching the latest data.
 
-1. Time-based Revalidation 
+<br>
+
+> ### 1. **Time-based Revalidation**
 
 Time-based revalidation in Next.js ensures that cached data is **refreshed periodically** instead of being permanently stored. This is done using the `{ next: { revalidate: <time_in_seconds> } }` option in `fetch`.
 
@@ -2355,44 +2119,16 @@ fetch(`https://...`, { next: { revalidate: false | 0 | number } })
 - `0` - Prevent the resource from being cached.
 - `number` - (in seconds) Specify the resource should have a cache lifetime of at most n seconds.
 
+<br>
 
 **How It Works**
 - When you fetch data with `revalidate`, Next.js **stores it in the cache**.
 - After the specified time (in seconds), the cache **becomes stale**.
 - The next request **triggers a re-fetch** to update the cache while still serving stale data until fresh data arrives.
 
+<br>
 
 **Example: Revalidate Every 10 Seconds**
-```javascript
-fetch("https://api.example.com/data", { next: { revalidate: 10 } });
-```
-- The data is cached for **10 seconds**.  
-- Any request within **10 seconds** uses the cached data.  
-- After **10 seconds**, the next request **re-fetches the data** and updates the cache.
-
-
-
-Alternatively, to revalidate all fetch requests in a route segment, you can use
-
-layout.js | page.js
-```js
-export const revalidate = 3600 // revalidate at most every hour
-```
-
-
-
-
-
-**Note**
-- If an individual `fetch()` request sets a `revalidate` number lower than the `default revalidate` of a `route`, the whole route revalidation interval will be decreased.
-- If two fetch requests with the same URL in the same route have different `revalidate` values, the lower value will be used.
-- As a convenience, it is not necessary to set the `cache` option if `revalidate` is set to a number since `0` implies `cache: 'no-store'` and a positive value implies `cache: 'force-cache'`.
-- Conflicting options such as `{ revalidate: 0, cache: 'force-cache' }` or `{ revalidate: 10, cache: 'no-store' }` will cause an error.
-
-
-
-### **Server Component Example**
-If you're using a **Server Component**, you can fetch and revalidate data like this:
 ```javascript
 export default async function Page() {
   const res = await fetch("https://api.example.com/data", { next: { revalidate: 60 } });
@@ -2401,13 +2137,9 @@ export default async function Page() {
   return <pre>{JSON.stringify(data, null, 2)}</pre>;
 }
 ```
-🛠 **Behavior:**
-- The data is refreshed **every 60 seconds**.
-- Requests **within 60 seconds** return cached data.
-- After 60 seconds, the **first request triggers a re-fetch**.
 
+<br>
 
-### **API Route Example**
 Inside an API route (`app/api/data/route.js`):
 ```javascript
 export async function GET() {
@@ -2417,10 +2149,29 @@ export async function GET() {
   return Response.json(data);
 }
 ```
-🔹 The API route returns **cached data for 30 seconds**.  
-🔹 After 30 seconds, the **first request triggers a re-fetch**.
 
+- The data is cached for **60 seconds**.  
+- Any request within **10 seconds** uses the cached data.  
+- After **10 seconds**, the next request **re-fetches the data** and updates the cache.
 
+<br>
+
+**Alternatively**, to revalidate all fetch requests in a route segment, you can use
+
+```js
+// layout.js | page.js
+export const revalidate = 3600 // revalidate at most every hour
+```
+
+<br>
+
+**Note**
+- If an individual `fetch()` request sets a `revalidate` number lower than the `default revalidate` of a `route`, the whole route revalidation interval will be decreased.
+- If two fetch requests with the same URL in the same route have different `revalidate` values, the lower value will be used.
+- As a convenience, it is not necessary to set the `cache` option if `revalidate` is set to a number since `0` implies `cache: 'no-store'` and a positive value implies `cache: 'force-cache'`.
+- Conflicting options such as `{ revalidate: 0, cache: 'force-cache' }` or `{ revalidate: 10, cache: 'no-store' }` will cause an error.
+
+<br>
 
 **🚀 Summary**
 | Approach | Caching? | Revalidation? |
@@ -2429,19 +2180,25 @@ export async function GET() {
 | `fetch(url, { cache: 'no-store' })` | ❌ No | ❌ Always fresh |
 | `fetch(url, { next: { revalidate: 10 } })` | ✅ Yes | ✅ Every 10 sec |
 
-👉 **Use `revalidate` to balance caching and fresh data!** 🚀
+<br>
+<br>
+
+> ### 2. **On-demand Revalidation**
+
+On demand can be of two types.
+1. Using tags.
+2. Using directly.
 
 
-2. On-demand Revalidation
+<br>
 
-Next.js has a cache tagging system for invalidating fetch requests across routes.
-1. When using fetch, you have the option to tag cache entries with one or more tags.
-2. Then, you can call revalidateTag to revalidate all entries associated with that tag.
+**Using Tag**
 
 Tag is like creating a group of revalidatepaths which we need to revalidate
 
-app/page.js
+Below is for adding the tags
 ```js
+// app/page.js
 export default async function Page() {
   const res = await fetch('https://...', { next: { tags: ['collection'] } })
   const data = await res.json()
@@ -2449,21 +2206,10 @@ export default async function Page() {
 }
 ```
 
-You can then revalidate this fetch call tagged with `collection` by calling `revalidateTag` in a Server Action:
+<br>
 
-- `revalidateTag` allows you to purge `cached data` on-demand for a specific cache tag.
+Now revalidate fetch call tagged with `collection` by calling `revalidateTag` in a Server Action:
 
-```js
-'use server'
- 
-import { revalidateTag } from 'next/cache'
- 
-export default async function action() {
-  revalidateTag('collection')
-}
-```
-
-more example
 ```js
 // app/actions.js
 'use server'
@@ -2487,11 +2233,13 @@ export async function GET(request) {
 }
 ```
 
+<br>
 
+**Note: Error handling on revalidation**
 
-**Error handling and revalidation**
 If an error is thrown while attempting to revalidate data, the last successfully generated data will continue to be served from the cache. On the next subsequent request, Next.js will retry revalidating the data.
 
+<br>
 
 ### Opting out of Data Caching
 fetch requests are not cached if:
@@ -2509,8 +2257,8 @@ fetch requests are not cached if:
 - The fetchCache route segment option is configured to skip cache by default.
 - The fetch request uses Authorization or Cookie headers and there's an uncached request above it in the component tree.
 
-
-
+<br>
+<br>
 
 ## Server Actions and Mutations
 
@@ -2519,8 +2267,10 @@ fetch requests are not cached if:
 
 - basically when we do create form, then we have the action thing in html, then that is client side but this time we need this action to be on server side, so we needed the server action. In short form submissions on server side is called the server actions
 
-app/page.jsx
+
 ```js
+// app/page.jsx
+
 // Server Component
 export default function Page() {
   // Server Action
