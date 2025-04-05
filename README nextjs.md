@@ -538,6 +538,207 @@ export default function ProductPage({ params }) {
 
 <br>
 
+
+> ### generateStaticParams 
+
+The generateStaticParams function can be used in combination with `dynamic route segments` to `statically generate` routes at build time instead of on-demand at request time.
+
+```js
+// app/blog/[slug]/page.js
+
+// Return a list of `params` to populate the [slug] dynamic segment
+export async function generateStaticParams() {
+  const posts = await fetch('https://.../posts').then((res) => res.json())
+ 
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
+}
+ 
+// Multiple versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+export default function Page({ params }) {
+  const { slug } = params
+  // ...
+}
+```
+
+Note:
+1. You can use the `dynamicParams segment config(details is below)` option to control what happens when a dynamic segment is visited that was not generated with generateStaticParams.
+<details>
+
+#### dynamicParams
+```js
+// layout.js | page.js | route.js
+export const dynamicParams = true // true | false,
+
+// - true (default): Dynamic segments not included in generateStaticParams are generated on demand.
+// - false: Dynamic segments not included in generateStaticParams will return a 404.
+```
+</details>
+
+2. During `next dev`, `generateStaticParams` will be `called` `when you navigate` to a route.
+3. During `next build`, `generateStaticParams` runs before the corresponding Layouts or Pages are generated.
+4. During revalidation (`ISR`), `generateStaticParams `will `not be called again`.
+5. `generateStaticParams` replaces the `getStaticPaths` function in the `Pages Router`.
+
+**what should be Returns of generateStaticParams**
+
+generateStaticParams should return an array of objects
+
+| Example Route                        | Return Type                                 |
+|-------------------------------------|---------------------------------------------|
+| /product/[id]                     | { id: string }[]                          |
+| /products/[category]/[product]    | { category: string, product: string }[]   |
+| /products/[...slug]               | { slug: string[] }[]                      |
+
+
+#### Below are example of usage
+
+I. **Single Dynamic Segment**
+
+```js
+// app/product/[id]/page.js
+export function generateStaticParams() {
+  return [{ id: '1' }, { id: '2' }, { id: '3' }]
+}
+ 
+// Three versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+// - /product/1
+// - /product/2
+// - /product/3
+export default function Page({ params }) {
+  const { id } = params
+  // ...
+}
+```
+
+
+II. **Multiple Dynamic Segments**
+
+In this we have two approach
+- Generate params from the bottom up
+- Generate params from the top down
+
+
+#### Generate params from the bottom up
+
+Ishme hum child component me parent & child dono k params return kr dete h 
+
+```js
+// app/products/[category]/[product]/page.js
+
+export function generateStaticParams() {
+  return [
+    { category: 'a', product: '1' },
+    { category: 'b', product: '2' },
+    { category: 'c', product: '3' },
+  ]
+}
+ 
+// Three versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+// - /products/a/1
+// - /products/b/2
+// - /products/c/3
+export default function Page({ params }) {
+  const { category, product } = params
+  // ...
+}
+```
+
+or
+
+```js
+// app/products/[category]/[product]/page.js
+
+// Generate segments for both [category] and [product]
+export async function generateStaticParams() {
+  const products = await fetch('https://.../products').then((res) => res.json())
+ 
+  return products.map((product) => ({
+    category: product.category.slug,
+    product: product.id,
+  }))
+}
+ 
+export default function Page({ params }) {
+  // ...
+}
+```
+
+#### Generate params from the top down
+
+Ishme hum parents me parents ka prams return krte h aur child me child ka params return karte h
+
+Lets say we have route like this
+```
+/products/[category]/[product]
+```
+
+If a parent route has generateStaticParams, the child route's generateStaticParams will run for each value returned by the parent.
+
+Let's say the parent [category] route has this:
+```js
+// This might be in app/products/[category]/page.js or a layout
+export async function generateStaticParams() {
+  return [
+    { category: 'shoes' },
+    { category: 'hats' }
+  ];
+}
+```
+
+So, Next.js will call the child route’s generateStaticParams twice, once for:
+
+- { category: 'shoes' }
+- { category: 'hats' }
+
+
+```js
+// app/products/[category]/[product]/page.js
+
+// Generate segments for [product] using the `params` passed from
+// the parent segment's `generateStaticParams` function
+export async function generateStaticParams({ params: { category } }) {
+  const products = await fetch(
+    `https://.../products?category=${category}`
+  ).then((res) => res.json())
+ 
+  return products.map((product) => ({
+    product: product.id,
+  }))
+}
+ 
+export default function Page({ params }) {
+  // ...
+}
+```
+
+
+3. Catch-all Dynamic Segment
+
+```js
+// app/product/[...slug]/page.js
+
+export function generateStaticParams() {
+  return [{ slug: ['a', '1'] }, { slug: ['b', '2'] }, { slug: ['c', '3'] }]
+}
+ 
+// Three versions of this page will be statically generated
+// using the `params` returned by `generateStaticParams`
+// - /product/a/1
+// - /product/b/2
+// - /product/c/3
+export default function Page({ params }) {
+  const { slug } = params
+  // ...
+}
+```
+
+<br>
+
 > ### `[...folder]` → Catch-All Route Segment
 
 - **Matches multiple path segments after a base route**  
@@ -1839,13 +2040,42 @@ export async function GET(request) {
 
 ### **Reading Headers**
 ```js
-import { headers } from "next/headers";
+// app/page.js
 
-export async function GET() {
-  const referer = headers().get("referer");
-  return Response.json({ referer });
+import { Suspense } from 'react'
+import { headers } from 'next/headers'
+ 
+async function User() {
+  const authorization = headers().get('authorization')
+  const res = await fetch('...', {
+    headers: { authorization }, // Forward the authorization header
+  })
+  const user = await res.json()
+ 
+  return <h1>{user.name}</h1>
+}
+ 
+export default function Page() {
+  return (
+    <Suspense fallback={null}>
+      <User />
+    </Suspense>
+  )
 }
 ```
+
+Various header method
+
+- Headers.entries()
+- Headers.forEach()
+- Headers.get()
+- Headers.has()
+- Headers.keys()
+- Headers.values()
+
+
+
+
 <br>
 <br>
 
@@ -3024,19 +3254,558 @@ export default async function Page({ params }) {
 }
 ```
 
+## Metadata Files
+
+### favicon, icon, and apple-icon
+
+There are two ways to set app icons:
+
+#### Using image files (.ico, .jpg, .png)
+
+Use an image file to set an app icon by placing a favicon, icon, or apple-icon image file within your `/app` directory
+
+| File Convention | Supported File Types               | Valid Locations   |
+|-----------------|------------------------------------|-------------------|
+| `favicon`       | `.ico`                             | `app/`            |
+| `icon`          | `.ico`, `.jpg`, `.jpeg`, `.png`, `.svg` | `app/**/*`        |
+| `apple-icon`    | `.jpg`, `.jpeg`, `.png`            | `app/**/*`        |
+
+
+#### Using code to generate an icon (.js, .ts, .tsx)
+
+| File Convention | Supported File Types     |
+|-----------------|--------------------------|
+| `icon`          | `.js`, `.ts`, `.tsx`     |
+| `apple-icon`    | `.js`, `.ts`, `.tsx`     |
+
+The easiest way to generate an icon is to use the `ImageResponse API` from `next/og`.
+
+```js
+// app/icon.js
+
+import { ImageResponse } from 'next/og'
+ 
+// Route segment config
+export const runtime = 'edge'
+ 
+// Image size
+export const size = {
+  width: 32,
+  height: 32,
+}
+
+// contentType
+export const contentType = 'image/png'
+ 
+// Image generation
+export default function Icon() {
+  return new ImageResponse(
+    (
+      // ImageResponse JSX element
+      <div
+        style={{
+          fontSize: 24,
+          background: 'black',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: 'white',
+        }}
+      >
+        A
+      </div>
+    ),
+    // ImageResponse options
+    {
+      // For convenience, we can re-use the exported icons size metadata
+      // config to also set the ImageResponse's width and height.
+      ...size,
+    }
+  )
+}
+```
+
+Note: You cannot generate a `favicon` icon. Use `icon or a favicon.ico` file instead.
+
+### opengraph-image and twitter-image
+
+There are two ways to set Open Graph and Twitter images:
+
+- Using image files (.jpg, .png, .gif)
+- Using code to generate images (.js, .ts, .tsx)
+
+#### Image files (.jpg, .png, .gif)
+
+add image name  below in particlar route
+
+| File Convention       | Supported File Types            |
+|-----------------------|---------------------------------|
+| opengraph-image       | .jpg, .jpeg, .png, .gif         |
+| twitter-image         | .jpg, .jpeg, .png, .gif         |
+| opengraph-image.alt   | .txt                            |
+| twitter-image.alt     | .txt                            |
+
+
+#### Generate images using code (.js, .ts, .tsx)
+
+| File Convention   | Supported File Types     |
+|-------------------|--------------------------|
+| opengraph-image   | .js, .ts, .tsx           |
+| twitter-image     | .js, .ts, .tsx           |
+
+
+```js
+// app/about/opengraph-image.js
+
+import { ImageResponse } from 'next/og'
+ 
+// Route segment config
+export const runtime = 'edge'
+ 
+// Image metadata
+export const alt = 'About Acme'
+export const size = {
+  width: 1200,
+  height: 630,
+}
+ 
+export const contentType = 'image/png'
+ 
+// Image generation
+export default async function Image() {
+  // Font
+  const interSemiBold = fetch(
+    new URL('./Inter-SemiBold.ttf', import.meta.url)
+  ).then((res) => res.arrayBuffer())
+ 
+  return new ImageResponse(
+    (
+      // ImageResponse JSX element
+      <div
+        style={{
+          fontSize: 128,
+          background: 'white',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        About Acme
+      </div>
+    ),
+    // ImageResponse options
+    {
+      // For convenience, we can re-use the exported opengraph-image
+      // size config to also set the ImageResponse's width and height.
+      ...size,
+      fonts: [
+        {
+          name: 'Inter',
+          data: await interSemiBold,
+          style: 'normal',
+          weight: 400,
+        },
+      ],
+    }
+  )
+}
+```
+
+or for some dynamic route
+
+```js
+// app/posts/[slug]/opengraph-image.js
+
+import { ImageResponse } from 'next/og'
+ 
+export const runtime = 'edge'
+ 
+export const alt = 'About Acme'
+export const size = {
+  width: 1200,
+  height: 630,
+}
+export const contentType = 'image/png'
+ 
+export default async function Image({ params }) {
+  const post = await fetch(`https://.../posts/${params.slug}`).then((res) =>
+    res.json()
+  )
+ 
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          fontSize: 48,
+          background: 'white',
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        {post.title}
+      </div>
+    ),
+    {
+      ...size,
+    }
+  )
+}
+
+```
+
+if needed more - https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/opengraph-image
+
+
+### robots.txt
+
+- **Adding Static robots.txt**
+
+
+in app/robots.txt
+```txt
+User-Agent: *
+Allow: /
+Disallow: /private/
+
+Sitemap: https://acme.com/sitemap.xml
+```
+
+- **Generate a Robots file**
+
+in app/robots.js
+
+```js
+export default function robots() {
+  return {
+    rules: {
+      userAgent: '*',
+      allow: '/',
+      disallow: '/private/',
+    },
+    sitemap: 'https://acme.com/sitemap.xml',
+  }
+}
+```
+
+
+### sitemap.xml
+
+sitemap.(xml|js|ts) is a special file that matches the Sitemaps XML format to help search engine crawlers index your site more efficiently.
+
+**Static file**
+
+app/sitemap.xml
+```
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://acme.com</loc>
+    <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>1</priority>
+  </url>
+  <url>
+    <loc>https://acme.com/about</loc>
+    <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://acme.com/blog</loc>
+    <lastmod>2023-04-06T15:02:24.021Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+</urlset>
+```
+
+
+**Generating a sitemap using code (.js, .ts)**
+
+```js
+// app/sitemap.js
+
+export default function sitemap() {
+  return [
+    {
+      url: 'https://acme.com',
+      lastModified: new Date(),
+      changeFrequency: 'yearly',
+      priority: 1,
+    },
+    {
+      url: 'https://acme.com/about',
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: 'https://acme.com/blog',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.5,
+    },
+  ]
+}
+```
+
+more on - https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/sitemap
+
+if you want dynamic sitemap - https://nextjs.org/docs/14/app/api-reference/functions/generate-sitemaps
+
+
+### manifest.json
+
+In a web app (especially a PWA – Progressive Web App), the manifest.json file is used to tell the browser how your app should behave when installed on a user's device.
+
+**Static Manifest file**
+
+```js
+// app/manifest.json | app/manifest.webmanifest
+
+{
+  "name": "My Next.js Application",
+  "short_name": "Next.js App",
+  "description": "An application built with Next.js",
+  "start_url": "/"
+  // ...
+}
+```
+
+
+**Generate a Manifest file**
+
+Add a manifest.js or manifest.ts file that returns a Manifest object.
+
+```js
+// app/manifest.js
+
+export default function manifest() {
+  return {
+    name: 'Next.js App',
+    short_name: 'Next.js App',
+    description: 'Next.js App',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#fff',
+    theme_color: '#fff',
+    icons: [
+      {
+        src: '/favicon.ico',
+        sizes: 'any',
+        type: 'image/x-icon',
+      },
+    ],
+  }
+}
+
+```
+
+## generateImageMetadata
+
+You can use generateImageMetadata to generate different versions of one image or return multiple images for one route segment. This is useful for when you want to avoid hard-coding metadata values, such as for icons.
+
+**params (optional)**
+
+```js
+// icon.js
+
+export function generateImageMetadata({ params }) {
+  // ...
+}
+```
+
+
+| Route                               | URL         | params                          |
+|-------------------------------------|-------------|----------------------------------|
+| app/shop/icon.js                    | /shop       | undefined                        |
+| app/shop/[slug]/icon.js             | /shop/1     | { slug: '1' }                    |
+| app/shop/[tag]/[item]/icon.js       | /shop/1/2   | { tag: '1', item: '2' }          |
+| app/shop/[...slug]/icon.js          | /shop/1/2   | { slug: ['1', '2'] }             |
+
+
+```js
+// icon.js
+
+import { ImageResponse } from 'next/og'
+ 
+export function generateImageMetadata() {
+  return [
+    {
+      contentType: 'image/png',
+      size: { width: 48, height: 48 },
+      id: 'small',
+    },
+    {
+      contentType: 'image/png',
+      size: { width: 72, height: 72 },
+      id: 'medium',
+    },
+  ]
+}
+ 
+export default function Icon({ id }) {
+  return new ImageResponse(
+    (
+      <div
+        style={{
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 88,
+          background: '#000',
+          color: '#fafafa',
+        }}
+      >
+        Icon {id}
+      </div>
+    )
+  )
+}
+```
+
+Examples
+
+Using external data
+
+This example uses the params object and external data to generate multiple Open Graph images for a route segment.
+
+```js
+// app/products/[id]/opengraph-image.js
+
+import { ImageResponse } from 'next/og'
+import { getCaptionForImage, getOGImages } from '@/app/utils/images'
+ 
+export async function generateImageMetadata({ params }) {
+  const images = await getOGImages(params.id)
+ 
+  return images.map((image, idx) => ({
+    id: idx,
+    size: { width: 1200, height: 600 },
+    alt: image.text,
+    contentType: 'image/png',
+  }))
+}
+ 
+export default async function Image({ params, id }) {
+  const productId = params.id
+  const imageId = id
+  const text = await getCaptionForImage(productId, imageId)
+ 
+  return new ImageResponse(
+    (
+      <div
+        style={
+          {
+            // ...
+          }
+        }
+      >
+        {text}
+      </div>
+    )
+  )
+}
+```
+
+### generateViewport
+
+`generateViewport` is a special **function** you can export in the `app/` directory of a **Next.js App Router** project to dynamically define the `<meta name="viewport" />` tag **per page**.
+
+You normally define viewport settings globally like this:
+
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+```
+
+But sometimes, you might want **different viewport behavior per page** — for example:
+
+- A special zoom level for a map page.
+- Prevent zooming on login page.
+- Different layout behavior for mobile-heavy pages.
+
+Viewport can be managed by two method
+
+1. The viewport object
+
+```jsx
+// layout.jsx | page.jsx
+
+export const viewport = {
+  themeColor: 'black',  // vist website to understand theme - https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name/theme-color
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  // Also supported by less commonly used
+  // interactiveWidget: 'resizes-visual',
+}
+ 
+export default function Page() {}
+```
+
+2. generateViewport function
+
+```jsx
+// layout.js | page.js
+
+export function generateViewport({ params }) {
+  return {
+    themeColor: '...',
+  }
+}
+```
+
+Need more - https://nextjs.org/docs/14/app/api-reference/functions/generate-viewport
+
+
+
+### useSearchParams
+
+useSearchParams is a Client Component hook that lets you read the current URL's query string.
+
+```js
+// app/dashboard/search-bar.js
+
+'use client'
+ 
+import { useSearchParams } from 'next/navigation'
+ 
+export default function SearchBar() {
+  const searchParams = useSearchParams()
+ 
+  const search = searchParams.get('search')
+ 
+  // URL -> `/dashboard?search=my-project`
+  // `search` -> 'my-project'
+  return <>Search: {search}</>
+}
+```
+
+
+Other methods of searchParams
+- searchParams.get('search')
+- searchParams.getAll()
+- searchParams.keys()
+- searchParams.values()
+- searchParams.entries()
+- searchParams.forEach()
+- searchParams.toString()
+
+
+
 ---------------
 Ye dekhna h
 
-- https://nextjs.org/docs/14/app/building-your-application/routing/dynamic-routes#generating-static-params
-- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata
-- https://nextjs.org/docs/14/app/api-reference/functions/generate-image-metadata
 - https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata
-- https://nextjs.org/docs/14/app/api-reference/functions/generate-sitemaps
-- https://nextjs.org/docs/14/app/api-reference/functions/generate-static-params
-- https://nextjs.org/docs/14/app/api-reference/functions/generate-viewport
-- https://nextjs.org/docs/14/app/api-reference/functions/headers
-- https://nextjs.org/docs/14/app/api-reference/functions/next-request
-- https://nextjs.org/docs/14/app/api-reference/functions/next-response
 - https://nextjs.org/docs/14/app/api-reference/functions/permanentRedirect
 - https://nextjs.org/docs/14/app/api-reference/functions/use-search-params
 - https://nextjs.org/docs/14/app/api-reference/functions/use-selected-layout-segment
