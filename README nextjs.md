@@ -1976,6 +1976,8 @@ export async function GET() {
 
 To call api on `server side` you can use `fetch directly` but on `client side` you have to `use-effect` and `inside` you can `call the api`
 
+In server component ie page.js, we directly await the api call function, 
+
 ```js
 // app/page.js
 
@@ -1998,6 +2000,83 @@ export default async function Page() {
   return <main></main>
 }
 ```
+
+<br>
+
+Client-Side Fetching with `useEffect`
+```js
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function Home() {
+  const [post, setPost] = useState(null);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/posts/1")
+      .then((res) => res.json())
+      .then((data) => setPost(data));
+  }, []);
+
+  if (!post) return <p>Loading...</p>;
+
+  return (
+    <div>
+      <h1>{post.title}</h1>
+      <p>{post.body}</p>
+    </div>
+  );
+}
+```
+🔹 The data is **fetched after the page loads** (useful for interactive updates).
+
+<br>
+
+Hybrid Approach: Server + Client Fetching\
+You can **preload data on the server** and **fetch additional data on the client**.
+
+```tsx
+// app/page.js (Server Component)
+import ClientComponent from "./ClientComponent";
+
+export default async function Home() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
+  const post = await res.json();
+
+  return <ClientComponent post={post} />;
+}
+```
+
+```tsx
+// app/ClientComponent.js (Client Component)
+"use client";
+
+import { useState, useEffect } from "react";
+
+export default function ClientComponent({ post }) {
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    fetch(`https://jsonplaceholder.typicode.com/posts/${post.id}/comments`)
+      .then((res) => res.json())
+      .then((data) => setComments(data));
+  }, [post.id]);
+
+  return (
+    <div>
+      <h1>{post.title}</h1>
+      <p>{post.body}</p>
+
+      <h2>Comments:</h2>
+      {comments.length > 0
+        ? comments.map((c) => <p key={c.id}>{c.body}</p>)
+        : "Loading..."}
+    </div>
+  );
+}
+```
+
+
 
 
 <br>
@@ -2263,15 +2342,15 @@ fetch requests are not cached if:
 ## Server Actions and Mutations
 
 - Server Actions are `asynchronous functions` that are executed on the server. They can be `called in Server and Client Components` to `handle form submissions and data mutations` in Next.js applications.
+
 - A Server Action can be defined with the React `"use server"` directive. You can place the directive at the top of an `async` function to mark the function as a Server Action, or at the top of a separate file to mark all exports of that file as Server Actions.
 
 - basically when we do create form, then we have the action thing in html, then that is client side but this time we need this action to be on server side, so we needed the server action. In short form submissions on server side is called the server actions
 
 
 ```js
-// app/page.jsx
+// app/page.jsx (Server Component)
 
-// Server Component
 export default function Page() {
   // Server Action
   async function create() {
@@ -2285,15 +2364,17 @@ export default function Page() {
   )
 }
 ```
+<br>
 
-example 
+**Implementation**
 
 React extends the HTML `<form>` element to allow Server Actions to be invoked with the `action` prop.
 
 When invoked in a form, the action automatically receives the `FormData` object. You `don't need` to use React `useState` to manage fields, instead, you can extract the data using the native `FormData methods like FormData.get()` more method on `https://developer.mozilla.org/en-US/docs/Web/API/FormData#instance_methods`
 
-app/invoices/page.js
 ```js
+// app/invoices/page.js
+
 export default function Page() {
   async function createInvoice(formData) {  // 'use server' & async keyword is mandatory to create createInvoice function as server action
     'use server'   
@@ -2319,17 +2400,21 @@ export default function Page() {
 
 <br>
 
+### Various hooks used in forms
 
-> ### **`useFormStatus` Hook in Next.js**
+<br>
+
+### **`useFormStatus` Hook in Next.js**
 
 It allows you to:  
-✅ Detect if a form is **submitting** (`pending` state).  
-✅ Show **loading indicators** or **disable buttons** while submitting.  
-✅ Improve **user experience** by handling async form interactions properly.
+- Detect if a form is **submitting** (`pending` state).  
+- Show **loading indicators** or **disable buttons** while submitting.  
+- Improve **user experience** by handling async form interactions properly.
 
+<br>
 
 ```tsx
-"use client";
+"use client";   // this is because hook using below
 
 import { useFormStatus } from "react-dom";
 
@@ -2358,35 +2443,22 @@ export default function Form() {
   );
 }
 ```
-
-
-**How It Works**
-1️⃣ **`useFormStatus()`** is used inside a **Client Component** to check if the form is submitting (`pending`).  
-2️⃣ The **submit button disables itself** (`disabled={pending}`) while the form is being processed.  
-3️⃣ The form uses a **Server Action (`"use server"`)** to handle submission without needing an API route.  
-
-
-
-**Why Use `useFormStatus`?**
-✅ **Eliminates extra state management** (`useState` for loading not needed).  
-✅ **Optimized for Server Actions** (no need for `useEffect` or API calls).  
-✅ **Works seamlessly with Next.js Server Components**.
-
-
-
-
 <br>
 
+**Why Use `useFormStatus`?**
+- **Eliminates extra state management** (`useState` for loading not needed).  
+- **Optimized for Server Actions** (no need for `useEffect` or API calls).  
 
+<br>
+<br>
 
-
-> ### `useActionState` Hook in Next.js (earlier it was known as useFormState)
+### `useActionState` Hook in Next.js (earlier it was known as useFormState)
 The `useActionState` hook in **Next.js (App Router)** is used to manage **form state** in Client Components when using **Server Actions**.  
 
 It helps with:  
-✅ **Managing form submission state** (loading, success, error).  
-✅ **Updating UI reactively** based on the form's response.  
-✅ **Eliminating the need for `useState` for form data handling**.  
+- **Managing form submission state** (loading, success, error).  
+- **Updating UI reactively** based on the form's response.  
+- **Eliminating the need for `useState` for form data handling**.  
 
 
 ```tsx
@@ -2408,6 +2480,8 @@ async function submitAction(prevState, formData) {  // keep in mind that first a
   return { success: `Form submitted with name: ${name}` };
 }
 
+
+
 export default function Form() {
   const [state, formAction, isPending] = useActionState(submitAction, null);  // formAction will be whatever returned by submitAction when it gets completed
 
@@ -2424,6 +2498,7 @@ export default function Form() {
   );
 }
 ```
+<br>
 
 **How It Works**
 
@@ -2439,28 +2514,14 @@ export default function Form() {
 3️⃣ **Handles Form Submission with Server Actions**  
    - If validation **fails**, an error message appears.  
    - If submission **succeeds**, a success message appears.  
-
-
-
-**Why Use `useActionState`?**
-**Eliminates extra `useState` for form state**.  
-**Works with Server Actions** (no need for an API route).  
-**Optimized for handling form submissions and responses dynamically**.  
-
-
-
+ 
 <br>
-
-
+<br>
 
 > ### usePathname
 
-### **🔹 `usePathname` Hook in Next.js**
 The `usePathname` hook is part of **Next.js (App Router)** and is used to **get the current URL path** in a React component.
 
----
-
-## **✅ Basic Usage**
 ```jsx
 "use client";
 
@@ -2472,22 +2533,15 @@ export default function CurrentPath() {
   return <p>Current Path: {pathname}</p>;
 }
 ```
-🔹 **Example Output:**  
+
+**Example Output:**  
 If the user is on `/dashboard`, it will display:
 ```
 Current Path: /dashboard
 ```
+<br>
 
----
-
-## **📌 When to Use `usePathname`?**
-✅ **Active Link Highlighting (Navigation Menus)**  
-✅ **Conditional Rendering Based on URL**  
-✅ **Breadcrumbs & Page Titles**  
-
----
-
-## **📌 Example: Highlighting Active Links**
+**Example: Highlighting Active Links**
 ```jsx
 "use client";
 
@@ -2509,74 +2563,57 @@ export default function Navbar() {
   );
 }
 ```
-🔹 **Why?**  
-- The active link gets a blue color based on the `pathname`.
+<br>
 
-
-Note: next/link will be same as nuxt link, but when child component have anchor(`<a></a>`) tag then we have different implementaion. below is url for detail
+**Note:** next/link will be same as nuxt link, but when child component have anchor(`<a></a>`) tag then we have different implementaion. below is url for detail
 ```
 https://nextjs.org/docs/14/app/api-reference/components/link
 ```
 
----
-
-## **⚠️ Important Notes**
-1️⃣ **Works Only in Client Components**  
-   - `usePathname` only works inside `"use client"` components.  
-   - For **Server Components**, use `cookies()` or `headers()`.
-
-2️⃣ **Does Not Include Query Params (`?id=123`)**  
-   - If you need query params, use `useSearchParams()`.  
-
----
-
-## **📌 `usePathname` vs. `useRouter()`**
-| Feature            | `usePathname`  | `useRouter()` |
-|-------------------|---------------|--------------|
-| **Gets current URL** | ✅ Yes | ✅ Yes |
-| **Includes query params?** | ❌ No | ✅ Yes (`router.query`) |
-| **Used for navigation?** | ❌ No | ✅ Yes (`router.push()`) |
-
-Would you like an example using both `usePathname` and `useSearchParams`? 🚀
-
+`Note:` Does Not Include Query Params (`?id=123`)
+- If you need query params, use `useSearchParams()`.  
 
 <br>
+<br>
 
-### **🔹 `revalidatePath` in Next.js**
+### `RevalidatePath` in Next.js
+
 `revalidatePath` is a **Server Action utility** in Next.js used to **manually revalidate cached data** for a `specific route`.\
-eg get api gets cached on home page, you updated the data of homepage in db, but changes will not reflected, so you need to run this function after succesfull response of api which updates the db
+**Eg:** get api gets cached on home page, you updated the data of homepage in db, but changes will not reflected, so you need to run this function after succesfull response of api which updates the db
 
-- basically next cached the whole page, when we update the db through api call, then we have to revalidatepath, so that next just dump the cache and make new page with updated data
+Basically `next cached the whole page`, when we update the db through api call, then we have to revalidatepath, so that next just dump the cache and make new page with updated data
 
 It helps when:  
-✅ You **mutate data** (e.g., after a form submission or database update).  
-✅ You want to **force fetch updated content** from a Server Component.  
-✅ You need to **bypass Next.js caching** for a particular route.  
+- You **mutate data** (e.g., after a form submission or database update).  
+- You want to **force fetch updated content** from a Server Component.  
+- You need to **bypass Next.js caching** for a particular route.  
 
 ```js
 revalidatePath(path: string, type?: 'page' | 'layout'): void;
 ```
+<br>
 
-Revalidating A Specific URL
+**Revalidating A Specific URL**
 ```js
 import { revalidatePath } from 'next/cache'
 revalidatePath('/blog/post-1')
 ```
 
+<br>
 
-
-Revalidating A Page Path
+**Revalidating A Page Path**
 ```js
 import { revalidatePath } from 'next/cache'
 revalidatePath('/blog/[slug]', 'page')
 // or with route groups
 revalidatePath('/(main)/blog/[slug]', 'page')
 ```
+
 This will revalidate any URL that matches the provided `page` file on the next page visit. This will not invalidate pages beneath the specific page. For example, `/blog/[slug]` won't invalidate `/blog/[slug]/[author]`.
 
+<br>
 
-
-Revalidating A Layout Path
+**Revalidating A Layout Path**
 ```js
 import { revalidatePath } from 'next/cache'
 revalidatePath('/blog/[slug]', 'layout')
@@ -2586,8 +2623,9 @@ revalidatePath('/(main)/post/[slug]', 'layout')
 
 This will revalidate any URL that matches the provided `layout` file on the next page visit. This will cause pages beneath with the same layout to revalidate on the next visit. For example, in the above case, `/blog/[slug]/[another]` would also revalidate on the next visit.
 
+<br>
 
-Revalidating All Data
+**Revalidating All Data**
 ```js
 import { revalidatePath } from 'next/cache'
  
@@ -2617,58 +2655,12 @@ export async function addItem(prevState, formData) {
 }
 ```
 
-### **📌 How to Use with a Form**
-
-**Client Component Form with `useActionState`**
-```tsx
-"use client";
-
-import { useActionState } from "react";
-import { addItem } from "./actions"; // Import Server Action
-
-export default function ItemForm() {
-  const [state, formAction, isPending] = useActionState(addItem, null);
-
-  return (
-    <form action={formAction}>
-      <input type="text" name="item" placeholder="Enter item" required />
-      <button type="submit" disabled={isPending}>
-        {isPending ? "Adding..." : "Add Item"}
-      </button>
-
-      {state?.error && <p className="text-red-500">{state.error}</p>}
-      {state?.success && <p className="text-green-500">{state.success}</p>}
-    </form>
-  );
-}
-```
-
-**How It Works**
-1️⃣ **User submits the form** with an item.  
-2️⃣ The `addItem` **Server Action** runs, adding the item.  
-3️⃣ **`revalidatePath("/items")`** ensures the `/items` page **fetches fresh data** instead of using cached content.  
-4️⃣ The updated list appears immediately after form submission.  
-
-
-**`revalidatePath` vs. `revalidateTag`**
-| Feature             | `revalidatePath`  | `revalidateTag`  |
-|-------------------|----------------|----------------|
-| **Use Case**       | Revalidates a specific **page** | Revalidates **data** marked with a tag |
-| **Scope**         | Affects only the given **path** | Affects all queries with a **specific tag** |
-| **Example**       | `revalidatePath("/dashboard")` | `revalidateTag("user-data")` |
-
-
-
-**🎯 When to Use `revalidatePath`?**
-✅ **After a form submission (CRUD operations)**  
-✅ **When updating user profile data**  
-✅ **When modifying a database and needing fresh data**  
-
 <br>
 
-> ### `useOptimistic` in Next.js 13+ (React 18)
-`useOptimistic` is a React Hook introduced in **React 18** and is commonly used in **Next.js 13+** with Server Actions to handle **optimistic UI updates**. It allows you to update the UI immediately before receiving a response from the server, making interactions feel more responsive.
+### `useOptimistic` in Next.js 13+ (React 18)
+`useOptimistic` is a React Hook used with Server Actions to handle **optimistic UI updates**. It allows you to update the UI immediately before receiving a response from the server, making interactions feel more responsive.
 
+<br>
 
 **Basic Syntax**
 ```tsx
@@ -2678,6 +2670,7 @@ const [optimisticState, setOptimisticState] = useOptimistic(
 );
 ```
 
+<br>
 
 **Example: Optimistic Counter (Client Component)**
 ```tsx
@@ -2708,15 +2701,16 @@ export default function OptimisticCounter() {
   );
 }
 ```
+<br>
 
 **How It Works**
 - `useOptimistic` stores an **optimistic version** of `count`.
 - `setOptimisticCount(1)` immediately updates the UI **before** waiting for the server.
 - The actual `setCount` updates after the simulated server delay.
 
+<br>
 
 **Example: Optimistic Update with Server Action**
-`useOptimistic` is especially useful with **Server Actions** in Next.js.
 
 **1. Server Action (Server Component)**
 ```tsx
@@ -2729,13 +2723,13 @@ export async function updateLikes(postId: string) {
 ```
 
 **2. Client Component with Optimistic UI**
-```tsx
+```js
 "use client";
 
 import { useOptimistic, useState } from "react";
 import { updateLikes } from "./actions";
 
-export default function LikeButton({ initialLikes }: { initialLikes: number }) {
+export default function LikeButton({ initialLikes }) {
   const [likes, setLikes] = useState(initialLikes);
   const [optimisticLikes, setOptimisticLikes] = useOptimistic(likes, (state, newValue) => state + newValue);
 
@@ -2753,202 +2747,53 @@ export default function LikeButton({ initialLikes }: { initialLikes: number }) {
   );
 }
 ```
+<br>
 
 **When to Use `useOptimistic`?**
-✅ **Good for:**
 - Optimistic UI updates (likes, counters, form submissions).
 - Avoiding unnecessary loading indicators.
 - Making UI feel snappier in async actions.
 
-❌ **Not needed when:**
-- The update happens instantly (no delay).
-- The app does **not** need an immediate UI update.
-
+<br>
 
 **Alternatives**
 If you're not using `useOptimistic`, you can achieve similar results with **`useState`** and **optimistic updates manually**. However, `useOptimistic` provides a cleaner and more declarative way to handle optimistic UI in Next.js.
 
 <br>
+<br>
 
+### props and searchparams in page.js
 
-### **🔹 API Calling in Next.js (Server & Client Side)**  
-Next.js allows you to **fetch data** on both the **server side** (for performance & SEO) and the **client side** (for dynamic updates).  
+In page.js, `params` and `searchparams` are `available`, both are `optional`
 
----
-
-# **1️⃣ Server-Side API Calls**  
-✅ **Best for SEO & performance**  
-✅ **Runs on the server** (not in the browser)  
-✅ **Data is fetched before rendering**  
-
-### **📌 Example: Server-Side Fetching with `fetch()`**  
-```tsx
-// app/page.js (Server Component)
-export default async function Home() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
-  const post = await res.json();
-
-  return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.body}</p>
-    </div>
-  );
-}
-```
-🔹 This fetches data **on the server before rendering** and is sent **as static HTML to the browser**.  
-- In server component ie page.js, we directly await the api call function, 
-- every function(n number of fn) in server component ie page.js can be made async and call api
-
----
-
-## **2️⃣ Client-Side API Calls**  
-✅ **Best for real-time updates**  
-✅ **Runs in the browser**  
-✅ **Data fetches after initial page load**  
-
-### **📌 Example: Client-Side Fetching with `useEffect`**
-```tsx
-"use client";
-
-import { useState, useEffect } from "react";
-
-export default function Home() {
-  const [post, setPost] = useState(null);
-
-  useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/posts/1")
-      .then((res) => res.json())
-      .then((data) => setPost(data));
-  }, []);
-
-  if (!post) return <p>Loading...</p>;
-
-  return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.body}</p>
-    </div>
-  );
-}
-```
-🔹 The data is **fetched after the page loads** (useful for interactive updates).  
-
----
-
-## **3️⃣ Hybrid Approach: Server + Client Fetching**
-You can **preload data on the server** and **fetch additional data on the client**.
-
-```tsx
-// app/page.js (Server Component)
-import ClientComponent from "./ClientComponent";
-
-export default async function Home() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts/1");
-  const post = await res.json();
-
-  return <ClientComponent post={post} />;
-}
-```
-
-```tsx
-// app/ClientComponent.js (Client Component)
-"use client";
-
-import { useState, useEffect } from "react";
-
-export default function ClientComponent({ post }) {
-  const [comments, setComments] = useState([]);
-
-  useEffect(() => {
-    fetch(`https://jsonplaceholder.typicode.com/posts/${post.id}/comments`)
-      .then((res) => res.json())
-      .then((data) => setComments(data));
-  }, [post.id]);
-
-  return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.body}</p>
-
-      <h2>Comments:</h2>
-      {comments.length > 0
-        ? comments.map((c) => <p key={c.id}>{c.body}</p>)
-        : "Loading..."}
-    </div>
-  );
-}
-```
-🔹 **Post data** is **fetched on the server** for SEO, and **comments are fetched on the client** dynamically.  
-
----
-
-## **4️⃣ API Calling in Server Actions (`use server`)**  
-✅ **Used inside Server Components**  
-✅ **No need for `useEffect`**  
-✅ **Best for forms & mutations**  
-
-```tsx
-"use server";
-
-export async function fetchUserData() {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
-  return res.json();
-}
-```
-
-```tsx
-// app/page.js (Server Component)
-import { fetchUserData } from "./actions";
-
-export default async function Home() {
-  const user = await fetchUserData();
-
-  return <h1>{user.name}</h1>;
-}
-```
-🔹 **No API routes required!** Fetch data **directly inside a Server Component**.
-
----
-
-# **📌 When to Use Each Approach?**
-| **Method**             | **Use Case**                                        |
-|----------------------|------------------------------------------------|
-| **Server-Side Fetching**  | SEO, fast initial page loads, static/dynamic pages |
-| **Client-Side Fetching**  | User interactions, real-time updates, lazy loading |
-| **Hybrid Approach**       | Preload important data + fetch extra client-side  |
-| **Server Actions**        | Secure API calls, form submissions, mutations |
-
-Would you like an example with **authentication and API calls?** 🚀
-
-
-> ### props and searchparams
-
-- In page.js, params and searchparams are available, both are optional
-
-app/blog/[slug]/page.js
 ```js
+// app/blog/[slug]/page.js
+
 export default function Page({ params, searchParams }) {
   return <h1>My Page</h1>
 }
 ```
 
 **props**
-```
-Example	                                URL                      	params
-app/shop/[slug]/page.js	               /shop/1	             { slug: '1' }
-app/shop/[category]/[item]/page.js	   /shop/1/2	           { category: '1', item: '2' }
-app/shop/[...slug]/page.js            	/shop/1/2	           { slug: ['1', '2'] }
-```
+| Example                                  | URL         | `params`                          |
+|------------------------------------------|-------------|------------------------------------|
+| `app/shop/[slug]/page.js`               | `/shop/1`    | `{ slug: '1' }`                   |
+| `app/shop/[category]/[item]/page.js`    | `/shop/1/2`  | `{ category: '1', item: '2' }`    |
+| `app/shop/[...slug]/page.js`            | `/shop/1/2`  | `{ slug: ['1', '2'] }`            |
+
+<br>
 
 **searchParams**
-```
-URL	               searchParams
-/shop?a=1         	{ a: '1' }
-/shop?a=1&b=2     	{ a: '1', b: '2' }
-/shop?a=1&a=2      	{ a: ['1', '2'] }
-```
+## `searchParams` in Next.js App Router
 
+| URL                | `searchParams`            |
+|--------------------|---------------------------|
+| `/shop?a=1`        | `{ a: '1' }`              |
+| `/shop?a=1&b=2`    | `{ a: '1', b: '2' }`      |
+| `/shop?a=1&a=2`    | `{ a: ['1', '2'] }`       |
+
+<br>
+<br>
 
 ### Sharing data between components
 
@@ -2956,9 +2801,10 @@ When fetching data on the server, there may be cases where you need to share dat
 
 Instead of using `React Context` (which is not available on the server) or passing data as props, you can use `fetch` or React's `cache` function to fetch the same data in the components that need it, without worrying about making duplicate requests for the same data. This is because React extends `fetch` to automatically memoize data requests, and the `cache` function can be used when `fetch` is not available.
 
+<br>
+<br>
 
-
-> ### Cookies in pages
+### Cookies in pages
 ```js
 import { cookies } from 'next/headers'
  
@@ -2968,10 +2814,18 @@ export default function Page() {
   return '...'
 }
 ```
+<br>
+
+**Various method of cookies**
+
 - cookies().get(name)
 - cookies().getAll()
 - cookies().has(name)
 - cookies().set(name, value, options)   
+
+<br>
+
+Setting value in cookies
 ```js
 cookies().set({
   name: 'name',
@@ -2984,6 +2838,7 @@ cookies().set({
 ```
 - cookies().delete(name)
 
+<br>
 <br>
 
 
@@ -3008,13 +2863,14 @@ export default function ExampleClientComponent() {
   return <></>
 }
 ```
+<br>
 
 | Route | URL | `useParams()` |
 |--------|----|--------------|
-| `app/shop/page.js` | `/shop` | `{}` |
-| `app/shop/[slug]/page.js` | `/shop/1` | `{ slug: '1' }` |
-| `app/shop/[tag]/[item]/page.js` | `/shop/1/2` | `{ tag: '1', item: '2' }` |
-| `app/shop/[...slug]/page.js` | `/shop/1/2` | `{ slug: ['1', '2'] }` |
+| app/shop/page.js | /shop | {} |
+| app/shop/[slug]/page.js | /shop/1 | { slug: '1' } |
+| app/shop/[tag]/[item]/page.js | /shop/1/2 | { tag: '1', item: '2' } |
+| app/shop/[...slug]/page.js | /shop/1/2 | { slug: ['1', '2'] } |
 
 
 <br>
@@ -3033,13 +2889,14 @@ export default function ExampleClientComponent() {
   return <p>Current pathname: {pathname}</p>
 }
 ```
+<br>
 
 | URL | Returned Value |
 |-----|---------------|
-| `/` | `'/'` |
-| `/dashboard` | `'/dashboard'` |
-| `/dashboard?v=2` | `'/dashboard'` |
-| `/blog/hello-world` | `'/blog/hello-world'` |
+| / | '/' |
+| /dashboard | '/dashboard' |
+| /dashboard?v=2 | '/dashboard' |
+| /blog/hello-world | '/blog/hello-world' |
 
 <br>
 
@@ -3074,6 +2931,7 @@ export default function Page() {
 - router.forward()
 
 <br>
+<br>
 
 ### Dynamic varibale in env file in next js
 
@@ -3090,6 +2948,7 @@ Note: If you need to use variable with a `$ in the actual value`, it needs to be
 In general only one `.env.local` file is needed. However, Next.js allows you to set defaults in `.env (all environments)`, `.env.development (development environment)`, and `.env.production (production environment)`.
 
 
+<br>
 <br>
 
 ### Dynamic Image Generation
@@ -3191,7 +3050,9 @@ Ye dekhna h
 - https://nextjs.org/docs/14/app/api-reference/next-config-js/transpilePackages
 - https://nextjs.org/docs/14/app/building-your-application/deploying/static-exports
 - https://nextjs.org/docs/14/app/building-your-application/authentication
+
 Above is when you need to read authentication in detail
+
 - https://nextjs.org/docs/14/app/building-your-application/configuring/draft-mode
 - https://nextjs.org/docs/14/app/building-your-application/optimizing/videos
 - https://nextjs.org/docs/14/app/building-your-application/optimizing/fonts
@@ -3206,11 +3067,8 @@ Above is when you need to read authentication in detail
 - https://nextjs.org/docs/14/app/building-your-application/rendering
 - https://nextjs.org/docs/14/app/building-your-application/data-fetching
 
-- news wale project me parallel routing and interceptor dekhna h
----------------
 
 <br>
-
 <br>
 
 
@@ -3288,13 +3146,13 @@ pages/shop/[[...slug]].js	        /shop/a/b/c	             { slug: ['a', 'b', 'c
 
 <br>
 
-> ### Not found page
+### Not found page
 
 - 404.js will serve as not found page
 - Here we can add 404.js at root level only in pages folder, we can not add separately in nested folder. One projet one 404 file
 
-pages/404.js
 ```js
+// pages/404.js
 export default function Custom404() {
   return <h1>404 - Page Not Found</h1>
 }
@@ -3304,10 +3162,12 @@ export default function Custom404() {
 
 ### Retrieve dynamic route parameters
 
+<br>
+
 1️⃣ **Using `useRouter` (Client-Side)**
 
-`pages/product/[id].js`
 ```javascript
+// pages/product/[id].js
 import { useRouter } from "next/router";
 
 const ProductPage = () => {
@@ -3319,11 +3179,12 @@ const ProductPage = () => {
 
 export default ProductPage;
 ```
-🔹 **Note:** The `id` will be `undefined` on the first render in Next.js because it runs on the client side.
+**Note:** The `id` will be `undefined` on the first render in Next.js because it runs on the client side.
 
 <br>
+<br>
 
-2️⃣ **Using `getServerSideProps` (Server-Side)
+2️⃣ **Using `getServerSideProps` (Server-Side)**
 
 ```javascript
 export async function getServerSideProps(context) {
@@ -3340,11 +3201,12 @@ const ProductPage = ({ id }) => {
 
 export default ProductPage;
 ```
-🔹 **Best for:** When you need fresh data on each request.
+**Best for:** When you need fresh data on each request.
 
 <br>
+<br>
 
-3️⃣ **Using `getStaticProps` + `getStaticPaths` (Static Generation)
+3️⃣ **Using `getStaticProps` + `getStaticPaths` (Static Generation)**
 
 ```javascript
 export async function getStaticPaths() {
@@ -3366,8 +3228,9 @@ const ProductPage = ({ id }) => {
 
 export default ProductPage;
 ```
-🔹 **Best for:** When you want to pre-generate pages at build time.
+**Best for:** When you want to pre-generate pages at build time.
 
+<br>
 <br>
 
 ### Shallow Routing
@@ -3377,8 +3240,8 @@ Shallow routing allows you to change the URL without running data fetching metho
 You'll receive the updated pathname and the query via the router object (added by useRouter), without losing state.
 
 
-pages/index.js (Home Page)
-```js
+```jsx
+// pages/index.js (Home Page)
 import { useRouter } from 'next/router';
 
 export default function Home() {
@@ -3400,9 +3263,11 @@ export default function Home() {
 }
 ```
 
+<br>
+<br>
 
-pages/about.js (About Page)
 ```js
+// pages/about.js (About Page)
 import { useRouter } from 'next/router';
 
 export default function About({ name }) {
@@ -3439,17 +3304,18 @@ export async function getServerSideProps(context) {
 
 
 <br>
+<br>
 
-> ###  `_app.js` usage in Next.js
+###  `_app.js` usage in Next.js
 In **Next.js**, the `_app.js` file `wraps all pages`. It is used to:
 
-✅ **Persist layout** across pages  
-✅ **Inject global styles**  
-✅ **Provide global state or context**  
+- **Persist layout** across pages  
+- **Inject global styles**  
+- **Provide global state or context**  
 
 <br>
 
-### **📌 Default `_app.js`**
+### **Default `_app.js`**
 If you don't create `_app.js`, Next.js will use a default version automatically.  
 But if you want to customize it, create `pages/_app.js` and add:
 
@@ -3469,9 +3335,9 @@ Here:
 
 <br>
 
-### Common Use Cases
+### Common Use Cases of _app.js
 
-**1️⃣ Persistent Layouts**
+**1. Persistent Layouts**
 
 If you want to keep a **navbar, footer, or sidebar** across all pages:
 ```javascript
@@ -3491,7 +3357,7 @@ export default MyApp;
 
 <br>
 
-**2️⃣ Global State with Context API**
+**2. Global State with Context API**
 
 ```javascript
 import { createContext, useState } from 'react';
@@ -3512,7 +3378,7 @@ export default MyApp;
 ```
 <br>
 
-**3️⃣ Handling Route Changes (e.g., Loading Indicator)**
+**3. Handling Route Changes (e.g., Loading Indicator)**
 ```javascript
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -3548,8 +3414,9 @@ export default MyApp;
 ```
 
 <br>
+<br>
 
-> ## Data Fetching
+## Data Fetching
 
 <br>
 
@@ -3785,8 +3652,8 @@ Note:
 Suppose you needed the params from the url, if you use the any hook then we have to make the component client side, in that case, getStaticProps comes with context, from which we can destructure required values
 
 
-in pages/[sku].js
 ```js
+// in pages/[sku].js
 export async function getStaticProps(context) {
   const { params } = context  // from param you can get sku value
 
@@ -3818,8 +3685,8 @@ In above case, one challenge comes that we use `getStaticProps` for `dynamic(pag
 If a page has `Dynamic Routes` and uses `getStaticProps`, it needs to define a `list of paths` to be `statically generated`.
 
 
-pages/repo/[name].js
 ```js
+// pages/repo/[name].js
 export async function getStaticPaths() {
   return {
     paths: [
@@ -3847,8 +3714,8 @@ export default function Page({ repo }) {
 - getStaticPaths will only run during build in production, it will not be called during runtime. 
 
 
-pages/posts/[id].js
 ```js
+// pages/posts/[id].js
 function Post({ post }) {
   // Render post...
 }
@@ -3885,7 +3752,7 @@ export default Post
 
 <br>
 
-### fallback usages in getStaticPaths
+### Fallback usages in getStaticPaths
 
 In `getStaticPaths`, the `fallback` key determines how Next.js handles paths that were not generated at build time. Here are the possible values and their behaviors:
 
@@ -3917,7 +3784,7 @@ export async function getStaticPaths() {
 
 Sure! Here’s a simpler breakdown of how `fallback: true` works in **Next.js**:
 
-### **What happens when `fallback: true`?**
+#### **What happens when `fallback: true`?**
 1. **Pre-rendered Pages at Build Time:**  
    - The pages returned from `getStaticPaths` are **pre-rendered** during the build.
   
@@ -4778,7 +4645,6 @@ ye wala aache se padhna h
 https://nextjs.org/docs/14/pages/building-your-application/authentication
 https://nextjs.org/docs/14/pages/building-your-application/deploying/static-exports
 https://nextjs.org/docs/14/pages/building-your-application/upgrading
-
 https://nextjs.org/docs/14/pages/api-reference/next-config-js/rewrites
 ```
 
