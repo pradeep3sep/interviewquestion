@@ -1,11 +1,14 @@
 > ###  What is TypeScript and how does it differ from JavaScript?
 - TypeScript is a statically-typed superset of JavaScript
 - After compiling, TypeScript code is transpiled into standard, browser-compatible JavaScript.
+<br>
 
 > ### Can you explain what is meant by "TypeScript is a superset of JavaScript"?
 - TypeScript is often described as a "superset of JavaScript" because every valid JavaScript code is also a valid TypeScript code.
+<br>
 
 > ### What are the basic types available in TypeScript?
+<br>
 
 Common Basic Types in TypeScript
 
@@ -49,12 +52,13 @@ function errorMessage(message: string): never {
 11. **Object**: Any JavaScript object.
 12. **Function**: Denotes a function type.
 
+<br>
 
 > ### What are Interfaces in TypeScript and how do they work
 
-interface defines the structure and types of its members
+interface defines the `structure and types` of its members
 
-```js
+```ts
 interface Point {
     x: number;
     y: number;
@@ -70,6 +74,7 @@ let pointB = { x: 8 }; // This object is missing the 'y' property
 printPoint(pointA); // Output: Point coordinates: (3, 7)
 printPoint(pointB); // Compile-time error due to incorrect structure
 ```
+<br>
 
 > ### Optional,Default, and Rest Parameters
 
@@ -83,6 +88,8 @@ function greet(name: string, title?: string) {
     }
 }
 ```
+<br>
+
 
 Default parameter
 ```js
@@ -90,6 +97,8 @@ function greet(name = "Stranger") {
     console.log(`Hello, ${name}!`);
 }
 ```
+<br>
+
 
 Rest Parameters
 ```js
@@ -99,7 +108,7 @@ function introduce(greeting: string, ...names: string[]) {
 
 introduce("Hello", "Alice", "Bob", "Carol");
 ```
-
+<br>
 
 > ### Call Signature
 
@@ -117,3 +126,31 @@ welcome = function(name: string): void {
     console.log(`Welcome, ${name}!`);
 };
 ```
+
+> ### Union Types
+
+Union types are used when a value can be more than a single type.
+
+```ts
+function printStatusCode(code: string | number) {
+  console.log(`My status code is ${code}.`)
+}
+printStatusCode(404);
+printStatusCode('404');
+```
+
+> ### Literal Types
+
+Literal Types in TypeScript are types that represent exact values rather than general types. They are useful when you want to restrict a variable to hold only specific values.
+
+```ts
+let direction: "left" | "right" | "up" | "down";
+
+direction = "left";   // ✅ allowed
+direction = "right";  // ✅ allowed
+direction = "forward" // ❌ Error: not assignable to type
+```
+
+Here, the variable direction can only have one of the specified string values.
+
+

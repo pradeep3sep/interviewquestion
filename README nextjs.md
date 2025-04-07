@@ -2571,11 +2571,11 @@ fetch requests are not cached if:
 
 ## Server Actions and Mutations
 
-- Server Actions are `asynchronous functions` that are executed on the server. They can be `called in Server and Client Components` to `handle form submissions and data mutations` in Next.js applications.
+- Server Actions are `asynchronous functions` that are `executed on the server`. They can be `called in Server and Client Components` to `handle form submissions and data mutations` in Next.js applications.
 
 - A Server Action can be defined with the React `"use server"` directive. You can place the directive at the top of an `async` function to mark the function as a Server Action, or at the top of a separate file to mark all exports of that file as Server Actions.
 
-- basically when we do create form, then we have the action thing in html, then that is client side but this time we need this action to be on server side, so we needed the server action. In short form submissions on server side is called the server actions
+- basically when we do create form, then we have the action thing in html, then that is client side but this time we need this action to be on server side, and action is async in nature so we needed the server action. In short form submissions on server side is called the server actions
 
 
 ```js
@@ -2628,6 +2628,66 @@ export default function Page() {
 }
 ```
 
+### Server action for Non-form Elements
+
+While it's common to use Server Actions within `<form>` elements, they can also be invoked from other parts of your code such as event handlers and `useEffect`.
+
+
+1. Example of non-form element like Event Handlers
+```js
+// app/like-button.js
+
+'use client'
+ 
+import { incrementLike } from './actions'
+import { useState } from 'react'
+ 
+export default function LikeButton({ initialLikes }) {
+  const [likes, setLikes] = useState(initialLikes)
+ 
+  return (
+    <>
+      <p>Total Likes: {likes}</p>
+      <button
+        onClick={async () => {
+          const updatedLikes = await incrementLike()
+          setLikes(updatedLikes)
+        }}
+      >
+        Like
+      </button>
+    </>
+  )
+}
+```
+
+2. Example of non-form element like onChange
+
+```js
+// app/ui/edit-post.tsx
+
+'use client'
+ 
+import { publishPost, saveDraft } from './actions'
+ 
+export default function EditPost() {
+  return (
+    <form action={publishPost}>
+      <textarea
+        name="content"
+        onChange={async (e) => {
+          await saveDraft(e.target.value)
+        }}
+      />
+      <button type="submit">Publish</button>
+    </form>
+  )
+}
+```
+
+more on server action - https://nextjs.org/docs/14/app/building-your-application/data-fetching/server-actions-and-mutations
+
+
 <br>
 
 ### Various hooks used in forms
@@ -2678,6 +2738,46 @@ export default function Form() {
 **Why Use `useFormStatus`?**
 - **Eliminates extra state management** (`useState` for loading not needed).  
 - **Optimized for Server Actions** (no need for `useEffect` or API calls).  
+
+
+you can do in below form also
+
+```js
+// app/submit-button.jsx
+
+'use client'
+ 
+import { useFormStatus } from 'react-dom'
+ 
+export function SubmitButton() {
+  const { pending } = useFormStatus()
+ 
+  return (
+    <button type="submit" disabled={pending}>
+      Add
+    </button>
+  )
+}
+```
+
+
+```js
+// app/page.jsx
+
+import { SubmitButton } from '@/app/submit-button'
+import { createItem } from '@/app/actions'
+ 
+// Server Component
+export default async function Home() {
+  return (
+    <form action={createItem}>
+      <input type="text" name="field-name" />
+      <SubmitButton />
+    </form>
+  )
+}
+```
+
 
 <br>
 <br>
@@ -3329,6 +3429,25 @@ export default function Icon() {
 
 Note: You cannot generate a `favicon` icon. Use `icon or a favicon.ico` file instead.
 
+For dynamic path
+
+```js
+// app/shop/[slug]/icon.js
+
+export default function Icon({ params }) {
+  // ...
+}
+```
+
+| Route                             | URL         | params                          |
+|-----------------------------------|-------------|----------------------------------|
+| app/shop/icon.js                  | /shop       | undefined                        |
+| app/shop/[slug]/icon.js           | /shop/1     | { slug: '1' }                    |
+| app/shop/[tag]/[item]/icon.js     | /shop/1/2   | { tag: '1', item: '2' }          |
+| app/shop/[...slug]/icon.js        | /shop/1/2   | { slug: ['1', '2'] }             |
+
+
+
 ### opengraph-image and twitter-image
 
 There are two ways to set Open Graph and Twitter images:
@@ -3501,8 +3620,8 @@ sitemap.(xml|js|ts) is a special file that matches the Sitemaps XML format to he
 
 **Static file**
 
-app/sitemap.xml
-```
+```xml
+<!-- app/sitemap.xml -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://acme.com</loc>
@@ -3770,7 +3889,8 @@ Need more - https://nextjs.org/docs/14/app/api-reference/functions/generate-view
 
 ### useSearchParams
 
-useSearchParams is a Client Component hook that lets you read the current URL's query string.
+useSearchParams is a Client Component hook that lets you read the current URL's query string.\
+It is read only, you can not set params through it
 
 ```js
 // app/dashboard/search-bar.js
@@ -3801,40 +3921,549 @@ Other methods of searchParams
 - searchParams.toString()
 
 
+#### Some cases of useSearchParams
+
+1. Static Rendering
+
+**Problem:**
+
+If you're using `useSearchParams` inside a statically rendered route, it **forces client-side rendering** for the **whole component tree** above it or up to the **closest Suspense boundary**.
+
+That’s bad if you want **fast static rendering (SSR/SSG)** for most of the page and only need dynamic data **below**.
+
+
+**Solution: Use `<Suspense>`**
+
+Wrap the dynamic component (`SearchBar`) in a `<Suspense>` block. That way:
+
+- **Static parts** (like nav, header, layout) get **rendered on the server**.
+- Only the dynamic part using `useSearchParams` is **hydrated on the client**.
+
+```js
+// app/dashboard/search-bar.js
+'use client'
+
+import { useSearchParams } from 'next/navigation'
+
+export default function SearchBar() {
+  const searchParams = useSearchParams()
+  const search = searchParams.get('search')
+
+  console.log(search) // Only logs on client
+
+  return <>Search: {search}</>
+}
+```
+
+This component:
+- Must run on **client side** (uses `useSearchParams`)
+- Will read `?search=...` from the URL
+
+
+
+```js
+// app/dashboard/page.js
+
+import { Suspense } from 'react'
+import SearchBar from './search-bar'
+
+function SearchBarFallback() {
+  return <>placeholder</>
+}
+
+export default function Page() {
+  return (
+    <>
+      <nav>
+        <Suspense fallback={<SearchBarFallback />}>
+          <SearchBar />
+        </Suspense>
+      </nav>
+      <h1>Dashboard</h1>
+    </>
+  )
+}
+```
+
+This layout:
+- Statics parts like `<nav>` and `<h1>` will be **server-rendered**
+- `<SearchBar>` will be **hydrated client-side**
+- While that happens, users will see: `placeholder`
+
+
+#### Benefits
+
+| Without `<Suspense>` | With `<Suspense>` |
+|----------------------|--------------------|
+| Entire tree becomes client-rendered | Only the `SearchBar` is client-rendered |
+| Slower TTFB (time to first byte) | Faster initial render |
+| Less SEO friendly | More SEO friendly |
+
+
+2. Dyamic rendering 
+
+**`useSearchParams` + Dynamic Rendering**
+
+
+If your **route is dynamically rendered**, then:
+- `useSearchParams()` will **work on the server during the initial render**
+- And also **work on the client** during navigation
+
+This is different from **static rendering**, where `useSearchParams` is **only client-side**.
+
+
+
+#### How to Enable Dynamic Rendering
+
+You just add this in your page component:
+
+```js
+export const dynamic = 'force-dynamic'
+```
+
+This tells Next.js:
+> “Don’t statically render this route — always render it dynamically (on-demand).”
+
+
+
+#### Example Walkthrough
+
+```js
+// app/dashboard/search-bar.js`
+'use client'
+
+import { useSearchParams } from 'next/navigation'
+
+export default function SearchBar() {
+  const searchParams = useSearchParams()
+  const search = searchParams.get('search')
+
+  console.log(search) // 🔥 Logs on server AND client (in dynamic mode)
+
+  return <>Search: {search}</>
+}
+```
+
+
+```js
+// app/dashboard/page.js
+
+import SearchBar from './search-bar'
+
+// Forces dynamic rendering
+export const dynamic = 'force-dynamic'
+
+export default function Page() {
+  return (
+    <>
+      <nav>
+        <SearchBar />
+      </nav>
+      <h1>Dashboard</h1>
+    </>
+  )
+}
+```
+
+| Feature | Static Rendering | Dynamic Rendering |
+|--------|------------------|-------------------|
+| `useSearchParams` runs on server? | ❌ No | ✅ Yes |
+| `useSearchParams` runs on client? | ✅ Yes | ✅ Yes |
+| Console logs on server? | ❌ Never | ✅ On first render |
+| SEO benefits | ✅ Better | ⚠️ Depends (might be slower) |
+| Needs `<Suspense>` for partial hydration | ✅ Yes | ❌ No (optional) |
+
+
+
+**When to Use `force-dynamic`**
+
+Use when:
+- You **need the query params available on the server**
+- You're doing **server logic** based on search params (e.g., DB filtering)
+- You don't want to split the UI using `<Suspense>`
+
+
+**What Does “Dynamic Rendering” Mean in Next.js (App Router)?**
+
+In **Next.js**, a route can be either:
+
+| Type | Description |
+|------|-------------|
+| **Static Rendering** | The HTML is **pre-rendered at build time** or cached on the server (like SSR/SSG) |
+| **Dynamic Rendering** | The page is **rendered fresh on every request**, using **request-specific data** like headers, search params, cookies, etc. |
+
+**"Dynamic Rendering" means:**
+
+> The page is **not pre-rendered** and **not cached** — it’s generated **on the fly** on each request.
+
+
+
+
+<br>
+<br>
+
+
+> ### userAgent
+
+The userAgent helps to know device and other user details
+
+```js
+// middleware.js
+
+import { NextResponse, userAgent } from 'next/server'
+ 
+export function middleware(request) {
+  const url = request.nextUrl
+  const { device } = userAgent(request)
+  const viewport = device.type === 'mobile' ? 'mobile' : 'desktop'
+  url.searchParams.set('viewport', viewport)
+  return NextResponse.rewrite(url)
+}
+```
+
+in above, instead of device we can extract many things like
+- isBot
+- browser
+- device
+- engine
+- os
+- cpu
+
+
+## Video Optimization
+
+### Using <video> and <iframe>
+
+Videos can be embedded on the page using the HTML `<video>` tag for direct video files and `<iframe>` for external platform-hosted videos.
+
+#### <video>
+
+```jsx
+// app/ui/video.jsx
+
+export function Video() {
+  return (
+    <video width="320" height="240" controls preload="none">
+      <source src="/path/to/video.mp4" type="video/mp4" />
+      <track
+        src="/path/to/captions.vtt"
+        kind="subtitles"
+        srcLang="en"
+        label="English"
+      />
+      Your browser does not support the video tag.
+    </video>
+  )
+}
+```
+
+#### Common <video> tag attributes
+
+| Attribute   | Description                                                                                     | Example Value                          |
+|-------------|-------------------------------------------------------------------------------------------------|----------------------------------------|
+| src         | Specifies the source of the video file.                                                         | <video src="/path/to/video.mp4" />     |
+| width       | Sets the width of the video player.                                                             | <video width="320" />                  |
+| height      | Sets the height of the video player.                                                            | <video height="240" />                 |
+| controls    | If present, it displays the default set of playback controls.                                   | <video controls />                     |
+| autoPlay    | Automatically starts playing the video when the page loads. Note: Autoplay policies vary across browsers. | <video autoPlay />                     |
+| loop        | Loops the video playback.                                                                       | <video loop />                         |
+| muted       | Mutes the audio by default. Often used with autoPlay.                                           | <video muted />                        |
+| preload     | Specifies how the video is preloaded. Values: none, metadata, auto.                             | <video preload="none" />               |
+| playsInline | Enables inline playback on iOS devices, often necessary for autoplay to work on iOS Safari.     | <video playsInline />                  |
+
+
+#### <iframe>
+
+```js
+// app/page.jsx
+
+export default function Page() {
+  return (
+    <iframe
+      src="https://www.youtube.com/watch?v=gfU1iZnjRZM"
+      frameborder="0"
+      allowfullscreen
+    />
+  )
+}
+```
+
+#### Common <iframe> tag attributes
+
+| Attribute        | Description                                                                 | Example Value                          |
+|------------------|-----------------------------------------------------------------------------|----------------------------------------|
+| src              | The URL of the page to embed.                                               | <iframe src="https://example.com" />   |
+| width            | Sets the width of the iframe.                                               | <iframe width="500" />                 |
+| height           | Sets the height of the iframe.                                              | <iframe height="300" />                |
+| frameborder      | Specifies whether or not to display a border around the iframe.             | <iframe frameborder="0" />             |
+| allowfullscreen  | Allows the iframe content to be displayed in full-screen mode.              | <iframe allowfullscreen />             |
+| sandbox          | Enables an extra set of restrictions on the content within the iframe.      | <iframe sandbox />                     |
+| loading          | Optimize loading behavior (e.g., lazy loading).                             | <iframe loading="lazy" />              |
+| title            | Provides a title for the iframe to support accessibility.                   | <iframe title="Description" />         |
+
+
+
+If needed more about video - https://nextjs.org/docs/14/app/building-your-application/optimizing/videos
+
+
+### What are `rewrites`?
+- Allow you to **serve content from a different path or domain** while keeping the original URL in the browser.
+- User sees: `/about`  
+  Real content served from: `/` or an external URL.
+- Defined in `next.config.js`.
+
+
+```js
+module.exports = {
+  async rewrites() {
+    return [
+      {
+        source: '/about',
+        destination: '/',
+      },
+    ]
+  },
+}
+```
+
+#### What it means:
+- When someone visits `/about`, Next.js **tries to serve the content from `/`**.
+- Browser still **shows `/about`** in the URL bar.
+
+
+#### Important Behavior:
+- If you **have a real page** at `pages/about.js` or `app/about/page.js`, the rewrite **will NOT apply**.
+- Next.js gives **actual files/pages priority** over rewrites.
+
+
+#### **Modifications / Fixes**
+
+#### Fix Option 1: Remove the `/about` page
+- Rename/delete the `about` file if you want the rewrite to work:
+  ```bash
+  pages/about.js → pages/about.bak.js
+  ```
+
+#### Fix Option 2: Use a Redirect Instead
+- If your goal is to **redirect the user to home**, do this instead:
+
+```js
+module.exports = {
+  async redirects() {
+    return [
+      {
+        source: '/about',
+        destination: '/',
+        permanent: true, // or false for temporary redirect
+      },
+    ]
+  },
+}
+```
+
+more detail - https://nextjs.org/docs/14/app/api-reference/next-config-js/rewrites
+
+
+### useSelectedLayoutSegments
+
+It's a **React hook** provided by **Next.js App Router** that lets you get **specific parts of the current URL path** (segments), especially when using **nested layouts**.
+
+> Think of it as a way to read which part of the layout is currently active.
+
+Let's say your app has a URL like:
+
+```
+/dashboard/settings/profile
+```
+
+You might have a layout like:
+
+```
+app/
+  layout.js
+  dashboard/
+    layout.js
+    settings/
+      page.js
+```
+
+Now, inside `dashboard/layout.js`, if you run:
+
+```js
+'use client'
+import { useSelectedLayoutSegments } from 'next/navigation'
+
+export default function DashboardLayout({ children }) {
+  const segments = useSelectedLayoutSegments()
+  console.log(segments) // ["settings", "profile"]
+
+  return (
+    <>
+      <nav>Sidebar</nav>
+      {children}
+    </>
+  )
+}
+```
+
+You'll get:
+```js
+["settings", "profile"]
+```
+
+
+You can use it to:
+- **Highlight menu items** based on the current route.
+- Show/hide components conditionally depending on path.
+- Customize layout behavior dynamically.
+
+
+#### Notes
+- This **only works in the App Router** (`app/` directory).
+- It **returns only the segments under the layout** where it's called.
+- Always mark the file using this hook as `'use client'`.
+
+
+Ah yes! Let's now talk about **`useSelectedLayoutSegment`** (singular, not plural) — and how it’s different from `useSelectedLayoutSegments`.
+
+---
+
+### useSelectedLayoutSegment
+
+A **React hook** in the **Next.js App Router** that gives you the **active segment** (a part of the URL) under the current layout level.
+
+It’s similar to `useSelectedLayoutSegments`, but instead of an **array of all nested segments**, it just returns **one segment** — the one directly after the layout where it’s called.
+
+Let’s say your URL is:
+
+```
+/dashboard/settings/profile
+```
+
+And your app structure is:
+
+```
+app/
+  layout.js              // Root layout
+  dashboard/
+    layout.js            // Dashboard layout
+    settings/
+      page.js
+```
+
+Now in `dashboard/layout.js`, if you use:
+
+```js
+'use client'
+import { useSelectedLayoutSegment } from 'next/navigation'
+
+export default function DashboardLayout({ children }) {
+  const segment = useSelectedLayoutSegment()
+  console.log(segment) // 'settings'
+
+  return (
+    <>
+      <aside>Sidebar</aside>
+      {children}
+    </>
+  )
+}
+```
+
+You’ll get:
+
+```js
+'settings'
+```
+
+That’s because **`settings`** is the **next path segment** under `/dashboard`.
+
+
+#### Why use it?
+
+Use `useSelectedLayoutSegment` when you:
+- Only care about **one level of the route** (like which tab or section is active).
+- Want to keep your logic cleaner than working with arrays.
+
+
+#### Notes
+
+| Point | Detail |
+|-------|--------|
+| Directory Required | Works only in `app/` directory |
+| Client Component | Must use `'use client'` |
+| Returns | A single string segment (e.g., `'settings'`) or `null` |
+| Level-aware | Returns segment **relative to the current layout** |
+
+
+## ✅ Summary
+
+| Hook | Returns | Use case |
+|------|---------|----------|
+| `useSelectedLayoutSegment()` | `'settings'` | When you only need the next segment |
+| `useSelectedLayoutSegments()` | `['settings', 'profile']` | When you want all nested segments |
+
+<br>
+<br>
+
+### permanentRedirect
+
+`permanentRedirect()` is a helper from Next.js that lets you **redirect users** to a **new URL with a 308 status code** — meaning:
+
+> "This route has **permanently moved** to a new location."
+
+Use `permanentRedirect` when:
+- A page or route has **moved permanently**
+- You want search engines to **update their index** to the new URL
+- You want the browser to **remember** the new path
+
+
+```js
+// app/old-page/page.js
+import { permanentRedirect } from 'next/navigation'
+
+export default function Page() {
+  permanentRedirect('/new-page')
+}
+```
+
+#### Behavior:
+- If a user visits `/old-page`, they are immediately **redirected to `/new-page`**
+- The server sends HTTP status **308 Permanent Redirect**
+- Search engines know that this is a **permanent move**
+
+#### 308 vs 307 vs 302?
+
+| Code | Type            | Browser Caching | SEO Impact |
+|------|------------------|------------------|-------------|
+| `308` | Permanent Redirect | ✅ Yes           | ✅ Yes (recommended) |
+| `307` | Temporary Redirect | ❌ No            | ❌ No SEO change |
+| `302` | Temporary Redirect (legacy) | ❌ No | ❌ No SEO change |
+
+
+#### ⚠️ Notes
+- Only works in **Server Components** (like `page.js`)
+- Must be called **synchronously** at the top level of your component
+
+## ✅ Good for:
+- Old blog URLs moved to new structure
+- Renamed routes like `/about-us` → `/company`
+- Replacing legacy paths
+
+<br>
+<br>
 
 ---------------
 Ye dekhna h
-
-- https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata
-- https://nextjs.org/docs/14/app/api-reference/functions/permanentRedirect
-- https://nextjs.org/docs/14/app/api-reference/functions/use-search-params
-- https://nextjs.org/docs/14/app/api-reference/functions/use-selected-layout-segment
-- https://nextjs.org/docs/14/app/api-reference/functions/use-selected-layout-segments
-- https://nextjs.org/docs/14/app/api-reference/functions/userAgent
-- https://nextjs.org/docs/14/app/api-reference/next-config-js/crossOrigin
-- https://nextjs.org/docs/14/app/api-reference/next-config-js/optimizePackageImports
-- https://nextjs.org/docs/14/app/api-reference/next-config-js/output
-- https://nextjs.org/docs/14/app/api-reference/next-config-js/redirects
-- https://nextjs.org/docs/14/app/api-reference/next-config-js/rewrites
-- https://nextjs.org/docs/14/app/api-reference/next-config-js/transpilePackages
-- https://nextjs.org/docs/14/app/building-your-application/deploying/static-exports
-- https://nextjs.org/docs/14/app/building-your-application/authentication
-
-Above is when you need to read authentication in detail
-
-- https://nextjs.org/docs/14/app/building-your-application/configuring/draft-mode
-- https://nextjs.org/docs/14/app/building-your-application/optimizing/videos
-- https://nextjs.org/docs/14/app/building-your-application/optimizing/fonts
-- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/app-icons
-- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/opengraph-image
-- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/robots
-- https://nextjs.org/docs/14/app/api-reference/file-conventions/metadata/sitemap
 - https://nextjs.org/docs/14/app/building-your-application/optimizing/lazy-loading
-- https://nextjs.org/docs/14/app/building-your-application/optimizing/open-telemetry
-- https://nextjs.org/docs/14/app/building-your-application/optimizing/memory-usage
-- https://nextjs.org/docs/14/app/building-your-application/caching
-- https://nextjs.org/docs/14/app/building-your-application/rendering
-- https://nextjs.org/docs/14/app/building-your-application/data-fetching
+- https://nextjs.org/docs/14/app/building-your-application/caching - time lagega
+- https://nextjs.org/docs/14/app/building-your-application/rendering - time lagega
+- https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata - time lagega
+- https://nextjs.org/docs/14/app/building-your-application/routing/loading-ui-and-streaming
+- https://nextjs.org/docs/14/app/building-your-application/configuring/draft-mode - smjh nhi aya
+- https://nextjs.org/docs/14/app/building-your-application/authentication - Above is when you need to read authentication in detail
+- https://nextjs.org/docs/14/app/building-your-application/deploying/static-exports - not needed now
+- https://nextjs.org/docs/14/app/api-reference/next-config-js/output
 
 
 <br>
@@ -4911,6 +5540,19 @@ module.exports = {
 
 - permanent true or false - if true will use the 308 status code which instructs clients/search engines to cache the redirect forever, if false will use the 307 status code which is temporary and is not cached.
 
+- When a redirect is applied, any query values provided in the request will be passed through to the redirect destination. For example, see the following redirect configuration:
+
+```js
+{
+  source: '/old-blog/:path*',
+  destination: '/blog/:path*',
+  permanent: false
+}
+```
+When `/old-blog/post-1?hello=world` is requested, the client will be redirected to `/blog/post-1?hello=world`.
+
+more details - https://nextjs.org/docs/14/app/api-reference/next-config-js/redirects
+
 > ### NextResponse.redirect in Middleware
 
 middleware addition
@@ -5099,8 +5741,9 @@ An object containing information about the operating system.
 
 ### To configure the build folder name
 
-next.config.js
 ```js
+// next.config.js
+
 module.exports = {
   distDir: 'build',  // build instead of the default .next folder
   productionBrowserSourceMaps: true,  // enable SourceMap in production
@@ -5112,6 +5755,7 @@ module.exports = {
       exclude: ['error'],
     },
   },
+  crossOrigin: 'anonymous' or 'use-credentials', // anonymous means cross-origin request without including credentials, this is default applied to all scripts
 }
 ```
 
