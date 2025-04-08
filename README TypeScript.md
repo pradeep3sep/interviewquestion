@@ -640,70 +640,121 @@ printCoord({ x: 100, y: 100 });
 
 ### Differences Between Type Aliases and Interfaces
 
-Type aliases and interfaces are very similar, and in many cases you can choose between them freely.
-Almost all features of an `interface` are available in `type`
+- one genric diff is type has equal(=) sign before object while interace don't
 
-- the key distinction is that a `type` cannot be re-opened to add new properties vs an `interface` which is always extendable.
+| Feature                         | `type`                                     | `interface`                              |
+|-------------------------------|--------------------------------------------|------------------------------------------|
+| ✅ Can describe objects        | Yes                                        | Yes                                      |
+| ✅ Can be extended             | Yes (with `&`)                              | Yes (with `extends`)                     |
+| 🔁 Can be reopened/merged      | ❌ No                                       | ✅ Yes                                    |
+| 🔣 Can define primitives       | ✅ Yes (`type Age = number`)               | ❌ No (only objects)                     |
+| 🧩 More suitable for           | Union types, complex types                 | Class-like structures, OOP-style objects |
+| 👨‍👩‍👧‍👦 Can be implemented by class | ❌ No                                       | ✅ Yes (`class MyClass implements MyInterface`) |
 
+<br>
 
-- use custom `types` when you need unions, intersections, or mapped types
-- use `interface` when defining object shapes or classes that adhere to a contract
+#### 1. used for object
+Both **type aliases** and **interfaces** are used to define the shape of an object (or structure of data).  
+Example:
 
-- custom `types` can use unions and intersections for more complex type compositions
-- `interfaces` can extend other interfaces to inherit their members.
+```ts
+type User = {
+  name: string;
+  age: number;
+};
 
-  eg `types`
-
-```js
-type Stud = {
-    name: string,
-    age: string
+interface User {
+  name: string;
+  age: number;
 }
-
-type StudAddr = {
-    city: string,
-    state: string
-}
-
-type data = Stud & StudAddr
-
-const bioData:data  = {
-    name: 'vinode',
-    age: "29",
-    city: "Pune",
-    state: "MM"
-}
-
-console.log(bioData)
 ```
-  
+<br>
 
-eg `interface`
+#### 2. Extending
+```ts
+// Type
+type Animal = { name: string };
+type Dog = Animal & { breed: string };
 
-keep in mind equal to (=) sign hath gya h and extends word use hua h operator ki jgh and {}
-
-```js
-interface Stud {
-    name: string,
-    age: string
-}
-
-interface StudAddr {
-    city: string,
-    state: string
-}
-interface data extends Stud, StudAddr {}
-
-const bioData:data  = {
-    name: 'vinode',
-    age: "29",
-    city: "Pune",
-    state: "MM"
-}
-
-console.log(bioData)
+// Interface
+interface Animal { name: string }
+interface Dog extends Animal { breed: string }
 ```
 
+#### 3. Merging
+```ts
+// Interface can be merged
+interface Person { name: string }
+interface Person { age: number }
+
+// Result: { name: string; age: number }
+```
+
+```ts
+// Type cannot be merged
+type Person = { name: string }
+// ❌ Cannot redefine "Person" again
+```
+
+
+#### 4. Primitive/object
+
+```ts
+type Age = number;
+type Name = string;
+type IsActive = boolean;
+
+type Animal = {
+  name: string;
+};
+```
+
+```ts
+// ❌ This is NOT allowed:
+interface Age = number; // ❌ Syntax error
+
+interface User {  // this is allowed
+  name: string;
+  age: number;
+}
+
+```
+
+
+#### 5. Classes usage
+
+```ts
+type Animal = {
+  name: string;
+  speak(): void;
+}
+
+// ❌ Error: A class can only implement an object type or intersection of object types with statically known members
+class Dog implements Animal {
+  name = "Buddy";
+
+  speak() {
+    console.log("Woof!");
+  }
+}
+```
+
+```ts
+interface Animal {
+  name: string;
+  speak(): void;
+}
+
+class Dog implements Animal {
+  name = "Buddy";
+
+  speak() {
+    console.log("Woof!");
+  }
+}
+```
+
+Note:\
 two `interface` can have same and when we use that interface it has combine value in it, but this can not happen in `type` it will show error `Duplicate identifier`
 
 ```js
@@ -729,8 +780,143 @@ console.log(bioData)
 ```
 
 <br>
+<br>
 
-#### Constraints
+
+### Function Type Expressions
+
+```js
+function greeter(fn: (a: string) => void) {
+  fn("Hello, World");
+}
+function printToConsole(s: string) {
+  console.log(s);
+}
+greeter(printToConsole);
+```
+The syntax `(a: string) => void` means "a function with one parameter, named `a` , of type `string`, that doesn't have a return value. Just like with function declarations, if a parameter type isn't specified, it's implicitly `any` .
+
+using the `type` alias
+```ts
+type GreetFunction = (a: string) => void;
+
+function greeter(fn: GreetFunction) {
+ // ...
+}
+```
+
+<br>
+<br>
+
+### Generic Functions
+It's common to write a function where the types(can be string, number, boolean, object, etc) of the input relate to the type of the output
+
+```ts
+function firstElement<Type>(arr: Type[]): Type {
+  return arr[0];
+}
+
+const stringArray: string[] = ["apple", "banana", "orange"];
+console.log(firstElement(stringArray)); // Output: "apple"
+
+const stringNumber: number[] = [1, 2, 3];
+console.log(firstElement(stringNumber)); // Output: 1
+```
+
+in above we defined that the `Type` let say `string`, it means thaat arr value will be `array of string` and `return` value will be `string`
+
+below is one more example
+
+```ts
+function map<Input, Output>(arr: Input[], func: (arg: Input) => Output): Output[] {
+  return arr.map(func);
+}
+const parsed = map(["1", "2", "3"], (n) => parseInt(n));
+console.log(parsed) // gives [1,2,3]
+```
+- The `map` function is a generic function that takes two type parameters (`Input` and `Output`).
+- It takes an array `arr` of type `Input[]` and a function `func` that takes an argument of type `Input` and returns a value of type `Output`.
+- The function returns an array of type `Output[]` by applying the provided function func to each element of the input array `arr` using the `map` method.
+- In this example, the `map` function is used to transform an array of strings into an array of numbers.
+- The input array `["1", "2", "3"]` is of type `string[]`.
+- The provided mapping function `(n) => parseInt(n)` takes a string and converts it to a `number` using `parseInt`. So when you hover it will show `function(n: string): number` means return value is number 
+- The result is an array of numbers, and the variable `parsed` is inferred to have the type `number[]`.
+
+<br>
+
+key checking in ts, which sometimes useful is
+```ts
+if('propertyName' in createdObject){
+    // do something
+}
+```
+above is replacemnet for some time below checking when show error
+```ts
+if(createdObject.propertyName){
+    // do something
+}
+```
+<br>
+
+we have another way of checking is
+
+```ts
+if(newSubClass instanceof baseClass){
+    // do something
+}
+```
+
+
+**Extends in generic function**
+
+```ts
+function longest<Type extends { length: number }>(a: Type, b: Type) {
+ if(a.length >= b.length) {
+    return a;
+ } else {
+    return b;
+ }
+}
+
+// longerArray is of type 'number[]'
+const longerArray = longest([1, 2], [1, 2, 3]);
+// longerString is of type 'alice' | 'bob'
+const longerString = longest("alice", "bob");
+
+```
+The provided TypeScript function, longest, is a generic function that takes two parameters of the same type, and the type is constrained to a structure with a length property.\
+The `extends { length: number }` part is a constraint on the generic type. It means that `Type` must have a `length` property of type `number`.
+
+<br>
+<br>
+
+### Generic Object Types and Interface
+```ts
+interface Box {
+  contents: any;
+}
+```
+for above requirement, we can make it generic type which is more good
+
+```ts
+interface Box<Type> {
+ contents: Type;
+}
+
+let boxA: Box<string> = { contents: "hello" };
+```
+
+also below is generic `type`
+```ts
+type Box<Type> = {
+  contents: Type;
+};
+```
+
+<br>
+<br>
+
+### Constraints
 
 We constrain the type parameter to that type by writing an extends clause. Constraint means it should have that property.
 
@@ -751,9 +937,10 @@ In above, whatever we pass in logLength as parameter should have length property
 
 
 <br>
+<br>
 
 
-#### Non-null Assertion Operator (Postfix ! )
+### Non-null Assertion Operator (Postfix ! )
 
 important to only use `!` when you know that the value can't be `null` or `undefined`.
 
@@ -765,48 +952,26 @@ function liveDangerously(x?: number | null) {
 ```
 or
 
-```js
+```ts
 const userInputElement = <HTMLInputElement>document.getElementById('user-input')!;
 ```
 or 
 
-```js
+```ts
 const userInputElement = document.getElementById('user-input')! as HTMLInputElement;
 ```
 - HTMLInputElement should be as per need, syntex is fixed but not value, if we have taken the `<input/>` in html then HTMLInputElement should be used. if `<p></p>` taken then HTMLParagraphElement.
 
 <br>
-
-#### Function Type Expressions
-
-```js
-function greeter(fn: (a: string) => void) {
-  fn("Hello, World");
-}
-function printToConsole(s: string) {
-  console.log(s);
-}
-greeter(printToConsole);
-```
-The syntax `(a: string) => void` means "a function with one parameter, named `a` , of type `string`, that doesn't have a return value. Just like with function declarations, if a parameter type isn't specified, it's implicitly `any` .
-
-using the `type` alias
-```
-type GreetFunction = (a: string) => void;
-
-function greeter(fn: GreetFunction) {
- // ...
-}
-```
-
 <br>
 
-#### Call Signatures
-```
+### Call Signatures
+```ts
 type DescribableFunction = {
     description: string;
     (someArg: number): boolean;
 };
+
 function doSomething(fn: DescribableFunction) {
     console.log(fn.description + " returned " + fn(6));
 }
@@ -817,97 +982,23 @@ It is also a callable function that takes a single argument `someArg` of type `n
 
 
 <br>
-
-#### Generic Functions
-It's common to write a function where the types(can be string, number, boolean, object, etc) of the input relate to the type of the output
-
-```
-function firstElement<Type>(arr: Type[]): Type {
-  return arr[0];
-}
-
-const stringArray: string[] = ["apple", "banana", "orange"];
-console.log(firstElement(stringArray)); // Output: "apple"
-
-```
-
-in above we defined that the `Type` let say `string`, it means thaat arr value will be `array of string` and `return` value will be `string`
-
-below is one more example
-
-```
-function map<Input, Output>(arr: Input[], func: (arg: Input) => Output): Output[] {
-  return arr.map(func);
-}
-const parsed = map(["1", "2", "3"], (n) => parseInt(n));
-console.log(parsed) // gives [1,2,3]
-```
-- The `map` function is a generic function that takes two type parameters (`Input` and `Output`).
-- It takes an array `arr` of type `Input[]` and a function `func` that takes an argument of type `Input` and returns a value of type `Output`.
-- The function returns an array of type `Output[]` by applying the provided function func to each element of the input array `arr` using the `map` method.
-- In this example, the `map` function is used to transform an array of strings into an array of numbers.
-- The input array `["1", "2", "3"]` is of type `string[]`.
-- The provided mapping function `(n) => parseInt(n)` takes a string and converts it to a `number` using `parseInt`. So when you hover it will show `function(n: string): number` means return value is number 
-- The result is an array of numbers, and the variable `parsed` is inferred to have the type `number[]`.
-
----
-
-key checking in ts, which sometimes useful is
-```
-if('propertyName' in createdObject){
-    // do something
-}
-```
-above is replacemnet for some time below checking when show error
-```
-if(createdObject.propertyName){
-    // do something
-}
-```
-
-we have another way of checking is
-
-```
-if(newSubClass instanceof baseClass){
-    // do something
-}
-```
-
----
+<br>
 
 
-```
-function longest<Type extends { length: number }>(a: Type, b: Type) {
- if(a.length >= b.length) {
-    return a;
- } else {
-    return b;
- }
-}
-
-// longerArray is of type 'number[]'
-const longerArray = longest([1, 2], [1, 2, 3]);
-// longerString is of type 'alice' | 'bob'
-const longerString = longest("alice", "bob");
-
-```
-The provided TypeScript function, longest, is a generic function that takes two parameters of the same type, and the type is constrained to a structure with a length property.\
-The `extends { length: number }` part is a constraint on the generic type. It means that `Type` must have a `length` property of type `number`.
-
-
-#### Index Signatures
-
+### Index Signatures
 
 In TypeScript, index signatures allow you to define a type that represents the `allowable keys` and their corresponding `value types` in an object. This is particularly useful when you want to create objects with dynamic keys, where the keys are not known in advance.\
 
 The syntax for an index signature looks like this:
-```
-{ [keyType: string]: valueType }
+```ts
+{ 
+  [keyType: string]: valueType 
+}
 ```
 
 Here, `keyType` is the type of the keys, and `valueType` is the type of the corresponding values. For example:
 
-```
+```ts
 interface StringMap {
   [key: string]: string;
 }
@@ -921,7 +1012,7 @@ const myMap: StringMap = {
 
 stringMap will always be have key which is always string and its value will always be string.
 
-```
+```ts
 interface NumberDictionary {
  [index: string]: number;
  length: number; // ok
@@ -930,35 +1021,13 @@ interface NumberDictionary {
 ```
 
 <br>
+<br>
 
-#### Generic Object Types and Interface
-```
-interface Box {
-  contents: any;
-}
-```
-for above requirement, we can make it generic type which is more good
-
-```
-interface Box<Type> {
- contents: Type;
-}
-
-let boxA: Box<string> = { contents: "hello" };
-```
-
-also below is generic `type`
-```
-type Box<Type> = {
-  contents: Type;
-};
-```
-
-#### The Array Type
+### The Array Type
 
 Whenever we write out types like `number[]` or `string[]` , that's really just a shorthand for `Array<number>` and `Array<string>` .
 
-```
+```ts
 function doSomething(value: Array<string>) {
  // ...
 }
@@ -970,11 +1039,14 @@ doSomething(myArray);
 doSomething(new Array("hello", "world"));
 ```
 
-#### The `ReadonlyArray` Type
+<br>
+<br>
+
+### The `ReadonlyArray` Type
 
 The `ReadonlyArray` is a special type that describes arrays that shouldn't be changed.
 
-```
+```ts
 function doStuff(values: ReadonlyArray<string>) {
 
   // We can read from 'values'...
@@ -990,7 +1062,7 @@ function doStuff(values: ReadonlyArray<string>) {
 Just as TypeScript provides a shorthand syntax for `Array<Type>` with `Type[]` , it also provides a shorthand syntax for `ReadonlyArray<Type>` with readonly `Type[]` .
 below is the code
 
-```
+```ts
 function doStuff(values: readonly string[]) {
  // We can read from 'values'...
  const copy = values.slice();
@@ -1000,18 +1072,20 @@ function doStuff(values: readonly string[]) {
 }
 
 ```
+<br>
+<br>
 
-#### Tuple Types
+### Tuple Types
 
-A tuple type is another sort of Array type that knows exactly how many elements it contains, and exactly which types it contains at specific positions.
+A tuple type is another sort of Array type that knows `exactly how many elements it contains`, and exactly which types it contains at specific positions.
 
-```
+```ts
 type StringNumberPair = [string, number];
 ```
 
-- Key point to note here `push` is exceptional in tuple. Like if we have defined the tuple then we can push in that. below is example
+- **Note :**Key point to note here `push` is exceptional in tuple. Like if we have defined the tuple then we can push in that. below is example
 
-```
+```ts
 const person: {
   name: string;
   age: number;
@@ -1032,13 +1106,16 @@ person.role = [0, 'admin', 'user'];
 ```
 
 
-#### Optional Tuples
-```
+### Optional Tuples
+```ts
 type Either2dOr3d = [number, number, number?];
 ```
 
+<br>
+<br>
+
 #### Generic Classes
-```
+```ts
 class GenericNumber<NumType> {
   zeroValue: NumType;
   add: (x: NumType, y: NumType) => NumType;
@@ -1051,9 +1128,11 @@ myGenericNumber.add = function (x, y) {
   return x + y;
 };
 ```
+<br>
+<br>
 
 #### Generic Constraints
-```
+```ts
 interface Lengthwise {
   length: number;
 }
@@ -1064,26 +1143,34 @@ function loggingIdentity<Type extends Lengthwise>(arg: Type): Type {
 }
 ```
 
-#### The `keyof` type operator
+<br>
+<br>
+
+### The `keyof` type operator
 The `keyof` operator takes an object type and produces a string or numeric literal union of its keys.
 The following type `P` is the same type as `"x" | "y"`:
 
-```
+```ts
 type Point = { x: number; y: number };
 type P = keyof Point;
 ```
 
+The following type P is the same type as `type P = "x" | "y"`
+
 
 If the type has a `string` or `number` index signature, `keyof` will return those types instead:
-```
+```ts
 type Arrayish = { [n: number]: unknown };
 type A = keyof Arrayish;
 ```
 in above `type A = number`
 
-#### predefined type `ReturnType<T>`
+<br>
+<br>
+
+### predefined type `ReturnType<T>`
 It takes a function type and produces its return type:
-```
+```ts
 type Predicate = (x: unknown) => boolean;
 type K = ReturnType<Predicate>;
  //type K is boolean
@@ -1092,7 +1179,7 @@ type K = ReturnType<Predicate>;
 
 If we try to use ReturnType on a function name, we see an instructive error:
 
-```
+```ts
 function f() {
  return { x: 10, y: 3 };
 }
@@ -1101,7 +1188,7 @@ type P = ReturnType<f>;
 ```
 
 Remember that values and types aren't the same thing. To refer to the type that the value f has, we use typeof :
-```
+```ts
 function f() {
  return { x: 10, y: 3 };
 }
@@ -1112,9 +1199,11 @@ type P = ReturnType<typeof f>;
  y: number;
 } *//
 ```
+<br>
+<br>
 
-#### Indexed Access Types
-```
+### Indexed Access Types
+```ts
 type Person = { age: number; name: string; alive: boolean };
 
 type I1 = Person["age" | "name"];
@@ -1129,7 +1218,7 @@ Another example of `indexing` with an arbitrary type is using `number` to get th
 elements. We can combine this with `typeof` to conveniently capture the element type of an array
 literal:
 
-```
+```ts
 const MyArray = [
  { name: "Alice", age: 15 },
  { name: "Bob", age: 23 },
@@ -1146,31 +1235,30 @@ type Age = typeof MyArray[number]["age"];
 // Or
 type Age2 = Person["age"];
  //onHover we will see type Age2 = number
-
 ```
 
 You can only use types when indexing, meaning you can't use a const to make a variable
 reference:
 
-```
+```ts
 const key = "age";
 type Age = Person[key];
 // error will show Type 'key' cannot be used as an index type. 'key' refers to a value, but is being used as a type here. Did you mean 'typeof key'?
 ```
 
 However, you can use a type alias for a similar style of refactor:
-```
+```ts
 type key = "age";
 type Age = Person[key];
 ```
 
-#### Conditional Types 119 to 125 smjh nhi aaya
+<br>
+<br>
 
-
-#### Mapped Types
+### Mapped Types
 mapped type is like using mapping function of JS on types of Typescript
 
-```
+```ts
 type CreateMutable<Type> = {
  readonly [Property in keyof Type]: Type[Property]; 
 };
@@ -1187,9 +1275,11 @@ type UnlockedAccount = CreateMutable<LockedAccount>;
     readonly name: string;
 }*/
 ```
+<br>
+<br>
 
-#### Template Literal Types
-```
+### Template Literal Types
+```ts
 type EmailLocaleIDs = "welcome_email" | "email_heading";
 type FooterLocaleIDs = "footer_title" | "footer_sendoff";
 type AllLocaleIDs = `${EmailLocaleIDs | FooterLocaleIDs}_id`;
@@ -1197,12 +1287,15 @@ type AllLocaleIDs = `${EmailLocaleIDs | FooterLocaleIDs}_id`;
 type Lang = "en" | "ja" | "pt";
 type LocaleMessageIDs = `${Lang}_${AllLocaleIDs}`;
 ```
+
+
 aboves gives on hovering LocaleMessageIDs
-```
+```ts
 type LocaleMessageIDs = "en_welcome_email_id" | "en_email_heading_id" | "en_footer_title_id" | "en_footer_sendoff_id" | "ja_welcome_email_id" | "ja_email_heading_id" | "ja_footer_title_id" | "ja_footer_sendoff_id" | "pt_welcome_email_id" | "pt_email_heading_id" | "pt_footer_title_id" | "pt_footer_sendoff_id"
 ```
 
-
+<br>
+<br>
 
 ---
 <br>
@@ -1525,21 +1618,12 @@ console.log(obj.getName());
 
 Long story short, by default, the value of this inside a function depends on how the function was called. In this example, because the function was called through the obj reference, its value of this was obj rather than the class instance.
 
-#### Arrow Functions
-```
-class MyClass {
- name = "MyClass";
- getName = () => {
- return this.name;
- };
-}
-const c = new MyClass();
-const g = c.getName;
-// Prints "MyClass" instead of crashing
-console.log(g());
-```
+<br>
+<br>
 
 ### Decorators
+
+<details>
 
 ## Niche wala point imp h, ye use nhi kia tha bhuat dikkat aa rahi thi
 To enable experimental support for decorators, you must enable the `experimentalDecorators` compiler option either on the command line or in your `tsconfig.json`:
@@ -1756,6 +1840,7 @@ gives output
 "second(): called" 
 "first(): called" 
 ```
+</details>
 
 ------------------------
 
@@ -1810,6 +1895,7 @@ namespace App {
 ```
 
 <br>
+
 - ES6 Modules, import and export method
 This is recommended approach
 
@@ -1841,6 +1927,8 @@ new ProjectList('active');
 
 
 ----
+<br>
+<br>
 
 ### Webpack
 What happen is when we import many file in app.ts, we see many file download request in network section,each section takes few milisec time to setup an then request is fired.To overcome this time effect we make single bundle using the webpack.
@@ -1852,8 +1940,9 @@ Command line to install is
 npm i --save-dev webpack webpack-cli webpack-dev-server typescript ts-loader
 ```
 
-In webpack.config.js
-```
+```ts
+// In webpack.config.js
+
 const path = require('path');
  
 module.exports = {
@@ -1881,10 +1970,12 @@ module.exports = {
   ]
 };
 ```
+<br>
+<br>
 
-#### Use of Super for self revison
+### Use of Super for self revison
 We use the super to base reuirement to base class
-```
+```ts
 class Department {
   // private readonly id: string;
   // private name: string;
@@ -1923,10 +2014,12 @@ const it = new ITDepartment('d1', ['Max']);
 
 it.describe();
 ```
+<br>
+<br>
 
-#### Typecasting
+### Typecasting
 When we don't know the data which is coming from api, but we want to add limitiations to it. then we do the procedure
-```
+```ts
 export const createTodo: RequestHandler = (req, res, next) => {
   const text = (req.body as {text: string}).text;
   const newTodo = new Todo(Math.random().toString(), text);
@@ -1938,15 +2031,17 @@ export const createTodo: RequestHandler = (req, res, next) => {
 in above we states `(req.body as {text: string}).text;` that text will be available and it will be of string
 
 Sometime we need the value of input of html, then we use that in below form
-```
+```ts
 const userInputElement = document.getElementById('user-input')! as HTMLInputElement;
 userInputElement.value = "hi"
 ```
 
+<br>
+<br>
 
-#### Handling the props in ts way in react js
+### Handling the props in ts way in react js
 
-```
+```ts
 interface TodoListProps {
   items: { id: string; text: string }[];
   onDeleteTodo: (id: string) => void;
@@ -1970,9 +2065,9 @@ const TodoList: React.FC<TodoListProps> = props => {
 
 we have handled the props details through TodoListProps
 
-#### Using the useRef,FormEvent,React.FC  in ts
+### Using the useRef,FormEvent,React.FC  in ts
 
-```
+```ts
 type NewTodoProps = {
   onAddTodo: (todoText: string) => void;
 };
@@ -1997,11 +2092,13 @@ const NewTodo: React.FC<NewTodoProps> = props => {
   );
 };
 ```
+<br>
+<br>
 
 ### Declare in TS,  Response setup from api calling, in this we define the way in which reponse should come means what should come in it(GoogleGeocodingResponse).
 When we need any variable which needs to available globally, we use the `declare`
 
-```
+```ts
 declare var google: any;
 
 type GoogleGeocodingResponse = {
@@ -2039,7 +2136,8 @@ function searchAddressHandler(event: Event) {
 
 form.addEventListener("submit", searchAddressHandler);
 ```
-
+<br>
+<br>
 
 #### Partial Type in TS
 Constructs a type with all properties of Type set to optional. 
