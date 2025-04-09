@@ -1075,6 +1075,31 @@ function doStuff(values: readonly string[]) {
 <br>
 <br>
 
+### Record<Keys, Type>
+
+Constructs an `object` type whose property `keys` are `Key`s and whose property `values` are `Type`. This utility can be used to map the properties of a type to another type.
+
+```ts
+type CatName = "miffy" | "boris" | "mordred";
+
+interface CatInfo {
+  age: number;
+  breed: string;
+}
+
+const cats: Record<CatName, CatInfo> = {
+  miffy: { age: 10, breed: "Persian" },
+  boris: { age: 5, breed: "Maine Coon" },
+  mordred: { age: 16, breed: "British Shorthair" },
+};
+
+cats.boris;
+// on hovering cats -> const cats: Record<CatName, CatInfo>
+```
+
+<br>
+<br>
+
 ### Tuple Types
 
 A tuple type is another sort of Array type that knows `exactly how many elements it contains`, and exactly which types it contains at specific positions.
