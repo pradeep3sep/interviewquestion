@@ -735,6 +735,115 @@ import styles from "./app.module.css"
 > ### What are forward refs?
 Ref forwarding is a feature that lets some components take a ref they receive, and pass it further down to a child.
 
+```js
+import React, { forwardRef } from 'react';
+
+const Input = (props, ref) => {   // keep in mind, ref props me nhi aaya h
+  return <input ref={ref} {...props} />;
+};
+
+export default forwardRef(Input);
+```
+
+
+```js
+import React, { useRef, useEffect } from 'react';
+import Input from './Input';
+
+function App() {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, []);
+
+  return (
+    <div>
+      <Input placeholder="Type here" ref={inputRef} />
+    </div>
+  );
+}
+```
+
+<br>
+
+> ### What is useImperativeHandle
+
+`useImperativeHandle`, which is used `with forwardRef` when you want to `expose custom methods or properties` to the parent that uses the ref ie child component
+
+
+**Example: Modal Component with useImperativeHandle**
+
+- useImperativeHandle should return object having functions like method which we use in parent component
+
+```ts
+// child component
+
+import React, {
+  forwardRef,
+  useImperativeHandle,
+  useState,
+} from 'react';
+
+const Modal = forwardRef((props, ref) => {   //keep in mind ref does not come in props while usinh forward ref
+  const [isOpen, setIsOpen] = useState(false);
+
+  // Expose open and close methods
+  useImperativeHandle(ref, () => ({
+    open: () => setIsOpen(true),
+    close: () => setIsOpen(false),
+  }));
+
+  if (!isOpen) return null;
+
+  return (
+    <div style={styles.overlay}>
+      <div style={styles.modal}>
+        <p>This is a modal</p>
+        <button onClick={() => setIsOpen(false)}>Close</button>
+      </div>
+    </div>
+  );
+});
+
+export default Modal;
+
+// Just for demo styling
+const styles = {
+  overlay: {
+    position: 'fixed',
+    inset: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modal: {
+    backgroundColor: '#fff',
+    padding: '1rem 2rem',
+    borderRadius: '8px',
+  },
+};
+```
+
+
+```ts
+// parent component
+import React, { useRef } from 'react';
+import Modal from './Modal';
+
+function App() {
+  const modalRef = useRef();
+
+  return (
+    <div>
+      <h1>Hello!</h1>
+      <button onClick={() => modalRef.current?.open()}>Open Modal</button>
+      <Modal ref={modalRef} />
+    </div>
+  );
+}
+```
 
 <br>
 

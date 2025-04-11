@@ -163,8 +163,8 @@ The basic types are :
 - boolean
 - `Array`. You can specify the types of an array's elements. There are two equivalent ways to define array types:\
   `Array<T>` and `T[]`. For example:
-  - `number[]` - array of numbers
-  - `Array<string>` - array of strings
+  - `string[]` - array of string
+  - `Array<string>` - array of strings - **Please consider this and above line as both are different way of same thing**
 - `Tuples`. Tuples have a fixed number of elements with specific types.
   - `[boolean, string]` - tuple where the first element is a boolean and the second is a string.
   - `[number, number, number]` - tuple of three numbers.
@@ -184,6 +184,20 @@ The basic types are :
   - (a: string, b?: boolean) => void - function taking a string and optionally a boolean with no return value.
 - `any` - Permits any type. Expressions involving any are not type checked.
 - `void` - represents "nothing", can be used as a function return value. Only `null` and `undefined` are part of the void type.
+- **If you have nothing to retun instead of return undefined, you can use void to return**
+  ```ts
+  type Pra = (a: number) => void;
+
+  const red: Pra = (a) => {
+    // your implementation here
+    console.log(a);
+  };
+  // or
+  const red: Pra = function (a) {
+    // your implementation here
+    console.log(a);
+  };
+  ```
 - never
   - `let` foo: never; -As the type of variables under type guards that are never true.
   - `function` error(message: string): never { throw new Error(message); } - As the return type of functions that never return.
@@ -808,8 +822,34 @@ function greeter(fn: GreetFunction) {
 <br>
 <br>
 
+### Generic Types
+
+Whatever we put inside the <> is called the generic
+
+```ts
+type DataStorage<T> = {
+  storage: T[];
+  add: (data: T) => void;
+};
+
+// Here T is generic means whatever we pass as T, will be its type on every position of T
+
+const textStorage: DataStorage<string> = {
+  storage: [],
+  add(data) {
+    this.storage.push(data);
+  },
+};
+
+// Above we pass string to be used as generic
+```
+
+<br>
+<br>
+
 ### Generic Functions
-It's common to write a function where the types(can be string, number, boolean, object, etc) of the input relate to the type of the output
+- As names, it is generic in nature
+- Generic functions are the function in which we pass the type separately as per use everytime we use it
 
 ```ts
 function firstElement<Type>(arr: Type[]): Type {
@@ -825,37 +865,41 @@ console.log(firstElement(stringNumber)); // Output: 1
 
 in above we defined that the `Type` let say `string`, it means thaat arr value will be `array of string` and `return` value will be `string`
 
-below is one more example
+below is one more example, here we pass 2 generic one is 'input' and other is 'output'
 
 ```ts
-function map<Input, Output>(arr: Input[], func: (arg: Input) => Output): Output[] {
-  return arr.map(func);
+function merge<T, U>(a: T, b: U) {
+  return {
+    ...a,
+    ...b,
+  };
 }
-const parsed = map(["1", "2", "3"], (n) => parseInt(n));
-console.log(parsed) // gives [1,2,3]
+
+const newUser = merge(
+  { name: 'Max' },
+  { age: 34 }
+);
+
 ```
-- The `map` function is a generic function that takes two type parameters (`Input` and `Output`).
-- It takes an array `arr` of type `Input[]` and a function `func` that takes an argument of type `Input` and returns a value of type `Output`.
-- The function returns an array of type `Output[]` by applying the provided function func to each element of the input array `arr` using the `map` method.
-- In this example, the `map` function is used to transform an array of strings into an array of numbers.
-- The input array `["1", "2", "3"]` is of type `string[]`.
-- The provided mapping function `(n) => parseInt(n)` takes a string and converts it to a `number` using `parseInt`. So when you hover it will show `function(n: string): number` means return value is number 
-- The result is an array of numbers, and the variable `parsed` is inferred to have the type `number[]`.
 
 <br>
 
-key checking in ts, which sometimes useful is
-```ts
-if('propertyName' in createdObject){
-    // do something
-}
-```
-above is replacemnet for some time below checking when show error
+**key checking in ts, which sometimes useful is**
+
 ```ts
 if(createdObject.propertyName){
     // do something
 }
 ```
+Above code is ok as per JS but sometimes we get error in ts, then we use below code
+
+
+```ts
+if('propertyName' in createdObject){
+    // do something
+}
+```
+
 <br>
 
 we have another way of checking is
@@ -2066,7 +2110,7 @@ userInputElement.value = "hi"
 
 ### Handling the props in ts way in react js
 
-```ts
+```tsx
 interface TodoListProps {
   items: { id: string; text: string }[];
   onDeleteTodo: (id: string) => void;
@@ -2092,7 +2136,7 @@ we have handled the props details through TodoListProps
 
 ### Using the useRef,FormEvent,React.FC  in ts
 
-```ts
+```tsx
 type NewTodoProps = {
   onAddTodo: (todoText: string) => void;
 };
@@ -2227,3 +2271,469 @@ We need to add `draggable="true"` in the html where we want to have draggable fu
   <p></p>
 </li>
 ```
+
+
+----
+
+## React + Typescript Udemy Learning
+
+- `Children` prop will be `ReactNode`
+
+### For destructuring in function
+
+**Method 1**
+
+```ts
+export default function CourseGoal({ title, children }: { title: string; children: ReactNode }) {
+  return (
+    <article>
+      <div>
+        <h2>{title}</h2>
+        {children}
+      </div>
+      <button>Delete</button>
+    </article>
+  );
+}
+```
+
+**Method 2**
+
+```ts
+import { type ReactNode } from 'react';
+
+interface CourseGoalProps {
+  title: string;
+  children: ReactNode
+}
+
+export default function CourseGoal({ title, children }: CourseGoalProps) {
+  return (
+    <article>
+      <div>
+        <h2>{title}</h2>
+        {children}
+      </div>
+      <button>Delete</button>
+    </article>
+  );
+}
+```
+
+**Method 3**
+- To handle children react provide additional like PropsWithChildren
+- PropsWithChildren is a generic type means we can provide data in it, like we provide add on data like title in below example
+
+```ts
+import { type PropsWithChildren } from 'react';
+
+type CourseGoalProps = PropsWithChildren<{ title: string }>;
+
+export default function CourseGoal({ title, children }: CourseGoalProps) {
+  return (
+    <article>
+      <div>
+        <h2>{title}</h2>
+        {children}
+      </div>
+      <button>Delete</button>
+    </article>
+  );
+}
+```
+
+<br>
+<br>
+
+### For writing a function in arrow function forms
+
+```ts
+import { type ReactNode } from 'react';
+
+interface CourseGoalProps {
+  title: string;
+  children: ReactNode
+}
+
+export default function CourseGoal({ title, children }: CourseGoalProps) {
+  return (
+    <article>
+      <div>
+        <h2>{title}</h2>
+        {children}
+      </div>
+      <button>Delete</button>
+    </article>
+  );
+}
+```
+
+**Above function can be written as following ways**
+
+- ways 1
+
+```ts
+import { type PropsWithChildren } from 'react';
+
+interface CourseGoalProps {
+  title: string;
+  children: ReactNode
+}
+
+const CourseGoal = ({ title, children }: CourseGoalProps) => {
+  return (
+    <article>
+      <div>
+        <h2>{title}</h2>
+        {children}
+      </div>
+      <button>Delete</button>
+    </article>
+  );
+};
+
+export default CourseGoal;
+```
+
+- Ways 2
+
+FC is also generic function, means we can add in it
+
+```ts
+import { type FC } from 'react';
+
+interface CourseGoalProps {
+  title: string;
+  children: ReactNode
+}
+
+const CourseGoal: FC<CourseGoalProps> = ({ title, children }) => {
+  return (
+    <article>
+      <div>
+        <h2>{title}</h2>
+        {children}
+      </div>
+      <button>Delete</button>
+    </article>
+  );
+};
+
+export default CourseGoal;
+```
+
+<br>
+<br>
+
+### Handling useState
+
+- useState is generic function so we can assign value in it
+
+```ts
+type CourseGoal = {
+  title: string;
+  description: string;
+  id: number;
+};
+
+export default function App() {
+  const [goals, setGoals] = useState<CourseGoal[]>([]);
+}
+```
+
+<br>
+<br>
+
+### Importing and expoting types in ts
+
+
+**Exporting a Type from One File**
+```ts
+// types.ts
+export type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+```
+
+**Importing the Type in Another File**
+
+```ts
+// another-file.ts
+import type { User } from './types';
+
+const getUserName = (user: User): string => {
+  return user.name;
+};
+```
+
+#### Notes
+
+- The `import type` syntax is optional, but it's useful when you're only importing types. It helps TypeScript keep type-only imports out of your compiled JavaScript.
+- You can also do a regular import like this (it works the same way):
+
+```ts
+import { User } from './types';
+```
+
+
+<br>
+<br>
+
+
+### How to handle event in ts
+
+#### **Common Event Types in React (TypeScript)**
+
+| Event | Type Annotation |
+|-------|------------------|
+| onClick | MouseEvent<HTMLElement> |
+| onChange | ChangeEvent<HTMLInputElement> |
+| onSubmit | FormEvent<HTMLFormElement> |
+| onKeyDown | KeyboardEvent<HTMLInputElement> |
+
+
+**Example: Handling an `onClick` Event**
+
+```tsx
+import React from 'react';
+
+const ButtonComponent: FC = () => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    console.log('Button clicked!', event);
+  };
+
+  return <button onClick={handleClick}>Click Me</button>;
+};
+```
+
+**Example: `onChange` for an input field**
+
+```tsx
+const InputComponent: FC = () => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    console.log('Value:', e.target.value);
+  };
+
+  return <input type="text" onChange={handleChange} />;
+};
+```
+
+**Handle Form Event**
+
+```tsx
+export default function NewGoal({ onAddGoal }: NewGoalProps) {
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+        <label htmlFor="goal">Your goal</label>
+        <input id="goal" type="text" ref={goal} />
+        <button>Add Goal</button>
+    </form>
+  );
+}
+```
+
+<br>
+<br>
+
+### Handling useRefs in ts
+
+Since useRef is generic function, we can provide type in it
+
+**1. Referencing a DOM Element**
+
+```tsx
+import React, { useRef } from 'react';
+
+const InputFocus: React.FC = () => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const focusInput = () => {
+    inputRef.current?.focus(); // Safe with optional chaining
+  };
+
+  return (
+    <div>
+      <input ref={inputRef} type="text" placeholder="Type here..." />
+      <button onClick={focusInput}>Focus Input</button>
+    </div>
+  );
+};
+```
+
+**2. Storing a Mutable Value (not related to DOM)**
+
+```tsx
+const Timer: React.FC = () => {
+  const count = useRef<number>(0);
+
+  const increment = () => {
+    count.current += 1;
+    console.log(count.current);
+  };
+
+  return <button onClick={increment}>Increment</button>;
+};
+```
+
+<br>
+<br>
+
+### componentpropswithoutref<elementName> in ts
+
+Lets say we want to use the input element as custom componet, but we want `certain props to be mandatory` and `other props to be optional`, but want `other props be standard` as per input element type not anything can be passed, also the ref should not be passed in component, then we use the componentpropswithoutref
+
+```ts
+// customInput.tsx
+import { ComponentPropsWithoutRef } from 'react';
+
+type InputProps = {
+  label: string;
+  id: string;
+} & ComponentPropsWithoutRef<'input'>;
+
+export default function Input({label, id, ...props}: InputProps) {
+  return (
+    <p>
+      <label htmlFor={id}>{label}</label>
+      <input id={id} {...props} />
+    </p>
+  );
+}
+
+```
+-  We're using `ComponentPropsWithoutRef<'input'>` to inherit all valid props for a native `<input> element` `excluding ref`, and combining it with your own custom props like label and id.
+- `ComponentPropsWithoutRef<'input'>` restricts `...props to valid input-only props` (not button, etc.).
+- ref is intentionally excluded.
+- `ComponentPropsWithoutRef<'button'>`, `ComponentPropsWithoutRef<'a'>` can be used as per need
+
+
+```ts
+// app.tsx
+import Input from './components/Input.tsx';
+
+function App() {
+  return (
+    <main>
+      <Input id="name" label="Your name" type="text" />
+      <Input id="email" label="Email" type="email" placeholder="you@example.com" autoComplete="off"/>
+    </main>
+  );
+}
+
+export default App;
+```
+
+<br>
+<br>
+
+
+### Polymorphic Component
+
+Creating a `polymorphic component in TypeScript` means you can `render it as different HTML tags or components`, `using` an as `prop` — like in Chakra UI or Radix.
+
+Example
+```tsx
+<Text as="h1">Heading</Text>
+<Text as="p">Paragraph</Text>
+<Text as="button" onClick={() => alert('Clicked')}>Click me</Text>
+```
+
+Now below is actual code
+if needed video-55,56
+
+```tsx
+// in container.jsx
+import { type ReactNode, type ElementType, type ComponentPropsWithoutRef } from "react";
+
+type ContainerProps<T extends ElementType> = { 
+  as?: T; // ElementType means HTML element type like div,span
+  children: ReactNode; // reactNode means JSX
+} & ComponentPropsWithoutRef<T>;
+
+export default function Container<C extends ElementType>({ as, children, ...props }: ContainerProps<C>) {
+  const Component = as || "div"; // directly using <as></as> is not good way
+  return <Component {...props}>{children}</Component>;
+}
+```
+
+```tsx
+// in app.jsx
+
+import Container from './components/Container.tsx';
+
+function App() {
+  return (
+    <main>
+      <Container as={Button}>Click me</Container>
+    </main>
+  );
+}
+
+export default App;
+```
+
+<br>
+<br>
+
+
+### ForwardRef in ts
+
+```tsx
+// app.tsx
+import { useRef } from 'react';
+
+import Input from './components/Input.tsx';
+
+function App() {
+  const input = useRef<HTMLInputElement>(null);
+
+  return (
+    <main>
+      <Input label="Test" id="test" ref={input} />
+    </main>
+  );
+}
+
+export default App;
+```
+
+- forwardRef is generic function means we can provide type in it, it accepts two paramter
+  1. type of ref we are passing, here we are passing input element so using `HTMLInputElement`
+  2. type or interface of `props`
+```tsx
+// customInput.tsx
+import { forwardRef, type ComponentPropsWithoutRef } from 'react';
+
+type InputProps = {
+  label: string;
+  id: string;
+} & ComponentPropsWithoutRef<'input'>;
+
+const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+  { label, id, ...props },
+  ref
+) {
+  return (
+    <p>
+      <label htmlFor={id}>{label}</label>
+      <input id={id} {...props} ref={ref} />
+    </p>
+  );
+});
+
+export default Input;
+```
+
+<br>
+<br>
+
+### createContext in ts
+
+- createContext is generic function so we can provide type in it
