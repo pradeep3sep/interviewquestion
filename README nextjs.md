@@ -43,6 +43,67 @@ Note below are for app router:
 - you can have "use client" or "use server" in single component, if both needed then make that component to two separate coponenent, and use them separately
 - in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that hook part separate component and add "use client" in that component and import it
 - Next caches very regressiveely in next 14
+- if you use any 3rd party package, and it does not support server side, run it in "use client" mode.
+- You cannot import a Server Component into a Client Component.
+
+```tsx
+'use client'
+ 
+// You cannot import a Server Component into a Client Component.
+import ServerComponent from './Server-Component'
+ 
+export default function ClientComponent({ children }) {
+  const [count, setCount] = useState(0)
+ 
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
+ 
+      <ServerComponent />
+    </>
+  )
+}
+```
+
+- Passing Server Components to Client Components as Props is allowed
+
+```js
+// app/client-component.js
+'use client'
+ 
+import { useState } from 'react'
+ 
+export default function ClientComponent({ children }) {
+  const [count, setCount] = useState(0)
+ 
+  return (
+    <>
+      <button onClick={() => setCount(count + 1)}>{count}</button>
+ 
+      {children}
+    </>
+  )
+}
+```
+
+```js
+// app/page.js 
+
+// This pattern works:
+// You can pass a Server Component as a child or prop of a
+// Client Component.
+import ClientComponent from './client-component'
+import ServerComponent from './server-component'
+ 
+// Pages in Next.js are Server Components by default
+export default function Page() {
+  return (
+    <ClientComponent>
+      <ServerComponent />
+    </ClientComponent>
+  )
+}
+```
 
 <br>
 
@@ -1761,6 +1822,7 @@ more on below
 
 ```
 https://nextjs.org/docs/app/api-reference/functions/generate-metadata
+https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata
 ```
 
 <br>
@@ -4455,10 +4517,7 @@ export default function Page() {
 
 ---------------
 Ye dekhna h
-- https://nextjs.org/docs/14/app/building-your-application/optimizing/lazy-loading
-- https://nextjs.org/docs/14/app/building-your-application/caching - time lagega
-- https://nextjs.org/docs/14/app/building-your-application/rendering - time lagega
-- https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata - time lagega
+- https://nextjs.org/docs/14/app/building-your-application/optimizing/lazy-loading- kr k dekhna hoga time lagega
 - https://nextjs.org/docs/14/app/building-your-application/routing/loading-ui-and-streaming
 - https://nextjs.org/docs/14/app/building-your-application/configuring/draft-mode - smjh nhi aya
 - https://nextjs.org/docs/14/app/building-your-application/authentication - Above is when you need to read authentication in detail
