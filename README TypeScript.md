@@ -2737,3 +2737,417 @@ export default Input;
 ### createContext in ts
 
 - createContext is generic function so we can provide type in it
+
+```tsx
+const TimersContext = createContext<TimersContextValue | null>(null);
+```
+
+
+<br>
+<br>
+
+### Api calling in ts
+```tsx
+// http.ts
+export async function get(url: string) {
+  const response = await fetch(url);
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data.');
+  }
+
+  const data = await response.json() as unknown; 
+  return data;
+}
+```
+
+```tsx
+// app.tsx
+
+type RawDataBlogPost = {
+  id: number;
+  userId: number;
+  title: string;
+  body: string;
+};
+
+function App() {
+  const [fetchedPosts, setFetchedPosts] = useState<BlogPost[]>();
+  const [isFetching, setIsFetching] = useState(false);
+  const [error, setError] = useState<string>();
+
+  useEffect(() => {
+    async function fetchPosts() {
+      setIsFetching(true);
+      try {
+        const data = (await get(
+          'https://jsonplaceholder.typicode.com/posts'
+        )) as RawDataBlogPost[];  // Here we are checking the response of api response
+
+        const blogPosts: BlogPost[] = data.map((rawPost) => {
+          return {
+            id: rawPost.id,
+            title: rawPost.title,
+            text: rawPost.body,
+          };
+        });
+        setFetchedPosts(blogPosts);
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        }
+        // setError('Failed to fetch posts!');
+      }
+
+      setIsFetching(false);
+    }
+
+    fetchPosts();
+  }, []);
+}
+
+```
+
+- We can use `zod` library for response data validation
+
+```tsx
+import { z } from 'zod';
+// other imports ...
+ 
+// outside of App component function (since this doesn't need to be re-created all the time)
+const rawDataBlogPostSchema = z.object({
+  id: z.number(),
+  userId: z.number(),
+  title: z.string(),
+  body: z.string(),
+});
+// z.array() is a Zod method that creates a new schema based on another schema
+// as the name suggests, it's simply an array containing the expected objects
+const expectedResponseDataSchema = z.array(rawDataBlogPostSchema);
+ 
+function App() {
+  // other code like useState() etc ...
+ 
+  useEffect(() => {
+    async function fetchPosts() {
+      setIsFetching(true);
+      try {
+        const data = await get(
+          'https://jsonplaceholder.typicode.com/posts'
+        );
+        const parsedData = expectedResponseDataSchema.parse(data);
+        // No more type casting via "as" needed!
+        // Instead, here, TypeScript "knows" that parsedData will be an array
+        // full with objects as defined by the above schema
+        const blogPosts: BlogPost[] = parsedData.map((rawPost) => {
+          return {
+            id: rawPost.id,
+            title: rawPost.title,
+            text: rawPost.body,
+          };
+        });
+        setFetchedPosts(blogPosts);
+      } catch (error) {
+        if (error instanceof Error) {
+          setError(error.message);
+        }
+        // setError('Failed to fetch posts!');
+      }
+ 
+      setIsFetching(false);
+    }
+ 
+    fetchPosts();
+  }, []);
+ 
+  // other code ...
+}
+```
+
+- we can create a generic 'get' function
+
+```ts
+// http.js
+
+export async function get<T>(url: string) {
+  const response = await fetch(url);
+ 
+  if (!response.ok) {
+    throw new Error('Failed to fetch data.');
+  }
+ 
+  const data = await response.json() as unknown; 
+  return data as T;
+}
+```
+
+```tsx
+// app.jsx
+
+const data = await get<RawDataBlogPost[]>(
+  'https://jsonplaceholder.typicode.com/posts'
+);
+```
+
+- generic 'get' function with Zod
+
+```tsx
+// http.jsx
+import { z } from 'zod';
+ 
+export async function get<T>(url: string, zodSchema: z.ZodType<T>) {
+  const response = await fetch(url);
+ 
+  if (!response.ok) {
+    throw new Error('Failed to fetch data.');
+  }
+ 
+  const data = (await response.json()) as unknown;
+ 
+  try {
+    return zodSchema.parse(data);
+  } catch (error) {
+    throw new Error('Invalid data received from server.');
+  }
+}
+```
+
+```tsx
+// app.jsx
+import { z } from 'zod';
+ 
+const rawDataBlogPostSchema = z.object({
+  id: z.number(),
+  userId: z.number(),
+  title: z.string(),
+  body: z.string(),
+});
+ 
+const data = await get('https://jsonplaceholder.typicode.com/posts', z.array(rawDataBlogPostSchema));
+ 
+data[0].userId; // works => TypeScript knows that userId will exist on the returned data
+```
+
+- Below is chatGPT code
+
+```ts
+import React, { useEffect, useState } from 'react';
+import { z } from 'zod';
+
+// Define the schema using zod
+const UserSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  email: z.string().email(),
+});
+
+const UserListSchema = z.array(UserSchema);
+
+// Infer the TypeScript type from the schema
+type User = z.infer<typeof UserSchema>;
+
+const UserList: React.FC = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+      const json = await response.json();
+
+      // Validate the shape of the data
+      const data = UserListSchema.parse(json);
+
+      setUsers(data);
+    } catch (err) {
+      if (err instanceof z.ZodError) {
+        setError(`Validation error: ${err.errors.map(e => e.message).join(', ')}`);
+      } else {
+        setError((err as Error).message);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  return (
+    <div>
+      <h2>User List</h2>
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {!loading && !error && (
+        <ul>
+          {users.map(user => (
+            <li key={user.id}>
+              <strong>{user.name}</strong> - {user.email}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+export default UserList;
+```
+
+<br>
+<br>
+
+### Redux toolkit
+
+#### Handling useSelector and useDispatch
+- We want to make the `useSelector hook` to be `typescript`,we create `useCartSelector` custom hook, which is  `ts form of useSelector`.
+- we use `TypedUseSelectorHook` from react, it is generic function so we can assign value in it, so we assign the `Rootstate`
+- so RootState should be similar to the data managed in our store, means we have to provide store in it
+- so we use `store.getState>`, getState provide the store but it is function. and its return value is our store
+- `typeof store.getState` provide its type, ie function which gets stored in RootState as type function, but we needed its return value
+- now we use `ts uitility function` which provide the return value of function ie `ReturnType`
+- whole code becomes `ReturnType<typeof store.getState>`
+- same case we do for dispatch but without ReturnType, as we have created the function directly `type DispatchFunction = () => AppDispatch;`
+
+
+#### Handling the Dispatch Action payload
+- when we dispatch some action we pass the payload then the payload should be TS
+- `PayloadAction` is a generic function, then we can pas type value in it,
+- so we pass the what we are expectiong in it
+
+```ts
+// store.ts
+import { configureStore } from '@reduxjs/toolkit';
+
+import { cartSlice } from './cart-slice.ts';
+
+export const store = configureStore({
+  reducer: {
+    cart: cartSlice.reducer
+  }
+});
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+```
+
+
+```ts
+// hooks.ts
+import {
+  useDispatch,
+  useSelector,
+  type TypedUseSelectorHook,
+} from 'react-redux';
+
+import { AppDispatch, RootState } from './store.ts';
+
+type DispatchFunction = () => AppDispatch;
+
+export const useCartDispatch: DispatchFunction = useDispatch;
+export const useCartSelector: TypedUseSelectorHook<RootState> = useSelector;
+```
+
+```ts
+// app.ts
+import { Provider } from 'react-redux';
+import { DUMMY_PRODUCTS } from './dummy-products.ts';
+import { store } from './store/store.ts';
+
+function App() {
+  return (
+    <Provider store={store}>
+      {DUMMY_PRODUCTS}
+    </Provider>
+  );
+}
+
+export default App;
+```
+
+```ts
+// cart-slice.ts
+
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+
+export type CartItem = {
+  id: string;
+  title: string;
+  price: number;
+  quantity: number;
+};
+
+type CartState = {
+  items: CartItem[];
+};
+
+const initialState: CartState = {
+  items: [],
+};
+
+export const cartSlice = createSlice({
+  name: 'cart',
+  initialState,
+  reducers: {
+    addToCart(
+      state,
+      action: PayloadAction<{ id: string; title: string; price: number }>
+    ) {
+      // do some action 
+    },
+    removeFromCart(state, action: PayloadAction<string>) {
+      const itemIndex = state.items.findIndex(
+        (item) => item.id === action.payload
+      );
+
+      if (state.items[itemIndex].quantity === 1) {
+        state.items.splice(itemIndex, 1);
+      } else {
+        state.items[itemIndex].quantity--;
+      }
+    },
+  },
+});
+
+export const { addToCart, removeFromCart } = cartSlice.actions;
+```
+
+
+```tsx
+// usage in card component
+import { type CartItem, addToCart, removeFromCart } from '../store/cart-slice.ts';
+import { useCartDispatch, useCartSelector } from '../store/hooks.ts';
+
+export default function CartItems() {
+  const cartItems = useCartSelector((state) => state.cart.items);
+  const dispatch = useCartDispatch();
+
+  function handleAddToCart(item: CartItem) {
+    dispatch(addToCart(item));
+  }
+
+  function handleRemoveFromCart(id: string) {
+    dispatch(removeFromCart(id));
+  }
+
+  return (
+    <div id="cart">
+      {cartItems.map((item) => {
+        return 
+          <li key={item.id}>
+            <button onClick={() => handleRemoveFromCart(item.id)}>
+              -
+            </button>
+            <span>{item.quantity}</span>
+            <button onClick={() => handleAddToCart(item)}>+</button>
+          </li>
+      })}
+    </div>
+  );
+}
+```
