@@ -1973,3 +1973,936 @@ export default function CartItems() {
   );
 }
 ```
+
+<br>
+<br>
+
+## Below are TS for classes
+
+class based TS
+
+### Access Modifiers
+
+1. **Readonly**
+  - readonly is used to make a property or variable read-only. It means that the value of the property cannot be changed once it's set
+```js
+class Example {
+    readonly readOnlyProperty: number = 42;
+
+    constructor(readonly readOnlyParameter: string) {}
+}
+```
+<br>
+
+2. **Private**
+  - private members are only accessible within the class that defines them. They cannot be accessed from outside the class or its instances.
+```js
+class Example {
+    private privateProperty: number = 42;
+
+    private privateMethod() {
+        // Do something
+    }
+}
+```
+<br>
+
+3. **Public**
+  - public is the `default` access modifier for class members if no modifier is specified. Members marked as public are accessible from any code that can access the instance
+```js
+class Example {
+    public publicProperty: number = 42;
+
+    public publicMethod() {
+        // Do something
+    }
+}
+```
+<br>
+
+4. **Protected**
+  - protected members are accessible within the class and its subclasses. They cannot be accessed from outside the class hierarchy.
+  - It is useful when you want to allow access to certain members only to subclasses
+
+```js
+class Parent {
+    protected protectedProperty: number = 42;
+
+    protected protectedMethod() {
+        // Do something
+    }
+}
+
+class Child extends Parent {
+    // Can access protectedProperty and protectedMethod here
+}
+```
+<br>
+
+5. **Static**
+  - static is used to define static members of a class. Static members belong to the class itself, not to instances of the class.
+  - They are accessed using the class name rather than an instance.
+```js
+class Example {
+    static staticProperty: number = 42;
+
+    static staticMethod() {
+        // Do something
+    }
+}
+
+// Access static property and method without creating an instance
+console.log(Example.staticProperty);
+Example.staticMethod();
+```
+<br>
+<br>
+
+### `protected` in classes
+`protected` members are only visible to subclasses of the class they're declared in.
+
+```js
+class Greeter {
+    public greet() {
+        console.log("Hello, " + this.getName());
+    }
+    protected getName() {
+        return "hi";
+    }
+}
+class SpecialGreeter extends Greeter {
+    public howdy() {
+        // OK to access protected member here
+        console.log("Howdy, " + this.getName());
+    }
+}
+const g = new SpecialGreeter();
+g.greet(); // OK
+g.getName();
+// will show error Property 'getName' is protected and only accessible within class
+// 'Greeter' and its subclass
+```
+<br>
+
+### private in classes
+
+`private` is like `protected` , but doesn't allow access to the member even from subclasses:
+
+```js
+class Base {
+ private x = 0;
+}
+const b = new Base();
+// Can't access from outside the class
+console.log(b.x);
+// shows the error Property 'x' is private and only accessible within class 'Base'.
+```
+
+there is caveats of above
+```js
+class MySafe {
+ private secretKey = 12345;
+}
+const s = new MySafe();
+// Not allowed during type checking
+console.log(s.secretKey);
+// above shows error that Property 'secretKey' is private and only accessible within class 'MySafe'.
+// OK
+console.log(s["secretKey"]);
+```
+
+Unlike TypeScripts's private , JavaScript's private fields ( # ) remain private after compilation and
+do not provide the previously mentioned escape hatches like bracket notation access, making them
+hard private.
+
+```js
+class Dog {
+ #barkAmount = 0;
+ personality = "happy";
+ constructor() {}
+}
+```
+<br>
+<br>
+
+
+> ### Constructor Shortcut
+```js
+class Car {
+    public position: number;
+    protected speed: number;
+
+    constructor(position: number, speed: number) {
+        this.position = position;
+        this.speed = speed;
+    }
+
+    move() {
+        this.position += this.speed;
+    }
+}
+```
+
+All this code can be resumed in one single constructor:
+
+```js
+class Car {
+    constructor(public position: number, protected speed: number) { }
+
+    move() {
+        this.position += this.speed;
+    }
+}
+```
+<br>
+
+below is the "this" key concept
+
+```js
+class Department {
+  name: string;
+
+  constructor(n: string) {
+    this.name = n;
+  }
+
+  describe() {
+    console.log('Department: ' + this.name);
+  }
+}
+
+const accounting = new Department('Accounting');
+
+accounting.describe();  // gives "Department: Accounting"
+
+const accountingCopy = { describe: accounting.describe };
+
+accountingCopy.describe();  // gives "Department: undefined", irrespective of `accounting.describe` means referring the accounting, when accountingCopy is created then the method is copied but 'this' referred is not copied so the function gives undefined, below is possible solutions.
+```
+
+solutions
+
+```js
+class Department {
+  name: string;
+
+  constructor(n: string) {
+    this.name = n;
+  }
+
+  describe(this: Department) {  // here we defined that the this will always refer to departmwnt else show error
+    console.log('Department: ' + this.name);
+  }
+}
+
+const accounting = new Department('Accounting');
+
+accounting.describe();  // gives "Department: Accounting"
+
+const accountingCopy = { name: 'DUMMY', describe: accounting.describe }; // in above we mentioned `this` to Department then there is must to add the name property. 
+
+accountingCopy.describe();  // gives "Department: DUMMY" 
+```
+
+<br>
+
+#### Getters and Setters
+A getter method returns the value of the property’s value. A getter is also called an accessor.\
+A setter method updates the property’s value. A setter is also known as a mutator.\
+A getter method starts with the keyword get and a setter method starts with the keyword set.
+
+We can access/update the value directly with using the dot notation but if we want to access with certain checks then we needs the getters
+```js
+class Person {
+    public age: number;
+    public firstName: string;
+    public lastName: string;
+}
+
+let person = new Person();
+person.age = 26;
+
+// suppose we want to get and update with below condition then we need the getters and setters
+
+if( inputAge > 0 && inputAge < 200 ) {
+    person.age = inputAge;
+}
+
+```
+the getters should have a `return` value\
+we execute the getters and setters like property not like the method, ie without using the `()`. below we have use `accounting.mostRecentReport` not like `accounting.mostRecentReport()`
+
+```js
+class Department {
+  private lastReport: string;
+
+  get mostRecentReport() {
+    if (this.lastReport) {
+      return this.lastReport;
+    }
+    throw new Error('No report found.');
+  }
+
+  set mostRecentReport(value: string) {
+    if (!value) {
+      throw new Error('Please pass in a valid value!');
+    }
+    this.addReport(value);
+  }
+
+  addReport(text: string) {
+    this.reports.push(text);
+    this.lastReport = text;
+  }
+
+  constructor(id: string, private reports: string[]) {
+    this.lastReport = reports[0];
+  }
+}
+
+const accounting = new Department('d2', []);
+accounting.mostRecentReport = 'Year End Report';
+console.log(accounting.mostRecentReport);
+
+```
+
+
+<br>
+
+
+#### Static Methods and property
+Static methods are the methods are directly called without using the `new` keyword. If its property it is directly accessible\
+common example in js is `Math` method like `Math.pow()`. It is called  directly without using `new Math()`, although still we can use that way
+
+```js
+class Department {
+    private lastReport: string;
+
+    // Static property
+    static fiscalYear = 2020
+
+    // Static method
+    static createEmployee(name: String){
+        return {name: name}
+    }
+
+    constructor(id: string, private reports: string[]) {
+        this.lastReport = reports[0];
+    }
+}
+const employee1 = Department.createEmployee('Max')
+console.log(employee1)
+console.log(Department.fiscalYear)
+```
+`Important` to note that static property is not accessible directly in the class inside any `method or constructor` using the `this` keyword, instead of this keyword we should use the class name
+
+below code will show error
+```js
+class Department {
+  
+    // Static property
+    static fiscalYear = 2020
+
+    constructor(id: string, private reports: string[]) {      
+        this.fiscalYear
+    }
+}
+```
+
+below will be error free
+```js
+class Department {
+  
+    // Static property
+    static fiscalYear = 2020
+
+    constructor(id: string, private reports: string[]) {      
+        Department.fiscalYear
+    }
+}
+```
+
+
+<br>
+
+#### Abstract Classes
+
+When we need a common property and method which we need in every classes. Then we create that common class separatey and named as `Abstract Classes`. From it we extend other classes
+
+Abstract classes provide a way to define common properties and methods that multiple derived classes can share.\
+Generally classes are the blueprint of object but abstract is the blueprint of classes
+
+It may contain abstract methods, which are declared in the abstract class but do not provide an implementation. Instead, the subclasses are required to provide the implementation for these abstract methods.
+
+like hum chahte h ki describe har class me define ho separately login, then describe hum mention kar denge apni abstract class me. Keep in mind abstract class me hum logic nhi likhte, jo classes extend ki h ushme likhte h.
+
+Keep in mind abstract class me jis method me abstract likha hoga wo hi compulary h create karna extend classs me like calculateArea compulsory but summary nhi
+
+```js
+abstract class Shape {
+    summary() {
+      console.log("Im not necessary to be on every inherit class")
+    }
+
+    abstract calculateArea(): number; // Abstract method with no implementation
+}
+
+class Circle extends Shape {
+    private radius: number;
+
+    constructor(radius: number) {
+        super();
+        this.radius = radius;
+    }
+
+    calculateArea(): number {
+        return Math.PI * this.radius * this.radius;
+    }
+}
+
+class Square extends Shape {
+    private sideLength: number;
+
+    constructor(sideLength: number) {
+        super();
+        this.sideLength = sideLength;
+    }
+
+    calculateArea(): number {
+        return this.sideLength * this.sideLength;
+    }
+}
+
+// Creating instances
+const circle = new Circle(5);
+const square = new Square(4);
+
+console.log(circle.calculateArea()); // Output: ~78.54
+console.log(square.calculateArea()); // Output: 16
+```
+
+Keep in mind that we can not create the instance of abstract class
+
+#### Private constructor
+Private constructor is a constructor that can only be `called from within the class` in which it is defined. It cannot be called from outside the class, preventing the instantiation of objects using that constructor by external code.
+
+Private constructors are used to enforce the singleton pattern.
+
+In singleton pattern:
+
+1. You cannot directly instantiate an object from outside the class.
+2. You will always have exactly one instance of a class.
+
+Private constructor is used when you want the only `one and fixed` instance to be created every time.
+
+`trick` - ishme hum static method k throgh internally hi instance create kr k instance return kara dete h.
+
+```js
+class AccountingDepartment {
+    private lastReport: string;
+
+    // Here we stored copy of the instance of class
+    private static instance: AccountingDepartment;
+
+    // We created the private constructor
+    private constructor(id: string, private reports: string[]) {
+        this.lastReport = reports[0];
+    }
+
+    static getInstance() {
+        if (AccountingDepartment.instance) {
+            return this.instance;
+        }
+        this.instance = new AccountingDepartment('d2', []);
+        return this.instance;
+    }
+
+}
+const accounting = AccountingDepartment.getInstance();
+const accounting2 = AccountingDepartment.getInstance();
+
+console.log(accounting, accounting2);
+```
+
+#### Interface with classes
+We can also extend te interface\
+we can inherit one interface with 2 interface with comma\
+and we can also use 2 interface on single class using the comma separator.\
+we use the `interface`, `type` in the class with `implements` keyword
+type and interface both can use union, type use & while interface use extends
+
+```js
+interface Greetable {
+  name: string;
+
+  greet(phrase: string): void;
+}
+
+class Person implements Greetable {
+  name: string;
+  age = 30;
+
+  constructor(n: string) {
+    this.name = n;
+  }
+
+  greet(phrase: string) {
+    console.log(phrase + ' ' + this.name);
+  }
+}
+
+let user1: Greetable;
+
+user1 = new Person('Max');
+
+user1.greet('Hi there - I am');
+console.log(user1);
+```
+
+#### this at Runtime in Classes
+```js
+class MyClass {
+ name = "MyClass";
+ getName() {
+ return this.name;
+ }
+}
+const c = new MyClass();
+const obj = {
+ name: "obj",
+ getName: c.getName,
+};
+// Prints "obj", not "MyClass"
+console.log(obj.getName());
+```
+
+Long story short, by default, the value of this inside a function depends on how the function was called. In this example, because the function was called through the obj reference, its value of this was obj rather than the class instance.
+
+<br>
+<br>
+
+### Decorators
+
+<details>
+
+## Niche wala point imp h, ye use nhi kia tha bhuat dikkat aa rahi thi
+To enable experimental support for decorators, you must enable the `experimentalDecorators` compiler option either on the command line or in your `tsconfig.json`:
+
+##### Command Line:
+```
+tsc --target ES5 --experimentalDecorators
+```
+##### tsconfig.json:
+```js
+{
+  "compilerOptions": {
+    "target": "ES5",
+    "experimentalDecorators": true
+  }
+}
+```
+
+Decorator is a function that runs when the `class is defined`, not when to create the instance through `new className`
+Decorators starts with @ symbol eg - @DecoratorName
+There is general covention that decorator name starts with capital letter
+
+
+A Decorator is a special kind of declaration that can be attached to a class 
+- class Decorators 
+- Property Decorators
+- Accessor Decorators
+- Method Decorators
+- Parameter Decorators
+
+#### Class Decorators
+In class decrator,
+The Decorators is attached at the top of the class.
+
+```js
+// Class decorator function
+function MyClassDecorator(target: Function) {  // it gets one params which is the constructor of the class where it is placed
+    console.log(target)
+}
+
+// Applying the class decorator to a class
+@MyClassDecorator
+class ExampleClass {
+    title: string;
+  private _price: number;
+
+  constructor(t: string, p: number) {
+    this.title = t;
+    this._price = p;
+  }
+}
+```
+
+#### Property Decorators
+In Property decrator,
+The Decorators is attached at the top of all the properties of class.
+we get the `constructor` of the class `as parameter` of decorator
+@Log is the example below
+
+```js
+function Log(target: any, propertyName: string | Symbol) {  // it gets only two params
+  console.log('Property decorator!');
+  console.log(target, propertyName);
+}
+
+class Product {
+  @Log
+  title: string;
+  private _price: number;
+
+  constructor(t: string, p: number) {
+    this.title = t;
+    this._price = p;
+  }
+}
+```
+
+#### Accessor Decorators
+Accessor decorators are used to modify or enhance the behavior of accessors (getters and setters) within a class.
+
+```js
+function myAccessorDecorator(target: any, propertyKey: string, descriptor: PropertyDescriptor) {  // it gets only three params
+  console.log("target",target)
+  console.log("propertyKey",propertyKey)
+  console.log("descriptor",descriptor)
+}
+
+class MyClass {
+    private _myProperty: number = 0;
+
+    @myAccessorDecorator
+    get myProperty(): number {
+        return this._myProperty;
+    }
+
+    @myAccessorDecorator
+    set myProperty(value: number) {
+        this._myProperty = value;
+    }
+}
+
+const instance = new MyClass();
+
+```
+
+#### Method Decorators
+Method decorator is similar to Accessor Decorators, instead of placing on getters or setters, we place it on the method.
+
+#### Parameter Decorators
+Parameter decorators specifically target parameters of function
+
+```js
+function logParameter(target: any, key: string | symbol, index: number) {
+    console.log(`Parameter decorator called on: ${key}, index: ${index}`);
+}
+
+class MyClass {
+    // Applying parameter decorator to the parameter of the method
+    myMethod(@logParameter param1: string, @logParameter param2: number) {
+        console.log(`Inside myMethod with params: ${param1}, ${param2}`);
+    }
+}
+
+const myInstance = new MyClass();
+
+// Calling the method to see the decorator in action
+myInstance.myMethod("Hello", 42);
+```
+
+#### Decorator Factories
+Decorator Factory is simply a `function` that `returns the expression` that will be called by the decorator at runtime.
+keep in mind here we used @color() not @color, because decorator is returning function
+Decorator function can be used any place like as class Decorator, Property decorator, etc
+
+In simple word, It is same dectoratos along with wrapped by a function which gets the passed value by decorator and return the decorator function
+
+```js
+function addMetadata(metadata: any) {
+  return function log(target: any) {
+
+    // Add metadata
+    target.__customMetadata = metadata;
+
+    // Return target
+    return target;
+
+  }
+}
+
+@addMetadata({ guid: "417c6ec7-ec05-4954-a3c6-73a0d7f9f5bf" })
+class Person {
+  private _name: string;
+  public constructor(name: string) {
+    this._name = name;
+  }
+  public greet() {
+    return this._name;
+  }
+}
+
+function getMetadataFromClass(target: any) {
+   return target.__customMetadata;
+}
+console.log(getMetadataFromClass(Person));
+```
+
+#### Decorator Composition
+Multiple decorators can be applied to a declaration, for example
+
+on a single line
+```
+@f @g x
+```
+
+On multiple lines: 
+```
+@f
+@g
+x
+```
+
+the following steps are performed when evaluating multiple decorators on a single declaration in TypeScript:
+1. The expressions for each decorator are evaluated top-to-bottom.
+2. The results are then called as functions from bottom-to-top.
+
+```js
+// @experimentalDecorators
+function first() {
+  console.log("first(): factory evaluated");
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log("first(): called");
+  };
+}
+
+function second() {
+  console.log("second(): factory evaluated");
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    console.log("second(): called");
+  };
+}
+
+class ExampleClass {
+  @first()
+  @second()
+  method() {}
+}
+```
+
+gives output 
+
+```js
+"first(): factory evaluated" 
+"second(): factory evaluated" 
+"second(): called" 
+"first(): called" 
+```
+</details>
+
+
+<br>
+<br>
+
+> ### Import and Export of file in ts
+
+1. NameSpace 
+2. ES6 import and export
+
+<br>
+
+#### Namespace Method
+
+first you should add below in tsconfig.json. `bundle.js` is bundle name and should be formed inside `dist` folder
+```js
+"outFile": "./dist/bundle.js",
+```
+
+export only whch you needed not everything
+name after namespace ie App should be same everywhere
+importing start with `///`
+
+Below code in exporting file
+```js
+namespace App {
+  enum ProjectStatus {
+    Active,
+    Finished
+  }
+
+  export class Project {
+    constructor(
+      public id: string,
+      public title: string,
+      public description: string,
+      public people: number,
+      public status: ProjectStatus
+    ) {}
+  }
+}
+```
+
+Below code in importing file
+
+```js
+/// <reference path="components/project-input.ts" />
+/// <reference path="components/project-list.ts" />
+
+namespace App {
+  new ProjectInput();
+  new ProjectList('active');
+  new ProjectList('finished');
+}
+```
+
+<br>
+
+#### ES6 Modules, import and export method
+
+This is recommended approach
+
+In index.html, use below code. module thing is important
+```js
+<script type="module" src="dist/app.js"></script>
+```
+
+```js
+export interface Draggable {
+  dragStartHandler(event: DragEvent): void;
+  dragEndHandler(event: DragEvent): void;
+}
+
+export interface DragTarget {
+  dragOverHandler(event: DragEvent): void;
+  dropHandler(event: DragEvent): void;
+  dragLeaveHandler(event: DragEvent): void;
+}
+```
+
+```js
+import { ProjectInput } from './components/project-input.js';
+import { ProjectList } from './components/project-list.js';
+
+new ProjectInput();
+new ProjectList('active');
+```
+
+> ### Webpack
+What happen is when we import many file in app.ts, we see many file download request in network section,each section takes few milisec time to setup an then request is fired.To overcome this time effect we make single bundle using the webpack.
+
+Webpack transform ts to js and then js to js bundle
+
+Command line to install is
+```
+npm i --save-dev webpack webpack-cli webpack-dev-server typescript ts-loader
+```
+
+```ts
+// In webpack.config.js
+
+const path = require('path');
+ 
+module.exports = {
+  mode: 'production',
+  entry: './src/app.ts',
+  output: {
+    filename: 'bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: '/dist/',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.ts', '.js'], // it means it should consider the js and ts file combine
+  },
+  plugins: [
+    // any plugin you want to add here
+  ]
+};
+```
+<br>
+<br>
+
+### Use of Super for self revison
+We use the super to base reuirement to base class
+```ts
+class Department {
+  // private readonly id: string;
+  // private name: string;
+  private employees: string[] = [];
+
+  constructor(private readonly id: string, public name: string) {
+    // this.id = id;
+    // this.name = n;
+  }
+
+  describe(this: Department) {
+    console.log(`Department (${this.id}): ${this.name}`);
+  }
+
+  addEmployee(employee: string) {
+    // validation etc
+    // this.id = 'd2';
+    this.employees.push(employee);
+  }
+
+  printEmployeeInformation() {
+    console.log(this.employees.length);
+    console.log(this.employees);
+  }
+}
+
+class ITDepartment extends Department {
+  admins: string[];
+  constructor(id: string, admins: string[]) {
+    super(id, 'IT');
+    this.admins = admins;
+  }
+}
+
+const it = new ITDepartment('d1', ['Max']);
+
+it.describe();
+```
+<br>
+<br>
+
+> ### Autobind using decorators
+```js
+function Autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  const adjDescriptor: PropertyDescriptor = {
+    configurable: true,
+    enumerable: false,
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    }
+  };
+  return adjDescriptor;
+}
+
+class Printer {
+  message = 'This works!';
+
+  @Autobind
+  showMessage() {
+    console.log(this.message);
+  }
+}
+
+const p = new Printer();
+p.showMessage();
+
+const button = document.querySelector('button')!;
+button.addEventListener('click', p.showMessage);
+```
