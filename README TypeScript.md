@@ -1979,7 +1979,7 @@ export default function CartItems() {
 
 ## Below are TS for classes
 
-class based TS
+<br>
 
 ### Access Modifiers
 
@@ -1996,98 +1996,7 @@ class Example {
 
 2. **Private**
   - private members are only accessible within the class that defines them. They cannot be accessed from outside the class or its instances.
-```js
-class Example {
-    private privateProperty: number = 42;
-
-    private privateMethod() {
-        // Do something
-    }
-}
-```
-<br>
-
-3. **Public**
-  - public is the `default` access modifier for class members if no modifier is specified. Members marked as public are accessible from any code that can access the instance
-```js
-class Example {
-    public publicProperty: number = 42;
-
-    public publicMethod() {
-        // Do something
-    }
-}
-```
-<br>
-
-4. **Protected**
-  - protected members are accessible within the class and its subclasses. They cannot be accessed from outside the class hierarchy.
-  - It is useful when you want to allow access to certain members only to subclasses
-
-```js
-class Parent {
-    protected protectedProperty: number = 42;
-
-    protected protectedMethod() {
-        // Do something
-    }
-}
-
-class Child extends Parent {
-    // Can access protectedProperty and protectedMethod here
-}
-```
-<br>
-
-5. **Static**
-  - static is used to define static members of a class. Static members belong to the class itself, not to instances of the class.
-  - They are accessed using the class name rather than an instance.
-```js
-class Example {
-    static staticProperty: number = 42;
-
-    static staticMethod() {
-        // Do something
-    }
-}
-
-// Access static property and method without creating an instance
-console.log(Example.staticProperty);
-Example.staticMethod();
-```
-<br>
-<br>
-
-### `protected` in classes
-`protected` members are only visible to subclasses of the class they're declared in.
-
-```js
-class Greeter {
-    public greet() {
-        console.log("Hello, " + this.getName());
-    }
-    protected getName() {
-        return "hi";
-    }
-}
-class SpecialGreeter extends Greeter {
-    public howdy() {
-        // OK to access protected member here
-        console.log("Howdy, " + this.getName());
-    }
-}
-const g = new SpecialGreeter();
-g.greet(); // OK
-g.getName();
-// will show error Property 'getName' is protected and only accessible within class
-// 'Greeter' and its subclass
-```
-<br>
-
-### private in classes
-
-`private` is like `protected` , but doesn't allow access to the member even from subclasses:
-
+  - `private` is like `protected` , but doesn't allow access to the member even from subclasses:
 ```js
 class Base {
  private x = 0;
@@ -2097,6 +2006,7 @@ const b = new Base();
 console.log(b.x);
 // shows the error Property 'x' is private and only accessible within class 'Base'.
 ```
+
 
 there is caveats of above
 ```js
@@ -2122,9 +2032,67 @@ class Dog {
  constructor() {}
 }
 ```
-<br>
+
 <br>
 
+3. **Public**
+  - public is the `default` access modifier for class members if no modifier is specified. Members marked as public are accessible from any code that can access the instance
+```js
+class Example {
+    public publicProperty: number = 42;
+
+    public publicMethod() {
+        // Do something
+    }
+}
+```
+<br>
+
+4. **Protected**
+  - protected members are accessible within the class and its subclasses. They cannot be accessed from outside the class hierarchy.
+  - It is useful when you want to allow access to certain members only to subclasses
+
+```js
+class Greeter {
+    public greet() {
+        console.log("Hello, " + this.getName());
+    }
+    protected getName() {
+        return "hi";
+    }
+}
+class SpecialGreeter extends Greeter {
+    public howdy() {
+        // OK to access protected member here
+        console.log("Howdy, " + this.getName());
+    }
+}
+const g = new SpecialGreeter();
+g.greet(); // OK
+g.getName();
+// will show error Property 'getName' is protected and only accessible within class
+// 'Greeter' and its subclass
+```
+<br>
+
+5. **Static**
+  - static is used to define static members of a class. Static members belong to the class itself, not to instances of the class.
+  - They are accessed using the class name rather than an instance.
+```js
+class Example {
+    static staticProperty: number = 42;
+
+    static staticMethod() {
+        // Do something
+    }
+}
+
+// Access static property and method without creating an instance
+console.log(Example.staticProperty);
+Example.staticMethod();
+```
+<br>
+<br>
 
 > ### Constructor Shortcut
 ```js
@@ -2156,176 +2124,7 @@ class Car {
 ```
 <br>
 
-below is the "this" key concept
-
-```js
-class Department {
-  name: string;
-
-  constructor(n: string) {
-    this.name = n;
-  }
-
-  describe() {
-    console.log('Department: ' + this.name);
-  }
-}
-
-const accounting = new Department('Accounting');
-
-accounting.describe();  // gives "Department: Accounting"
-
-const accountingCopy = { describe: accounting.describe };
-
-accountingCopy.describe();  // gives "Department: undefined", irrespective of `accounting.describe` means referring the accounting, when accountingCopy is created then the method is copied but 'this' referred is not copied so the function gives undefined, below is possible solutions.
-```
-
-solutions
-
-```js
-class Department {
-  name: string;
-
-  constructor(n: string) {
-    this.name = n;
-  }
-
-  describe(this: Department) {  // here we defined that the this will always refer to departmwnt else show error
-    console.log('Department: ' + this.name);
-  }
-}
-
-const accounting = new Department('Accounting');
-
-accounting.describe();  // gives "Department: Accounting"
-
-const accountingCopy = { name: 'DUMMY', describe: accounting.describe }; // in above we mentioned `this` to Department then there is must to add the name property. 
-
-accountingCopy.describe();  // gives "Department: DUMMY" 
-```
-
-<br>
-
-#### Getters and Setters
-A getter method returns the value of the property’s value. A getter is also called an accessor.\
-A setter method updates the property’s value. A setter is also known as a mutator.\
-A getter method starts with the keyword get and a setter method starts with the keyword set.
-
-We can access/update the value directly with using the dot notation but if we want to access with certain checks then we needs the getters
-```js
-class Person {
-    public age: number;
-    public firstName: string;
-    public lastName: string;
-}
-
-let person = new Person();
-person.age = 26;
-
-// suppose we want to get and update with below condition then we need the getters and setters
-
-if( inputAge > 0 && inputAge < 200 ) {
-    person.age = inputAge;
-}
-
-```
-the getters should have a `return` value\
-we execute the getters and setters like property not like the method, ie without using the `()`. below we have use `accounting.mostRecentReport` not like `accounting.mostRecentReport()`
-
-```js
-class Department {
-  private lastReport: string;
-
-  get mostRecentReport() {
-    if (this.lastReport) {
-      return this.lastReport;
-    }
-    throw new Error('No report found.');
-  }
-
-  set mostRecentReport(value: string) {
-    if (!value) {
-      throw new Error('Please pass in a valid value!');
-    }
-    this.addReport(value);
-  }
-
-  addReport(text: string) {
-    this.reports.push(text);
-    this.lastReport = text;
-  }
-
-  constructor(id: string, private reports: string[]) {
-    this.lastReport = reports[0];
-  }
-}
-
-const accounting = new Department('d2', []);
-accounting.mostRecentReport = 'Year End Report';
-console.log(accounting.mostRecentReport);
-
-```
-
-
-<br>
-
-
-#### Static Methods and property
-Static methods are the methods are directly called without using the `new` keyword. If its property it is directly accessible\
-common example in js is `Math` method like `Math.pow()`. It is called  directly without using `new Math()`, although still we can use that way
-
-```js
-class Department {
-    private lastReport: string;
-
-    // Static property
-    static fiscalYear = 2020
-
-    // Static method
-    static createEmployee(name: String){
-        return {name: name}
-    }
-
-    constructor(id: string, private reports: string[]) {
-        this.lastReport = reports[0];
-    }
-}
-const employee1 = Department.createEmployee('Max')
-console.log(employee1)
-console.log(Department.fiscalYear)
-```
-`Important` to note that static property is not accessible directly in the class inside any `method or constructor` using the `this` keyword, instead of this keyword we should use the class name
-
-below code will show error
-```js
-class Department {
-  
-    // Static property
-    static fiscalYear = 2020
-
-    constructor(id: string, private reports: string[]) {      
-        this.fiscalYear
-    }
-}
-```
-
-below will be error free
-```js
-class Department {
-  
-    // Static property
-    static fiscalYear = 2020
-
-    constructor(id: string, private reports: string[]) {      
-        Department.fiscalYear
-    }
-}
-```
-
-
-<br>
-
-#### Abstract Classes
+> ### Abstract Classes
 
 When we need a common property and method which we need in every classes. Then we create that common class separatey and named as `Abstract Classes`. From it we extend other classes
 
@@ -2383,7 +2182,9 @@ console.log(square.calculateArea()); // Output: 16
 
 Keep in mind that we can not create the instance of abstract class
 
-#### Private constructor
+<br>
+
+> ### Private constructor
 Private constructor is a constructor that can only be `called from within the class` in which it is defined. It cannot be called from outside the class, preventing the instantiation of objects using that constructor by external code.
 
 Private constructors are used to enforce the singleton pattern.
@@ -2423,8 +2224,10 @@ const accounting2 = AccountingDepartment.getInstance();
 
 console.log(accounting, accounting2);
 ```
+<br>
+<br>
 
-#### Interface with classes
+>### Interface with classes
 We can also extend te interface\
 we can inherit one interface with 2 interface with comma\
 and we can also use 2 interface on single class using the comma separator.\
@@ -2464,7 +2267,7 @@ console.log(user1);
 class MyClass {
  name = "MyClass";
  getName() {
- return this.name;
+    return this.name;
  }
 }
 const c = new MyClass();
@@ -2480,6 +2283,9 @@ Long story short, by default, the value of this inside a function depends on how
 
 <br>
 <br>
+
+yha k niche decorator h jo nhi padhna
+----
 
 ### Decorators
 
@@ -2828,50 +2634,6 @@ module.exports = {
     // any plugin you want to add here
   ]
 };
-```
-<br>
-<br>
-
-### Use of Super for self revison
-We use the super to base reuirement to base class
-```ts
-class Department {
-  // private readonly id: string;
-  // private name: string;
-  private employees: string[] = [];
-
-  constructor(private readonly id: string, public name: string) {
-    // this.id = id;
-    // this.name = n;
-  }
-
-  describe(this: Department) {
-    console.log(`Department (${this.id}): ${this.name}`);
-  }
-
-  addEmployee(employee: string) {
-    // validation etc
-    // this.id = 'd2';
-    this.employees.push(employee);
-  }
-
-  printEmployeeInformation() {
-    console.log(this.employees.length);
-    console.log(this.employees);
-  }
-}
-
-class ITDepartment extends Department {
-  admins: string[];
-  constructor(id: string, admins: string[]) {
-    super(id, 'IT');
-    this.admins = admins;
-  }
-}
-
-const it = new ITDepartment('d1', ['Max']);
-
-it.describe();
 ```
 <br>
 <br>

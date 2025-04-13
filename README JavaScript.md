@@ -5030,6 +5030,38 @@ stud1.displaySchool(); // undefined
 stud2.displaySchool(); // undefined
 ```
 
+`Important` to note that static property is not accessible directly in the class inside any `method or constructor` using the `this` keyword, instead of this keyword we should use the class name
+
+below code will show error
+```js
+class Department {
+  
+    // Static property
+    static fiscalYear = 2020
+
+    constructor(id: string, private reports: string[]) {      
+        this.fiscalYear
+    }
+}
+```
+
+below will be error free
+```js
+class Department {
+  
+    // Static property
+    static fiscalYear = 2020
+
+    constructor(id: string, private reports: string[]) {      
+        Department.fiscalYear
+    }
+}
+```
+
+
+<br>
+
+
 ---
 
 Private Properties in Class using "#"
