@@ -1940,7 +1940,7 @@ export const { addToCart, removeFromCart } = cartSlice.actions;
 ```
 
 
-```jsx
+```js
 // usage in card component
 import { type CartItem, addToCart, removeFromCart } from '../store/cart-slice.ts';
 import { useCartDispatch, useCartSelector } from '../store/hooks.ts';
