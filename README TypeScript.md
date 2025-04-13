@@ -9,6 +9,52 @@
 
 > ### What are the basic types available in TypeScript?
 
+The basic types are :
+- **number** (both integers and floating point numbers)
+- **string**
+- **boolean**
+- **Array**- There are two equivalent ways to define array types:\
+  `Array<T>` and `T[]`. For example:
+    - `string[]` - array of string
+    - `Array<string>` - array of strings
+- **Tuples**- Tuples have a `fixed number of elements` with `specific types`.
+  - `[boolean, string]` - tuple where the first element is a boolean and the second is a string.
+  - `[number, number, number]` - tuple of three numbers.
+  - let employee: [string, number, boolean] = ['John', 35, true];
+- **{} - object**- you can define its properties or indexer
+  - `{name: string, age: number}` - object with name and age attributes
+  - `{[key: string]: number}` - a dictionary of numbers indexed by string
+- **enum** - Provides a set of named constants such as days or colors.
+    ```js
+    enum WeekDays { Monday, Tuesday, Wednesday, Thursday, Friday }
+    let today: WeekDays = WeekDays.Wednesday;
+    ```
+    - `{ Red = 0, Blue, Green }` - enumeration mapped to numbers
+- **Function**. You specify types for the parameters and return value:
+  - (param: number) => string - function taking one number parameter returning string
+  - () => number - function with no parameters returning an number.
+  - (a: string, b?: boolean) => void - function taking a string and optionally a boolean with no return value.
+- **any** - Permits any type. Expressions involving any are not type checked.
+- **void** - represents "nothing", can be used as a function return value. Only `null` and `undefined` are part of the void type.
+  - **If you have nothing to retun instead of return undefined, you can use void to return**
+    ```ts
+    type Pra = (a: number) => void;
+
+    const red: Pra = (a) => {
+      // your implementation here
+      console.log(a);
+    };
+    // or
+    const red: Pra = function (a) {
+      // your implementation here
+      console.log(a);
+    };
+    ```
+- **never**
+  - `let` foo: never; -As the type of variables under type guards that are never true.
+  - `function` error(message: string): never { throw new Error(message); } - As the return type of functions that never return.
+- **null** - type for the value `null`. null is implicitly part of every type, unless strict null checks are enabled.
+
 <br>
 
 > ### What are Interfaces in TypeScript and how do they work
@@ -157,51 +203,6 @@ num = "this is a string"; // error: Type 'string' is not assignable to type 'num
 ```
 <br>
 
-The basic types are :
-- number (both integers and floating point numbers)
-- string
-- boolean
-- `Array`. You can specify the types of an array's elements. There are two equivalent ways to define array types:\
-  `Array<T>` and `T[]`. For example:
-  - `string[]` - array of string
-  - `Array<string>` - array of strings - **Please consider this and above line as both are different way of same thing**
-- `Tuples`. Tuples have a fixed number of elements with specific types.
-  - `[boolean, string]` - tuple where the first element is a boolean and the second is a string.
-  - `[number, number, number]` - tuple of three numbers.
-  - let employee: [string, number, boolean] = ['John', 35, true];
-- {} - object, you can define its properties or indexer
-  - `{name: string, age: number}` - object with name and age attributes
-  - `{[key: string]: number}` - a dictionary of numbers indexed by string
-- enum - Provides a set of named constants such as days or colors.
-    ```js
-    enum WeekDays { Monday, Tuesday, Wednesday, Thursday, Friday }
-    let today: WeekDays = WeekDays.Wednesday;
-    ```
-    - `{ Red = 0, Blue, Green }` - enumeration mapped to numbers
-- Function. You specify types for the parameters and return value:
-  - (param: number) => string - function taking one number parameter returning string
-  - () => number - function with no parameters returning an number.
-  - (a: string, b?: boolean) => void - function taking a string and optionally a boolean with no return value.
-- `any` - Permits any type. Expressions involving any are not type checked.
-- `void` - represents "nothing", can be used as a function return value. Only `null` and `undefined` are part of the void type.
-- **If you have nothing to retun instead of return undefined, you can use void to return**
-  ```ts
-  type Pra = (a: number) => void;
-
-  const red: Pra = (a) => {
-    // your implementation here
-    console.log(a);
-  };
-  // or
-  const red: Pra = function (a) {
-    // your implementation here
-    console.log(a);
-  };
-  ```
-- never
-  - `let` foo: never; -As the type of variables under type guards that are never true.
-  - `function` error(message: string): never { throw new Error(message); } - As the return type of functions that never return.
-- `null` - type for the value `null`. null is implicitly part of every type, unless strict null checks are enabled.
 
 <br>
 
