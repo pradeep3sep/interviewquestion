@@ -596,7 +596,7 @@ So it doesn't matter about number brackets([]) around the number, it is always c
 </details>
 
 
-### Question 34
+### ⭐️ Question 34
 ```js
 console.log([0] == false);
 if ([0]) {
@@ -1595,7 +1595,7 @@ clearInterval(config.alert);
 In summary, after setting `config` to `null`, the 'Alert!' messages will continue to appear every second because `setInterval` is still running.
 </details>
 
-### Question 69
+### ⭐️ Question 69
 
 ```js
 const config = {
@@ -1909,8 +1909,11 @@ runPromises()
 
 
 ### Question 77
+
+What is value of
+
 ```js
-What is value of 3 instanceof Number
+3 instanceof Number
 ```
 <details>
   <summary>Answer</summary>
@@ -2239,7 +2242,7 @@ Answer is A) true, false, JC because delete keyword deletes only property of an 
 </details>
 
 
-### Question 91
+### ⭐️ Question 91
 
 ```js
 const arr = [];
@@ -2416,20 +2419,13 @@ person.method();
 The correct answer is: **💖C) undefined**  
 
 ### Explanation:
-1. **The `bind` method and `this`:**
-   - When you use `bind` on a function, it creates a new function with its `this` context set explicitly to the argument passed to `bind`.  
-   - In this case, `displayName.bind(this)` binds the function `displayName` to the value of `this` **in the scope where `bind` is called**.
 
-2. **Global `this` in non-strict mode:**
-   - In the global scope (or the top level of a script), `this` usually refers to the global object (`window` in browsers, or `global` in Node.js).  
-   - If `strict mode` were enabled, `this` in the global scope would be `undefined`.
-
-3. **What happens in the code:**
+1. **What happens in the code:**
    - The `displayName` function is defined to log `this.name`.
    - The `person` object sets `method` to `displayName.bind(this)`. Here, `this` refers to the global `this` in the context of the script, not the `person` object.
    - Therefore, when `person.method()` is called, it uses the bound `this`, which points to the global object.
 
-4. **Outcome:**
+2. **Outcome:**
    - If the global object does not have a `name` property, `this.name` resolves to `undefined`.
    - The `console.log(this.name)` inside `displayName` logs `undefined`.
 
