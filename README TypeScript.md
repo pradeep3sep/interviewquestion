@@ -48,8 +48,6 @@ Basic config in tsconfig.json
 
 > ### What are the basic types available in TypeScript?
 
-<details>
-
 The basic types are :
 - **number** (both integers and floating point numbers)
 - **string**
@@ -100,17 +98,14 @@ The basic types are :
   }
   ```
 - **null** - type for the value `null`. null is implicitly part of every type, unless strict null checks are enabled.
-</details>
 <br>
 
-
 > ### Notes:
-1. keep in mind that the we should use the string not the String or number not Number
+1. keep in mind that the we should use the `string not the String` or number not Number
 2. The type names String , Number , and Boolean (starting with capital letters) are legal, but refer to some special built-in types that will very rarely appear in your code. Always use string , number , or boolean for types.
 3. To specify the type of an array like [1, 2, 3] , you can use the syntax number[].`Note that [number] is a different thing;`
-4. key checking in ts
+4. `key checking in ts`
 
-<details>
 
 ```ts
 if(createdObject.propertyName){
@@ -133,15 +128,12 @@ if(newSubClass instanceof baseClass){
     // do something
 }
 ```
-</details>
 
 <br>
 
 > ### What are Interfaces in TypeScript and how do they work
 
-<details>
-
-interface defines the `structure and types` of its members
+Interface defines the `structure and types` of its members
 
 ```ts
 interface Point {
@@ -159,7 +151,6 @@ let pointB = { x: 8 }; // This object is missing the 'y' property
 printPoint(pointA); // Output: Point coordinates: (3, 7)
 printPoint(pointB); // Compile-time error due to incorrect structure
 ```
-</details>
 <br>
 
 > ### Optional,Default, and Rest Parameters
@@ -175,7 +166,7 @@ function greet(name: string, title?: string) {
 }
 ```
 
-Optional parameters must come after all non-optional parameters:
+**Optional parameters must come after all non-optional parameters:**
 ```js
 function buildName(firstName?: string, lastName: string) // Invalid
 
@@ -187,8 +178,8 @@ function buildName(firstName: string, lastName?: string) // valid
 
 Default parameter
 ```js
-function greet(name = "Stranger") {
-    console.log(`Hello, ${name}!`);
+function greet(name: string = "Guest") {
+  console.log(`Hello, ${name}!`);
 }
 ```
 <br>
@@ -237,11 +228,13 @@ direction = "forward" // ❌ Error: not assignable to type
 1. `any` Type: 
   - The any type is the most flexible type, `type any` can hold values of any type.
   - The downside is that you lose many of the benefits of static typing because the compiler can't provide type-checking assistance.
+
     ```js
     let value: any = 10;
     value = "hello";
     value.foo(); // No compilation error, even though foo may not exist
     ```
+
 <br>
 
 2. `unknown` Type:
@@ -255,7 +248,7 @@ direction = "forward" // ❌ Error: not assignable to type
 
     // Type-checking required before using the value
     if (typeof value === "number") {
-    let result = value + 5; // OK
+      let result = value + 5; // OK
     }
     ```
 
@@ -401,10 +394,10 @@ printCoord({ x: 100, y: 100 });
 
 <br>
 
-#### 1. used for object
+#### 1. Used for object
 Both **type aliases** and **interfaces** are used to define the shape of an object (or structure of data).  
 
-- one genric diff is type has equal(=) sign before object while interace don't
+- One genric diff is type has `equal(=) sign` before object while interace don't
 
 Example:
 
@@ -433,13 +426,6 @@ interface Dog extends Animal { breed: string }
 ```
 
 #### 3. Merging
-```ts
-// Interface can be merged
-interface Person { name: string }
-interface Person { age: number }
-
-// Result: { name: string; age: number }
-```
 
 ```ts
 // Type cannot be merged
@@ -447,6 +433,13 @@ type Person = { name: string }
 // ❌ Cannot redefine "Person" again
 ```
 
+```ts
+// Interface can be merged
+interface Person { name: string }
+interface Person { age: number }
+
+// Result: { name: string; age: number }
+```
 
 #### 4. Primitive/object
 
@@ -1029,7 +1022,7 @@ type LocaleMessageIDs = "en_welcome_email_id" | "en_email_heading_id" | "en_foot
 <br>
 
 > ### Typecasting
-type casting (aka type assertion) is how you tell the compiler, "Trust me, I know what this value's type actually is." You're essentially overriding TypeScript's inference.
+Type casting (`aka type assertion`) is how you tell the compiler, `"Trust me, I know what this value's type actually is."` You're essentially overriding TypeScript's inference.
 
 For example, if you’re using `document.getElementById`, TypeScript only knows that this will return some kind of `HTMLElement`, but you might know that your page will always have an `HTMLCanvasElement` with a given ID.
 
@@ -1042,10 +1035,11 @@ or
 ```js
 const myCanvas = <HTMLCanvasElement>document.getElementById("main_canvas");
 ```
+<br>
 
 Some more use cases
 
-When we don't know the data which is coming from api, but we want to add limitiations to it. then we do the procedure
+1. When we don't know the data which is coming from api, but we want to add limitiations to it. then we do the procedure
 ```ts
 export const createTodo: RequestHandler = (req, res, next) => {
   const text = (req.body as {text: string}).text;
@@ -1057,11 +1051,15 @@ export const createTodo: RequestHandler = (req, res, next) => {
 
 in above we states `(req.body as {text: string}).text;` that text will be available and it will be of string
 
-Sometime we need the value of input of html, then we use that in below form
+<br>
+
+2. Sometime we need the value of input of html, then we use that in below form
 ```ts
 const userInputElement = document.getElementById('user-input')! as HTMLInputElement;
 userInputElement.value = "hi"
 ```
+
+<br>
 
 When to Use Type Casting
 - You're getting data from a dynamic source (like any, unknown, or a third-party lib)
@@ -1119,6 +1117,8 @@ export default function CourseGoal({ title, children }: { title: string; childre
 }
 ```
 
+<br>
+
 **Method 2**
 
 ```ts
@@ -1141,6 +1141,8 @@ export default function CourseGoal({ title, children }: CourseGoalProps) {
   );
 }
 ```
+
+<br>
 
 **Method 3**
 - To handle children react provide additional like PropsWithChildren
