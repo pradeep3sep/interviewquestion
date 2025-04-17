@@ -3714,7 +3714,7 @@ NaN
 </details>
 
 
-### Question 136
+### ⭐️ Question 136
 
 ```js
 var a = 1
@@ -3963,6 +3963,11 @@ console.log(parseInt(obj1))
   <summary>Answer</summary>
   <p>Answer is </p>
 
+  ```
+  2
+  100
+  ```
+
 In JavaScript, when you perform operations like addition or conversion, the language engine tries to coerce objects to primitive types. The order in which it tries to do this is: `valueOf()` first, then `toString()`.
 
 Let's analyze your code:
@@ -4013,6 +4018,12 @@ console.log(parseInt(obj3))
 <details>
   <summary>Answer</summary>
   <p>Answer is </p>
+
+  ```
+  100
+  1001
+  100
+  ```
 
 **Reason is below**
 
@@ -4185,7 +4196,7 @@ b\
 b
 </details>
 
-### Question 149
+### ⭐️ Question 149
 
 ```js
 function* gen() {
@@ -4208,35 +4219,9 @@ console.log([...gen()])
   <summary>Answer</summary>
   <p>Answer is </p>
 
-Let's break down the function `gen` step by step to understand its behavior and explain the output of `console.log([...gen()])`.
+Output: [1, 2, 5]
 
-### Function Definition
 The function `gen` is a generator function. Generator functions are defined using the `function*` syntax and can yield multiple values, pausing and resuming their execution.
-
-```javascript
-function* gen() {
-    try {
-        yield 1;
-        yield 2;
-        return 3;
-        yield 4;
-    } finally {
-        yield 5;
-        return 6;
-        yield 7;
-    }
-}
-```
-
-### Explanation
-
-1. **`yield 1`**: The generator yields the value `1` and pauses.
-2. **`yield 2`**: When resumed, the generator yields the value `2` and pauses again.
-3. **`return 3`**: The generator returns `3`. When a generator returns a value, it terminates and no further `yield` statements are executed in the `try` block.
-4. **`finally` block**: Despite the `return` statement, the `finally` block is executed.
-    - **`yield 5`**: The `finally` block starts executing, and the generator yields the value `5`.
-    - **`return 6`**: The generator returns `6` from the `finally` block, which causes it to terminate.
-    - **`yield 7`**: This `yield` is unreachable because the generator terminates at `return 6`.
 
 ### Execution Flow
 

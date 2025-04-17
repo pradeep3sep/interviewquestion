@@ -57,6 +57,7 @@ This process occurs inside the **JavaScript Execution Context (JEC)**, which con
 - **Thread of Execution** – Executes the code line by line.  
 
 <br>
+<details>
 
 **1. Memory Creation Phase (Creation Phase)**
 Before executing the code, JavaScript first scans the script and sets up memory for variables and functions.  
@@ -126,6 +127,8 @@ outer();
    - Stores `y = 10`, accesses `x`, executes `console.log(15)`, then removed.  
 4. **Outer function finishes and is removed.**
 5. **Global Execution Context remains until script finishes.**
+
+</details>
 
 <br>
 
@@ -347,6 +350,24 @@ Here’s a concise comparison of `let`, `const`, and `var` in JavaScript present
     - `a = 1`
     - `b = 2`
     - `others = [3, 4, 5]`
+
+<br>
+
+> ### Rest operator in object
+```js
+let myObj = {
+    name: "Luke",
+    age: 25,
+    hobbies: "music"
+};
+
+let { hobbies, ...rest } = myObj;  // => Luke 25 music
+
+console.log(hobbies, rest)  // => music { name: 'Luke', age: 25 }
+
+console.log(hobbies, rest.age)  // => music 25
+
+```
 
 <br>
 
@@ -1008,6 +1029,8 @@ The code `console.log(1 + +true)` results in the output `2`.
 
 Here’s why:
 
+<details>
+
 1. `true` is a boolean value in JavaScript.
 2. The unary plus operator (`+`) is used to convert its operand to a number.
 3. Applying the unary plus operator to `true` converts it to the number `1`.
@@ -1016,6 +1039,7 @@ Here’s why:
 6. Finally, `console.log(2)` outputs `2` to the console.
 
 Thus, the output is `2`.
+</details>
 
 <br>
 
@@ -1179,7 +1203,7 @@ log(1,2,3)
 ```
 <br>
 
-### Object k saare method
+## Object k saare method
 
 <br>
 
@@ -2194,25 +2218,6 @@ const composedPlayerName = compose(
 
 console.log(composedPlayerName); // VIRAT
 ```
- 
-<br>
-
-
-> ### Rest operator in object
-```js
-let myObj = {
-    name: "Luke",
-    age: 25,
-    hobbies: "music"
-};
-
-let { hobbies, ...rest } = myObj;  // => Luke 25 music
-
-console.log(hobbies, rest)  // => music { name: 'Luke', age: 25 }
-
-console.log(hobbies, rest.age)  // => music 25
-
-```
 
 <br>
  
@@ -2436,43 +2441,11 @@ const object = {
 Object.freeze(object);
 console.log(Object.isFrozen(object));
 ```
-
-<br>
- 
-> ### What is a proxy object
-
-The Proxy object is used to define custom behavior for fundamental operations such as property lookup, assignment, enumeration, function invocation, etc. The syntax would be as follows,
-
-```js
-var p = new Proxy(target, handler);
-```
-
-Let's take an example of proxy object,
-
-```js
-var handler = {
-  get: function (obj, prop) {
-    return prop in obj ? obj[prop] : 100;
-  },
-};
-
-var p = new Proxy({}, handler);
-p.a = 10;
-p.b = null;
-
-console.log(p.a, p.b); // 10, null
-console.log("c" in p, p.c); // false, 100
-```
-
-In the above code, it uses get handler which define the behavior of the proxy when an operation is performed on it
-
 <br>
 
 > ### Object.entries(newObj), Object.keys(newObj), Object.values(newObj) 
 
-
 <br>
- 
 
 > ### How do you detect caps lock key turned on or not
 
@@ -3368,17 +3341,6 @@ String.fromCharCode(65, 66, 67); // returns 'ABC'
 
 <br>
  
-> ### What is the output of below console statement with unary operator
-
-```js
-console.log(+"Hello");
-```
-
-The output of the above console log statement returns NaN. Because the element is prefixed by the unary operator and the JavaScript interpreter will try to convert that element into a number type. Since the conversion fails, the value of the statement results in NaN value
-
-
-<br>
- 
 > ### What happens if we add two arrays
 
 If you add two arrays together, it will convert them both to strings and concatenate them. For example, the result of adding arrays would be as below,
@@ -3507,6 +3469,9 @@ There are 4 different ways to create sparse arrays in JavaScript
 <br>
 
 > ### Why does parseInt(1/0, 19) return 18?
+
+<details>
+
 The result of 1/0 is `Infinity`.
 
 `parseInt` treats its first argument as a string which means first of all `Infinity.toString()` is called, producing the string `"Infinity"`. So it works the same as if you asked it to convert `"Infinity"` in base 19 to decimal.
@@ -3540,7 +3505,7 @@ Base 19   Base 10 (decimal)
 What happens next is that `parseInt` scans the input `"Infinity"` to find which part of it can be parsed and stops after accepting the first `I` (because `n` is not a valid digit in base 19).
 
 Therefore it behaves as if you called `parseInt("I", 19)`, which converts to decimal 18 by the table above.
-
+</details>
 <br>
  
 > ### Why does ++[[]][+[]]+[+[]] return the string “10”?
@@ -3998,6 +3963,7 @@ john = null; // overwrite the reference
 
 Compare it with the regular Map example above. Now if john only exists as the key of WeakMap – it will be automatically deleted from the map (and memory).
 
+<br>
 
 **Use case: additional data**
 
@@ -4010,7 +3976,7 @@ refer below for understanding
 ```
 https://javascript.info/weakmap-weakset
 ```
-
+<br>
 
 Map  | WeakMap
 ------------- | -------------
@@ -4021,6 +3987,7 @@ The garbage collector doesn’t remove a key pointer from “Map” and also doe
 Maps have some properties : .set, .get, .delete, .size, .has, .forEach, Iterators. | WeakMaps have some properties : .set, .get, .delete, .has.
 You can create a new map by using a new Map(). | You can create a new WeakMap by using a new WeakMap().
 
+<br>
 
 some code for weakMap and weakSet
 
@@ -4542,23 +4509,44 @@ console.log(Array(5)); // [ <5 empty items> ]
 
 **Prototype inheritance** refers to the mechanism by which objects inherit properties and methods from their prototypes or parents.
 
-**Prototype chaining** is a mechanism in JavaScript When a property or method is accessed on an object, if that property or method does not exist on the object itself, JavaScript will look for it on the object's prototype object. If it's still not found, JavaScript will continue to search up the prototype chain, looking at the prototype's prototype, and so on, until it either finds the property or method or reaches the end of the chain.
+<br>
 
-For example, suppose you have an object foo that has a prototype object bar, which in turn has a prototype object baz. If you try to access a property on foo that doesn't exist on foo itself, JavaScript will look for it on bar. If it's not on bar, JavaScript will then look on baz. If it's still not found, JavaScript will continue up the prototype chain until it either finds the property or reaches the end of the chain.
+**Prototype chaining** is a mechanism in JavaScript for property/method lookup.
+- When accessing a property or method on an object:
+  - JavaScript first checks if the object itself has that property.
+  - If not found, it looks at the object's **prototype**.
+  - This continues **up the prototype chain** until:
+    - The property is found, or
+    - It reaches an object with `null` as its prototype.
+- This chain of lookups is called the **prototype chain**.
 
 
-When it comes to inheritance, JavaScript only has one construct: objects. Each object has a private property which holds a link to another object called its prototype. That prototype object has a prototype of its own, and so on until an object is reached with null as its prototype. By definition, null has no prototype, and acts as the final link in this prototype chain.
+#### **Example Scenario**
+- Suppose you have objects linked via prototypes: `foo → bar → baz`.
+  - If a property isn't found on `foo`, JavaScript checks `bar`.
+  - If not on `bar`, it checks `baz`.
+  - If still not found, the search continues until `null` is reached.
 
+#### **JavaScript Inheritance Model**
+- JavaScript uses only **objects** for inheritance.
+- Every object has a hidden property pointing to its **prototype object**.
+- Each prototype may have its own prototype, forming a **chain**.
+- This chain ends when a prototype is `null`.
+  - `null` has no prototype and is the **end of the chain**.
 
+<br>
 
-👉 Prototype and Prototype Inheritance 
-The prototype is an object that is associated with every functions and objects by default in JavaScript,
+👉 Prototype and Prototype Inheritance\
+The prototype is an object that is associated with every functions and objects by default in JavaScript,\
 Every object includes __proto__ property that points to prototype object of a function that created the object.
 
-💡Difference between prototype and  __proto__
-prototype is a property of a Function object. It is the prototype of objects constructed by that function.
+<br>
+
+💡Difference between prototype and  __proto__\
+prototype is a property of a Function object. It is the prototype of objects constructed by that function.\
 __proto__ is an internal property of an object, pointing to its prototype.
 
+<br>
 
 ```js
 // 👉 Prototype
@@ -4580,7 +4568,10 @@ age: 24;
 getName: ƒ(); => method created separately for jayesh object consume extra memory
 name: "jayesh";
 */
+
+
 jayesh.getName(); // name is jayesh
+
 console.log(jayesh.__proto__); // Person.prototype
 console.log(jayesh.__proto__ === Person.prototype); // true
 console.log(Object.getPrototypeOf(jayesh) === Person.prototype); // true
@@ -4595,12 +4586,15 @@ age: 25;
 getName: ƒ(); => method created separately for sam object consume extra memory
 name: "sam";
 */
+
+
 sam.getName(); // name is sam
 
 // Now, Let's create prototype member ( common parent inherit member for all objects ) saves memory.
 Person.prototype.getAge = function () {
   console.log("age is", this.age);
 };
+
 
 console.log("After adding getAge fn as Prototype member");
 console.log("jayesh", jayesh);
@@ -4609,12 +4603,15 @@ age: 24;
 getName: ƒ(); => method created separately for jayesh object consume extra memory
 name: "jayesh";
 */
+
+
 console.log("sam", sam);
 /* output
 age: 25;
 getName: ƒ(); => method created separately for sam object consume extra memory
 name: "sam";
 */
+
 
 console.log("Person.prototype", Person.prototype);
 /*output
@@ -4623,9 +4620,11 @@ constructor: ƒ (name, age) => function constructor
 [[Prototype]]: Object => Object.Prototype => null
 */
 
+
 // only one copy of getAge() will be created inside Person.prototype
 jayesh.getAge(); // age is 24
 sam.getAge(); // age is 24
+
 
 // now let's add one new property to jayesh
 jayesh.lastName = "Choudhary";
@@ -4649,9 +4648,7 @@ for (let key in jayesh) {
 // name, age, getName, lastName, getAge(Prototype member)
 ```
 
-
 <br>
- 
 
 > ### Some cases of === or ==
 ```js
