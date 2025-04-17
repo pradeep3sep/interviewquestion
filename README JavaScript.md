@@ -5026,6 +5026,9 @@ Student.displaySchoolName(); // little flower
 stud1.displaySchool(); // undefined
 stud2.displaySchool(); // undefined
 ```
+<br>
+
+### Key point to note
 
 `Important` to note that static property is not accessible directly in the class inside any `method or constructor` using the `this` keyword, instead of this keyword we should use the class name
 
@@ -5054,14 +5057,9 @@ class Department {
     }
 }
 ```
-
-
 <br>
 
-
----
-
-Private Properties in Class using "#"
+### Private Properties in Class using "#"
 
 ```js
 class BankAccount {
@@ -5137,6 +5135,7 @@ console.log(mukesh.name); // new mukesh
 mukesh.age = 45;
 console.log(mukesh.age); // 45
 ```
+<br>
 
 > ### What are javascript accessors
 
@@ -5628,7 +5627,7 @@ admin.printInfo(); // My name is Nick
 <br>
  
 > ### What is call stack
-Call Stack is a data structure for javascript interpreters to keep track of function calls(creates execution context) in the program. It has two major actions,
+Call Stack is a `data structure for javascript interpreters` to keep track of function calls(creates execution context) in the program. It has two major actions,
 
 * Whenever you call a function for its execution, you are pushing it to the stack.
 * Whenever the execution is completed, the function is popped out of the stack.
