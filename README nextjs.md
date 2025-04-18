@@ -1,4 +1,4 @@
-> ### Importing Alias in TypeScript/JavaScript with Next.js
+### Importing Alias in TypeScript/JavaScript with Next.js
 
 ```js
 // Before
@@ -34,10 +34,10 @@ tsconfig.json or jsconfig.json
 
 <br>
 
-Note below are for app router: 
-- Jo bhi logs terminal me aaye means wo server side execute hua and jo logs browser me aaye wo clinet side execute hua h
-- It has page.js not index.js in folder which serve as main file.
-- By default, all components are server side components only
+### Note below are for `app router`: 
+- Jo bhi `logs terminal` me aaye means wo `server side execute` hua and jo `logs browser` me aaye wo `clinet side execute` hua h
+- It has `page.js not index.js` in folder which `serve as main file`.
+- By `default`, `all components` are `server side` components only
 - "use client" directive added, the component should run on client side & server side
 - when we click on next Link button, the component which comes on route change runs on server side, not on client side
 - you can have "use client" or "use server" in single component, if both needed then make that component to two separate coponenent, and use them separately
@@ -45,6 +45,10 @@ Note below are for app router:
 - Next caches very regressiveely in next 14
 - if you use any 3rd party package, and it does not support server side, run it in "use client" mode.
 - You cannot import a Server Component into a Client Component.
+
+<br>
+
+### How to import server component in client component
 
 ```tsx
 'use client'
@@ -58,14 +62,13 @@ export default function ClientComponent({ children }) {
   return (
     <>
       <button onClick={() => setCount(count + 1)}>{count}</button>
- 
       <ServerComponent />
     </>
   )
 }
 ```
 
-- Passing Server Components to Client Components as Props is allowed
+**Passing Server Components to Client Components as Props is allowed**
 
 ```js
 // app/client-component.js
@@ -79,7 +82,6 @@ export default function ClientComponent({ children }) {
   return (
     <>
       <button onClick={() => setCount(count + 1)}>{count}</button>
- 
       {children}
     </>
   )
@@ -104,14 +106,11 @@ export default function Page() {
   )
 }
 ```
-
 <br>
 
-## 120, 150,180 no ki video phir dekhni h
+### App Router vs Pages Router Folder structure in Next.js
 
 <br>
-
-> ### **App Router vs Pages Router in Next.js**
 
 **1. App Router (`app/` directory) - "app" folder is at Top level**
 
@@ -144,16 +143,18 @@ export default function Page() {
 
 <br>
 
-## **Next.js Routing Files in the App Router (`app/` directory)**  
+## Next.js Routing Files in the App Router (`app/` directory) 
 
-### **1. `layout.js / layout.tsx` (Layout File)**
-- A layout is UI that is shared between multiple pages. On navigation, layouts preserve state, remain interactive, and do not rerender. Act as persistent UI wrapper
-- Layouts are Server Components by default but can be set to a Client Component.
-- Layouts do not have access to the route segments below itself. To access all route segments, you can use `useSelectedLayoutSegment` or `useSelectedLayoutSegments` in a Client Component.
+<br>
+
+### 1. layout.js / layout.tsx (Layout File)
+- Layout.js is `shared between multiple pages`. On `navigation`, `layouts preserve state`, remain interactive, and `do not rerender`.
+- Layouts `do not have access` to the `route segments` below itself. To access all route segments, you can use `useSelectedLayoutSegment` or `useSelectedLayoutSegments` in a Client Component.
 - A root layout is the top-most layout in the root app directory. while other layout existed in route folder
-- The app directory must include a root app/layout.js.
+- The `app directory` `must include` a `root app/layout.js`.
 - The `root layout` should have the `html, body` and `metadata(metadata is reseved and must shared object) function`
 
+<br>
 
 ```tsx
 // app/layout.tsx
@@ -174,12 +175,15 @@ export default function RootLayout({ children }) {
 
 <br>
 
-**`Props` in layout**
+### `Props` in layout
 1. children (required)
 2. params (optional)
 
+<br>
+
 Params is available in layout.js of `route folder`, but params is `not available` in `root layout.js`
 
+<br>
 
 | Example                               | URL            | `params`               |
 |---------------------------------------|---------------|------------------------|
@@ -187,41 +191,15 @@ Params is available in layout.js of `route folder`, but params is `not available
 | `app/shop/[tag]/[item]/layout.js`     | `/shop/1/2`    | `{ tag: '1', item: '2' }` |
 | `app/blog/[...slug]/layout.js`        | `/blog/1/2`    | `{ slug: ['1', '2'] }` |
 
+<br>
 
 **Note**: Passing `data between a parent layout` and its `children` is `not possible`. However, you can `fetch the same data` in a route `more than once`, and the same API call is made in layout.js and page.js, React will automatically `deduplicate (dedupe)` requests, ensuring the data is only fetched once.
 
-**Example:**
-
-```js
-// app/dashboard/layout.js
-export default async function DashboardLayout({ children }) {
-  const data = await fetch('https://api.example.com/user').then(res => res.json());
-
-  return (
-    <div>
-      <h1>Welcome, {data.name}!</h1>
-      {children} {/* No way to pass `data` directly */}
-    </div>
-  );
-}
-```
-
-```js
-// app/dashboard/page.js
-export default async function DashboardPage() {
-  const data = await fetch('https://api.example.com/user').then(res => res.json());
-
-  return <h2>Dashboard for {data.name}</h2>;
-}
-```
-
-- Even though both files call the API, Next.js only makes one request (auto-deduping)!
-
+<br>
 <br>
 
-### **2. `page.js / page.tsx` (Page File)**
-- Defines an actual page route.
-
+### 2. page.js / page.tsx (Page File)
+<br>
 
 ```tsx
 // app/dashboard/page.tsx → Renders /dashboard
@@ -255,11 +233,10 @@ export default function Page({ params, searchParams }) {
 | /shop?a=1&a=2 | { a: ['1', '2'] } |
 
 
-
-
+<br>
 <br>
 
-### **3. `loading.js / loading.tsx` (Loading UI)**
+### 3. loading.js / loading.tsx (Loading UI)
 - Provides a loading state while fetching server-side data.
 - Uses React Suspense.
 
@@ -274,8 +251,9 @@ export default function Loading() {
 - sometimes loading.js is not working as expected then in that condition we can use the `suspense with fallback` in that component, same as we do in react js
 
 <br>
+<br>
 
-### **4. `not-found.js / not-found.tsx` (Custom 404 Page)**
+### 4. not-found.js / not-found.tsx (Custom 404 Page)
 - Handles 404 errors for missing pages inside a route.
 
 
@@ -310,13 +288,10 @@ export default async function NotFound() {
 ```
 <br>
 
-### we have not found function `notFound()`
+### Not found function ie `notFound()`
 
-The `notFound` function allows you to render the `not-found file` within a route segment
-
-**notFound()**
-
-Invoking the `notFound()` function throws a NEXT_NOT_FOUND error and terminates rendering of the route segment in which it was thrown. Specifying a not-found file allows you to gracefully handle such errors by rendering a Not Found UI within the segment.
+- The `notFound` function allows you to render the `not-found file` within a route segment
+- Invoking the `notFound()` function throws a NEXT_NOT_FOUND error and terminates rendering of the route segment in which it was thrown. Specifying a not-found file allows you to gracefully handle such errors by rendering a Not Found UI within the segment.
 
 **Inshort:** basically, kisi condition pe hum chahte h ki nearest not found page render ho jaye, to ish function ko run karte h
 
@@ -344,14 +319,13 @@ export default async function Profile({ params }) {
 ```
 
 <br>
+<br>
 
-### **5. `error.js / error.tsx` (Error UI)**
+### 5. error.js / error.tsx (Error UI)
 - Handles errors **within a specific layout or page**.
 - Uses the `useEffect` hook for error resets.
 - To handle errors within the root layout or template, use a variation of `error.js called global-error.js`.
-- it is important to note that global-error.js must define its own `<html>` and `<body>` tags.
 
-📌 **Example:**
 ```tsx
 // app/dashboard/error.tsx
 'use client' // Error components must be Client Components
@@ -381,12 +355,13 @@ export default function Error({ error, reset }) {
 ```
 
 <br>
+<br>
 
-### **6. `global-error.js / global-error.tsx` (Global Error UI)**
+### 6. global-error.js / global-error.tsx (Global Error UI)
 - Handles errors for the **entire application**.
 - To specifically handle errors in root `layout.js`
 - Placed inside `app/`.
-
+- it is important to note that global-error.js must define its own `<html>` and `<body>` tags.
 
 ```tsx
 // app/global-error.tsx
@@ -405,10 +380,10 @@ export default function GlobalError({ error, reset }) {
 ```
 
 <br>
+<br>
 
-### **7. `route.js / route.ts` (API Endpoint)**
+### 7. route.js / route.ts (API Endpoint)
 - It lies in api folder, which is backend folder. but it can also be used in pages folder
-
 
 ```ts
 // app/api/user/route.ts → API at /api/user
@@ -426,8 +401,9 @@ export async function GET(request, context: { params }) {
 ```
 
 <br>
+<br>
 
-### **8. `template.js / template.tsx` (Re-rendered Layout)**
+### 8. template.js / template.tsx (Re-rendered Layout)
 - Works **like `layout.tsx` but re-renders on navigation**.
 - Useful when you need a fresh layout for each visit.
 - Suspense Boundaries inside layouts only show the fallback the first time the Layout is loaded and not when switching pages. For templates, the fallback is shown on each navigation.
@@ -442,20 +418,19 @@ export default function Template({ children }) {
 
 <br>
 
-### **9. `default.js / default.tsx` (Parallel Route Fallback Page)**
+### 9. default.js / default.tsx (Parallel Route Fallback Page)
 - Used for **parallel routes** when no other route is matched in the slot( slot is any part of parallel route).
 
 📌 **Example:**
 ```tsx
 // app/@notifications/default.tsx
+
 export default function Default() {
   return <p>No notifications available</p>;
 }
 ```
 
-**Props**
-
-**params (optional)**
+### params (optional)
 
 | Example                                      | URL         | `params`                  |
 |----------------------------------------------|------------|---------------------------|
@@ -464,9 +439,9 @@ export default function Default() {
 
 <br>
 
-### **When Does `default.js` Load?**
+### When Does `default.js` Load?
 
-Let’s break it down in a simple way.  
+<br>
 
 ### **1. Initial Folder Structure (Everything Works Fine)**
 ```
@@ -477,9 +452,9 @@ app
  │   ├── @revenue
  │   │   ├── page.js       (Revenue UI)
 ```
-- When you visit `/dashboard`, both **analytics** and **revenue** load correctly. ✅
+- When you visit `/dashboard`, both **analytics** and **revenue** load correctly.
 
-
+<br>
 
 ### **2. Now, You Introduce a Dynamic Route (`[detailId]`) or Nested Route**
 ```
@@ -497,10 +472,12 @@ app
   - Next.js sees `[detailId]` in `@analytics`, so it expects a matching structure in `@revenue`.  
   - Since `@revenue` doesn't have `[detailId]`, Next.js doesn't know what to render there.
 
-
+<br>
 
 ### **3. How to Fix This?**
 You have **two solutions:**
+
+<br>
 
 #### **Solution 1: Add `[detailId]` to `@revenue`**
 ```
@@ -517,6 +494,8 @@ app
 ```
 - Now both `@analytics` and `@revenue` handle `[detailId]`, so `/dashboard/tata` works fine. ✅  
 
+<br>
+
 #### **Solution 2: Add `default.js` in `@revenue`**
 ```
 app
@@ -532,7 +511,7 @@ app
   - `@analytics` loads `[detailId]/page.js`  
   - `@revenue` loads `default.js` instead of breaking. ✅  
 
-
+<br>
 
 ### **Conclusion**
 - If a parallel route is missing for a dynamic route, Next.js throws an error.  
@@ -577,7 +556,7 @@ Next.js **App Router** (`app/` directory) supports **dynamic routing** with brac
 
 <br>
 
-> ### Dynamic Route Segment 
+### Dynamic Route Segment 
 - keep in mind that `params` is important thing
 - Example: `/products/[id]/page.tsx` → Matches `/products/123`, `/products/xyz`  
 
@@ -599,8 +578,7 @@ export default function ProductPage({ params }) {
 
 <br>
 
-
-> ### generateStaticParams 
+### generateStaticParams 
 
 The generateStaticParams function can be used in combination with `dynamic route segments` to `statically generate` routes at build time instead of on-demand at request time.
 
@@ -643,7 +621,9 @@ export const dynamicParams = true // true | false,
 4. During revalidation (`ISR`), `generateStaticParams `will `not be called again`.
 5. `generateStaticParams` replaces the `getStaticPaths` function in the `Pages Router`.
 
-**what should be Returns of generateStaticParams**
+<br>
+
+**What should be Returns of generateStaticParams**
 
 generateStaticParams should return an array of objects
 
@@ -653,10 +633,15 @@ generateStaticParams should return an array of objects
 | /products/[category]/[product]    | { category: string, product: string }[]   |
 | /products/[...slug]               | { slug: string[] }[]                      |
 
+<br>
 
-#### Below are example of usage
+### Below are example of usage
+
+<br>
 
 I. **Single Dynamic Segment**
+
+<details>
 
 ```js
 // app/product/[id]/page.js
@@ -674,7 +659,9 @@ export default function Page({ params }) {
   // ...
 }
 ```
+</details>
 
+<br>
 
 II. **Multiple Dynamic Segments**
 
@@ -682,8 +669,10 @@ In this we have two approach
 - Generate params from the bottom up
 - Generate params from the top down
 
+<br>
+<details>
 
-#### Generate params from the bottom up
+### Generate params from the bottom up
 
 Ishme hum child component me parent & child dono k params return kr dete h 
 
@@ -728,17 +717,20 @@ export default function Page({ params }) {
   // ...
 }
 ```
+<br>
 
-#### Generate params from the top down
+### Generate params from the top down
 
 Ishme hum parents me parents ka prams return krte h aur child me child ka params return karte h
 
 Lets say we have route like this
-```
+```js
 /products/[category]/[product]
 ```
 
-If a parent route has generateStaticParams, the child route's generateStaticParams will run for each value returned by the parent.
+**If a parent route has generateStaticParams, the child route's generateStaticParams will run for each value returned by the parent.**
+
+<br>
 
 Let's say the parent [category] route has this:
 ```js
@@ -776,9 +768,12 @@ export default function Page({ params }) {
   // ...
 }
 ```
+</details>
+<br>
 
+III. **Catch-all Dynamic Segment**
 
-3. Catch-all Dynamic Segment
+<details>
 
 ```js
 // app/product/[...slug]/page.js
@@ -797,15 +792,16 @@ export default function Page({ params }) {
   // ...
 }
 ```
+</details>
+
+<br>
+<br>
+
+### `[...folder]` → Catch-All Route Segment
+- Example: `/docs/[...slug]/page.tsx` → Matches `/docs/setup/install`, `/docs/react/hooks`  
 
 <br>
 
-> ### `[...folder]` → Catch-All Route Segment
-
-- **Matches multiple path segments after a base route**  
-- Example: `/docs/[...slug]/page.tsx` → Matches `/docs/setup/install`, `/docs/react/hooks`  
-
-📌 **Example Structure:**  
 ```
 /app
   /docs
@@ -813,8 +809,11 @@ export default function Page({ params }) {
       page.tsx  → Matches `/docs/:slug+`
 ```
 
-📌 **Example Code (`app/docs/[...slug]/page.tsx`):**  
+<br>
+
 ```tsx
+// app/docs/[...slug]/page.tsx
+
 export default function DocsPage({ params }) {
   return <h1>Docs Path: {params.slug.join(' / ')}</h1>;
 }
@@ -822,15 +821,16 @@ export default function DocsPage({ params }) {
 ✅ **URL:** `/docs/setup/install` → **Renders:** `Docs Path: setup / install`  
 
 <br>
+<br>
 
-> ### `[[...folder]]` → Optional Catch-All Route Segment**  
+### `[[...folder]]` → Optional Catch-All Route Segment
 
 - **Same as `[...folder]`, but also matches the base route itself**  
 - Example: `/blog/[[...slug]]/page.tsx` → Matches `/blog`, `/blog/nextjs`, `/blog/nextjs/app-router`  
-
 - basically cathing all route, which can deeply nested in single component
 
-**Example Structure:**  
+<br>
+
 ```
 /app
   /blog
@@ -838,8 +838,9 @@ export default function DocsPage({ params }) {
       page.tsx  → Matches `/blog/:slug*` (including `/blog`)
 ```
 
-**Example Code (`app/blog/[[...slug]]/page.tsx`):**  
 ```tsx
+// app/blog/[[...slug]]/page.tsx
+
 export default function BlogPage({ params }) {
   return (
     <h1>
@@ -2669,7 +2670,7 @@ When invoked in a form, the action automatically receives the `FormData` object.
 
 export default function Page() {
   async function createInvoice(formData) {  // 'use server' & async keyword is mandatory to create createInvoice function as server action
-    'use server'   
+    'use server'                            // server fuction receives the formData object by default.
  
     const rawFormData = {
       customerId: formData.get('customerId'), // customerId will be input name
@@ -3056,9 +3057,9 @@ export async function addItem(prevState, formData) {
 
 **Basic Syntax**
 ```tsx
-const [optimisticState, setOptimisticState] = useOptimistic(
+const [optimisticState, setOptimisticState] = useOptimistic(  // setOptimisticState to trigger update function
   state, // initial state
-  (currentState, newValue) => newValue // update function
+  (currentState, newValue) => newValue // update function which gets newValue when setOptimisticState(newValue) called
 );
 ```
 
@@ -4334,13 +4335,13 @@ It's a **React hook** provided by **Next.js App Router** that lets you get **spe
 
 Let's say your app has a URL like:
 
-```
+```js
 /dashboard/settings/profile
 ```
 
 You might have a layout like:
 
-```
+```js
 app/
   layout.js
   dashboard/
