@@ -4887,7 +4887,7 @@ export async function getStaticProps() {
   }
 }
 ```
-<details>
+</details>
 
 <br>
 
