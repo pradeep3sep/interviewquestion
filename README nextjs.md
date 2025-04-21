@@ -3874,6 +3874,8 @@ Need more - https://nextjs.org/docs/14/app/api-reference/functions/generate-view
 useSearchParams is a Client Component hook that lets you read the current URL's query string.\
 It is read only, you can not set params through it
 
+<br>
+
 ```js
 // app/dashboard/search-bar.js
 
@@ -3891,7 +3893,7 @@ export default function SearchBar() {
   return <>Search: {search}</>
 }
 ```
-
+<br>
 
 Other methods of searchParams
 - searchParams.get('search')
@@ -3902,10 +3904,12 @@ Other methods of searchParams
 - searchParams.forEach()
 - searchParams.toString()
 
+<br>
 
-#### Some cases of useSearchParams
+### Some cases of useSearchParams
+<br>
 
-1. Static Rendering
+**1. Static Rendering**
 
 **Problem:**
 
@@ -3913,6 +3917,7 @@ If you're using `useSearchParams` inside a statically rendered route, it **force
 
 That’s bad if you want **fast static rendering (SSR/SSG)** for most of the page and only need dynamic data **below**.
 
+<br>
 
 **Solution: Use `<Suspense>`**
 
@@ -3966,12 +3971,7 @@ export default function Page() {
   )
 }
 ```
-
-This layout:
-- Statics parts like `<nav>` and `<h1>` will be **server-rendered**
-- `<SearchBar>` will be **hydrated client-side**
-- While that happens, users will see: `placeholder`
-
+<br>
 
 #### Benefits
 
@@ -3981,11 +3981,13 @@ This layout:
 | Slower TTFB (time to first byte) | Faster initial render |
 | Less SEO friendly | More SEO friendly |
 
+<br>
 
-2. Dyamic rendering 
+**2. Dyamic rendering**
 
 **`useSearchParams` + Dynamic Rendering**
 
+<br>
 
 If your **route is dynamically rendered**, then:
 - `useSearchParams()` will **work on the server during the initial render**
@@ -3993,7 +3995,7 @@ If your **route is dynamically rendered**, then:
 
 This is different from **static rendering**, where `useSearchParams` is **only client-side**.
 
-
+<br>
 
 #### How to Enable Dynamic Rendering
 
@@ -4006,7 +4008,7 @@ export const dynamic = 'force-dynamic'
 This tells Next.js:
 > “Don’t statically render this route — always render it dynamically (on-demand).”
 
-
+<br>
 
 #### Example Walkthrough
 
@@ -4046,6 +4048,7 @@ export default function Page() {
   )
 }
 ```
+<br>
 
 | Feature | Static Rendering | Dynamic Rendering |
 |--------|------------------|-------------------|
@@ -4055,7 +4058,7 @@ export default function Page() {
 | SEO benefits | ✅ Better | ⚠️ Depends (might be slower) |
 | Needs `<Suspense>` for partial hydration | ✅ Yes | ❌ No (optional) |
 
-
+<br>
 
 **When to Use `force-dynamic`**
 
@@ -4064,6 +4067,7 @@ Use when:
 - You're doing **server logic** based on search params (e.g., DB filtering)
 - You don't want to split the UI using `<Suspense>`
 
+<br>
 
 **What Does “Dynamic Rendering” Mean in Next.js (App Router)?**
 
@@ -4078,12 +4082,8 @@ In **Next.js**, a route can be either:
 
 > The page is **not pre-rendered** and **not cached** — it’s generated **on the fly** on each request.
 
-
-
-
 <br>
 <br>
-
 
 > ### userAgent
 
@@ -4111,14 +4111,20 @@ in above, instead of device we can extract many things like
 - os
 - cpu
 
+<br>
+<br>
 
 ## Video Optimization
 
-### Using <video> and <iframe>
+### Using `<video>` and `<iframe>`
 
 Videos can be embedded on the page using the HTML `<video>` tag for direct video files and `<iframe>` for external platform-hosted videos.
 
-#### <video>
+<br>
+
+<details>
+
+#### `<video>`
 
 ```jsx
 // app/ui/video.jsx
@@ -4139,22 +4145,23 @@ export function Video() {
 }
 ```
 
-#### Common <video> tag attributes
+#### Common `<video>` tag attributes
 
 | Attribute   | Description                                                                                     | Example Value                          |
 |-------------|-------------------------------------------------------------------------------------------------|----------------------------------------|
-| src         | Specifies the source of the video file.                                                         | <video src="/path/to/video.mp4" />     |
-| width       | Sets the width of the video player.                                                             | <video width="320" />                  |
-| height      | Sets the height of the video player.                                                            | <video height="240" />                 |
-| controls    | If present, it displays the default set of playback controls.                                   | <video controls />                     |
-| autoPlay    | Automatically starts playing the video when the page loads. Note: Autoplay policies vary across browsers. | <video autoPlay />                     |
-| loop        | Loops the video playback.                                                                       | <video loop />                         |
-| muted       | Mutes the audio by default. Often used with autoPlay.                                           | <video muted />                        |
-| preload     | Specifies how the video is preloaded. Values: none, metadata, auto.                             | <video preload="none" />               |
-| playsInline | Enables inline playback on iOS devices, often necessary for autoplay to work on iOS Safari.     | <video playsInline />                  |
+| src         | Specifies the source of the video file.                                                         | `<video src="/path/to/video.mp4" /> `    |
+| width       | Sets the width of the video player.                                                             | `<video width="320" />`                 |
+| height      | Sets the height of the video player.                                                            | `<video height="240" /> `                |
+| controls    | If present, it displays the default set of playback controls.                                   | `<video controls /> `                    |
+| autoPlay    | Automatically starts playing the video when the page loads. Note: Autoplay policies vary across browsers. | `<video autoPlay />`                     |
+| loop        | Loops the video playback.                                                                       | `<video loop /> `                        |
+| muted       | Mutes the audio by default. Often used with autoPlay.                                           | `<video muted /> `                       |
+| preload     | Specifies how the video is preloaded. Values: none, metadata, auto.                             | `<video preload="none" />`               |
+| playsInline | Enables inline playback on iOS devices, often necessary for autoplay to work on iOS Safari.     | `<video playsInline />`                  |
 
+<br>
 
-#### <iframe>
+#### `<iframe>`
 
 ```js
 // app/page.jsx
@@ -4169,44 +4176,50 @@ export default function Page() {
   )
 }
 ```
+<br>
 
-#### Common <iframe> tag attributes
+#### Common `<iframe>` tag attributes
 
 | Attribute        | Description                                                                 | Example Value                          |
 |------------------|-----------------------------------------------------------------------------|----------------------------------------|
-| src              | The URL of the page to embed.                                               | <iframe src="https://example.com" />   |
-| width            | Sets the width of the iframe.                                               | <iframe width="500" />                 |
-| height           | Sets the height of the iframe.                                              | <iframe height="300" />                |
-| frameborder      | Specifies whether or not to display a border around the iframe.             | <iframe frameborder="0" />             |
-| allowfullscreen  | Allows the iframe content to be displayed in full-screen mode.              | <iframe allowfullscreen />             |
-| sandbox          | Enables an extra set of restrictions on the content within the iframe.      | <iframe sandbox />                     |
-| loading          | Optimize loading behavior (e.g., lazy loading).                             | <iframe loading="lazy" />              |
-| title            | Provides a title for the iframe to support accessibility.                   | <iframe title="Description" />         |
+| src              | The URL of the page to embed.                                               | `<iframe src="https://example.com" />`   |
+| width            | Sets the width of the iframe.                                               | `<iframe width="500" />`                 |
+| height           | Sets the height of the iframe.                                              | `<iframe height="300" />`                |
+| frameborder      | Specifies whether or not to display a border around the iframe.             | `<iframe frameborder="0" /> `            |
+| allowfullscreen  | Allows the iframe content to be displayed in full-screen mode.              | `<iframe allowfullscreen />`             |
+| sandbox          | Enables an extra set of restrictions on the content within the iframe.      | `<iframe sandbox />`                     |
+| loading          | Optimize loading behavior (e.g., lazy loading).                             | `<iframe loading="lazy" /> `             |
+| title            | Provides a title for the iframe to support accessibility.                   | `<iframe title="Description" />`         |
 
+<br>
 
-
+```
 If needed more about video - https://nextjs.org/docs/14/app/building-your-application/optimizing/videos
+```
 
+</details>
+
+<br>
+<br>
 
 ### What are `rewrites`?
 - Allow you to **serve content from a different path or domain** while keeping the original URL in the browser.
 - User sees: `/about`  
   Real content served from: `/` or an external URL.
 - Defined in `next.config.js`.
-
-
-```js
-module.exports = {
-  async rewrites() {
-    return [
-      {
-        source: '/about',
-        destination: '/',
-      },
-    ]
-  },
-}
-```
+  ```js
+  module.exports = {
+    async rewrites() {
+      return [
+        {
+          source: '/about',
+          destination: '/',
+        },
+      ]
+    },
+  }
+  ```
+<br>
 
 #### What it means:
 - When someone visits `/about`, Next.js **tries to serve the content from `/`**.
@@ -4219,6 +4232,8 @@ module.exports = {
 
 
 #### **Modifications / Fixes**
+
+<details>
 
 #### Fix Option 1: Remove the `/about` page
 - Rename/delete the `about` file if you want the rewrite to work:
@@ -4242,9 +4257,14 @@ module.exports = {
   },
 }
 ```
+</details>
 
+```
 more detail - https://nextjs.org/docs/14/app/api-reference/next-config-js/rewrites
+```
 
+<br>
+<br>
 
 ### useSelectedLayoutSegments
 
@@ -4252,11 +4272,14 @@ It's a **React hook** provided by **Next.js App Router** that lets you get **spe
 
 > Think of it as a way to read which part of the layout is currently active.
 
+<br>
+
 Let's say your app has a URL like:
 
 ```js
 /dashboard/settings/profile
 ```
+<br>
 
 You might have a layout like:
 
@@ -4268,6 +4291,7 @@ app/
     settings/
       page.js
 ```
+<br>
 
 Now, inside `dashboard/layout.js`, if you run:
 
@@ -4292,23 +4316,15 @@ You'll get:
 ```js
 ["settings", "profile"]
 ```
-
+<br>
 
 You can use it to:
 - **Highlight menu items** based on the current route.
 - Show/hide components conditionally depending on path.
 - Customize layout behavior dynamically.
 
-
-#### Notes
-- This **only works in the App Router** (`app/` directory).
-- It **returns only the segments under the layout** where it's called.
-- Always mark the file using this hook as `'use client'`.
-
-
-Ah yes! Let's now talk about **`useSelectedLayoutSegment`** (singular, not plural) — and how it’s different from `useSelectedLayoutSegments`.
-
----
+<br>
+<br>
 
 ### useSelectedLayoutSegment
 
@@ -4318,13 +4334,15 @@ It’s similar to `useSelectedLayoutSegments`, but instead of an **array of all 
 
 Let’s say your URL is:
 
-```
+<br>
+
+```js
 /dashboard/settings/profile
 ```
 
 And your app structure is:
 
-```
+```js
 app/
   layout.js              // Root layout
   dashboard/
@@ -4361,24 +4379,9 @@ You’ll get:
 That’s because **`settings`** is the **next path segment** under `/dashboard`.
 
 
-#### Why use it?
+<br>
 
-Use `useSelectedLayoutSegment` when you:
-- Only care about **one level of the route** (like which tab or section is active).
-- Want to keep your logic cleaner than working with arrays.
-
-
-#### Notes
-
-| Point | Detail |
-|-------|--------|
-| Directory Required | Works only in `app/` directory |
-| Client Component | Must use `'use client'` |
-| Returns | A single string segment (e.g., `'settings'`) or `null` |
-| Level-aware | Returns segment **relative to the current layout** |
-
-
-## ✅ Summary
+#### ✅ Summary
 
 | Hook | Returns | Use case |
 |------|---------|----------|
@@ -4388,11 +4391,13 @@ Use `useSelectedLayoutSegment` when you:
 <br>
 <br>
 
-### permanentRedirect
+### PermanentRedirect
 
 `permanentRedirect()` is a helper from Next.js that lets you **redirect users** to a **new URL with a 308 status code** — meaning:
 
 > "This route has **permanently moved** to a new location."
+
+<br>
 
 Use `permanentRedirect` when:
 - A page or route has **moved permanently**
@@ -4408,6 +4413,7 @@ export default function Page() {
   permanentRedirect('/new-page')
 }
 ```
+<br>
 
 #### Behavior:
 - If a user visits `/old-page`, they are immediately **redirected to `/new-page`**
@@ -4426,11 +4432,6 @@ export default function Page() {
 #### ⚠️ Notes
 - Only works in **Server Components** (like `page.js`)
 - Must be called **synchronously** at the top level of your component
-
-## ✅ Good for:
-- Old blog URLs moved to new structure
-- Renamed routes like `/about-us` → `/company`
-- Replacing legacy paths
 
 <br>
 <br>
@@ -4534,78 +4535,6 @@ export default function Custom404() {
   return <h1>404 - Page Not Found</h1>
 }
 ```
-
-<br>
-
-### Retrieve dynamic route parameters
-
-<br>
-
-1️⃣ **Using `useRouter` (Client-Side)**
-
-```javascript
-// pages/product/[id].js
-import { useRouter } from "next/router";
-
-const ProductPage = () => {
-  const router = useRouter();
-  const { id } = router.query; // Get the dynamic param
-
-  return <h1>Product ID: {id}</h1>;
-};
-
-export default ProductPage;
-```
-**Note:** The `id` will be `undefined` on the first render in Next.js because it runs on the client side.
-
-<br>
-<br>
-
-2️⃣ **Using `getServerSideProps` (Server-Side)**
-
-```javascript
-export async function getServerSideProps(context) {
-  const { id } = context.params;
-
-  return {
-    props: { id }, // Pass to the component
-  };
-}
-
-const ProductPage = ({ id }) => {
-  return <h1>Product ID: {id}</h1>;
-};
-
-export default ProductPage;
-```
-**Best for:** When you need fresh data on each request.
-
-<br>
-<br>
-
-3️⃣ **Using `getStaticProps` + `getStaticPaths` (Static Generation)**
-
-```javascript
-export async function getStaticPaths() {
-  return {
-    paths: [{ params: { id: "1" } }, { params: { id: "2" } }], // Pre-generate pages for these IDs
-    fallback: false, // If false, undefined paths will return 404
-  };
-}
-
-export async function getStaticProps({ params }) {
-  return {
-    props: { id: params.id },
-  };
-}
-
-const ProductPage = ({ id }) => {
-  return <h1>Product ID: {id}</h1>;
-};
-
-export default ProductPage;
-```
-**Best for:** When you want to pre-generate pages at build time.
 
 <br>
 <br>
@@ -4717,6 +4646,9 @@ Here:
 **1. Persistent Layouts**
 
 If you want to keep a **navbar, footer, or sidebar** across all pages:
+
+<details>
+
 ```javascript
 import Navbar from '../components/Navbar';
 
@@ -4731,10 +4663,11 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp;
 ```
-
+</details>
 <br>
 
 **2. Global State with Context API**
+<details>
 
 ```javascript
 import { createContext, useState } from 'react';
@@ -4753,9 +4686,14 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp;
 ```
+</details>
+
 <br>
 
 **3. Handling Route Changes (e.g., Loading Indicator)**
+
+<details>
+
 ```javascript
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -4789,6 +4727,8 @@ function MyApp({ Component, pageProps }) {
 
 export default MyApp;
 ```
+
+</details>
 
 <br>
 <br>
@@ -4920,6 +4860,8 @@ export default Blog
 **Error handling and revalidation**
 
 - If there is an error inside getStaticProps when handling background regeneration, or you manually throw an error, the last successfully generated page will continue to show. On the next subsequent request, Next.js will retry calling getStaticProps.
+<details>
+
 ```js
 export async function getStaticProps() {
   // If this request throws an uncaught error, Next.js will
@@ -4945,6 +4887,9 @@ export async function getStaticProps() {
   }
 }
 ```
+<details>
+
+<br>
 
 ### revalidate
 
@@ -5182,17 +5127,21 @@ Sure! Here’s a simpler breakdown of how `fallback: true` works in **Next.js**:
 
 6. **No Support for `output: 'export'` Mode**  
    - `fallback: true` **does not work** when using `output: 'export'` (static HTML export).
+<br>
 
-### **When should you use `fallback: true`?**
+#### **When should you use `fallback: true`?**
 - If you have **many pages that depend on data**, like a large e-commerce site.  
 - Instead of pre-generating **all** product pages, you **only pre-generate a few**.  
 - The rest are generated **on-demand when someone visits them**.  
 - This keeps **build times fast** while still using Static Generation.
 
-### **Important Note:**
+<br>
+
+#### **Important Note:**
 - `fallback: true` **does not update pages** after they’re generated.  
   - To update pages, use **Incremental Static Regeneration (ISR)**.
 
+<br>
 
 Once **User 1** visits a page that was not pre-generated, Next.js:  
 
@@ -5202,11 +5151,9 @@ Once **User 1** visits a page that was not pre-generated, Next.js:
 
 Now, when **User 2** visits the same page **later**, Next.js **serves the cached static page instantly**, without showing the loader again.  
 
-### ✅ **Final Behavior:**  
+#### ✅ **Final Behavior:**  
 - **User 1:** Sees the loader first, then the page loads.  
-- **User 2+:** Gets the fully generated page instantly (no loader).  
-
-This caching ensures **fast subsequent visits** while keeping build times short. 🚀
+- **User 2+:** Gets the fully generated page instantly (no loader).
 
 <br>
 
@@ -5270,7 +5217,7 @@ export async function getStaticPaths() {
 - getServerSideProps can only be exported from a `page`.
 - If an `error` is thrown inside getServerSideProps, it will show the `pages/500.js` file.
 
-
+<br>
 
 pages/index.js
 ```js
@@ -5291,9 +5238,9 @@ export default function Page({ repo }) {
 }
 ```
 
+<br>
 
-Context parameter
-- The context parameter is an object containing the following keys:
+**Context parameter**
 
 | Name            | Description |
 |----------------|-------------|
@@ -5309,6 +5256,7 @@ Context parameter
 | `locales`      | Contains all supported locales (if enabled). |
 | `defaultLocale`| Contains the configured default locale (if enabled). |
 
+<br>
 
 For props
 ```js
@@ -5318,6 +5266,8 @@ export async function getServerSideProps(context) {
   }
 }
 ```
+
+<br>
 
 For notFound
 ```js
@@ -5336,6 +5286,7 @@ export async function getServerSideProps(context) {
   }
 }
 ```
+<br>
 
 For redirect
 ```js
@@ -5357,6 +5308,9 @@ export async function getServerSideProps(context) {
   }
 }
 ```
+<br>
+
+### Point to consider
 
 - keep in mind that the server side running function like getServerSideProps, in which you can not write client slide hooks like useeffect or any other hook.
 - In page router, if you use any hook, then whole will not become the client side, only data which is used using the hook become the client and any function used inside hook becomes the client side, but in app router if you use any hook then whole component becomes clinent side. In that condition we try to make data regarding hook in separate components.
@@ -5386,32 +5340,19 @@ export default IndexPage
 ```
 <br>
 
-> ### _documents.js usage
+### _documents.js usage
 
 - _documents.js should be added directly in pages folder at root level
-- _app.js kind of wrapper which runs on every page but helps only to customize only `<body>` of DOM while _documents.js helps in customize entire HTML documents
-
-
-### **`_document.js` Usage in Next.js (Page Router)**  
-
-In Next.js (Page Router), **`_document.js`** is a custom document file that allows you to modify the **HTML and `<body>` structure** of your pages. It is used primarily for:  
-✅ Customizing the `<html>` and `<body>` structure.  
-✅ Adding **meta tags**, **CSS libraries**, or **custom fonts**.  
-✅ Improving **performance** by preloading assets.  
-
----
-
-### **📌 How to Use `_document.js` in Page Router**
-#### **Step 1: Create the `_document.js` file**  
-📂 **Project Structure**  
+- `_app.js` kind of wrapper which runs on every page but helps only to customize only `<body>` of DOM while `_documents.js` helps in customize `entire HTML` documents
+- useful in adding meta tags, CSS libraries, or custom fonts.
+ 
 ```
 /pages
  ├── _document.js
  ├── index.js
 ```
+<br>
 
-#### **Step 2: Implement `_document.js`**
-Create a `_document.js` file inside the `pages/` directory:
 ```javascript
 // pages/_document.js
 import { Html, Head, Main, NextScript } from "next/document";
@@ -5437,8 +5378,8 @@ class MyDocument extends Document {
           />
         </Head> {/*   must be added */}
         <body>
-          <Main />             {/*   must be added */}
-          <NextScript />       {/*   must be added */}
+          <Main />             {/*   must be added, This is where Next.js will render the app. */}
+          <NextScript />       {/*   must be added, Injects Next.js scripts (for interactivity, hydration, etc.). */}
         </body>
       </Html>
     );
@@ -5448,25 +5389,12 @@ class MyDocument extends Document {
 export default MyDocument;
 ```
 
----
-
-### **📝 Explanation of Key Components**
-| Component      | Description |
-|---------------|------------|
-| `<Html>`      | Defines the root HTML element (`<html lang="en">`). |
-| `<Head>`      | Used to add meta tags, links, and fonts to the document head. |
-| `<Main>`      | This is where Next.js will render the app. |
-| `<NextScript>`| Injects Next.js scripts (for interactivity, hydration, etc.). |
-
----
-
-### **🚀 When to Use `_document.js`?**
-✅ If you **want to modify** the document structure (e.g., add global meta tags, external stylesheets, fonts).  
-✅ When you **need to customize** the `<html>` or `<body>` (e.g., adding a custom class to `<body>`).  
-✅ If you **want to optimize performance** using `<link rel="preconnect">` for fonts or CDNs.  
+#### When to Use `_document.js`
+- If you **want to modify** the document structure (e.g., add global meta tags, external stylesheets, fonts).  
+- When you **need to customize** the `<html>` or `<body>` (e.g., adding a custom class to `<body>`).  
+- If you **want to optimize performance** using `<link rel="preconnect">` for fonts or CDNs.  
 
 ⛔ **Do NOT use `_document.js` for client-side components** (e.g., event listeners, dynamic imports). Instead, use `_app.js` for global logic.
-
 
 <br>
 
@@ -5476,14 +5404,14 @@ export default MyDocument;
 - Middleware executes before routes are rendered. It's particularly useful for implementing custom server-side logic like authentication, logging, or handling redirects.
 - It has NextRequest and NextResponse, both have attached many method on it like 
 
-
-
+<br>
 <br>
 
 ### redirects in next.config.js
 
-next.config.js
 ```js
+// next.config.js
+
 module.exports = {
   async redirects() {
     return [
@@ -5516,23 +5444,31 @@ module.exports = {
   },
 }
 ```
+<br>
 
-- permanent true or false - if true will use the 308 status code which instructs clients/search engines to cache the redirect forever, if false will use the 307 status code which is temporary and is not cached.
+- `permanent true or false` - if true will use the 308 status code which instructs clients/search engines to cache the redirect forever, if false will use the 307 status code which is temporary and is not cached.
 
 - When a redirect is applied, any query values provided in the request will be passed through to the redirect destination. For example, see the following redirect configuration:
 
-```js
-{
-  source: '/old-blog/:path*',
-  destination: '/blog/:path*',
-  permanent: false
-}
-```
+  ```js
+  {
+    source: '/old-blog/:path*',
+    destination: '/blog/:path*',
+    permanent: false
+  }
+  ```
+
 When `/old-blog/post-1?hello=world` is requested, the client will be redirected to `/blog/post-1?hello=world`.
 
-more details - https://nextjs.org/docs/14/app/api-reference/next-config-js/redirects
 
-> ### NextResponse.redirect in Middleware
+more details:
+```
+https://nextjs.org/docs/14/app/api-reference/next-config-js/redirects
+```
+<br>
+<br>
+
+### NextResponse.redirect in Middleware
 
 middleware addition
 
@@ -5542,6 +5478,7 @@ middleware addition
   ├── middleware.js  ✅ (Ensure it's here)
   ├── package.json
 ```
+<br>
 
 - Middleware will be invoked for `every route` in your project. 
 
@@ -5563,13 +5500,19 @@ export const config = {
 - There are many things which you can refer documentation
 
 <br>
+<br>
 
-### API Routes `https://nextjs.org/docs/14/pages/building-your-application/routing/api-routes`
+### API Routes 
+
+```
+https://nextjs.org/docs/14/pages/building-your-application/routing/api-routes
+```
 
 API routes provide a solution to build a `public API` with Next.js.
 
 Any file inside the folder `pages/api` is mapped to `/api/*` and will be treated as an API endpoint instead of a `page`. They are server-side only bundles and won't increase your client-side bundle size.
 
+<details>
 
 pages/api/hello.js
 ```js
@@ -5597,7 +5540,10 @@ export default async function handler(req, res) {
   // ...
 }
 ```
+</details>
 
+
+<br>
 <br>
 
 ### Bundle Analyzer
@@ -5613,7 +5559,7 @@ yarn add @next/bundle-analyzer
 pnpm add @next/bundle-analyzer
 ```
 
-
+<details>
 
 next.config.js
 ```js
@@ -5636,16 +5582,17 @@ ANALYZE=true yarn build
 # or
 ANALYZE=true pnpm build
 ```
+</details>
 
 <br>
+<br>
 
-
-### <Script>
+### `<Script>`
 
 - used for adding external script
 
-app/dashboard/page.js
 ```js
+// app/dashboard/page.js
 import Script from 'next/script'
  
 export default function Dashboard() {
@@ -5656,8 +5603,7 @@ export default function Dashboard() {
   )
 }
 ```
-
-
+<br>
 
 | Prop       | Example                               | Type     |
 |------------|---------------------------------------|----------|
@@ -5676,13 +5622,14 @@ export default function Dashboard() {
 - Next.js ensures the script will only `load once`, even if a user navigates between multiple routes in the same layout, irrespective of addition in nested page.js
 
 <br>
+<br>
 
 ### userAgent
 
 it helps to get various things 
 
-middleware.js
 ```js
+// middleware.js
 import { NextResponse, userAgent } from 'next/server'
  
 export function middleware(request) {
@@ -5693,28 +5640,24 @@ export function middleware(request) {
   return NextResponse.rewrite(url)
 }
 ```
+<details>
 
-1. isBot
-A boolean indicating whether the request comes from a known bot.
+1. `isBot` - A boolean indicating whether the request comes from a known bot.
 
-2. browser
-An object containing information about the browser used in the request.
+2. `browser` - An object containing information about the browser used in the request.
+  - name: A string representing the browser's name, or undefined if not identifiable.
+  - version: A string representing the browser's version, or undefined.
 
-- name: A string representing the browser's name, or undefined if not identifiable.
-- version: A string representing the browser's version, or undefined.
+3. `device` - An object containing information about the device used in the request.
+  - model: A string representing the model of the device, or undefined.
+  - type: A string representing the type of the device, such as console, mobile, tablet, smarttv, wearable, embedded, or undefined.
+  - vendor: A string representing the vendor of the device, or undefined.
 
-3. device
-An object containing information about the device used in the request.
+4. `os` - An object containing information about the operating system.
+  - name: A string representing the name of the OS, or undefined.
+  - version: A string representing the version of the OS, or undefined.
 
-- model: A string representing the model of the device, or undefined.
-- type: A string representing the type of the device, such as console, mobile, tablet, smarttv, wearable, embedded, or undefined.
-- vendor: A string representing the vendor of the device, or undefined.
-
-4. os
-An object containing information about the operating system.
-
-- name: A string representing the name of the OS, or undefined.
-- version: A string representing the version of the OS, or undefined.
+</details>
 
 <br>
 
@@ -5737,10 +5680,14 @@ module.exports = {
   crossOrigin: 'anonymous' or 'use-credentials', // anonymous means cross-origin request without including credentials, this is default applied to all scripts
 }
 ```
+<br>
 
 ### Setting headers through config file
-next.config.js
+
+<details>
+
 ```js
+// next.config.js
 module.exports = {
   async headers() {
     return [
@@ -5822,15 +5769,15 @@ module.exports = {
 }
 
 ```
-
-
-
+</details>
 
 <br>
 
 ### Continuous Integration (CI) Build Caching
 
 To improve build performance, Next.js saves a cache to `.next/cache` that is shared between builds.
+
+<details>
 
 eg for **AWS CodeBuild**
 Add (or merge in) the following to your `buildspec.yml`:
@@ -5852,40 +5799,13 @@ Refer below url for more details and cases
 ```
 https://nextjs.org/docs/14/pages/building-your-application/deploying/ci-build-caching
 ```
-
+</details>
 
 <br>
 
 ### useRouter
 
-In normal react, we have to use external router package but in next router is setup by next. So to use router function we use below code
-
-```js
-import { useRouter } from 'next/router'
- 
-function ActiveLink({ children, href }) {
-  const router = useRouter()
-  const style = {
-    marginRight: 10,
-    color: router.asPath === href ? 'red' : 'black',
-  }
- 
-  const handleClick = (e) => {
-    e.preventDefault()
-    router.push(href)
-  }
- 
-  return (
-    <a href={href} onClick={handleClick} style={style}>
-      {children}
-    </a>
-  )
-}
- 
-export default ActiveLink
-```
-
-#### The router provide an object
+The router provide an object
 
 ```js
 import { useRouter } from 'next/router';
@@ -5924,7 +5844,7 @@ export default function RouterDemo() {
 **Example Scenario**
 If you visit /product?id=123&color=blue, the output will be:
 
-```js
+```
 pathname: /product
 query: {"id":"123","color":"blue"}
 asPath: /product?id=123&color=blue
@@ -5938,7 +5858,9 @@ isReady: true
 isPreview: false
 ```
 
-#### router.events
+<br>
+
+### router.events
 
 You can listen to different events happening inside the Next.js Router. Here's a list of supported events:
 
@@ -5950,6 +5872,7 @@ You can listen to different events happening inside the Next.js Router. Here's a
 - `hashChangeStart(url, { shallow })` - Fires when the hash will change but not the page
 - `hashChangeComplete(url, { shallow })` - Fires when the hash has changed but not the page
 
+<br>
 
 For example, to listen to the router event `routeChangeStart`, open or create `pages/_app.js` and subscribe to the event, like so:
 
@@ -5982,25 +5905,23 @@ export default function MyApp({ Component, pageProps }) {
 }
 ```
 <br>
+<br>
 
+### Next.js Output File Tracing & Standalone Mode (Simplified Notes)
 
-### **📌 Next.js Output File Tracing & Standalone Mode (Simplified Notes)**  
-
-#### **🚀 What is Output File Tracing?**  
+#### What is Output File Tracing?
 - Next.js **automatically traces** required files for production during `next build`.  
 - **Reduces deployment size** by including only necessary dependencies.  
 - Helps in **Docker deployments** by avoiding unnecessary files in `node_modules`.  
 
----
 
-#### **🔹 How It Works**  
+#### How It Works
 1. **Next.js scans** `import`, `require`, and `fs` usage to find required files.  
 2. Generates a **`.nft.json` file** in `.next/`, listing dependencies per page.  
 3. These files can be copied to a **deployment location** for optimized production.  
 
----
 
-#### **📂 Standalone Mode (Automatic Copying of Files)**  
+#### Standalone Mode (Automatic Copying of Files)
 - Next.js **creates a `standalone/` folder** with only essential files for deployment.  
 - To enable, add this to `next.config.js`:  
   ```javascript
@@ -6010,26 +5931,18 @@ export default function MyApp({ Component, pageProps }) {
   ```
 - This allows deployment **without installing `node_modules`**.  
 
----
 
-#### **🔹 What's Inside `standalone/`?**  
-✅ Only **necessary files** (minimizing deployment size).  
-✅ A **minimal `server.js` file** to run Next.js without `next start`.  
-❌ Does **not** include `public/` or `.next/static/` by default (should be handled by a CDN).  
-
----
-
-#### **🎯 Why Use This?**  
-✅ **Faster & smaller deployments** (especially in Docker).  
-✅ **No need for `serverless` target** (which caused issues).  
-✅ **Optimized production builds** without extra dependencies.  
+#### What's Inside `standalone/`?
+- Only **necessary files** (minimizing deployment size).  
+- A **minimal `server.js` file** to run Next.js without `next start`.  
+- Does **not** include `public/` or `.next/static/` by default (should be handled by a CDN).  
 
 for more
-
 ```
 https://nextjs.org/docs/14/pages/api-reference/next-config-js/output
 ```
 
+<br>
 <br>
 
 ye wala aache se padhna h
