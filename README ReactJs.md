@@ -30,6 +30,17 @@ https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react
 
 <br>
 
+Note: 
+
+1. React in-line style has double bracket, first one is for the dynamic value and second one is that react wants value as object
+2. Joining label and input, we use htmlFor="", not for=""
+  ```js
+  <label htmlFor="email">Email:</label>
+  <input id="email" type="email" />
+  ```
+
+<br>
+
 > ### How to use the useEffect to api call with async
 
 #### Incorrect Code
@@ -618,6 +629,166 @@ this.setState({ message: "Hello World" });
 
 <br>
 
+### Rules of Custom Hooks
+
+- Outsource `stateful login into reusable functions`.
+- Custom hooks is like `component but without JSX`.
+- Custom hook also return something in component where we used, you just need the `return` in hook
+
+Simple term : The custom hooks are the function which we can use in many components. It makes reuseability of functions.
+
+
+#### 1. Always start the name with `use`
+
+This is how React knows it’s a hook.
+
+#### 2. Only call hooks at the top level
+
+Just like with normal hooks, **don’t call custom hooks inside loops, conditions, or nested functions**.
+
+```js
+// ✅ valid
+function MyComponent() {
+  const { value } = useMyCustomHook();
+}
+```
+
+```js
+// ❌ invalid
+if (someCondition) {
+  useMyCustomHook(); // don't do this
+}
+```
+
+
+#### 3. Only call hooks from React functions
+> That means: React components or other custom hooks.
+
+```js
+// ✅ valid
+function useMyHook() {
+  const [count, setCount] = useState(0);
+}
+```
+
+```js
+// ❌ invalid
+function regularJSFunction() {
+  useState(0); // not allowed here
+}
+```
+
+#### 4. Custom hooks can use other hooks
+
+In normal js function. we can't use the hooks
+
+```js
+function useCounter(initial = 0) {
+  const [count, setCount] = useState(initial);
+
+  const increment = () => setCount((c) => c + 1);
+  const decrement = () => setCount((c) => c - 1);
+
+  return { count, increment, decrement };
+}
+```
+
+
+Simple example of custom hooks
+
+```js
+// useCounter.js
+
+import { useState } from 'react';
+
+function useCounter(initialValue = 0) {
+  const [count, setCount] = useState(initialValue);
+
+  const increment = () => setCount(prev => prev + 1);
+  const decrement = () => setCount(prev => prev - 1);
+  const reset = () => setCount(initialValue);
+
+  return { count, increment, decrement, reset };
+}
+
+export default useCounter;
+```
+
+```js
+// CounterComponent.js
+
+import React from 'react';
+import useCounter from './useCounter';
+
+function CounterComponent() {
+  const { count, increment, decrement, reset } = useCounter(0);
+
+  return (
+    <div>
+      <h2>Count: {count}</h2>
+      <button onClick={increment}>➕</button>
+      <button onClick={decrement}>➖</button>
+      <button onClick={reset}>🔄</button>
+    </div>
+  );
+}
+
+export default CounterComponent;
+```
+
+
+<br>
+
+### Conditional rendering in React 
+
+1. **Using `if` statement**
+
+```jsx
+if (isLoggedIn) {
+  return <Dashboard />;
+}
+return <Login />;
+```
+
+2. **Ternary operator (`? :`)**
+
+```jsx
+{isLoggedIn ? <Dashboard /> : <Login />}
+```
+
+3. **Logical AND (`&&`)**
+
+```jsx
+{isAdmin && <AdminPanel />}
+```
+
+4. **Switch-case style rendering**
+
+```jsx
+switch (status) {
+  case 'loading':
+    return <Spinner />;
+  case 'error':
+    return <ErrorMessage />;
+  case 'success':
+    return <Success />;
+  default:
+    return null;
+}
+```
+
+Can also be done with an object map for cleaner code:
+
+```jsx
+const renderMap = {
+  loading: <Spinner />,
+  error: <ErrorMessage />,
+  success: <Success />
+};
+
+return renderMap[status] || null;
+```
+<br>
 
 > ### What is the difference between HTML and React event handling?
 
@@ -732,8 +903,64 @@ import styles from "./app.module.css"
 
 <br>
 
+### `useRef` vs `useState`
+
+| Feature | `useRef` | `useState` |
+|--------|----------|------------|
+| Triggers re-render on change | ❌ No | ✅ Yes |
+| Persist value across renders | ✅ Yes | ✅ Yes |
+| Ideal for DOM access | ✅ Yes | ❌ No |
+| Good for non-UI values (timers, IDs) | ✅ Yes | ❌ Not ideal |
+| Recommended for UI/data logic | ❌ Not really | ✅ Yes |
+
+**You don’t need a re-render** when the value changes.
+   - `useRef` keeps a mutable object that doesn’t trigger a re-render when its `.current` value is updated.
+   - Example: Tracking previous values, DOM elements, timers.
+
+   ```js
+   const countRef = useRef(0);
+   countRef.current += 1; // Won't re-render
+   ```
+
+**You want to access DOM elements directly.**
+   - Like using `ref` in vanilla JS.
+   - Example: Focusing an input on load.
+
+   ```js
+   const inputRef = useRef();
+   useEffect(() => {
+     inputRef.current.focus();
+   }, []);
+   ```
+
+**You need to keep track of values between renders without triggering re-renders.**
+   - Useful for things like:
+     - Timeout IDs
+     - Scroll position
+     - Previous props/state
+     - Preventing stale closures
+
+   ```js
+   const timeoutRef = useRef(null);
+   useEffect(() => {
+     timeoutRef.current = setTimeout(...);
+     return () => clearTimeout(timeoutRef.current);
+   }, []);
+   ```
+
+**The value is part of UI logic.**
+   - Like toggling visibility, managing form input values, updating lists, etc.
+
+   ```js
+   const [isVisible, setIsVisible] = useState(true);
+   ```
+
+<br>
+
 > ### What are forward refs?
 Ref forwarding is a feature that lets some components take a ref they receive, and pass it further down to a child.
+
+Try to `use less ref` hook because it directly `update the DOM` without comparing the virtual DOM in storage
 
 ```js
 import React, { forwardRef } from 'react';
@@ -761,6 +988,70 @@ function App() {
     <div>
       <Input placeholder="Type here" ref={inputRef} />
     </div>
+  );
+}
+```
+
+<br>
+
+### Lazy Loading
+
+> Load code only when needed, it helps improve performance by reducing the initial bundle size.
+
+We wanna split our code into multiple chunks or into multiple bundles which are each only downloaded when they are needed or clicked.
+
+React provides `React.lazy()` and `Suspense` to handle this natively.
+
+
+```js
+// Dashboard.js
+import React from 'react';
+
+export default function Dashboard() {
+  return <h1>Welcome to the Dashboard!</h1>;
+}
+```
+
+```js
+// App.js
+import React, { Suspense, lazy } from 'react';
+
+const Dashboard = lazy(() => import('./Dashboard'));
+
+function App() {
+  return (
+    <div>
+      <h1>My App</h1>
+      <Suspense fallback={<p>Loading Dashboard...</p>}>
+        <Dashboard />
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+#### Lazy load on route change (React Router v6+)
+
+```js
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+
+const Home = lazy(() => import('./Home'));
+const About = lazy(() => import('./About'));
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Suspense fallback={<div>Loading page...</div>}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
 ```
@@ -1996,6 +2287,24 @@ ReactDOM.createPortal(child, container);
 ```
 
 The first argument is any render-able React child, such as an element, string, or fragment. The second argument is a DOM element.
+
+
+<br>
+
+### Controlled vs Uncontrolled component
+
+**Uncontrolled component**: When we use ref, it don't control the internal stateof input with react, so it is called Uncontrolled component
+
+**Controlled component**: When we use useState, we input field is called controlled component because their `Internal state is controlled by react`.
+
+| Feature | Controlled | Uncontrolled |
+|--------|------------|--------------|
+| Value stored in | React state | DOM |
+| Update method | `setState` | `ref` |
+| Ideal for | Complex forms | Simple inputs |
+| Validation | Easy to implement | Manual |
+| Default value | `value` prop | `defaultValue` prop |
+
 
 
 <br>
