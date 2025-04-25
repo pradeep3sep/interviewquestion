@@ -30,14 +30,15 @@ https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react
 
 <br>
 
-Note: 
+**Note:**
 
-1. React in-line style has double bracket, first one is for the dynamic value and second one is that react wants value as object
-2. Joining label and input, we use htmlFor="", not for=""
-  ```js
-  <label htmlFor="email">Email:</label>
-  <input id="email" type="email" />
-  ```
+1. React in-line style has double bracket, `first` one is for the `dynamic value` and `second` one is that react wants value as `object`.
+2. Joining label and input, we use `htmlFor=""`, not `for=""`.
+
+    ```js
+    <label htmlFor="email">Email:</label>
+    <input id="email" type="email" />
+    ```
 
 <br>
 
@@ -107,32 +108,42 @@ function App() {
 
 export default App;
 ```
-In the code, we are using async/await to fetch data from a third-party API. According to the documentation every function annotated with async returns an implicit promise: “The async function declaration defines an asynchronous function, which returns an AsyncFunction object. An asynchronous function is a function which operates asynchronously via the event loop, using an implicit Promise to return its result.
+<br>
 
-However, an useEffect() function must not return anything besides a function, which is used for clean-up. That when useEffect() does return a function that function is ONLY used for cleaning up, like what we will do under componentWillUnmount()
+- **Async functions return promises**:  
+  Any function marked with `async` automatically returns a Promise, even if you don’t explicitly return one.
 
-That’s why you may see the following warning in your developer console log: 07:41:22.910 index.js:1452 Warning: useEffect function must return a cleanup function or nothing. Promises and useEffect(async () => …) are not supported, but you can call an async function inside an effect.. That’s why using async directly in the useEffect function isn’t allowed. Let’s implement a workaround for it, by using the async function inside the effect.
+- **Async/await operates via the event loop**:  
+  Asynchronous functions allow you to use `await`, which pauses execution until the Promise resolves, making code easier to read and write.
+
+- **`useEffect()` restrictions**:  
+  The `useEffect` hook **must return either `undefined` or a cleanup function**, and nothing else.
+
+- **Problem with using async directly in `useEffect`**:  
+  If you declare `useEffect(async () => { ... })`, it will return a Promise, which React does not expect. This causes a warning like:  
+  _"Warning: useEffect function must return a cleanup function or nothing. Promises and useEffect(async () => …) are not supported..."_
+
+- **Why React warns you**:  
+  React interprets any returned value from `useEffect` as a cleanup function. If it’s a Promise instead, this breaks the expected behavior.
+
+- **Proper workaround**:  
+  Instead of making the `useEffect` function itself async, **define an async function inside the effect and call it** like this:
+  ```js
+  useEffect(() => {
+    const fetchData = async () => {
+      // Your async code here
+    };
+    fetchData();
+  }, []);
+  ```
 
 <br>
 
-
-> ### Basic things for the path defination
-
-```js
-// 👎 Don't use relative paths
-import Input from '../../../modules/common/components/Input'
-
-// 👍 Absolute ones don't change
-import Input from '@modules/common/components/Input'
-```
+> ### We can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change
 
 <br>
 
-> ### just to know, we can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change
-
-<br>
-
-> ### error boundary is used as package, because error boundries was only available in class components form but now it comes along with react
+> ### Error boundary is used as package, because error boundries was only available in class components form but now it comes along with react
 
 <br>
 
@@ -143,8 +154,6 @@ import Input from '@modules/common/components/Input'
 > ### In react,  we have the loaders and actions in react-router, loaders for the get and actions for the rest, action is like earlier we create the form which have action like POST,PATCH etc which work on submit button, it is replaced by action of react-router
 
 <br>
-
-
 
 > ### Component and state optimizations
 - If you have a piece of state that is initialized by an `expensive computation`, `use` the `state initializer function` `instead` of `executing it directly` because the expensive function will be run only once as it is supposed to. e.g:
@@ -382,13 +391,6 @@ Here's why this works as expected:
 
 Thus, the state ends up incrementing by 3.
 
----
-
-### **Key Takeaways:**
-1. **Basic `setCount(newState)` form:** Uses the state value captured at the time the function is executed (closure). Multiple calls within the same render may not behave as expected due to batching.
-2. **Callback `setCount(prevState => newState)` form:** Always works with the latest state value, even if called multiple times in a row, ensuring predictable updates.
-
-If you need to perform multiple state updates based on the latest state, always prefer the **callback form** of `setState`.
 
 <br>
 
@@ -631,7 +633,7 @@ this.setState({ message: "Hello World" });
 
 ### Rules of Custom Hooks
 
-- Outsource `stateful login into reusable functions`.
+- Outsource `stateful logic into reusable functions`.
 - Custom hooks is like `component but without JSX`.
 - Custom hook also return something in component where we used, you just need the `return` in hook
 
@@ -743,39 +745,39 @@ export default CounterComponent;
 
 1. **Using `if` statement**
 
-```jsx
-if (isLoggedIn) {
-  return <Dashboard />;
-}
-return <Login />;
-```
+    ```jsx
+    if (isLoggedIn) {
+      return <Dashboard />;
+    }
+    return <Login />;
+    ```
 
 2. **Ternary operator (`? :`)**
 
-```jsx
-{isLoggedIn ? <Dashboard /> : <Login />}
-```
+    ```jsx
+    {isLoggedIn ? <Dashboard /> : <Login />}
+    ```
 
 3. **Logical AND (`&&`)**
 
-```jsx
-{isAdmin && <AdminPanel />}
-```
+    ```jsx
+    {isAdmin && <AdminPanel />}
+    ```
 
 4. **Switch-case style rendering**
 
-```jsx
-switch (status) {
-  case 'loading':
-    return <Spinner />;
-  case 'error':
-    return <ErrorMessage />;
-  case 'success':
-    return <Success />;
-  default:
-    return null;
-}
-```
+    ```jsx
+    switch (status) {
+      case 'loading':
+        return <Spinner />;
+      case 'error':
+        return <ErrorMessage />;
+      case 'success':
+        return <Success />;
+      default:
+        return null;
+    }
+    ```
 
 Can also be done with an object map for cleaner code:
 
@@ -791,8 +793,6 @@ return renderMap[status] || null;
 <br>
 
 > ### What is the difference between HTML and React event handling?
-
-Below are some of the main differences between HTML and React event handling,
 
   1. In HTML, the event name usually represents in _lowercase_ as a convention:
 
@@ -903,7 +903,7 @@ import styles from "./app.module.css"
 
 <br>
 
-### `useRef` vs `useState`
+> ### `useRef` vs `useState`
 
 | Feature | `useRef` | `useState` |
 |--------|----------|------------|
@@ -913,6 +913,8 @@ import styles from "./app.module.css"
 | Good for non-UI values (timers, IDs) | ✅ Yes | ❌ Not ideal |
 | Recommended for UI/data logic | ❌ Not really | ✅ Yes |
 
+<br>
+
 **You don’t need a re-render** when the value changes.
    - `useRef` keeps a mutable object that doesn’t trigger a re-render when its `.current` value is updated.
    - Example: Tracking previous values, DOM elements, timers.
@@ -921,6 +923,7 @@ import styles from "./app.module.css"
    const countRef = useRef(0);
    countRef.current += 1; // Won't re-render
    ```
+<br>
 
 **You want to access DOM elements directly.**
    - Like using `ref` in vanilla JS.
@@ -932,6 +935,7 @@ import styles from "./app.module.css"
      inputRef.current.focus();
    }, []);
    ```
+<br>
 
 **You need to keep track of values between renders without triggering re-renders.**
    - Useful for things like:
@@ -947,6 +951,7 @@ import styles from "./app.module.css"
      return () => clearTimeout(timeoutRef.current);
    }, []);
    ```
+<br>
 
 **The value is part of UI logic.**
    - Like toggling visibility, managing form input values, updating lists, etc.
@@ -1157,6 +1162,8 @@ The Virtual DOM works in three simple steps.
 The Shadow DOM is a browser technology designed primarily for scoping variables and CSS in web components.\
 The Virtual DOM is a concept implemented by libraries in JavaScript on top of browser APIs.
 
+<br>
+
 ### Shadow DOM
 
 The Shadow DOM is a part of the Web Components standard, providing `encapsulation for DOM and CSS` or `separate environment dom, css from global environment`. It allows developers to create components with their own isolated DOM tree and styles, preventing style and script interference from the rest of the document.
@@ -1208,6 +1215,7 @@ The Shadow DOM is a part of the Web Components standard, providing `encapsulatio
 
 **In above example p of shadow colors will change only**
 
+<br>
 
 ### Virtual DOM
 
@@ -1241,10 +1249,7 @@ ReactDOM.render(<Counter />, document.getElementById('root'));
 
 ### Summary
 
-- **Shadow DOM**: Used for creating encapsulated components with their own styles and DOM tree, providing isolation from the rest of the document. It's a browser feature implemented through the Web Components standard.
-- **Virtual DOM**: A programming concept used by libraries like React to optimize updates to the actual DOM by minimizing direct manipulations and efficiently managing re-renders through a virtual representation of the UI.
-
-Both techniques aim to enhance performance and manageability of web applications but are used in different contexts and for different purposes. The Shadow DOM focuses on encapsulation and isolation, while the Virtual DOM aims to optimize rendering performance.
+The Shadow DOM focuses on encapsulation and isolation, while the Virtual DOM aims to optimize rendering performance.
 
 <br>
 
@@ -1302,18 +1307,24 @@ When an element's key changes, React will create a new component instance rather
 
 
 > ### What is the impact of indexes as keys?
-Choosing the correct key can be tricky. It's often tempting to use the index as a key if the items in your list do not have a unique identifier. However, this can lead to issues if the order of items changes. This is because React uses keys to determine whether a component needs to be updated or not. If the keys are based on the index and the order changes, React might end up re-rendering more components than necessary, negatively impacting your app's performance.
 
-In the previous example of a list of posts, if we use the post's index as a key and then a post is added to the beginning of the list, all the keys will change, causing all post components to re-render. On the other hand, if each post has a unique ID and we use this ID as a key, only the new post component will re-render.
-
+- **Keys help React identify which items have changed, are added, or are removed.**
+- React uses keys to **track and optimize component updates**.
+- If the **order of items changes** and **keys are based on index**, React may **re-render all items unnecessarily**, impacting performance.
+- **Example scenario**:  
+  - You have a list of posts.
+  - You use the post index as the key.
+  - A new post is inserted at the start of the list.
+  - All keys shift, causing **all post components to re-render**.
+- A better approach is to use a **unique ID** (like `post.id`) as the key.
+- This way, React only **re-renders the new post**, not the entire list.
 
 <br>
 
 
 > ### prop-types - How to apply validation on props in React?
-We don't need to install separate package for defining the type of props. We can do it by default installed prop-types package
 
-When the application is running in development mode, React will automatically check all props that we set on components to make sure they have correct type. If the `type is incorrect`, `React will generate warning messages in the console`. It's disabled in production mode due to performance impact. The `mandatory props` are defined with `isRequired`.
+it is external package
 
 The set of predefined prop types:
 
@@ -1352,8 +1363,6 @@ User.propTypes = {
 
 <br>
 
-
-
 > ### What will happen if you use props in initial state?
 
 ```jsx
@@ -1374,12 +1383,13 @@ const MyComponent = (props) => {
 
 export default MyComponent;
 ```
+<br>
 
-In the above example, `props.initialValue` is used to set the initial state using the `useState` hook.
-
-This leads to unexpected behaviour.
+Above leads to unexpected behaviour.
 
 This will work for the first time, state value sets to initial value, but when the component re-renders, at that time useState value of `mystate` do `not reset`. `During the rerender` the `state preserves` the previous state or value in it. So when `props` value `from` the `parent changes`, the `child gets rerendered` but it `don't have the updated value` in it.
+
+<br>
 
 below is the code you should better to use
 
@@ -1470,40 +1480,6 @@ we can also `console or use in the code` in the form of function call, it gives 
 
 <br>
 
-
-> ### Logging sequence
-
-```jsx
-import React, {useEffect} from 'react';
-
-export function App(props) {
-
-  useEffect(()=>{
-    console.log('B')
-  },[])
-
-  useEffect(()=>{
-    console.log('C')
-  },[])
-
-  console.log('A')
-
-  return (
-    <div className='App'>
-      <h1>Hello React.</h1>
-    </div>
-  );
-}
-```
-above code shows\
-A\
-B\
-C
-
-this is beacuse useEffect works like mount, not like beforecreate or create. Bacially works after DOM paints in browser
-
-<br>
-
 > ### How you implement Server Side Rendering or SSR?
 
 React is already equipped to handle rendering on Node servers. A special version of the DOM renderer is available, which follows the same pattern as on the client side.
@@ -1530,39 +1506,6 @@ This method will output the regular HTML as a string, which can be then placed i
 ```
 
 <br>
-
-> ### How to re-render the view when the browser is resized?
-
-```jsx
-import React, { useState, useEffect } from "react";
-function WindowDimensions() {
-  const [dimensions, setDimensions] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  useEffect(() => {
-    function handleResize() {
-      setDimensions({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return (
-    <span>
-      {dimensions.width} x {dimensions.height}
-    </span>
-  );
-}
-```
-
-
-<br>
-
 
 > ### Abort controller in react
 
@@ -1744,24 +1687,6 @@ const updateState = () => {
 
 <br>
 
-
-
-> ### How can we find the version of React at runtime in the browser?
-
-You can use `React.version` to get the version.
-
-```jsx
-const REACT_VERSION = React.version;
-
-ReactDOM.render(
-  <div>{`React version: ${REACT_VERSION}`}</div>,
-  document.getElementById("app")
-);
-```
-
-<br>
-
-
 > ### How to use https instead of http in create-react-app?
 
 You just need to use `HTTPS=true` configuration. You can edit your `package.json` scripts section:
@@ -1876,29 +1801,7 @@ this.props.history.push({
   state: { detail: response.data },
 });
 ```
-
 <br>
-
-
-> ### How to perform automatic redirect after login?
-
-```jsx
-import React, { Component } from "react";
-import { Redirect } from "react-router";
-
-export default class LoginComponent extends Component {
-  render() {
-    if (this.state.isLoggedIn === true) {
-      return <Redirect to="/your/redirect/page" />;
-    } else {
-      return <div>{"Login Please"}</div>;
-    }
-  }
-}
-```
-
-<br>
-
 
 > ### What are the differences between redux-saga and redux-thunk?
 
@@ -1982,9 +1885,7 @@ export default App;
 > ### What are hooks?
 Hooks is a special JavaScript function that allows you use state and other React features without writing a class. This pattern has been introduced as a new feature in React 16.8 and helped to isolate the stateful logic from the components.
 
-
 <br>
-
 
 > ### In which scenarios error boundaries do not catch errors?
 Below are the cases in which error boundaries doesn't work,
@@ -1994,46 +1895,7 @@ Below are the cases in which error boundaries doesn't work,
 - During Server side rendering
 - When errors thrown in the error boundary code itself
 
-
 <br>
-
-
-> ### Why do you not need error boundaries for event handlers?
-
-Error boundaries do not catch errors inside event handlers.
-
-React doesn’t need error boundaries to recover from errors in event handlers. Unlike the render method and lifecycle methods, the event handlers don’t happen during rendering. So if they throw, React still knows what to display on the screen.
-
-If you need to catch an error inside an event handler, use the regular JavaScript try / catch statement:
-
-```jsx
-class MyComponent extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { error: null };
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick() {
-    try {
-      // Do something that could throw
-    } catch (error) {
-      this.setState({ error });
-    }
-  }
-
-  render() {
-    if (this.state.error) {
-      return <h1>Caught an error.</h1>;
-    }
-    return <button onClick={this.handleClick}>Click Me</button>;
-  }
-}
-```
-
-
-<br>
-
 
 > ### What is the difference between try catch block and error boundaries?
 
@@ -2059,16 +1921,23 @@ Whereas error boundaries wrap declarative code as below,
 
 So if an error occurs in a componentDidUpdate method caused by a setState somewhere deep in the tree, it will still correctly propagate to the closest error boundary.
 
+**What are Error Boundaries?**
+
+Special components that catch JavaScript errors in:
+
+- Rendering
+- Lifecycle methods
+- Constructors of child components
+
+They prevent the entire app from crashing by showing a fallback UI instead.
+
 <br>
-
-
 
 > ### What is the required method to be defined for a class component?
 
 The `render()` method is the only required method in a class component. i.e, All methods other than render method are optional for a class component.
 
 <br>
-
 
 > ### What are default props?
 
@@ -2087,10 +1956,7 @@ MyButton.defaultProps = {
 ```
 
 If props.color is not provided then it will set the default value to 'red'. i.e, Whenever you try to access the color prop it uses the default value
-
-
 <br>
-
 
 > ### What are Keyed Fragments?
 
@@ -2178,9 +2044,7 @@ const MyComponent = (props) => {
 export default MyComponent;
 
 ```
-
 <br>
-
 
 > ### What is diffing algorithm?
 
@@ -2193,15 +2057,13 @@ In this case, displaying 1000 elements would require in the order of one billion
 - Two elements of different types will produce different trees.
 - The developer can hint at which child elements may be stable across different renders with a key prop.
 
-
 <br>
 
 > ### What is reconciliation?
 
-  `Reconciliation` is the process through which React updates the Browser DOM and makes React work faster. React use a `diffing algorithm` so that component updates are predictable and faster. React would first calculate the difference between the `real DOM` and the copy of DOM `(Virtual DOM)` when there's an update of components.\
-  React stores a copy of Browser DOM which is called `Virtual DOM`. When we make changes or add data, React creates a new Virtual DOM and compares it with the previous one. This comparison is done by `Diffing Algorithm`.\
-  Now React compares the Virtual DOM with Real DOM. It finds out the changed nodes and updates only the changed nodes in Real DOM leaving the rest nodes as it is. This process is called _Reconciliation_.
-
+`Reconciliation` is the process through which React updates the Browser DOM and makes React work faster. React use a `diffing algorithm` so that component updates are predictable and faster. React would first calculate the difference between the `real DOM` and the copy of DOM `(Virtual DOM)` when there's an update of components.\
+React stores a copy of Browser DOM which is called `Virtual DOM`. When we make changes or add data, React creates a new Virtual DOM and compares it with the previous one. This comparison is done by `Diffing Algorithm`.\
+Now React compares the Virtual DOM with Real DOM. It finds out the changed nodes and updates only the changed nodes in Real DOM leaving the rest nodes as it is. This process is called _Reconciliation_.
 
 <br>
 
@@ -2217,9 +2079,7 @@ Its main goals are:
   4. Ability to return multiple elements from render().
   5. Better support for error boundaries.
 
-
 <br>
-
 
 > ### What are the rules covered by diffing algorithm?
 
@@ -2364,41 +2224,40 @@ Both refers the same thing. Previously concurrent Mode being referred to as "Asy
 
 > ### What are the differences between useEffect and useLayoutEffect hooks?
 
-- **Timing:** useEffect runs after the browser has finished painting, while useLayoutEffect runs synchronously before the browser paints. This means that useLayoutEffect can be used to measure and update layout in a way that feels more synchronous to the user.
+- **Timing:** `useEffect` runs after the browser has `finished painting`, while `useLayoutEffect` runs `synchronously before` the browser `paints`. This means that useLayoutEffect can be used to measure and update layout in a way that feels more synchronous to the user.
 
 
-- **Browser Paint:** useEffect allows browser to paint the changes before running the effect, hence it may cause some visual flicker. useLayoutEffect synchronously runs the effect before browser paints and hence it will avoid visual flicker.
+- **Visual flicker** `useEffect` allows browser to paint the changes before running the effect, hence it may cause some `visual flicker`. `useLayoutEffect` synchronously runs the effect before browser paints and hence it will `avoid visual flicker`.
 
 
-- **Error handling:** useEffect has a built-in mechanism for handling errors that occur during the execution of the effect, so that it does not crash the entire application. useLayoutEffect does not have this mechanism, and errors that occur during the execution of the effect will crash the entire application.
+- **Error handling:** `useEffect` has a `built-in mechanism for handling errors` that occur during the execution of the effect, so that it does `not crash the entire application`. `useLayoutEffect does not have` this mechanism, and errors that occur during the execution of the effect will `crash the entire application`.
 
 
-- Both `useEffect` and `useLayoutEffect` are React Hooks used to run side effects in functional components. However, they have key differences in **timing** and **execution order**.
+- Both `useEffect` and `useLayoutEffect` are React Hooks used to `run side effects` in functional components. However, they have key differences in **timing** and **execution order**.
 
+<br>
 
-> #### 1. `useEffect` (Asynchronous & Non-blocking)
+#### 1. `useEffect` (Asynchronous & Non-blocking)
+
 `useEffect` runs **asynchronously after the render** and does **not block** the browser from painting the UI. This makes it suitable for non-UI updates like **data fetching, logging, or setting up subscriptions**.
 
-```jsx
-import { useEffect, useState } from "react";
+    ```jsx
+    import { useEffect, useState } from "react";
 
-function Example() {
-  const [count, setCount] = useState(0);
+    function Example() {
+      const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    console.log("useEffect: Runs after render");
-  });
+      useEffect(() => {
+        console.log("useEffect: Runs after render");
+      });
 
-  return <button onClick={() => setCount(count + 1)}>Click {count}</button>;
-}
-```
-**Key Features of `useEffect`**
-- Runs **after** React updates the DOM.
-- **Non-blocking** → UI is painted first, then the effect runs.
-- Good for **network requests**, logging, and subscriptions.
+      return <button onClick={() => setCount(count + 1)}>Click {count}</button>;
+    }
+    ```
 
+<br>
 
-> ### 2. `useLayoutEffect` (Synchronous & Blocking)
+#### 2. `useLayoutEffect` (Synchronous & Blocking)
 `useLayoutEffect` runs **synchronously after the DOM updates but before the browser paints the UI**. This makes it useful for **layout measurements, animations, and UI adjustments**.
 
 ```jsx
@@ -2419,20 +2278,7 @@ function Example() {
   return <div ref={divRef}>Hello</div>;
 }
 ```
-**Key Features of `useLayoutEffect`**
-- Runs **before** the browser paints the UI.
-- **Blocking** → Prevents UI flickering.
-- Good for **measuring DOM elements**, animations, and UI adjustments.
-
-
-| Feature             | `useEffect` 🏆 (Recommended) | `useLayoutEffect` ⚡ (For UI tweaks) |
-|--------------------|---------------------|----------------------|
-| **Execution Timing** | After the render (non-blocking) | After the DOM update but before paint (blocking) |
-| **UI Performance** | Doesn't block UI updates | Can block UI if expensive |
-| **Best Use Cases** | API calls, logging, event listeners | Animations, measuring DOM size, syncing UI updates |
-| **Can Cause Layout Shift?** | No, since it runs after paint | Yes, if it modifies the DOM before paint |
-
----
+<br>
 
 ### **When to Use Which?**
 ✅ **Use `useEffect`** when:
@@ -2448,83 +2294,37 @@ function Example() {
 ⚠️ **Tip:**  
 - If you don’t need to **measure the layout or block rendering**, always prefer `useEffect` to avoid unnecessary UI blocking.
 
-
-```js
-import React, { useState, useEffect, useLayoutEffect } from "react";
-
-function MyComponent() {
-  const [count, setCount] = useState(0);
-
-  // useEffect runs after the render cycle has completed
-  useEffect(() => {
-    // This code will run every time the component renders,
-    // after the render is complete.
-    console.log("useEffect running");
-  });
-
-  // useLayoutEffect runs synchronously immediately after the render cycle
-  useLayoutEffect(() => {
-    // This code will run every time the component renders,
-    // before the browser has a chance to paint the update to the screen.
-    // Be careful! This can cause visual inconsistencies.
-    console.log("useLayoutEffect running");
-  });
-
-  return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-    </div>
-  );
-}
-```
-
-In this example, when the Increment button is clicked, the useEffect hook will run after the component has been updated and re-rendered, whereas the useLayoutEffect hook will run before the update is painted to the screen. This means that if you were to use useLayoutEffect to update the UI, the user might see the UI update before the update is complete, which can cause visual inconsistencies. useEffect, on the other hand, runs after the update is complete and is therefore safer to use for updating the UI.
-
 <br>
 
 
 > ### What is strict mode in React?
 
 `React.StrictMode` is a useful component for highlighting potential problems in an application. Just like `<Fragment>`, `<StrictMode>` does not render any extra DOM elements. It activates additional checks and warnings for its descendants. These checks apply for _development mode_ only.
-
-
-<br>
-
-> ### When to use a Class Component over a Function Component?
-If the component needs state or lifecycle methods then use class component otherwise use function component. However, from React 16.8 with the addition of Hooks, you could use state , lifecycle methods and other features that were only available in class component right in your function component. So, it is always recommended to use Function components, unless you need a React functionality whose Function component equivalent is not present yet, like Error Boundaries.
-
 <br>
 
 > ### when react has aready class based system then why they have introduced functional component
 
-**Excellent question!**
-
-While React initially relied on class-based components, the introduction of functional components with Hooks brought about a significant paradigm shift for several key reasons:
-
-### 1. Simplicity and Readability:
+#### 1. Simplicity and Readability:
 * **Concise syntax:** Functional components are often shorter and easier to understand compared to their class-based counterparts.
 * **No need for `this` keyword:** This eliminates potential confusion and reduces boilerplate code.
 * **Focus on pure functions:** Functional components encourage a declarative style, making code more predictable and testable.
 
-### 2. State Management with Hooks:
+#### 2. State Management with Hooks:
 * **useState:** Provides a straightforward way to manage component state within functional components.
 * **useEffect:** Handles side effects like data fetching, subscriptions, and manual DOM manipulations.
 * **Custom Hooks:** Enables reusable stateful logic, promoting code organization and reusability.
 
-### 3. Improved Performance:
+#### 3. Improved Performance:
 * **Potential for optimization:** Functional components can often be optimized more easily due to their simpler structure.
 * **Reduced overhead:** In some cases, functional components can have a slight performance advantage over class components.
 
-### 4. Better Code Organization and Reusability:
+#### 4. Better Code Organization and Reusability:
 * **Custom Hooks:** Allow for encapsulating complex stateful logic, making code more modular and reusable.
 * **Improved composability:** Functional components can be easily combined and nested, leading to more flexible component structures.
 
-### 5. Community Adoption and Ecosystem:
+#### 5. Community Adoption and Ecosystem:
 * **Widespread usage:** Functional components have become the preferred choice for many React developers.
 * **Rich ecosystem:** A growing number of libraries and tools are designed to work seamlessly with functional components and Hooks.
-
-**In summary,** while class-based components still have their place in certain scenarios, functional components with Hooks offer a more modern, efficient, and enjoyable way to build React applications. They have become the de facto standard for most React development due to their simplicity, flexibility, and performance benefits.
 
 <br>
 
@@ -2823,73 +2623,23 @@ That's equivalent to providing a literal `array`.
 ```jsx
 <ul>{[<li>first</li>, <li>second</li>]}</ul>
 ```
+<br>
 
 > ### What is the difference between React Node, React Element, and a React Component?
 
-### 1. **React Node**
-A **React Node** is the broadest concept—it refers to anything that React can render, including:
-- Strings (`'Hello'`)
-- Numbers (`42`)
-- `null`, `undefined`, `false`
-- React Elements
-- React Components
-
-Essentially, a **React Node** is any valid return type for a React component.
-
----
-
-### 2. **React Element**
-A **React Element** is an immutable representation of a UI component. It is created using JSX or `React.createElement()` and describes what should be rendered.
-
-✅ **Example of a React Element:**
-```jsx
-const element = <h1>Hello World</h1>; 
-// OR
-const element = React.createElement('h1', null, 'Hello World');
-```
-- A **React Element** is just a plain JavaScript object describing the UI.
-- It has properties like `type`, `props`, and `key`.
-
----
-
-### 3. **React Component**
-A **React Component** is a reusable piece of UI logic that returns React Elements. Components can be **functional** or **class-based**.
-
-✅ **Example of a Functional Component:**
-```jsx
-function MyComponent() {
-  return <h1>Hello World</h1>;
-}
-```
-
-✅ **Example of a Class Component:**
-```jsx
-class MyComponent extends React.Component {
-  render() {
-    return <h1>Hello World</h1>;
-  }
-}
-```
-- Components **return React Elements**.
-- Components can **have state and lifecycle methods** (if class-based or using hooks).
-- A component can return multiple elements wrapped in a fragment (`<>...</>`).
-
----
-
-### **Summary Table**
-
 | Concept           | What It Represents                                      | Example |
 |------------------|------------------------------------------------|---------|
-| **React Node**   | Anything React can render, including elements, components, numbers, strings, `null`, `undefined` | `'Hello'`, `42`, `<div>Test</div>` |
+| **React Node**   | Anything that React can render, including elements, components, numbers, strings, `null`, `undefined` | `'Hello'`, `42`, `<div>Test</div>` |
 | **React Element** | An object describing a UI structure, created via JSX or `React.createElement()` | `<h1>Hello</h1>` |
 | **React Component** | A function or class that returns React Elements | `function MyComponent() { return <h1>Hello</h1>; }` |
 
-Would you like a deeper explanation on any of these? 🚀
+<br>
 
 > ### Explain what React hydration is
 
 React hydration is the process of attaching event listeners and making a server-rendered HTML page interactive on the client side. When a React application is server-side rendered, the HTML is sent to the client, and React takes over to make it dynamic by attaching event handlers and initializing state. This process is called hydration.
 
+<br>
 
 > ### Why React's useDeferredValue hook is useful?
 
@@ -2989,15 +2739,11 @@ function Search() {
 
 Would you like a deep dive into how React schedules deferred updates? 🚀
 
+<br>
 
 > ### How to detect 'click' outside React component?
 
-### **Detecting Clicks Outside a React Component**
-To detect clicks outside a React component (e.g., closing a dropdown or modal when clicking outside), you can use **`useRef`** and **`useEffect`** to listen for clicks on the `document`.
-
----
-
-## **✅ Approach: Using `useRef` & `useEffect`**
+#### Approach: Using `useRef` & `useEffect`
 ```jsx
 import { useEffect, useRef } from "react";
 
@@ -3028,18 +2774,9 @@ export default function App() {
   );
 }
 ```
+<br>
 
----
-
-## **📌 How It Works**
-1. `useRef` stores a reference to the component.
-2. `useEffect` attaches a `mousedown` event listener to detect outside clicks.
-3. If the click **is not inside** the component (`!wrapperRef.current.contains(event.target)`), we **trigger `onClose()`**.
-4. Cleanup function removes the event listener when the component unmounts.
-
----
-
-## **⚡ Alternative: Using a Custom Hook**
+#### **⚡ Alternative: Using a Custom Hook**
 You can create a reusable **`useClickOutside`** hook.
 
 ```jsx
@@ -3065,25 +2802,13 @@ export default function App() {
   return <div ref={ref} className="p-4 border rounded">Click outside me</div>;
 }
 ```
-
----
-
-## **📌 When to Use This?**
-✅ Closing **dropdowns, modals, popups** when clicking outside.  
-✅ **Dismissing tooltips** or **side menus** when clicking elsewhere.  
-
-Would you like a version with `touchstart` for mobile compatibility? 🚀
-
+<br>
 
 > ### What is the difference between npx and npm?
 
 ### **`npx` vs `npm` – What's the Difference?**  
 
-Both `npx` and `npm` are part of the Node.js ecosystem, but they serve different purposes.
-
----
-
-## **1️⃣ `npm` (Node Package Manager)**
+#### `npm` (Node Package Manager)
 `npm` is used to **install, manage, and run packages** globally or locally in a project.
 
 ✅ **Key Features of `npm`:**  
@@ -3091,24 +2816,7 @@ Both `npx` and `npm` are part of the Node.js ecosystem, but they serve different
 - Adds dependencies to `package.json`.  
 - Runs installed packages using `npx` or `scripts` in `package.json`.
 
-🔹 **Example: Installing & Running a Package with `npm`**
-```sh
-npm install cowsay
-npx cowsay "Hello World"
-```
-🔹 **Example: Running an Installed Package via `package.json`**
-```json
-"scripts": {
-  "start": "node index.js"
-}
-```
-```sh
-npm run start
-```
-
----
-
-## **2️⃣ `npx` (Node Package eXecute)**
+#### `npx` (Node Package eXecute)
 `npx` is used to **run Node.js packages without installing them globally**.
 
 ✅ **Key Features of `npx`:**  
@@ -3116,33 +2824,7 @@ npm run start
 - Uses the locally installed version if available.  
 - Ensures correct package versions are executed.
 
-🔹 **Example: Running a Temporary Package with `npx`**
-```sh
-npx create-react-app my-app
-```
-(No need to install `create-react-app` globally!)
-
-🔹 **Example: Running a Locally Installed Package**
-```sh
-npm install cowsay
-npx cowsay "Hello World"
-```
-(`npx` finds `cowsay` in `node_modules` and runs it.)
-
----
-
-## **📌 `npm` vs `npx` – Quick Comparison Table**
-
-| Feature         | `npm` | `npx` |
-|---------------|-------|------|
-| **Installs Packages?** | ✅ Yes | ❌ No (runs directly) |
-| **Runs Installed Packages?** | ✅ Yes (via `npm run`) | ✅ Yes |
-| **Runs Without Installing?** | ❌ No | ✅ Yes |
-| **Best For** | Managing project dependencies | Running CLI tools temporarily |
-
----
-
-## **🎯 When to Use What?**
+#### When to Use What?
 ✅ **Use `npm`** when:
 - Installing dependencies (`npm install react`).  
 - Running scripts (`npm run dev`).  
@@ -3153,8 +2835,7 @@ npx cowsay "Hello World"
 - Avoiding global package installations (`npx eslint .`).  
 - Ensuring the correct version of a package runs.  
 
-Would you like more real-world use cases for `npx`? 🚀
-
+<br>
 
 > ### Create your own useState hook for your new vanilla javascript project.
 
@@ -3170,16 +2851,9 @@ function useState(initialState) {
 }
 ```
 
+<br>
 
 > ### Scenario Based - Dynamic Nested List Rendering
-
-Create a React component that renders a nested list from a given array of objects. Each object can have a name property and a nested children property, which is an array of objects with the same structure.
-
-The depth of nesting is unknown and can vary for different objects.
-
-Implement the React component to render the nested list based on the provided data.
-
-Example Data:
 
 ```js
 const data = [
@@ -3235,5 +2909,3 @@ function NestedList({ data }) {
 
 export default NestedList;
 ```
-
-The component `NestedList` recursively renders a nested list using the provided `data` prop. It checks if the current item has children and, if so, calls the `renderNestedItems` function recursively to render the nested list.
