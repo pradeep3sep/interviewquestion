@@ -1072,7 +1072,7 @@ console.log(isShuffle(invalidString, string1, string2)); // Output: false
 
 <br>
 
-> ### Q29 - Balanced Parenthesis problem.
+> ### ⭐️ Q29 - Balanced Parenthesis problem.
 the function should return 'true' for exp = “[()]{}{[()()]()}” and 'false' for exp = “[(])”.
 
 <details>
@@ -1683,24 +1683,24 @@ console.log(count);
 
 
 > ### ⭐️ Q45 - Filter array of objects with exclude array 
-
-let items = [\
-  { color: "red", type: "tv" },\
-  { color: "silver", type: "phone" },\
-  { color: "black", type: "phone" },\
-  { color: "blue", type: "phone" },\
+```js
+let items = [
+  { color: "red", type: "tv" },
+  { color: "silver", type: "phone" },
+  { color: "black", type: "phone" },
+  { color: "blue", type: "phone" },
 ];
 
-let excludes = [\
-  { k: "color", v: "silver" },\
-  { k: "type", v: "tv" },\
+let excludes = [
+  { k: "color", v: "silver" },
+  { k: "type", v: "tv" },
 ];
 
-output:- [ \
-  { color: "black", type: "phone" },\
-  { color: "blue", type: "phone" },\
+output:- [ 
+  { color: "black", type: "phone" },
+  { color: "blue", type: "phone" },
 ];
-
+```
 
 <details>
 
@@ -2662,7 +2662,7 @@ for (let i = 1; i <= max + 1; i++) {
 <br>
 
 
-> ### Q72 - compare nested object ( custom without JSON.stringify())
+> ### ⭐️ Q72 - compare nested object ( custom without JSON.stringify())
 
 const obj1 = { a: 20, b: { x: 40, y: 60 } };\
 const obj2 = { a: 20, b: { x: 40, y: 60 } };
