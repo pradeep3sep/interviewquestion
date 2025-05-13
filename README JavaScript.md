@@ -159,7 +159,7 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Oper
 
 
 
-> ### conversion and coercion in javascript
+> ### Conversion and Coercion in javascript
 
 conversion - In this we manually convert the type of value
 

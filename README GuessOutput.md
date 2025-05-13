@@ -2867,10 +2867,11 @@ console.log(4);
   <summary>Answer</summary>
   <p>Answer is D)</p>
 
- Answer is D) 1 3 4 2 because at first console.log(1) will print "1", callback function attached to first setTimeout will wait for atleast 1 second.\
-  In the 2nd setTimeout we are passing IIFE ( Immediately Invoked Function Expression ). So, IIFE will print "3" immediately and will return () => {} as callback that will wait for atleast 2 seconds.\
-  console.log(4) will print "4", callstack will be empty as all synchronous tasks completed.\
-  After one second callback function attached to first setTimeout pushed into callstack and console.log(2) will print "2".
+Answer is D) 1 3 4 2\
+because at first console.log(1) will print "1", callback function attached to first setTimeout will wait for atleast 1 second.\
+In the 2nd setTimeout we are passing IIFE ( Immediately Invoked Function Expression ). So, IIFE will print "3" immediately and will return () => {} as callback that will wait for atleast 2 seconds.\
+console.log(4) will print "4", callstack will be empty as all synchronous tasks completed.\
+After one second callback function attached to first setTimeout pushed into callstack and console.log(2) will print "2".
 </details>
 
 
@@ -3969,22 +3970,6 @@ console.log(parseInt(obj1))
   ```
 
 In JavaScript, when you perform operations like addition or conversion, the language engine tries to coerce objects to primitive types. The order in which it tries to do this is: `valueOf()` first, then `toString()`.
-
-Let's analyze your code:
-
-```javascript
-const obj1 = {
-    valueOf() {
-        return 1
-    },
-    toString() {
-        return '100'
-    }
-}
-
-console.log(obj1 + 1);
-console.log(parseInt(obj1));
-```
 
 1. `obj1 + 1`: In this case, JavaScript first attempts to convert `obj1` to a primitive type. It tries the `valueOf()` method first. Since `valueOf()` is defined and returns a numeric value (1), JavaScript uses this value. Therefore, `obj1` is effectively treated as `1` in the expression. So, the expression becomes `1 + 1`, which equals `2`.
 
