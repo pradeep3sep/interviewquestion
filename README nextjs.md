@@ -38,13 +38,13 @@ tsconfig.json or jsconfig.json
 - Jo bhi `logs terminal` me aaye means wo `server side execute` hua and jo `logs browser` me aaye wo `clinet side execute` hua h
 - It has `page.js not index.js` in folder which `serve as main file`.
 - By `default`, `all components` are `server side` components only
-- "use client" directive added, the component should run on client side & server side
+- `"use client"` directive added, the component should run on client side & server side
 - when we click on next Link button, the component which comes on route change runs on server side, not on client side
-- you can have "use client" or "use server" in single component, if both needed then make that component to two separate coponenent, and use them separately
+- you can have `"use client" or "use server" in single component`, if both needed then make that component to two separate coponenent, and use them separately
 - in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that hook part separate component and add "use client" in that component and import it
 - Next caches very regressiveely in next 14
 - if you use any 3rd party package, and it does not support server side, run it in "use client" mode.
-- You cannot import a Server Component into a Client Component.
+- You `cannot import` a `Server Component into a Client Component`.
 
 <br>
 
@@ -291,7 +291,7 @@ export default async function NotFound() {
 ### Not found function ie `notFound()`
 
 - The `notFound` function allows you to render the `not-found file` within a route segment
-- Invoking the `notFound()` function throws a NEXT_NOT_FOUND error and terminates rendering of the route segment in which it was thrown. Specifying a not-found file allows you to gracefully handle such errors by rendering a Not Found UI within the segment.
+- Invoking the `notFound()` function throws a NEXT_NOT_FOUND error and terminates rendering
 
 **Inshort:** basically, kisi condition pe hum chahte h ki nearest not found page render ho jaye, to ish function ko run karte h
 
@@ -476,8 +476,6 @@ app
 ### **3. How to Fix This?**
 You have **two solutions:**
 
-<br>
-
 #### **Solution 1: Add `[detailId]` to `@revenue`**
 ```
 app
@@ -600,20 +598,21 @@ export default function Page({ params }) {
   // ...
 }
 ```
+<br>
 
-Note:
+**Note:**
 1. You can use the `dynamicParams segment config(details is below)` option to control what happens when a dynamic segment is visited that was not generated with generateStaticParams.
-<details>
+    <details>
 
-#### dynamicParams
-```js
-// layout.js | page.js | route.js
-export const dynamicParams = true // true | false,
+      #### dynamicParams
+      ```js
+      // layout.js | page.js | route.js
+      export const dynamicParams = true // true | false,
 
-// - true (default): Dynamic segments not included in generateStaticParams are generated on demand.
-// - false: Dynamic segments not included in generateStaticParams will return a 404.
-```
-</details>
+      // - true (default): Dynamic segments not included in generateStaticParams are generated on demand.
+      // - false: Dynamic segments not included in generateStaticParams will return a 404.
+      ```
+    </details>
 
 2. During `next dev`, `generateStaticParams` will be `called` `when you navigate` to a route.
 3. During `next build`, `generateStaticParams` runs before the corresponding Layouts or Pages are generated.
@@ -1204,6 +1203,9 @@ Note: If you need to use variable with a `$ in the actual value`, it needs to be
 ## **Route Groups & Private Folders in Next.js (App Router)**  
 
 ### **1️⃣ Route Groups → `(folder)`**  
+
+<details>
+
 - Used to **group related routes** **without affecting the URL structure**.  
 - **Parent folder names do NOT appear in the URL.**
 - In that group folder, we can create a layout.js which only works for that folder
@@ -1223,10 +1225,14 @@ Note: If you need to use variable with a `$ in the actual value`, it needs to be
 **URL Path Output:**  
 - `/users` (NOT `/dashboard/users`)  
 - `/settings` (NOT `/dashboard/settings`)  
- 
+</details>
+
 <br>
 
 ### **2️⃣ Private Folders → `_folder`**  
+
+<details>
+
 - Prefixing a folder with `_` **excludes it from the routing system**.  
 - Useful for organizing **utility files**, **components**, or **API helpers** inside `app/`.  
 
@@ -1243,6 +1249,7 @@ Note: If you need to use variable with a `$ in the actual value`, it needs to be
 
 - Cannot be accessed as a route (`/_utils/helpers`)
 - Can be imported inside other components**   
+</details>
 
 <br>
 <br>
@@ -1757,7 +1764,10 @@ https://nextjs.org/docs/14/app/api-reference/functions/generate-metadata
 <br>
 <br>
 
-### Redirects in next.config.js
+## Redirection
+
+
+### 1. Redirects in next.config.js
 
 - Redirects runs before Middleware.
 
@@ -1785,7 +1795,7 @@ module.exports = {
 
 <br>
 
-### Redirection in middleware.js
+### 2. Redirection in middleware.js
 
 **NextResponse.redirect in Middleware**
 - This is useful if you want to `redirect` users `based on a condition` (e.g. authentication, session management, etc) or have a large number of redirects.
@@ -1816,7 +1826,7 @@ export const config = {
 
 <br>
 
-### Redirection in Server components
+### 3. Redirection in Server components
 ```js
 // app/team/[id]/page.js
 import { redirect } from 'next/navigation'
@@ -1839,7 +1849,7 @@ export default async function Profile({ params }) {
 
 <br>
 
-### Redirection on client side
+### 4. Redirection on client side
 - redirect can be used in a Client Component through a Server Action. If you need to use an event handler to redirect the user, you can use the useRouter hook.
 ```js
 // app/client-redirect.jsx
@@ -1882,9 +1892,7 @@ redirect(path, type)
 <br>
 <br>
 
-## Next.js Route Handlers  
-
-<br>
+## Next.js Route Handlers
 
 ### What are Route Handlers?
 Route Handlers let you create custom API endpoints **inside the `app` directory** using Web APIs (`Request`, `Response`).
@@ -1895,6 +1903,8 @@ Route Handlers in Next.js `replace API routes` and allow you to create custom ba
 🚫 **Cannot use API Routes & Route Handlers together**  
 
 <br>
+
+<details>
 
 **Route Handler File: `route.js`**  
 - Located inside `/app/api/`
@@ -2027,10 +2037,11 @@ export async function GET(request) {
   const token = request.cookies.get('token')
 }
 ```
+</details>
 <br>
 <br>
 
-### Reading Headers
+## Reading Headers
 ```js
 // app/page.js
 
@@ -2065,13 +2076,10 @@ Various header method
 - Headers.keys()
 - Headers.values()
 
-
-
-
 <br>
 <br>
 
-### Streaming (For Large Responses or AI APIs)
+## Streaming (For Large Responses or AI APIs)
 
 <details>
 
@@ -2174,6 +2182,7 @@ export async function GET() {
 To call api on `server side` you can use `fetch directly` but on `client side` you have to `use-effect` and `inside` you can `call the api`
 
 ### In server component ie page.js, we directly await the api call function, 
+<details>
 
 ```js
 // app/page.js
@@ -2197,10 +2206,13 @@ export default async function Page() {
   return <main></main>
 }
 ```
-
+</details>
 <br>
 
 ### Client-Side Fetching with `useEffect`
+
+<details>
+
 ```js
 "use client";
 
@@ -2225,11 +2237,13 @@ export default function Home() {
   );
 }
 ```
-
+</details>
 <br>
 
 ### Hybrid Approach: Server + Client Fetching
 - You can **preload data on the server** and **fetch additional data on the client**.
+
+<details>
 
 ```tsx
 // app/page.js (Server Component)
@@ -2271,10 +2285,11 @@ export default function ClientComponent({ post }) {
   );
 }
 ```
+</details>
 <br>
 <br>
 
-### Caching Data in Next.js
+## Caching Data in Next.js
 
 Next.js extends the `native Web fetch()` API to allow each request on the server to set its own persistent caching semantics.
 
@@ -2588,6 +2603,7 @@ export default function Page() {
   </form>
 }
 ```
+<br>
 
 ### Server action for Non-form Elements
 
@@ -2652,8 +2668,6 @@ more on server action - https://nextjs.org/docs/14/app/building-your-application
 <br>
 
 ## Various hooks used in forms
-
-<br>
 
 ### 1. `useFormStatus` Hook in Next.js
 
@@ -3093,32 +3107,7 @@ export default function ExampleClientComponent() {
 
 <br>
 
-### 7. usePathname
-
-usePathname is a `Client Component hook` that lets you read the current URL's pathname.
-
-```js
-'use client'
- 
-import { usePathname } from 'next/navigation'
- 
-export default function ExampleClientComponent() {
-  const pathname = usePathname()
-  return <p>Current pathname: {pathname}</p>
-}
-```
-<br>
-
-| URL | Returned Value |
-|-----|---------------|
-| / | '/' |
-| /dashboard | '/dashboard' |
-| /dashboard?v=2 | '/dashboard' |
-| /blog/hello-world | '/blog/hello-world' |
-
-<br>
-
-### 8. useRouter
+### 7. useRouter
 
 - most of things we get using usePathname and useParams
 - The useRouter hook allows you to programmatically change routes inside `Client Components`.
@@ -3151,7 +3140,7 @@ export default function Page() {
 <br>
 <br>
 
-### Props in page.js
+## Props in page.js
 
 In page.js, `params` and `searchparams` are `available`, both are `optional`
 
@@ -3921,6 +3910,8 @@ That’s bad if you want **fast static rendering (SSR/SSG)** for most of the pag
 
 **Solution: Use `<Suspense>`**
 
+<details>
+
 Wrap the dynamic component (`SearchBar`) in a `<Suspense>` block. That way:
 
 - **Static parts** (like nav, header, layout) get **rendered on the server**.
@@ -3980,6 +3971,7 @@ export default function Page() {
 | Entire tree becomes client-rendered | Only the `SearchBar` is client-rendered |
 | Slower TTFB (time to first byte) | Faster initial render |
 | Less SEO friendly | More SEO friendly |
+</details>
 
 <br>
 
@@ -4274,6 +4266,8 @@ It's a **React hook** provided by **Next.js App Router** that lets you get **spe
 
 <br>
 
+<details>
+
 Let's say your app has a URL like:
 
 ```js
@@ -4322,6 +4316,7 @@ You can use it to:
 - **Highlight menu items** based on the current route.
 - Show/hide components conditionally depending on path.
 - Customize layout behavior dynamically.
+</details>
 
 <br>
 <br>
@@ -4734,8 +4729,6 @@ export default MyApp;
 <br>
 
 ## Data Fetching
-
-<br>
 
 ### Static Generation -  Basically generate static when build command is done
 

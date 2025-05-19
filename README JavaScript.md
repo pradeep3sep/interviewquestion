@@ -3075,43 +3075,15 @@ async1(function(){
 
 <br>
 
-
-👉 Callback and Callback Hell\
-Callback functions are first class citizens passed as an argument to higher order function,
-and later on higher order function calls the callback function to perform some operation.
-
-
-💡Types of Callback :-\
-👉 Synchronous Callback (blocking) :- Executes immediately during the execution of the higher-order function.\
-👉 Asynchronous Callback (non-blocking) :- Executes after the execution of the higher-order function.
-
-💡Callback Hell :- \
-👉 Callback Hell is the situation where callbacks are nested several levels deep which makes it difficult to understand and maintain the code. It's also known as Pyramid of Doom.
+Callback Hell :-
+- Callback Hell is the situation where callbacks are nested several levels deep which makes it difficult to understand and maintain the code. It's also known as Pyramid of Doom.
 
 💡 Avoiding Callback Hell\
 👉 1) Using Promises \
 👉 2) Using async-await \
 👉 3) Using generators
 
-
-```js
-function callBackExample() {
-  const DhoniFinishing = () => {
-    console.log("Dhoni came to bat after 16 overs for finishing");
-  };
-
-  const indiaBatting = (callDhoni) => {
-    console.log("India's batting...");
-    let overs = 16.2;
-    if (overs > 16) {
-      callDhoni();
-    }
-  };
-
-  indiaBatting(DhoniFinishing);
-}
-```
-
+<br>
 
 ```js
 // Function with nested callbacks
@@ -3981,7 +3953,7 @@ https://javascript.info/weakmap-weakset
 Map  | WeakMap
 ------------- | -------------
 A Map is an unordered list of key-value pairs where the `key and the value` can `be` of `any type` like string, boolean, number, etc.  | In a Weak Map, every `key` can only be an `object and function`. It used to store weak object references.
-Maps are iterable.  | WeakMaps are not iterable.
+Maps are `iterable`.  | WeakMaps are `not iterable`.
 Maps will keep everything even if you don’t use them. | WeakMaps holds the reference to the key, not the key itself.
 The garbage collector doesn’t remove a key pointer from “Map” and also doesn’t remove the key from memory. | The garbage collector goes ahead and removes the key pointer from “WeakMap” and also removes the key from memory. WeakMap allows the garbage collector to do its task but not the Map.
 Maps have some properties : .set, .get, .delete, .size, .has, .forEach, Iterators. | WeakMaps have some properties : .set, .get, .delete, .has.
@@ -4533,12 +4505,6 @@ console.log(Array(5)); // [ <5 empty items> ]
 - Each prototype may have its own prototype, forming a **chain**.
 - This chain ends when a prototype is `null`.
   - `null` has no prototype and is the **end of the chain**.
-
-<br>
-
-👉 Prototype and Prototype Inheritance\
-The prototype is an object that is associated with every functions and objects by default in JavaScript,\
-Every object includes __proto__ property that points to prototype object of a function that created the object.
 
 <br>
 
@@ -5366,9 +5332,9 @@ isNaN("100"); //false
  
 
 > ### What is the difference between native, host and user objects
-`Native objects` are objects that are part of the JavaScript language defined by the ECMAScript specification. For example, String, Math, RegExp, Object, Function etc core objects defined in the ECMAScript spec.
-`Host objects` are objects provided by the browser or runtime environment (Node). For example, window, XmlHttpRequest, DOM nodes etc are considered as host objects.
-`User objects` are objects defined in the javascript code. For example, User objects created for profile information.
+- `Native objects` are objects that are part of the JavaScript language defined by the ECMAScript specification. For example, String, Math, RegExp, Object, Function etc core objects defined in the ECMAScript spec.
+- `Host objects` are objects provided by the browser or runtime environment (Node). For example, window, XmlHttpRequest, DOM nodes etc are considered as host objects.
+- `User objects` are objects defined in the javascript code. For example, User objects created for profile information.
 
 <br>
  
@@ -5484,18 +5450,6 @@ A polyfill is a piece of JS code used to provide modern functionality on older b
 
 <br>
  
-> ### How do you get the image width and height using JS
-You can programmatically get the image and check the dimensions(width and height) using Javascript.
-```js
-var img = new Image();
-img.onload = function () {
-  console.log(this.width + "x" + this.height);
-};
-img.src = "http://www.google.com/intl/en_ALL/images/logo.gif";
-```
-
-<br>
- 
 > ### How do you convert date to another timezone in javascript
 You can use the toLocaleString() method to convert dates in one timezone to another. For example, let's convert current date to British English timezone as below,
 ```js
@@ -5600,8 +5554,8 @@ callingFunction?.()
 The rest parameter should be the last argument, as its job is to collect all the remaining arguments into an array. For example, if you define a function like below it doesn’t make any sense and will throw an error.
 ```js
 function someFunc(a,…b,c){
-//You code goes here
-return;
+  //You code goes here
+  return;
 }
 ```
 
@@ -5852,15 +5806,15 @@ Contain certain value | 	Can contain NULL too
 <br>
  
 
-> ### debouncing vs throttling
+> ### Debouncing vs Throttling
 1st one is diff b/w to type value time and second one is the time difference between two function call
 
 * Throttling is a technique where a function is executed at a regular interval, no matter how frequently it is called.
 *  Debouncing, on the other hand, is a technique where a function is only executed after a certain amount of time has passed since the last time it was called.
 
-**debounce**
+**Debounce**
 
-💡Other use cases :-\
+Other use cases :-\
 👉 Continous button click event function call can be delay.\
 👉 Resize of window event function call can be delay.
 
@@ -6099,9 +6053,11 @@ When the DOM nodes change, you can invoke a callback function to detect the chan
 
 <br>
  
-> ### normal function vs arrow function (4 points)
+> ### Normal function vs Arrow function (4 points)
 
 - `Arguments objects` are not available in arrow functions, but are available in regular functions.
+
+<details>
 
 ```js
 let user = {
@@ -6121,9 +6077,13 @@ let user = {
 
 user.show_ar(1, 2, 3)    // arguments is not defined
 ```
+</details>
 
+<br>
 
 - `Can NOT Use new keyword` with arrow function
+
+<details>
 
 Regular functions created using function declarations or expressions are ‘constructible’ and ‘callable’. Since regular functions are constructible, they can be called using the ‘new’ keyword. However, the arrow functions are only ‘callable’ and not constructible. Thus, we will get a run-time error on trying to construct a non-constructible arrow functions using the new keyword.
 
@@ -6139,10 +6099,10 @@ let x = () => {
 }
 new x(1, 2, 3) // => TypeError: x is not a constructor
 ```
+</details>
 
 - arrow do not have `"this"` keyword
 - `No hoisting` -> arrow can not be called before defined in code. 
-
 
 <br>
  

@@ -270,8 +270,6 @@ direction = "forward" // ❌ Error: not assignable to type
     userName = userInput  // this code will not show any error. typescript do not check anything if any added
     ```
 
-`In summary`, while both any and unknown offer flexibility when dealing with dynamic types, `unknown is a more type-safe option`, requiring explicit type-checking before performing operations. It's generally recommended to use unknown over any when possible to take advantage of TypeScript's static type-checking features.
-
 <br>
 <br>
 
@@ -389,7 +387,6 @@ printCoord({ x: 100, y: 100 });
 | ✅ Can be extended             | Yes (with `&`)                              | Yes (with `extends`)                     |
 | 🔁 Can be reopened/merged      | ❌ No                                       | ✅ Yes                                    |
 | 🔣 Can define primitives       | ✅ Yes (`type Age = number`)               | ❌ No (only objects)                     |
-| 🧩 More suitable for           | Union types, complex types                 | Class-like structures, OOP-style objects |
 | 👨‍👩‍👧‍👦 Can be implemented by class | ❌ No                                       | ✅ Yes (`class MyClass implements MyInterface`) |
 
 <br>
@@ -578,7 +575,6 @@ type Box<Type> = {
 <br>
 
 ### Generic Functions
-- As names, it is generic in nature
 - Generic functions are the function in which we pass the type separately as per use everytime we use it
 
 ```ts
@@ -595,7 +591,9 @@ console.log(firstElement(stringNumber)); // Output: 1
 
 - In above we defined that the `Type` let say `string`, it means thaat arr value will be `array of string` and `return` value will be `string`
 
-- Below is one more example, here we pass 2 generic one is 'input' and other is 'output'.
+<br>
+
+Below is one more example, here we pass 2 generic one is 'input' and other is 'output'.
 
 ```ts
 function merge<T, U>(a: T, b: U) {
@@ -814,7 +812,7 @@ A tuple type is another sort of Array type that knows `exactly how many elements
 type StringNumberPair = [string, number];
 ```
 
-- **Note :**Key point to note here `push` is exceptional in tuple. Like if we have defined the tuple then we can push in that. below is example
+**Note :**Key point to note here `push` is exceptional in tuple. Like if we have defined the tuple then we can push in that. below is example
 
 ```ts
 const person: {
