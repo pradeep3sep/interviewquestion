@@ -110,12 +110,6 @@ export default App;
 ```
 <br>
 
-- **Async functions return promises**:  
-  Any function marked with `async` automatically returns a Promise, even if you don’t explicitly return one.
-
-- **Async/await operates via the event loop**:  
-  Asynchronous functions allow you to use `await`, which pauses execution until the Promise resolves, making code easier to read and write.
-
 - **`useEffect()` restrictions**:  
   The `useEffect` hook **must return either `undefined` or a cleanup function**, and nothing else.
 
@@ -125,17 +119,6 @@ export default App;
 
 - **Why React warns you**:  
   React interprets any returned value from `useEffect` as a cleanup function. If it’s a Promise instead, this breaks the expected behavior.
-
-- **Proper workaround**:  
-  Instead of making the `useEffect` function itself async, **define an async function inside the effect and call it** like this:
-  ```js
-  useEffect(() => {
-    const fetchData = async () => {
-      // Your async code here
-    };
-    fetchData();
-  }, []);
-  ```
 
 <br>
 
@@ -483,9 +466,9 @@ Apart from the advantages, there are few limitations of React too,
 
 > ### What is JSX?
 
-JSX stands for JavaScript XML. \
-Basically it just provides the `syntactic sugar` for the `React.createElement(type, props, ...children)` function, 
-**In children, we can have children component or we can have the text which we want to show**
+- JSX stands for JavaScript XML.
+- Basically it just provides the `syntactic sugar` for the `React.createElement(type, props, ...children)` function, 
+- **In children, we can have children component or we can have the text which we want to show**
 
 The `Babel convert the JSX to React.createElement to pure javascript`
 
@@ -522,6 +505,9 @@ export default function App() {
 ```
 
 Below is the solution
+
+<details>
+
 ```js
 const heading1 = React.createElement(
   "h1",
@@ -553,10 +539,8 @@ const root = ReactDOM.createRoot(
 root.render(container)
 ```
 
-
+</details>
 <br>
-
-
 
 > ### What is the difference between Element and Component?
 
@@ -631,7 +615,7 @@ this.setState({ message: "Hello World" });
 
 <br>
 
-### Rules of Custom Hooks
+> ### Custom Hooks and its Rules
 
 - Outsource `stateful logic into reusable functions`.
 - Custom hooks is like `component but without JSX`.
@@ -694,9 +678,9 @@ function useCounter(initial = 0) {
   return { count, increment, decrement };
 }
 ```
+<br>
 
-
-Simple example of custom hooks
+**Simple example of custom hooks**
 
 ```js
 // useCounter.js
@@ -741,7 +725,7 @@ export default CounterComponent;
 
 <br>
 
-### Conditional rendering in React 
+> ### Conditional rendering in React 
 
 1. **Using `if` statement**
 
@@ -778,8 +762,9 @@ export default CounterComponent;
         return null;
     }
     ```
+<br>
 
-Can also be done with an object map for cleaner code:
+**Can also be done with an object map for cleaner code:**
 
 ```jsx
 const renderMap = {
@@ -877,9 +862,9 @@ when we get the class which is not inside the component we use the global, like 
 
 <br>
 
-Module CSS
+> ### Module CSS
 
-- general css is global in nature means whether we import in component or in app file. It will be applicable in all area, so to overcome this limitation, we use mdoule css
+- General css is global in nature means whether we import in component or in app file. It will be applicable in all area, so to overcome this limitation, we use mdoule css
 
 - CSS module let you use the same css class name in different files without worrying about naming clashes
 
@@ -908,7 +893,6 @@ import styles from "./app.module.css"
 | Feature | `useRef` | `useState` |
 |--------|----------|------------|
 | Triggers re-render on change | ❌ No | ✅ Yes |
-| Persist value across renders | ✅ Yes | ✅ Yes |
 | Ideal for DOM access | ✅ Yes | ❌ No |
 | Good for non-UI values (timers, IDs) | ✅ Yes | ❌ Not ideal |
 | Recommended for UI/data logic | ❌ Not really | ✅ Yes |
@@ -1081,7 +1065,7 @@ import React, {
   useState,
 } from 'react';
 
-const Modal = forwardRef((props, ref) => {   //keep in mind ref does not come in props while usinh forward ref
+const Modal = forwardRef((props, ref) => {   //keep in mind ref does not come in props while using forward ref
   const [isOpen, setIsOpen] = useState(false);
 
   // Expose open and close methods
@@ -2241,19 +2225,19 @@ Both refers the same thing. Previously concurrent Mode being referred to as "Asy
 
 `useEffect` runs **asynchronously after the render** and does **not block** the browser from painting the UI. This makes it suitable for non-UI updates like **data fetching, logging, or setting up subscriptions**.
 
-    ```jsx
-    import { useEffect, useState } from "react";
+```jsx
+import { useEffect, useState } from "react";
 
-    function Example() {
-      const [count, setCount] = useState(0);
+function Example() {
+  const [count, setCount] = useState(0);
 
-      useEffect(() => {
-        console.log("useEffect: Runs after render");
-      });
+  useEffect(() => {
+    console.log("useEffect: Runs after render");
+  });
 
-      return <button onClick={() => setCount(count + 1)}>Click {count}</button>;
-    }
-    ```
+  return <button onClick={() => setCount(count + 1)}>Click {count}</button>;
+}
+```
 
 <br>
 
@@ -2300,9 +2284,10 @@ function Example() {
 > ### What is strict mode in React?
 
 `React.StrictMode` is a useful component for highlighting potential problems in an application. Just like `<Fragment>`, `<StrictMode>` does not render any extra DOM elements. It activates additional checks and warnings for its descendants. These checks apply for _development mode_ only.
+
 <br>
 
-> ### when react has aready class based system then why they have introduced functional component
+> ### When react has aready class based system then why they have introduced functional component
 
 #### 1. Simplicity and Readability:
 * **Concise syntax:** Functional components are often shorter and easier to understand compared to their class-based counterparts.
@@ -2643,23 +2628,18 @@ React hydration is the process of attaching event listeners and making a server-
 
 > ### Why React's useDeferredValue hook is useful?
 
-### **🔹 `useDeferredValue` Hook in React**  
 The `useDeferredValue` hook is useful for improving UI **performance** by **deferring** updates to expensive computations while keeping the UI responsive.
 
----
-
-## **✅ Why `useDeferredValue`?**  
 When a React state update causes a **slow re-render** (e.g., filtering a large list or expensive UI updates), `useDeferredValue` helps by:
 - **Prioritizing user interactions** (e.g., typing in an input field).
 - **Delaying expensive updates** until the browser is idle.
 - **Improving perceived performance** (UI feels snappier).
 
----
 
-## **📌 Example: Search with Large List Filtering**
+#### Example: Search with Large List Filtering
 Imagine filtering a large list based on user input. Without `useDeferredValue`, typing can feel sluggish.
 
-### **🚫 Without `useDeferredValue` (Slow UI)**
+##### Without `useDeferredValue` (Slow UI)
 ```jsx
 import { useState } from "react";
 
@@ -2680,11 +2660,11 @@ function Search() {
   );
 }
 ```
-⚠️ **Issue**: Every keystroke **immediately triggers expensive filtering**, causing lag.
 
----
+**Issue**: Every keystroke **immediately triggers expensive filtering**, causing lag.
 
-### **✅ With `useDeferredValue` (Smoother UI)**
+
+#### With `useDeferredValue` (Smoother UI)
 ```jsx
 import { useState, useDeferredValue } from "react";
 
@@ -2706,38 +2686,14 @@ function Search() {
   );
 }
 ```
-✅ **Why?**  
-- **Typing stays responsive** (`query` updates instantly).  
-- **Filtering happens with a slight delay** (`deferredQuery` updates later).  
-- **React prioritizes UI updates** before handling expensive rendering.
 
----
 
-## **🔹 Key Features of `useDeferredValue`**
-| Feature                  | Behavior |
-|--------------------------|----------|
-| **Delays state updates**  | Defers the update to a lower-priority task |
-| **Prevents UI lag**       | Keeps the UI responsive for user interactions |
-| **Best for expensive renders** | Large lists, data-heavy components |
-
----
-
-## **📌 When to Use `useDeferredValue`?**
-✅ **Use `useDeferredValue` when:**  
+#### When to Use `useDeferredValue`?
 - You have **expensive computations** triggered by fast-changing state (e.g., filtering, sorting).  
 - You want to keep the UI **responsive while processing background updates**.  
 
 ❌ **Avoid `useDeferredValue` when:**  
 - The update **must happen immediately** (e.g., form validation, real-time feedback).  
-
----
-
-### **🚀 Summary**
-- `useDeferredValue` **reduces UI lag** by deferring expensive calculations.
-- It **prioritizes user interactions** over slow renders.
-- Great for **search, filtering, animations, and large list updates**.
-
-Would you like a deep dive into how React schedules deferred updates? 🚀
 
 <br>
 
