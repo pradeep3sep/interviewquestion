@@ -1,8 +1,10 @@
-import { useState } from "react"
+import { useState , ChangeEvent} from "react"
+
+type countType = number
 
 function Counter() {
-    const [countval, setcountval] = useState(0)
-    const [inputval, setinputval] = useState(0)
+    const [countval, setcountval] = useState<countType>(0)
+    const [inputval, setinputval] = useState<countType>(0)
 
     function increaseVal() {
         setcountval((val) => val + (inputval || 1))
@@ -16,8 +18,8 @@ function Counter() {
         setcountval(0)
         setinputval(0)
     }
-    function updateInput(e: number) {
-        setinputval(e)
+    function updatevalue(el: ChangeEvent<HTMLInputElement>){
+        setinputval(el.target.valueAsNumber)
     }
 
     return (
@@ -35,7 +37,7 @@ function Counter() {
                 <input
                     type="number"
                     id="step"
-                    onChange={(e) => updateInput((e.target as HTMLInputElement).valueAsNumber)}
+                    onChange={(e) =>updatevalue(e)}
                     title="Step value"
                 />
             </div>

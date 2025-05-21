@@ -1,9 +1,15 @@
 import { useState } from "react"
 import { FOODS } from "./data"
 
+interface FoodItem {
+    id: number;
+    name: string;
+    price: number;
+}
+
 export default function Pagination() {
-    const [currentpage, setcurrentpage] = useState(1)
-    const [initialpagecount, setinitialpagecount] = useState(0)
+    const [currentpage, setcurrentpage] = useState<number>(1)
+    const [initialpagecount, setinitialpagecount] = useState<number>(0)
 
     function nextPage(){
         if(currentpage < Math.ceil(FOODS.length/10)){
@@ -38,7 +44,7 @@ export default function Pagination() {
                         </tr>
                     </thead>
                     <tbody>
-                        {FOODS.slice(initialpagecount, currentpage*10).map(item => (    // keep in mind, yha pe {} nhi use kia ()
+                        {FOODS.slice(initialpagecount, currentpage*10).map((item: FoodItem) => (    // keep in mind, yha pe {} nhi use kia ()
                             <tr key={item.id}>
                                 <td>{item.id}</td>
                                 <td>{item.name}</td>

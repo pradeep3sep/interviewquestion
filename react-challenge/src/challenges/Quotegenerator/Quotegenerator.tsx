@@ -1,9 +1,14 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState,ChangeEvent } from "react"
+
+interface Quote {
+  quote: string;
+  author: string;
+}
 
 export default function Quotegenerator() {
-  const [content, setcontent] = useState('')
-  const [author, setauthor] = useState('')
-  const [inputval, setinputval] = useState('')
+  const [content, setcontent] = useState<string>('')
+  const [author, setauthor] = useState<string>('')
+  const [inputval, setinputval] = useState<string>('')
   
 
   useEffect(() => {
@@ -13,9 +18,9 @@ export default function Quotegenerator() {
 
   async function generator(){
     try {
-      const res = await fetch('https://api.quotable.io/quotes/random?tags='+ inputval)
-      const data = await res.json()
-      setcontent(data[0].content)
+      const res = await fetch('https://dummyjson.com/quotes/random/1'+ inputval)
+      const data: Quote[] = await res.json()
+      setcontent(data[0].quote)
       setauthor(data[0].author)
     } catch (error) {
       console.log(error);
@@ -34,7 +39,7 @@ export default function Quotegenerator() {
       <h2>{content}</h2>
       <p>- {author}</p>
 
-      <input type='text' title='tags' onChange={(e)=> setinputval(e.target.value)}/>
+      <input type='text' title='tags' onChange={(e: ChangeEvent<HTMLInputElement>)=> setinputval(e.target.value)}/>
       <button onClick={generator}>Generate</button>
     </>
   )

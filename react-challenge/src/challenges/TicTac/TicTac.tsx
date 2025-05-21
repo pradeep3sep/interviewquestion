@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import styles from './tictac.module.css';
 
-const lines = [
+const lines: [number, number,number][] = [
   [0, 1, 2],
   [3, 4, 5],
   [6, 7, 8],
@@ -13,11 +13,13 @@ const lines = [
   [2, 4, 6],
 ];
 
-function TicTac() {
-  const [arr, setArr] = useState(Array(9).fill(null));
-  const [currentPlayer, setCurrentPlayer] = useState("X");
+type setValue = "X" | "O" | null
 
-  function checkWinner(passArray){
+function TicTac() {
+  const [arr, setArr] = useState<setValue[]>(Array(9).fill(null));
+  const [currentPlayer, setCurrentPlayer] = useState<"X"| "O" >("X");
+
+  function checkWinner(passArray: setValue[]):setValue{
     for (let i = 0; i < lines.length; i++) {
       const [a, b, c] = lines[i];
       if (passArray[a] && passArray[a] === passArray[b] && passArray[a] === passArray[c]) {
@@ -30,7 +32,7 @@ function TicTac() {
   }
 
 
-  function handleClick(id) {
+  function handleClick(id:number):void {
     // Below is to prevent the again clicking on same box
     if(arr[id] !== null) return
 
