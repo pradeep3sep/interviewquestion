@@ -672,7 +672,7 @@ Example 2:
 The maximum population is 2, and it had happened in years 1960 and 1970.\
 The earlier year between them is 1960.
 
-`video:` https://www.youtube.com/watch?v=v0xswVJnRlE
+`video:` https://youtu.be/v0xswVJnRlE?si=zdc08lNDCGt6-i-9&t=136
 
 <Details>
 
@@ -705,89 +705,13 @@ var maximumPopulation = function(logs) {
 
 <br>
 
-> ### 437. Path Sum III
-Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
-
-The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
-
-Example 1:
-
-**Input**: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8\
-**Output**: 3\
-**Explanation**: The paths that sum to 8 are shown.
-
-Example 2:
-
-**Input**: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22\
-**Output**: 3
-
-`video:` https://youtu.be/UQzXYDN49cs?si=jxPPtTM3alVIQ5JF
-
-<Details>
-
-```js
-class TreeNode {
-    constructor(val, left = null, right = null) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
-    }
-}
-
-function pathSum(root, targetSum) {
-    const prefixSumMap = new Map();
-    prefixSumMap.set(0, 1); // Base case: one way to reach sum 0 is by not taking any nodes
-    let count = 0;
-
-    function dfs(node, currentSum) {
-        if (!node) return;
-
-        // Add the current node's value to the running sum
-        currentSum += node.val;
-
-        // Check if there's a prefix sum such that currentSum - prefixSum = targetSum
-        const neededSum = currentSum - targetSum;
-        if (prefixSumMap.has(neededSum)) {
-            count += prefixSumMap.get(neededSum);
-        }
-
-        // Add the current running sum to the map
-        prefixSumMap.set(currentSum, (prefixSumMap.get(currentSum) || 0) + 1);
-
-        // Explore the left and right subtrees
-        dfs(node.left, currentSum);
-        dfs(node.right, currentSum);
-
-        // Backtrack: Remove the current running sum from the map
-        prefixSumMap.set(currentSum, prefixSumMap.get(currentSum) - 1);
-    }
-
-    dfs(root, 0);
-    return count;
-}
-
-// Example usage:
-// Create the tree: [10,5,-3,3,2,null,11,3,-2,null,1]
-const root = new TreeNode(10,
-    new TreeNode(5,
-        new TreeNode(3, new TreeNode(3), new TreeNode(-2)),
-        new TreeNode(2, null, new TreeNode(1))
-    ),
-    new TreeNode(-3, null, new TreeNode(11))
-);
-
-const targetSum = 8;
-console.log(pathSum(root, targetSum)); // **Output**: 3
-```
-
-</Details>
-
-<br>
-
 [Back to Top](#table-of-contents)
 
 > ## 3. Two pointer algorithm
+
 In the two-pointer algorithm, there are several common steps or patterns that we typically follow, regardless of the specific problem. Here’s a generalized breakdown of the steps involved:
+
+<details>
 
 ### 1. Initialize Two Pointers
    - One pointer is placed at the start (`left` or `i`) of the array.
@@ -845,6 +769,8 @@ In the two-pointer algorithm, there are several common steps or patterns that we
    ```javascript
    return null; // If no pair or solution is found
    ```
+
+</details>
 <br>
 
 > ### 11. Container With Most Water
@@ -920,7 +846,7 @@ Example 2:
 
 <details>
 
-1. Start with **left pointer** at \( a = 0 \) and **right pointer** at \( b = \lfloor \sqrt{c} \rfloor \).  
+1. Start with **left pointer** at \( a = 0 \) and **right pointer** at b = floor(sqrt{c}).  
 2. Compute the sum of squares and compare it to \( c \).  
 3. Adjust pointers accordingly:  
    - If sum is **less than** \( c \), increment \( a \).  
@@ -979,11 +905,6 @@ Thus, the maximum distance to the closest person is 2.
 **Explanation**:\
 If Alex sits in the last seat (i.e. seats[3]), the closest person is 3 seats away.\
 This is the maximum distance possible, so the answer is 3.
-
-**Example 3:**
-
-**Input**: seats = [0,1]\
-**Output**: 1
 
 <details>
 
@@ -1071,7 +992,7 @@ Simple logic - It works like create a `object` and `add keys` in it with `value 
 
 <br>
 
-> ### Max Number of K-Sum Pairs
+> ### 1679. Max Number of K-Sum Pairs
 
 You are given an integer array nums and an integer k.
 
@@ -1084,8 +1005,8 @@ Example 1:
 **Input**: nums = [1,2,3,4], k = 5\
 **Output**: 2
 
-**Explanation**: Starting with nums = [1,2,3,4]:\
-- Remove numbers 1 and 4, then nums = [2,3]\
+**Explanation**: Starting with nums = [1,2,3,4]:
+- Remove numbers 1 and 4, then nums = [2,3]
 - Remove numbers 2 and 3, then nums = []\
 There are no more pairs that sum up to 5, hence a total of 2 operations.
 
@@ -1094,7 +1015,7 @@ Example 2:
 **Input**: nums = [3,1,3,4,3], k = 6\
 **Output**: 1
 
-**Explanation**: Starting with nums = [3,1,3,4,3]:\
+**Explanation**: Starting with nums = [3,1,3,4,3]:
 - Remove the first two 3's, then nums = [1,4,3]\
 There are no more pairs that sum up to 6, hence a total of 1 operation.
 
@@ -1102,7 +1023,7 @@ There are no more pairs that sum up to 6, hence a total of 1 operation.
 
 ```js
 var maxOperations = function(nums, k) {
-     let count = 0;
+    let count = 0;
     let map = new Map();
 
     for (let num of nums) {
@@ -1117,6 +1038,7 @@ var maxOperations = function(nums, k) {
 
     return count;
 };
+console.log(maxOperations([1,2,3,4],5))
 ```
 
 </details>
@@ -1190,8 +1112,6 @@ console.log(numPairsDivisibleBy60(time2)); // **Output**: 3
 
 [Youtube video for concept](https://www.youtube.com/watch?v=uqGxFk0cEdI)
 
-`Trick` - when we have to find min or max length of string or array, which have to do operations
-
 The general steps to solve these questions by following below steps:
 
 - Find the size of the window required, say K.
@@ -1204,12 +1124,10 @@ How to Identify Sliding Window Problems:
 
 - These problems generally require Finding Maximum/Minimum Subarray, Substrings which satisfy some specific condition.
 - The size of the subarray or substring ‘K’ will be given in some of the problems.
-- These problems can easily be solved in O(N2) time complexity using nested loops, using sliding window we can solve these in O(n) Time Complexity.
-- Required Time Complexity: O(N) or O(Nlog(N))
 
 <br>
 
-> ### Maximum Average Subarray I
+> ### 643. Maximum Average Subarray I
 
 Example 1:
 
@@ -1262,7 +1180,7 @@ Example 2:
 **Explanation**: [0,0,.1,.1,.1,.1,.1,.1,.1,.1,.1,.1,0,0,0,1,1,1,1]\
 dotted numbers were flipped from 0 to 1. The longest subarray is underlined.
 
-[Youtube video for concept](https://youtu.be/7FE5Q_Bqzw8?si=uKw4xkjOtPBZzeUi&t=132)
+Youtube - https://youtu.be/7FE5Q_Bqzw8?si=uKw4xkjOtPBZzeUi&t=132
 
 <details>
 
@@ -1331,10 +1249,6 @@ Example 3:
 1. **Frequency Calculation**: Count the occurrences of each character.
 2. **Sliding Window**: Use a sliding window to find the minimum substring length that can be replaced to balance the string.
 
-
-
-### JavaScript Solution
-
 ```javascript
 function balancedString(s) {
     const n = s.length;
@@ -1397,7 +1311,7 @@ This approach ensures an efficient solution with a time complexity of \(O(n)\).
 
 > ## 6. fast and slow pointer algorithm
 
-[Youtube video for concept](https://www.youtube.com/watch?v=XWyXy2aNrXM)
+Youtube - https://www.youtube.com/watch?v=XWyXy2aNrXM
 
 The **fast and slow pointer algorithm** (also known as the **tortoise and hare algorithm**) is a two-pointer technique used to detect cycles in linked lists, arrays, or other data structures. It involves using two pointers that move at different speeds to determine if and where a cycle exists. This technique is particularly useful in problems related to detecting loops and finding middle points in a data structure.
 
@@ -1543,9 +1457,9 @@ You can adjust the logic depending on whether you want to return the first or se
 [Back to Top](#table-of-contents)
 
 > ## 7. Monotonic stack algorithm
-[Youtube video for concept](https://www.youtube.com/watch?v=Dq_ObZwTY_Q&t=152s)
+Youtube - https://www.youtube.com/watch?v=Dq_ObZwTY_Q&t=152s
 
-[website](https://algo.monster/problems/mono_stack_intro)
+website - https://algo.monster/problems/mono_stack_intro
 
 The word "monotonic" means a list or a function is either always increasing, or always decreasing.
 
@@ -1622,21 +1536,14 @@ console.log(nextGreaterElements(nums)); // **Output**: [4, 2, 4, -1, -1]
 
 [Back to Top](#table-of-contents)
 
-<br>
-
-[Back to Top](#table-of-contents)
-
 > ## 9. Backtracking algorithm
 
 Backtracking is controlled recursion
 
 
-> ### Permutations of a String ( [Youtube video](https://youtu.be/mEBEw_xScsE?si=ExivZgmnO9MfF2J-&t=884) )
+> ### Permutations of a String 
 
-### Key Concepts:
-1. For each character in the string, place it in the first position and then recursively permute the rest of the characters.
-2. This is done by swapping the current character with every character after it, including itself.
-3. When the recursion reaches the end of the string (base case), the permutation is stored.
+Youtube video - https://youtu.be/mEBEw_xScsE?si=ExivZgmnO9MfF2J-&t=884
 
 ### Example:
 If the input string is `"ABC"`, the permutations are:
@@ -1819,6 +1726,8 @@ function isPalindrome(s) {
 ```
 </details>
 
+<br>
+
 > ### 680. Valid Palindrome II
 Given a string s, return true if the s can be palindrome after deleting at most one character from it.
 
@@ -1937,10 +1846,6 @@ function buddyStrings(s, goal) {
 
 
 > ### Subsequence & Substring
-
-**Main defination of Subsequence** of "abc" are  a, b, c, ab, bc, ac, abc. Keep in mind order matter because "ca" is not a subsequence\
-count of subsequence is 2^n, where n is length of string.
-
 
 **Substring** - All characters in substring appear `consecutively` in the original string. eg `"abcdef"`, `abc` and `def` are `substring`.
 
@@ -2250,8 +2155,6 @@ Lexicographic rank of "STRING" is: 598
 
 Given two strings str1 and str2, return the `largest` string x such that x divides both str1 and str2.
 
- 
-
 Example 1:
 
 **Input**: str1 = "ABCABC", str2 = "ABC"\
@@ -2273,7 +2176,7 @@ Example 3:
 
 ```js
 var gcdOfStrings = function (str1, str2) {
-    // (1)
+    
     if (str1 + str2 !== str2 + str1) {
         return "";
     }
@@ -2286,8 +2189,6 @@ var gcdOfStrings = function (str1, str2) {
     return str1.slice(0, maxLength);
 };
 ```
-For point 1;\
-Since both strings contains multiples of the identical segment `base`, their concatenation must be consistent, regardless of the order `(str1 + str2 = str2 + str1)`.
 
 For point 2;\
 It is basically getting the `HCF` of two numbers.
@@ -4941,6 +4842,85 @@ var searchBST = function(root, val) {
 ```
 
 </details>
+
+<br>
+
+> ### 437. Path Sum III
+Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
+
+Example 1:
+
+**Input**: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8\
+**Output**: 3\
+**Explanation**: The paths that sum to 8 are shown.
+
+Example 2:
+
+**Input**: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22\
+**Output**: 3
+
+`video:` https://youtu.be/UQzXYDN49cs?si=jxPPtTM3alVIQ5JF
+
+<Details>
+
+```js
+class TreeNode {
+    constructor(val, left = null, right = null) {
+        this.val = val;
+        this.left = left;
+        this.right = right;
+    }
+}
+
+function pathSum(root, targetSum) {
+    const prefixSumMap = new Map();
+    prefixSumMap.set(0, 1); // Base case: one way to reach sum 0 is by not taking any nodes
+    let count = 0;
+
+    function dfs(node, currentSum) {
+        if (!node) return;
+
+        // Add the current node's value to the running sum
+        currentSum += node.val;
+
+        // Check if there's a prefix sum such that currentSum - prefixSum = targetSum
+        const neededSum = currentSum - targetSum;
+        if (prefixSumMap.has(neededSum)) {
+            count += prefixSumMap.get(neededSum);
+        }
+
+        // Add the current running sum to the map
+        prefixSumMap.set(currentSum, (prefixSumMap.get(currentSum) || 0) + 1);
+
+        // Explore the left and right subtrees
+        dfs(node.left, currentSum);
+        dfs(node.right, currentSum);
+
+        // Backtrack: Remove the current running sum from the map
+        prefixSumMap.set(currentSum, prefixSumMap.get(currentSum) - 1);
+    }
+
+    dfs(root, 0);
+    return count;
+}
+
+// Example usage:
+// Create the tree: [10,5,-3,3,2,null,11,3,-2,null,1]
+const root = new TreeNode(10,
+    new TreeNode(5,
+        new TreeNode(3, new TreeNode(3), new TreeNode(-2)),
+        new TreeNode(2, null, new TreeNode(1))
+    ),
+    new TreeNode(-3, null, new TreeNode(11))
+);
+
+const targetSum = 8;
+console.log(pathSum(root, targetSum)); // **Output**: 3
+```
+
+</Details>
 
 <br>
 

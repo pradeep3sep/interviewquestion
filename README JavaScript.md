@@ -4515,10 +4515,7 @@ __proto__ is an internal property of an object, pointing to its prototype.
 <br>
 
 ```js
-// 👉 Prototype
-// function constructor, Person.prototype => Object.prototype => null
 const Person = function (name, age) {
-  // instance members created for each object separately consume extra memory
   this.name = name;
   this.age = age;
   this.getName = function () {
@@ -4528,13 +4525,6 @@ const Person = function (name, age) {
 
 const jayesh = new Person("jayesh", 24);
 // jayesh.__proto__ => Person.prototype => Object.prototype => null
-console.log("jayesh", jayesh);
-/* output
-age: 24;
-getName: ƒ(); => method created separately for jayesh object consume extra memory
-name: "jayesh";
-*/
-
 
 jayesh.getName(); // name is jayesh
 
@@ -4546,13 +4536,6 @@ console.log(jayesh.__proto__.__proto__.__proto__); // null
 
 const sam = new Person("sam", 25);
 // sam.__proto__ => Person.prototype => Object.prototype => null
-console.log("sam", sam);
-/* output
-age: 25;
-getName: ƒ(); => method created separately for sam object consume extra memory
-name: "sam";
-*/
-
 
 sam.getName(); // name is sam
 
@@ -4561,53 +4544,13 @@ Person.prototype.getAge = function () {
   console.log("age is", this.age);
 };
 
-
-console.log("After adding getAge fn as Prototype member");
-console.log("jayesh", jayesh);
-/* output
-age: 24;
-getName: ƒ(); => method created separately for jayesh object consume extra memory
-name: "jayesh";
-*/
-
-
-console.log("sam", sam);
-/* output
-age: 25;
-getName: ƒ(); => method created separately for sam object consume extra memory
-name: "sam";
-*/
-
-
-console.log("Person.prototype", Person.prototype);
-/*output
-getAge: ƒ () => common method sharable with jayesh and sam object saves memory
-constructor: ƒ (name, age) => function constructor
-[[Prototype]]: Object => Object.Prototype => null
-*/
-
-
 // only one copy of getAge() will be created inside Person.prototype
 jayesh.getAge(); // age is 24
 sam.getAge(); // age is 24
 
-
-// now let's add one new property to jayesh
-jayesh.lastName = "Choudhary";
-console.log(jayesh);
-/* output
-age: 24
-getName: ƒ ()
-lastName: "Choudhary" // new property added only in jayesh obj not in Person.prototype
-name: "jayesh"
-*/
-
-// now let's check how to get all keys of object
-// 1) get instance members key
 console.log(Object.keys(jayesh));
 // ['name', 'age', 'getName', 'lastName']
 
-// 2) get Instance + prototype members key (Recommended)
 for (let key in jayesh) {
   console.log(key);
 }
@@ -4763,7 +4706,8 @@ Two ways to define class in javascript
 2) Class Expression
 
 <br>
- 
+<details>
+
 1) Let's take an example Class Declaration
 
 ```js
@@ -4815,8 +4759,9 @@ const Person2 = class PersonClass {
 const john = new Person("john", 24);
 john.getInfo(); // name john age 24
 ```
+</details>
 
----
+<br>
 
 💡 Class Hoisting
 
@@ -6190,6 +6135,15 @@ const obj = {
 obj.displayName();
 ```
 
+- "this" in object gives blank {}
+```js
+const obj = {
+    a: 1,
+    b: this,
+}
+console.log(obj.b)
+```
+
 <br>
  
 **Rule 4)** simple function ( undefined in strict mode)
@@ -6389,15 +6343,6 @@ const outerObj = {
   },
 };
 outerObj.innerObj.getName();
-```
-
-- "this" in object gives blank {}
-```js
-const obj = {
-    a: 1,
-    b: this,
-}
-console.log(obj.b)
 ```
 
 - "this" in arguments

@@ -2420,21 +2420,25 @@ The correct answer is: **💖C) undefined**
 
 ### Explanation:
 
-1. **What happens in the code:**
-   - The `displayName` function is defined to log `this.name`.
-   - The `person` object sets `method` to `displayName.bind(this)`. Here, `this` refers to the global `this` in the context of the script, not the `person` object.
-   - Therefore, when `person.method()` is called, it uses the bound `this`, which points to the global object.
+- The `person` object sets `method` to `displayName.bind(this)`. Here, `this` refers to the global `this` in the context of the script, not the `person` object.
 
-2. **Outcome:**
-   - If the global object does not have a `name` property, `this.name` resolves to `undefined`.
-   - The `console.log(this.name)` inside `displayName` logs `undefined`.
+Correction
 
----
+```js
+var name = "Jayesh";
 
-### Key Takeaways:
-- The value of `this` is determined by how a function is called or explicitly bound.
-- `this` in the global context usually points to the global object (or `undefined` in strict mode).
-- `bind` fixes the `this` context when creating a new function.
+function displayName() {
+    console.log(this.name);
+}
+
+const person = {
+    name: "JC",
+    method: displayName, // don't bind!
+};
+
+person.method(); // ✅ Logs: "JC"
+```
+
 </details>
 
 ### Question 96
@@ -3749,6 +3753,25 @@ number\
 string\
 number\
 number
+
+#### 🔍 **Explanation:**
+
+In JavaScript, **function declarations are hoisted first**, then `var` declarations are hoisted **without their assignments**.
+
+But **assignments happen in order**, and `var` declarations can **overwrite** earlier function declarations (not the other way around).
+
+Here’s what happens behind the scenes:
+
+```js
+function a() {}  // hoisted first (function declaration)
+
+var a;           // hoisted second (var declaration, no assignment)
+
+a = 1;           // assignment at runtime — overrides function
+
+console.log(typeof a); // typeof 1 → "number"
+```
+
 </details>
 
 

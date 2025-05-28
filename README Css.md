@@ -166,6 +166,11 @@ https://www.w3schools.com/css/css_grid.asp
 > ### What is a CSS Preprocessor? What are Sass, Less, and Stylus? Why do people use them?
 A CSS Preprocessor is a tool used to extend the basic functionality of default vanilla CSS through its own scripting language. It helps us to use complex logical syntax like – variables, functions, mixins, code nesting, and inheritance to name a few, supercharging your vanilla CSS.
 
+- Variables
+- Nesting
+- Mixins
+- Inheritance ie extends
+
 <br>
 
 > ### scss notes

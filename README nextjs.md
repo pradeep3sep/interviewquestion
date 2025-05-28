@@ -4999,33 +4999,6 @@ In above case, one challenge comes that we use `getStaticProps` for `dynamic(pag
 
 If a page has `Dynamic Routes` and uses `getStaticProps`, it needs to define a `list of paths` to be `statically generated`.
 
-
-```js
-// pages/repo/[name].js
-export async function getStaticPaths() {
-  return {
-    paths: [
-      {
-        params: {
-          name: 'next.js',
-        },
-      }, // See the "paths" section below
-    ],
-    fallback: true, // false or "blocking"
-  }
-}
- 
-export async function getStaticProps() {
-  const res = await fetch('https://api.github.com/repos/vercel/next.js')
-  const repo = await res.json()
-  return { props: { repo } }
-}
- 
-export default function Page({ repo }) {
-  return repo.stargazers_count
-}
-```
-
 - getStaticPaths will only run during build in production, it will not be called during runtime. 
 
 
