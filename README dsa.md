@@ -2206,12 +2206,8 @@ const gcd = (a, b) => {
     return gcd(b, remainder);
 };
 ```
-How Does the above Euclidean Algorithm Work?
 
 If b is 0, then a is the GCD (because any number divided by itself or zero has itself as the largest divisor).\
-Otherwise, replace a with b and b with a % b (the remainder when a is divided by b).\
-Repeat this process until b becomes 0.\
-This is a recursive algorithm, meaning the function repeatedly calls itself with smaller values until a base case (b === 0) is reached.
 
 Example Calculation: GCD of 48 and 18\
 Let’s break it down step by step:
@@ -2346,7 +2342,7 @@ productExceptSelf([1,2,3,4])
 
 <br>
 
-> ### Increasing Triplet Subsequence
+> ### 334. Increasing Triplet Subsequence
 
 Given an integer array nums, return true if there exists a triple of indices `(i, j, k)` such that `i < j < k` and `nums[i] < nums[j] < nums[k]`. If no such indices exists, return false.
 

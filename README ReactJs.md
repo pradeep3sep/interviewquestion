@@ -307,10 +307,6 @@ Multiple state updates inside an event handler function are **batched**, so they
 > ### How usestate is async
 Basically, the thing is you don't get update value right after updating state.
 
-Below code shows async nature, as we can see the console.log gives same value in all 3 log
-
-Below code for batching of state
-
 **See all the console of the code after clicking both button**
 
 ```jsx
@@ -1865,10 +1861,6 @@ export default App;
 - Finally, in the `App` component, we use  `LogEnhancedComponent` just like any other component.
 
 <br>
-
-> ### What are hooks?
-Hooks is a special JavaScript function that allows you use state and other React features without writing a class. This pattern has been introduced as a new feature in React 16.8 and helped to isolate the stateful logic from the components.
-
 <br>
 
 > ### In which scenarios error boundaries do not catch errors?

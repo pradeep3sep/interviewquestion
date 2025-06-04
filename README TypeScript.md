@@ -240,9 +240,14 @@ direction = "forward" // ❌ Error: not assignable to type
 2. `unknown` Type:
   - The unknown type is `more restrictive than any`.
   - Variables of type unknown are similar to the any type in that they can hold values of any type, but you must perform some      type-checking or type assertion before performing operations on them.
-  - It provides a safer alternative to any when dealing with dynamic data, as it requires you to explicitly check and cast types.
-  - It is often used in situations where the type of a value is not known initially, but you want to maintain type safety.
 
+    ```js
+    let value: unknown = 10;
+    value = "hello"; // Gives compilation error
+    value.foo(); // Gives compilation error
+    ```
+
+    Below is solution
     ```ts
     let value: unknown = 10;
 
@@ -251,25 +256,6 @@ direction = "forward" // ❌ Error: not assignable to type
       let result = value + 5; // OK
     }
     ```
-
-    ```ts
-    let userInput: unknown;
-    let userName: string;
-
-    userInput = 5;
-    userInput = 'max';
-    userName = userInput  // this will show error, because userInput can be anything but userName must be string
-    ```
-
-    ```ts
-    let userInput: any;
-    let userName: string;
-
-    userInput = 5;
-    userInput = 'max';
-    userName = userInput  // this code will not show any error. typescript do not check anything if any added
-    ```
-
 <br>
 <br>
 
@@ -321,7 +307,7 @@ respond("Princess Caroline", UserResponse.Yes);
 ```js
 // Parameter type annotation
 function greet(name: string) {
- console.log("Hello, " + name.toUpperCase() + "!!");
+  console.log("Hello, " + name.toUpperCase() + "!!");
 }
 ```
 <br>
@@ -335,7 +321,7 @@ function getFavoriteNumber(): number {
 ```
 <br>
 
-##### Function as a parameter
+#### Function as a parameter
 ```js
 function foo(otherFunc: Function): void {
  //...
@@ -495,32 +481,6 @@ class Dog implements Animal {
 }
 ```
 <br>
-
-**Note:** two `interface` can be same and when we use that interface it has combine value in it, but this can not happen in `type` it will show error `Duplicate identifier`
-
-```js
-interface Stud {
-    name: string,
-    age: string
-}
-
-interface Stud {
-    city: string,
-    state: string
-}
-interface data extends Stud {}
-
-const bioData:data  = {
-    name: 'vinode',
-    age: "29",
-    city: "Pune",
-    state: "MM"
-}
-
-console.log(bioData)
-```
-
-<br>
 <br>
 
 > ### Generic Types
@@ -549,12 +509,6 @@ const textStorage: DataStorage<string> = {
 <br>
 
 > ### Generic Object Types and Interface
-```ts
-interface Box {
-  contents: any;
-}
-```
-for above requirement, we can make it generic type which is more good
 
 ```ts
 interface Box<Type> {

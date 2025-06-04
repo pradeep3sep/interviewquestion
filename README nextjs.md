@@ -50,6 +50,8 @@ tsconfig.json or jsconfig.json
 
 ### How to import server component in client component
 
+<details>
+
 ```tsx
 'use client'
  
@@ -106,6 +108,8 @@ export default function Page() {
   )
 }
 ```
+</details>
+
 <br>
 
 ### App Router vs Pages Router Folder structure in Next.js
@@ -175,7 +179,7 @@ export default function RootLayout({ children }) {
 
 <br>
 
-### `Props` in layout
+### Props
 1. children (required)
 2. params (optional)
 
@@ -442,6 +446,8 @@ export default function Default() {
 ### When Does `default.js` Load?
 
 
+<details>
+
 ### **1. Initial Folder Structure (Everything Works Fine)**
 ```
 app
@@ -514,6 +520,7 @@ app
 - If a parallel route is missing for a dynamic route, Next.js throws an error.  
 - Either **match the folder structure** or use `default.js` to **provide fallback UI**.
 
+</details>
 
 <br>
 <br>
