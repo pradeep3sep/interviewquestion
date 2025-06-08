@@ -1305,6 +1305,54 @@ This approach ensures an efficient solution with a time complexity of \(O(n)\).
 
 </details>
 
+
+<br>
+
+> ### 413. Arithmetic Slices
+
+An integer array is called arithmetic if it consists of at least three elements and if the difference between any two consecutive elements is the same.
+
+Given an integer array nums, return the number of arithmetic subarrays of nums.
+
+A subarray is a contiguous subsequence of the array.
+
+Example 1:
+
+**Input**: nums = [1,2,3,4]
+**Output**: 3
+**Explanation**: We have 3 arithmetic slices in nums: [1, 2, 3], [2, 3, 4] and [1,2,3,4] itself.
+
+Example 2:
+
+**Input**: nums = [1]
+**Output**: 0
+
+<details>
+
+video -  https://youtu.be/qRHWAKCOLxM?si=Yst8zVUFBZTKXOM6
+
+```js
+function countArithmeticSlices(arr) {
+    let count = 0;
+    let total = 0;
+
+    for (let i = 2; i < arr.length; i++) {
+        if (arr[i] - arr[i - 1] === arr[i - 1] - arr[i - 2]) {
+            count++;        // Extend the previous sequence
+            total += count; // Add new slices formed ending at i
+        } else {
+            count = 0;      // Reset if difference breaks
+        }
+    }
+
+    return total;
+}
+countArithmeticSlices([1,3,5,7,9])
+// countArithmeticSlices([1,2,3,4])
+```
+</details>
+
+
 <br>
 
 [Back to Top](#table-of-contents)
@@ -1463,15 +1511,14 @@ website - https://algo.monster/problems/mono_stack_intro
 
 The word "monotonic" means a list or a function is either always increasing, or always decreasing.
 
-Monotonic stack is like a regular stack with one key distinction in the push operation: Before we push a new element onto the stack, we first check if adding it breaks the monotonic condition. If it does, then we pop the top element off the stack until pushing the new element no longer breaks the monotonic condition.
+Monotonic stack is like a regular stack with one key distinction in the push operation: `Before we push a new element onto the stack, we first check if adding it breaks the monotonic condition. If it does, then we pop the top element off the stack until pushing the new element no longer breaks the monotonic condition`.
 
 
-The monotonic stack is a useful data structure that maintains elements in a sorted order (increasing or decreasing) as you traverse an array or a list. It's commonly used in problems involving finding the **next greater element**, **previous smaller element**, or similar scenarios.
+It's commonly used in problems involving finding the **next greater element**, **previous smaller element**, or similar scenarios.
 
-Here’s a breakdown of the **monotonic stack algorithm** in JavaScript:
 
 ### Algorithm:
-1. **Decide the Stack Type**: Use an **increasing stack** (top-to-bottom smallest to largest) or **decreasing stack** (top-to-bottom largest to smallest) based on the problem.
+1. **Decide the Stack Type**: Use an **increasing stack** or **decreasing stack** based on the problem.
 2. **Iterate through the Array**: Traverse the array from left-to-right or right-to-left as required.
 3. **Push/Pop Elements**:
    - While the stack is not empty and the current element violates the monotonic property, pop elements from the stack.
@@ -1480,38 +1527,37 @@ Here’s a breakdown of the **monotonic stack algorithm** in JavaScript:
 
 
 
-### Example: **Next Greater Element**
-Here’s an example implementation for finding the **next greater element** for each element in an array:
+### 496. Next Greater Element
+You are given two arrays:
+- `nums1`, a subset of `nums2`.
+- For each element in `nums1`, find the **next greater element** in `nums2`.
+- The **next greater element** of a number `x` is the **first greater number to the right of** `x` in `nums2`.
+- If it doesn't exist, return `-1` for that element.
+
+video - https://youtu.be/68a1Dc_qVq4
+
+<details>
 
 ```javascript
-function nextGreaterElements(nums) {
+var nextGreaterElement = function(nums1, nums2) {
     let stack = [];
-    let result = Array(nums.length).fill(-1); // Initialize result array with -1
-
-    for (let i = 0; i < nums.length; i++) {
-        // While the stack is not empty and the current element is greater
-        // than the element corresponding to the index on top of the stack
-        while (stack.length > 0 && nums[i] > nums[stack[stack.length - 1]]) {
-            let index = stack.pop();
-            result[index] = nums[i]; // Update the result array
+    let nextGreaterMap = new Map();
+    debugger
+    for (let num of nums2) {
+        
+        while (stack.length && num > stack[stack.length - 1]) {
+            let smaller = stack.pop();
+            nextGreaterMap.set(smaller, num);
         }
-        stack.push(i); // Push the current index
+        stack.push(num);
     }
 
-    return result;
-}
-
-// Example usage:
-let nums = [2, 1, 2, 4, 3];
-console.log(nextGreaterElements(nums)); // **Output**: [4, 2, 4, -1, -1]
+    return nums1.map(num => nextGreaterMap.get(num) ?? -1);
+};
+nextGreaterElement([4,1,2],[1,3,4,2]) // [-1, 3, -1]
 ```
 
-
-### **Explanation**:
-- **Stack stores indices**: The stack contains indices of the elements in the array.
-- **While condition**: If the current element is greater than the element at the top of the stack, pop from the stack, and update the result for that index.
-- **Push the index**: Push the current index onto the stack to process later.
-
+</details>
 
 <br>
 
@@ -1526,11 +1572,7 @@ console.log(nextGreaterElements(nums)); // **Output**: [4, 2, 4, -1, -1]
 | **Sorted Traversal**           | O(n log n)         | O(n)             | O(n log n)      | O(n)                | O(n log n)    |
 
 ### Notes:
-- **Unsorted Array**: Insertions are O(1) because they can be done at the end. Searching, deleting, and finding the closest element require scanning the entire array, which takes O(n).
-- **Sorted Array**: Binary search (O(log n)) is used for search and finding the closest element. However, insertion and deletion take O(n) due to shifting elements.
 - **Linked List**: Searching, deleting, and finding the closest element require traversing the list (O(n)), but insertions at the head take O(1).
-- **Balanced BST**: All operations take O(log n) due to the tree's balanced nature, ensuring logarithmic time complexity.
-- **Hash Table**: Average-case performance for search, insert, and delete is O(1), but finding the closest element (since it’s unordered) and sorted traversal would take O(n) or O(n log n) for sorting.
 
 <br>
 
@@ -1611,66 +1653,6 @@ console.log(permutations);
 
 ### Time Complexity:
 - The time complexity is **O(n!)**, where \( n \) is the length of the string. This is because there are \( n! \) permutations for a string of length \( n \).
-
-<br>
-
-> ### 671. Second Minimum Node In a Binary Tree
-- Given a non-empty special `binary tree` consisting of nodes with the non-negative value, 
-- where `each node` in this tree has `exactly two or zero sub-node`. 
-- If the node has two sub-nodes, then this `node's value` is the `smaller value` among `its two sub-nodes`. More formally, the property `root.val = min(root.left.val, root.right.val)` always holds.
-
-Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
-
-If no such second minimum value exists, output -1 instead.
-
-Example 1:
-
-**Input**: root = [2,2,5,null,null,5,7]\
-**Output**: 5\
-**Explanation**: The smallest value is 2, the second smallest value is 5.
-
-Example 2:
-
-**Input**: root = [2,2,2]\
-**Output**: -1\
-**Explanation**: The smallest value is 2, but there isn't any second smallest value.
-
-```js
-var findSecondMinimumValue = function(root) {
-    if (!root || !root.left || !root.right) return -1;
-
-    let firstMin = root.val;
-    let secondMin = Infinity;
-
-    const traverse = (node) => {
-        if (!node) return;
-
-        if (node.val > firstMin && node.val < secondMin) {
-            secondMin = node.val;
-        } else if (node.val === firstMin) {
-            traverse(node.left);
-            traverse(node.right);
-        }
-    };
-
-    traverse(root);
-
-    return secondMin === Infinity ? -1 : secondMin;
-};
-
-// Example usage:
-const root = {
-    val: 2,
-    left: { val: 2, left: null, right: null },
-    right: { 
-        val: 5, 
-        left: { val: 5, left: null, right: null }, 
-        right: { val: 7, left: null, right: null }
-    }
-};
-
-console.log(findSecondMinimumValue(root)); // **Output**: 5 `
-```
 
 <br>
 
@@ -2471,39 +2453,6 @@ const chars3 = ["a","b","b","b","b","b","b","b","b","b","b","b","b"];
 console.log(compress(chars3)); // **Output**: 4, chars3 = ["a","b","1","2"]
 
 ```
-</details>
-
-<br>
-
-> ### check for leftmost non-repeating character
-
-<details>
-
-```js
-function leftMostNonRepeatingChar(str) {
-  const freqMap = {};
-
-  // First pass: count the frequency of each character
-  for (let i = 0; i < str.length; i++) {
-    const char = str[i];
-    freqMap[char] = (freqMap[char] || 0) + 1;
-  }
-
-  // Second pass: find the first character with frequency 1
-  for (let i = 0; i < str.length; i++) {
-    if (freqMap[str[i]] === 1) {
-      return str[i]; // Return the first non-repeating character
-    }
-  }
-
-  return null; // Return null if no non-repeating character is found
-}
-
-// Example usage:
-const str = "abacabad";
-console.log(leftMostNonRepeatingChar(str)); // **Output**: "c"
-```
-
 </details>
 
 <br>
@@ -3770,8 +3719,6 @@ Output: [[3,null],[3,0],[3,null]]
 
 This ensures that each node is only processed twice, keeping the time complexity **O(n)** and space complexity **O(n)**.
 
----
-
 ### **JavaScript Implementation**
 ```javascript
 class Node {
@@ -3819,7 +3766,7 @@ Let me know if you want an **O(1) space** solution using the interweaving method
 
 <br>
 
-> ### Stacks and Queues
+> ## Stacks and Queues
 
 Stack ki need jab padti h jab hume chaiye jo `last key` visit ki thi traverse karte time wo kya thi ya uska effect kya tha.
 
@@ -4024,7 +3971,7 @@ console.log(decodeString("2[abc]3[cd]ef")); // **Output**: "abcabccdcdcdef"
 
 <br>
 
-> ### Binary search tree
+> ## Binary search tree
  
 **Full Tree** - Every item either points to two nodes or zero nodes
 
@@ -4032,21 +3979,19 @@ console.log(decodeString("2[abc]3[cd]ef")); // **Output**: "abcabccdcdcdef"
 
 In binary search tree 
 - if child is greater than parent it goes to right else goes to left.
-- In BST, every node has at-most two children.when we add any node we start comparing from the top.
+- In BST, every node has at-most two children. when we add any node we start comparing from the top.
+- When traversing(lookup, insert,remove) - O(logn), because divide and conquere\
+- Sometime in BST, every node is added in right side means always it is bigger than parent, in that scenario it will become O(n)
 
-When traversing(lookup, insert,remove) through the BST, it is O(logn), it is because in BST, the right side is always greater than the left side, so it will be divide and conquere(diving in half in each level) so becomes the O(log n)\
-sometime in BST, every node is added in right side means always it is bigger than parent, in that scenario it will become O(n)
-
-
-Here’s a table summarizing the time and space complexity of BST operations for implementations using a **linked list** and an **array**:
+<br>
 
 | **Operation**   | **Linked List (Typical BST)**                | **Array (Complete BST)**                  |
 |------------------|---------------------------------------------|-------------------------------------------|
-| **Search**       | Best: \(O(log n)\), Worst: \(O(n)\)         | Best: \(O(log n)\), Worst: \(O(log n)\) |
-| **Insertion**    | Best: \(O(log n)\), Worst: \(O(n)\)         | Best: \(O(1)\), Worst: \(O(n)\)*          |
-| **Deletion**     | Best: \(O(log n)\), Worst: \(O(n)\)         | Best: \(O(log n)\), Worst: \(O(log n)\) |
-| **Traversal**    | \(O(n)\)                                     | \(O(n)\)                                  |
-| **Space**        | \(O(n)\) for nodes, \(O(h)\) recursion stack | \(O(n)\) for array storage                |
+| **Search**       | Best: \O(log n)\, Worst: \O(n)\         | Best: \O(log n)\, Worst: \O(log n)\ |
+| **Insertion**    | Best: \O(log n)\, Worst: \O(n)\         | Best: \O(1)\, Worst: \O(n)\*          |
+| **Deletion**     | Best: \O(log n)\, Worst: \O(n)\         | Best: \O(log n)\, Worst: \O(log n)\ |
+| **Traversal**    | \O(n)\                                  | \O(n)\                                  |
+| **Space**        | \O(n)\ for nodes, \O(h)\ recursion stack | \O(n)\ for array storage                |
 
 
 <br>
@@ -4138,37 +4083,30 @@ myTree
 > ### 8. BFS and DFS algorithm
 
 BFS Algorithm
-- use Queue structure
+- use `Queue structure`
 - Best for shortest path
 
 
 **BFS - Breadth First Search**
 
-- is a vertex-based technique for finding the shortest path in the graph. 
-- also called as **Level Order Traversal**
-- It uses a `Queue data structure` that follows `first in first out`. 
+- is a vertex-based technique for finding the shortest path in the graph(Level Order Traversal)
 - It is `slower than DFS`.
-
 
 <br>
 
-
 **In Simple term**
-In BFS, Root ko lete h queue me then usko result me push kr dete h, then root k left and right ko lete h 
-then usko Queue me push kar dete h, then first jo queue me add kia thota h usko results me push kr dete h,
-jisko push kia h uske left and right ko Queue me add kr dete h 
+In BFS, Root ko lete h, usko queue me rakhte h, then loop chalate h,\
+Queue is 1st item ko Queue se nikalte h, usko result me push kr dete h, then usi k left and right ko Queue me push kar dete h\
 
-BFS code
+### BFS code
 
 <details>
 
 ```js
 BFS() {
     let currentNode = this.root;
-    let queue = [];
+    let queue = [currentNode];
     let results = [];
-
-    queue.push(currentNode);
 
     while (queue.length) {
         currentNode = queue.shift();
@@ -4185,7 +4123,7 @@ BFS() {
 
 <br>
 
-> ### level order traversal line by line(in linked list form)
+> ### Level order traversal line by line(in linked list form)
 
 <details>
 
@@ -4271,17 +4209,17 @@ The output of the level order traversal, line by line, will be:
 <br>
 
 **DFS - Depth First Search**
-- is an an edge-based technique. 
-- It uses the Stack data structure and performs two stages, 
-    - first visited vertices are pushed into the stack, and 
-    - second if there are no vertices then visited vertices are popped.
+- It `uses the Stack` data structure and uses `recursion`,
+- It starts from the root, visits the current node **first**, then recursively visits the **left child**, and finally the **right child**. All visited node values are collected in the `results` array and returned. This ensures nodes are processed **top-down, left to right**.
+ 
 
-- DFS is of 3 types
+- **DFS is of 3 types**
     - Preorder Traversal, 
     - Inorder Traversal, 
     - Postorder Traversal
 
-DFS Algorithm
+
+**DFS Algorithm**
 - use recursion
 - Best for exploring all paths
 
@@ -4301,7 +4239,7 @@ DFSPreOrder() {
     let results = [];
 
     function traverse(currentNode) {
-        results.push(currentNode.value);
+        results.push(currentNode);
 
         if (currentNode.left) traverse(currentNode.left);
         if (currentNode.right) traverse(currentNode.right);
@@ -4321,7 +4259,9 @@ DFSPreOrder() {
 - Traverse the right subtree, i.e., call Postorder(right->subtree)
 - Visit the root
 
-> ### belwo is code fo postorder along with leetCode - Q 145(Binary Tree Postorder Traversal)
+<br>
+
+> ###  145. Binary Tree Postorder Traversal
 
 <details>
 
@@ -4375,6 +4315,72 @@ DFSInOrder() {
 
 <br>
 
+> ### 671. Second Minimum Node In a Binary Tree
+- Given a non-empty special `binary tree` consisting of nodes with the non-negative value, 
+- where `each node` in this tree has `exactly two or zero sub-node`. 
+- If the node has two sub-nodes, then this `node's value` is the `smaller value` among `its two sub-nodes`. More formally, the property `root.val = min(root.left.val, root.right.val)` always holds.
+
+Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
+
+If no such second minimum value exists, output -1 instead.
+
+Example 1:
+
+**Input**: root = [2,2,5,null,null,5,7]\
+**Output**: 5\
+**Explanation**: The smallest value is 2, the second smallest value is 5.
+
+Example 2:
+
+**Input**: root = [2,2,2]\
+**Output**: -1\
+**Explanation**: The smallest value is 2, but there isn't any second smallest value.
+
+<details>
+
+- DFS with storing 1st and 2nd
+
+```js
+var findSecondMinimumValue = function(root) {
+    if (!root || !root.left || !root.right) return -1;
+
+    let firstMin = root.val;
+    let secondMin = Infinity;
+
+    const traverse = (node) => {
+        if (!node) return;
+
+        if (node.val > firstMin && node.val < secondMin) {
+            secondMin = node.val;
+        } else if (node.val === firstMin) {
+            traverse(node.left);
+            traverse(node.right);
+        }
+    };
+
+    traverse(root);
+
+    return secondMin === Infinity ? -1 : secondMin;
+};
+
+// Example usage:
+const root = {
+    val: 2,
+    left: { val: 2, left: null, right: null },
+    right: { 
+        val: 5, 
+        left: { val: 5, left: null, right: null }, 
+        right: { val: 7, left: null, right: null }
+    }
+};
+
+console.log(findSecondMinimumValue(root)); // **Output**: 5 `
+```
+
+<details>
+
+<br>
+
 > ### 637. Average of Levels in Binary Tree
 
 Given the root of a binary tree, return the average value of the nodes on each level in the form of an array. 
@@ -4404,25 +4410,6 @@ Tree structure:
         15   7
 ```
 
-**Step-by-Step Execution**
-1. **Level 0:** `[3]`
-   - Sum = 3
-   - Average = `3 / 1 = 3.00000`
-   - **Queue:** `[9, 20]`
-
-2. **Level 1:** `[9, 20]`
-   - Sum = `9 + 20 = 29`
-   - Average = `29 / 2 = 14.50000`
-   - **Queue:** `[15, 7]`
-
-3. **Level 2:** `[15, 7]`
-   - Sum = `15 + 7 = 22`
-   - Average = `22 / 2 = 11.00000`
-   - **Queue:** `[]` (Tree processed)
-
-✅ **Output**: `[3.00000, 14.50000, 11.00000]`
-
-
 We will use **Level Order Traversal** (BFS) with a queue to compute the average of each level.
 
 ```javascript
@@ -4432,7 +4419,7 @@ var averageOfLevels = function(root) {
     let result = [];
     let queue = [root];
 
-    while (queue.length > 0) {
+    while (queue.length) {
         let levelSize = queue.length;
         let levelSum = 0;
 
@@ -4497,11 +4484,7 @@ var binaryTreePaths = function(root) {
     dfs(root, "");
     return result;
 };
-```
-
-**Example**
-```js
-Input: root = [1,2,3,null,5]
+binaryTreePaths([1,2,3,null,5])
 ```
 
 Binary Tree:
@@ -4515,6 +4498,7 @@ Binary Tree:
 - **DFS Traversal Paths**:
   - `1 -> 2 -> 5`
   - `1 -> 3`
+
 ✅ **Output:** `["1->2->5", "1->3"]`
 
 </details>
@@ -4540,16 +4524,6 @@ Example 2:
 
 
 <details>
-
-1. **Base Case:**  
-   - If the node is `null`, return an **empty string**.
-2. **Root Processing:**  
-   - Convert the node value to a string.
-3. **Recursive Calls for Left & Right Children:**  
-   - If the left child exists, recursively process it inside **parentheses**.
-   - If the right child exists:
-     - If the left child is **missing**, include empty `()` to preserve structure.
-     - Otherwise, process the right child inside **parentheses**.
 
 ```javascript
 var tree2str = function(root) {
@@ -4644,7 +4618,7 @@ nums = [-10, -3, 0, 5, 9] → mid = 2 → root = 0
 
 > ### 993. Cousins in Binary Tree
 
-Given the root of a binary tree with unique values and the values of two different nodes of the tree x and y, return true if the nodes corresponding to the values x and y in the tree are cousins, or false otherwise.
+Return true if the nodes corresponding to the values x and y in the tree are cousins, or false otherwise.
 
 Two nodes of a binary tree are `cousins` if they have the `same depth` with `different parents`.
 
@@ -4665,12 +4639,9 @@ Example 3:\
 
 <details>
 
-**Algorithm: BFS (Level Order Traversal)**
-1. **Use BFS (Queue-Based Level Order Traversal)**:
+**Algorithm: BFS**
    - Traverse the tree level by level.
    - Track the **parent** and **depth** of `x` and `y` as we traverse.
-
-2. **Check Cousin Conditions**:
    - If `x` and `y` are found at the **same depth** but have **different parents**, return `true`.
    - Otherwise, return `false`.
 
@@ -7011,9 +6982,9 @@ var canVisitAllRooms = function(rooms) {
 
 **It is like recursion with memory use or cache**
 
-Dynamic Programming is an algorithmic approach to solve some complex problems easily and save time and number of comparisons by storing the results of past computations. The basic idea of dynamic programming is to store the results of previous calculation and reuse it in future instead of recalculating them.
+The basic idea of dynamic programming is to store the results of previous calculation and reuse it in future instead of recalculating them.
 
-In simple words, it is an optimiztion over plain ecursion
+In simple words, it is an optimiztion over plain recursion
 
 The idea is to reuse the solution of sub-problems when there are overlapping sub-problems
 1. Memoization (Top Down)
@@ -11738,10 +11709,10 @@ You are given an array of n strings strs, all of the same length.
 
 The strings can be arranged such that there is one on each line, making a grid.
 
-- For example, `strs = ["abc", "bce", "cae"]` can be arranged as follows:
-abc\
-bce\
-cae
+For example, `strs = ["abc", "bce", "cae"]` can be arranged as follows:
+- abc
+- bce
+- cae
 
 You want to `delete` the columns that are `not sorted lexicographically`. In the above example (`0-indexed`), columns 0 ('a', 'b', 'c') and 2 ('c', 'e', 'e') are sorted, while column 1 ('b', 'c', 'a') is not, so you would delete column 1.
 
@@ -11920,6 +11891,7 @@ var getRow = function(rowIndex) {
 
     return row;
 };
+getRow(3)
 ```
 
 <br>
@@ -12021,6 +11993,7 @@ var minCostToMoveChips = function(position) {
 
     return Math.min(odd, even);
 };
+minCostToMoveChips([2,2,2,3,3])
 ```
 </details>
 
@@ -12031,10 +12004,9 @@ var minCostToMoveChips = function(position) {
 Given a string **s** of **zeros and ones**, return the maximum score after splitting the string into two non-empty substrings. The score after splitting a string is the number of zeros in the left substring plus the number of ones in the right substring.
 
 Example 1:
-
 **Input**: s = "011101"\
 **Output**: 5 \
-**Explanation**:\ 
+**Explanation**:\
 All possible ways of splitting s into two non-empty substrings are:\
 left = "0" and right = "11101", score = 1 + 4 = 5\
 left = "01" and right = "1101", score = 1 + 3 = 4\
@@ -12043,15 +12015,16 @@ left = "0111" and right = "01", score = 1 + 1 = 2\
 left = "01110" and right = "1", score = 2 + 1 = 3
 
 Example 2:
-
 **Input**: s = "00111"\
 **Output**: 5\
 **Explanation**: When left = "00" and right = "111", we get the maximum score = 2 + 3 = 5
 
 Example 3:
-
 **Input**: s = "1111"\
 **Output**: 3
+
+
+<details>
 
 **Algorithm: Prefix Count and Iteration**
 
@@ -12076,15 +12049,21 @@ var maxScore = function(s) {
 
     // Iterate through the string, but stop at n-1 to keep non-empty right substring
     for (let i = 0; i < s.length - 1; i++) {
-        if (s[i] === '0') leftZeros++;
-        else rightOnes--;
-
+        if (s[i] === '0'){
+            leftZeros++;
+        }
+        if (s[i] === '1'){
+            rightOnes--;
+        }
+        
         maxScore = Math.max(maxScore, leftZeros + rightOnes);
     }
 
     return maxScore;
 };
+maxScore("011101")
 ```
+</details>
 
 <br>
 
@@ -12138,4 +12117,5 @@ var judgeCircle = function(moves) {
 </details>
 
 <br>
+
 

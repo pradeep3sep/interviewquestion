@@ -239,7 +239,7 @@ direction = "forward" // ❌ Error: not assignable to type
 
 2. `unknown` Type:
   - The unknown type is `more restrictive than any`.
-  - Variables of type unknown are similar to the any type in that they can hold values of any type, but you must perform some      type-checking or type assertion before performing operations on them.
+  - Variables of type unknown are similar to the any type in that they can hold values of any type, but you must perform some type-checking or type assertion before performing operations on them.
 
     ```js
     let value: unknown = 10;
