@@ -705,6 +705,183 @@ var maximumPopulation = function(logs) {
 
 <br>
 
+
+> ### 525. Contiguous Array
+
+Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.
+
+Example 1:
+
+**Input**: nums = [0,1]
+**Output**: 2
+**Explanation**: [0, 1] is the longest contiguous subarray with an equal number of 0 and 1.
+
+Example 2:
+
+**Input**: nums = [0,1,0]
+**Output**: 2
+**Explanation**: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
+
+Example 3:
+
+**Input**: nums = [0,1,1,1,1,1,0,0,0]
+**Output**: 6
+**Explanation**: [1,1,1,0,0,0] is the longest contiguous subarray with equal number of 0 and 1.
+
+
+<details>
+
+**Key Trick:**
+We change 0s to -1s, so the problem becomes:
+
+Find the longest subarray with a total sum of 0.
+
+Why? Because:
+
+1 stays as 1
+
+0 becomes -1
+
+So if a subarray has:
+
+one 1 (+1)
+
+one 0 (becomes -1)
+
+Then their sum is 0.\
+This means equal 0s and 1s!
+
+```javascript
+function findMaxLength(nums) {
+    let prefixSum = 0; 
+    let maxLength = 0; 
+    const prefixMap = new Map();
+    prefixMap.set(0, -1); // Initialize to handle cases where the subarray starts from index 0
+
+    for (let i = 0; i < nums.length; i++) {
+        // Convert 0 to -1
+        prefixSum += nums[i] === 0 ? -1 : 1;
+
+        if (prefixMap.has(prefixSum)) {
+            // Calculate the length of the subarray
+            maxLength = Math.max(maxLength, i - prefixMap.get(prefixSum));
+        } else {
+            // Store the first occurrence of the prefix sum
+            prefixMap.set(prefixSum, i);
+        }
+    }
+
+    return maxLength;
+}
+
+// Example usage
+const binaryArray = [0, 1, 0, 1, 1, 0, 0];
+console.log(findMaxLength(binaryArray)); // **Output**: 6
+```
+
+**Explanation**
+1. Replace `0` with `-1` in the binary array: `[0, 1, 0, 1, 1, 0, 0]` → `[-1, 1, -1, 1, 1, -1, -1]`.
+2. Compute the prefix sum as you traverse:
+   - At each index, check if the prefix sum has been seen before.
+   - If yes, the subarray between the two occurrences of the prefix sum is balanced.
+   - Update the maximum length accordingly.
+
+</details>
+
+<br>
+
+> ### Longest subarray with given sum
+
+To find the longest subarray with a given sum in an unsorted array, we can use a cumulative sum approach with a `Map`. This solution works efficiently for arrays containing both positive and negative integers.
+
+<details>
+
+```javascript
+function longestSubarrayWithGivenSum(arr, targetSum) {
+    const cumulativeSumMap = new Map();
+    let cumulativeSum = 0;
+    let maxLength = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        cumulativeSum += arr[i];
+
+        // Check if cumulative sum is equal to targetSum
+        if (cumulativeSum === targetSum) {
+            maxLength = i + 1; // Subarray from start to current index
+        }
+
+        // Check if cumulativeSum - targetSum is in the map
+        if (cumulativeSumMap.has(cumulativeSum - targetSum)) {
+            const previousIndex = cumulativeSumMap.get(cumulativeSum - targetSum);
+            maxLength = Math.max(maxLength, i - previousIndex);
+        }
+
+        // Store cumulative sum if not already present
+        if (!cumulativeSumMap.has(cumulativeSum)) {
+            cumulativeSumMap.set(cumulativeSum, i);
+        }
+    }
+
+    return maxLength;
+}
+
+// Example usage:
+const array = [10, 5, 2, 7, 1, 9];
+const target = 15;
+console.log(longestSubarrayWithGivenSum(array, target)); // **Output**: 4 ([5, 2, 7, 1])
+```
+</details>
+
+<br>
+
+> ### 53. Maximum Subarray
+
+Given an integer array nums, find the subarray with the largest sum, and return its sum.
+
+Example 1:
+
+**Input**: nums = [-2,1,-3,4,-1,2,1,-5,4]\
+**Output**: 6\
+**Explanation**: The subarray [4,-1,2,1] has the largest sum 6.
+
+Example 2:
+
+**Input**: nums = [1]\
+**Output**: 1\
+**Explanation**: The subarray [1] has the largest sum 1.
+
+Example 3:
+
+**Input**: nums = [5,4,-1,7,8]\
+**Output**: 23\
+**Explanation**: The subarray [5,4,-1,7,8] has the largest sum 23.
+
+<details>
+
+```js
+function maxSubArray(nums) {
+    if (nums.length === 0) return 0; // Handle edge case
+
+    let currentMax = nums[0];
+    let globalMax = nums[0];
+
+    for (let i = 1; i < nums.length; i++) {
+        // Either extend the current subarray or start a new one
+        currentMax = Math.max(nums[i], currentMax + nums[i]);
+        globalMax = Math.max(globalMax, currentMax);
+    }
+
+    return globalMax;
+}
+
+// Example usage
+const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
+console.log(maxSubArray(nums)); // **Output**: 6 (Subarray: [4, -1, 2, 1])
+```
+</details>
+
+<br>
+
 [Back to Top](#table-of-contents)
 
 > ## 3. Two pointer algorithm
@@ -1302,6 +1479,165 @@ console.log(balancedString(s)); // **Output**: 3
 3. **Result**: Return the minimum substring length that needs to be replaced.
 
 This approach ensures an efficient solution with a time complexity of \(O(n)\).
+
+</details>
+
+<br>
+
+> ### Subarray with given sum   
+
+https://www.youtube.com/watch?v=Ofl4KgFhLsM&ab_channel=Techdose
+
+To find a subarray with a given sum in an unsorted array of positive integers, you can use a sliding window technique with two pointers. If the array contains both positive and negative integers, we can use a cumulative sum approach with a `Map`.
+
+
+<details>
+
+### Solution for Array with Positive Integers
+
+When all elements are positive, a sliding window technique is efficient.
+
+```javascript
+function subarrayWithGivenSum(arr, targetSum) {
+    let start = 0;
+    let currentSum = 0;
+
+    for (let end = 0; end < arr.length; end++) {
+        // Add the current element to currentSum
+        currentSum += arr[end];
+
+        // Shrink the window as long as currentSum is greater than targetSum
+        while (currentSum > targetSum && start <= end) {
+            currentSum -= arr[start];
+            start++;
+        }
+
+        // Check if we found the target sum
+        if (currentSum === targetSum) {
+            return arr.slice(start, end + 1); // Return the subarray
+        }
+    }
+
+    return null; // No subarray found with the target sum
+}
+
+// Example usage:
+const array = [1, 4, 20, 3, 10, 5];
+const target = 33;
+console.log(subarrayWithGivenSum(array, target)); // Output: [20, 3, 10]
+```
+
+**Solution for Array with Positive and Negative Integers**
+
+When the array contains both positive and negative integers, we use a `Map` to track cumulative sums.
+
+
+```javascript
+function subarrayWithGivenSumMixed(arr, targetSum) {
+    const cumulativeSumMap = new Map();
+    let cumulativeSum = 0;
+
+    for (let i = 0; i < arr.length; i++) {
+        cumulativeSum += arr[i];
+
+        // Check if current cumulative sum equals targetSum
+        if (cumulativeSum === targetSum) {
+            return arr.slice(0, i + 1); // Subarray from the start to the current index
+        }
+
+        // Check if there's a previous cumulative sum that matches (currentSum - targetSum)
+        if (cumulativeSumMap.has(cumulativeSum - targetSum)) {
+            const start = cumulativeSumMap.get(cumulativeSum - targetSum) + 1;
+            return arr.slice(start, i + 1); // Subarray from start to current index
+        }
+
+        // Store cumulative sum and index
+        cumulativeSumMap.set(cumulativeSum, i);
+    }
+
+    return null; // No subarray found with the target sum
+}
+
+// Example usage:
+const arrayMixed = [10, 2, -2, -20, 10];
+const targetMixed = -10;
+console.log(subarrayWithGivenSumMixed(arrayMixed, targetMixed)); // **Output**: [10, 2, -2, -20]
+```
+
+</details>
+
+<br>
+
+> ### Count Distinct Elements In Every Window
+
+You are given an array `arr[]` and an integer `k`. You need to count the distinct numbers in every contiguous subarray (window) of size `k`.
+
+Given `arr = [1, 2, 1, 3, 4, 2, 3]` and `k = 4`:
+1. First window `[1, 2, 1, 3]`: Distinct elements = {1, 2, 3} → Count = 3
+2. Second window `[2, 1, 3, 4]`: Distinct elements = {1, 2, 3, 4} → Count = 4
+3. Third window `[1, 3, 4, 2]`: Distinct elements = {1, 3, 4, 2} → Count = 4
+4. Fourth window `[3, 4, 2, 3]`: Distinct elements = {2, 3, 4} → Count = 3
+
+<details>
+
+**Approach**
+1. Use a **sliding window technique** to traverse the array with a window size of `k`.
+2. Use a **hash map** to keep track of the frequency of elements in the current window.
+3. For each window:
+   - Add the count of distinct elements to the result.
+   - Slide the window by:
+     - Decreasing the frequency of the outgoing element.
+     - Increasing the frequency of the incoming element.
+
+```javascript
+function countDistinctElements(arr, k) {
+    const result = [];
+    const freqMap = new Map();
+
+    // Build initial window
+    for (let i = 0; i < k; i++) {
+        freqMap.set(arr[i], (freqMap.get(arr[i]) || 0) + 1);
+    }
+    result.push(freqMap.size);
+
+    // Slide the window
+    for (let i = k; i < arr.length; i++) {
+        const outgoing = arr[i - k];
+        const incoming = arr[i];
+
+        // Remove the frequency of the outgoing element
+        if (freqMap.get(outgoing) === 1) {
+            freqMap.delete(outgoing);
+        } else {
+            freqMap.set(outgoing, freqMap.get(outgoing) - 1);
+        }
+
+        // Add the frequency of the incoming element
+        freqMap.set(incoming, (freqMap.get(incoming) || 0) + 1);
+
+        // Add the count of distinct elements for this window
+        result.push(freqMap.size);
+    }
+
+    return result;
+}
+
+// Example Usage:
+const arr = [1, 2, 1, 3, 4, 2, 3];
+const k = 4;
+console.log(countDistinctElements(arr, k)); // **Output**: [3, 4, 4, 3]
+```
+
+
+
+**Explanation** of the Example
+Given `arr = [1, 2, 1, 3, 4, 2, 3]` and `k = 4`:
+1. First window `[1, 2, 1, 3]`: Distinct elements = {1, 2, 3} → Count = 3
+2. Second window `[2, 1, 3, 4]`: Distinct elements = {1, 2, 3, 4} → Count = 4
+3. Third window `[1, 3, 4, 2]`: Distinct elements = {1, 3, 4, 2} → Count = 4
+4. Fourth window `[3, 4, 2, 3]`: Distinct elements = {2, 3, 4} → Count = 3
+
+The result is `[3, 4, 4, 3]`.
 
 </details>
 
@@ -3987,11 +4323,11 @@ In binary search tree
 
 | **Operation**   | **Linked List (Typical BST)**                | **Array (Complete BST)**                  |
 |------------------|---------------------------------------------|-------------------------------------------|
-| **Search**       | Best: \O(log n)\, Worst: \O(n)\         | Best: \O(log n)\, Worst: \O(log n)\ |
-| **Insertion**    | Best: \O(log n)\, Worst: \O(n)\         | Best: \O(1)\, Worst: \O(n)\*          |
-| **Deletion**     | Best: \O(log n)\, Worst: \O(n)\         | Best: \O(log n)\, Worst: \O(log n)\ |
-| **Traversal**    | \O(n)\                                  | \O(n)\                                  |
-| **Space**        | \O(n)\ for nodes, \O(h)\ recursion stack | \O(n)\ for array storage                |
+| **Search**       | Best: O(log n), Worst: \O(n)         | Best: O(log n), Worst: O(log n) |
+| **Insertion**    | Best: O(log n), Worst: \O(n)         | Best: O(1), Worst: O(n)          |
+| **Deletion**     | Best: O(log n), Worst: \O(n)         | Best: O(log n), Worst: O(log n) |
+| **Traversal**    | O(n)                                  | O(n)                                  |
+| **Space**        | O(n) for nodes, O(h) recursion stack | O(n) for array storage                |
 
 
 <br>
@@ -4377,7 +4713,7 @@ const root = {
 console.log(findSecondMinimumValue(root)); // **Output**: 5 `
 ```
 
-<details>
+</details>
 
 <br>
 
@@ -4436,6 +4772,19 @@ var averageOfLevels = function(root) {
     
     return result;
 };
+
+
+const root = {
+  val: 3,
+  left: { val: 9, left: null, right: null },
+  right: {
+    val: 20,
+    left: { val: 15, left: null, right: null },
+    right: { val: 7, left: null, right: null }
+  }
+};
+
+console.log(averageOfLevels(root)); // [3, 14.5, 11]
 ```
 
 </details>
@@ -6009,7 +6358,7 @@ console.log(isValidBST(root)); // **Output**: true
 
 <br>
 
-> ### fix a BST with two nodes swapped
+> ### Fix a BST with two nodes swapped
 
 <details>
 
@@ -6273,7 +6622,7 @@ console.log("Height of the binary tree is:", treeHeight);  // **Output**: 2
 
 <br>
 
-> ### print nodes at distance k in BST 
+> ### Print nodes at distance k in BST 
 
 To print all nodes at a given distance (k) from the root in a **Binary Search Tree (BST)**, we can approach the problem recursively. At each recursive call, we reduce the distance (k) by 1, and when (k=0), we print the current node.
 
@@ -6427,297 +6776,6 @@ console.log(leafSimilar(root1, root2)); // **Output**: true
 2. **Comparison**: Compare the leaf sequences for both trees to determine if they are identical.
 
 This approach has a time complexity of \(O(N + M)\), where \(N\) and \(M\) are the number of nodes in the two trees, and a space complexity of \(O(H1 + H2)\), where \(H1\) and \(H2\) are the heights of the two trees (due to recursion stack).
-
-<br>
-
-> ### Subarray with given sum   
-
-https://www.youtube.com/watch?v=Ofl4KgFhLsM&ab_channel=Techdose
-
-To find a subarray with a given sum in an unsorted array of positive integers, you can use a sliding window technique with two pointers. If the array contains both positive and negative integers, we can use a cumulative sum approach with a `Map`.
-
-
-<details>
-
-### Solution for Array with Positive Integers
-
-When all elements are positive, a sliding window technique is efficient.
-
-```javascript
-function subarrayWithGivenSum(arr, targetSum) {
-    let start = 0;
-    let currentSum = 0;
-
-    for (let end = 0; end < arr.length; end++) {
-        // Add the current element to currentSum
-        currentSum += arr[end];
-
-        // Shrink the window as long as currentSum is greater than targetSum
-        while (currentSum > targetSum && start <= end) {
-            currentSum -= arr[start];
-            start++;
-        }
-
-        // Check if we found the target sum
-        if (currentSum === targetSum) {
-            return arr.slice(start, end + 1); // Return the subarray
-        }
-    }
-
-    return null; // No subarray found with the target sum
-}
-
-// Example usage:
-const array = [1, 4, 20, 3, 10, 5];
-const target = 33;
-console.log(subarrayWithGivenSum(array, target)); // Output: [20, 3, 10]
-```
-
-**Solution for Array with Positive and Negative Integers**
-
-When the array contains both positive and negative integers, we use a `Map` to track cumulative sums.
-
-
-```javascript
-function subarrayWithGivenSumMixed(arr, targetSum) {
-    const cumulativeSumMap = new Map();
-    let cumulativeSum = 0;
-
-    for (let i = 0; i < arr.length; i++) {
-        cumulativeSum += arr[i];
-
-        // Check if current cumulative sum equals targetSum
-        if (cumulativeSum === targetSum) {
-            return arr.slice(0, i + 1); // Subarray from the start to the current index
-        }
-
-        // Check if there's a previous cumulative sum that matches (currentSum - targetSum)
-        if (cumulativeSumMap.has(cumulativeSum - targetSum)) {
-            const start = cumulativeSumMap.get(cumulativeSum - targetSum) + 1;
-            return arr.slice(start, i + 1); // Subarray from start to current index
-        }
-
-        // Store cumulative sum and index
-        cumulativeSumMap.set(cumulativeSum, i);
-    }
-
-    return null; // No subarray found with the target sum
-}
-
-// Example usage:
-const arrayMixed = [10, 2, -2, -20, 10];
-const targetMixed = -10;
-console.log(subarrayWithGivenSumMixed(arrayMixed, targetMixed)); // **Output**: [10, 2, -2, -20]
-```
-
-</details>
-
-<br>
-
-> ### 53. Maximum Subarray
-
-Given an integer array nums, find the subarray with the largest sum, and return its sum.
-
-Example 1:
-
-**Input**: nums = [-2,1,-3,4,-1,2,1,-5,4]\
-**Output**: 6\
-**Explanation**: The subarray [4,-1,2,1] has the largest sum 6.
-
-Example 2:
-
-**Input**: nums = [1]\
-**Output**: 1\
-**Explanation**: The subarray [1] has the largest sum 1.
-
-Example 3:
-
-**Input**: nums = [5,4,-1,7,8]\
-**Output**: 23\
-**Explanation**: The subarray [5,4,-1,7,8] has the largest sum 23.
-
-<details>
-
-```js
-function maxSubArray(nums) {
-    if (nums.length === 0) return 0; // Handle edge case
-
-    let currentMax = nums[0];
-    let globalMax = nums[0];
-
-    for (let i = 1; i < nums.length; i++) {
-        // Either extend the current subarray or start a new one
-        currentMax = Math.max(nums[i], currentMax + nums[i]);
-        globalMax = Math.max(globalMax, currentMax);
-    }
-
-    return globalMax;
-}
-
-// Example usage
-const nums = [-2, 1, -3, 4, -1, 2, 1, -5, 4];
-console.log(maxSubArray(nums)); // **Output**: 6 (Subarray: [4, -1, 2, 1])
-```
-</details>
-
-<br>
-
-> ### Longest subarray with given sum
-
-To find the longest subarray with a given sum in an unsorted array, we can use a cumulative sum approach with a `Map`. This solution works efficiently for arrays containing both positive and negative integers.
-
-<details>
-
-```javascript
-function longestSubarrayWithGivenSum(arr, targetSum) {
-    const cumulativeSumMap = new Map();
-    let cumulativeSum = 0;
-    let maxLength = 0;
-
-    for (let i = 0; i < arr.length; i++) {
-        cumulativeSum += arr[i];
-
-        // Check if cumulative sum is equal to targetSum
-        if (cumulativeSum === targetSum) {
-            maxLength = i + 1; // Subarray from start to current index
-        }
-
-        // Check if cumulativeSum - targetSum is in the map
-        if (cumulativeSumMap.has(cumulativeSum - targetSum)) {
-            const previousIndex = cumulativeSumMap.get(cumulativeSum - targetSum);
-            maxLength = Math.max(maxLength, i - previousIndex);
-        }
-
-        // Store cumulative sum if not already present
-        if (!cumulativeSumMap.has(cumulativeSum)) {
-            cumulativeSumMap.set(cumulativeSum, i);
-        }
-    }
-
-    return maxLength;
-}
-
-// Example usage:
-const array = [10, 5, 2, 7, 1, 9];
-const target = 15;
-console.log(longestSubarrayWithGivenSum(array, target)); // **Output**: 4 ([5, 2, 7, 1])
-```
-</details>
-
-<br>
-
-
-> ### Longest Subarray with equal number of 0s and 1s
-
-To find the longest subarray with an equal number of `0s` and `1s` in a binary array, you can use the **prefix sum** technique combined with a hash map for efficient lookup. Here's how it works:
-
-<details>
-
-```javascript
-function findMaxLength(nums) {
-    let prefixSum = 0; 
-    let maxLength = 0; 
-    const prefixMap = new Map();
-    prefixMap.set(0, -1); // Initialize to handle cases where the subarray starts from index 0
-
-    for (let i = 0; i < nums.length; i++) {
-        // Convert 0 to -1
-        prefixSum += nums[i] === 0 ? -1 : 1;
-
-        if (prefixMap.has(prefixSum)) {
-            // Calculate the length of the subarray
-            maxLength = Math.max(maxLength, i - prefixMap.get(prefixSum));
-        } else {
-            // Store the first occurrence of the prefix sum
-            prefixMap.set(prefixSum, i);
-        }
-    }
-
-    return maxLength;
-}
-
-// Example usage
-const binaryArray = [0, 1, 0, 1, 1, 0, 0];
-console.log(findMaxLength(binaryArray)); // **Output**: 6
-```
-
-**Explanation**
-1. Replace `0` with `-1` in the binary array: `[0, 1, 0, 1, 1, 0, 0]` → `[-1, 1, -1, 1, 1, -1, -1]`.
-2. Compute the prefix sum as you traverse:
-   - At each index, check if the prefix sum has been seen before.
-   - If yes, the subarray between the two occurrences of the prefix sum is balanced.
-   - Update the maximum length accordingly.
-
-</details>
-
-<br>
-
-> ### Count Distinct Elements In Every Window
-
-You are given an array `arr[]` and an integer `k`. You need to count the distinct numbers in every contiguous subarray (window) of size `k`.
-
-<details>
-
-**Approach**
-1. Use a **sliding window technique** to traverse the array with a window size of `k`.
-2. Use a **hash map** to keep track of the frequency of elements in the current window.
-3. For each window:
-   - Add the count of distinct elements to the result.
-   - Slide the window by:
-     - Decreasing the frequency of the outgoing element.
-     - Increasing the frequency of the incoming element.
-
-```javascript
-function countDistinctElements(arr, k) {
-    const result = [];
-    const freqMap = new Map();
-
-    // Build initial window
-    for (let i = 0; i < k; i++) {
-        freqMap.set(arr[i], (freqMap.get(arr[i]) || 0) + 1);
-    }
-    result.push(freqMap.size);
-
-    // Slide the window
-    for (let i = k; i < arr.length; i++) {
-        const outgoing = arr[i - k];
-        const incoming = arr[i];
-
-        // Remove the frequency of the outgoing element
-        if (freqMap.get(outgoing) === 1) {
-            freqMap.delete(outgoing);
-        } else {
-            freqMap.set(outgoing, freqMap.get(outgoing) - 1);
-        }
-
-        // Add the frequency of the incoming element
-        freqMap.set(incoming, (freqMap.get(incoming) || 0) + 1);
-
-        // Add the count of distinct elements for this window
-        result.push(freqMap.size);
-    }
-
-    return result;
-}
-
-// Example Usage:
-const arr = [1, 2, 1, 3, 4, 2, 3];
-const k = 4;
-console.log(countDistinctElements(arr, k)); // **Output**: [3, 4, 4, 3]
-```
-
-
-
-**Explanation** of the Example
-Given `arr = [1, 2, 1, 3, 4, 2, 3]` and `k = 4`:
-1. First window `[1, 2, 1, 3]`: Distinct elements = {1, 2, 3} → Count = 3
-2. Second window `[2, 1, 3, 4]`: Distinct elements = {1, 2, 3, 4} → Count = 4
-3. Third window `[1, 3, 4, 2]`: Distinct elements = {1, 3, 4, 2} → Count = 4
-4. Fourth window `[3, 4, 2, 3]`: Distinct elements = {2, 3, 4} → Count = 3
-
-The result is `[3, 4, 4, 3]`.
-
-</details>
 
 <br>
 
