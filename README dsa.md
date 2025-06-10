@@ -7146,7 +7146,7 @@ Total amount you can rob = 2 + 9 + 1 = 12.
 
 <details>
 
-`video solution :`https://youtu.be/73r3KWiEvyk
+`video solution :`https://youtu.be/73r3KWiEvyk?si=LPXTMwLzjMgbv_EL&t=317
 
 ```js
 function rob(nums) {
@@ -7183,25 +7183,23 @@ Each time you can either climb 1 or 2 steps. In how many `distinct ways` can you
 Example 1:\
 **Input**: n = 2\
 **Output**: 2
-
 **Explanation**: There are two ways to climb to the top.
-1. 1 step + 1 step
-2. 2 steps
+- 1 step + 1 step
+- 2 steps
 
 
 Example 2:\
 **Input**: n = 3\
 **Output**: 3
+**Explanation**: There are three ways to climb to the top.
+- 1 step + 1 step + 1 step
+- 1 step + 2 steps
+- 2 steps + 1 step
+
+
+`video:`- https://youtu.be/UUaMrNOvSqg?si=sLXTY4JNofF5G3Ut&t=583
 
 <details>
-
-**Explanation**: There are three ways to climb to the top.
-1. 1 step + 1 step + 1 step
-2. 1 step + 2 steps
-3. 2 steps + 1 step
-
-
-`video:`- https://youtu.be/Y0lT9Fck7qI  || https://youtu.be/UUaMrNOvSqg
 
 ```js
 function climbStairs(n) {
@@ -7632,11 +7630,11 @@ Return the minimum cost to fly every person to a city such that exactly n people
 Example 1:\
 **Input**: costs = [[10,20],[30,200],[400,50],[30,20]]\
 **Output**: 110\
-**Explanation**:\ 
+**Explanation**:\
 The first person goes to city A for a cost of 10.\
 The second person goes to city A for a cost of 30.\
 The third person goes to city B for a cost of 50.\
-The fourth person goes to city B for a cost of 20.\
+The fourth person goes to city B for a cost of 20.
 
 The total minimum cost is 10 + 30 + 50 + 20 = 110 to have half the people interviewing in each city.
 
@@ -7693,9 +7691,9 @@ console.log(twoCitySchedCost(costs3)); // **Output**: 3086
 <br>
 
 > ### 2016. Maximum Difference Between Increasing Elements
-Given a 0-indexed integer array nums of size n, find the maximum difference between nums[i] and nums[j] (i.e., nums[j] - nums[i]), such that 0 <= i < j < n and nums[i] < nums[j].
+Given a **0-indexed** integer array `nums` of size `n`, find the **maximum difference** between `nums[i]` and `nums[j]` (i.e., `nums[j] - nums[i]`), such that `0 <= i < j < n` and `nums[i] < nums[j]`.
 
-Return the maximum difference. If no such i and j exists, return -1.
+Return the maximum difference. If `no such` i and j exists, `return -1`.
 
 <br>
 
@@ -7785,6 +7783,8 @@ function singleNumber(nums) {
 ```
 
 </details>
+
+<br>
 
 > ### 278. First Bad Version
 
