@@ -40,7 +40,7 @@ tsconfig.json or jsconfig.json
 - By `default`, `all components` are `server side` components only
 - `"use client"` directive added, the component should run on client side & server side
 - when we click on next Link button, the component which comes on route change runs on server side, not on client side
-- you can have `"use client" or "use server" in single component`, if both needed then make that component to two separate coponenent, and use them separately
+- you can not have `"use client" or "use server" in single component`, if both needed then make that component to two separate coponenent, and use them separately
 - in next js when we are using any type of hook, then we have to add the "use client" at the top, then it is better to make that hook part separate component and add "use client" in that component and import it
 - Next caches very regressiveely in next 14
 - if you use any 3rd party package, and it does not support server side, run it in "use client" mode.

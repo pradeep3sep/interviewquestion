@@ -2213,8 +2213,9 @@ Explanation: The sum of elements from 2nd position to 4th position is 12.
 
 <details>
 
+**algo: Sliding window**
+
 ```js
-// algo: Sliding window
 
 function findSubarraysWithSum(arr, target) {
     let result = [];
@@ -3584,6 +3585,40 @@ console.log(maxSubarraySum([-2, 1, -3, 4, -1, 2, 1, -5, 4])); // Output: 6
 </Details>
 
 <br>
+> ### ⭐️ Q89 - 386. Lexicographical Numbers
+
+should be 13: [1,10,11,12,13,2,3,4,5,6,7,8,9]\
+should be 2: [1,2]
+
+<Details>
+
+```js
+function lexicalOrder(n) {
+    const arr = [];
+    let curr = 1;
+    for (let i = 0; i < n; i++) {
+        arr.push(curr);
+        // If multiplying the current number by 10 is within the limit, do it
+        if (curr * 10 <= n) {
+            curr *= 10;
+        }
+        else {
+            // Adjust the current number by moving up one digit
+            while (curr % 10 === 9 || curr >= n) {
+                curr = Math.floor(curr / 10); // remove the last digit
+            }
+            curr++; // increment the number
+        }
+    }
+    return arr;
+}
+
+// Example Usage
+console.log(lexicalOrder(13));
+```
+</Details>
+
+<br>
 
 > ### Q90 - One of the differences between null and undefined is how they are treated differently in JSON.stringify().
 
@@ -3707,7 +3742,7 @@ function $(el) {
     // const getElement = document.getElementById(el)
     return {
         css(propertyName, value) {
-            console.log(property, value);
+            console.log(propertyName, value);
             // getElement.forEach((element) => {
             //     element.style[propertyName] = value;
             // });

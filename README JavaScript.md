@@ -1806,6 +1806,9 @@ user.foo1() // Prints false on console as foo1 is invoked as a object’s method
 
 <br>
  
+**Note:** When we talk about the variable like let or var, then it is based on position where the function is written, while for the "this", it refers to where is located
+
+<br>
 
 > ### Mutability
 Array, objects are mutable while primitives don't
