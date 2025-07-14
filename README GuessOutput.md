@@ -312,7 +312,7 @@ func2(); // Executes func2
 So, the output is `1` because `func1` uses the `count` from its lexical environment (global scope) where `count` is `1`.
 </details>
 
-### Question 19
+### ⭐️ Question 19
 ```js
 let users  = {
     name : "outside",
@@ -565,13 +565,30 @@ printNumbers(1, 2, 3);
   <p>3, 2, 3</p>
 </details>
 
-### Question 32
+### ⭐️ Question 32
 ```js
 console.log(Math.max());
 ```
 <details>
   <summary>Answer</summary>
   <p>-Infinity</p>
+
+Why does it return `-Infinity` and not `Infinity`?
+
+#### Why `-Infinity`?
+
+This is based on how maximum works in mathematics:
+
+* The identity for `Math.max` is the value that doesn’t affect the result when used in comparison.
+* `Math.max(a, b, ..., identity)` should still return the correct maximum.
+* For example:
+
+  ```javascript
+  Math.max(3, 7, -Infinity) === 7
+  ```
+
+So, if you call `Math.max()` with **no arguments**, it returns `-Infinity` because that value is **guaranteed to be less than any number**, making it a safe default when reducing a list of numbers.
+
 </details>
 
 ### Question 33
@@ -742,9 +759,9 @@ console.log(a == b)
   <summary>Answer</summary>
   <p>true, false, false, false</p>
 
-'a' < 'b' // gives true because a and b both are string so are converted to number 1 and 2 respectively by coercion of js
-'a' > 'b'  // gives false because a and b both are string so are converted to number 1 and 2 respectively by coercion of js
-42 < 'hh'  // gives false
+'a' < 'b' // gives true because a and b both are string so are converted to number 1 and 2 respectively by coercion of js\
+'a' > 'b'  // gives false because a and b both are string so are converted to number 1 and 2 respectively by coercion of js\
+42 < 'hh'  // gives false\
 42 > 'hh'  // gives false because the both are different data type so 'hh' are coerced to NaN and the comparison becomes 42 > NaN
 </details>
 
@@ -2474,7 +2491,7 @@ show();
 ```
 </details>
 
-### Question 97
+### ⭐️ Question 97
 
 ```js
 for (var i = 0; i < 5; i++) {
@@ -3227,7 +3244,7 @@ console.log(getName2.prototype);
 
 </details>
 
-### Question 118
+### ⭐️ Question 118
 
 ```js
 function getName() {
@@ -3474,7 +3491,7 @@ console.log(res);
 </details>
 
 
-### Question 127
+### ⭐️ Question 127
 
 ```js
 const arr = [1, 2, 3, 4];
@@ -3805,22 +3822,6 @@ undefined\
 2\
 error2
 </details>
-
-
-### Question 138
-
-```js
-const arr = [1,2]
-arr.push(3,4)
-arr.unshift(5,6)
-console.log(arr)
-```
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer is [ 5, 6, 1, 2, 3, 4 ]</p>
-</details>
-
 
 ### ⭐️ Question 139
 

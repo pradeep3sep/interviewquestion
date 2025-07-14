@@ -6250,42 +6250,47 @@ obj1.showName.call(obj2); // Jc precedence of Rule 2) Call method > Rule 3) meth
 
 In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves differently depending on how the IIFE is invoked and the execution context. Here's a breakdown:
 
-1. **Global Context (Non-strict mode)**
-   - When an IIFE is executed in the global context in non-strict mode, `this` refers to the global object (`window` in browsers, `global` in Node.js).
+1. **Global Context (Non-strict mode & Strict mode)**
    - Example:
      ```javascript
      (function() {
        console.log(this); // In a browser, this will log the global window object
      })();
-     ```
 
-2. **Global Context (Strict mode)**
-   - In strict mode, `this` inside an IIFE is `undefined` when not bound to any object.
-   - Example:
-     ```javascript
      (function() {
        'use strict';
        console.log(this); // Logs: undefined
      })();
      ```
 
-3. **function in Object Context**
-   - If an IIFE is invoked as a function in method of an object, `this` refers to the `window` itself.
-   - Example:
+2. **function in Object Context**
+   - Regular Function IIFE:
      ```javascript
-      const obj = {
+      const obj1 = {
           value: 42,
           method: function () {
               (function () {
-                  console.log(this); // Logs: window object
-              }())
+                  console.log("Regular IIFE:", this);  // this refers to the global object
+              })();
+          }
+      };
+      obj1.method();
+     ```   
+   - Arrow Function IIFE:
+     ```javascript
+      const obj2 = {
+          value: 42,
+          method: function () {
+              (() => {
+                  console.log("Arrow IIFE:", this);  // this refers to the object
+              })();
           }
       };
 
-      obj.method(); // 'this' refers to 'window'
+      obj2.method();
      ```
 
-4. **Explicit Binding with `call`, `apply`, or `bind`**
+3. **Explicit Binding with `call`, `apply`, or `bind`**
    - You can explicitly set the value of `this` using `call`, `apply`, or `bind`.
    - Example:
      ```javascript
