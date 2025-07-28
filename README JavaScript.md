@@ -1451,7 +1451,7 @@ console.log(`An index of ${index} returns ${array1.at(index)}`);
  
 ### Array.prototype.fill()
 
-The fill() method of Array instances changes all elements within a range of indices in an array to a static value. It returns the modified array.
+The fill() method of Array instances changes all elements within a range of indices in an array to a static value. It returns the modified array. `fill() fills up to but not including end.`
 ```js
 const array1 = [1, 2, 3, 4];
 
@@ -1806,7 +1806,7 @@ user.foo1() // Prints false on console as foo1 is invoked as a object’s method
 
 <br>
  
-**Note:** When we talk about the variable like let or var, then it is based on position where the function is written, while for the "this", it refers to where is located
+**Note:** When we talk about the variable like `let or var`, then it is based on `position where the function is written`, while for the `"this", it refers to where is located`.
 
 <br>
 
@@ -3815,10 +3815,17 @@ console.log(objToMap)
 ```
 
 Diff b/w Object and Map
-1. In Object, the data-type of the key-field is restricted to integer(behind the scene it is stored as string), strings, and symbols. Whereas in Map, the key-field can be of any data-type (integer, an array, even an object!)
-2. In the Map, the original order of elements is preserved. This is not true in case of objects. Thus, when iterating over it, a Map object returns keys in order of insertion.
-3. You can get the size of a Map easily with the size property, while the number of properties in an Object must be determined manually.
-4. An Object has a prototype, so there are default keys in the map that could collide with your keys if you're not careful. As of ES5 this can be bypassed by using map = Object.create(null), but this is seldom done.
+| Feature                                 | **Object**                                                              | **Map**                                                 |
+| --------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------------- |
+| **Key Types**                           | Only strings, symbols (integers get converted to strings internally)    | Any data type (objects, arrays, functions, etc.)        |
+| **Key Order**                           | No guaranteed order (insertion order not strictly maintained)           | Maintains insertion order                               |
+| **Size Retrieval**                      | Requires manual calculation (`Object.keys(obj).length`)                 | Easy using `map.size`                                   |
+| **Iteration**                           | Requires `for...in` or `Object.entries()`                               | Can use `map.forEach()` or `for...of` directly          |
+| **Performance for Frequent Add/Remove** | Less optimized                                                          | More optimized for frequent additions and deletions     |
+| **Prototypes**                          | Has a prototype by default (`{}` inherits from `Object.prototype`)      | Does not have prototype collisions                      |
+| **Serialization**                       | Can be serialized using `JSON.stringify()` (only string keys preserved) | Cannot be directly stringified; needs conversion        |
+| **Utility Methods**                     | Fewer native methods (`Object.keys`, `Object.values`, etc.)             | Rich API (`set`, `get`, `has`, `delete`, `clear`, etc.) |
+| **Use Case**                            | Best for structured data / JSON                                         | Best for dynamic key-value pairs                        |
 
 
 <br>

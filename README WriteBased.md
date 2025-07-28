@@ -4744,7 +4744,7 @@ emitter.emit('foo', { some: 'data' }); // No output
 <br>
 
 
-> ### Q119 - Implement a debounce function that comes with a cancel method to cancel delayed invocations.
+> ###  ⭐️ Q119 - Implement a debounce function that comes with a cancel method to cancel delayed invocations.
 
 ```js
 function debounce(func, delay) {
@@ -4785,7 +4785,7 @@ debouncedSave('Text 3');
 <br>
 
 
-> ### Q120 - Implement a function to execute N async tasks in series. in js
+> ### ⭐️  Q120 - Implement a function to execute N async tasks in series. in js
 
 <details>
 
@@ -4824,7 +4824,7 @@ executeTasksInSeries([task1, task2, task3]);
 <br>
 
 
-> ### Q121 - Implement a function to execute N async tasks in parallel.
+> ### ⭐️  Q121 - Implement a function to execute N async tasks in parallel.
 
 <details>
 
