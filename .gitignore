@@ -1,0 +1,17 @@
+# Node modules (never commit, huge folder)
+node_modules/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS-specific files
+.DS_Store
+Thumbs.db

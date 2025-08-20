@@ -1,65 +1,26 @@
-// Function to create the LPS array (longest prefix suffix)
-function computeLPSArray(pattern) {
-    debugger
-    const lps = Array(pattern.length).fill(0);
-    let len = 0;
-    let i = 1;
 
-    while (i < pattern.length) {
-        if (pattern[i] === pattern[len]) {
-            len++;
-            lps[i] = len;
-            i++;
-        } else {
-            if (len !== 0) {
-                len = lps[len - 1];
-            } else {
-                lps[i] = 0;
-                i++;
-            }
-        }
-    }
-    return lps;
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://pradeep3sep:AayckI4EQyBDh7Qt@cluster0.dffujsu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
 }
-
-// Function to perform KMP search
-function KMPSearch(text, pattern) {
-    const lps = computeLPSArray(pattern);
-    debugger
-    const result = [];
-    let i = 0; // index for text
-    let j = 0; // index for pattern
-
-    while (i < text.length) {
-        if (pattern[j] === text[i]) {
-            i++;
-            j++;
-        }
-
-        if (j === pattern.length) {
-            // Pattern found at index i-j
-            result.push(i - j);
-            j = lps[j - 1];
-        } else if (i < text.length && pattern[j] !== text[i]) {
-            if (j !== 0) {
-                j = lps[j - 1];
-            } else {
-                i++;
-            }
-        }
-    }
-
-    return result; // Returns indices where the pattern is found
-}
-
-// Example usage
-const text = "ABABDABACDABABCABAB";
-const pattern = "ABABCABAB";
-const occurrences = KMPSearch(text, pattern);
-console.log("Pattern found at index:", occurrences);
-
-
-
-
-
-
+run().catch(console.dir);

@@ -2801,6 +2801,70 @@ function useState(initialState) {
 
 <br>
 
+> ### useParams VS useLocation
+
+
+#### ✅ `useParams()`: Extract **Route Parameters**
+
+Use it to get values from **dynamic segments** of the route path like `/user/:id` or `/post/:slug`.
+
+##### Example:
+
+If your route is defined as:
+
+```tsx
+<Route path="/user/:id" element={<UserDetails />} />
+```
+
+Then in `UserDetails.tsx`:
+
+```tsx
+import { useParams } from "react-router-dom";
+
+const UserDetails = () => {
+  const { id } = useParams();
+
+  return <div>User ID: {id}</div>;
+};
+```
+
+
+#### ✅ `useLocation()`: Get **full path**, **query params**, **hash**, etc.
+
+Use this to access:
+
+* `pathname`: e.g., `/user/123`
+* `search`: e.g., `?page=2&sort=desc`
+* `hash`: e.g., `#top`
+
+##### Example:
+
+```tsx
+import { useLocation } from "react-router-dom";
+
+const MyComponent = () => {
+  const location = useLocation();
+
+  console.log(location.pathname); // "/user/123"
+  console.log(location.search);   // "?tab=profile"
+  console.log(location.hash);     // "#settings"
+
+  return <div>URL: {location.pathname + location.search}</div>;
+};
+```
+
+#### 🤔 When to Use Which?
+
+| Task                              | Use                              |
+| --------------------------------- | -------------------------------- |
+| Get `:id` from `/user/:id`        | `useParams()`                    |
+| Get query params like `?page=1`   | `useLocation()`                  |
+| Detect route changes              | `useLocation()`                  |
+| Build breadcrumb/navigation logic | `useLocation()` or `useParams()` |
+| React to any URL change           | `useLocation()` in `useEffect`   |
+
+<br>
+
 > ### Scenario Based - Dynamic Nested List Rendering
 
 ```js
