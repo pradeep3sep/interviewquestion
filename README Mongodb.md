@@ -2,6 +2,10 @@
 
 > ### Database -> Collection -> Documents
 
+```
+https://www.mongodb.com/docs/manual/reference/mql/expressions/
+```
+
 >### Below are commands for shell
 
 - If we use the blank object in filter condition means we want all the data. It is like * of mysql
@@ -912,6 +916,43 @@ A **partial index** is an index built only on documents that match a filter cond
 * If you need **searching words anywhere in text / relevance ranking** → use **text index**.
 
 
+
+> ### exists - field name exists in a document.
+
+```js
+{ field: { $exists: <boolean> } }
+```
+
+> ### How to use below For getting the data
+```
+https://www.mongodb.com/docs/manual/reference/mql/expressions/
+```
+
+1. findOne, find, find k ander second argument
+2. Comparison operator
+3. in & nin
+4. or & nor
+5. $and
+6. $not
+7. $type
+8. $regex
+9. $exp
+10. $size, $all, $elemMatch
+
+
+> ### Below fields to Update the data
+
+```
+https://www.mongodb.com/docs/manual/reference/mql/update/
+```
+Uper k sare side menu check karo
+
+1. updateOne, updateMany
+2. $set, $inc (if you use negative value in inc then it works as decrement)
+3. $min, $max, $mul
+4. $unset, $rename, $upsert
+
+$ sign find in mongodb eg hobbies.$.highfrequency = true
 
 
 
