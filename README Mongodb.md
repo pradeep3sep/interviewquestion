@@ -1,10 +1,28 @@
-#### Collection in mongo is same as table in mysql
+### Collection in mongo is same as table in mysql
 
 > ### Database -> Collection -> Documents
 
 ```
 https://www.mongodb.com/docs/manual/reference/mql/expressions/
 ```
+
+<br>
+
+- Rule of thumnb ==> In object, when using the LHS, use path without "$", but on RHS use with "$".
+
+```js
+// In queries / projections
+db.collection.find({ "grades.score": { $gt: 80 } })
+
+// aggregation
+
+db.collection.aggregate([
+  { $unwind: "$grades" },
+  { $group: { _id: "$name", avgScore: { $avg: "$grades.score" } } }
+])
+```
+
+<br>
 
 >### Below are commands for shell
 
@@ -20,80 +38,32 @@ https://www.mongodb.com/docs/manual/reference/mql/expressions/
   ```
 
 - To drop database name
-  ```js
-  use databaase_name
-  db.dropDatabase()
-  // For the collection
-  db.myCollection.drop()
-  ```
+    ```js
+    use databaase_name
+    db.dropDatabase()
+    // For the collection
+    db.myCollection.drop()
+    ```
 
-- Keep in mind, we have the insert, insertOne, insertMany, but insert method should be avoided, altough it works but general pratice is to avoid it.
+- Keep in mind, we have the insert, insertOne, insertMany, but `insert method should be avoided`, altough it works but general pratice is to avoid it.
 
-- To add data in collection in first time collection or existing collection. passed value needs to be JSON
-
-1. insertOne(data, options)
-```js
-db.collection_name.insertOne({
-    name: "Max",
-    age: 29
-})
-```
-
-**Note:** When we enter the above command we get an object in return having the acknowledged be true and insertid be a value
-
-2. To add many values, we have the insertMany(data,options)
-```js
-db.collection_name.insertMany(
-    [
+- To add many values, we have the insertMany(data,options)
+    ```js
+    db.collection_name.insertMany(
+        [
+            {
+                name: 'ram'
+            },
+            {
+                name: 'shyam'
+            }
+        ],
         {
-            name: 'ram'
-        },
-        {
-            name: 'shyam'
+            ordered: false  // It means the data which fails will be skipped and rest will be added to db. Default value is true means if it fails at certain index then it will not continue the next data 
         }
-    ],
-    {
-        ordered: false  // It means the data which fails will be skipped and rest will be added to db. Default value is true means if it fails at certain index then it will not continue the next data 
-    }
-)
-```
+    )
+    ```
 
-- To get the data of the collection, we use the 
-
-1. find(filter,options)
-```js
-db.collection_name.find()  // This is to get all data of the collection
-
-db.collection_name.find().pretty()   // It gives the same result but in the more structured form
-
-db.collection_name.find({
-  name: 'max'  // This condition acts as filter, gives the result of all row having the name = 'max'
-})
-
-// Nested find function
-db.collection_name.find({name: 'ram'}).hobbies
-// here we find the row having name ram and then we want data inside hobbies. whew hobbies is an array or text
-
-// we can also find the value in nested object, its like traversing in object
-db.collection_name.find({'status.details.responsible': 'max'})
-
-// We can also provide the condition in the filter, eg is below
-db.collection_name.find({
-    distance: {
-        $gt : 10000   // $gt acts as condition of greater then
-    }
-})
-```
-
-2. findOne(filter, options)
-```js
-///It provides the first row of all row which satisfies the condition or filter
-db.collection_name.findOne({
-    distance: {
-        $gt : 10000   // $gt acts as condition of greater then
-    }
-})
-```
 
 
 - To update or change the data
@@ -119,60 +89,43 @@ db.collection_name.updateOne(
 
 
 2. updateMany(filter, data, options).
-```js
-db.collection_name.updateMany(
-    {}, // Here we have kept blank because we want this change in every row
-    {
-        $set: {
-            lastname: 'test'   // This is the data
+    ```js
+    db.collection_name.updateMany(
+        {}, // Here we have kept blank because we want this change in every row
+        {
+            $set: {
+                lastname: 'test'   // This is the data
+            }
         }
-    }
-)
+    )
 
-// We have 'update' also which work quite similar to updateMany
-db.collection_name.update(
-    {
-        id : 'degubkubcsiu'
-    },
-    {
-        delayed: false
-    }
-)
+    // To delete the key or node in the data of the row or the document, we can use the unset function
+    db.collection_name.updateMany({isSporty: true}, {$unset: {phone: ''}})  // here we want to delete the phone node when row has the isSporty value to be true
 
-// If we use this type then it will replace the whole row with above 2 data
-// We have inc for the incremental(use + sign) and decremental (use - sign) updation of the value, increment or decrement can be done by any value like 2,30,767,...
-// we can update a value along with increment function.
+    // To rename the node or key name
+    db.collection_name.updateMany({}, {$rename: {age: 'totalAge'}})  // Basically here we want all row to have age renamed as totalAge
 
-// min and max compare with the existing value and the update it
-
-// To delete the key or node in the data of the row or the document, we can use the unset function
-db.collection_name.updateMany({isSporty: true}, {$unset: {phone: ''}})  // here we want to delete the phone node when row has the isSporty value to be true
-
-// To rename the node or key name
-db.collection_name.updateMany({}, {$rename: {age: 'totalAge'}})  // Basically here we want all row to have age renamed as totalAge
-
-// Upsert : where we don't know if the data was saved to database yet and if it was't saved yet,you know want to create a new document , if it was, you want to override the existing or update the existing document
-// it is quite much good if we want to update with check condition
+    // Upsert : where we don't know if the data was saved to database yet and if it was't saved yet,you know want to create a new document , if it was, you want to override the existing or update the existing document
+    // it is quite much good if we want to update with check condition
 
 
-// Key point: while searching in the array, elemmatch is the good one to go with
-```
+    // Key point: while searching in the array, elemmatch is the good one to go with
+    ```
 
 
 3. replaceOne(filter, data, options) - It replaces the whole data to the new data we passed
-```js
-db.collection_name.replaceOne({
-    {
-        _id: 'icsihdhndsc'
-    },
-    {
-        name: 'ram',
-        lastname: "syham"
-    }
-})
-// It replaces whole row of id = icsihdhndsc with new data we passed in
-```
-
+    ```js
+    db.collection_name.replaceOne({
+        {
+            _id: 'icsihdhndsc'
+        },
+        {
+            name: 'ram',
+            lastname: "syham"
+        }
+    })
+    // It replaces whole row of id = icsihdhndsc with new data we passed in
+    ```
 
 - To delete the data from the database
 
@@ -298,19 +251,62 @@ db.runCommand({
 
 > ### Mongo operators like less then, more then etc - https://www.mongodb.com/docs/manual/reference/operator/query/
 
-> ### For nested query search
+<br>
+
+- To get the data of the collection, we use the 
+
+1. find(filter,options)
+
+```js
+db.collection_name.find()  // This is to get all data of the collection
+
+db.collection_name.find().pretty()   // It gives the same result but in the more structured form
+
+db.collection_name.find({
+  name: 'max'  // This condition acts as filter, gives the result of all row having the name = 'max'
+})
+
+// we can also find the value in nested object, its like traversing in object
+db.collection_name.find({'status.details.responsible': 'max'})
+
+// We can also provide the condition in the filter, eg is below
+db.collection_name.find({
+    distance: {
+        $gt : 10000   // $gt acts as condition of greater then
+    }
+})
+```
+
+
 ```js
 db.collection_name.find({ 'rating.average' : { $gt : 7 } })
 
 db.collection_name.find({ 'rating.average' : { $gt : 7 } }).count()  // It gives the count of data available
+```
 
+> ### Projection : One document or row has many data but we want to show only few data then projection comes into play
+
+```js
+db.collection_name.find({}, {name: 1, generes: 1, runtime: 1})  // It means we want to show only name, generes and runtime, if we want to exclude the id, we have to manually add _id:0
+
+// Slice is used on the array to show how much of array we want to show. below generes have many value in array but it will show first two
+db.collection_name.find({'rating.average': {$gt: 9}}, {generes: {$slice: 2}, name: 1})  // we can provide the array index in slice value
+```
+
+OR Operator - It takes array of conditions
+```js
 db.collection_name.find({$or: [ {'rating.average': { $lt: 5 }}, { 'rating.average': {$gt: 9.3} } ]})
 
-db.collection_name.find({$and: [ {'rating.average': { $lt: 5 }}, { 'generes': 'Drama' } ]})
-db.collection_name.find({'rating.average': { $lt: 5 }}, { 'generes': 'Drama' })
-// this and above are same in functioning. some times it working differently when we have the same key in both condition. 
-// them we should use the above condition because in Object if we have the same key last key update the value 
+db.collection.find({ $or: [ { "cuisine": "American " }, { "cuisine": "Chinese" } ], "borough": "Bronx" })
 ```
+
+```js
+db.collection_name.find({$and: [ {'rating.average': { $lt: 5 }}, { 'generes': 'Drama' } ]})
+
+db.collection_name.find({'rating.average': { $lt: 5 }}, { 'generes': 'Drama' })
+```
+
+
 
 > ### we can use the expres because in it we can make various type of conditions
 ```js
@@ -320,19 +316,150 @@ db.collection_name.find({$expr: { $gte: [ $cond: { if: { $gte: [ '$volume',190 ]
 - To search or find inside the array, then we can use the syntex like for searching in nested object ie using the dot(.)
 - We can search using the length of the array by using the size
 
+
+Q - Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which contain 'Wil' as first three letters for its name.
+```js
+db.collection.find(
+  { name: /^Wil/ },   // regex: name begins with "Wil"
+  { restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0 } // projection
+)
+
+// Other way
+db.collection.find(
+  { name: { $regex: "^Wil" } }, 
+  { restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0 }
+)
+```
+
+> ### in vs or operator
+
+#### `$in` Operator
+
+* Used to match a **single field** against **multiple possible values**.
+* Equivalent to SQL’s `IN`.
+
+**Example**: Find restaurants whose cuisine is either *Italian* or *Mexican*:
+
+```js
+db.collection.find({
+  cuisine: { $in: ["Italian", "Mexican"] }
+})
+```
+
+This is shorthand for:
+
+```js
+db.collection.find({
+  $or: [{ cuisine: "Italian" }, { cuisine: "Mexican" }]
+})
+```
+
+Similary we have "$nin" means "not in", Opposite of "$in"
+- This finds restaurants where cuisine is not American or Chinese.
+```js
+db.collection.find({
+  cuisine: { $nin: ["Italian", "Mexican"] }
+})
+```
+
+✅ `$in` is more compact and efficient when checking multiple values of the **same field**.
+
+
+
+#### `$or` Operator
+
+* Used to combine **different conditions** across one or multiple fields.
+* Each clause in `$or` is an independent query.
+
+**Example**: Find restaurants that are either in the *Bronx* OR serve *Italian* cuisine:
+
+```js
+db.collection.find({
+  $or: [
+    { borough: "Bronx" },
+    { cuisine: "Italian" }
+  ]
+})
+```
+
+Here `$in` would **not work**, since the conditions are on **different fields**.
+
+
+#### Rule of Thumb
+
+* Use **`$in`** → when matching **one field** against multiple values.
+* Use **`$or`** → when matching across **different fields** or combining complex conditions.
+
+> ### exists - field name exists in a document.
+
+```js
+{ field: { $exists: <boolean> } }
+```
+
+
+```js
+{
+  "address": {
+     "building": "1007",
+     "coord": [ -73.856077, 40.848447 ],
+     "street": "Morris Park Ave",
+     "zipcode": "10462"
+  },
+  "borough": "Bronx",
+  "cuisine": "Bakery",
+  "grades": [
+     { "date": { "$date": 1393804800000 }, "grade": "A", "score": 2 },
+     { "date": { "$date": 1378857600000 }, "grade": "A", "score": 6 },
+     { "date": { "$date": 1358985600000 }, "grade": "A", "score": 10 },
+     { "date": { "$date": 1322006400000 }, "grade": "A", "score": 9 },
+     { "date": { "$date": 1299715200000 }, "grade": "B", "score": 14 }
+  ],
+  "name": "Morris Park Bake Shop",
+  "restaurant_id": "30075445"
+}
+
+// Q - Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which achieved a score which is not more than 10.
+db.collection.find({
+  "grades.score": {
+    "$lte": 10
+  }
+},
+{
+  restaurant_id: 1,
+  name: 1,
+  borough: 1,
+  cuisine: 1
+})
+
+
+// Q -  Write a MongoDB query to find the restaurant Id, name, address and geographical location for those restaurants where 2nd element of coord array contains a value which is more than 42 and upto 52.
+db.restaurants.find({
+    "address.coord.1": {
+        $gt: 42,
+        $lte: 52
+    }
+}, {
+    "restaurant_id": 1,
+    "name": 1,
+    "address": 1,
+    "coord": 1
+});
+
+// Q - Write a MongoDB query to Get all data which contains the street.
+db.collection.find({
+  "address.street": {
+    $exists: true
+  }
+})
+```
+
+
+<br>
+
 > ### Pagination can be done by using the skip syntex
 ```js
 db.collection_name.find().sort({'rating.average': 1, 'runtime': 1}).skip(10)  // it can go on like 10,20,30,...
 db.collection_name.find().sort({'rating.average': 1, 'runtime': 1}).skip(1020).limit(10)  // limit is the how much you want to show
-```
-
-
-> ### Projection : One document or row has many data but we want to show only few data then projection comes into play
-```js
-db.collection_name.find({}, {name: 1, generes: 1, runtime: 1})  // It means we want to show only name, generes and runtime, if we want to exclude the id, we have to manually add _id:0
-
-// Slice is used on the array to show how much of array we want to show. below generes have many value in array but it will show first two
-db.collection_name.find({'rating.average': {$gt: 9}}, {generes: {$slice: 2}, name: 1})  // we can provide the array index in slice value
 ```
 
 > ### Geospatial Data - In MongoDB, you can store geospatial data as GeoJSON objects or as legacy coordinate pairs.
@@ -389,10 +516,17 @@ db.collection_name.aggregate([
 4. `$unwind`
 - To deflat the array into separate row we use the unwind
 ```js
-// eg one row name hobbies : ['cooking', 'dancing'] gets converted into two separate row of hobbies hobbies : 'cooking' and hobbies : 'dancing'
 db.collection_name.aggregate([
     { $unwind: '$name_of_node_of array' }
 ])
+
+// Before unwind
+{ "_id": 1, "tags": ["food", "bakery", "coffee"] }
+
+// After unwind
+{ "_id": 1, "tags": "food" }
+{ "_id": 1, "tags": "bakery" }
+{ "_id": 1, "tags": "coffee" }
 ```
 
 
@@ -539,6 +673,46 @@ Example:
 This splits into 4 equal ranges automatically.
 
 
+```js
+{
+  "address": {
+     "building": "1007",
+     "coord": [ -73.856077, 40.848447 ],
+     "street": "Morris Park Ave",
+     "zipcode": "10462"
+  },
+  "borough": "Bronx",
+  "cuisine": "Bakery",
+  "grades": [
+     { "date": { "$date": 1393804800000 }, "grade": "A", "score": 2 },
+     { "date": { "$date": 1378857600000 }, "grade": "A", "score": 6 },
+     { "date": { "$date": 1358985600000 }, "grade": "A", "score": 10 },
+     { "date": { "$date": 1322006400000 }, "grade": "A", "score": 9 },
+     { "date": { "$date": 1299715200000 }, "grade": "B", "score": 14 }
+  ],
+  "name": "Morris Park Bake Shop",
+  "restaurant_id": "30075445"
+}
+
+
+// Find the average score for each restaurant
+
+db.restaurants.aggregate([{
+    $unwind: "$grades"
+  },
+  {
+    $group: {
+      _id: "$name",
+      avgScore: {
+        $avg: "$grades.score"  // we $max, $min
+      }
+    }
+  }
+])
+
+
+
+```
 
 
 > ### Indexes in MongoDB
@@ -916,13 +1090,6 @@ A **partial index** is an index built only on documents that match a filter cond
 * If you need **searching words anywhere in text / relevance ranking** → use **text index**.
 
 
-
-> ### exists - field name exists in a document.
-
-```js
-{ field: { $exists: <boolean> } }
-```
-
 > ### How to use below For getting the data
 ```
 https://www.mongodb.com/docs/manual/reference/mql/expressions/
@@ -939,6 +1106,99 @@ https://www.mongodb.com/docs/manual/reference/mql/expressions/
 9. $exp
 10. $size, $all, $elemMatch
 
+
+> ### elemMatch in mongodb
+
+In **MongoDB**, the `$elemMatch` operator is used to **match documents that contain an array field with at least one element that matches all the specified criteria**.
+
+It’s particularly useful when you want to apply **multiple conditions to a single element in an array** (instead of matching conditions across different elements).
+
+
+#### **Syntax**
+
+```js
+{ <arrayField>: { $elemMatch: { <query1>, <query2>, ... } } }
+```
+
+
+#### **Example Usage**
+
+#### 1. Basic Match
+
+Suppose you have a collection of students:
+
+```json
+{
+  "_id": 1,
+  "name": "Alice",
+  "grades": [82, 90, 91]
+},
+{
+  "_id": 2,
+  "name": "Bob",
+  "grades": [75, 88, 95]
+}
+```
+
+Find students with a grade **greater than 85 and less than 92**:
+
+```js
+db.students.find({
+  grades: { $elemMatch: { $gt: 85, $lt: 92 } }
+})
+```
+
+✅ This ensures **both conditions apply to the same grade element**.
+Without `$elemMatch`, MongoDB might match `90` (for `$lt: 92`) and `91` (for `$gt: 85`) separately, which isn’t what we want.
+
+
+#### 2. Matching Objects Inside an Array
+
+Suppose we have:
+
+```json
+{
+  "_id": 1,
+  "name": "Alice",
+  "courses": [
+    { "subject": "Math", "score": 92 },
+    { "subject": "History", "score": 85 }
+  ]
+}
+```
+
+Find students who have a course where:
+
+* subject = `"Math"`
+* score ≥ 90
+
+```js
+db.students.find({
+  courses: { $elemMatch: { subject: "Math", score: { $gte: 90 } } }
+})
+```
+
+#### 3. Difference Without `$elemMatch`
+
+If you do:
+
+```js
+db.students.find({
+  grades: { $gt: 85, $lt: 92 }
+})
+```
+
+MongoDB treats conditions independently → it will return docs where **some grade > 85** and **some grade < 92**, even if they are different elements.
+
+So `$elemMatch` is required when **all conditions must apply to the same array element**.
+
+- Also elemMatch tab use karte h jab same data k ander 2 query lagani ho, like same object pe hi name and age ki query lagani ho
+```js
+d = {
+  name: rahul,
+  age: 26
+}
+```
 
 > ### Below fields to Update the data
 
@@ -958,3 +1218,5 @@ $ sign find in mongodb eg hobbies.$.highfrequency = true
 
 
 video -73,128
+
+Q 12, 
