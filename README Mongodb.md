@@ -8,7 +8,9 @@ https://www.mongodb.com/docs/manual/reference/mql/expressions/
 
 <br>
 
-- Rule of thumnb ==> In object, when using the LHS, use path without "$", but on RHS use with "$".
+- Rule of thumnb ==> In object, when using the LHS, use path without "$", but on RHS use with "$". 
+- Function k name k sarh $ use kia jata h
+- Jab object ki value chaiye hoti h to $ use karte h key k sath
 
 ```js
 // In queries / projections
@@ -494,7 +496,7 @@ https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/    
 
 ```js
 db.collection_name.aggregate([
-    { $match: { gender: 'female' } },   // match acts as filter, we filtered through the gender having female
+    { $match: { gender: 'female' } },   // match acts as find, same find query will work in match, we filtered through the gender having female
 
     { $group: { _id: { state: '$location.state' }, totalPersons: { $sum: 1 } } },  
     // as name states group do same, in _id we pass on which basis we want grouping, the "state" text can be anything, its the output group name. "$location.state" is the value from document which we want grouping and $ is must, it defines it is dynamic field instead of hard code value also it consider it from root level. "totalPersons" is the name of what type of group we want,  for that type visit group on website, here we have taken the sum, its value is multiply value means so we have taken as 1
@@ -710,6 +712,72 @@ db.restaurants.aggregate([{
   }
 ])
 
+// Find the count of restaurants in each borough
+
+db.collection.aggregate([
+  {
+    $group: {
+      _id: "$borough",
+      countScore: {
+        "$count": {}
+      }
+    }
+  }
+])
+
+// or 
+
+db.restaurants.aggregate([{
+  $group: {
+    _id: "$borough",
+    count: {
+      $sum: 1
+    }
+  }
+}])
+
+
+// Find the count of restaurants for each cuisine and borough
+db.restaurants.aggregate([{
+  $group: {
+    _id: {
+      cuisine: "$cuisine",
+      borough: "$borough"
+    },
+    count: {
+      $sum: 1
+    }
+  }
+}])
+
+
+// Find the count of restaurants received grade 'A' for each cuisine
+db.restaurants.aggregate([
+  {
+    $unwind: "$grades"
+  },
+  {
+    $match: {
+      "grades.grade": "A"
+    }
+  },
+  {
+    $group: {
+      _id: "$cuisine",
+      count: {
+        $sum: 1
+      }
+    }
+  }
+])
+
+
+// Find top 3 cuisines by number of restaurants.
+db.restaurants.aggregate([
+  { $group: { _id: "$cuisine", count: { $sum: 1 } } },
+  { $sort: { count: -1 } },
+  { $limit: 3 }
+])
 
 
 ```
