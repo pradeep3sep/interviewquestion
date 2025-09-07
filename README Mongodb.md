@@ -1,14 +1,26 @@
 ### Collection in mongo is same as table in mysql
 
+<br>
+
 > ### Database -> Collection -> Documents
 
 ```
 https://www.mongodb.com/docs/manual/reference/mql/expressions/
 ```
+```
+https://www.mongodb.com/docs/manual/reference/operator/update/
+```
+
+> ### Mongo operators like less then, more then etc - 
+```
+https://www.mongodb.com/docs/manual/reference/operator/query/
+```
 
 <br>
 
-- Rule of thumnb ==> In object, when using the LHS, use path without "$", but on RHS use with "$". 
+### Rule of thumnb
+
+- In object, when using the LHS, use path without "$", but on RHS use with "$". 
 - Function k name k sarh $ use kia jata h
 - Jab object ki value chaiye hoti h to $ use karte h key k sath
 
@@ -66,26 +78,21 @@ db.collection.aggregate([
     )
     ```
 
-
-
 - To update or change the data
-```
-https://www.mongodb.com/docs/manual/reference/operator/update/
-```
 
-1. updateOne(filter, data, options)
-```js
-db.collection_name.updateOne(
-    {
-        name: "rahul"    // This is the filter
-    },
-    {
-        $set: {
-            lastname: 'test'   // This is the data
-        }
-    }
-)
-```
+    1. updateOne(filter, data, options)
+    ```js
+      db.collection_name.updateOne(
+          {
+              name: "rahul"    // This is the filter
+          },
+          {
+              $set: {
+                  lastname: 'test'   // This is the data
+              }
+          }
+      )
+    ```
 
 **Note:**Basically it will go to first row having name rahul and then set the lastname to test, if lastname doesn't exist then it will create the lastname with value test
 
@@ -131,127 +138,25 @@ db.collection_name.updateOne(
 
 - To delete the data from the database
 
-1. deleteOne(filter, options)
-```js
-db.collection_name.deleteOne({
-    name: "rahul"
-})  // It will go to collection take delete only first raw or data which have the name rahul
-```
+    1. deleteOne(filter, options)
+    ```js
+    db.collection_name.deleteOne({
+        name: "rahul"
+    })  // It will go to collection take delete only first raw or data which have the name rahul
+    ```
 
 
-2. deleteMany(filter, options)
-```js
-db.collection_name.deleteMany({})  // It we dont pass any value in it, it will delete all the row of this collection
-db.collection_name.deleteMany({
-    marker: 'toDelete'  // It will delete all the row having marker key and toDelete as value
-})
-```
+    2. deleteMany(filter, options)
+    ```js
+    db.collection_name.deleteMany({})  // It we dont pass any value in it, it will delete all the row of this collection
+    db.collection_name.deleteMany({
+        marker: 'toDelete'  // It will delete all the row having marker key and toDelete as value
+    })
+    ```
 
-> ### MongoDb use BSON ie "Binaray JSON" to storing in the database. This is because it is more efficient to store than JSON data. Efficient in terms of space and size persepective, MongoDB drivers converts the JSON to BSON, Also BSON suppots additional types eg is ObjectId("hiikbs9dshu9uhij"), ObjectId is not supported by JSON but by the BSON.
+<br>
 
-
-- Passenger in MongoDb, It is bascially filtering to be sent object
-- Like we want to sent an objects 6 key value pair only but the object has 10 key value pair instead
-db.collection_name.find({},{ name: 1 , _id: 0})
-- Here we want all the row but but ouput has name only. 1 will act as true means it will provide only name in output
-- Id comes by default, if we dont want id then use it with 0 ie false
-
-> ### Validation Schema
-
-- 'posts' is the collection name
-- in required, we define what it is expecting and in properties, bson type defined what is expecting and description is the error message
-
-```js
-db.createCollection('posts', {
-  validator: {
-    $jsonSchema: {
-      bsonType: 'object',
-      required: ['title', 'text', 'creator', 'comments'],
-      properties: {
-        title: {
-          bsonType: 'string',
-          description: 'must be a string and is required'
-        },
-        text: {
-          bsonType: 'string',
-          description: 'must be a string and is required'
-        },
-        creator: {
-          bsonType: 'objectId',
-          description: 'must be an objectid and is required'
-        },
-        comments: {
-          bsonType: 'array',
-          description: 'must be an array and is required',
-          items: {
-            bsonType: 'object',
-            required: ['text', 'author'],
-            properties: {
-              text: {
-                bsonType: 'string',
-                description: 'must be a string and is required'
-              },
-              author: {
-                bsonType: 'objectId',
-                description: 'must be an objectid and is required'
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-});
-
-// to update the validation
-db.runCommand({collMod: 'schema_validation_name', ...uper wala pura bas updated form me})
-// eg is below
-db.runCommand({
-    collMod: 'posts',
-    validator: {
-      $jsonSchema: {
-        bsonType: 'object',
-        required: ['title', 'text', 'creator', 'comments'],
-        properties: {
-          title: {
-            bsonType: 'string',
-            description: 'must be a string and is required'
-          },
-          text: {
-            bsonType: 'string',
-            description: 'must be a string and is required'
-          },
-          creator: {
-            bsonType: 'objectId',
-            description: 'must be an objectid and is required'
-          },
-          comments: {
-            bsonType: 'array',
-            description: 'must be an array and is required',
-            items: {
-              bsonType: 'object',
-              required: ['text', 'author'],
-              properties: {
-                text: {
-                  bsonType: 'string',
-                  description: 'must be a string and is required'
-                },
-                author: {
-                  bsonType: 'objectId',
-                  description: 'must be an objectid and is required'
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    validationAction: 'warn' // default value is error means if it fails throw the error and not to update the data. If warn means update and send message in log file
-  });
-
-```
-
-> ### Mongo operators like less then, more then etc - https://www.mongodb.com/docs/manual/reference/operator/query/
+> ### MongoDB use BSON ie "Binaray JSON" to storing in the database. This is because it is more efficient to store than JSON data. Efficient in terms of space and size persepective, MongoDB drivers converts the JSON to BSON, Also BSON suppots additional types eg is ObjectId("hiikbs9dshu9uhij"), ObjectId is not supported by JSON but by the BSON.
 
 <br>
 
@@ -259,32 +164,32 @@ db.runCommand({
 
 1. find(filter,options)
 
-```js
-db.collection_name.find()  // This is to get all data of the collection
+    ```js
+      // This is to get all data of the collection
+      db.collection_name.find()  
 
-db.collection_name.find().pretty()   // It gives the same result but in the more structured form
+      // It gives the same result but in the more structured form
+      db.collection_name.find().pretty()   
 
-db.collection_name.find({
-  name: 'max'  // This condition acts as filter, gives the result of all row having the name = 'max'
-})
+      // This condition acts as filter, gives the result of all row having the name = 'max'
+      db.collection_name.find({
+        name: 'max' 
+      })
 
-// we can also find the value in nested object, its like traversing in object
-db.collection_name.find({'status.details.responsible': 'max'})
+      // we can also find the value in nested object, its like traversing in object
+      db.collection_name.find({'status.details.responsible': 'max'})
 
-// We can also provide the condition in the filter, eg is below
-db.collection_name.find({
-    distance: {
-        $gt : 10000   // $gt acts as condition of greater then
-    }
-})
-```
+      // We can also provide the condition in the filter, eg is below
+      db.collection_name.find({
+          distance: {
+            $gt : 10000   // $gt acts as condition of greater then
+          }
+      })
 
-
-```js
-db.collection_name.find({ 'rating.average' : { $gt : 7 } })
-
-db.collection_name.find({ 'rating.average' : { $gt : 7 } }).count()  // It gives the count of data available
-```
+      // It gives the count of data available
+      db.collection_name.find({ 'rating.average' : { $gt : 7 } }).count()
+    ```
+<br>
 
 > ### Projection : One document or row has many data but we want to show only few data then projection comes into play
 
@@ -1288,3 +1193,99 @@ $ sign find in mongodb eg hobbies.$.highfrequency = true
 video -73,128
 
 Q 12, 
+
+
+> ### Validation Schema
+
+- 'posts' is the collection name
+- in required, we define what it is expecting and in properties, bson type defined what is expecting and description is the error message
+
+```js
+db.createCollection('posts', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['title', 'text', 'creator', 'comments'],
+      properties: {
+        title: {
+          bsonType: 'string',
+          description: 'must be a string and is required'
+        },
+        text: {
+          bsonType: 'string',
+          description: 'must be a string and is required'
+        },
+        creator: {
+          bsonType: 'objectId',
+          description: 'must be an objectid and is required'
+        },
+        comments: {
+          bsonType: 'array',
+          description: 'must be an array and is required',
+          items: {
+            bsonType: 'object',
+            required: ['text', 'author'],
+            properties: {
+              text: {
+                bsonType: 'string',
+                description: 'must be a string and is required'
+              },
+              author: {
+                bsonType: 'objectId',
+                description: 'must be an objectid and is required'
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+});
+
+// to update the validation
+db.runCommand({collMod: 'schema_validation_name', ...uper wala pura bas updated form me})
+// eg is below
+db.runCommand({
+    collMod: 'posts',
+    validator: {
+      $jsonSchema: {
+        bsonType: 'object',
+        required: ['title', 'text', 'creator', 'comments'],
+        properties: {
+          title: {
+            bsonType: 'string',
+            description: 'must be a string and is required'
+          },
+          text: {
+            bsonType: 'string',
+            description: 'must be a string and is required'
+          },
+          creator: {
+            bsonType: 'objectId',
+            description: 'must be an objectid and is required'
+          },
+          comments: {
+            bsonType: 'array',
+            description: 'must be an array and is required',
+            items: {
+              bsonType: 'object',
+              required: ['text', 'author'],
+              properties: {
+                text: {
+                  bsonType: 'string',
+                  description: 'must be a string and is required'
+                },
+                author: {
+                  bsonType: 'objectId',
+                  description: 'must be an objectid and is required'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    validationAction: 'warn' // default value is error means if it fails throw the error and not to update the data. If warn means update and send message in log file
+  });
+
+```
