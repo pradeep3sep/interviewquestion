@@ -156,11 +156,12 @@ db.collection.aggregate([
 
 <br>
 
-> ### MongoDB use BSON ie "Binaray JSON" to storing in the database. This is because it is more efficient to store than JSON data. Efficient in terms of space and size persepective, MongoDB drivers converts the JSON to BSON, Also BSON suppots additional types eg is ObjectId("hiikbs9dshu9uhij"), ObjectId is not supported by JSON but by the BSON.
+> ### MongoDB use BSON ie "Binaray JSON" to storing in the database. 
+This is because it is more efficient to store than JSON data. Efficient in terms of space and size persepective, MongoDB drivers converts the JSON to BSON, Also BSON suppots additional types eg is ObjectId("hiikbs9dshu9uhij"), ObjectId is not supported by JSON but by the BSON.
 
 <br>
 
-- To get the data of the collection, we use the 
+> ### To get the data of the collection
 
 1. find(filter,options)
 
@@ -193,50 +194,71 @@ db.collection.aggregate([
 
 > ### Projection : One document or row has many data but we want to show only few data then projection comes into play
 
-```js
-db.collection_name.find({}, {name: 1, generes: 1, runtime: 1})  // It means we want to show only name, generes and runtime, if we want to exclude the id, we have to manually add _id:0
-
-// Slice is used on the array to show how much of array we want to show. below generes have many value in array but it will show first two
-db.collection_name.find({'rating.average': {$gt: 9}}, {generes: {$slice: 2}, name: 1})  // we can provide the array index in slice value
-```
-
-OR Operator - It takes array of conditions
-```js
-db.collection_name.find({$or: [ {'rating.average': { $lt: 5 }}, { 'rating.average': {$gt: 9.3} } ]})
-
-db.collection.find({ $or: [ { "cuisine": "American " }, { "cuisine": "Chinese" } ], "borough": "Bronx" })
-```
-
-```js
-db.collection_name.find({$and: [ {'rating.average': { $lt: 5 }}, { 'generes': 'Drama' } ]})
-
-db.collection_name.find({'rating.average': { $lt: 5 }}, { 'generes': 'Drama' })
-```
+  ```js
+    db.collection_name.find({}, {name: 1, generes: 1, runtime: 1})  
+    // It means we want to show only name, generes and runtime, if we want to exclude the id, we have to manually add _id:0
 
 
+    // Slice is used on the array to show how much of array we want to show. 
+    // below generes have many value in array but it will show first two
+    // we can provide the array index in slice value
+    db.collection_name.find({'rating.average': {$gt: 9}}, {generes: {$slice: 2}, name: 1})  
+  ```
+<br>
+
+> ### OR, AND Operator - It takes array of conditions
+  ```js
+    db.collection_name.find({$or: [ {'rating.average': { $lt: 5 }}, { 'rating.average': {$gt: 9.3} } ]})
+
+    db.collection.find({ $or: [ { "cuisine": "American " }, { "cuisine": "Chinese" } ], "borough": "Bronx" })
+
+    db.collection_name.find({$and: [ {'rating.average': { $lt: 5 }}, { 'generes': 'Drama' } ]})
+  ```
+
+<br>
 
 > ### we can use the expres because in it we can make various type of conditions
-```js
-db.collection_name.find({$expr: { $gte: [ $cond: { if: { $gte: [ '$volume',190 ] }, then: { $subtract: [ '$volume', 10 ] }, else: '$volume' }}, '$target'] }})
-```
+  ```js
+  db.collection_name.find({
+      $expr: {
+          $gte: [$cond: {
+                  if: {
+                      $gte: ['$volume', 190]
+                  },
+                  then: {
+                      $subtract: ['$volume', 10]
+                  },
+                  else: '$volume'
+              }
+          },
+          '$target']
+      }
+  })
+  ```
 
 - To search or find inside the array, then we can use the syntex like for searching in nested object ie using the dot(.)
 - We can search using the length of the array by using the size
+  ```js
+  {
+    "_id": 1,
+    "name": "Alice",
+    "courses": ["Math", "Science", "English"]
+  }
+  {
+    "_id": 2,
+    "name": "Bob",
+    "courses": ["Math"]
+  }
+  {
+    "_id": 3,
+    "name": "Charlie",
+    "courses": ["Math", "Science"]
+  }
 
+  db.students.find({ courses: { $size: 2 } })
+  ```
 
-Q - Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which contain 'Wil' as first three letters for its name.
-```js
-db.collection.find(
-  { name: /^Wil/ },   // regex: name begins with "Wil"
-  { restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0 } // projection
-)
-
-// Other way
-db.collection.find(
-  { name: { $regex: "^Wil" } }, 
-  { restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0 }
-)
-```
+<br>
 
 > ### in vs or operator
 
@@ -261,8 +283,9 @@ db.collection.find({
 })
 ```
 
-Similary we have "$nin" means "not in", Opposite of "$in"
-- This finds restaurants where cuisine is not American or Chinese.
+**Note:** Similary we have "$nin" means "not in", Opposite of "$in"
+
+This finds restaurants where cuisine is not American or Chinese.
 ```js
 db.collection.find({
   cuisine: { $nin: ["Italian", "Mexican"] }
@@ -271,7 +294,7 @@ db.collection.find({
 
 ✅ `$in` is more compact and efficient when checking multiple values of the **same field**.
 
-
+<br>
 
 #### `$or` Operator
 
@@ -297,12 +320,18 @@ Here `$in` would **not work**, since the conditions are on **different fields**.
 * Use **`$in`** → when matching **one field** against multiple values.
 * Use **`$or`** → when matching across **different fields** or combining complex conditions.
 
+<br>
+
+
 > ### exists - field name exists in a document.
 
 ```js
 { field: { $exists: <boolean> } }
 ```
 
+<br>
+
+> ### Below are the some sample question
 
 ```js
 {
@@ -358,6 +387,20 @@ db.collection.find({
     $exists: true
   }
 })
+
+// Q - Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which contain 'Wil' as first three letters for its name.
+
+db.collection.find(
+  { name: /^Wil/ },   // regex: name begins with "Wil"
+  { restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0 } // projection
+)
+
+// Other way
+db.collection.find(
+  { name: { $regex: "^Wil" } }, 
+  { restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0 }
+)
+
 ```
 
 
@@ -369,21 +412,8 @@ db.collection_name.find().sort({'rating.average': 1, 'runtime': 1}).skip(10)  //
 db.collection_name.find().sort({'rating.average': 1, 'runtime': 1}).skip(1020).limit(10)  // limit is the how much you want to show
 ```
 
-> ### Geospatial Data - In MongoDB, you can store geospatial data as GeoJSON objects or as legacy coordinate pairs.
-
-> ### GeoJSON Objects
-- To calculate geometry over an Earth-like sphere, store your location data as GeoJSON objects.
-- If specifying latitude and longitude coordinates, list the longitude first, and then latitude. GeoJSON has type and coordinates as an array
-```js
-db.collection_name.insertOne({name: "test institute", location: {type: "Point", coordinates: [-122.34567, 37.5345678]}})
-```
-
-// We have the near function which provides the nearst saved avilable location from the database
-// when we add the recantagle box or polygon, then the type we use is not 'point', type is 'Polygon". we add 5 values inside the coordinates, first coordinate again added at the end in order to complete the box
-
-
-
-
+<br>
+<br>
 
 // -----------------------------------     AGGregation        ----------------------------------
 
@@ -395,9 +425,10 @@ https://www.mongodb.com/docs/manual/reference/operator/aggregation/
 https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/      These are the operator used in the aggregation pipeline
 ```
 
-1. Aggregation operations process multiple documents and return computed results.
+<br>
 
-2. In aggregation, the sequence matters
+
+1. In aggregation, the sequence matters
 
 ```js
 db.collection_name.aggregate([
@@ -410,8 +441,9 @@ db.collection_name.aggregate([
 ])
 ```
 
+<br>
 
-3. `$project` works same as projection but with much greater power
+2. `$project` works same as projection
   - we can show a new field which was not in the database, by combining the existing data from the database eg is fullName below
   ```js
     db.collection_name.aggregate([
@@ -419,8 +451,9 @@ db.collection_name.aggregate([
     ])
     // _id:0 means we do not want that key in output, we want the gender and fullname
   ```
+<br>
 
-4. `$unwind`
+3. `$unwind`
 - To deflat the array into separate row we use the unwind
 ```js
 db.collection_name.aggregate([
@@ -436,14 +469,16 @@ db.collection_name.aggregate([
 { "_id": 1, "tags": "coffee" }
 ```
 
+<br>
 
-5. `addtoset` - It works same as push aggregation but when we use push it might create the duplicate data in the array, but addtoset create the unique array, if any duplicate value comes it removes it
+4. `addtoset` - It works same as push aggregation but when we use push it might create the duplicate data in the array, but addtoset create the unique array, if any duplicate value comes it removes it
 
 ```js
 db.collection_name.aggregate([
     { $group: {_id: '$name_of_node_of array' }, allHobies: {$addToSet: "$hobbies"}}
 ])
 ```
+<br>
 
 6. `$slice`, it is like splice of JS
 ```js
@@ -451,6 +486,8 @@ db.collection_name.aggregate([
     { $project: { _id: 0, examScore: { $slice: ["$examScore", 1] } } }   // here we are geeting first value from array of examScore
 ])
 ```
+<br>
+
 
 7. `$size`, it gives the count of the array, below give the length of examScore array
 ```js
@@ -458,6 +495,8 @@ db.collection_name.aggregate([
     { $project: { _id: 0, examScore: { $size: "$examScore" } } }
 ])
 ```
+<br>
+
 
 8. `filter in project`, as name says it works same function
 ```js
@@ -466,6 +505,7 @@ db.collection_name.aggregate([
 ])
 // in above, scores is any word we want. filter and input are fixed keyword, input value is the node of the object or row. as is alias. $$ is because we are referring the alias.
 ```
+<br>
 
 9. `$bucket` (aggregation pipelines)
 
@@ -687,45 +727,36 @@ db.restaurants.aggregate([
 
 ```
 
+<br>
+<br>
 
 > ### Indexes in MongoDB
 
 In MongoDB, an index is a `B-tree data structure` that improves the speed of queries by allowing the database to quickly locate and access the documents without scanning every document in a collection (called a `collection scan`, This is slow for large datasets.)
 
-### Trade-offs
+#### Trade-offs
 
 - `Extra disk space`: Indexes take storage
 - `Slower writes`: Insert/Update/Delete operations need to update indexes
 - `Memory considerations`: Too many indexes can impact performance
 
+<br>
 
-### Indexes Behind the Scenes
+#### Indexes Behind the Scenes
+
 What does createIndex() do in detail?
 
-Whilst we can't really see the index, you can think of the index as a simple list of values + pointers to the original document.
+- Whilst we can't really see the index, you can think of the index as a simple list of values + pointers to the original document.
 
-Something like this (for the "age" field):
-
-(29, "address in memory/ collection a1")
-
-(30, "address in memory/ collection a2")
-
-(33, "address in memory/ collection a3")
-
-The documents in the collection would be at the "addresses" a1, a2 and a3. The order does not have to match the order in the index (and most likely, it indeed won't).
-
-The important thing is that the index items are ordered (ascending or descending - depending on how you created the index). createIndex({age: 1}) creates an index with ascending sorting, createIndex({age: -1}) creates one with descending sorting.
-
-MongoDB is now able to quickly find a fitting document when you filter for its age as it has a sorted list. Sorted lists are way quicker to search because you can skip entire ranges (and don't have to look at every single document).
-
-Additionally, sorting (via sort(...)) will also be sped up because you already have a sorted list. Of course this is only true when sorting for the age
+- The important thing is that the `index items are ordered (ascending or descending - depending on how you created the index)`. createIndex({age: 1}) creates an index with ascending sorting, createIndex({age: -1}) creates one with descending sorting.
 
 - One real life example, suppose you done indexing of particular key of large data set, and then you run some query which which return almost all data, then that time if we compare the time period of indexing and without indexing, then indexing query will take much time, eg video - 130
 
+<br>
 
-### compound index
+### Compound Index
 
-A **compound index** in **MongoDB** is an index that includes **multiple fields** in a single index structure.
+A **Compound index** in **MongoDB** is an index that includes **multiple fields** in a single index structure.
 
 This is useful when you frequently query using multiple fields together, because MongoDB can optimize those queries with a single index rather than combining multiple indexes.
 
@@ -743,6 +774,7 @@ This is useful when you frequently query using multiple fields together, because
 // Create a compound index on name (ascending) and age (descending)
 db.users.createIndex({ name: 1, age: -1 });
 ```
+<br>
 
 #### Queries that can use this index:
 
@@ -760,6 +792,8 @@ db.users.find({ name: "Alice" }).sort({ age: -1 });
 db.users.find({ age: 25 }); // Skips first field 'name'
 ```
 
+<br>
+
 ### Index Prefix Rule
 
 * A compound index can be used for queries that match a **leftmost prefix** of the fields.
@@ -770,6 +804,8 @@ db.users.find({ age: 25 }); // Skips first field 'name'
   * Query on `{ b: ... }` ❌ (skips `a`)
   * Query on `{ a: ..., c: ... }` ✅ (partial, still works since `a` is included)
 
+<br>
+<br>
 
 > ### Sort in mongodb
 
@@ -790,6 +826,7 @@ db.users.find().sort({ age: -1 });
 // Sort by multiple fields (age ascending, then name descending)
 db.users.find().sort({ age: 1, name: -1 });
 ```
+<br>
 
 #### How Sorting Works Internally
 
@@ -807,8 +844,9 @@ db.users.find().sort({ age: 1, name: -1 });
    * If the query **sort order matches an index**, MongoDB can just **traverse the index in order**.
    * No in-memory sorting is needed, making it **much faster**.
 
+<br>
 
-## 🔹 Example with Index for Sorting
+#### Example with Index for Sorting
 
 ```js
 // Create index on "age"
@@ -820,10 +858,11 @@ db.users.find().sort({ age: 1 });
 
 👉 If you sort on `{ age: 1 }` after creating this index, MongoDB will use the index and avoid scanning/sorting the whole dataset.
 
+<br>
 
-####  Sorting with Millions of Documents
+###  Sorting with Millions of Documents
 
-### ✅ Best Practices
+#### Best Practices
 
 1. **Always use an index for sorting**
 
@@ -878,7 +917,8 @@ db.users.find().sort({ age: 1 });
 * With **millions of documents**, always create an **index** matching your sort order.
 * Use **limit()** and **range-based pagination** to avoid performance issues.
 
-
+<br>
+<br>
 
 > ### Partial Filter in indexing
 
@@ -913,7 +953,7 @@ This means:
 
 Suppose you have a `users` collection with millions of docs:
 
-```json
+```js
 { name: "Alice", status: "active" }
 { name: "Bob", status: "inactive" }
 { name: "Charlie", status: "active" }
@@ -1288,4 +1328,14 @@ db.runCommand({
     validationAction: 'warn' // default value is error means if it fails throw the error and not to update the data. If warn means update and send message in log file
   });
 
+```
+
+
+> ### Geospatial Data - In MongoDB, you can store geospatial data as GeoJSON objects or as legacy coordinate pairs.
+
+> ### GeoJSON Objects
+- To calculate geometry over an Earth-like sphere, store your location data as GeoJSON objects.
+- If specifying latitude and longitude coordinates, list the longitude first, and then latitude. GeoJSON has type and coordinates as an array
+```js
+db.collection_name.insertOne({name: "test institute", location: {type: "Point", coordinates: [-122.34567, 37.5345678]}})
 ```
