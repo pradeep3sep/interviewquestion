@@ -1,3 +1,8 @@
+> ### What is MongoDB?
+
+MongoDB is a document-oriented NoSQL database used for high volume data storage. Instead of using tables and rows as in the traditional relational databases, MongoDB makes use of collections and documents. Documents consist of key-value pairs which are the basic unit of data in MongoDB. Collections contain sets of documents and function which is the equivalent of relational database tables.
+
+
 ### Collection in mongo is same as table in mysql
 
 <br>
@@ -403,6 +408,27 @@ db.collection.find(
 
 ```
 
+<br>
+
+Q. How to combine data from multiple collections into one collection?
+
+**$lookup:**
+
+Performs a left outer join to an unsharded collection in the same database to filter in documents from the “joined” collection for processing. To each input document, the $lookup stage adds a new array field whose elements are the matching documents from the “joined” collection. The $lookup stage passes these reshaped documents to the next stage.
+
+**Syntax:**
+
+```js
+{
+   $lookup:
+     {
+       from: <collection to join>,
+       localField: <field from the input documents>,
+       foreignField: <field from the documents of the "from" collection>,
+       as: <output array field>
+     }
+}
+```
 
 <br>
 
@@ -538,7 +564,7 @@ It’s similar to building **histograms** in data analysis.
 * A document that falls outside all buckets goes to the **default** bucket (if provided).
 
 
-## 🔹 Example 1: Simple Histogram
+#### Example 1: Simple Histogram
 
 Say we have a `products` collection:
 
@@ -579,8 +605,9 @@ Result:
 ]
 ```
 
+<br>
 
-#### 🔹 Example 2: With Default Bucket
+####  Example 2: With Default Bucket
 
 If a document’s value doesn’t fit any boundary, it goes to `default`:
 
@@ -754,7 +781,25 @@ What does createIndex() do in detail?
 
 <br>
 
-### Compound Index
+### Q. What are the types of Indexes available in MongoDB?
+
+1. Single Field Index
+
+```js
+db.people.createIndex( {age : 1} ) // creates an ascending index
+
+db.people.createIndex( {age : -1} ) // creates a descending index
+```
+
+With this kind of index we can improve all the queries that find documents with a condition and the age field, like the following:
+
+```js
+db.people.find( { age : 20 } )
+db.people.find( { name : "Alex", age : 30 } )
+db.people.find( { age : { $gt : 25} } )
+```
+
+2. Compound Index
 
 A **Compound index** in **MongoDB** is an index that includes **multiple fields** in a single index structure.
 
@@ -773,6 +818,24 @@ This is useful when you frequently query using multiple fields together, because
 ```js
 // Create a compound index on name (ascending) and age (descending)
 db.users.createIndex({ name: 1, age: -1 });
+
+
+// To view all indexes on the people collection
+db.people.getIndexes()
+
+
+// Remove Specific Index
+db.collection.dropIndex()
+
+//eg
+db.accounts.dropIndex( { "tax-id": 1 } )
+// Output
+{ "nIndexesWas" : 3, "ok" : 1 }
+
+
+
+// The following command removes all indexes from the accounts collection
+db.collection.dropIndexes()
 ```
 <br>
 
@@ -794,6 +857,40 @@ db.users.find({ age: 25 }); // Skips first field 'name'
 
 <br>
 
+
+**3. Multikey Index**
+
+This is the index type for arrays. When creating an index on an array, MongoDB will create an index entry for every element.
+
+**Example**
+
+```js
+{
+   "_id": 1,
+   "person": { name: "John", surname: "Brown" },
+   "age": 34,
+   "city": "New York",
+   "hobbies": [ "music", "gardening", "skiing" ]
+ }
+```
+
+The multikey index can be created as:
+
+```js
+db.people.createIndex( { hobbies: 1} )
+```
+
+Queries such as these next examples will use the index:
+
+```js
+db.people.find( { hobbies: "music" } )
+db.people.find( { hobbies: "music", hobbies: "gardening" } )
+```
+
+
+
+<br>
+
 ### Index Prefix Rule
 
 * A compound index can be used for queries that match a **leftmost prefix** of the fields.
@@ -803,6 +900,124 @@ db.users.find({ age: 25 }); // Skips first field 'name'
   * Query on `{ a: ..., b: ... }` ✅
   * Query on `{ b: ... }` ❌ (skips `a`)
   * Query on `{ a: ..., c: ... }` ✅ (partial, still works since `a` is included)
+
+<br>
+
+## Q. ***Explain Index Properties in MongoDB?***
+
+**1. TTL Indexes**
+
+TTL ( **Time To Live** ) s a special index option that automatically deletes documents after a specified time. It’s useful for temporary data like session info, where documents expire and are removed without manual cleanup.
+
+**Example**
+
+```js
+db.sessionlog.createIndex( { "lastUpdateTime": 1 }, { expireAfterSeconds: 1800 } )
+```
+
+In this case, MongoDB will drop the documents from the collection automatically once half an hour (1800 seconds) has passed since the value in **lastUpdateTime** field.
+
+**Restrictions**
+
+* Only single field indexes can have the TTL option
+* the `_id` single field index cannot support the TTL option
+* the indexed field must be a date type
+
+<br>
+
+**2. Partial indexes**
+
+A partial index is an index that contains only a subset of the values based on a filter rule. They are useful in cases where:
+
+* The index size can be reduced
+* We want to index the most relevant and used values in the query conditions
+* We want to index the most selective values of a field
+
+**Example**
+
+```js
+db.people.createIndex(
+   { "city": 1, "person.surname": 1 },
+   { partialFilterExpression: { age : { $lt: 30 } } }
+)
+```
+
+We have created a compound index on city and person.surname but only for the documents with age less than 30.
+In order for the partial index to be used the queries must contain a condition on the age field.
+
+```js
+db.people.find( { city: "New Tork", age: { $eq: 20} } )
+```
+
+<br>
+
+**3. Sparse indexes**
+
+Sparse indexes are a subset of partial indexes. A sparse index only contains elements for the documents that have the indexed field, even if it is null.
+
+Since MongoDB is a schemaless database, the documents in a collection can have different fields, so an indexed field may not be present in some of them.
+
+**Example**
+
+To create such an index use the sparse option:
+
+```js
+db.people.createIndex( { city: 1 }, { sparse: true } )
+```
+
+In this case, we are assuming there could be documents in the collection with the field city missing. Sparse indexes are based on the existence of a field in the documents and are useful to reduce the size of the index.
+
+**4. Unique indexes**
+
+MongoDB can create an index as unique. An index defined this way cannot contain duplicate entries.
+
+**Example**
+
+```js
+db.people.createIndex( { city: 1 }, { unique: true } )
+```
+
+Uniqueness can be defined for compound indexes too.
+
+```js
+db.people.createIndex( { city: 1, person.surname: 1}, { unique: true } )
+```
+
+By default, the index on `_id` is automatically created as unique.
+
+<br>
+
+## Q. ***Can you create an index in an array field in MongoDB?***
+
+Yes, To index a field that holds an array value, MongoDB creates an index key for each element in the array. Multikey indexes can be constructed over arrays that hold both scalar values (e.g. strings, numbers) and nested documents. MongoDB automatically creates a multikey index if any indexed field is an array.
+
+Syntax
+
+```js
+db.collection.createIndex( { <field>: < 1 or -1 > } )
+```
+
+For example, consider an inventory collection that contains the following documents:
+
+```js
+{ _id: 10, type: "food", item: "aaa", ratings: [ 5, 8, 9 ] }
+{ _id: 11, type: "food", item: "bbb", ratings: [ 5, 9 ] }
+{ _id: 12, type: "food", item: "ccc", ratings: [ 9, 5, 8, 4, 7 ] }
+```
+
+The collection has a multikey index on the ratings field:
+
+```js
+db.inventory.createIndex( { ratings: 1 } )
+```
+
+The following query looks for documents where the ratings field is the array [ 5, 9 ]:
+
+```js
+db.inventory.find( { ratings: [ 5, 9 ] } )
+```
+
+MongoDB can use the multikey index to find documents that have 5 at any position in the ratings array. Then, MongoDB retrieves these documents and filters for documents whose ratings array equals the query array [ 5, 9 ].
 
 <br>
 <br>
@@ -1221,7 +1436,7 @@ https://www.mongodb.com/docs/manual/reference/mql/update/
 Uper k sare side menu check karo
 
 1. updateOne, updateMany
-2. $set, $inc (if you use negative value in inc then it works as decrement)
+2. $set, $inc (if you use negative value in inc then it works as decrement), unset
 3. $min, $max, $mul
 4. $unset, $rename, $upsert
 
@@ -1338,4 +1553,195 @@ db.runCommand({
 - If specifying latitude and longitude coordinates, list the longitude first, and then latitude. GeoJSON has type and coordinates as an array
 ```js
 db.collection_name.insertOne({name: "test institute", location: {type: "Point", coordinates: [-122.34567, 37.5345678]}})
+```
+
+
+Q. How to validate data in mongodb?
+
+`db.collection.validate(<documents>)` validates a collection. The method scans a collection data and indexes for correctness and returns the result.
+
+**Syntax:**
+```js
+db.collection.validate( {
+   full: <boolean>,          // Optional
+   repair: <boolean>         // Optional, added in MongoDB 5.0
+} )
+```
+
+**Example:**
+
+```js
+// validate a collection using the default validation setting
+db.myCollection.validate({ })
+
+// perform a full validation of collection
+db.myCollection.validate( { full: true } )
+
+// repair collection
+db.myCollection.validate( { repair: true } )
+```
+
+
+Q. How to join 3 or more collections in MongoDB?
+
+Let's say we have 3 hypothetical collections in MongoDB: customers, orders, and orderItems.
+
+Each customer has multiple orders, and each order has multiple order items.
+
+**Example:**
+
+```js
+// customers
+[
+    {
+        customer_id: 1,
+        name: "Jim Smith",
+        email: "jim.smith@example.com"
+    },
+    {
+        customer_id: 2,
+        name: "Bob Jones",
+        email: "bob.jones@example.com"
+    }
+]
+
+
+// orders
+[
+    {
+        order_id: 1,
+        customer_id: 1
+    },
+    {
+        order_id: 2,
+        customer_id: 1
+    }
+]
+
+
+// orderItems
+[
+    {
+        order_item_id: 1,
+        name: "Foo",
+        price: 4.99,
+        order_id: 1
+    },
+    {
+        order_item_id: 2,
+        name: "Bar",
+        price: 17.99,
+        order_id: 1
+    },
+    {
+        order_item_id: 3,
+        name: "baz",
+        price: 24.99,
+        order_id: 2
+    }
+]
+```
+
+**Desired Result:**
+
+```js
+[
+    {
+        customer_id: 1,
+        name: "Jim Smith",
+        email: "jim.smith@example.com"
+        orders: [
+            {
+                order_id: 1,
+                items: [
+                    {
+                        name: "Foo",
+                        price: 4.99
+                    },
+                    {
+                        name: "Bar",
+                        price: 17.99
+                    }
+                ]
+            },
+            {
+                order_id: 2,
+                items: [
+                    {
+                        name: "baz",
+                        price: 24.99
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        customer_id: 2,
+        name: "Bob Jones",
+        email: "bob.jones@example.com"
+        orders: []
+    }
+]
+```
+
+**Answer**
+
+Do nested lookup using lookup with pipeline,
+
+1. `$lookup` with orders collection.
+2. `let`, define variable customer_id that is from main collection, to access this reference variable inside pipeline using `$$` like `$$customer_id`.
+3. `pipeline` can add pipeline stages same as we do in root level pipeline
+4. `$expr` whenever we match internal fields it requires expression match condition, so `$$customer_id` is parent collection field that declared in let and $customer_id is child collection's/current collection's field
+5. `$lookup` with orderitems collection
+
+```js
+db.customers.aggregate([
+  {
+    $lookup: {
+      from: "orders",
+      let: { customer_id: "$customer_id" },
+      pipeline: [
+        { $match: { $expr: { $eq: ["$$customer_id", "$customer_id"] } } },
+        {
+          $lookup: {
+            from: "orderitems",
+            localField: "order_id",
+            foreignField: "order_id",
+            as: "items"
+          }
+        }
+      ],
+      as: "orders"
+    }
+  }
+])
+```
+
+Q. At what interval does MongoDB write updates to the disk?
+By default configuration, MongoDB writes updates to the disk every 60 seconds. However, this is configurable with the commitIntervalMs and syncPeriodSecs options.
+
+## Q. ***What is use of capped collection in MongoDB?***
+
+**Capped collections** are fixed-size collections that support high-throughput operations that insert and retrieve documents based on insertion order. Capped collections work in a way similar to `circular buffers`: once a collection fills its allocated space, it makes room for new documents by overwriting the oldest documents in the collection.
+
+**Example:-**
+
+```js
+>db.createCollection( "log", { capped: true, size: 100000 } )
+
+
+// specify a maximum number of documents for the collection
+>db.createCollection("log", { capped: true, size: 5242880, max: 5000 } )
+
+
+// check whether a collection is capped or not
+>db.cappedLogCollection.isCapped()
+
+
+// convert existing collection to capped
+>db.runCommand({"convertToCapped": "posts", size: 10000})
+
+
+// Querying Capped Collection
+>db.cappedLogCollection.find().sort({$natural: -1})
 ```
