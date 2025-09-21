@@ -13,13 +13,6 @@
 
 > ### Database -> Collection -> Documents
 
-```
-https://www.mongodb.com/docs/manual/reference/mql/expressions/
-```
-```
-https://www.mongodb.com/docs/manual/reference/operator/update/
-```
-
 <br>
 
 > ### Mongo operators like less then, more then etc - 
@@ -4686,6 +4679,1247 @@ db.products.updateOne(
 `updateOne()` uses the $unset operator to:
 - remove the quantity field
 - remove the instock field
+
+
+
+
+<br>
+
+> ### $abs (expression operator),$ceil (expression operator)
+
+In MongoDB aggregation framework, operators like `$abs` and `$ceil` are **expression operators** that can be used inside aggregation pipeline stages (for example inside a `$project`, `$addFields`, `$group`, etc.).
+
+Here’s how they work:
+
+---
+
+### **1. `$abs` (Absolute Value)**
+
+* Returns the absolute value of a number.
+* Syntax:
+
+```js
+{ $abs: <expression> }
+```
+
+✅ Example:
+
+```js
+db.sales.aggregate([
+  {
+    $project: {
+      item: 1,
+      absAmount: { $abs: "$amount" }
+    }
+  }
+])
+```
+
+If `amount` is `-50`, then `absAmount` will be `50`.
+
+---
+
+### **2. `$ceil` (Ceiling)**
+
+* Rounds a number **up** to the nearest integer.
+* Syntax:
+
+```js
+{ $ceil: <expression> }
+```
+
+✅ Example:
+
+```js
+db.sales.aggregate([
+  {
+    $project: {
+      item: 1,
+      roundedPrice: { $ceil: "$price" }
+    }
+  }
+])
+```
+
+If `price` is `12.3`, then `roundedPrice` will be `13`.
+
+---
+
+### Example Using Both Together
+
+```js
+db.orders.aggregate([
+  {
+    $project: {
+      orderId: 1,
+      totalAmount: 1,
+      absValue: { $abs: "$totalAmount" },
+      ceilValue: { $ceil: "$totalAmount" }
+    }
+  }
+])
+```
+
+<br>
+
+> ### $concat (expression operator)
+
+Got it 👍
+
+In MongoDB, **`$concat`** is a **string expression operator** used in the aggregation pipeline to **concatenate (join) strings together**.
+
+---
+
+### **Syntax**
+
+```js
+{ $concat: [ <expression1>, <expression2>, ... ] }
+```
+
+* Each expression must resolve to a **string**.
+* If any expression is **null**, the result is **null**.
+* If you need to handle non-string values, use `$toString` before concatenation.
+
+---
+
+### **Example 1 – Simple Concatenation**
+
+```js
+db.users.aggregate([
+  {
+    $project: {
+      fullName: { $concat: ["$firstName", " ", "$lastName"] }
+    }
+  }
+])
+```
+
+If a document is:
+
+```json
+{ "firstName": "John", "lastName": "Doe" }
+```
+
+The result will be:
+
+```json
+{ "fullName": "John Doe" }
+```
+
+---
+
+### **Example 2 – Add Prefix/Suffix**
+
+```js
+db.products.aggregate([
+  {
+    $project: {
+      displayName: { $concat: ["Product: ", "$name", " (", "$category", ")"] }
+    }
+  }
+])
+```
+
+For:
+
+```json
+{ "name": "Laptop", "category": "Electronics" }
+```
+
+Result:
+
+```json
+{ "displayName": "Product: Laptop (Electronics)" }
+```
+
+---
+
+### **Example 3 – Convert Non-String Values**
+
+If `userId` is a number:
+
+```js
+db.users.aggregate([
+  {
+    $project: {
+      userLabel: { $concat: ["User-", { $toString: "$userId" }] }
+    }
+  }
+])
+```
+
+---
+
+⚡ **Related string operators:**
+
+* `$substr` / `$substrBytes` / `$substrCP` → extract substring.
+* `$toLower` / `$toUpper` → change case.
+* `$split` → split string into array.
+* `$concatArrays` → similar to `$concat` but for arrays.
+
+<br>
+
+> ### $concatArrays (expression operator)
+
+Perfect 👍 let’s go over **`$concatArrays`** in MongoDB.
+
+---
+
+### **What it Does**
+
+`$concatArrays` is an **array expression operator** in the aggregation pipeline.
+It **concatenates (merges)** multiple arrays into a single array.
+
+---
+
+### **Syntax**
+
+```js
+{ $concatArrays: [ <array1>, <array2>, ... ] }
+```
+
+* If any argument resolves to `null` or is missing → result is `null`.
+* All arguments must resolve to arrays.
+
+---
+
+### **Example 1 – Concatenate Two Arrays**
+
+```js
+db.inventory.aggregate([
+  {
+    $project: {
+      allTags: { $concatArrays: ["$tags", "$extraTags"] }
+    }
+  }
+])
+```
+
+If a document is:
+
+```json
+{ "tags": ["red", "blue"], "extraTags": ["green", "yellow"] }
+```
+
+Result:
+
+```json
+{ "allTags": ["red", "blue", "green", "yellow"] }
+```
+
+---
+
+### **Example 2 – Concatenate with a Literal Array**
+
+```js
+db.students.aggregate([
+  {
+    $project: {
+      updatedMarks: { $concatArrays: ["$marks", [100]] }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "marks": [85, 90, 95] }
+```
+
+Result:
+
+```json
+{ "updatedMarks": [85, 90, 95, 100] }
+```
+
+---
+
+### **Example 3 – Nested Arrays**
+
+```js
+db.data.aggregate([
+  {
+    $project: {
+      merged: { $concatArrays: [["$a", "$b"], "$arr"] }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "a": 1, "b": 2, "arr": [3, 4] }
+```
+
+Result:
+
+```json
+{ "merged": [ [1, 2], 3, 4 ] }
+```
+
+---
+
+⚡ **Related array operators:**
+
+* `$arrayElemAt` → Get element at specific index.
+* `$size` → Get array length.
+* `$slice` → Extract subset of array.
+* `$filter` → Filter array by condition.
+* `$reduce` → Combine array elements into single value.
+
+---
+
+Do you want me to also make a **side-by-side comparison of `$concat` vs `$concatArrays`** so you can quickly see when to use which?
+
+
+<br>
+
+> ### $cond (expression operator)
+
+Great question 👌
+
+In MongoDB aggregation, **`$cond`** is a **ternary conditional operator** – it works like an **if–then–else** statement inside your pipeline.
+
+---
+
+## **Syntax**
+
+MongoDB supports two forms:
+
+### **1. Ternary Form**
+
+```js
+{ $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case> } }
+```
+
+### **2. Array Form**
+
+```js
+{ $cond: [ <boolean-expression>, <true-case>, <false-case> ] }
+```
+
+---
+
+## **Examples**
+
+### **Example 1 – Mark Passed/Failed (Object Form)**
+
+```js
+db.students.aggregate([
+  {
+    $project: {
+      name: 1,
+      result: {
+        $cond: { if: { $gte: ["$marks", 40] }, then: "Pass", else: "Fail" }
+      }
+    }
+  }
+])
+```
+
+If a student has `marks: 35`, result will be `"Fail"`.
+
+---
+
+### **Example 2 – Discount Calculation (Array Form)**
+
+```js
+db.orders.aggregate([
+  {
+    $project: {
+      price: 1,
+      finalPrice: {
+        $cond: [
+          { $gte: ["$price", 1000] },   // condition
+          { $multiply: ["$price", 0.9] }, // then → 10% discount
+          "$price"                        // else → no discount
+        ]
+      }
+    }
+  }
+])
+```
+
+If `price = 1200`, then `finalPrice = 1080`.
+If `price = 800`, then `finalPrice = 800`.
+
+---
+
+### **Example 3 – Nested `$cond`**
+
+```js
+db.scores.aggregate([
+  {
+    $project: {
+      grade: {
+        $cond: [
+          { $gte: ["$marks", 90] }, "A",
+          {
+            $cond: [
+              { $gte: ["$marks", 75] }, "B", "C"
+            ]
+          }
+        ]
+      }
+    }
+  }
+])
+```
+
+* `marks ≥ 90 → "A"`
+* `marks ≥ 75 → "B"`
+* else → `"C"`
+
+---
+
+⚡ **Tips**
+
+* `$cond` is often used with comparison operators (`$eq`, `$gte`, `$lt`, etc.).
+* It’s functionally similar to JavaScript’s **ternary operator** (`condition ? trueCase : falseCase`).
+* For multiple conditions, MongoDB also provides `$switch` (cleaner than nested `$cond`).
+
+---
+
+👉 Do you want me to also explain **when to prefer `$switch` over `$cond`** with an example?
+
+
+<br>
+
+> ### $dateDiff (aggregation operator)
+
+Nice one 👍
+
+In MongoDB, **`$dateDiff`** is an **aggregation operator** that calculates the difference between two dates, expressed in the unit you specify (days, months, years, etc.).
+
+---
+
+## **Syntax**
+
+```js
+{
+  $dateDiff: {
+    startDate: <expression>,   // required
+    endDate: <expression>,     // required
+    unit: "<unit>",            // required (year, quarter, month, week, day, hour, minute, second, millisecond)
+    timezone: <string>,        // optional
+    startOfWeek: <string>      // optional, used only if unit = "week"
+  }
+}
+```
+
+---
+
+## **Examples**
+
+### **Example 1 – Difference in Days**
+
+```js
+db.events.aggregate([
+  {
+    $project: {
+      daysBetween: {
+        $dateDiff: {
+          startDate: "$startDate",
+          endDate: "$endDate",
+          unit: "day"
+        }
+      }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "startDate": ISODate("2025-01-01"), "endDate": ISODate("2025-01-10") }
+```
+
+Result:
+
+```json
+{ "daysBetween": 9 }
+```
+
+---
+
+### **Example 2 – Difference in Months**
+
+```js
+db.members.aggregate([
+  {
+    $project: {
+      monthsActive: {
+        $dateDiff: {
+          startDate: "$joinDate",
+          endDate: "$lastLogin",
+          unit: "month"
+        }
+      }
+    }
+  }
+])
+```
+
+---
+
+### **Example 3 – Difference in Weeks (Custom Start of Week)**
+
+```js
+db.logs.aggregate([
+  {
+    $project: {
+      weeks: {
+        $dateDiff: {
+          startDate: "$createdAt",
+          endDate: "$closedAt",
+          unit: "week",
+          startOfWeek: "monday"
+        }
+      }
+    }
+  }
+])
+```
+
+---
+
+### **Example 4 – With Timezone**
+
+```js
+db.sessions.aggregate([
+  {
+    $project: {
+      hours: {
+        $dateDiff: {
+          startDate: "$loginAt",
+          endDate: "$logoutAt",
+          unit: "hour",
+          timezone: "Asia/Kolkata"
+        }
+      }
+    }
+  }
+])
+```
+
+---
+
+⚡ **Notes**
+
+* Units you can use: `"year"`, `"quarter"`, `"month"`, `"week"`, `"day"`, `"hour"`, `"minute"`, `"second"`, `"millisecond"`.
+* Negative values are possible if `endDate < startDate`.
+* Super useful for **age calculations, subscription durations, or session times**.
+
+---
+
+👉 Do you want me to also show you how to **calculate age using `$dateDiff`** (with today’s date as `endDate`)?
+
+
+<br>
+
+> ### $divide (expression operator)
+
+Good one 👍
+
+In MongoDB, **`$divide`** is a **arithmetic expression operator** that divides one number by another inside the aggregation pipeline.
+
+---
+
+## **Syntax**
+
+```js
+{ $divide: [ <expression1>, <expression2> ] }
+```
+
+* `expression1` → numerator
+* `expression2` → denominator
+
+⚠️ If the denominator (`expression2`) is **0**, MongoDB throws a **divide by zero error**.
+
+---
+
+## **Examples**
+
+### **Example 1 – Simple Division**
+
+```js
+db.sales.aggregate([
+  {
+    $project: {
+      total: 1,
+      half: { $divide: ["$total", 2] }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "total": 100 }
+```
+
+Result:
+
+```json
+{ "total": 100, "half": 50 }
+```
+
+---
+
+### **Example 2 – Calculate Price per Item**
+
+```js
+db.orders.aggregate([
+  {
+    $project: {
+      orderId: 1,
+      pricePerItem: { $divide: ["$totalPrice", "$quantity"] }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "orderId": 1, "totalPrice": 500, "quantity": 5 }
+```
+
+Result:
+
+```json
+{ "orderId": 1, "pricePerItem": 100 }
+```
+
+---
+
+### **Example 3 – Convert Bytes to KB**
+
+```js
+db.files.aggregate([
+  {
+    $project: {
+      sizeKB: { $divide: ["$sizeBytes", 1024] }
+    }
+  }
+])
+```
+
+---
+
+### **Example 4 – Safe Division (Avoid Divide by Zero)**
+
+You can combine `$divide` with `$cond`:
+
+```js
+db.orders.aggregate([
+  {
+    $project: {
+      avgPrice: {
+        $cond: {
+          if: { $eq: ["$quantity", 0] },
+          then: null,
+          else: { $divide: ["$totalPrice", "$quantity"] }
+        }
+      }
+    }
+  }
+])
+```
+
+---
+
+⚡ **Related arithmetic operators:**
+
+* `$add` → Add numbers.
+* `$subtract` → Subtract numbers.
+* `$multiply` → Multiply numbers.
+* `$mod` → Remainder after division.
+
+---
+
+👉 Do you want me to also create a **table of all MongoDB arithmetic operators (`$add`, `$subtract`, `$multiply`, `$divide`, `$mod`)** with examples side by side?
+
+
+<br>
+
+> ### $filter (aggregation operator)
+
+Perfect 👍 this one is **super useful** when working with arrays.
+
+In MongoDB aggregation, **`$filter`** is an **array operator** that lets you filter the contents of an array based on a condition.
+
+---
+
+## **Syntax**
+
+```js
+{
+  $filter: {
+    input: <array-expression>,   // the array you want to filter
+    as: <string>,                // variable name for each element in the array
+    cond: <expression>           // condition to apply (true → keep element)
+  }
+}
+```
+
+* `input` → The array field or expression that resolves to an array.
+* `as` → A variable name you give to each array element (default is `"this"`).
+* `cond` → The condition that decides whether the element stays.
+
+---
+
+## **Examples**
+
+### **Example 1 – Keep Only Values > 50**
+
+```js
+db.scores.aggregate([
+  {
+    $project: {
+      highScores: {
+        $filter: {
+          input: "$scores",
+          as: "score",
+          cond: { $gt: ["$$score", 50] }
+        }
+      }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "scores": [30, 60, 75, 40] }
+```
+
+Result:
+
+```json
+{ "highScores": [60, 75] }
+```
+
+---
+
+### **Example 2 – Filter Array of Objects**
+
+```js
+db.students.aggregate([
+  {
+    $project: {
+      passedSubjects: {
+        $filter: {
+          input: "$subjects",
+          as: "subj",
+          cond: { $gte: ["$$subj.marks", 40] }
+        }
+      }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{
+  "subjects": [
+    { "name": "Math", "marks": 35 },
+    { "name": "English", "marks": 60 }
+  ]
+}
+```
+
+Result:
+
+```json
+{
+  "passedSubjects": [
+    { "name": "English", "marks": 60 }
+  ]
+}
+```
+
+---
+
+### **Example 3 – Default `as: "this"`**
+
+If you don’t specify `as`, MongoDB uses `"this"`:
+
+```js
+{
+  $filter: {
+    input: "$scores",
+    cond: { $gt: ["$$this", 50] }
+  }
+}
+```
+
+---
+
+⚡ **Notes**
+
+* `$filter` is evaluated per element, so it works like `.filter()` in JavaScript.
+* Works great with `$map`, `$reduce`, `$size`, and `$arrayElemAt`.
+* If `input` is `null` or not an array → result is `null`.
+
+---
+
+👉 Want me to also show you a **comparison between `$filter` and `$map`** so you see the difference (filtering vs transforming arrays)?
+
+<br>
+
+> ### $map (aggregation)
+
+Nice 👍
+
+In MongoDB aggregation, **`$map`** is an **array operator** that transforms each element of an array and returns a new array with the transformed values.
+It’s very similar to **JavaScript’s `.map()`**.
+
+---
+
+## **Syntax**
+
+```js
+{
+  $map: {
+    input: <array-expression>,   // the array you want to iterate
+    as: <string>,                // variable name for each element
+    in: <expression>             // expression to apply to each element
+  }
+}
+```
+
+* `input` → The array field or expression that resolves to an array.
+* `as` → Optional. Variable name for each element (defaults to `"this"`).
+* `in` → Expression applied to each element.
+
+---
+
+## **Examples**
+
+### **Example 1 – Square Each Number**
+
+```js
+db.numbers.aggregate([
+  {
+    $project: {
+      squared: {
+        $map: {
+          input: "$values",
+          as: "val",
+          in: { $multiply: ["$$val", "$$val"] }
+        }
+      }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "values": [2, 3, 4] }
+```
+
+Result:
+
+```json
+{ "squared": [4, 9, 16] }
+```
+
+---
+
+### **Example 2 – Extract Field from Array of Objects**
+
+```js
+db.students.aggregate([
+  {
+    $project: {
+      subjectNames: {
+        $map: {
+          input: "$subjects",
+          as: "s",
+          in: "$$s.name"
+        }
+      }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{
+  "subjects": [
+    { "name": "Math", "marks": 90 },
+    { "name": "English", "marks": 85 }
+  ]
+}
+```
+
+Result:
+
+```json
+{ "subjectNames": ["Math", "English"] }
+```
+
+---
+
+### **Example 3 – Default `as: "this"`**
+
+```js
+{
+  $map: {
+    input: "$values",
+    in: { $add: ["$$this", 10] }
+  }
+}
+```
+
+If `values = [1, 2, 3]` → result = `[11, 12, 13]`.
+
+---
+
+⚡ **Key Difference from `$filter`:**
+
+* `$filter` → removes elements based on a condition.
+* `$map` → transforms every element into something else.
+* You can combine them (`$map` after `$filter`) for more complex operations.
+
+---
+
+👉 Do you want me to also show you a **real-world example combining `$map` + `$filter`** (like extracting only passed subject names from a student’s record)?
+
+
+<br>
+
+> ### $reduce (aggregation)
+
+Great pick 👍
+
+In MongoDB aggregation, **`$reduce`** is an **array operator** that lets you combine (reduce) an array into a single value by iteratively applying an expression.
+It’s similar to **JavaScript’s `.reduce()`**.
+
+---
+
+## **Syntax**
+
+```js
+{
+  $reduce: {
+    input: <array-expression>,      // the array to iterate over
+    initialValue: <expression>,     // starting value
+    in: <expression>                // expression applied to each element
+  }
+}
+```
+
+* `input` → Array to process.
+* `initialValue` → The starting value for the reduction.
+* `in` → Expression that defines how to update the accumulator.
+
+  * Uses two special variables:
+
+    * `$$value` → current accumulated value.
+    * `$$this` → current element of the array.
+
+---
+
+## **Examples**
+
+### **Example 1 – Sum All Numbers**
+
+```js
+db.numbers.aggregate([
+  {
+    $project: {
+      total: {
+        $reduce: {
+          input: "$values",
+          initialValue: 0,
+          in: { $add: ["$$value", "$$this"] }
+        }
+      }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "values": [2, 3, 4] }
+```
+
+Result:
+
+```json
+{ "total": 9 }
+```
+
+---
+
+### **Example 2 – Concatenate Strings**
+
+```js
+db.users.aggregate([
+  {
+    $project: {
+      fullName: {
+        $reduce: {
+          input: "$nameParts",
+          initialValue: "",
+          in: {
+            $concat: [
+              "$$value",
+              { $cond: [{ $eq: ["$$value", ""] }, "", " "] },
+              "$$this"
+            ]
+          }
+        }
+      }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "nameParts": ["John", "Doe"] }
+```
+
+Result:
+
+```json
+{ "fullName": "John Doe" }
+```
+
+---
+
+### **Example 3 – Merge Array of Arrays**
+
+```js
+db.docs.aggregate([
+  {
+    $project: {
+      merged: {
+        $reduce: {
+          input: "$arrays",
+          initialValue: [],
+          in: { $concatArrays: ["$$value", "$$this"] }
+        }
+      }
+    }
+  }
+])
+```
+
+If:
+
+```json
+{ "arrays": [[1, 2], [3, 4], [5]] }
+```
+
+Result:
+
+```json
+{ "merged": [1, 2, 3, 4, 5] }
+```
+
+---
+
+⚡ **When to use `$reduce`?**
+
+* When you need to turn an array into a **single number, string, or merged array**.
+* More powerful than `$map` or `$filter` because it can **accumulate** across elements.
+
+---
+
+👉 Do you want me to also show a **real-world use case** like *building a comma-separated string of subject names* from an array of objects using `$reduce`?
+
+<br>
+
+> ### $slice (aggregation)
+
+In MongoDB, the `$slice` operator can be used in **two different contexts**:
+
+---
+
+### 🔹 1. **Projection Operator** (to limit array elements in a result)
+
+You use `$slice` in a **projection** to return **a subset of array elements** from a document.
+
+#### ✅ Syntax:
+
+```js
+db.collection.find(
+  { /* query */ },
+  { arrayField: { $slice: <number> } }
+)
+```
+
+#### ✅ Examples:
+
+* **Get the first 5 elements of an array field:**
+
+  ```js
+  db.posts.find({}, { comments: { $slice: 5 } })
+  ```
+* **Get 5 elements starting from the 10th (i.e., skip 10, then take 5):**
+
+  ```js
+  db.posts.find({}, { comments: { $slice: [10, 5] } })
+  ```
+
+---
+
+### 🔹 2. **Aggregation Pipeline Operator** (inside `$project`, `$addFields`, etc.)
+
+You can also use `$slice` as an **aggregation operator** within a stage like `$project`.
+
+#### ✅ Syntax:
+
+```js
+{
+  $slice: [ <array>, <n> ]  // first n elements
+}
+
+{
+  $slice: [ <array>, <start>, <n> ]  // from start index, take n elements
+}
+```
+
+#### ✅ Example:
+
+```js
+db.posts.aggregate([
+  {
+    $project: {
+      first3Comments: { $slice: ["$comments", 3] }
+    }
+  }
+])
+```
+
+```js
+db.posts.aggregate([
+  {
+    $project: {
+      someComments: { $slice: ["$comments", 2, 4] }  // skip 2, take 4
+    }
+  }
+])
+```
+
+---
+
+### ✅ Summary:
+
+| Context         | Use `$slice` to...                                   |
+| --------------- | ---------------------------------------------------- |
+| **Projection**  | Limit array elements in returned documents           |
+| **Aggregation** | Extract specific portion of an array during pipeline |
+
+Let me know if you'd like a working example or sample data!
+
+<br>
+
+> ### $split (aggregation)
+
+In MongoDB, the `$split` **aggregation operator** is used to **split a string into an array of substrings** based on a delimiter.
+
+---
+
+### 🔹 Syntax
+
+```js
+{ $split: [ <string>, <delimiter> ] }
+```
+
+* `<string>`: The input string to split.
+* `<delimiter>`: The string delimiter to split by.
+
+---
+
+### 🔹 Example Use Case
+
+Imagine a document like:
+
+```js
+{
+  _id: 1,
+  tags: "red,blue,green"
+}
+```
+
+You want to split the `tags` string into an array like `["red", "blue", "green"]`.
+
+#### ✅ Aggregation Example:
+
+```js
+db.collection.aggregate([
+  {
+    $project: {
+      tagArray: { $split: ["$tags", ","] }
+    }
+  }
+])
+```
+
+---
+
+### 🔹 Example with Full Pipeline
+
+Given this document:
+
+```js
+{
+  _id: 1,
+  fullName: "John Doe"
+}
+```
+
+You can split the name into first and last name:
+
+```js
+db.collection.aggregate([
+  {
+    $project: {
+      nameParts: { $split: ["$fullName", " "] }
+    }
+  }
+])
+```
+
+**Output:**
+
+```js
+{
+  _id: 1,
+  nameParts: ["John", "Doe"]
+}
+```
+
+---
+
+### ⚠️ Notes
+
+* If the delimiter is not found in the string, `$split` returns an array with the original string as the only element.
+* If the string or delimiter is `null`, the result is `null`.
+
+---
+
+Let me know if you'd like examples using nested fields, `$map`, or `$arrayElemAt` with `$split`.
+
 
 
 
