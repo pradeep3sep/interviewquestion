@@ -15,14 +15,12 @@
 
 <br>
 
-> ### Mongo operators like less then, more then etc - 
-```
-https://www.mongodb.com/docs/manual/reference/operator/query/
-```
+> ### MongoDB use BSON ie "Binaray JSON" to storing in the database. 
+This is because it is more efficient to store than JSON data. Efficient in terms of space and size persepective, MongoDB drivers converts the JSON to BSON, Also BSON suppots additional types eg is ObjectId("hiikbs9dshu9uhij"), ObjectId is not supported by JSON but by the BSON.
 
 <br>
 
-### Rule of thumnb
+> ### Rule of thumnb
 
 - In object, when using the LHS, use path without "$", but on RHS use with "$". 
 - Function k name k sarh $ use kia jata h
@@ -44,6 +42,8 @@ db.collection.aggregate([
 
 >### Below are commands for shell
 
+<details>
+
 - If we use the blank object in filter condition means we want all the data. It is like * of mysql
 - A row or the documents has the max size of 16mb
 - To get all the database
@@ -62,10 +62,16 @@ db.collection.aggregate([
     // For the collection
     db.myCollection.drop()
     ```
+</details>
 
-- Keep in mind, we have the insert, insertOne, insertMany, but `insert method should be avoided`, altough it works but general pratice is to avoid it.
+<br>
 
-- To add many values, we have the insertMany(data,options)
+> ### Insert value in the data
+
+**Note:-** Keep in mind, we have the **insert, insertOne, insertMany**, but `insert method should be avoided`, altough it works but general pratice is to avoid it.
+
+#### To add many values, we have the insertMany(data,options)
+
     ```js
     db.collection_name.insertMany(
         [
@@ -77,14 +83,17 @@ db.collection.aggregate([
             }
         ],
         {
-            ordered: false  // It means the data which fails will be skipped and rest will be added to db. Default value is true means if it fails at certain index then it will not continue the next data 
+            ordered: false  
+          // It means the data which fails will be skipped and rest will be added to db. 
+          //Default value is true means if it fails at certain index then it will not continue the next data 
         }
     )
     ```
+<br>
 
-- To update or change the data
+> ### To update or change the data
 
-    1. updateOne(filter, data, options)
+  1. updateOne(filter, data, options)`
     ```js
       db.collection_name.updateOne(
           {
@@ -112,17 +121,19 @@ db.collection.aggregate([
         }
     )
 
+
     // To delete the key or node in the data of the row or the document, we can use the unset function
-    db.collection_name.updateMany({isSporty: true}, {$unset: {phone: ''}})  // here we want to delete the phone node when row has the isSporty value to be true
+    db.collection_name.updateMany({isSporty: true}, {$unset: {phone: ''}})
+
 
     // To rename the node or key name
-    db.collection_name.updateMany({}, {$rename: {age: 'totalAge'}})  // Basically here we want all row to have age renamed as totalAge
+    db.collection_name.updateMany({}, {$rename: {age: 'totalAge'}})
 
-    // Upsert : where we don't know if the data was saved to database yet and if it was't saved yet,you know want to create a new document , if it was, you want to override the existing or update the existing document
+
+    // Upsert : where we don't know if the data was saved to database yet and 
+    // - if it was't saved yet,you know want to create a new document
+    // - if it was, you want to override the existing or update the existing document
     // it is quite much good if we want to update with check condition
-
-
-    // Key point: while searching in the array, elemmatch is the good one to go with
     ```
 
 
@@ -140,9 +151,11 @@ db.collection.aggregate([
     // It replaces whole row of id = icsihdhndsc with new data we passed in
     ```
 
-- To delete the data from the database
+<br>
 
-    1. deleteOne(filter, options)
+> ### To delete the data from the database
+
+  1. deleteOne(filter, options)
     ```js
     db.collection_name.deleteOne({
         name: "rahul"
@@ -150,7 +163,7 @@ db.collection.aggregate([
     ```
 
 
-    2. deleteMany(filter, options)
+  2. deleteMany(filter, options)
     ```js
     db.collection_name.deleteMany({})  // It we dont pass any value in it, it will delete all the row of this collection
     db.collection_name.deleteMany({
@@ -160,29 +173,28 @@ db.collection.aggregate([
 
 <br>
 
-> ### MongoDB use BSON ie "Binaray JSON" to storing in the database. 
-This is because it is more efficient to store than JSON data. Efficient in terms of space and size persepective, MongoDB drivers converts the JSON to BSON, Also BSON suppots additional types eg is ObjectId("hiikbs9dshu9uhij"), ObjectId is not supported by JSON but by the BSON.
-
-<br>
-
 > ### To get the data of the collection
 
-1. find(filter,options)
+1. **find(filter,options)**
 
     ```js
       // This is to get all data of the collection
       db.collection_name.find()  
 
+
       // It gives the same result but in the more structured form
       db.collection_name.find().pretty()   
+
 
       // This condition acts as filter, gives the result of all row having the name = 'max'
       db.collection_name.find({
         name: 'max' 
       })
 
+
       // we can also find the value in nested object, its like traversing in object
       db.collection_name.find({'status.details.responsible': 'max'})
+
 
       // We can also provide the condition in the filter, eg is below
       db.collection_name.find({
@@ -191,12 +203,13 @@ This is because it is more efficient to store than JSON data. Efficient in terms
           }
       })
 
+
       // It gives the count of data available
       db.collection_name.find({ 'rating.average' : { $gt : 7 } }).count()
     ```
 <br>
 
-> ### Projection : One document or row has many data but we want to show only few data then projection comes into play
+> ### `Projection` : One document or row has many data but we want to show only few data
 
   ```js
     db.collection_name.find({}, {name: 1, generes: 1, runtime: 1})  
@@ -221,7 +234,7 @@ This is because it is more efficient to store than JSON data. Efficient in terms
 
 <br>
 
-> ### we can use the expres because in it we can make various type of conditions
+> ### We can use the expres because in it we can make various type of conditions
   ```js
   db.collection_name.find({
       $expr: {
@@ -240,36 +253,35 @@ This is because it is more efficient to store than JSON data. Efficient in terms
   })
   ```
 
-- To search or find inside the array, then we can use the syntex like for searching in nested object ie using the dot(.)
-- We can search using the length of the array by using the size
-  ```js
-  {
-    "_id": 1,
-    "name": "Alice",
-    "courses": ["Math", "Science", "English"]
-  }
-  {
-    "_id": 2,
-    "name": "Bob",
-    "courses": ["Math"]
-  }
-  {
-    "_id": 3,
-    "name": "Charlie",
-    "courses": ["Math", "Science"]
-  }
+> ### We can search using the length of the array by using the size
 
-  db.students.find({ courses: { $size: 2 } })
+  ```js
+    {
+      "_id": 1,
+      "name": "Alice",
+      "courses": ["Math", "Science", "English"]
+    }
+    {
+      "_id": 2,
+      "name": "Bob",
+      "courses": ["Math"]
+    }
+    {
+      "_id": 3,
+      "name": "Charlie",
+      "courses": ["Math", "Science"]
+    }
+
+    db.students.find({ courses: { $size: 2 } })
   ```
 
 <br>
 
-> ### in vs or operator
+> ### `in` vs `or` operator
 
-#### `$in` Operator
+#### `$in` and `$nin` Operator
 
 * Used to match a **single field** against **multiple possible values**.
-* Equivalent to SQL’s `IN`.
 
 **Example**: Find restaurants whose cuisine is either *Italian* or *Mexican*:
 
@@ -296,14 +308,11 @@ db.collection.find({
 })
 ```
 
-✅ `$in` is more compact and efficient when checking multiple values of the **same field**.
-
 <br>
 
 #### `$or` Operator
 
 * Used to combine **different conditions** across one or multiple fields.
-* Each clause in `$or` is an independent query.
 
 **Example**: Find restaurants that are either in the *Bronx* OR serve *Italian* cuisine:
 
@@ -319,19 +328,10 @@ db.collection.find({
 Here `$in` would **not work**, since the conditions are on **different fields**.
 
 
-#### Rule of Thumb
+### Rule of Thumb
 
 * Use **`$in`** → when matching **one field** against multiple values.
 * Use **`$or`** → when matching across **different fields** or combining complex conditions.
-
-<br>
-
-
-> ### exists - field name exists in a document.
-
-```js
-{ field: { $exists: <boolean> } }
-```
 
 <br>
 
@@ -358,7 +358,8 @@ Here `$in` would **not work**, since the conditions are on **different fields**.
   "restaurant_id": "30075445"
 }
 
-// Q - Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which achieved a score which is not more than 10.
+// Q - Write a MongoDB query to find the restaurant Id, name, borough and
+// cuisine for those restaurants which achieved a score which is not more than 10.
 db.collection.find({
   "grades.score": {
     "$lte": 10
@@ -372,7 +373,9 @@ db.collection.find({
 })
 
 
-// Q -  Write a MongoDB query to find the restaurant Id, name, address and geographical location for those restaurants where 2nd element of coord array contains a value which is more than 42 and upto 52.
+
+// Q -  Write a MongoDB query to find the restaurant Id, name, address and geographical location for those 
+// restaurants where 2nd element of coord array contains a value which is more than 42 and upto 52.
 db.restaurants.find({
     "address.coord.1": {
         $gt: 42,
@@ -385,6 +388,8 @@ db.restaurants.find({
     "coord": 1
 });
 
+
+
 // Q - Write a MongoDB query to Get all data which contains the street.
 db.collection.find({
   "address.street": {
@@ -392,7 +397,10 @@ db.collection.find({
   }
 })
 
-// Q - Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants which contain 'Wil' as first three letters for its name.
+
+
+// Q - Write a MongoDB query to find the restaurant Id, name, borough and cuisine for those restaurants
+// which contain 'Wil' as first three letters for its name.
 
 db.collection.find(
   { name: /^Wil/ },   // regex: name begins with "Wil"
@@ -409,46 +417,7 @@ db.collection.find(
 
 <br>
 
-Q. How to combine data from multiple collections into one collection?
-
-**$lookup:**
-
-Performs a left outer join to an unsharded collection in the same database to filter in documents from the “joined” collection for processing. To each input document, the $lookup stage adds a new array field whose elements are the matching documents from the “joined” collection. The $lookup stage passes these reshaped documents to the next stage.
-
-**Syntax:**
-
-```js
-{
-   $lookup:
-     {
-       from: <collection to join>,
-       localField: <field from the input documents>,
-       foreignField: <field from the documents of the "from" collection>,
-       as: <output array field>
-     }
-}
-```
-
-<br>
-
-> ### Pagination can be done by using the skip syntex
-```js
-db.collection_name.find().sort({'rating.average': 1, 'runtime': 1}).skip(10)  // it can go on like 10,20,30,...
-db.collection_name.find().sort({'rating.average': 1, 'runtime': 1}).skip(1020).limit(10)  // limit is the how much you want to show
-```
-
-<br>
-<br>
-
 // -----------------------------------     AGGregation        ----------------------------------
-
-```
-https://www.mongodb.com/docs/manual/aggregation/
-
-https://www.mongodb.com/docs/manual/reference/operator/aggregation/
-
-https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/      These are the operator used in the aggregation pipeline
-```
 
 <br>
 
@@ -457,16 +426,26 @@ https://www.mongodb.com/docs/manual/reference/operator/aggregation-pipeline/    
 
 ```js
 db.collection_name.aggregate([
-    { $match: { gender: 'female' } },   // match acts as find, same find query will work in match, we filtered through the gender having female
+  { $match: { gender: 'female' } }, // Filter documents where gender is 'female'
 
-    { $group: { _id: { state: '$location.state' }, totalPersons: { $sum: 1 } } },  
-    // as name states group do same, in _id we pass on which basis we want grouping, the "state" text can be anything, its the output group name. "$location.state" is the value from document which we want grouping and $ is must, it defines it is dynamic field instead of hard code value also it consider it from root level. "totalPersons" is the name of what type of group we want,  for that type visit group on website, here we have taken the sum, its value is multiply value means so we have taken as 1
+  { 
+    $group: { 
+      _id: '$location.state',        // Group by state from location
+      totalPersons: { $sum: 1 }      // Count number of persons in each group
+    } 
+  },
 
-    { $sort: { totalPersons: -1 } }  // totalPersons is the value on which we want sorting, -1 means decending and 1 means ascending
+  { $sort: { totalPersons: -1 } }   // Sort by totalPersons in descending order
 ])
 ```
 
+* **`$match`**: Filters documents (like `find`) – here, only females.
+* **`$group`**: Groups by `location.state`. The `_id` holds the grouping key. `$sum: 1` counts documents per group.
+* **`$sort`**: Sorts groups by count (`totalPersons`), descending (`-1`).
+
+
 <br>
+
 
 2. `$project` works same as projection
   - we can show a new field which was not in the database, by combining the existing data from the database eg is fullName below
@@ -476,6 +455,7 @@ db.collection_name.aggregate([
     ])
     // _id:0 means we do not want that key in output, we want the gender and fullname
   ```
+
 <br>
 
 3. `$unwind`
@@ -4015,6 +3995,8 @@ db.users.aggregate([
 <br>
 
 > ### $lookup (aggregation)
+
+Q. How to combine data from multiple collections into one collection?
 
 In **MongoDB**,
 `$lookup` is an **aggregation pipeline stage** used to **perform a left outer join** between two collections. It allows you to **combine documents from a "foreign" collection** into the current collection based on a matching field.
