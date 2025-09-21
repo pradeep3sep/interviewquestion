@@ -156,19 +156,21 @@ db.collection.aggregate([
 > ### To delete the data from the database
 
   1. deleteOne(filter, options)
+
     ```js
-    db.collection_name.deleteOne({
-        name: "rahul"
-    })  // It will go to collection take delete only first raw or data which have the name rahul
+      db.collection_name.deleteOne({
+          name: "rahul"
+      })  // It will go to collection take delete only first raw or data which have the name rahul
     ```
 
 
   2. deleteMany(filter, options)
+  
     ```js
-    db.collection_name.deleteMany({})  // It we dont pass any value in it, it will delete all the row of this collection
-    db.collection_name.deleteMany({
-        marker: 'toDelete'  // It will delete all the row having marker key and toDelete as value
-    })
+      db.collection_name.deleteMany({})  // It we dont pass any value in it, it will delete all the row of this collection
+      db.collection_name.deleteMany({
+          marker: 'toDelete'  // It will delete all the row having marker key and toDelete as value
+      })
     ```
 
 <br>
@@ -450,9 +452,19 @@ db.collection_name.aggregate([
 2. `$project` works same as projection
   - we can show a new field which was not in the database, by combining the existing data from the database eg is fullName below
   ```js
-    db.collection_name.aggregate([
-        { $project: { _id: 0, gender: 1, fullName: { $concat: [ {$toUpper: '$name.first'} ,'',{$toUpper: '$name.last'}] } } }  
-    ])
+    db.collection_name.aggregate([{
+        $project: {
+            _id: 0,
+            gender: 1,
+            fullName: {
+                $concat: [{
+                    $toUpper: '$name.first'
+                }, '', {
+                    $toUpper: '$name.last'
+                }]
+            }
+        }
+    }])
     // _id:0 means we do not want that key in output, we want the gender and fullname
   ```
 
