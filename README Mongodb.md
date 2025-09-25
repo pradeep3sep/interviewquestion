@@ -534,26 +534,39 @@ db.restaurants.aggregate([
 <br>
 <br>
 
-> ### `$project` works same as projection(using 1 and 0)
+> ### $project
 
-we can show a new field which was not in the database, by combining the existing data from the database eg is fullName below
+used to **include, exclude, or reshape fields** in the documents that pass through the pipeline. It is also commonly used to **create new computed fields**.
 
 ```js
-db.collection_name.aggregate([{
+{
   $project: {
-    _id: 0,
-    gender: 1,
-    fullName: {
-      $concat: [{
-        $toUpper: '$name.first'
-      }, '', {
-        $toUpper: '$name.last'
-      }]
+    <field1>: <include/exclude/computed>,
+    <field2>: <include/exclude/computed>,
+    ...
+  }
+}
+```
+
+* `<field>` → the field to include, exclude, or compute.
+* Use `1` to **include**, `0` to **exclude**.
+* Computed fields can be created using expressions like `$add`, `$concat`, `$multiply`, etc.
+
+### Example 1 – Create computed field
+
+```js
+db.users.aggregate([
+  {
+    $project: {
+      name: 1,
+      age: 1,
+      _id:0,
+      ageNextYear: { $add: ["$age", 1] }
     }
   }
-}])
-// _id:0 means we do not want that key in output, we want the gender and fullname
+])
 ```
+<br>
 
 <br>
 
@@ -2227,15 +2240,16 @@ db.users.find().sort({ age: 1 }).skip(10).limit(5)
 
 used to **promote a specified embedded document to the top-level document**, essentially replacing the current document with a sub-document.
 
-### Syntax:
+#### Syntax:
 
 ```js
 {
   $replaceRoot: { newRoot: <document> }
 }
 ```
+<br>
 
-### Example 1 – Promote an embedded document
+#### Example 1 – Promote an embedded document
 
 Suppose the `orders` collection has documents like:
 
@@ -2275,40 +2289,6 @@ https://www.mongodb.com/docs/manual/reference/operator/aggregation/replaceRoot/
 
 <br>
 
-> ### $project (aggregation)
-
-used to **include, exclude, or reshape fields** in the documents that pass through the pipeline. It is also commonly used to **create new computed fields**.
-
-```js
-{
-  $project: {
-    <field1>: <include/exclude/computed>,
-    <field2>: <include/exclude/computed>,
-    ...
-  }
-}
-```
-
-* `<field>` → the field to include, exclude, or compute.
-* Use `1` to **include**, `0` to **exclude**.
-* Computed fields can be created using expressions like `$add`, `$concat`, `$multiply`, etc.
-
-### Example 1 – Create computed field
-
-```js
-db.users.aggregate([
-  {
-    $project: {
-      name: 1,
-      age: 1,
-      _id:0,
-      ageNextYear: { $add: ["$age", 1] }
-    }
-  }
-])
-```
-<br>
-
 > ### $out (aggregation)
 
 https://www.mongodb.com/docs/manual/reference/operator/aggregation/out/
@@ -2331,7 +2311,7 @@ used to **filter documents** based on specified conditions. It works similarly t
 }
 ```
 
-### Example 1 – Filter users older than 25
+#### Example 1 – Filter users older than 25
 
 ```js
 db.users.aggregate([
@@ -2344,7 +2324,7 @@ db.users.aggregate([
 
 Q. How to combine data from multiple collections into one collection?
 
-used to **perform a left outer join** between two collections. It allows you to **combine documents from a "foreign" collection** into the current collection based on a matching field.
+Used to **perform a left outer join** between two collections. It allows you to **combine documents from a "foreign" collection** into the current collection based on a matching field.
 
 ```js
 {
@@ -2362,8 +2342,9 @@ used to **perform a left outer join** between two collections. It allows you to 
 * `foreignField` → field from the foreign collection.
 * `as` → the name of the array field that will contain matched documents.
 
+<br>
 
-### Example 1 – Simple `$lookup`
+#### Example 1 – Simple `$lookup`
 
 Collections:
 
@@ -2428,7 +2409,9 @@ used to **group documents by a specific key (or keys) and apply accumulator expr
 }
 ```
 
-## 📌 Example 1 – Group by a field and count
+<br>
+
+#### Example 1 – Group by a field and count
 
 Suppose we have `orders`:
 
@@ -2459,16 +2442,6 @@ Output:
 { "_id": "B2", "totalAmount": 75,  "orderCount": 1 }
 ```
 
-
-⚡ **Key Accumulators you can use inside `$group`:**
-
-* `$sum` → total sum
-* `$avg` → average
-* `$min` / `$max` → min & max values
-* `$push` → put all values into an array
-* `$addToSet` → unique values into an array
-* `$first` / `$last` → first/last value (depends on sort order)
-
 <br>
 
 > ### $facet (expression operator)
@@ -2488,8 +2461,9 @@ It lets you run **multiple pipelines in parallel** on the same set of input docu
 * Each key inside `$facet` is the **name of the field** in the output document.
 * Each value is an **array of pipeline stages** that process the input documents.
 
+<br>
 
-### Example 1 – Multi-faceted search
+#### Example 1 – Multi-faceted search
 
 Suppose we have `products`:
 
@@ -2552,8 +2526,9 @@ Output:
 ```json
 { "totalUsers": 125 }
 ```
+<br>
 
-### Example 2 – Equivalent using `$group`
+#### Example 2 – Equivalent using `$group`
 
 ```js
 db.orders.aggregate([
@@ -2581,7 +2556,7 @@ Output:
 
 used to **add new fields** to documents, or to **overwrite existing fields** with new computed values.It’s basically the same as `$set`.
 
-### Example 1 – Add multiple fields
+#### Example 1 – Add multiple fields
 
 ```js
 db.students.aggregate([
@@ -2600,7 +2575,7 @@ db.students.aggregate([
 
 > ### $abs (expression operator),$ceil (expression operator)
 
-### 1. `$abs` (Absolute Value - return data will be positive)
+#### 1. `$abs` (Absolute Value - return data will be positive)
 
 ```js
 db.sales.aggregate([
@@ -2615,8 +2590,9 @@ db.sales.aggregate([
 
 If `amount` is `-50`, then `absAmount` will be `50`.
 
+<br>
 
-### **2. `$ceil` (Rounds a number **up** to the nearest integer)**
+#### 2. `$ceil` (Rounds a number **up** to the nearest integer)
 
 ```js
 db.sales.aggregate([
@@ -2630,6 +2606,7 @@ db.sales.aggregate([
 ```
 
 If `price` is `12.3`, then `roundedPrice` will be `13`.
+
 <br>
 
 > ### $concat (expression operator)
@@ -2638,6 +2615,7 @@ Used to **concatenate (join) strings together**.
 
 * If you need to handle non-string values, use `$toString` before concatenation.
 
+<br>
 
 ```js
 db.users.aggregate([
@@ -2661,7 +2639,9 @@ The result will be:
 { "fullName": "John Doe" }
 ```
 
-### **Example 2 – Convert Non-String Values**
+<br>
+
+#### **Example 2 – Convert Non-String Values**
 
 If `userId` is a number:
 
@@ -2675,14 +2655,6 @@ db.users.aggregate([
 ])
 ```
 
-
-⚡ **Related string operators:**
-
-* `$substr` / `$substrBytes` / `$substrCP` → extract substring.
-* `$toLower` / `$toUpper` → change case.
-* `$split` → split string into array.
-* `$concatArrays` → similar to `$concat` but for arrays.
-
 <br>
 
 > ### $concatArrays (expression operator)
@@ -2690,7 +2662,9 @@ db.users.aggregate([
 * It **concatenates (merges)** multiple arrays into a single array.
 * If any argument resolves to `null` or is missing → result is `null`.
 
-### **Example 1 – Concatenate Two Arrays**
+<br>
+
+#### **Example 1 – Concatenate Two Arrays**
 
 ```js
 db.inventory.aggregate([
@@ -2714,14 +2688,6 @@ Result:
 { "allTags": ["red", "blue", "green", "yellow"] }
 ```
 
-⚡ **Related array operators:**
-
-* `$arrayElemAt` → Get element at specific index.
-* `$size` → Get array length.
-* `$slice` → Extract subset of array.
-* `$filter` → Filter array by condition.
-* `$reduce` → Combine array elements into single value.
-
 <br>
 
 > ### $cond (expression operator)
@@ -2730,19 +2696,20 @@ Result:
 
 MongoDB supports two forms:
 
-### **1. Ternary Form**
+#### 1. Ternary Form
 
 ```js
 { $cond: { if: <boolean-expression>, then: <true-case>, else: <false-case> } }
 ```
 
-### **2. Array Form**
+#### 2. Array Form
 
 ```js
 { $cond: [ <boolean-expression>, <true-case>, <false-case> ] }
 ```
+<br>
 
-### **Example 1 – Mark Passed/Failed (Object Form)**
+#### Example 1 – Mark Passed/Failed (Object Form)
 
 ```js
 db.students.aggregate([
@@ -2759,7 +2726,9 @@ db.students.aggregate([
 
 If a student has `marks: 35`, result will be `"Fail"`.
 
-### **Example 2 – Discount Calculation (Array Form)**
+<br>
+
+#### Example 2 – Discount Calculation (Array Form)
 
 ```js
 db.orders.aggregate([
@@ -2798,8 +2767,9 @@ calculates the difference between two dates, expressed in the unit you specify (
   }
 }
 ```
+<br>
 
-### **Example 1 – Difference in Days**
+#### Example 1 – Difference in Days
 
 ```js
 db.events.aggregate([
@@ -2819,7 +2789,7 @@ db.events.aggregate([
 
 If:
 
-```json
+```js
 { "startDate": ISODate("2025-01-01"), "endDate": ISODate("2025-01-10") }
 ```
 
@@ -2839,7 +2809,9 @@ Result:
 
 ⚠️ If the denominator (`expression2`) is **0**, MongoDB throws a **divide by zero error**.
 
-### **Example 1 – Calculate Price per Item**
+<br>
+
+#### Example – Calculate Price per Item
 
 ```js
 db.orders.aggregate([
@@ -2864,33 +2836,6 @@ Result:
 { "orderId": 1, "pricePerItem": 100 }
 ```
 
-### **Example 4 – Safe Division (Avoid Divide by Zero)**
-
-You can combine `$divide` with `$cond`:
-
-```js
-db.orders.aggregate([
-  {
-    $project: {
-      avgPrice: {
-        $cond: {
-          if: { $eq: ["$quantity", 0] },
-          then: null,
-          else: { $divide: ["$totalPrice", "$quantity"] }
-        }
-      }
-    }
-  }
-])
-```
-
-⚡ **Related arithmetic operators:**
-
-* `$add` → Add numbers.
-* `$subtract` → Subtract numbers.
-* `$multiply` → Multiply numbers.
-* `$mod` → Remainder after division.
-
 <br>
 
 > ### $filter (aggregation operator)
@@ -2906,8 +2851,9 @@ It lets you filter the contents of an array based on a condition.
   }
 }
 ```
+<br>
 
-### **Example 1 – Keep Only Values > 50**
+#### Example 1 – Keep Only Values > 50
 
 ```js
 db.scores.aggregate([
@@ -2936,8 +2882,9 @@ Result:
 ```json
 { "highScores": [60, 75] }
 ```
+<br>
 
-### **Example 2 – Filter Array of Objects**
+#### Example 2 – Filter Array of Objects
 
 ```js
 db.students.aggregate([
@@ -2976,30 +2923,11 @@ Result:
 }
 ```
 
-### **Example 3 – Default `as: "this"`**
-
-If you don’t specify `as`, MongoDB uses `"this"`:
-
-```js
-{
-  $filter: {
-    input: "$scores",
-    cond: { $gt: ["$$this", 50] }
-  }
-}
-```
-
-⚡ **Notes**
-
-* `$filter` is evaluated per element, so it works like `.filter()` in JavaScript.
-* Works great with `$map`, `$reduce`, `$size`, and `$arrayElemAt`.
-* If `input` is `null` or not an array → result is `null`.
-
 <br>
 
 > ### $map (aggregation)
 
-transforms each element of an array and returns a new array with the transformed values.It’s very similar to **JavaScript’s `.map()`**.
+Transforms each element of an array and returns a new array with the transformed values.It’s very similar to **JavaScript’s `.map()`**.
 
 ```js
 {
@@ -3010,8 +2938,9 @@ transforms each element of an array and returns a new array with the transformed
   }
 }
 ```
+<br>
 
-### **Example 1 – Square Each Number**
+#### Example 1 – Square Each Number
 
 ```js
 db.numbers.aggregate([
@@ -3040,8 +2969,9 @@ Result:
 ```json
 { "squared": [4, 9, 16] }
 ```
+<br>
 
-### **Example 2 – Extract Field from Array of Objects**
+#### Example 2 – Extract Field from Array of Objects
 
 ```js
 db.students.aggregate([
@@ -3076,19 +3006,7 @@ Result:
 { "subjectNames": ["Math", "English"] }
 ```
 
-
-### **Example 3 – Default `as: "this"`**
-
-```js
-{
-  $map: {
-    input: "$values",
-    in: { $add: ["$$this", 10] }
-  }
-}
-```
-
-If `values = [1, 2, 3]` → result = `[11, 12, 13]`.
+<br>
 
 ⚡ **Key Difference from `$filter`:**
 
@@ -3117,7 +3035,9 @@ It lets you combine (reduce) an array into a single value by iteratively applyin
   * `$$value` → current accumulated value.
   * `$$this` → current element of the array.
 
-### **Example 1 – Sum All Numbers**
+<br>
+
+#### Example 1 – Sum All Numbers
 
 ```js
 db.numbers.aggregate([
@@ -3146,8 +3066,9 @@ Result:
 ```json
 { "total": 9 }
 ```
+<br>
 
-### **Example 2 – Concatenate Strings**
+#### Example 2 – Concatenate Strings
 
 ```js
 db.users.aggregate([
@@ -3187,12 +3108,13 @@ Result:
 
 > ### $slice (aggregation)
 
-### 1. **Projection Operator** (to limit array elements in a result)
+#### 1. **Projection Operator** (to limit array elements in a result)
 
 You use `$slice` in a **projection** to return **a subset of array elements** from a document.
 
+<br>
 
-### Examples:
+#### Examples:
 
 * **Get the first 5 elements of an array field:**
 
@@ -3205,8 +3127,9 @@ You use `$slice` in a **projection** to return **a subset of array elements** fr
   db.posts.find({}, { comments: { $slice: [10, 5] } })
   ```
 
+<br>
 
-### 2. **Aggregation Pipeline Operator** (inside `$project`, `$addFields`, etc.)
+#### 2. **Aggregation Pipeline Operator** (inside `$project`, `$addFields`, etc.)
 
 You can also use `$slice` as an **aggregation operator** within a stage like `$project`.
 
@@ -3219,6 +3142,7 @@ You can also use `$slice` as an **aggregation operator** within a stage like `$p
   $slice: [ <array>, <start>, <n> ]  // from start index, take n elements
 }
 ```
+<br>
 
 #### Example:
 
@@ -3250,12 +3174,7 @@ db.posts.aggregate([
 { $split: [ <string>, <delimiter> ] }
 ```
 
-* `<string>`: The input string to split.
-* `<delimiter>`: The string delimiter to split by.
-
-### Example Use Case
-
-Imagine a document like:
+#### Example Use Case
 
 ```js
 {
@@ -3266,8 +3185,6 @@ Imagine a document like:
 
 You want to split the `tags` string into an array like `["red", "blue", "green"]`.
 
-#### Aggregation Example:
-
 ```js
 db.collection.aggregate([
   {
@@ -3277,8 +3194,9 @@ db.collection.aggregate([
   }
 ])
 ```
+<br>
 
-### ⚠️ Notes
+#### ⚠️ Notes
 
 * If the delimiter is not found in the string, `$split` returns an array with the original string as the only element.
 * If the string or delimiter is `null`, the result is `null`.
