@@ -66,51 +66,78 @@ db.collection.aggregate([
 
 <br>
 
-> ### Insert value in the data
+> ### In aggregation, the sequence matters
+
+```js
+db.collection_name.aggregate([
+  { $match: { gender: 'female' } }, // Filter documents where gender is 'female'
+
+  { 
+    $group: { 
+      _id: '$location.state',        // Group by state from location
+      totalPersons: { $sum: 1 }      // Count number of persons in each group
+    } 
+  },
+
+  { $sort: { totalPersons: -1 } }   // Sort by totalPersons in descending order
+])
+```
+
+* **`$match`**: Filters documents (like `find`) – here, only females.
+* **`$group`**: Groups by `location.state`. The `_id` holds the grouping key. `$sum: 1` counts documents per group.
+* **`$sort`**: Sorts groups by count (`totalPersons`), descending (`-1`).
+
+
+<br>
+
+> ### Insert value in Collection
 
 **Note:-** Keep in mind, we have the **insert, insertOne, insertMany**, but `insert method should be avoided`, altough it works but general pratice is to avoid it.
 
 #### To add many values, we have the insertMany(data,options)
 
-    ```js
-    db.collection_name.insertMany(
-        [
-            {
-                name: 'ram'
-            },
-            {
-                name: 'shyam'
-            }
-        ],
+```js
+db.collection_name.insertMany(
+    [
         {
-            ordered: false  
-          // It means the data which fails will be skipped and rest will be added to db. 
-          //Default value is true means if it fails at certain index then it will not continue the next data 
+            name: 'ram'
+        },
+        {
+            name: 'shyam'
         }
-    )
-    ```
+    ],
+    {
+        ordered: false  
+      // It means the data which fails will be skipped and rest will be added to db. 
+      //Default value is true means if it fails at certain index then it will not continue the next data 
+    }
+)
+```
 <br>
 
-> ### To update or change the data
+> ### To update or change the data in document
 
-  1. updateOne(filter, data, options)`
+1. **updateOne(filter, data, options)`**
+
     ```js
-      db.collection_name.updateOne(
-          {
-              name: "rahul"    // This is the filter
-          },
-          {
-              $set: {
-                  lastname: 'test'   // This is the data
-              }
-          }
-      )
+    db.collection_name.updateOne(
+        {
+            name: "rahul"    // This is the filter
+        },
+        {
+            $set: {
+                lastname: 'test'   // This is the data
+            }
+        }
+    )
     ```
 
 **Note:**Basically it will go to first row having name rahul and then set the lastname to test, if lastname doesn't exist then it will create the lastname with value test
 
+<br>
 
-2. updateMany(filter, data, options).
+2. **updateMany(filter, data, options).**
+
     ```js
     db.collection_name.updateMany(
         {}, // Here we have kept blank because we want this change in every row
@@ -130,14 +157,17 @@ db.collection.aggregate([
     db.collection_name.updateMany({}, {$rename: {age: 'totalAge'}})
 
 
-    // Upsert : where we don't know if the data was saved to database yet and 
-    // - if it was't saved yet,you know want to create a new document
-    // - if it was, you want to override the existing or update the existing document
-    // it is quite much good if we want to update with check condition
     ```
 
+**Upsert** : where we don't know if the data was saved to database yet and 
+- if it was't saved yet,you know want to create a `new document`
+- if it was, you want to `override the existing or update the existing document`
+it is quite much good if we want to update with check condition
 
-3. replaceOne(filter, data, options) - It replaces the whole data to the new data we passed
+<br>
+
+
+3. **replaceOne(filter, data, options) - It replaces the whole data to the new data we passed**
     ```js
     db.collection_name.replaceOne({
         {
@@ -215,7 +245,8 @@ db.collection.aggregate([
 
   ```js
     db.collection_name.find({}, {name: 1, generes: 1, runtime: 1})  
-    // It means we want to show only name, generes and runtime, if we want to exclude the id, we have to manually add _id:0
+    // It means we want to show only name, generes and runtime, if we want to exclude the id,
+    // we have to manually add _id:0
 
 
     // Slice is used on the array to show how much of array we want to show. 
@@ -256,39 +287,9 @@ db.collection.aggregate([
   ```
 <br>
 
-> ### We can search using the length of the array by using the size
-
-  ```js
-    {
-      "_id": 1,
-      "name": "Alice",
-      "courses": ["Math", "Science", "English"]
-    }
-    {
-      "_id": 2,
-      "name": "Bob",
-      "courses": ["Math"]
-    }
-    {
-      "_id": 3,
-      "name": "Charlie",
-      "courses": ["Math", "Science"]
-    }
-
-    db.students.find({ courses: { $size: 2 } })
-  ```
-
-<br>
-
 > ### `in` vs `or` operator
 
-#### `$in` and `$nin` Operator
-
-* Used to match a **single field** against **multiple possible values**.
-
-```json
-{ field: { $in: [value1, value2, ...] } }
-```
+#### Query Operator
 
 **Example**: Find restaurants whose cuisine is either *Italian* or *Mexican*:
 
@@ -296,17 +297,16 @@ db.collection.aggregate([
 db.collection.find({
   cuisine: { $in: ["Italian", "Mexican"] }
 })
-```
 
-This is shorthand for:
 
-```js
+// shorthand
 db.collection.find({
   $or: [{ cuisine: "Italian" }, { cuisine: "Mexican" }]
 })
 ```
+<br>
 
-**Note:** Similary we have "$nin" means "not in", Opposite of "$in"
+**Note:** Similary we have `$nin` means `not in`, Opposite of `$in`
 
 This finds restaurants where cuisine is not American or Chinese.
 ```js
@@ -314,6 +314,8 @@ db.collection.find({
   cuisine: { $nin: ["Italian", "Mexican"] }
 })
 ```
+
+<br>
 
 ### Aggregation Expression Usage:
 
@@ -336,10 +338,9 @@ db.users.aggregate([
 **Note:-** `nin` aloso gives boolean in the aggregation expression
 
 <br>
+<br>
 
 #### `$or` Operator
-
-* Used to combine **different conditions** across one or multiple fields.
 
 **Example**: Find restaurants that are either in the *Bronx* OR serve *Italian* cuisine:
 
@@ -352,8 +353,9 @@ db.collection.find({
 })
 ```
 
-Here `$in` would **not work**, since the conditions are on **different fields**.
+**Note:-**Here `$in` would **not work**, since the conditions are on **different fields**.
 
+<br>
 
 ### Rule of Thumb
 
@@ -384,6 +386,9 @@ Here `$in` would **not work**, since the conditions are on **different fields**.
   "name": "Morris Park Bake Shop",
   "restaurant_id": "30075445"
 }
+
+
+
 
 // Q - Write a MongoDB query to find the restaurant Id, name, borough and
 // cuisine for those restaurants which achieved a score which is not more than 10.
@@ -439,27 +444,6 @@ db.collection.find(
   { name: { $regex: "^Wil" } }, 
   { restaurant_id: 1, name: 1, borough: 1, cuisine: 1, _id: 0 }
 )
-
-
-{
-  "address": {
-     "building": "1007",
-     "coord": [ -73.856077, 40.848447 ],
-     "street": "Morris Park Ave",
-     "zipcode": "10462"
-  },
-  "borough": "Bronx",
-  "cuisine": "Bakery",
-  "grades": [
-     { "date": { "$date": 1393804800000 }, "grade": "A", "score": 2 },
-     { "date": { "$date": 1378857600000 }, "grade": "A", "score": 6 },
-     { "date": { "$date": 1358985600000 }, "grade": "A", "score": 10 },
-     { "date": { "$date": 1322006400000 }, "grade": "A", "score": 9 },
-     { "date": { "$date": 1299715200000 }, "grade": "B", "score": 14 }
-  ],
-  "name": "Morris Park Bake Shop",
-  "restaurant_id": "30075445"
-}
 
 
 // Find the average score for each restaurant
@@ -548,55 +532,28 @@ db.restaurants.aggregate([
 ```
 
 <br>
-
-// -----------------------------------     AGGregation        ----------------------------------
-
 <br>
 
+> ### `$project` works same as projection(using 1 and 0)
 
-> ### In aggregation, the sequence matters
+we can show a new field which was not in the database, by combining the existing data from the database eg is fullName below
 
 ```js
-db.collection_name.aggregate([
-  { $match: { gender: 'female' } }, // Filter documents where gender is 'female'
-
-  { 
-    $group: { 
-      _id: '$location.state',        // Group by state from location
-      totalPersons: { $sum: 1 }      // Count number of persons in each group
-    } 
-  },
-
-  { $sort: { totalPersons: -1 } }   // Sort by totalPersons in descending order
-])
+db.collection_name.aggregate([{
+  $project: {
+    _id: 0,
+    gender: 1,
+    fullName: {
+      $concat: [{
+        $toUpper: '$name.first'
+      }, '', {
+        $toUpper: '$name.last'
+      }]
+    }
+  }
+}])
+// _id:0 means we do not want that key in output, we want the gender and fullname
 ```
-
-* **`$match`**: Filters documents (like `find`) – here, only females.
-* **`$group`**: Groups by `location.state`. The `_id` holds the grouping key. `$sum: 1` counts documents per group.
-* **`$sort`**: Sorts groups by count (`totalPersons`), descending (`-1`).
-
-
-<br>
-
-
-> ### `$project` works same as projection
-  - we can show a new field which was not in the database, by combining the existing data from the database eg is fullName below
-  ```js
-    db.collection_name.aggregate([{
-        $project: {
-            _id: 0,
-            gender: 1,
-            fullName: {
-                $concat: [{
-                    $toUpper: '$name.first'
-                }, '', {
-                    $toUpper: '$name.last'
-                }]
-            }
-        }
-    }])
-    // _id:0 means we do not want that key in output, we want the gender and fullname
-  ```
 
 <br>
 
@@ -615,6 +572,8 @@ db.collection_name.aggregate([
 * `path` (required) → the array field to unwind (must start with `$`).
 * `includeArrayIndex` (optional) → adds a field with the **index of the element** in the array.
 * `preserveNullAndEmptyArrays` (optional, default `false`) → keeps documents where the array is empty or missing.
+
+<br>
 
 Suppose we have a collection `orders`:
 
@@ -641,8 +600,9 @@ Result:
 { "_id": 1, "customer": "Alice", "items": "banana" }
 { "_id": 1, "customer": "Alice", "items": "orange" }
 ```
+<br>
 
-### Example 2 – Include array index
+#### Example 2 – Include index of array as key in object
 
 ```js
 db.orders.aggregate([
@@ -657,8 +617,9 @@ Result:
 { "_id": 1, "customer": "Alice", "items": "banana", "itemIndex": 1 }
 { "_id": 1, "customer": "Alice", "items": "orange", "itemIndex": 2 }
 ```
+<br>
 
-### Example 3 – Preserve documents with empty arrays
+#### Example 3 – Preserve documents with empty arrays
 
 ```js
 db.orders.aggregate([
@@ -670,7 +631,7 @@ db.orders.aggregate([
 
 <br>
 
-> ### `addtoset` - 
+> ### `addtoset`
 
 It works same as push aggregation but when we use push it might create the duplicate data in the array, but addtoset create the unique array, if any duplicate value comes it removes it
 
@@ -685,7 +646,8 @@ db.collection_name.aggregate([
 
 ```js
 db.collection_name.aggregate([
-    { $project: { _id: 0, examScore: { $slice: ["$examScore", 1] } } }   // here we are geeting first value from array of examScore
+    { $project: { _id: 0, examScore: { $slice: ["$examScore", 1] } } }   
+    // here we are geeting first value from array of examScore
 ])
 ```
 
@@ -693,22 +655,40 @@ db.collection_name.aggregate([
 
 
 > ### `$size`, it gives the count of the array, below give the length of examScore array
+
+#### Aggregation
 ```js
 db.collection_name.aggregate([
-    { $project: { _id: 0, examScore: { $size: "$examScore" } } }
-])
+  { $project: { _id: 0, examScore: { $size: "$examScore" } } },
+]);
 ```
-
 <br>
 
-> ### `filter in project`, as name says it works same function
+#### Query 
+* `field` must be an **array**.
+* Matches only if the array length is **exactly equal** to the specified number.
+
+
+### Example 1 – Find users with exactly 3 roles:
 
 ```js
-db.collection_name.aggregate([
-    { $project: { _id: 0, scores: { $filter: { input: '$examScores', as: 'sc', cond: { $gt: ['$$sc.score, 60'] } } } } }
-])
-// in above, scores is any word we want. filter and input are fixed keyword, input value is the node of the object or row. as is alias. $$ is because we are referring the alias.
+db.users.find({
+  roles: { $size: 3 }
+})
 ```
+
+* `roles` is an array like `["admin", "editor", "user"]`.
+* Matches only if the array length is 3.
+
+2. To match arrays with variable sizes, use `$expr` with `$size` in aggregation:
+
+```js
+db.users.find({
+  $expr: { $gt: [ { $size: "$roles" }, 2 ] }  // arrays with more than 2 elements
+})
+```
+
+
 <br>
 
 > ### $bucket
@@ -735,6 +715,7 @@ It groups documents into fixed **ranges (buckets)** based on a field value you s
 * Each bucket includes its **lower bound** but **excludes the upper bound** (`[lower, upper)`).
 * A document that falls outside all buckets goes to the **default** bucket (if provided).
 
+<br>
 
 #### Example 1: Simple Histogram
 
@@ -800,7 +781,7 @@ db.sales.aggregate([
 ```
 
 
-#### 🔹 `$bucket` vs `$bucketAuto`
+#### $bucket vs $bucketAuto
 
 * **`$bucket`** → You define the **exact boundaries**.
 * **`$bucketAuto`** → MongoDB automatically divides documents into **equal-sized groups**.
@@ -820,95 +801,32 @@ This splits into 4 equal ranges automatically.
 
 <br>
 
-> ### $addFields
-
-**Note:-** You can also use the $set stage, which is an alias for $addFields. Adds new fields **without removing the existing ones**.If the field already exists, it will be **overwritten**.
-
-```js
-db.collection.aggregate([
-  {
-    $addFields: {
-      <newField>: <expression>,
-      <existingField>: <expression>
-    }
-  }
-])
-```
-
-
-#### Examples:
-
-```js
-db.orders.aggregate([
-  {
-    $addFields: {
-      totalAmount: { $multiply: ["$price", "$quantity"] }
-    }
-  }
-])
-```
-
-👉 Adds a new field `totalAmount` by multiplying `price` and `quantity`.
-
-
-2. **Overwrite an existing field**
-
-```js
-db.users.aggregate([
-  {
-    $addFields: {
-      age: { $add: ["$age", 1] }
-    }
-  }
-])
-```
-
-👉 Increments the `age` field by 1 for each user.
-
-
-3. **Add multiple fields**
-
-```js
-db.students.aggregate([
-  {
-    $addFields: {
-      fullName: { $concat: ["$firstName", " ", "$lastName"] },
-      passed: { $gte: ["$marks", 40] }
-    }
-  }
-])
-```
-
-👉 Adds `fullName` and a boolean `passed` field.
-
-<br>
-
-> ### $set (update operator)
+> ### $set (update and aggregation operator)
 
 The `$set` operator replaces the value of a field with the specified value. If the field does not exist, $set will add a new field with the specified value
 
 ```js
 db.products.insertOne(
-   {
-     _id: 100,
-     quantity: 250,
-     instock: true,
-     reorder: false,
-     details: { model: "14QQ", make: "Clothes Corp" },
-     tags: [ "apparel", "clothing" ],
-     ratings: [ { by: "Customer007", rating: 4 } ]
-   }
+  {
+    _id: 100,
+    quantity: 250,
+    instock: true,
+    reorder: false,
+    details: { model: "14QQ", make: "Clothes Corp" },
+    tags: [ "apparel", "clothing" ],
+    ratings: [ { by: "Customer007", rating: 4 } ]
+  }
 )
 
 
 db.products.updateOne(
-   { _id: 100 },
-   { $set: {
-        quantity: 500,
-        details: { model: "2600", make: "Fashionaires" },
-        tags: [ "coats", "outerwear", "clothing" ]
-      }
-   }
+  { _id: 100 },
+  { $set: {
+      quantity: 500,
+      details: { model: "2600", make: "Fashionaires" },
+      tags: [ "coats", "outerwear", "clothing" ]
+    }
+  }
 )
 
 let resultAbove = {
@@ -921,6 +839,7 @@ let resultAbove = {
   ratings: [ { by: 'Customer007', rating: 4 } ]
 }
 ```
+<br>
 
 Set Fields in Embedded Documents
 
@@ -941,6 +860,8 @@ let resultOfAbove = {
 }
 ```
 
+<br>
+
 **Important:-**
 The above code uses dot notation to update the make field of the embedded details document. The code format looks similar to the following code example, which instead replaces the entire embedded document, removing all other fields in the embedded details document:
 
@@ -954,6 +875,7 @@ db.products.updateOne(
       }
    })
 ```
+<br>
 
 Set Elements in Arrays
 
@@ -1027,57 +949,152 @@ let resulAbove = [
 
 <br>
 
-> ### $facet
+> ### $unset (aggregation and update) - purpose is to **remove fields from documents**.
 
-It is **only an aggregation stage**, not an **expression operator**.\
-It Runs **multiple sub-pipelines in parallel** on the same input and returns their results together.
 
-```javascript
+### `$unset` in Aggregation
+
+Used in the **aggregation pipeline** to remove fields from the documents as they pass through the pipeline.
+
+#### Syntax
+
+```js
 {
-  $facet: {
-    <outputField1>: [ <pipeline1> ],
-    <outputField2>: [ <pipeline2> ],
-    ...
-  }
+  $unset: "<field1>" // single field
+}
+// or multiple fields
+{
+  $unset: ["field1", "field2"]
 }
 ```
 
-```javascript
-db.products.aggregate([
+#### Example 1 – Remove a single field
+
+```js
+db.users.aggregate([
+  { $unset: "password" }
+])
+```
+
+* Removes the `password` field from all documents in the aggregation output.
+
+#### Example 2 – Remove multiple fields
+
+```js
+db.users.aggregate([
+  { $unset: ["password", "lastLogin"] }
+])
+```
+
+* Removes both `password` and `lastLogin` fields.
+
+### `$unset` in Update
+
+Used with **update operations** (`updateOne`, `updateMany`, `findOneAndUpdate`) to **delete fields** from existing documents.
+
+#### Syntax
+
+```js
+db.collection.updateOne(
+  { <filter> },
+  { $unset: { <field1>: "", <field2>: "" } }
+)
+```
+
+* The **value** of each field in `$unset` is ignored (usually an empty string).
+
+#### Example 1 – Remove a single field
+
+```js
+db.users.updateOne(
+  { username: "alice" },
+  { $unset: { password: "" } }
+)
+```
+
+#### Example 2 – Remove multiple fields
+
+```js
+db.users.updateMany(
+  { status: "inactive" },
+  { $unset: { password: "", lastLogin: "" } }
+)
+```
+
+* Removes `password` and `lastLogin` from all inactive users.
+
+<br>
+
+> ### $addFields
+
+**Note:-** 
+- You can also use the $set stage, which is an alias for $addFields. 
+- Adds new fields **without removing the existing ones**.If the field already exists, it will be **overwritten**.
+
+```js
+db.collection.aggregate([
   {
-    $facet: {
-      "priceStats": [
-        { $group: { _id: null, avgPrice: { $avg: "$price" }, maxPrice: { $max: "$price" } } }
-      ],
-      "categoryCounts": [
-        { $group: { _id: "$category", count: { $sum: 1 } } }
-      ]
+    $addFields: {
+      <newField>: <expression>,
+      <existingField>: <expression>
     }
   }
 ])
 ```
 
-📌 Output:
 
-```javascript
-[
+1. **Examples:**
+
+```js
+db.orders.aggregate([
   {
-    "priceStats": [ { "_id": null, "avgPrice": 42.5, "maxPrice": 100 } ],
-    "categoryCounts": [
-      { "_id": "electronics", "count": 10 },
-      { "_id": "books", "count": 15 }
-    ]
+    $addFields: {
+      totalAmount: { $multiply: ["$price", "$quantity"] }
+    }
   }
-]
+])
 ```
 
-* You can’t use `$facet` inside another operator (e.g., `$project`, `$group`, `$match`).
+👉 Adds a new field `totalAmount` by multiplying `price` and `quantity`.
+
+<br>
+
+2. **Overwrite an existing field**
+
+```js
+db.users.aggregate([
+  {
+    $addFields: {
+      age: { $add: ["$age", 1] }
+    }
+  }
+])
+```
+
+👉 Increments the `age` field by 1 for each user.
+
+<br>
+
+3. **Add multiple fields**
+
+```js
+db.students.aggregate([
+  {
+    $addFields: {
+      fullName: { $concat: ["$firstName", " ", "$lastName"] },
+      passed: { $gte: ["$marks", 40] }
+    }
+  }
+])
+```
+
+👉 Adds `fullName` and a boolean `passed` field.
 
 <br>
 
 > ### $max
 
-1. **`$max` (Aggregation Expression Operator)**
+### 1. `$max` (Aggregation Expression Operator)
 
 * **Purpose**: Returns the **maximum value** among given expressions or array elements.
 * **Where used**: Inside aggregation stages like `$project`, `$group`, `$addFields`, etc.
@@ -1086,6 +1103,7 @@ db.products.aggregate([
 ```javascript
 { $max: [ <expression1>, <expression2>, ... ] }
 ```
+<br>
 
 ```javascript
 db.scores.aggregate([
@@ -1100,7 +1118,9 @@ db.scores.aggregate([
 
 👉 Produces the highest score per student.
 
-### Example: In `$group`
+<br>
+
+#### Example: In `$group`
 
 ```javascript
 db.sales.aggregate([
@@ -1117,7 +1137,7 @@ db.sales.aggregate([
 
 <br>
 
-2. **`$max` (Update Operator)**
+### 2. **`$max` (Update Operator)**
 
 * **Purpose**: Updates a field only if the specified value is **greater than the existing field value**.
 * **Where used**: In update operations (`updateOne`, `updateMany`).
@@ -1139,7 +1159,7 @@ db.players.updateOne(
 <br>
 
 
-## 2. `$max` as an **Update Operator** with Arrays
+#### `$max` as an **Update Operator** with Arrays
 
 This one is trickier.
 
@@ -1158,13 +1178,6 @@ That means:
 
 * It **won’t merge arrays** or update element-wise.
 * Either the **entire array gets replaced** (if `[90, 100]` is considered "greater"), or nothing changes.
-
-### 🔑 Key Takeaways
-
-| Context                | Behavior with Arrays                                                                                        |
-| ---------------------- | ----------------------------------------------------------------------------------------------------------- |
-| **Aggregation `$max`** | Returns max element from inside the array.                                                                  |
-| **Update `$max`**      | Compares the **whole array field vs new array** → replaces only if new array is “greater” in BSON ordering. |
 
 
 <br>
@@ -1421,7 +1434,7 @@ db.players.updateOne(
 
 Initial:
 
-```json
+```js
 { name: "Alice", score: 95 }
 ```
 
@@ -1440,7 +1453,7 @@ db.players.updateOne(
 
 Result:
 
-```json
+```js
 { name: "Alice", score: 100 }
 ```
 
@@ -1506,16 +1519,15 @@ let resultAbove = {
 
 > ### $push (aggregation and update)
 
-1. **`$push` as an Update Operator**
+### 1. $push as an Update Operator
 
 * **Purpose**: Appends a value to an array field.
 * If the field does not exist, MongoDB creates it as an array with the pushed value.
 
-```javascript
-{ $push: { <field>: <value or modifier> } }
-```
 
-### Example 1: Simple Push
+<br>
+
+#### Example 1: Simple Push
 
 ```javascript
 db.students.updateOne(
@@ -1526,17 +1538,18 @@ db.students.updateOne(
 
 If Alice’s doc was:
 
-```json
+```js
 { name: "Alice", scores: [80, 85] }
 ```
 
 👉 After update:
 
-```json
+```js
 { name: "Alice", scores: [80, 85, 95] }
 ```
+<br>
 
-### Example 2: Push Multiple Values
+#### Example 2: Push Multiple Values
 
 ```javascript
 db.students.updateOne(
@@ -1547,7 +1560,9 @@ db.students.updateOne(
 
 👉 `$each` lets you push multiple values in one operation.
 
-### Example 3: Push with Sorting and Slicing
+<br>
+
+#### Example 3: Push with Sorting and Slicing
 
 You can combine `$each` with **`$sort`** and **`$slice`** modifiers.
 
@@ -1564,8 +1579,9 @@ db.students.updateOne(
 * Sort array descending.
 * Keep only top 3 values.
 
+<br>
 
-# 2. **`$push` as an Aggregation Accumulator**
+### 2. $push as an Aggregation Accumulator
 
 * **Purpose**: Collects values into an array during `$group` (or `$setWindowFields`).
 * It **does not remove duplicates** (use `$addToSet` for unique values).
@@ -1583,8 +1599,9 @@ db.sales.aggregate([
 
 👉 Groups all `item` values per customer into an array.
 
+<br>
 
-### Example 2: Push Whole Document
+#### Example 2: Push Whole Document
 
 ```javascript
 db.sales.aggregate([
@@ -1603,7 +1620,7 @@ db.sales.aggregate([
 
 > ### $sum 
 
-### Example 1: Sum field per group
+#### Example 1: Sum field per group
 
 ```javascript
 db.sales.aggregate([
@@ -1625,8 +1642,9 @@ db.scores.aggregate([
   }
 ])
 ```
+<br>
 
-### Example 2: Count documents using `$sum: 1`
+#### Example 2: Count documents using `$sum: 1`
 
 ```javascript
 db.orders.aggregate([
@@ -1638,6 +1656,7 @@ db.orders.aggregate([
   }
 ])
 ```
+<br>
 
 ### Example 3: Sum array elements
 
@@ -1658,12 +1677,13 @@ If `scores: [80, 85, 90]` → `totalScore: 255`.
 
 > ### $first (expression operator)
 
-
 1. **`$first` as an Aggregation Expression Operator**
 
 * Returns the **first element in an array**.
 
-### Example 1: First element of an array
+<br>
+
+#### Example 1: First element of an array
 
 ```javascript
 db.students.aggregate([
@@ -1678,13 +1698,13 @@ db.students.aggregate([
 
 If:
 
-```json
+```js
 { name: "Alice", scores: [95, 88, 76] }
 ```
 
 👉 Output:
 
-```json
+```js
 { name: "Alice", firstScore: 95 }
 ```
 
@@ -1700,7 +1720,7 @@ If:
 * Used in `$group` or `$setWindowFields`.
 * Returns the value of the **first document** in the group or window (based on sort order).
 
-### Example 2: First value in each group
+#### Example 2: First value in each group
 
 ```javascript
 db.sales.aggregate([
@@ -1720,44 +1740,18 @@ db.sales.aggregate([
 
 * If you don’t `$sort` before `$group`, MongoDB just takes the first document it sees (not guaranteed order).
 
-
-### Summary
-
-| Context                     | Behavior                                                                   |
-| --------------------------- | -------------------------------------------------------------------------- |
-| **Expression (`$project`)** | Returns first element of an array.                                         |
-| **Accumulator (`$group`)**  | Returns value from the first document in a group (depends on input order). |
-
 <br>
 
-> ### $elemMatch (projection)
+> ### $elemMatch (projection)(iska query part nhi likha niche)
 
-* As a **query operator** (match array elements)
-* As a **projection operator** (return only matching array elements)
-
-You’re asking about the **projection** usage, so let’s focus on that.
-
----
-
-# 📌 `$elemMatch` as a Projection Operator
+#### Projection
 
 * Purpose: When projecting an array field, `$elemMatch` returns **only the first array element** that matches the given condition.
 * Without it, projection usually returns the **whole array**.
 
----
+<br>
 
-### Syntax
-
-```javascript
-db.collection.find(
-  { <query> },
-  { <arrayField>: { $elemMatch: { <condition> } } }
-)
-```
-
----
-
-### Example 1: Basic Projection
+#### Example 1: Basic Projection
 
 ```javascript
 db.students.find(
@@ -1768,7 +1762,7 @@ db.students.find(
 
 If document is:
 
-```json
+```js
 {
   name: "Alice",
   scores: [
@@ -1781,7 +1775,7 @@ If document is:
 
 👉 Result:
 
-```json
+```js
 {
   name: "Alice",
   scores: [
@@ -1790,9 +1784,9 @@ If document is:
 }
 ```
 
----
+<br>
 
-### Example 2: Range Condition
+#### Example 2: Range Condition
 
 ```javascript
 db.students.find(
@@ -1803,32 +1797,39 @@ db.students.find(
 
 👉 Returns only the **first score** in `scores` array that’s between 85 and 95.
 
----
-
-### Example 3: Combine with Other Fields
-
-```javascript
-db.students.find(
-  { name: "Bob" },
-  { name: 1, scores: { $elemMatch: { subject: "science", score: { $gte: 90 } } } }
-)
-```
-
-👉 Returns Bob’s name and only his **science score ≥ 90**.
-
----
-
-# ⚡ Key Notes
-
+Note:\
 * `$elemMatch` in **projection** ≠ `$elemMatch` in **query**.
-
   * **Query**: Matches documents if **any element** in the array satisfies the condition.
   * **Projection**: Returns only the **first matching element** from the array.
 * You cannot get **multiple matching elements** this way — for that you’d need `$filter` in an **aggregation pipeline**.
 
----
 
-👉 Do you want me to also show you the **aggregation equivalent of `$elemMatch`** (using `$filter`), since it can return **all matching array elements**, not just the first?
+<br>
+
+#### Query Part
+
+used to match documents where **at least one element in an array satisfies multiple conditions**.
+
+It is very useful when you need to apply **more than one condition to the same array element**.
+
+```js
+{ field: { $elemMatch: { <condition1>, <condition2>, ... } } }
+```
+
+* `field` must be an **array**.
+* At least **one element in the array** must satisfy **all conditions inside `$elemMatch`**.
+
+
+### Example 1 – Find students with a **Math score > 80 AND grade "A"** in the same array element:
+
+```js
+db.students.find({
+  scores: { $elemMatch: { subject: "Math", score: { $gt: 80 }, grade: "A" } }
+})
+```
+
+* `scores` is an array of objects like `{ subject, score, grade }`.
+* This matches a student **only if one object in `scores` satisfies all three conditions**.
 
 <br>
 
@@ -1930,7 +1931,7 @@ db.inventory.find({
 
 It ensure that **all conditions inside it must be true** for a document to match.
 
-### Example 1 – Find users who are **active** AND older than 25:
+#### Example 1 – Find users who are **active** AND older than 25:
 
 ```js
 db.users.find({
@@ -1939,24 +1940,16 @@ db.users.find({
     { age: { $gt: 25 } }
   ]
 })
-```
 
-### Example 2 – Equivalent shorthand (since multiple conditions at the same level act like `$and`):
-
-```js
+// equivalent to below
 db.users.find({
   status: "active",
   age: { $gt: 25 }
 })
 ```
+<br>
 
-Both are the same — but `$and` is useful when:
-
-* You need to combine **multiple operators on the same field**.
-* You want explicit clarity in complex queries.
-
-
-### Example 3 – User must have **score greater than 80 AND less than 100**:
+#### Example 2 – User must have **score greater than 80 AND less than 100**:
 
 ```js
 db.students.find({
@@ -1973,7 +1966,7 @@ Without `$and`, this would **not** work, since you can’t write two separate `s
 
 > ### $nor - selects documents where none of the given conditions are true(negation of `$or`)
 
-### Example 1 – Find users who are **NOT active** and **NOT older than 25**:
+#### Example 1 – Find users who are **NOT active** and **NOT older than 25**:
 
 ```js
 db.users.find({
@@ -1990,8 +1983,9 @@ This means:
 * Exclude users with `age > 25`
   Result → Only users with `status != active` **AND** `age <= 25`.
 
+<br>
 
-### Example 2 – Find students whose score is **neither less than 50 nor equal to 100**:
+#### Example 2 – Find students whose score is **neither less than 50 nor equal to 100**:
 
 ```js
 db.students.find({
@@ -2011,9 +2005,7 @@ So the results will have:
 
 > ### $not
 
-⚡ Important: `$not` **cannot stand alone** — it must be applied to an operator (like `$gt`, `$regex`, etc.) inside a field condition.
-
-### Example 1 – Find users whose age is **NOT greater than 25** (so `age <= 25` or missing):
+#### Example 1 – Find users whose age is **NOT greater than 25** (so `age <= 25` or missing):
 
 ```js
 db.users.find({
@@ -2021,16 +2013,16 @@ db.users.find({
 })
 ```
 
-### Example 3 – Equivalent alternative using `$ne`:
+<br>
+
+#### Example 3 – Equivalent alternative using `$ne`:
 
 ```js
 db.users.find({
   status: { $ne: "active" }
 })
 ```
-
-👉 `$ne` is shorter, but `$not` is more powerful when you need to negate **complex conditions** (like `$regex`, `$gte` + `$lte`, etc.).
-
+<br>
 
 ### Difference from `$nor`:
 
@@ -2039,22 +2031,9 @@ db.users.find({
 
 <br>
 
-> ### $or - at least one of the given conditions is true.
-
-```js
-db.users.find({
-  $or: [
-    { status: "active" },
-    { age: { $gt: 25 } }
-  ]
-})
-```
-
-<br>
-
 > ### $exists - checks whether a field is present or absent in a document.
 
-```json
+```js
 { field: { $exists: <boolean> } }
 ```
 
@@ -2062,15 +2041,16 @@ db.users.find({
 * `false` → field **does NOT exist**.
 
 
-### Example 1 – Find documents where `email` field **exists**:
+#### Example 1 – Find documents where `email` field **exists**:
 
 ```js
 db.users.find({
   email: { $exists: true }
 })
 ```
+<br>
 
-### Example 2 – Use with `$and`
+#### Example 2 – Use with `$and`
 
 Find documents where `phone` exists but `address` does not:
 
@@ -2082,8 +2062,6 @@ db.users.find({
   ]
 })
 ```
-
-
 * `$exists: true` will also return documents where the field exists but has `null` as value.
 * Use `$ne: null` along with `$exists` to ensure the field both exists **and** has a non-null value.
 
@@ -2091,8 +2069,7 @@ db.users.find({
 
 > ### $gt (queries and expression operator)
 
-
-### Query Usage
+#### Query Usage
 
 ```js
 db.users.find({
@@ -2102,12 +2079,9 @@ db.users.find({
 
 * Returns users with `25 < age < 40`.
 
+<br>
 
-### Aggregation Expression Usage - evaluates to true or false.
-
-```js
-{ $gt: [ <expression1>, <expression2> ] }
-```
+#### Aggregation Expression Usage - evaluates to true or false.
 
 ```js
 db.users.aggregate([
@@ -2161,7 +2135,7 @@ db.users.find({
 })
 ```
 
-### Aggregation Expression Usage:
+#### Aggregation Expression Usage:
 
 In aggregation pipelines, `$ne` evaluates to **true or false**:
 
@@ -2181,9 +2155,7 @@ db.users.aggregate([
 
 <br>
 
-> ### Array Query Predicate Operators
-
-> ### 1. $all
+> ### $all
 
 ```js
 { field: { $all: [value1, value2, ...] } }
@@ -2193,7 +2165,7 @@ db.users.aggregate([
 * Works only on **array fields**.
 
 
-### Example 1 – Find users who have **both "admin" and "editor" roles**:
+#### Example 1 – Find users who have **both "admin" and "editor" roles**:
 
 ```js
 db.users.find({
@@ -2201,194 +2173,26 @@ db.users.find({
 })
 ```
 
-### Notes:
+#### Notes:
 
 1. `$all` is **different from `$in`**:
-
-   * `$in` matches if **any one** of the values exists.
-   * `$all` matches if **all** of the values exist in the array.
-
-
-<br>
-
-> ### 2. $elemMatch (query)
-
-used to match documents where **at least one element in an array satisfies multiple conditions**.
-
-It is very useful when you need to apply **more than one condition to the same array element**.
-
-```js
-{ field: { $elemMatch: { <condition1>, <condition2>, ... } } }
-```
-
-* `field` must be an **array**.
-* At least **one element in the array** must satisfy **all conditions inside `$elemMatch`**.
-
-
-### Example 1 – Find students with a **Math score > 80 AND grade "A"** in the same array element:
-
-```js
-db.students.find({
-  scores: { $elemMatch: { subject: "Math", score: { $gt: 80 }, grade: "A" } }
-})
-```
-
-* `scores` is an array of objects like `{ subject, score, grade }`.
-* This matches a student **only if one object in `scores` satisfies all three conditions**.
-
-<br>
-
-> ### 3. $size
-
-* `field` must be an **array**.
-* Matches only if the array length is **exactly equal** to the specified number.
-
-
-### Example 1 – Find users with exactly 3 roles:
-
-```js
-db.users.find({
-  roles: { $size: 3 }
-})
-```
-
-* `roles` is an array like `["admin", "editor", "user"]`.
-* Matches only if the array length is 3.
-
-2. To match arrays with variable sizes, use `$expr` with `$size` in aggregation:
-
-```js
-db.users.find({
-  $expr: { $gt: [ { $size: "$roles" }, 2 ] }  // arrays with more than 2 elements
-})
-```
-
-<br>
-
-> ### $set (aggregation and update)
-
-- add new fields or update existing fields in documents.
-
-### `$set` in Aggregation
-
-* Adds new fields or updates existing fields **in the pipeline output**.
-* Alias of `$addFields` in aggregation.
-
-
-### Example 1 – Add a new field
-
-```js
-db.users.aggregate([
-  { $set: { isActive: true } }
-])
-```
-
-* Adds a new field `isActive` with value `true` to all documents in the pipeline output.
-
-
-### `$set` in Update
-
-### Example 1 – Add a new field
-
-```js
-db.users.updateOne(
-  { username: "alice" },
-  { $set: { isActive: true } }
-)
-```
-
-* Updates `status` from `"pending"` to `"active"` for all matching documents.
-
-<br>
-
-> ### $unset (aggregation and update) - purpose is to **remove fields from documents**.
-
-
-### `$unset` in Aggregation
-
-Used in the **aggregation pipeline** to remove fields from the documents as they pass through the pipeline.
-
-### Syntax
-
-```js
-{
-  $unset: "<field1>" // single field
-}
-// or multiple fields
-{
-  $unset: ["field1", "field2"]
-}
-```
-
-### Example 1 – Remove a single field
-
-```js
-db.users.aggregate([
-  { $unset: "password" }
-])
-```
-
-* Removes the `password` field from all documents in the aggregation output.
-
-### Example 2 – Remove multiple fields
-
-```js
-db.users.aggregate([
-  { $unset: ["password", "lastLogin"] }
-])
-```
-
-* Removes both `password` and `lastLogin` fields.
-
-### `$unset` in Update
-
-Used with **update operations** (`updateOne`, `updateMany`, `findOneAndUpdate`) to **delete fields** from existing documents.
-
-### Syntax
-
-```js
-db.collection.updateOne(
-  { <filter> },
-  { $unset: { <field1>: "", <field2>: "" } }
-)
-```
-
-* The **value** of each field in `$unset` is ignored (usually an empty string).
-
-### Example 1 – Remove a single field
-
-```js
-db.users.updateOne(
-  { username: "alice" },
-  { $unset: { password: "" } }
-)
-```
-
-### Example 2 – Remove multiple fields
-
-```js
-db.users.updateMany(
-  { status: "inactive" },
-  { $unset: { password: "", lastLogin: "" } }
-)
-```
-
-* Removes `password` and `lastLogin` from all inactive users.
+  * `$in` matches if **any one** of the values exists.
+  * `$all` matches if **all** of the values exist in the array.
 
 <br>
 
 > ### $sort (aggregation)(value can be descending(-) or ascending(+))
 
-
-### Example 1 – Sort by multiple fields
+#### Example 1 – Sort by multiple fields
 
 ```js
 db.users.aggregate([
   { $sort: { status: 1, age: -1 } }
 ])
 ```
+<br>
 
-### Notes:
+#### Notes:
 
 1. `$sort` **should usually appear after `$match`** in a pipeline to reduce the number of documents being sorted.
 2. Sorting on **unindexed fields** for large collections can be slow. Consider **indexing** fields used in `$sort`.
@@ -2397,7 +2201,7 @@ db.users.aggregate([
 
 > ### $skip and $limit
 
-### Combining `$skip` and `$limit` (Pagination)
+#### Combining `$skip` and `$limit` (Pagination)
 
 ```js
 db.users.aggregate([
@@ -2408,7 +2212,7 @@ db.users.aggregate([
 ```
 
 
-### Notes:
+#### Notes:
 
 1. Skipping many documents in large collections can be **slow**; consider using **range queries** or indexed fields for efficiency.
 2. In queries outside aggregation, you can also use `.skip()` and `.limit()` methods:
@@ -2728,6 +2532,8 @@ Output:
 ```
 
 ✅ Both aggregations (`priceStats` and `byCategory`) run **in parallel** on the same dataset.
+
+* You can’t use `$facet` inside another operator (e.g., `$project`, `$group`, `$match`).
 
 <br>
 
