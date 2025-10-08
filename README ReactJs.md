@@ -895,7 +895,7 @@ import styles from "./app.module.css"
 
 <br>
 
-**You don’t need a re-render** when the value changes.
+**1 You don’t need a re-render** when the value changes.
    - `useRef` keeps a mutable object that doesn’t trigger a re-render when its `.current` value is updated.
    - Example: Tracking previous values, DOM elements, timers.
 
@@ -905,7 +905,7 @@ import styles from "./app.module.css"
    ```
 <br>
 
-**You want to access DOM elements directly.**
+**2 You want to access DOM elements directly.**
    - Like using `ref` in vanilla JS.
    - Example: Focusing an input on load.
 
@@ -917,7 +917,7 @@ import styles from "./app.module.css"
    ```
 <br>
 
-**You need to keep track of values between renders without triggering re-renders.**
+**3 You need to keep track of values between renders without triggering re-renders.**
    - Useful for things like:
      - Timeout IDs
      - Scroll position
@@ -933,7 +933,7 @@ import styles from "./app.module.css"
    ```
 <br>
 
-**The value is part of UI logic.**
+**4 The value is part of UI logic.**
    - Like toggling visibility, managing form input values, updating lists, etc.
 
    ```js

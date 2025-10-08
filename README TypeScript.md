@@ -9,6 +9,8 @@
 
 > ### Some Generic commands of TS
 
+<details>
+
 To install Typescript globally - 
 ```
 npm install -g typescript
@@ -43,6 +45,8 @@ Basic config in tsconfig.json
 "rootDir": './src'    // This is the location where it reads the ts file
 "noEmitOnError": false  // This sets the ts that if any error occur in any file then do not convert any ts file to js. default behaviour is to convert all ts to js except the file which has the error. 
 ```
+
+</details>
 
 <br>
 
@@ -129,28 +133,6 @@ if(newSubClass instanceof baseClass){
 }
 ```
 
-<br>
-
-> ### What are Interfaces in TypeScript and how do they work
-
-Interface defines the `structure and types` of its members
-
-```ts
-interface Point {
-    x: number;
-    y: number;
-}
-  
-function printPoint(p: Point) {
-    console.log(`Point coordinates: (${p.x}, ${p.y})`);
-}
-
-let pointA = { x: 3, y: 7 }; // This object matches Point's structure
-let pointB = { x: 8 }; // This object is missing the 'y' property
-
-printPoint(pointA); // Output: Point coordinates: (3, 7)
-printPoint(pointB); // Compile-time error due to incorrect structure
-```
 <br>
 
 > ### Optional,Default, and Rest Parameters
@@ -261,7 +243,7 @@ direction = "forward" // ❌ Error: not assignable to type
 
 > ### Enum in typescript
 - Convention is start with Upper capital in enum ie UserResponse
-- If `default vaue` is `not provide` then enum `provide/gives index as its value`
+- If `default value` is `not provide` then enum `provide/gives index as its value`
 
 ```js
 enum Role { ADMIN, READ_ONLY = 100, AUTHOR = 'AUTHOR' };
@@ -606,7 +588,7 @@ logLength("Hello"); // Okay
 // logLength(42); // Error: Property 'length' is missing in type 'number'.
 ```
 
-In above, whatever we pass in logLength as parameter should have length property, string hvae the length property, it is ok but if we pass number in it, number do not have length property then it will show error.
+In above, whatever we pass in logLength as parameter should have length property, string have the length property, it is ok but if we pass number in it, number do not have length property then it will show error.
 
 
 <br>
@@ -1363,7 +1345,7 @@ const Timer: React.FC = () => {
 
 ### componentpropswithoutref<elementName> in ts
 
-Lets say we want to use the input element as custom componet, but we want `certain props to be mandatory` and `other props to be optional`, but want `other props be standard` as per input element type not anything can be passed, also the ref should not be passed in component, then we use the componentpropswithoutref
+Lets say we want to use the input element as custom component, but we want `certain props to be mandatory` and `other props to be optional`, but want `other props be standard` as per input element type not anything can be passed, also the ref should not be passed in component, then we use the componentpropswithoutref
 
 ```ts
 // customInput.tsx

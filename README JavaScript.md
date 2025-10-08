@@ -24,7 +24,7 @@ It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.
 
 > ### Type of NaN is Number
 
-> ### Type of Null if object.
+> ### Type of Null is object.
 
 <br>
 
@@ -1806,7 +1806,7 @@ user.foo1() // Prints false on console as foo1 is invoked as a object’s method
 
 <br>
  
-**Note:** When we talk about the variable like `let or var`, then it is based on `position where the function is written`, while for the `"this", it refers to where is located`.
+### **Note:** When we talk about the variable like `let or var`, then it is based on `position where the function is written`, while for the `"this", it refers to where is located`.
 
 <br>
 
@@ -4073,6 +4073,9 @@ console.log(window.b); // 15
 <br>
  
 >### Hoisting
+
+### Var and function expression are hoisted while let, const and classes in TDZ
+
 Hoisting is a concept which enables us to extract values of variables and functions even before initialising/assigning value without getting error 
 
 Hoisting in JavaScript is a behavior in which a function or a variable can be used before declaration. 
