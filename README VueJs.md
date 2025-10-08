@@ -1239,18 +1239,8 @@ Here:
 * `obj` is reactive, but adding a **new property** (`message`) isn’t tracked in Vue 2.
 * Calling `this.$forceUpdate()` forces the template to refresh.
 
-### ⚙️ **2. When to Use It**
 
-✅ Use `$forceUpdate()` only when:
-
-* You update properties Vue doesn’t track (like adding new keys to an object in Vue 2)
-* You rely on a third-party library that mutates DOM or data outside Vue’s reactivity
-
-🚫 Avoid it for normal reactive data changes — it’s a **last resort**.
-
----
-
-### ⚡ **3. Alternatives (Better Options)**
+**2. Alternatives (Better Options)**
 
 #### a. **Use `Vue.set` / `this.$set` (Vue 2 only)**
 
@@ -1268,50 +1258,16 @@ this.obj = { ...this.obj, message: 'Hello Vue!' }
 
 Replacing the whole object triggers reactivity.
 
----
-
-### 🧠 **4. Vue 3 Note**
-
-In Vue 3, reactivity is proxy-based — so **almost everything is reactive by default**,
-and `$forceUpdate()` is rarely needed.
-
-Still available via `getCurrentInstance().proxy.$forceUpdate()`, but almost never used.
-
----
-
-### ✅ **Summary**
-
-| Method                      | Use Case                            | Vue Version |
-| --------------------------- | ----------------------------------- | ----------- |
-| `this.$forceUpdate()`       | Force re-render manually            | Vue 2 & 3   |
-| `this.$set()`               | Add reactive properties dynamically | Vue 2       |
-| Replace entire object/array | Trigger reactivity                  | Vue 2 & 3   |
-| Avoid if possible           | Use reactive data instead           | Always      |
-
----
-
-**In short:**
-
-> You can force a Vue component to re-render using `this.$forceUpdate()`, but it’s better to fix the reactivity issue (e.g., use `Vue.set` or replace the object) instead of relying on manual refreshes.
-
-
 <br>
 
 > ### What is the purpose of vuejs once directive?
-
-Ah! The `v-once` directive — this is a nice performance-related feature in Vue 👏
-
----
-
-### 🧩 **What is `v-once`?**
 
 The **`v-once` directive** tells Vue to **render the element or component only once**, and then **skip it during future re-renders**.
 
 Essentially, it **renders static content once** and marks it as **non-reactive**.
 
----
 
-### 🧠 **Purpose**
+**Purpose**
 
 1. **Performance Optimization** ✅
 
@@ -1320,22 +1276,7 @@ Essentially, it **renders static content once** and marks it as **non-reactive**
 
    * Ideal for **static headers, footers, or labels** that don’t depend on reactive data.
 
----
-
-### ⚙️ **Syntax**
-
-```vue
-<p v-once>{{ message }}</p>
-```
-
-* `message` is rendered **only once**.
-* Even if `message` changes later, Vue **ignores it**.
-
----
-
-### 🧩 **Example**
-
-```vue
+```html
 <template>
   <div>
     <p v-once>{{ message }}</p>
@@ -1360,9 +1301,8 @@ export default {
 * First `<p v-once>` → stays as `Initial Message` forever.
 * Second `<p>` → updates reactively to `Hello Vue!` when the button is clicked.
 
----
 
-### ⚡ **Key Notes**
+**Key Notes**
 
 * Works with **elements and components**:
 
@@ -1373,36 +1313,9 @@ export default {
 * Vue will render the component once and **ignore future prop updates**.
 * Use sparingly — only on truly **static content**.
 
----
-
-### ✅ **Summary Table**
-
-| Directive | Purpose                           | Behavior                          |
-| --------- | --------------------------------- | --------------------------------- |
-| `v-once`  | Render once & skip future updates | Non-reactive after initial render |
-| Use case  | Static content or elements        | Improves performance              |
-
----
-
-**In short:**
-
-> `v-once` is used in Vue to render an element or component **only once** and skip it in future re-renders, improving performance for static content.
-
----
-
-If you want, I can also explain **difference between `v-once` and `v-if`** — many people confuse them.
-
-
-
 <br>
 
 > ### How do you access the root instance?
-
-Great question — accessing the **root Vue instance** is useful when you want to share data, methods, or events across your app 🌐
-
----
-
-### 🧩 **What is the Root Instance?**
 
 The **root instance** is the main Vue instance you create in your app, usually mounted to `#app`:
 
@@ -1415,9 +1328,8 @@ const app = new Vue({
 
 All other components are **descendants** of this root instance.
 
----
 
-### ✅ **1. Access Root From a Child Component**
+**1. Access Root From a Child Component**
 
 Every Vue component instance has a special property:
 
@@ -1427,74 +1339,6 @@ this.$root
 
 * `this.$root` points to the **root Vue instance**.
 * You can access **data, methods, or computed properties** defined in the root.
-
----
-
-### 🧠 **Example**
-
-```vue
-<template>
-  <button @click="sayHello">Greet from Root</button>
-</template>
-
-<script>
-export default {
-  methods: {
-    sayHello() {
-      this.$root.greet() // Calls method from root instance
-      console.log(this.$root.message) // Access root data
-    }
-  }
-}
-</script>
-```
-
----
-
-### ⚡ **2. Accessing Root in Template (Vue 2 Only)**
-
-You can even reference `$root` in your template:
-
-```vue
-<p>Root message: {{ $root.message }}</p>
-```
-
----
-
-### ⚙️ **3. Use Cases**
-
-* Accessing **global app data** without Vuex or provide/inject
-* Triggering a **root-level method** from any child
-* Emitting events directly to root (though `this.$emit` + `$root` is rarely recommended)
-
----
-
-### ⚠️ **Notes**
-
-* Overusing `$root` is considered **bad practice** for large apps — it creates tight coupling.
-* For scalable apps, use:
-
-  * **Vuex / Pinia** (state management)
-  * **provide/inject** (dependency injection)
-  * Event bus (rarely)
-
----
-
-### ✅ **Summary Table**
-
-| Property        | Description                 | Use Case                       |
-| --------------- | --------------------------- | ------------------------------ |
-| `$root`         | Points to root Vue instance | Access root data or methods    |
-| `$root.data`    | Root data object            | Reading or updating root state |
-| `$root.methods` | Root methods                | Call functions defined in root |
-
----
-
-**In short:**
-
-> In Vue, you access the root instance from any child using `this.$root`, which allows you to read root-level data or call root-level methods.
-
-
 
 <br>
 
@@ -1512,27 +1356,14 @@ then it will become global style.
   </style>
 ```
 
-
 <br>
 
 > ### How do you use deep selectors?
-
-Ah, **deep selectors** — this is a common question when dealing with **scoped CSS** in Vue. Let’s break it down clearly 👏
-
----
-
-### 🧩 **What is a Deep Selector?**
 
 When you use **scoped CSS** in Vue, styles are **automatically scoped to the component** using attributes like `data-v-xxxx`.
 
 * Problem: Sometimes you want to **style a child component deeply**, beyond the current component’s root.
 * Solution: **Deep selectors** let you target **nested elements inside child components**, bypassing the scoped isolation.
-
----
-
-### 🧠 **Syntax**
-
-#### **Vue 2 / Vue 3 (v-deep)**
 
 ```css
 /* Using ::v-deep pseudo-element */
@@ -1546,19 +1377,9 @@ When you use **scoped CSS** in Vue, styles are **automatically scoped to the com
 }
 ```
 
----
+**Alternative approach**
 
-#### **Alternative syntaxes**
-
-* **Using `/deep/`** (deprecated but still works in Vue 2):
-
-```css
-.parent /deep/ .child-class {
-  color: blue;
-}
-```
-
-* **Using `>>>`** (older shorthand):
+**Using `>>>`** (older shorthand):
 
 ```css
 .parent >>> .child-class {
@@ -1566,11 +1387,7 @@ When you use **scoped CSS** in Vue, styles are **automatically scoped to the com
 }
 ```
 
-> ✅ Recommendation: Use **`::v-deep`** in modern Vue 3 projects.
-
----
-
-### 🧩 **Example**
+**Example**
 
 #### **Parent.vue**
 
@@ -1605,43 +1422,6 @@ When you use **scoped CSS** in Vue, styles are **automatically scoped to the com
 **Result:**
 
 * `child-text` inside `Child.vue` is colored **red** from the parent’s scoped CSS.
-
----
-
-### ⚡ **Key Notes**
-
-1. Scoped CSS normally prevents styles from leaking.
-2. `::v-deep` breaks the scope **only for the targeted nested elements**.
-3. Works with **components or deep HTML elements**.
-4. Can be combined with other selectors:
-
-```css
-.parent ::v-deep(.child-class p) {
-  font-weight: bold;
-}
-```
-
----
-
-### ✅ **Summary Table**
-
-| Selector   | Purpose              | Notes                |
-| ---------- | -------------------- | -------------------- |
-| `::v-deep` | Modern deep selector | Recommended in Vue 3 |
-| `/deep/`   | Old deep selector    | Deprecated           |
-| `>>>`      | Old shorthand        | Still works in Vue 2 |
-
----
-
-**In short:**
-
-> **Deep selectors** let you style nested elements in child components when using scoped CSS. Use `::v-deep` for modern Vue projects to “pierce” the scope.
-
----
-
-If you want, I can also show a **shortcut syntax for `v-deep` inside `<style scoped>`** that keeps it very clean.
-
-
 
 <br>
 
@@ -1685,19 +1465,12 @@ We want to explicitly track application state in order to implement tools that c
 
 > ### What is mapState helper
 
-Excellent — this one’s about **Vuex** 🧩
-
----
-
-### 🧠 **What is `mapState`?**
-
-`mapState` is a **Vuex helper function** that makes it easier to access **state variables** from your Vuex store inside a Vue component — without writing repetitive code.
+It makes it easier to access **state variables** from your Vuex store inside a Vue component — without writing repetitive code.
 
 It “maps” Vuex state properties to **computed properties** in your component.
 
----
 
-### 🧩 **Without `mapState`**
+**Without `mapState`**
 
 ```js
 computed: {
@@ -1710,56 +1483,11 @@ computed: {
 }
 ```
 
----
+<br>
 
-### ✅ **With `mapState`**
+**With `mapState`**
 
-```js
-import { mapState } from 'vuex'
-
-export default {
-  computed: {
-    ...mapState(['count', 'user'])
-  }
-}
-```
-
-🟢 Now you can use `{{ count }}` or `{{ user }}` directly in your template.
-
----
-
-### 🔧 **Using Aliases (Custom Names)**
-
-You can rename state properties if needed:
-
-```js
-computed: {
-  ...mapState({
-    total: 'count', // this.total = state.count
-    profile: 'user'
-  })
-}
-```
-
----
-
-### ⚙️ **With Functions**
-
-You can also compute something using the state:
-
-```js
-computed: {
-  ...mapState({
-    doubledCount: (state) => state.count * 2
-  })
-}
-```
-
----
-
-### 🧩 **Example**
-
-```vue
+```html
 <template>
   <div>
     <p>Count: {{ count }}</p>
@@ -1778,45 +1506,46 @@ export default {
 </script>
 ```
 
----
+🟢 Now you can use `{{ count }}` or `{{ user }}` directly in your template.
 
-### ✅ **Summary Table**
+<br>
 
-| Feature    | Description                                  |
-| ---------- | -------------------------------------------- |
-| `mapState` | Maps Vuex state to local computed properties |
-| Syntax     | `...mapState(['stateProp'])`                 |
-| Alias      | `...mapState({ localName: 'stateProp' })`    |
-| Works in   | `computed` section only                      |
-| Benefit    | Less boilerplate, cleaner computed code      |
+**Using Aliases (Custom Names)**
 
----
+You can rename state properties if needed:
 
-**In short:**
+```js
+computed: {
+  ...mapState({
+    total: 'count', // this.total = state.count
+    profile: 'user'
+  })
+}
+```
 
-> The `mapState` helper in Vuex simplifies access to store state by mapping store variables to local computed properties — making your components cleaner and more readable.
+<br>
+
+**With Functions**
+
+You can also compute something using the state:
+
+```js
+computed: {
+  ...mapState({
+    doubledCount: (state) => state.count * 2
+  })
+}
+```
 
 <br>
 
 > ### How do you combine local computed properties with mapState helper
-Good one 💡 — this is a **very common Vuex interview question**.
 
----
-
-### 🧩 **Problem**
-
-When you use `mapState`, it replaces the entire `computed` section if not combined properly.
+When you use `mapState`, it replaces the entire `computed` section if not combined properly.\
 So, you need to **merge your local computed properties** with the `mapState` ones.
 
----
 
-### ✅ **Solution**
-
-Use the **spread operator (`...`)** to combine them.
-
----
-
-### 🧠 **Example**
+**Solution** - Use the **spread operator (`...`)** to combine them.
 
 ```js
 import { mapState } from 'vuex'
@@ -1840,56 +1569,7 @@ export default {
 }
 ```
 
-Now your component has access to:
-
-* `localComputed` (from local logic)
-* `count`, `user` (from Vuex state)
-
----
-
-### 🧩 **Using Object Syntax (with Aliases)**
-
-```js
-computed: {
-  ...mapState({
-    total: 'count',
-    username: state => state.user.name
-  }),
-  
-  localMessage() {
-    return 'Local data: ' + this.total
-  }
-}
-```
-
----
-
-### ⚙️ **Order doesn’t matter**
-
-You can place local computed properties before or after `mapState` — both will work.
-If a property name clashes, the **last one defined** takes priority.
-
----
-
-### ✅ **Summary Table**
-
-| Concept | Description                                    |
-| ------- | ---------------------------------------------- |
-| Purpose | Merge Vuex state + local computed props        |
-| How     | Use spread operator (`...mapState()`)          |
-| Alias   | Use object syntax inside `mapState`            |
-| Order   | Doesn’t matter, but last wins if name overlaps |
-
----
-
-**In short:**
-
-> Combine `mapState` with local computed properties by using the spread operator inside the `computed` section — it merges both seamlessly.
-
-
-
 <br>
-
 
 > ### What are vuex getters??
 
@@ -1914,18 +1594,14 @@ const store = new Vuex.Store({
 
 <br>
 
-> ### What is a property style access?What is a method style access
+> ### What is a property style access? What is a method style access
 
-Excellent — this question relates to **Vuex getters** and how you access them 👇
+Excellent — this question relates to **Vuex getters** and how you access them
 
----
-
-### 🧩 **1. Property Style Access**
+**1. Property Style Access**
 
 Property-style access treats a **getter** like a **computed property** —
 you access it **without parentheses**.
-
-#### ✅ Example
 
 ```js
 const store = new Vuex.Store({
@@ -1950,25 +1626,11 @@ And in template:
 <p>{{ doubleCount }}</p>
 ```
 
-> 🔹 **Key:** `doubleCount` is accessed like a **property** — no parentheses.
+<br>
 
----
+**2. Method Style Access**
 
-### 🧠 **Use Case**
-
-Use property-style access when the getter:
-
-* **Doesn’t need arguments**
-* Returns a **static derived value**
-
----
-
-### 🧩 **2. Method Style Access**
-
-Method-style access treats a **getter** like a **function** —
-you call it **with parentheses and arguments**.
-
-#### ✅ Example
+Method-style access treats a **getter** like a **function**
 
 ```js
 const store = new Vuex.Store({
@@ -1992,7 +1654,7 @@ computed: {
 
 And in template:
 
-```vue
+```js
 <ul>
   <li v-for="todo in getTodosByStatus(true)" :key="todo.id">
     {{ todo }}
@@ -2000,42 +1662,17 @@ And in template:
 </ul>
 ```
 
-> 🔹 **Key:** `getTodosByStatus(true)` — called like a **method**, because it needs an argument.
-
----
-
-### ✅ **Summary Table**
-
-| Access Type        | Syntax            | Use Case            | Example                       |
-| ------------------ | ----------------- | ------------------- | ----------------------------- |
-| **Property style** | `getterName`      | No arguments needed | `this.doubleCount`            |
-| **Method style**   | `getterName(arg)` | Needs dynamic input | `this.getTodosByStatus(true)` |
-
----
-
-**In short:**
-
-> In Vuex, **property-style access** is used for simple, argument-free getters, while **method-style access** is used when a getter needs parameters to compute a value dynamically.
-
+**Key:** `getTodosByStatus(true)` — called like a **method**, because it needs an argument.
 
 <br>
 
-
-> ### What is mapGetter helper??
-
-Great — this one’s about **Vuex getters**, and the `mapGetters` helper 🔍
-
----
-
-### 🧩 **What is `mapGetters`?**
+> ### What is mapGetter helper
 
 `mapGetters` is a **Vuex helper function** that lets you easily use **getters** from your Vuex store as **computed properties** inside your components.
 
 It saves you from manually writing a bunch of computed properties that return store getters.
 
----
-
-### 🧠 **Without `mapGetters`**
+**Without `mapGetters`**
 
 ```js
 computed: {
@@ -2047,10 +1684,9 @@ computed: {
   }
 }
 ```
+<br>
 
----
-
-### ✅ **With `mapGetters`**
+**With `mapGetters`**
 
 ```js
 import { mapGetters } from 'vuex'
@@ -2064,9 +1700,9 @@ export default {
 
 🟢 Now you can use `{{ doubleCount }}` and `{{ isLoggedIn }}` directly in your template.
 
----
+<br>
 
-### 🧩 **Using Aliases (Custom Names)**
+**Using Aliases (Custom Names)**
 
 You can rename getters to match local naming:
 
@@ -2085,62 +1721,6 @@ Now you use:
 <p>{{ countDouble }}</p>
 <p>{{ userStatus }}</p>
 ```
-
----
-
-### ⚙️ **Works with Modules**
-
-If you’re using namespaced Vuex modules:
-
-```js
-computed: {
-  ...mapGetters('user', ['isAdmin', 'userProfile'])
-}
-```
-
-> Here `'user'` is the module name.
-
----
-
-### ✅ **Summary Table**
-
-| Feature      | Description                                   |
-| ------------ | --------------------------------------------- |
-| Purpose      | Map Vuex getters to local computed props      |
-| Syntax       | `...mapGetters(['getterName'])`               |
-| Alias        | `...mapGetters({ localName: 'getterName' })`  |
-| With Modules | `...mapGetters('moduleName', ['getterName'])` |
-| Benefit      | Cleaner, less repetitive code                 |
-
----
-
-### 🧠 **Example**
-
-```vue
-<template>
-  <div>
-    <p>Double Count: {{ doubleCount }}</p>
-    <p>Logged In: {{ isLoggedIn }}</p>
-  </div>
-</template>
-
-<script>
-import { mapGetters } from 'vuex'
-
-export default {
-  computed: {
-    ...mapGetters(['doubleCount', 'isLoggedIn'])
-  }
-}
-</script>
-```
-
----
-
-**In short:**
-
-> The `mapGetters` helper in Vuex maps store getters to local computed properties, making it easier and cleaner to access derived state inside Vue components.
-
 
 <br>
 
@@ -2187,27 +1767,13 @@ mutations: {
 
 > ### Why mutations should be synchronous?
 
-Excellent — this is a classic **Vuex interview question** ⚡
-
----
-
-### 🧩 **Answer:**
-
 Mutations in Vuex **must be synchronous** because **Vuex’s state change tracking** depends on them being **predictable and traceable**.
 
 If a mutation were asynchronous, the **devtools**, **time-travel debugging**, and **state snapshots** would all become unreliable.
 
----
+<br>
 
-### 🧠 **Explanation**
-
-When you commit a mutation:
-
-```js
-store.commit('increment')
-```
-
-Vuex immediately records:
+When you commit a mutation then Vuex immediately records:
 
 1. The **previous state**
 2. The **mutation type and payload**
@@ -2219,11 +1785,8 @@ Vuex immediately records:
 * State history becomes inconsistent
 * Debugging becomes very hard
 
----
 
-### ⚡ **Example**
-
-#### ❌ **Wrong (async mutation)**
+**Wrong (async mutation)**
 
 ```js
 mutations: {
@@ -2237,9 +1800,8 @@ mutations: {
 
 * Vuex logs `incrementAsync` **immediately**, but the state actually changes **later**, breaking state tracking.
 
----
 
-#### ✅ **Correct Way**
+**Correct Way**
 
 Keep mutations synchronous and move async code into **actions**:
 
@@ -2257,25 +1819,6 @@ mutations: {
   }
 }
 ```
-
----
-
-### ✅ **Summary Table**
-
-| Concept       | Description                                                      |
-| ------------- | ---------------------------------------------------------------- |
-| **Mutations** | Must be synchronous, modify state directly                       |
-| **Actions**   | Can be asynchronous, commit mutations                            |
-| **Why**       | To ensure devtools, state tracking, and debugging work correctly |
-
----
-
-### 🧩 **In short:**
-
-> Vuex mutations must be synchronous so Vuex can reliably track and record every state change.
-> All asynchronous logic should be handled in **actions**, which then commit mutations once ready.
-
-
 
 <br>
 
@@ -2316,104 +1859,22 @@ In Vuex, **actions** are functions used to perform **asynchronous operations** (
 
 They **cannot directly mutate the state** — instead, they **commit** mutations once async tasks finish.
 
----
-
-### 🧠 **Basic Syntax**
-
 ```js
 actions: {
-  someAction(context, payload) {
-    // perform async or logic
-    context.commit('mutationName', payload)
-  }
-}
-```
-
----
-
-### ✅ **Example — Fetching Data from an API**
-
-#### **store.js**
-
-```js
-import Vue from 'vue'
-import Vuex from 'vuex'
-import axios from 'axios'
-
-Vue.use(Vuex)
-
-export default new Vuex.Store({
-  state: {
-    users: []
-  },
-  mutations: {
-    setUsers(state, users) {
-      state.users = users
-    }
-  },
-  actions: {
-    async fetchUsers({ commit }) {
-      try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/users')
-        commit('setUsers', response.data) // commit mutation after async call
-      } catch (error) {
-        console.error('Error fetching users:', error)
-      }
-    }
-  }
-})
-```
-
----
-
-### 🧩 **Usage in a Component**
-
-```vue
-<template>
-  <div>
-    <button @click="loadUsers">Load Users</button>
-    <ul>
-      <li v-for="user in users" :key="user.id">{{ user.name }}</li>
-    </ul>
-  </div>
-</template>
-
-<script>
-import { mapState, mapActions } from 'vuex'
-
-export default {
-  computed: {
-    ...mapState(['users'])
-  },
-  methods: {
-    ...mapActions(['fetchUsers']),
-    loadUsers() {
-      this.fetchUsers() // calls Vuex action
+  async someAction(context, payload) {
+    try {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/users')
+      commit('setUsers', response.data) // commit mutation after async call
+    } catch (error) {
+      console.error('Error fetching users:', error)
     }
   }
 }
-</script>
 ```
 
----
+**Note:**
 
-### ✅ **Key Points**
-
-| Concept       | Description                                     |
-| ------------- | ----------------------------------------------- |
-| **Actions**   | Used for async tasks (e.g. API calls, timeouts) |
-| **Mutations** | Must be synchronous; update the state           |
-| **Commit**    | Used inside actions to trigger a mutation       |
-| **Dispatch**  | Used in components to call an action            |
-
----
-
-### ⚡ **In short:**
-
-> Use **Vuex actions** to handle asynchronous logic like API calls, then **commit mutations** to update the state once data is ready.
-
-**Example:**
-Fetch data → `action` → `commit` → `mutation` → `update state` → UI re-renders.
+Fetch data → `dispatch` → `action` → `commit` → `mutation` → `update state` → UI re-renders.
 
 
 <br>
@@ -2461,8 +1922,6 @@ export default {
 }
 ```
 
-
-
 <br>
 
 > ### How to use model directive with two way computed property?
@@ -2487,7 +1946,6 @@ mutations: {
 }
 ```
 
-
 <br>
 
 > ### What is the main difference between method and computed property?
@@ -2497,15 +1955,7 @@ The main difference between a computed property and a method is that computed pr
 
 > ### How do you watch for nested data changes?
 
-Excellent question — this one’s important when dealing with **reactive objects** or **deeply nested state** in Vue 👀
-
----
-
-### 🧩 **Problem**
-
 By default, Vue’s `watch` only detects **changes to the property itself**, **not** its nested values.
-
-Example:
 
 ```js
 data() {
@@ -2523,9 +1973,8 @@ watch: {
 }
 ```
 
----
 
-### ✅ **Solution: Use `deep: true`**
+**Solution: Use `deep: true`**
 
 You can enable **deep watching** to track changes inside nested objects or arrays.
 
@@ -2540,60 +1989,16 @@ watch: {
 }
 ```
 
-> 💡 Now, changes like `this.user.name = 'Alice'` will trigger the watcher.
+Every time `name` or `age` changes, the watcher runs.
 
----
-
-### 🧠 **Example**
-
-```vue
-<template>
-  <div>
-    <input v-model="user.name" placeholder="Change name" />
-    <input v-model.number="user.age" placeholder="Change age" />
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      user: {
-        name: 'John',
-        age: 25
-      }
-    }
-  },
-  watch: {
-    user: {
-      handler(newVal) {
-        console.log('User updated:', newVal)
-      },
-      deep: true
-    }
-  }
-}
-</script>
-```
-
-🟢 Every time `name` or `age` changes, the watcher runs.
-
----
-
-### ⚙️ **When to Use `deep: true`**
-
-✅ Use it when:
-
-* Watching an **object** or **array** with changing internal values
-* You need to react to **any nested property change**
 
 ❌ Avoid it when:
 
 * The object is **large**, and you only need to watch specific properties — it can be **performance-heavy**.
 
----
+<br>
 
-### ⚡ **Alternative — Watch Specific Nested Properties**
+**Alternative — Watch Specific Nested Properties**
 
 Instead of deep watching the whole object, target a specific field:
 
@@ -2607,9 +2012,9 @@ watch: {
 
 This is **more efficient** and often preferable.
 
----
+<br>
 
-### ✅ **Summary Table**
+**Summary Table**
 
 | Method        | Description                | Performance |
 | ------------- | -------------------------- | ----------- |
@@ -2617,29 +2022,11 @@ This is **more efficient** and often preferable.
 | `'obj.prop'`  | Watches specific property  | 🟢 Best     |
 | Default watch | Watches top-level only     | 🔵 Fastest  |
 
----
-
-### 🧩 **In short:**
-
-> To watch nested data changes in Vue, use a watcher with `deep: true`, or target specific nested paths like `'user.name'` for better performance.
-
-
-
 <br>
 
 > ### Is recommended to use async for computed properties?
 
-Great question — and a very common one in Vue interviews ⚡
-
----
-
-### 🧩 **Short Answer**
-
 ❌ **No, it’s not recommended (or supported)** to make **computed properties asynchronous** in Vue.
-
----
-
-### 🧠 **Why?**
 
 Computed properties in Vue are designed to be:
 
@@ -2655,29 +2042,9 @@ When you use async logic (like `await`, `Promise`, or API calls), Vue can’t:
 
 So the computed property won’t behave predictably.
 
----
+<br>
 
-### ⚡ **Example (Not Recommended)**
-
-```js
-computed: {
-  async userData() {
-    const res = await fetch('/api/user')
-    return await res.json() // ❌ Doesn't work as expected
-  }
-}
-```
-
-Here:
-
-* The computed property returns a **Promise**, not actual data.
-* Vue templates won’t “wait” for the promise to resolve.
-
----
-
-### ✅ **Recommended Alternatives**
-
-#### **1. Use `watch` or `watchEffect`**
+**Recommended Alternatives use `watch` or `watchEffect`**
 
 Trigger async calls when a reactive value changes, and store results in data.
 
@@ -2698,96 +2065,11 @@ watch: {
   }
 }
 ```
-
----
-
-#### **2. Use an `async` method and call it in lifecycle hook**
-
-```js
-data() {
-  return { userData: null }
-},
-methods: {
-  async fetchUser() {
-    const res = await fetch('/api/user')
-    this.userData = await res.json()
-  }
-},
-mounted() {
-  this.fetchUser()
-}
-```
-
----
-
-#### **3. Use Libraries or Composables (Vue 3)**
-
-If using Vue 3 with Composition API, you can use **async/await** inside `setup()` or a composable:
-
-```js
-import { ref, onMounted } from 'vue'
-
-export default {
-  setup() {
-    const userData = ref(null)
-
-    onMounted(async () => {
-      const res = await fetch('/api/user')
-      userData.value = await res.json()
-    })
-
-    return { userData }
-  }
-}
-```
-
----
-
-### ✅ **Summary Table**
-
-| Concept             | Recommended | Reason                                 |
-| ------------------- | ----------- | -------------------------------------- |
-| Async in `computed` | ❌ No        | Computed must be sync & cacheable      |
-| Async in `watch`    | ✅ Yes       | Reactive and controlled                |
-| Async in `methods`  | ✅ Yes       | Easier to handle data & loading states |
-| Composition API     | ✅ Yes       | Clean async setup logic                |
-
----
-
-**In short:**
-
-> **Don’t use async logic inside computed properties.**
-> Instead, use a `watch`, `method`, or Composition API setup to handle asynchronous tasks properly.
-
-
-
 <br>
 
 > ### Why the component data must be a function?
 
-Excellent question — this is a **fundamental Vue concept**, especially for reusable components ⚡
-
----
-
-### 🧩 **Why `data` Must Be a Function in Components**
-
 In Vue **components**, the `data` option **must be a function** that returns an object, instead of just an object.
-
-#### Example:
-
-```js
-export default {
-  data() {
-    return {
-      count: 0
-    }
-  }
-}
-```
-
----
-
-### 🧠 **Reason**
 
 When `data` is a plain object:
 
@@ -2798,7 +2080,7 @@ data: { count: 0 }
 * All **instances of the component** will **share the same object**.
 * Changing `count` in one instance will affect **all other instances** — not what you usually want.
 
-#### ⚠️ Problem Example:
+#### Problem Example:
 
 ```vue
 <my-counter v-for="n in 2" :key="n" />
@@ -2810,11 +2092,10 @@ data: { count: 0 }
 ```
 
 * Both counters will **share the same `count`**.
-* Incrementing one counter increments the other automatically! 😱
+* Incrementing one counter increments the other automatically!
 
----
 
-### ✅ **Solution: Use a Function**
+**Solution: Use a Function**
 
 ```js
 data() {
@@ -2827,28 +2108,6 @@ data() {
 * Each component instance **gets its own copy of the data object**.
 * Changes in one component **do not affect others**. ✅
 
----
-
-### 🧩 **Key Points**
-
-| Scenario            | `data` type                         | Behavior                        |
-| ------------------- | ----------------------------------- | ------------------------------- |
-| Root Vue instance   | Object is OK                        | Single instance only            |
-| Reusable components | Must be function                    | Each instance has its own state |
-| Why                 | Avoid shared state across instances | Ensures component encapsulation |
-
----
-
-### ⚡ **In short:**
-
-> In Vue components, `data` must be a function returning an object so that **each instance has its own private state**, preventing unexpected shared data between multiple instances.
-
----
-
-If you want, I can also give a **visual diagram showing shared vs instance-specific data** — it makes this concept super clear.
-
-
-
 <br>
 
 > ### What is the best way to re-render a component?
@@ -2857,7 +2116,7 @@ to be re-rendered, just change the value of the key then Vue will re-render the 
 
 <br>
 
-🕒 DOM Update Timing
+> ### DOM Update Timing
 
 Vue batches DOM updates for efficiency — updates happen asynchronously on the next tick.
 
@@ -2966,8 +2225,7 @@ export default {
 </script>
 ```
 
-### How to make custom directive using the arguments el,binding etc
-https://vuejs.org/guide/reusability/custom-directives.html#directive-hooks
+<br>
 
 ### How can you write duplicate virtual nodes in a component?
 In Vue.js, you can write duplicate virtual nodes in a component by using a `v-for` directive with a unique `key` attribute. The `key` attribute is used by Vue.js to identify each node and keep track of its state, even when the node is duplicated.
@@ -2993,118 +2251,9 @@ export default {
 };
 </script>
 ```
+<br>
 
-### What are dynamic components in vue js
-Dynamic components in Vue.js are components that can be switched dynamically at runtime. They allow you to conditionally render different components based on data or user input, without having to manually toggle their visibility or add/remove them from the DOM.
-
-In Vue.js, you can use the built-in `<component>` element to render dynamic components. The `<component>` element is used as a placeholder for the component you want to render, and you can use a `v-bind:is` directive to dynamically switch between different components.
-
-Here's an example of how to use dynamic components in Vue.js:
-```vue
-<template>
-  <div>
-    <button @click="toggleComponent">Toggle Component</button>
-    <component :is="currentComponent"></component>
-  </div>
-</template>
-
-<script>
-import FirstComponent from './components/FirstComponent.vue';
-import SecondComponent from './components/SecondComponent.vue';
-
-export default {
-  data() {
-    return {
-      currentComponent: 'FirstComponent',
-    };
-  },
-  methods: {
-    toggleComponent() {
-      this.currentComponent =
-        this.currentComponent === 'FirstComponent'
-          ? 'SecondComponent'
-          : 'FirstComponent';
-    },
-  },
-  components: {
-    FirstComponent,
-    SecondComponent,
-  },
-};
-</script>
-```
-
-### What are async components
-In Vue.js, async components are similar to async components in React, in that they allow developers to split a large component into smaller chunks that can be loaded asynchronously, improving the performance of the application.
-
-To define an async component in Vue.js, developers can use the `Vue.component()` method and specify a `component` property that is a function that returns a Promise that resolves to a component definition object. This component definition object can include properties such as `template`, `data`, `computed`, and `methods`, similar to regular components in Vue.js.
-
-Here is an example of defining an async component in Vue.js:
-
-```js
-Vue.component('async-component', () => {
-  return import('./AsyncComponent.vue');
-});
-```
-
-In this example, we define an async component named 'async-component' using the `Vue.component()` method. The second argument to the method is a function that returns a Promise that resolves to a component definition object. The component is loaded using the `import()` function, which is a JavaScript feature that loads modules asynchronously.
-
-Once the Promise resolves, Vue.js will automatically register the component and render it when it is used in the template. The component can then be used like any other Vue.js component, using its name as a custom element in the template.
-
-```vue
-<template>
-  <div>
-    <async-component></async-component>
-  </div>
-</template>
-```
-
-Async components in Vue.js provide a way to optimize the performance of large applications by loading components only when they are needed, rather than loading them all at once. This can significantly reduce the initial load time of the application and improve the overall user experience.
-
-### What is the structure of async component factory in vue js
-An async component factory in Vue.js is a way to create components that are loaded asynchronously, which can improve the performance of your application by only loading the components that are needed when they are needed.
-
-The structure of an async component factory in Vue.js consists of a factory function that returns a Promise that resolves to the component definition. Here's an example:
-
-```js
-const AsyncComponent = () => ({
-  // The component definition is returned inside a Promise
-  component: import('./MyComponent.vue'),
-  // A loading component can be specified to be displayed while the async component is loading
-  loading: LoadingComponent,
-  // An error component can be specified to be displayed if the async component fails to load
-  error: ErrorComponent,
-  // The delay before showing the loading component (defaults to 200ms)
-  delay: 500,
-  // Whether to suspend the rendering of the parent component until the async component has loaded (defaults to false)
-  suspensible: true
-});
-
-export default AsyncComponent;
-```
-
-In this example, `AsyncComponent` is a factory function that returns an object with several properties. The `component` property is a Promise that resolves to the component definition, which is imported from a file called `MyComponent.vue`. The `loading` and `error` properties are optional components that can be displayed while the async component is loading or if it fails to load. The `delay` property specifies the amount of time to wait before showing the loading component, and the `suspensible` property determines whether to suspend the rendering of the parent component until the async component has loaded.
-
-To use the async component factory, you can import it like any other component and use it in your template like this:
-
-```vue
-<template>
-  <AsyncComponent />
-</template>
-
-<script>
-import AsyncComponent from './AsyncComponent';
-
-export default {
-  components: {
-    AsyncComponent
-  }
-}
-</script>
-```
-When the AsyncComponent is rendered, it will load the component definition asynchronously and render it when it is ready.
-
-### what is vue loader 
+> ### what is vue loader 
 Vue Loader is a loader for Webpack, a popular module bundler for web applications, that allows you to write Vue.js components in a format that can be compiled into JavaScript code that can be run in a web browser.
 
 Vue Loader works by parsing your Vue components and their associated templates, and then transforming them into JavaScript code that can be included in your application. This allows you to write your components in a more modular and reusable way, and it also makes it easier to manage the dependencies between your components.
@@ -3113,7 +2262,9 @@ Vue Loader supports many features of Vue.js, including template compilation, sco
 
 Overall, Vue Loader simplifies the process of building Vue.js applications by allowing developers to write components in a more intuitive and efficient way.
 
-### How do you configure vue loader in webpack?
+<br>
+
+> ### How do you configure vue loader in webpack?
 ```js
 // webpack.config.js
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -3150,8 +2301,6 @@ module.exports = {
 
 > We can have 2 or more style in single component. One style is used for the global style and other one can be scoped style
 
-> Vue lifecycle methods.
-
 > CSS modules in vue js (similar like we use in the react)(:class="$style.red" and `<style module>` wala part is module)
 
 ```vue
@@ -3168,82 +2317,18 @@ module.exports = {
 
 > How to make router param changes as reactive?
 
-> How do you reuse elements with key attribute?  input k liye jarur
-
-> What are the event modifiers provided by vue?
-
-> What are key modifiers?
-
-> What are the supported System Modifier Keys
-
-> What are the supported Mouse Button Modifiers?
-
 > What are the supported modifiers on model?
 
 > How do you customize model directive for a component?
 
-> What are nested routes? video dekho zara nested routing ki
-
-> What are plugins and their various services? How to create a plugin?  https://www.digitalocean.com/community/tutorials/vuejs-creating-custom-plugins
-
->  What are custom directives?How do you register directives locally?What are the hook functions provided by directives?  for the video https://youtu.be/HJHKSNA6HU0
-
-> What is the purpose of keep alive tag?
-
-> What is the purpose of vuejs once directive?
-
->  How do you access the root instance?
-
 >  How do you access parent instance?
-
-> What are asset url transform rules?
-
-> Is it possible to mix both local and global styles?
-
->  Is parent styles leaked into child components in scoped css?
-
->  What is hot reloading in vue loader? How do you disable hot reloading explicitly?
-
-> How do you use deep selectors?
-
-> Vuex k questions 143 se start hue h.
-
->  What are vuex getters?? answer jarur dekhe iska
-
->  How do you perform mutations in components?
-
->  How do you perform asynchronous operations?
-
->  What are differences between mutations and actions?
-
->  How do you dispatch actions in components?
 
 >  What are modules in vuex?
 
 >   How to use model directive with two way computed property? mast cheez h
 
->  What does nextTick do in VueJS?
-
->  What is the main difference between method and computed property? answer dekho jarur
-
->  How do you watch route object changes?
-
 >  What are navigation guards in vue router?   https://router.vuejs.org/guide/advanced/navigation-guards.html
 
->  Can I use computed property in another computed property?
+> ###  Slots ka dekha pura
 
->  Why the component data must be a function?
-
->  v-html,v-once,watchers(use the value concept in it),computed property(ye bhi data function pe depend hota h,change hone pe run hota h, first time run hota h, used for fast calculation,)
-
->  method vs computed vs watchers vue maxmilian video.
-
->  various formats are kebap-case, PascalCase, camelCase
-
->  Slots, teleport
-
-> VueX-mutations
-
-> global imports vs local imports of components. for global componnents use the maxmilian example in main.js file of props video or use global vs local components video of max millian
-
-> :class = "{active : dyanmicdata}" ======== "dynamicdata ? 'active' : ''" keep in mind bracket important h
+> ### :class = "{active : dyanmicdata}"
