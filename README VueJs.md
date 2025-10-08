@@ -490,9 +490,10 @@ your v-model.
 
 **Slots** are like **placeholders** inside a component that allow you to **inject content** from a parent component into a child component.
 
+**Slots** in Vue allow you to **pass content (HTML or components)** from a parent into a **child component’s template**, while the **child controls the layout**.
 
-**Basic Example — Default Slot**
 
+**1. Default Slot**
 
 ```js
 // Child component: `Card.vue
@@ -521,15 +522,23 @@ your v-model.
 
 Here, the `<slot>` tag in the child acts as a placeholder for whatever is placed between `<Card>...</Card>` in the parent.
 
+**Note**
+
+If no content is passed, you can define **fallback content** inside `<slot>`:
+
+```vue
+<slot>Default Text</slot>
+```
+
 <br>
 
-### 🎯 Named Slots
+**2. Named Slots**
 
-When a component needs **multiple content areas**, you can give each slot a name.
+Used when you want **multiple slot areas** in one component.
 
-**Child (`Card.vue`):**
 
 ```html
+<!-- Child (`Card.vue`): -->
 <template>
   <div class="card">
     <header><slot name="header"></slot></header>
@@ -539,9 +548,9 @@ When a component needs **multiple content areas**, you can give each slot a name
 </template>
 ```
 
-**Parent:**
 
 ```js
+// Parent:
 <Card>
   <template v-slot:header>
     <h3>Title Area</h3>
@@ -557,13 +566,45 @@ When a component needs **multiple content areas**, you can give each slot a name
 
 <br>
 
-### 🧮 Scoped Slots
+**3. Conditional Slots**
 
-Scoped slots allow the **child** to pass data to the **parent’s slot content**.
+Sometimes you render sections **only if the slot content exists**.
 
-**Child (`UserCard.vue`):**
 
 ```html
+<!-- Child — `Card.vue` -->
+<template>
+  <div class="card">
+    <div v-if="$slots.header" class="card-header">
+      <slot name="header"></slot>
+    </div>
+
+    <div v-if="$slots.default" class="card-body">
+      <slot></slot>
+    </div>
+
+    <div v-if="$slots.footer" class="card-footer">
+      <slot name="footer"></slot>
+    </div>
+  </div>
+</template>
+```
+
+Here, `$slots` lets you check whether the parent provided content for that slot.
+
+
+
+<br>
+
+**4. Scoped Slots**
+
+Scoped slots let **child components pass data** to the slot content defined in the **parent**.
+
+This allows the parent to use **child data** inside its slot content.
+
+
+```html
+<!-- Child (`UserCard.vue`): -->
 <template>
   <div>
     <slot :user="user"></slot>
@@ -581,32 +622,15 @@ export default {
 </script>
 ```
 
-**Parent:**
 
 ```js
+// Parent:
 <UserCard v-slot="{ user }">
   <p>{{ user.name }} is {{ user.age }} years old.</p>
 </UserCard>
 ```
 
 ➡️ The parent receives `user` from the child’s slot scope.
-
----
-
-### 🧠 Summary
-
-| Type             | Syntax                        | Purpose                            |
-| ---------------- | ----------------------------- | ---------------------------------- |
-| **Default slot** | `<slot></slot>`               | Insert single block of content     |
-| **Named slot**   | `<slot name="..."></slot>`    | Multiple insertion points          |
-| **Scoped slot**  | `<slot :data="value"></slot>` | Pass data from child → parent slot |
-
----
-
-### 💡 In short:
-
-> Slots = Reusable components that still allow flexible custom content.
-
 
 <br>
 
@@ -2315,20 +2339,187 @@ module.exports = {
 </style>
 ```
 
-> How to make router param changes as reactive?
+> ### How to make router param changes as reactive?
 
-> What are the supported modifiers on model?
+Let’s say you have a route like:
 
-> How do you customize model directive for a component?
+```
+/user/:id
+```
 
->  How do you access parent instance?
+And a component like this:
 
->  What are modules in vuex?
+```js
+export default {
+  created() {
+    this.fetchUser(this.$route.params.id)
+  },
+  methods: {
+    fetchUser(id) {
+      console.log('Fetching user', id)
+    }
+  }
+}
+```
 
->   How to use model directive with two way computed property? mast cheez h
+When you navigate:
 
->  What are navigation guards in vue router?   https://router.vuejs.org/guide/advanced/navigation-guards.html
+```
+/user/1 → /user/2
+```
 
-> ###  Slots ka dekha pura
+Vue **reuses the same component instance** (for performance),
+so `created()` doesn’t run again — meaning the `id` change won’t trigger a new fetch.
+
+<br>
+
+**Why It Happens**
+
+In Vue 2, **router params** (`$route.params`) are **reactive**, but the **component instance is reused** for the same route record.
+So lifecycle hooks like `created()` or `mounted()` don’t fire again.
+
+That’s why you must explicitly watch `$route` or `$route.params`.
+
+
+
+**Solution 1: Watch `$route` or `$route.params`**
+
+#### Option A — Watch the Entire `$route`
+
+```js
+watch: {
+  $route(to, from) {
+    this.fetchUser(to.params.id)
+  }
+}
+```
+
+### Option B — Watch Just the Param
+
+```js
+watch: {
+  '$route.params.id'(newId, oldId) {
+    this.fetchUser(newId)
+  }
+}
+```
+
+👉 This is the **most common and clean approach** in Vue 2.
+
+
+**Solution 2: Use `beforeRouteUpdate` Navigation Guard**
+
+If your component is a **route component**, you can use this special guard.
+
+```js
+export default {
+  methods: {
+    fetchUser(id) {
+      console.log('Fetching user', id)
+    }
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => vm.fetchUser(to.params.id))
+  },
+  beforeRouteUpdate(to, from, next) {
+    // Called when route changes but the same component is reused
+    this.fetchUser(to.params.id)
+    next()
+  }
+}
+```
+
+`beforeRouteUpdate` runs every time params or query change within the same route.
+
+
+**Solution 4: Force Re-render with a Key**
+
+If your component is simple and doesn’t need a guard,
+you can force Vue to recreate the component when params change:
+
+```html
+<router-view :key="$route.fullPath" />
+```
+
+or
+
+```html
+<router-view :key="$route.params.id" />
+```
+
+This makes Vue **destroy and re-create** the component whenever the param changes —
+which triggers the full lifecycle again (`created`, `mounted`, etc.).
+
+
+<br>
+
+> ### What are the supported modifiers on model?
+
+Modifiers are **special postfixes** you can add to `v-model` to tweak its behavior.
+They’re written like this:
+
+```vue
+<input v-model.trim="username" />
+```
+
+| Modifier  | Description                                                                  | Example                        |
+| --------- | ---------------------------------------------------------------------------- | ------------------------------ |
+| `.lazy`   | Updates the bound data **only after `change` event** (instead of on `input`) | `<input v-model.lazy="msg">`   |
+| `.number` | Automatically **casts input value to a number**                              | `<input v-model.number="age">` |
+| `.trim`   | Automatically **trims whitespace** from user input                           | `<input v-model.trim="name">`  |
+
+
+#### 1. `.lazy`
+
+By default, `v-model` updates on the **`input` event** (after each keystroke).
+
+`.lazy` changes that to the **`change` event**, so the data updates **only after the input loses focus** or the user presses Enter.
+
+```html
+<input v-model.lazy="message">
+```
+
+**Without `.lazy`:**
+
+* `message` updates on every keystroke.
+
+**With `.lazy`:**
+
+* `message` updates only when input loses focus or user hits Enter.
+
+
+#### You Can Combine Modifiers
+
+```html
+<input v-model.lazy.trim.number="amount">
+```
+
+Here:
+
+* Updates only after `change`
+* Trims whitespace
+* Converts to number
+
+**Bonus: `v-model` on Custom Components (Modifiers Support)**
+
+In Vue 2, **modifiers don’t automatically apply** to custom components —
+you must **manually handle them** in your component’s `model` option or event logic.
+
+Example:
+
+```vue
+<CustomInput v-model.trim="userInput" />
+```
+
+To support `.trim`, you must handle it inside `CustomInput`:
+
+```js
+this.$emit('input', value.trim())
+```
+
+> ### What are modules in vuex?
+
+In Vuex, a module is a way to split your store into multiple smaller, manageable stores —
+each module having its own state, mutations, actions, and getters.
 
 > ### :class = "{active : dyanmicdata}"
