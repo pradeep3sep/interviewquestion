@@ -1,10 +1,8 @@
 > ### Lifecycle Hooks
 
-In **Vue.js**, lifecycle hooks are special functions that allow you to run custom code **at specific stages of a component’s lifecycle** — from creation, to mounting, updating, and unmounting (destruction).
+Lifecycle hooks allow you to run custom code **at specific stages of a component’s lifecycle** — from creation, to mounting, updating, and unmounting (destruction).
 
----
-
-## 🔁 **Lifecycle Phases**
+**Lifecycle Phases**
 
 Vue component lifecycle can be divided into **four main phases**:
 
@@ -13,19 +11,17 @@ Vue component lifecycle can be divided into **four main phases**:
 3. **Updating phase**
 4. **Unmounting (Destruction) phase**
 
----
 
-## 🧱 **1. Creation Phase Hooks**
+**1. Creation Phase Hooks**
 
-> These hooks run before the component is added to the DOM.
+These hooks run before the component is added to the DOM.
 
 | Hook             | When it Runs                                                                        | Common Uses                                                                       |
 | ---------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
 | `beforeCreate()` | After instance is initialized, but before data/reactivity and events are set up.    | Avoid accessing `data`, `props`, or `computed` here. Usually for low-level setup. |
 | `created()`      | After data, props, and methods are initialized, but before the template is mounted. | Fetching initial data, setting up timers, API calls, or event listeners.          |
 
-### Example:
-
+**Example:**
 ```js
 export default {
   data() {
@@ -40,20 +36,19 @@ export default {
   }
 }
 ```
+<br>
 
----
+**2. Mounting Phase Hooks**
 
-## 🏗️ **2. Mounting Phase Hooks**
-
-> These run when Vue is attaching the component to the actual DOM.
+These run when Vue is attaching the component to the actual DOM.
 
 | Hook            | When it Runs                                                                   | Common Uses                                                                                        |
 | --------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
 | `beforeMount()` | Called right before mounting begins (template is compiled but not yet in DOM). | Rarely used — mostly for debugging.                                                                |
 | `mounted()`     | Called after the component is inserted into the DOM.                           | Accessing or manipulating DOM elements, initializing third-party libraries (e.g. charts, sliders). |
 
-### Example:
 
+**Example:**
 ```js
 export default {
   mounted() {
@@ -63,18 +58,19 @@ export default {
 }
 ```
 
----
+<br>
 
-## 🔄 **3. Updating Phase Hooks**
+**3. Updating Phase Hooks**
 
-> Triggered when reactive data changes and the component re-renders.
+Triggered when reactive data changes and the component re-renders.
 
 | Hook             | When it Runs                                                      | Common Uses                                    |
 | ---------------- | ----------------------------------------------------------------- | ---------------------------------------------- |
 | `beforeUpdate()` | Called before the DOM is re-rendered due to reactive data change. | Check or modify data before DOM updates.       |
 | `updated()`      | Called after the DOM has been updated.                            | Perform DOM-dependent operations after update. |
 
-### Example:
+
+**Example:**
 
 ```js
 export default {
@@ -90,19 +86,19 @@ export default {
 }
 ```
 
----
+<br>
 
-## 🗑️ **4. Unmounting (Destruction) Phase Hooks**
+**4. Unmounting (Destruction) Phase Hooks**
 
-> Called when the component is being removed from the DOM.
+Called when the component is being removed from the DOM.
 
 | Hook                                                  | When it Runs                          | Common Uses                                                    |
 | ----------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------- |
 | `beforeUnmount()` (Vue 3) / `beforeDestroy()` (Vue 2) | Before the component is torn down.    | Cleanup like removing event listeners, canceling API requests. |
 | `unmounted()` (Vue 3) / `destroyed()` (Vue 2)         | After the component is fully removed. | Final cleanup or logging.                                      |
 
-### Example:
 
+**Example:**
 ```js
 export default {
   beforeUnmount() {
@@ -113,21 +109,9 @@ export default {
   }
 }
 ```
+<br>
 
----
-
-## 🧩 **Vue 2 vs Vue 3 Naming Differences**
-
-| Phase      | Vue 2 Hook                   | Vue 3 Hook                   |
-| ---------- | ---------------------------- | ---------------------------- |
-| Creation   | `beforeCreate`, `created`    | Same                         |
-| Mounting   | `beforeMount`, `mounted`     | Same                         |
-| Updating   | `beforeUpdate`, `updated`    | Same                         |
-| Unmounting | `beforeDestroy`, `destroyed` | `beforeUnmount`, `unmounted` |
-
----
-
-## ⚙️ **Lifecycle Diagram**
+**Lifecycle Diagram**
 
 Here’s the flow in order:
 
@@ -137,51 +121,18 @@ beforeCreate → created → beforeMount → mounted
 → beforeUnmount → unmounted
 ```
 
----
-
-## 🧠 Tip
-
-In **Composition API**, these are replaced by **onXXX()** functions:
-
-```js
-import { onMounted, onUpdated, onUnmounted } from 'vue';
-
-export default {
-  setup() {
-    onMounted(() => console.log('mounted'));
-    onUpdated(() => console.log('updated'));
-    onUnmounted(() => console.log('unmounted'));
-  }
-}
-```
-
----
-
-Would you like me to show a **diagram of the lifecycle hooks flow** (Vue 2 or Vue 3)?
-
 <br>
 
 > ### How to create a plugin?
 
-Perfect 👍 — let’s go over **how to create and use a plugin in Vue 2**, step by step.
-
----
-
-## 🔧 **What Is a Plugin in Vue 2?**
-
-In **Vue 2**, a plugin is an **object or function** that adds global-level functionality to Vue.
+Plugin is an **object or function** that adds global-level functionality to Vue.
 
 You register it once with:
-
 ```js
 Vue.use(MyPlugin, options)
 ```
 
-When you do that, Vue automatically calls the plugin’s `install()` method.
-
----
-
-## 🧱 **Basic Structure of a Vue 2 Plugin**
+**Basic Structure of a Vue 2 Plugin**
 
 A Vue 2 plugin should export an object (or function) with an `install()` method:
 
@@ -193,12 +144,11 @@ export default {
 }
 ```
 
----
+<br>
 
-## ✅ **Example 1: Simple Logger Plugin**
+**Example 1: Simple Logger Plugin**
 
-### Step 1 — Create `plugins/logger.js`
-
+Step 1 — Create `plugins/logger.js`
 ```js
 export default {
   install(Vue, options) {
@@ -227,11 +177,9 @@ export default {
   }
 };
 ```
+<br>
 
----
-
-### Step 2 — Register the Plugin in `main.js`
-
+Step 2 — Register the Plugin in `main.js`
 ```js
 import Vue from 'vue';
 import App from './App.vue';
@@ -244,10 +192,9 @@ new Vue({
 }).$mount('#app');
 ```
 
----
+<br>
 
-### Step 3 — Use It in Any Component
-
+Step 3 — Use It in Any Component
 ```vue
 <template>
   <div>
@@ -265,69 +212,9 @@ export default {
 </script>
 ```
 
----
+<br>
 
-## 🧩 **Example 2: HTTP Plugin (Real Use Case)**
-
-Let’s create a plugin that adds a global `$apiGet` method using Axios.
-
-### Step 1 — `plugins/http.js`
-
-```js
-import axios from 'axios';
-
-export default {
-  install(Vue, options) {
-    const baseURL = options?.baseURL || '';
-
-    // Global GET method
-    Vue.prototype.$apiGet = async function (url, config = {}) {
-      try {
-        const response = await axios.get(baseURL + url, config);
-        return response.data;
-      } catch (err) {
-        console.error('API Error:', err);
-        throw err;
-      }
-    };
-  }
-};
-```
-
----
-
-### Step 2 — Register in `main.js`
-
-```js
-import Vue from 'vue';
-import App from './App.vue';
-import HttpPlugin from './plugins/http';
-
-Vue.use(HttpPlugin, { baseURL: 'https://jsonplaceholder.typicode.com' });
-
-new Vue({
-  render: h => h(App),
-}).$mount('#app');
-```
-
----
-
-### Step 3 — Use in Component
-
-```vue
-<script>
-export default {
-  async mounted() {
-    const users = await this.$apiGet('/users');
-    console.log(users);
-  }
-}
-</script>
-```
-
----
-
-## 🧠 **What You Can Do Inside a Plugin**
+**What You Can Do Inside a Plugin**
 
 | Feature                  | Example                                    |
 | ------------------------ | ------------------------------------------ |
@@ -337,39 +224,25 @@ export default {
 | Mixin                    | `Vue.mixin({ created() { ... } })`         |
 | Component                | `Vue.component('MyComp', MyComp)`          |
 
----
+<br>
 
-## 🚀 **Best Practices**
+**Best Practices**
 
 ✅ Prefix global methods with `$` (like `$log`, `$apiGet`)
 ✅ Keep plugin logic **stateless** and **reusable**
 ✅ Allow passing **options** for flexibility
 ✅ Don’t mutate Vue internals directly
 
----
-
-Would you like me to show a **Vue 2 plugin example that manages authentication tokens (JWT)** with Axios interceptors? It’s a common real-world scenario for enterprise apps.
-
-
 <br>
 
 > ### What is vue reactivity
-
-Excellent — this is a **core concept** in Vue that drives how your UI updates automatically 🔁
-
-Let’s go step-by-step 👇
-
----
-
-### 🧩 **Definition: Vue Reactivity**
 
 **Vue reactivity** means that **Vue automatically tracks data changes and updates the DOM** whenever your data (state) changes.
 
 > In short: “When your data changes, your UI changes — automatically.”
 
----
 
-### 🧠 **How It Works (Simplified)**
+**How It Works (Simplified)**
 
 1. When you declare data in a Vue component:
 
@@ -385,9 +258,7 @@ Let’s go step-by-step 👇
 
 4. When it’s **updated**, Vue automatically **re-renders** only the parts of the DOM that depend on it.
 
----
-
-### ⚡ **Example**
+**Example**
 
 ```vue
 <template>
@@ -412,77 +283,12 @@ export default {
 
 No manual DOM updates needed. 🚀
 
----
-
-### 🧩 **Under the Hood**
-
-| Version   | Mechanism                 | Description                                          |
-| --------- | ------------------------- | ---------------------------------------------------- |
-| **Vue 2** | `Object.defineProperty()` | Converts data properties into getters/setters        |
-| **Vue 3** | ES6 `Proxy`               | More powerful, can detect property addition/deletion |
-
----
-
-### ⚙️ **Example (Vue 3 Reactivity System)**
-
-```js
-import { reactive, effect } from 'vue'
-
-const state = reactive({ count: 0 })
-
-effect(() => {
-  console.log(`Count changed: ${state.count}`)
-})
-
-state.count++ // triggers effect, logs "Count changed: 1"
-```
-
----
-
-### 🧠 **Benefits**
-
-✅ Automatically keeps DOM and data in sync
-✅ Makes components predictable
-✅ Enables computed properties and watchers
-✅ Efficient updates — Vue re-renders only what changed
-
----
-
-### ⚠️ **Limitations (Vue 2)**
-
-* Vue 2 couldn’t detect:
-
-  * Adding new properties: `this.obj.newProp = 'x'`
-  * Array index changes: `this.items[3] = 'new'`
-
-  👉 Fixed in **Vue 3** with Proxy-based reactivity.
-
----
-
-### ✅ **Summary Table**
-
-| Concept               | Description                             |
-| --------------------- | --------------------------------------- |
-| **Reactivity**        | Automatic DOM updates when data changes |
-| **Mechanism (Vue 2)** | `Object.defineProperty()`               |
-| **Mechanism (Vue 3)** | `Proxy`                                 |
-| **Core Idea**         | Data → Reactivity System → DOM updates  |
-
----
-
-**In short:**
-
-> `Vue’s reactivity` system automatically tracks dependencies between your data and the DOM. When data changes, Vue efficiently updates only the affected parts of the UI — no manual DOM handling required.
+<br>
 
 > ### Suppose we have a data property in a Vue component that is initially an object without any nested properties. Later, we add nested properties to this object, but the changes are not reflected in the UI. Why does this happen, what is this behavior called, and how can it be resolved?
 
 
-Ah! This is a classic **Vue 2 reactivity limitation** question — very important to understand 👀
-
----
-
-### **Scenario**
-
+**Scenario**
 ```js
 data() {
   return {
@@ -499,9 +305,9 @@ methods: {
 * You add a new property (`name`) to the `user` object **after initialization**.
 * Vue **does not update the UI** automatically.
 
----
+<br>
 
-### **Why this happens**
+**Why this happens**
 
 In **Vue 2**, the reactivity system is based on **`Object.defineProperty()`**, which only **reactively tracks properties that exist when the data object is created**.
 
@@ -510,12 +316,11 @@ In **Vue 2**, the reactivity system is based on **`Object.defineProperty()`**, w
 
 > This is often called the **“reactivity caveat” for adding new properties”**.
 
----
+<br>
 
-### **Solution**
+**Solution**
 
 #### **1️⃣ Use `Vue.set`**
-
 ```js
 methods: {
   addNestedData() {
@@ -527,7 +332,6 @@ methods: {
 * This tells Vue to **add a reactive property** to the object.
 * Now the UI updates when `name` changes.
 
----
 
 #### **2️⃣ Use `this.$set` (instance method)**
 
@@ -537,73 +341,8 @@ this.$set(this.user, 'name', 'John')
 
 * Works the same as `Vue.set`, but called on the component instance.
 
----
 
-#### **3️⃣ Initialize nested properties upfront**
-
-```js
-data() {
-  return {
-    user: {
-      name: '' // initialize nested data
-    }
-  }
-}
-```
-
-* Best practice if you know the structure ahead of time.
-* Avoids the need for `Vue.set`.
-
----
-
-### ⚡ **Example**
-
-```vue
-<template>
-  <div>
-    <p>Name: {{ user.name }}</p>
-    <button @click="addName">Add Name</button>
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return { user: {} }
-  },
-  methods: {
-    addName() {
-      this.$set(this.user, 'name', 'John')
-    }
-  }
-}
-</script>
-```
-
-✅ Clicking the button will now update the UI correctly.
-
----
-
-### **Summary Table**
-
-| Problem                                | Reason                                           | Solution                     |
-| -------------------------------------- | ------------------------------------------------ | ---------------------------- |
-| Adding new nested property dynamically | Vue 2 reactivity tracks only existing properties | Use `Vue.set` or `this.$set` |
-| Alternative                            | Initialize nested properties upfront             | Predefine object structure   |
-
----
-
-**In short:**
-
-> In Vue 2, adding new properties to an object **after initialization is not reactive**. To make it reactive, use `Vue.set(this.obj, 'newProp', value)` or initialize the nested properties when defining `data`.
-
----
-
-If you want, I can also **explain how Vue 3 fixes this problem with Proxy**, which avoids `Vue.set` entirely. Do you want me to explain that?
-
-
-
-
+<br>
 
 > ### What are the different API styles available?
 
@@ -629,8 +368,6 @@ VueJS provides set of directives to show or hide elements based on conditions. T
 
 > ### Why should not use if and for directives together on the same element?
 
-Here’s why:
-
 1. Order of execution
 
 When both are used on the same element:
@@ -642,17 +379,6 @@ When both are used on the same element:
 This means Vue still processes all items, even if most of them are not displayed.
 ➡️ Inefficient if the list is large.
 
-
-
-Perfect 👏 — let’s look at a **practical performance comparison** between
-✅ the *correct* and
-❌ the *incorrect* way of using `v-if` + `v-for`.
-
----
-
-## 🧪 Scenario
-
-Imagine you have **1000 items**, and each item has a `visible` flag.
 
 ```js
 data() {
@@ -666,11 +392,9 @@ data() {
 }
 ```
 
----
+**❌ Wrong Way — `v-if` and `v-for` on the Same Element**
 
-## ❌ Wrong Way — `v-if` and `v-for` on the Same Element
-
-```vue
+```js
 <ul>
   <li v-for="item in list" v-if="item.visible" :key="item.id">
     {{ item.name }}
@@ -678,7 +402,7 @@ data() {
 </ul>
 ```
 
-### What happens:
+#### What happens:
 
 * Vue runs `v-for` → creates **1000 virtual nodes**.
 * Then it runs `v-if` → hides ~500 of them.
@@ -686,11 +410,10 @@ data() {
 
 ➡️ **Wastes CPU cycles**, especially during updates or re-renders.
 
----
 
-## ✅ Correct Way — Filter First (via Computed)
+**✅ Correct Way — Filter First (via Computed)**
 
-```vue
+```js
 <ul>
   <li v-for="item in visibleItems" :key="item.id">
     {{ item.name }}
@@ -708,40 +431,6 @@ export default {
 }
 </script>
 ```
-
-### What happens:
-
-* Vue only loops through **filtered items** (~500 nodes in this example).
-* DOM diffing and reactivity only process what’s displayed.
-* Much faster updates, cleaner code.
-
-➡️ **Up to 50% fewer VNodes**, **cleaner reactivity graph**, and **better performance**.
-
----
-
-## ⚡ Benchmark (real numbers from Vue DevTools / browser profiling)
-
-| Test                               | Approach               | Avg Render Time     |
-| ---------------------------------- | ---------------------- | ------------------- |
-| 1000 items, 50% visible            | `v-for` + `v-if`       | ~16–22ms            |
-| 1000 items, computed `.filter()`   | ~7–9ms                 |                     |
-| 10,000 items                       | `v-for` + `v-if`       | **> 250ms (laggy)** |
-| 10,000 items, computed `.filter()` | **~80–100ms (smooth)** |                     |
-
-*(Measured in Chrome DevTools, Vue 2/3 — similar behavior in both.)*
-
----
-
-## 🧠 Summary
-
-| ❌ `v-if` + `v-for`                       | ✅ Filter / Wrapper              |
-| ---------------------------------------- | ------------------------------- |
-| Loops through all items, then hides some | Only loops through needed items |
-| CPU + memory wasted                      | Efficient                       |
-| Hard to read                             | Clean separation of logic       |
-| Can cause lag for large lists            | Scales well                     |
-
-
 <br>
 
 > ### How do you use v-for directive with a range?
@@ -797,27 +486,16 @@ your v-model.
 <br>
 
 
-> ### Slots
-
-Great question 👏 — **slots** are one of Vue’s most powerful and elegant features.
-
-Let’s break it down clearly and simply 👇
-
----
-
-## 🧩 What Are Slots in Vue?
+> ### What Are Slots in Vue?
 
 **Slots** are like **placeholders** inside a component that allow you to **inject content** from a parent component into a child component.
 
-Think of them as “**content insertion points**”.
 
----
+**Basic Example — Default Slot**
 
-### 🧠 Basic Example — Default Slot
 
-**Child component: `Card.vue`**
-
-```vue
+```js
+// Child component: `Card.vue
 <template>
   <div class="card">
     <slot></slot>
@@ -825,9 +503,9 @@ Think of them as “**content insertion points**”.
 </template>
 ```
 
-**Parent component:**
 
-```vue
+```js
+// Parent component
 <Card>
   <p>This is some custom text inside the card.</p>
 </Card>
@@ -843,7 +521,7 @@ Think of them as “**content insertion points**”.
 
 Here, the `<slot>` tag in the child acts as a placeholder for whatever is placed between `<Card>...</Card>` in the parent.
 
----
+<br>
 
 ### 🎯 Named Slots
 
@@ -851,7 +529,7 @@ When a component needs **multiple content areas**, you can give each slot a name
 
 **Child (`Card.vue`):**
 
-```vue
+```html
 <template>
   <div class="card">
     <header><slot name="header"></slot></header>
@@ -863,7 +541,7 @@ When a component needs **multiple content areas**, you can give each slot a name
 
 **Parent:**
 
-```vue
+```js
 <Card>
   <template v-slot:header>
     <h3>Title Area</h3>
@@ -877,7 +555,7 @@ When a component needs **multiple content areas**, you can give each slot a name
 </Card>
 ```
 
----
+<br>
 
 ### 🧮 Scoped Slots
 
@@ -885,7 +563,7 @@ Scoped slots allow the **child** to pass data to the **parent’s slot content**
 
 **Child (`UserCard.vue`):**
 
-```vue
+```html
 <template>
   <div>
     <slot :user="user"></slot>
@@ -905,7 +583,7 @@ export default {
 
 **Parent:**
 
-```vue
+```js
 <UserCard v-slot="{ user }">
   <p>{{ user.name }} is {{ user.age }} years old.</p>
 </UserCard>
@@ -934,21 +612,13 @@ export default {
 
 > ### What is global registration in components?
 
-Excellent question 👏 — this is a key concept in how Vue manages components.
-
-Let’s break it down clearly and simply 👇
-
----
-
-## 🌍 What Is **Global Registration** in Vue?
-
 **Global registration** means you register a component **once**, and it becomes available **everywhere** in your app — without needing to import or register it again in each component.
 
----
 
-### 🧠 Example — Global Registration
 
-In your `main.js` (Vue 2) or `main.ts` (Vue 3):
+**Example — Global Registration**
+
+In your `main.js`
 
 ```js
 import Vue from 'vue'
@@ -966,12 +636,9 @@ Now you can use `<MyButton />` in **any** component in your app:
   </div>
 </template>
 ```
+<br>
 
-✅ No need to import or register `MyButton` locally.
-
----
-
-### 🧩 Local Registration (for comparison)
+**Local Registration (for comparison)**
 
 If you **don’t** register globally, you must import and register locally in each component that needs it:
 
@@ -985,18 +652,9 @@ export default {
 </script>
 ```
 
----
+<br>
 
-### ⚖️ Global vs Local Registration
-
-| Type       | How                                | Scope                       | Pros          | Cons                      |
-| ---------- | ---------------------------------- | --------------------------- | ------------- | ------------------------- |
-| **Global** | `Vue.component('Name', Component)` | Available in all components | Easy reuse    | Can bloat app if overused |
-| **Local**  | `components: { MyButton }`         | Only in current file        | Cleaner scope | Need to import manually   |
-
----
-
-### 💡 Best Practice
+**Best Practice**
 
 * Use **global registration** only for **base or highly reusable components**, such as:
 
@@ -1004,34 +662,6 @@ export default {
   * Modals
   * Inputs
   * Loaders
-
-Conventionally, base components are named with a `Base` prefix:
-
-```bash
-BaseButton.vue
-BaseModal.vue
-```
-
-You can even **auto-register** all base components dynamically (Vue 2 example):
-
-```js
-import Vue from 'vue'
-
-const requireComponent = require.context('./components/base', false, /Base[A-Z]\w+\.vue$/)
-
-requireComponent.keys().forEach(fileName => {
-  const componentConfig = requireComponent(fileName)
-  const componentName = fileName.replace(/^\.\/(.*)\.\w+$/, '$1')
-  Vue.component(componentName, componentConfig.default || componentConfig)
-})
-```
-
----
-
-### 🧠 TL;DR
-
-> **Global registration** = register once, use anywhere.
-> Best for shared, small, frequently used components (e.g., `BaseButton`, `BaseInput`).
 
 <br>
 
@@ -1041,14 +671,18 @@ requireComponent.keys().forEach(fileName => {
 props: {
   // Basic type check (`null` matches any type)
   age: Number,
+
   // Multiple possible types
   identityNumber: [String, Number],
+
   // Number with a default value
   minBalance: {
     type: Number,
     default: 10000,
     required: true
   },
+
+
   // Object with a default value
   message: {
     type: Object,
@@ -1058,6 +692,8 @@ props: {
       return { message: 'Welcome to Vue' }
     }
   },
+
+
   // Custom validator function
   location: {
     validator: function (value) {
@@ -1091,25 +727,11 @@ beforeRouteUpdate (to, from, next) {
 
 > ### Nested routes
 
-
-Great question 👏 — **nested routes** (also called **child routes**) are a key feature of Vue Router that allow you to build **multi-level, hierarchical page structures** — perfect for layouts like dashboards or user profiles.
-
-Let’s go through it clearly 👇
-
----
-
-## 🧩 What Are Nested Routes?
-
 **Nested routes** let you render components **inside other route components**.
 
 In other words, a **parent route** defines a layout or wrapper, and **child routes** render inside it — typically within a `<router-view>` inside the parent.
 
----
-
-### 🧠 Simple Example
-
 #### 🗂 Folder structure
-
 ```
 src/
  ├─ views/
@@ -1118,10 +740,8 @@ src/
  │   └─ UserPosts.vue   ← child
 ```
 
----
 
 #### 📜 Router setup
-
 ```js
 // router/index.js
 import Vue from 'vue'
@@ -1152,10 +772,7 @@ export default new Router({
 })
 ```
 
----
-
 #### 🧱 Parent component (`User.vue`)
-
 ```vue
 <template>
   <div>
@@ -1167,7 +784,6 @@ export default new Router({
 </template>
 ```
 
----
 
 #### ✅ How It Works
 
@@ -1178,57 +794,17 @@ When you visit:
 
 So `User.vue` acts as a **layout wrapper**, and child routes render inside its `<router-view>`.
 
----
-
-### ⚙️ Deeply Nested Routes
-
-You can go multiple levels deep:
-
-```js
-{
-  path: '/dashboard',
-  component: Dashboard,
-  children: [
-    {
-      path: 'settings',
-      component: Settings,
-      children: [
-        { path: 'profile', component: ProfileSettings }
-      ]
-    }
-  ]
-}
-```
-
-➡️ `/dashboard/settings/profile`
-
-Each level uses its own `<router-view>`.
-
----
-
-### 🧠 TL;DR
-
-| Concept          | Description                                   |
-| ---------------- | --------------------------------------------- |
-| **Nested route** | A route rendered *inside another route*       |
-| **Parent**       | Has `<router-view>` as placeholder            |
-| **Children**     | Defined in `children` array in router config  |
-| **Use case**     | Dashboards, tabs, profiles, multi-level views |
-
----
-
-✅ **In short:**
-
-> Nested routes in Vue allow components to be rendered inside parent components, creating structured, multi-level page layouts.
-
-
 <br>
 
 > ### What are filters?
 
 It is `functions` that let you apply simple `text formatting` like capitalization, currency, or date formatting.
 
-```js
+```html
+<template>
+  <p>{{ price | currency }}</p>
+</template>
+
 <script>
 export default {
   data: () => ({
@@ -1241,14 +817,11 @@ export default {
   }
 }
 </script>
-
-<template>
-  <p>{{ price | currency }}</p>
-</template>
-
 ```
 
 Output → ₹2500.00
+
+<br>
 
 > ### What are the different ways to create filters
 
@@ -1399,14 +972,6 @@ directives: {
 
 > ### What are dynamic components?
 
-Excellent question 👏 — **dynamic components** are one of Vue’s most powerful features for creating flexible, reusable UIs.
-
-Let’s break it down clearly 👇
-
----
-
-## 🧩 What Are Dynamic Components?
-
 A **dynamic component** means you can **swap which component is rendered at runtime**, *without changing your template structure*.
 
 Vue provides the special built-in component:
@@ -1416,10 +981,6 @@ Vue provides the special built-in component:
 ```
 
 The `:is` attribute decides **which component to render** dynamically.
-
----
-
-### 🧠 Simple Example
 
 ```vue
 <template>
@@ -1451,17 +1012,9 @@ export default {
 * “Login” → `LoginForm` renders
 * “Register” → `RegisterForm` replaces it
 
----
+<br>
 
-### 🧱 How It Works
-
-* The `<component>` tag acts as a **placeholder**.
-* The `:is` prop determines which actual component to load.
-* Vue reuses and swaps components reactively as `componentName` changes.
-
----
-
-### ⚡ Using `<keep-alive>` (Optional but Powerful)
+**Using `<keep-alive>` (Optional but Powerful)**
 
 If you want to **preserve component state** when switching (e.g., form inputs), wrap it with `<keep-alive>`:
 
@@ -1473,81 +1026,20 @@ If you want to **preserve component state** when switching (e.g., form inputs), 
 
 Now when you toggle back and forth, Vue **caches** previous component states.
 
----
-
-### 🧩 Example — Tabs with Dynamic Components
-
-```vue
-<template>
-  <div>
-    <button @click="tab = 'HomeTab'">Home</button>
-    <button @click="tab = 'ProfileTab'">Profile</button>
-    <button @click="tab = 'SettingsTab'">Settings</button>
-
-    <keep-alive>
-      <component :is="tab"></component>
-    </keep-alive>
-  </div>
-</template>
-
-<script>
-import HomeTab from './HomeTab.vue'
-import ProfileTab from './ProfileTab.vue'
-import SettingsTab from './SettingsTab.vue'
-
-export default {
-  data() {
-    return { tab: 'HomeTab' },
-    components: { HomeTab, ProfileTab, SettingsTab }
-  }
-}
-</script>
-```
-
----
-
-### 🧠 TL;DR
-
-| Concept               | Description                                      |
-| --------------------- | ------------------------------------------------ |
-| **Dynamic component** | A component rendered via `<component :is="...">` |
-| **`:is` prop**        | Decides which component to render dynamically    |
-| **`<keep-alive>`**    | Preserves state of swapped components            |
-| **Use cases**         | Tabs, modals, step forms, content switching      |
-
----
-
-✅ **In short:**
-
-> Dynamic components let you switch between multiple components at runtime using `<component :is="...">`, making UIs flexible and modular.
-
-
-
 <br>
 
 > ### What are async components?
-
-Great question — this one’s important for performance optimization in Vue 🚀
-
----
-
-### 🧩 **What are Async Components?**
 
 **Async components** are Vue components that are **loaded only when needed**, rather than being included in the main bundle during the initial load.
 
 Think of them as **lazy-loaded components** — Vue fetches them **on demand**, which helps reduce the initial bundle size and improve app startup speed.
 
----
 
-### ⚙️ **Why use them**
-
+**Why use them**
 * ⏱️ Faster initial load (smaller JS bundle)
 * 📦 Code-splitting (each async component gets its own chunk)
 * 🔁 Only load when the component is actually rendered
 
----
-
-### ✅ **Basic Example**
 
 ```js
 export default {
@@ -1558,31 +1050,7 @@ export default {
 }
 ```
 
-Here, `MyComponent` will be:
-
-* Fetched **only when it’s about to be rendered**
-* Cached afterward, so it won’t re-download
-
----
-
-### 🧠 **With Suspense (Vue 3)**
-
-If you’re using Vue 3, you can even wrap async components with `<Suspense>` to show fallback content:
-
-```vue
-<Suspense>
-  <template #default>
-    <AsyncView />
-  </template>
-  <template #fallback>
-    <div>Loading...</div>
-  </template>
-</Suspense>
-```
-
----
-
-### ⚡ **Advanced Usage**
+**Advanced Usage**
 
 You can also provide options like a loading or error component:
 
@@ -1596,40 +1064,12 @@ const AsyncComp = defineAsyncComponent({
 })
 ```
 
----
-
-### 🧩 **Summary Table**
-
-| Feature         | Description                                      |
-| --------------- | ------------------------------------------------ |
-| **Definition**  | Components loaded only when required             |
-| **Syntax**      | `() => import('...')`                            |
-| **Benefit**     | Reduces bundle size & speeds up app              |
-| **Vue 3 Bonus** | Works great with `<Suspense>` for loading states |
-
----
-
-**In short:**
-
-> Async components = lazy-loaded Vue components that optimize performance by splitting code and loading parts of the app only when needed.
-
-
 <br>
 
-> ### What are recursive components?
+> ### What are Recursive Components?
 
-Excellent — this is one of the more advanced and elegant Vue concepts 💡
+A **recursive component** is a component that **calls itself** within its own template. It’s useful for rendering **nested or tree-like structures** (e.g., menus, comments, folders).
 
----
-
-### 🧩 **What are Recursive Components?**
-
-A **recursive component** is a component that **calls itself** within its own template.
-It’s useful for rendering **nested or tree-like structures** (e.g., menus, comments, folders).
-
----
-
-### 🧠 **Example: A Tree View**
 
 Let’s say you have hierarchical data like this:
 
@@ -1673,55 +1113,13 @@ export default {
 </script>
 ```
 
----
+#### Be Careful
 
-### ⚙️ **Key Points**
-
-1. The component **must have a `name` option** — Vue uses it to recognize self-references.
-2. Recursion stops naturally when no more nested data is present.
-3. You can use recursion for:
-
-   * Nested comments
-   * Folder trees
-   * Menu systems
-   * Category hierarchies
-
----
-
-### ⚠️ **Be Careful**
-
-* Always ensure a **base condition** (like `v-if="item.children"`) —
-  otherwise, you’ll create **infinite recursion** 🔁 and crash the app.
-
----
-
-### ✅ **Summary**
-
-| Concept         | Description                                                |
-| --------------- | ---------------------------------------------------------- |
-| **Definition**  | A component that references itself inside its own template |
-| **Use Case**    | Tree menus, nested comments, folder structures             |
-| **Requirement** | Must define `name` in component                            |
-| **Caution**     | Avoid infinite recursion by checking conditions            |
-
----
-
-**In short:**
-
-> Recursive components are components that render themselves within their template — perfect for displaying nested, hierarchical data structures like trees or menus.
-
+* Always ensure a **base condition** (like `v-if="item.children"`) — otherwise, you’ll create **infinite recursion** 🔁 and crash the app.
 
 <br>
 
 > ### How do you resolve circular dependencies between components?
-
-Excellent — this is a very practical and tricky Vue (and JavaScript) topic 🔁
-
-Let’s go step by step 👇
-
----
-
-### 🧩 **What is a Circular Dependency?**
 
 A **circular dependency** happens when:
 
@@ -1744,19 +1142,8 @@ This creates a **circular reference loop**, which can cause:
 * Runtime errors
 * Unexpected render behavior
 
----
 
-### ⚠️ **Why It Happens in Vue**
-
-Circular dependencies often appear when:
-
-* Two components import each other directly
-* A parent imports a child and vice versa
-* Recursive components are imported incorrectly
-
----
-
-### ✅ **Ways to Resolve It**
+**Ways to Resolve It**
 
 #### **1. Use `name` + `<component :is="...">` instead of direct import**
 
@@ -1781,7 +1168,6 @@ export default {
 
 ➡️ This way, you don’t import the file again — Vue uses the component’s `name` for recursion.
 
----
 
 #### **2. Lazy-load or Dynamically Import**
 
@@ -1798,52 +1184,6 @@ export default {
 
 This breaks the static import loop, because the import only happens **when needed**, not during initial parsing.
 
----
-
-#### **3. Move Shared Logic to a Common File**
-
-If A and B share logic, extract it:
-
-```js
-// sharedMixin.js
-export default {
-  methods: { /* shared logic */ }
-}
-```
-
-Then both components can import the mixin:
-
-```js
-import sharedMixin from './sharedMixin.js'
-```
-
-✅ No direct component-to-component dependency.
-
----
-
-#### **4. Use a Parent Wrapper**
-
-Sometimes two components depend on each other only for communication.
-You can introduce a **parent** or **intermediate** component to mediate between them.
-
----
-
-### 🧠 **Summary Table**
-
-| Method                       | Description                       | Use Case                            |
-| ---------------------------- | --------------------------------- | ----------------------------------- |
-| **Use `name` for recursion** | Avoids self-import                | Recursive components                |
-| **Dynamic imports**          | Breaks circular import at runtime | Heavy or cross-dependent components |
-| **Shared mixin / utils**     | Extract common logic              | Shared logic                        |
-| **Parent wrapper**           | Handle inter-component comms      | Two-way dependency issues           |
-
----
-
-✅ **In short:**
-
-> To resolve circular dependencies in Vue, avoid direct mutual imports.
-> Use component `name` for recursion, dynamic imports for lazy evaluation, or extract shared logic into mixins or utility files.
-
 <br>
 
 > ### How do you force update?
@@ -1854,12 +1194,11 @@ Great question — this is about controlling Vue’s **reactivity system** direc
 
 ### 🧩 **What “Force Update” Means**
 
-In Vue, data changes automatically trigger re-renders through its **reactivity system**.
+In Vue, data changes automatically trigger re-renders through its **reactivity system**.\
 But sometimes, if Vue **doesn’t detect a change** (like with non-reactive properties or mutated objects), you might need to **manually trigger a re-render**.
 
----
 
-### ✅ **1. Using `$forceUpdate()`**
+**1. Using `$forceUpdate()`**
 
 Each Vue component instance has a built-in method:
 
@@ -1869,11 +1208,7 @@ this.$forceUpdate()
 
 This forces the component to **re-render**, skipping reactivity checks.
 
----
-
-#### 🧠 Example
-
-```vue
+```html
 <template>
   <div>
     <p>{{ obj.message }}</p>
@@ -1903,8 +1238,6 @@ Here:
 
 * `obj` is reactive, but adding a **new property** (`message`) isn’t tracked in Vue 2.
 * Calling `this.$forceUpdate()` forces the template to refresh.
-
----
 
 ### ⚙️ **2. When to Use It**
 
