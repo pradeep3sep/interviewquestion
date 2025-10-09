@@ -1951,8 +1951,9 @@ export default {
 > ### How to use model directive with two way computed property?
 
 You can still use model directive using two-way computed property with a setter.
-```javascript
+```js
 <input v-model="username">
+
 computed: {
   username: {
     get () {
@@ -1964,9 +1965,9 @@ computed: {
   }
 }
 mutations: {
-      updateProfile (state, username) {
-        state.user.username = username
-      }
+  updateProfile (state, username) {
+    state.user.username = username
+  }
 }
 ```
 
@@ -2208,6 +2209,12 @@ Now, doing `this.fullName = 'Jane Smith'` updates both names automatically.
 <br>
 
 ### How to use v-model on custom input box
+
+Read data of the below
+```
+https://vuejs.org/guide/components/v-model.html
+```
+
 ```vue
 <template>
   <div>
@@ -2523,3 +2530,396 @@ In Vuex, a module is a way to split your store into multiple smaller, manageable
 each module having its own state, mutations, actions, and getters.
 
 > ### :class = "{active : dyanmicdata}"
+
+
+> ### Event Bus
+
+* **Parent → Child** → via **props**
+* **Child → Parent** → via **$emit()**
+
+But if two components don’t share a direct relationship, passing events through multiple levels becomes messy.
+👉 That’s where **Event Bus** helps — it acts like a **central event hub**.
+
+
+**How Event Bus Works**
+
+It’s just a **Vue instance** used for emitting and listening to custom events.
+
+**Step 1: Create the Event Bus**
+
+```js
+// eventBus.js
+import Vue from 'vue'
+export const EventBus = new Vue()
+```
+
+
+**Step 2: Emit an Event (from one component)**
+
+```js
+// ComponentA.vue
+import { EventBus } from './eventBus'
+
+export default {
+  methods: {
+    sendMessage() {
+      EventBus.$emit('message', 'Hello from Component A!')
+    }
+  }
+}
+```
+
+**Step 3: Listen for the Event (in another component)**
+
+```js
+// ComponentB.vue
+import { EventBus } from './eventBus'
+
+export default {
+  created() {
+    EventBus.$on('message', (msg) => {
+      console.log('Received:', msg)
+    })
+  },
+  beforeDestroy() {
+    // Clean up listener to avoid memory leaks
+    EventBus.$off('message')
+  }
+}
+```
+
+**Key Points**
+
+* **$emit(eventName, payload)** → fires the event
+* **$on(eventName, callback)** → listens for it
+* **$off(eventName)** → removes listener (important for cleanup)
+
+<br>
+
+Avoid in:
+
+* Large apps — can become **hard to trace/debug**.
+* Better alternatives:
+
+  * **Vuex / Pinia** → for state management
+  * **Provide/Inject** → for deep component trees
+  * **Composables / Stores** → in Vue 3 (Composition API)
+
+<br>
+
+
+> ### What Are Fallthrough Attributes?
+
+Fallthrough attributes are:
+
+> Attributes (like `class`, `style`, `id`, or `@click`) **that are passed to a component but not declared as props or emits**.
+
+Vue automatically “passes them through” to the component’s **root element**.
+
+
+```vue
+<!-- Parent -->
+<MyButton class="large" />
+```
+
+```vue
+<!-- Child -->
+<template>
+  <button>Click Me</button>
+</template>
+```
+
+✅ Output:
+
+```html
+<button class="large">Click Me</button>
+```
+
+Since `class` was **not declared as a prop**, Vue treated it as a **fallthrough attribute** and automatically applied it to the root `<button>`.
+
+<br>
+
+**Merging class and style**
+
+If the child already defines its own `class` or `style`, Vue merges both:
+
+```vue
+<!-- Child -->
+<template>
+  <button class="btn">Click Me</button>
+</template>
+```
+
+Parent:
+
+```vue
+<MyButton class="large" />
+```
+
+✅ Output:
+
+```html
+<button class="btn large">Click Me</button>
+```
+
+Both class names are merged automatically.
+
+<br>
+
+**v-on Listener Inheritance**
+
+Same rule for event listeners like `@click`:
+
+```vue
+<MyButton @click="onClick" />
+```
+
+If the child’s root is a native `<button>`, then `onClick` will be attached there — even if the child doesn’t declare it in `emits`.
+
+If the child *also* binds `@click`, both listeners will run.
+
+<br>
+
+**Nested Component Inheritance**
+
+If a component renders **another component** as its root:
+
+```vue
+<!-- MyButton.vue -->
+<BaseButton />
+```
+
+Then all fallthrough attributes passed to `<MyButton>` automatically **forward** to `<BaseButton>`.
+
+But:
+
+* Props or emits declared by `<MyButton>` are *not* forwarded (they’re considered “consumed”).
+* Anything else (like `class`, `style`, `@click`) gets passed down.
+
+<br>
+
+**Disabling Automatic Inheritance**
+
+If you don’t want automatic attribute inheritance:
+
+```js
+export default {
+  inheritAttrs: false
+}
+```
+
+Then you can manually decide **where** to apply them using `$attrs`.
+
+<br>
+
+**Using `$attrs`**
+
+Normally, when you pass attributes (like `class`, `id`, `@click`, etc.) to a component, Vue automatically applies them to the component’s root element. But i want is instead of root element, it should be applied to that component which i want.
+
+Then we Disable Automatic Inheritance
+
+```js
+export default {
+  inheritAttrs: false
+}
+```
+
+This tells Vue:
+
+> “Don’t automatically apply unknown attributes to my root element. I’ll handle them myself.”
+
+Now, Vue won’t apply anything automatically.
+
+When you disable `inheritAttrs`, all those “unclaimed” attributes (like `class, id, @click, style`, etc.) are collected inside a special object: `$attrs`.
+
+```js
+<MyButton class="large" id="save-btn" @click="submit" />
+```
+
+```html
+<script>
+export default {
+  inheritAttrs: false,
+  created() {
+    console.log(this.$attrs)
+  }
+}
+</script>
+```
+
+Then `this.$attrs` would look like:
+
+```js
+{
+  class: "large",
+  id: "save-btn",
+  onClick: ƒ()  // event listener function
+}
+```
+
+Now you can `manually decide` where to apply them.
+
+```html
+<template>
+  <div class="btn-wrapper">
+    <!-- Apply all fallthrough attributes to the actual button -->
+    <button class="btn" v-bind="$attrs">Click Me</button>
+  </div>
+</template>
+
+<script>
+export default {
+  inheritAttrs: false
+}
+</script>
+```
+
+Here’s what happens step-by-step:
+
+1. `<MyButton class="large" @click="submit" /> `is used in parent.
+2. Because inheritAttrs is false, Vue doesn’t apply them to `<div>`.
+3. $attrs now holds { class: 'large', onClick: ƒ }.
+4. v-bind="$attrs" spreads those attributes onto `<button>`.
+
+
+Output in browser 
+```html
+<div class="btn-wrapper">
+  <button class="btn large">Click Me</button>
+</div>
+```
+
+<br>
+
+**Attribute Inheritance on Multiple Root Nodes**
+
+If your component has **multiple root elements**, Vue won’t know where to apply fallthrough attributes automatically.
+
+Example:
+
+```vue
+<template>
+  <header>Header</header>
+  <main>Main</main>
+  <footer>Footer</footer>
+</template>
+```
+
+If you do:
+
+```vue
+<CustomLayout id="layout" @click="changeValue" />
+```
+
+🚨 Vue warns:
+
+> "Extraneous non-prop attributes (id, onClick) were passed to component but could not be automatically inherited because it has multiple root nodes."
+
+✅ Fix: Explicitly bind `$attrs` to a specific element.
+
+```vue
+<template>
+  <header>Header</header>
+  <main v-bind="$attrs">Main</main>
+  <footer>Footer</footer>
+</template>
+```
+
+<br>
+
+Perfect — that’s the full Vue **Provide / Inject** concept from the official guide.
+Here’s a **concise, structured summary with explanations and examples**, so you can remember *why, when, and how* to use it 👇
+
+---
+
+> ### What is `provide` / `inject`?
+
+`provide` and `inject` are a **dependency-sharing mechanism** between ancestor and descendant components (no matter how deep).
+They help you **avoid prop drilling** — passing props through multiple layers unnecessarily.
+
+Instead of passing props manually, an ancestor can `provide` data, and any descendant can `inject` it directly.
+
+```html
+<!-- Parent.vue -->
+<script>
+export default {
+  provide: {
+    message: 'Hello!'
+  }
+}
+</script>
+```
+
+```html
+<!-- DeepChild.vue -->
+<script>
+export default {
+  inject: ['message'],
+  created() {
+    console.log(this.message) // "Hello!"
+  }
+}
+</script>
+```
+
+
+**Injection Aliasing**
+
+If you want a different local name for the injected key:
+
+```js
+export default {
+  inject: {
+    localTheme: { from: 'theme' }
+  }
+}
+```
+
+Now you can use `this.localTheme`.
+
+<br>
+
+**Injection Default Values**
+
+If the provider might not exist, add defaults to avoid warnings:
+
+```js
+export default {
+  inject: {
+    theme: {
+      from: 'theme',
+      default: 'light'
+    },
+    user: {
+      default: () => ({ name: 'Guest' })
+    }
+  }
+}
+```
+<br>
+
+**Making Injection Reactive**
+
+By default, injected data is **not reactive**.
+To make it reactive, provide a `computed` value:
+
+```js
+import { computed } from 'vue'
+
+export default {
+  data() {
+    return { message: 'hello!' }
+  },
+  provide() {
+    return {
+      message: computed(() => this.message)
+    }
+  }
+}
+```
+
+Now if `this.message` changes in the provider, the injected value updates automatically.
+
+
+<br>
+
