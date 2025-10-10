@@ -1,20 +1,19 @@
 > ### Lifecycle Hooks
 
-Lifecycle hooks allow you to run custom code **at specific stages of a component’s lifecycle** — from creation, to mounting, updating, and unmounting (destruction).
-
-**Lifecycle Phases**
-
-Vue component lifecycle can be divided into **four main phases**:
+Lifecycle hooks allow you to run custom code **at specific stages of a component’s lifecycle**
 
 1. **Creation phase**
 2. **Mounting phase**
 3. **Updating phase**
 4. **Unmounting (Destruction) phase**
 
+<br>
 
 **1. Creation Phase Hooks**
-
 These hooks run before the component is added to the DOM.
+
+<details>
+
 
 | Hook             | When it Runs                                                                        | Common Uses                                                                       |
 | ---------------- | ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
@@ -36,11 +35,15 @@ export default {
   }
 }
 ```
+</details>
+
 <br>
 
 **2. Mounting Phase Hooks**
 
 These run when Vue is attaching the component to the actual DOM.
+
+<details>
 
 | Hook            | When it Runs                                                                   | Common Uses                                                                                        |
 | --------------- | ------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------- |
@@ -57,12 +60,18 @@ export default {
   }
 }
 ```
+</details>
 
 <br>
 
 **3. Updating Phase Hooks**
 
 Triggered when reactive data changes and the component re-renders.
+
+component is about to update its DOM tree due to a reactive state change (e.g., changes to `data` or `props`)
+
+<details>
+
 
 | Hook             | When it Runs                                                      | Common Uses                                    |
 | ---------------- | ----------------------------------------------------------------- | ---------------------------------------------- |
@@ -85,12 +94,15 @@ export default {
   }
 }
 ```
+</details>
 
 <br>
 
 **4. Unmounting (Destruction) Phase Hooks**
 
 Called when the component is being removed from the DOM.
+
+<details>
 
 | Hook                                                  | When it Runs                          | Common Uses                                                    |
 | ----------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------- |
@@ -109,6 +121,9 @@ export default {
   }
 }
 ```
+
+</details>
+
 <br>
 
 **Lifecycle Diagram**
@@ -126,6 +141,8 @@ beforeCreate → created → beforeMount → mounted
 > ### How to create a plugin?
 
 Plugin is an **object or function** that adds global-level functionality to Vue.
+
+<details>
 
 You register it once with:
 ```js
@@ -212,6 +229,8 @@ export default {
 </script>
 ```
 
+</details>
+
 <br>
 
 **What You Can Do Inside a Plugin**
@@ -228,9 +247,9 @@ export default {
 
 **Best Practices**
 
-✅ Prefix global methods with `$` (like `$log`, `$apiGet`)
-✅ Keep plugin logic **stateless** and **reusable**
-✅ Allow passing **options** for flexibility
+✅ Prefix global methods with `$` (like `$log`, `$apiGet`)\
+✅ Keep plugin logic **stateless** and **reusable**\
+✅ Allow passing **options** for flexibility\
 ✅ Don’t mutate Vue internals directly
 
 <br>
@@ -241,6 +260,7 @@ export default {
 
 > In short: “When your data changes, your UI changes — automatically.”
 
+<br>
 
 **How It Works (Simplified)**
 
@@ -259,6 +279,8 @@ export default {
 4. When it’s **updated**, Vue automatically **re-renders** only the parts of the DOM that depend on it.
 
 **Example**
+
+<details>
 
 ```vue
 <template>
@@ -281,7 +303,9 @@ export default {
 * When you click the button, `count++` changes the data.
 * Vue detects the change and re-renders only `<p>Count: ...</p>` automatically.
 
-No manual DOM updates needed. 🚀
+No manual DOM updates needed.
+
+</details>
 
 <br>
 
@@ -320,6 +344,8 @@ In **Vue 2**, the reactivity system is based on **`Object.defineProperty()`**, w
 
 **Solution**
 
+<details>
+
 #### **1️⃣ Use `Vue.set`**
 ```js
 methods: {
@@ -341,6 +367,7 @@ this.$set(this.user, 'name', 'John')
 
 * Works the same as `Vue.set`, but called on the component instance.
 
+</details>
 
 <br>
 
@@ -354,21 +381,22 @@ this.$set(this.user, 'name', 'John')
 <br>
 
 > ### What are the conditional directives
-VueJS provides set of directives to show or hide elements based on conditions. The available directives are: v-if, v-else, v-else-if and v-show
+- VueJS provides set of directives to show or hide elements based on conditions. 
+- The available directives are: `v-if`, `v-else`, `v-else-if` and `v-show`
 
 <br>
 
 > ### What is the difference between v-show and v-if directives?
 
-* v-if only renders the element to the DOM if the expression passes whereas v-show renders all elements to the DOM and then uses the CSS display property to show/hide elements based on expression.
-* v-if has higher toggle costs while v-show has higher initial render costs. i.e, v-show has a performance advantage if the elements are switched on and off frequently, while the v-if has the advantage when it comes to initial render time.
-* v-if supports `<template>` tab but v-show doesn't support.
+* `v-if` only adds the element to the DOM if the condition is true, while `v-show` always renders it but hides it using CSS.
+* `v-if` is slower when toggling often, but faster on initial render. `v-show` is faster to toggle, but slower to render initially.
+* `v-if` can be used with `<template>`, but `v-show` cannot.
 
 <br>
 
-> ### Why should not use if and for directives together on the same element?
+> ### Why should not use v-if and v-for directives together on the same element?
 
-1. Order of execution
+<details>
 
 When both are used on the same element:
 
@@ -392,6 +420,8 @@ data() {
 }
 ```
 
+<br>
+
 **❌ Wrong Way — `v-if` and `v-for` on the Same Element**
 
 ```js
@@ -410,6 +440,7 @@ data() {
 
 ➡️ **Wastes CPU cycles**, especially during updates or re-renders.
 
+<br>
 
 **✅ Correct Way — Filter First (via Computed)**
 
@@ -431,6 +462,8 @@ export default {
 }
 </script>
 ```
+</details>
+
 <br>
 
 > ### How do you use v-for directive with a range?
@@ -446,7 +479,7 @@ export default {
 > ### How do you use event handlers?
 
 ```js
-<button v-on:click="show('Welcome to VueJS world', $event)">
+<button @click="show('Welcome to VueJS world', $event)">
   Submit
 </button>
 
@@ -485,15 +518,15 @@ your v-model.
 ```
 <br>
 
-
-> ### What Are Slots in Vue?
+> ### What are Slots in Vue?
 
 **Slots** are like **placeholders** inside a component that allow you to **inject content** from a parent component into a child component.
 
-**Slots** in Vue allow you to **pass content (HTML or components)** from a parent into a **child component’s template**, while the **child controls the layout**.
-
+<br>
 
 **1. Default Slot**
+
+<details>
 
 ```js
 // Child component: `Card.vue
@@ -519,12 +552,9 @@ your v-model.
   <p>This is some custom text inside the card.</p>
 </div>
 ```
+</details>
 
-Here, the `<slot>` tag in the child acts as a placeholder for whatever is placed between `<Card>...</Card>` in the parent.
-
-**Note**
-
-If no content is passed, you can define **fallback content** inside `<slot>`:
+**Note:-** If no content is passed, you can define **fallback content** inside `<slot>`:
 
 ```vue
 <slot>Default Text</slot>
@@ -534,8 +564,9 @@ If no content is passed, you can define **fallback content** inside `<slot>`:
 
 **2. Named Slots**
 
-Used when you want **multiple slot areas** in one component.
+<details>
 
+Used when you want **multiple slot areas** in one component.
 
 ```html
 <!-- Child (`Card.vue`): -->
@@ -563,6 +594,7 @@ Used when you want **multiple slot areas** in one component.
   </template>
 </Card>
 ```
+</details>
 
 <br>
 
@@ -570,6 +602,7 @@ Used when you want **multiple slot areas** in one component.
 
 Sometimes you render sections **only if the slot content exists**.
 
+<details>
 
 ```html
 <!-- Child — `Card.vue` -->
@@ -592,7 +625,7 @@ Sometimes you render sections **only if the slot content exists**.
 
 Here, `$slots` lets you check whether the parent provided content for that slot.
 
-
+</details>
 
 <br>
 
@@ -602,6 +635,7 @@ Scoped slots let **child components pass data** to the slot content defined in t
 
 This allows the parent to use **child data** inside its slot content.
 
+<details>
 
 ```html
 <!-- Child (`UserCard.vue`): -->
@@ -632,13 +666,17 @@ export default {
 
 ➡️ The parent receives `user` from the child’s slot scope.
 
+</details>
+
 <br>
 
 > ### What is global registration in components?
 
 **Global registration** means you register a component **once**, and it becomes available **everywhere** in your app — without needing to import or register it again in each component.
 
+<br>
 
+<details>
 
 **Example — Global Registration**
 
@@ -675,6 +713,8 @@ export default {
 }
 </script>
 ```
+
+</details>
 
 <br>
 
@@ -913,6 +953,8 @@ When a mixin and the component itself contain overlapping options
 
 1. component's data taking priority over mixins in cases of overlapping or conflicts.
 
+<details>
+
 ```js
 var mixin = {
   data: function () {
@@ -934,7 +976,12 @@ new Vue({
 })
 ```
 
+</details>
+
 2. The Hook functions which are overlapping merged into an array so that all of them will be called. Mixin hooks will be called before the component's own hooks.
+
+<details>
+
 ```javascript
 const myMixin = {
   created(){
@@ -953,6 +1000,7 @@ new Vue({
 // Called from Mixin
 // Called from Component
 ```
+</details>
 
 <br>
 
@@ -998,11 +1046,15 @@ directives: {
 
 A **dynamic component** means you can **swap which component is rendered at runtime**, *without changing your template structure*.
 
+<br>
+
 Vue provides the special built-in component:
 
 ```vue
 <component :is="componentName"></component>
 ```
+
+<br>
 
 The `:is` attribute decides **which component to render** dynamically.
 
@@ -1073,6 +1125,7 @@ export default {
   }
 }
 ```
+<br>
 
 **Advanced Usage**
 
@@ -1166,6 +1219,7 @@ This creates a **circular reference loop**, which can cause:
 * Runtime errors
 * Unexpected render behavior
 
+<br>
 
 **Ways to Resolve It**
 
@@ -1192,6 +1246,7 @@ export default {
 
 ➡️ This way, you don’t import the file again — Vue uses the component’s `name` for recursion.
 
+<br>
 
 #### **2. Lazy-load or Dynamically Import**
 
@@ -1212,15 +1267,10 @@ This breaks the static import loop, because the import only happens **when neede
 
 > ### How do you force update?
 
-Great question — this is about controlling Vue’s **reactivity system** directly 💡
-
----
-
-### 🧩 **What “Force Update” Means**
-
 In Vue, data changes automatically trigger re-renders through its **reactivity system**.\
 But sometimes, if Vue **doesn’t detect a change** (like with non-reactive properties or mutated objects), you might need to **manually trigger a re-render**.
 
+<br>
 
 **1. Using `$forceUpdate()`**
 
@@ -1263,6 +1313,7 @@ Here:
 * `obj` is reactive, but adding a **new property** (`message`) isn’t tracked in Vue 2.
 * Calling `this.$forceUpdate()` forces the template to refresh.
 
+<br>
 
 **2. Alternatives (Better Options)**
 
@@ -1287,8 +1338,6 @@ Replacing the whole object triggers reactivity.
 > ### What is the purpose of vuejs once directive?
 
 The **`v-once` directive** tells Vue to **render the element or component only once**, and then **skip it during future re-renders**.
-
-Essentially, it **renders static content once** and marks it as **non-reactive**.
 
 
 **Purpose**
@@ -1349,14 +1398,9 @@ const app = new Vue({
   methods: { greet() { alert(this.message) } }
 }).$mount('#app')
 ```
+<br>
 
-All other components are **descendants** of this root instance.
-
-
-**1. Access Root From a Child Component**
-
-Every Vue component instance has a special property:
-
+**Access Root From a Child Component**
 ```js
 this.$root
 ```
@@ -1366,11 +1410,12 @@ this.$root
 
 <br>
 
+
 > ### Is it possible to mix both local and global styles?
 Yes, you can include both scoped and non-scoped styles in the same component. If you don't mention scoped attribute
 then it will become global style.
 
-```js
+```css
   <style>
   /* global styles */
   </style>
@@ -1400,6 +1445,8 @@ When you use **scoped CSS** in Vue, styles are **automatically scoped to the com
   font-weight: bold;
 }
 ```
+
+<br>
 
 **Alternative approach**
 
@@ -1622,6 +1669,8 @@ const store = new Vuex.Store({
 
 Excellent — this question relates to **Vuex getters** and how you access them
 
+<br>
+
 **1. Property Style Access**
 
 Property-style access treats a **getter** like a **computed property** —
@@ -1809,6 +1858,7 @@ When you commit a mutation then Vuex immediately records:
 * State history becomes inconsistent
 * Debugging becomes very hard
 
+<br>
 
 **Wrong (async mutation)**
 
@@ -1824,6 +1874,7 @@ mutations: {
 
 * Vuex logs `incrementAsync` **immediately**, but the state actually changes **later**, breaking state tracking.
 
+<br>
 
 **Correct Way**
 
@@ -1848,9 +1899,9 @@ mutations: {
 
 > ### How do you perform mutations in components?
 
-You can commit mutations in components with either **this.$store.commit('mutation name')** or mapMutations helper
+You can commit mutations in components with either **this.$store.commit('mutation name')** or mapMutations helper to map component methods to **store.commit** calls.
 
-to map component methods to **store.commit** calls.
+<br>
 
 For example, the usage of mapMutations helper on counter example would be as below,
 ```javascript
@@ -2330,9 +2381,11 @@ module.exports = {
 }
 ```
 
-> We can have 2 or more style in single component. One style is used for the global style and other one can be scoped style
+- We can have 2 or more style in single component. One style is used for the global style and other one can be scoped style
 
-> CSS modules in vue js (similar like we use in the react)(:class="$style.red" and `<style module>` wala part is module)
+- CSS modules in vue js (similar like we use in the react)(:class="$style.red" and `<style module>` wala part is module)
+
+<br>
 
 ```vue
 <template>
@@ -2345,6 +2398,8 @@ module.exports = {
 }
 </style>
 ```
+
+<br>
 
 > ### How to make router param changes as reactive?
 
@@ -2385,25 +2440,20 @@ so `created()` doesn’t run again — meaning the `id` change won’t trigger a
 In Vue 2, **router params** (`$route.params`) are **reactive**, but the **component instance is reused** for the same route record.
 So lifecycle hooks like `created()` or `mounted()` don’t fire again.
 
-That’s why you must explicitly watch `$route` or `$route.params`.
-
-
+<br>
 
 **Solution 1: Watch `$route` or `$route.params`**
 
-#### Option A — Watch the Entire `$route`
-
 ```js
+// Option A — Watch the Entire `$route`
 watch: {
   $route(to, from) {
     this.fetchUser(to.params.id)
   }
 }
-```
 
-### Option B — Watch Just the Param
 
-```js
+// Option B — Watch Just the Param
 watch: {
   '$route.params.id'(newId, oldId) {
     this.fetchUser(newId)
@@ -2411,8 +2461,7 @@ watch: {
 }
 ```
 
-👉 This is the **most common and clean approach** in Vue 2.
-
+<br>
 
 **Solution 2: Use `beforeRouteUpdate` Navigation Guard**
 
@@ -2438,10 +2487,11 @@ export default {
 
 `beforeRouteUpdate` runs every time params or query change within the same route.
 
+<br>
 
-**Solution 4: Force Re-render with a Key**
+**Solution 3: Force Re-render with a Key**
 
-If your component is simple and doesn’t need a guard,
+If your component is simple and doesn’t need a guard,\
 you can force Vue to recreate the component when params change:
 
 ```html
@@ -2454,9 +2504,7 @@ or
 <router-view :key="$route.params.id" />
 ```
 
-This makes Vue **destroy and re-create** the component whenever the param changes —
-which triggers the full lifecycle again (`created`, `mounted`, etc.).
-
+This makes Vue **destroy and re-create** the component whenever the param changes — which triggers the full lifecycle again (`created`, `mounted`, etc.).
 
 <br>
 
@@ -2468,6 +2516,7 @@ They’re written like this:
 ```vue
 <input v-model.trim="username" />
 ```
+<br>
 
 | Modifier  | Description                                                                  | Example                        |
 | --------- | ---------------------------------------------------------------------------- | ------------------------------ |
@@ -2475,6 +2524,7 @@ They’re written like this:
 | `.number` | Automatically **casts input value to a number**                              | `<input v-model.number="age">` |
 | `.trim`   | Automatically **trims whitespace** from user input                           | `<input v-model.trim="name">`  |
 
+<br>
 
 #### 1. `.lazy`
 
@@ -2494,6 +2544,7 @@ By default, `v-model` updates on the **`input` event** (after each keystroke).
 
 * `message` updates only when input loses focus or user hits Enter.
 
+<br>
 
 #### You Can Combine Modifiers
 
@@ -2501,11 +2552,7 @@ By default, `v-model` updates on the **`input` event** (after each keystroke).
 <input v-model.lazy.trim.number="amount">
 ```
 
-Here:
-
-* Updates only after `change`
-* Trims whitespace
-* Converts to number
+<br>
 
 **Bonus: `v-model` on Custom Components (Modifiers Support)**
 
@@ -2524,13 +2571,18 @@ To support `.trim`, you must handle it inside `CustomInput`:
 this.$emit('input', value.trim())
 ```
 
+<br>
+
 > ### What are modules in vuex?
 
 In Vuex, a module is a way to split your store into multiple smaller, manageable stores —
 each module having its own state, mutations, actions, and getters.
 
+<br>
+
 > ### :class = "{active : dyanmicdata}"
 
+<br>
 
 > ### Event Bus
 
@@ -2540,6 +2592,7 @@ each module having its own state, mutations, actions, and getters.
 But if two components don’t share a direct relationship, passing events through multiple levels becomes messy.
 👉 That’s where **Event Bus** helps — it acts like a **central event hub**.
 
+<br>
 
 **How Event Bus Works**
 
@@ -2614,6 +2667,8 @@ Fallthrough attributes are:
 
 > Attributes (like `class`, `style`, `id`, or `@click`) **that are passed to a component but not declared as props or emits**.
 
+<br>
+
 Vue automatically “passes them through” to the component’s **root element**.
 
 
@@ -2639,7 +2694,9 @@ Since `class` was **not declared as a prop**, Vue treated it as a **fallthrough 
 
 <br>
 
-**Merging class and style**
+**1. Merging class and style**
+
+<details>
 
 If the child already defines its own `class` or `style`, Vue merges both:
 
@@ -2678,9 +2735,11 @@ If the child’s root is a native `<button>`, then `onClick` will be attached th
 
 If the child *also* binds `@click`, both listeners will run.
 
+</details>
+
 <br>
 
-**Nested Component Inheritance**
+**2. Nested Component Inheritance**
 
 If a component renders **another component** as its root:
 
@@ -2698,7 +2757,7 @@ But:
 
 <br>
 
-**Disabling Automatic Inheritance**
+**3. Disabling Automatic Inheritance**
 
 If you don’t want automatic attribute inheritance:
 
@@ -2712,7 +2771,9 @@ Then you can manually decide **where** to apply them using `$attrs`.
 
 <br>
 
-**Using `$attrs`**
+**4. Using `$attrs`**
+
+<details>
 
 Normally, when you pass attributes (like `class`, `id`, `@click`, etc.) to a component, Vue automatically applies them to the component’s root element. But i want is instead of root element, it should be applied to that component which i want.
 
@@ -2789,9 +2850,11 @@ Output in browser
 </div>
 ```
 
+</details>
+
 <br>
 
-**Attribute Inheritance on Multiple Root Nodes**
+**5. Attribute Inheritance on Multiple Root Nodes**
 
 If your component has **multiple root elements**, Vue won’t know where to apply fallthrough attributes automatically.
 
@@ -2826,11 +2889,6 @@ If you do:
 ```
 
 <br>
-
-Perfect — that’s the full Vue **Provide / Inject** concept from the official guide.
-Here’s a **concise, structured summary with explanations and examples**, so you can remember *why, when, and how* to use it 👇
-
----
 
 > ### What is `provide` / `inject`?
 
