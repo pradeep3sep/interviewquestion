@@ -2921,3 +2921,297 @@ function NestedList({ data }) {
 
 export default NestedList;
 ```
+
+
+
+> ### useCallback hook
+
+**Purpose:**
+`useCallback` **memoizes a function**, meaning it returns the *same function instance* between renders unless its dependencies change.
+
+```jsx
+const memoizedFn = useCallback(() => {
+  // function logic
+}, [dependencies]);
+```
+
+If **dependencies** don’t change → React returns **the same function reference**.\
+If **any dependency changes** → a **new function** is created.
+
+
+### Case: Parent + Memoized Child
+
+<br>
+
+### Without `useCallback` (Problem Version) → unnecessary child re-renders.
+
+```jsx
+import React, { useState } from "react";
+
+const Child = React.memo(({ onClick }) => {
+  console.log("🧒 Child rendered");
+  return <button onClick={onClick}>Increment from Child</button>;
+});
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+
+  // 👇 Function recreated every render
+  const handleClick = () => setCount((c) => c + 1);
+
+  console.log("👨‍💻 Parent rendered");
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h2>Count: {count}</h2>
+      <input
+        placeholder="Type something"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <Child onClick={handleClick} />
+    </div>
+  );
+}
+```
+
+In console you will see
+```
+👨‍💻 Parent rendered
+🧒 Child rendered
+👨‍💻 Parent rendered
+🧒 Child rendered
+```
+
+Even though you only changed `text`, not `count`,\
+👉 **the child still re-rendered!**
+
+**Why?**\
+Because `handleClick` was **recreated** on every render, so React sees it as a *new prop reference*.
+
+`React.memo` compares props shallowly, and since `onClick` (a function) changes reference each time, the memoized child still re-renders.
+
+<br>
+
+### ✅ With `useCallback` (Optimized Version) → optimized, child re-renders only when needed.
+
+```jsx
+import React, { useState, useCallback } from "react";
+
+const Child = React.memo(({ onClick }) => {
+  console.log("🧒 Child rendered");
+  return <button onClick={onClick}>Increment from Child</button>;
+});
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+
+  // 👇 Stable reference, only changes when dependencies change
+  const handleClick = useCallback(() => {
+    setCount((c) => c + 1);
+  }, []); // no deps → never changes
+
+  console.log("👨‍💻 Parent rendered");
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h2>Count: {count}</h2>
+      <input
+        placeholder="Type something"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <Child onClick={handleClick} />
+    </div>
+  );
+}
+```
+
+Now type something in the input again:
+```
+👨‍💻 Parent rendered
+👨‍💻 Parent rendered
+```
+
+<br>
+
+🧒 **No child re-render!** 🎉\
+Because the function reference (`handleClick`) is the **same** between renders.
+
+When you click the child button, count updates and you’ll see:
+
+```
+👨‍💻 Parent rendered
+🧒 Child rendered
+```
+
+— expected, because `count` changed.
+
+
+### The Key Takeaway
+
+| Without useCallback             | With useCallback                |
+| ------------------------------- | ------------------------------- |
+| Function recreated every render | Function stable between renders |
+| Memoized child still re-renders | Memoized child skips re-render  |
+| Causes wasted renders           | Prevents unnecessary renders    |
+
+
+### Extra Tip: When You Don’t Need It
+
+If your child **is not wrapped in `React.memo`**,\
+or the function **isn’t passed as a prop**,\
+then `useCallback` gives **no benefit** — it just adds unnecessary complexity.
+
+
+> ### 🧠 Quick Rule of Thumb, when you are using react.memo in child then
+
+- If prop is a **function** → use `useCallback`
+- If prop is an **object or array** → use `useMemo` (Below is the code)
+- If prop is an **object or array in useState** → Then during rerender useState value do not gets updated of parent, or object reference do not change, then the passed value in child remain same then React.memo in child work efficiently
+- If prop is a **primitive (string, number, boolean)** → no need, React compares by value, you can use React.memo directly
+
+
+> ### memo in the case of object pass in the child
+
+
+Let’s explore what happens when you pass a **nested object** (or any object/array) as a prop to a memoized child
+
+
+```jsx
+// Child Component
+const Child = React.memo(({ data }) => {
+  console.log("🧒 Child rendered");
+  return <div>Value: {data.value}</div>;
+});
+```
+
+<br>
+
+#### ❌ Case 1: Passing Object Directly (Without useMemo)
+
+```jsx
+import React, { useState } from "react";
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+
+  // 👇 New object every render
+  const userData = { value: count };
+
+  console.log("👨‍💻 Parent rendered");
+
+  return (
+    <div>
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Type something"
+      />
+      <Child data={userData} />
+      <button onClick={() => setCount((c) => c + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
+<br>
+
+Now open your console and type something in the input.
+
+You’ll see:
+
+```
+👨‍💻 Parent rendered
+🧒 Child rendered
+👨‍💻 Parent rendered
+🧒 Child rendered
+```
+
+😬 Even though you only changed `text`, **Child re-rendered again**.
+
+<br>
+
+#### ⚠️ Why?
+
+Because:
+
+```js
+const userData = { value: count };
+```
+
+creates a **new object reference** on every render.
+
+Even though `{ value: 0 }` looks the same, React compares props **shallowly** (`===` comparison).
+Since object references differ each time → React.memo sees it as “changed”.
+
+<br>
+
+#### ✅ Case 2: Fix with `useMemo`
+
+We stabilize the **object reference**.
+
+```jsx
+import React, { useState, useMemo } from "react";
+
+const Child = React.memo(({ data }) => {
+  console.log("🧒 Child rendered");
+  return <div>Value: {data.value}</div>;
+});
+
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+
+  // ✅ Object reference stable unless count changes
+  const userData = useMemo(() => ({ value: count }), [count]);
+
+  console.log("👨‍💻 Parent rendered");
+
+  return (
+    <div>
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Type something"
+      />
+      <Child data={userData} />
+      <button onClick={() => setCount((c) => c + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
+<br>
+
+### ✅ What Happens Now
+
+When you type in the input:
+
+```
+👨‍💻 Parent rendered
+```
+
+🧒 Child **doesn’t render** anymore!
+Because `userData` object reference is **stable** until `count` changes.
+
+When you click “Increment”:
+
+```
+👨‍💻 Parent rendered
+🧒 Child rendered
+```
+
+— expected, since `count` changes.
+
+<br>
+
+### Takeaways
+
+| Problem                                | Solution                   | Hook          |
+| -------------------------------------- | -------------------------- | ------------- |
+| Function recreated on every render     | Memoize function reference | `useCallback` |
+| Object/Array recreated on every render | Memoize value reference    | `useMemo`     |
