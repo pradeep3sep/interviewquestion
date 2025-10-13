@@ -3215,3 +3215,92 @@ When you click “Increment”:
 | -------------------------------------- | -------------------------- | ------------- |
 | Function recreated on every render     | Memoize function reference | `useCallback` |
 | Object/Array recreated on every render | Memoize value reference    | `useMemo`     |
+
+
+
+> ### what are the ways in which we can import dynamically in react
+
+
+**1. Using `React.lazy()` (for components)**
+
+```jsx
+import React, { Suspense } from "react";
+
+const LazyComponent = React.lazy(() => import("./LazyComponent"));
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LazyComponent />
+    </Suspense>
+  );
+}
+```
+
+* Only works for **default exports**.
+* Must be wrapped inside `Suspense`.
+
+<br>
+
+**2. Dynamic `import()` without React.lazy (general-purpose)**
+
+You can **dynamically import any module** (not just React components):
+
+```javascript
+async function loadModule() {
+  const module = await import("./utils");
+  module.someFunction();
+}
+
+loadModule();
+```
+
+* Can be used **anywhere**, not just components.
+* Works with **named exports** too:
+
+```javascript
+const { someFunction } = await import("./utils");
+someFunction();
+```
+
+<br>
+
+**3. Conditional dynamic import**
+
+You can dynamically import **based on a condition**:
+
+```javascript
+async function loadComponent(type) {
+  if (type === "A") {
+    const ComponentA = (await import("./ComponentA")).default;
+    return ComponentA;
+  } else {
+    const ComponentB = (await import("./ComponentB")).default;
+    return ComponentB;
+  }
+}
+```
+
+* Useful for **feature flags**, **user roles**, or **route-based loading**.
+
+<br>
+
+**4. Lazy loading images/assets**
+
+You can also dynamically import **images, JSON, or other assets**:
+
+```javascript
+async function loadImage(name) {
+  const image = await import(`./images/${name}.png`);
+  console.log(image.default); // URL to use in <img>
+}
+```
+
+✅ **Summary Table:**
+
+| Method                      | Use Case                | Notes                                  |
+| --------------------------- | ----------------------- | -------------------------------------- |
+| `React.lazy()` + `Suspense` | Lazy-load components    | Only default exports                   |
+| `import()`                  | Any module dynamically  | Works anywhere, supports named exports |
+| Conditional `import()`      | Load based on condition | Async/await required                   |
+| Assets `import()`           | Load images, JSON, etc. | Returns a URL (for images)             |
