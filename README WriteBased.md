@@ -2132,7 +2132,7 @@ console.log([...front, ...back]);
 <br>
 
 
-> ### Q58 - Mapping array
+> ### ⭐️ Q58 - Mapping array
  
 let friends = [\
   { name: "chris", age: 13, books: ["sherlock holmes", "english"] },\
@@ -2568,7 +2568,7 @@ console.log(result); // Output will be 4
 <br>
 
 
-> ### Q70 -  Find sum of numbers occurred only once in the array ( using only one loop )
+> ### ⭐️ Q70 -  Find sum of numbers occurred only once in the array ( using only one loop )
 
 const array = [2, 5, 4, 4, 6, 5, 4, 7, 6];\
 output => 2 + 7 => 9
@@ -3585,6 +3585,7 @@ console.log(maxSubarraySum([-2, 1, -3, 4, -1, 2, 1, -5, 4])); // Output: 6
 </Details>
 
 <br>
+
 > ### ⭐️ Q89 - 386. Lexicographical Numbers
 
 should be 13: [1,10,11,12,13,2,3,4,5,6,7,8,9]\
@@ -4960,7 +4961,7 @@ console.log(vnode); // VNode { tag: 'div', props: { id: 'app' }, children: [ VNo
 
 <br>
 
-> ### Q125 - Creating a counter using setTimeout in JavaScript
+> ### ⭐️ Q125 - Creating a counter using setTimeout in JavaScript
 
 <details>
 
