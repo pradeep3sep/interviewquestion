@@ -1,12 +1,148 @@
-- Folder acts as routing path
+> ### Folder acts as routing path
 
 ```js
 <NuxtLink to="/">Home page</NuxtLink>
 ```
 
-> ### Static Deployment (Pre-rendered)
+<br>
 
-Nuxt gives you the ability to host your web application on any static hosting.
+> ### Nuxt 2 — Full Folder Structure
+
+```
+my-nuxt-app/
+│
+├── 📄 nuxt.config.js          # Main Nuxt configuration file
+├── 📄 package.json            # Project dependencies and scripts
+├── 📄 .nuxtignore             # Ignore files from build (optional)
+├── 📄 .env                    # Environment variables (optional)
+├── 📄 jsconfig.json           # Helpful for IDE path aliasing (optional)
+│
+├── 📁 assets/                 # Uncompiled assets processed by Webpack
+│   ├── images/
+│   │   └── logo.png
+│   ├── scss/
+│   │   └── main.scss
+│   └── fonts/
+│       └── custom-font.woff
+│
+├── 📁 components/             # Vue components auto-imported if enabled
+│   ├── Header.vue
+│   ├── Footer.vue
+│   ├── Button.vue
+│   └── cards/
+│       └── ProductCard.vue
+│
+├── 📁 layouts/                # Application layouts (with <nuxt/> outlet)
+│   ├── default.vue            # Default layout
+│   ├── admin.vue              # Example admin layout
+│   └── error.vue              # Error layout for 404/500 pages
+│
+├── 📁 middleware/             # Custom route middleware
+│   ├── auth.js                # Auth guard example
+│   ├── user-agent.js
+│   └── stats.js
+│
+├── 📁 pages/                  # Each .vue file becomes a route
+│   ├── index.vue              # / (Home page)
+│   ├── about.vue              # /about
+│   ├── contact.vue            # /contact
+│   ├── users/
+│   │   ├── index.vue          # /users
+│   │   └── _id.vue            # /users/:id (dynamic route)
+│   └── blog/
+│       ├── index.vue          # /blog
+│       └── _slug.vue          # /blog/:slug
+│
+├── 📁 plugins/                # JS plugins loaded before Vue app mounts
+│   ├── axios.js               # Axios plugin
+│   ├── vuetify.js             # Vuetify plugin
+│   └── filters.js             # Global Vue filters
+│
+├── 📁 static/                 # Static files served as root (/favicon.ico)
+│   ├── favicon.ico
+│   ├── robots.txt
+│   └── images/
+│       └── banner.jpg
+│
+├── 📁 store/                  # Vuex store modules
+│   ├── index.js               # Root store
+│   ├── auth.js                # Auth module
+│   ├── user.js                # User data module
+│   └── settings.js
+│
+├── 📁 utils/ (optional)       # Helper functions
+│   ├── constants.js
+│   └── formatDate.js
+│
+├── 📁 server/ (optional)      # Custom server logic (API, middleware)
+│   ├── index.js
+│   └── api/
+│       ├── users.js
+│       └── posts.js
+│
+└── 📁 test/ (optional)        # Unit or e2e tests
+    ├── components/
+    └── pages/
+```
+
+<br>
+
+> ### File/Folder Purpose Summary
+
+| Folder/File          | Description                                                                               |
+| -------------------- | ----------------------------------------------------------------------------------------- |
+| **`nuxt.config.js`** | Global Nuxt configuration — routes, plugins, modules, head, build settings, etc.          |
+| **`assets/`**        | Processed by Webpack — use for SCSS, LESS, images that are imported.                      |
+| **`static/`**        | Directly served at root (not processed). Use for `robots.txt`, `favicon.ico`, etc.        |
+| **`components/`**    | Vue components auto-imported when `components: true` in `nuxt.config.js`.                 |
+| **`layouts/`**       | Define global or specific page layouts (each must include `<nuxt/>`).                     |
+| **`middleware/`**    | Functions executed before rendering a page or route.                                      |
+| **`pages/`**         | Auto-generated routes. Folders define nested routes; `_param.vue` defines dynamic routes. |
+| **`plugins/`**       | Initialize external libraries or custom code before Vue app starts.                       |
+| **`store/`**         | Vuex state management files. Each file becomes a namespaced module.                       |
+| **`utils/`**         | Optional folder for helper utilities and constants.                                       |
+| **`server/`**        | Optional folder for custom Node/Express server or API endpoints.                          |
+| **`test/`**          | For unit or end-to-end test files.                                                        |
+
+
+### Example of Key Config (`nuxt.config.js`)
+
+```js
+import { resolve } from 'path'
+
+export default {
+  mode: 'universal',
+
+  head: {
+    title: 'My Nuxt App',
+    meta: [{ charset: 'utf-8' }],
+  },
+
+  css: ['~/assets/scss/main.scss'],
+
+  components: true,
+
+  plugins: [
+    '~/plugins/axios.js',
+    '~/plugins/filters.js'
+  ],
+
+  buildModules: ['@nuxt/components'],
+
+  router: {
+    middleware: ['auth']
+  },
+
+  alias: {
+    images: resolve(__dirname, './assets/images'),
+    style: resolve(__dirname, './assets/scss')
+  }
+}
+```
+
+<br>
+
+> ### Static Deployment (Pre-rendered)
 
 To deploy a static generated site make sure you have `target: 'static'` in your `nuxt.config.js` (for Nuxt >= 2.13):
 
@@ -17,26 +153,22 @@ export default {
 }
 ```
 
+<br>
 
-Here’s a **concise version** of your Nuxt “Views” notes — shortened but keeping all important details intact 👇
-
----
+> ### Nuxt Views Overview
 
 ![alt text](https://v2.nuxt.com/_nuxt/image/f55faf.png)
 
-
-## **Nuxt Views Overview**
+<br>
 
 Views define how data and content are displayed for each route.
 A **View** = `app template` + `layout` + `page`.
 
----
+<br>
 
-### **1. Pages**
+### 1. Pages
 
 * Every file in `pages/` is a **Vue component** with extra Nuxt features.
-* Example:
-
   ```vue
   <!-- pages/index.vue -->
   <template>
@@ -54,11 +186,10 @@ A **View** = `app template` + `layout` + `page`.
   <style>.red { color: red; }</style>
   ```
 * **Page properties:** e.g. `head`, `layout`, etc.
-* Refer to **Directory Structure** docs for full property list.
 
----
+<br>
 
-### **2. Layouts**
+### 2. Layouts
 
 Used to define the general **look and feel** (header, sidebar, etc.) of your app.
 
@@ -97,11 +228,10 @@ Used to define the general **look and feel** (header, sidebar, etc.) of your app
   }
   </script>
   ```
-* If no `layout` specified → uses `default.vue`.
 
----
+<br>
 
-### **3. Error Page**
+### 3. Error Page
 
 * File: `layouts/error.vue`
 * Acts like a **page**, not a layout.
@@ -125,69 +255,16 @@ Used to define the general **look and feel** (header, sidebar, etc.) of your app
   </script>
   ```
 
----
+<br>
 
-### **4. App Template (app.html)**
-
-Defines the **HTML skeleton** of your Nuxt app.
-Default:
-
-```html
-<!DOCTYPE html>
-<html {{ HTML_ATTRS }}>
-  <head {{ HEAD_ATTRS }}>
-    {{ HEAD }}
-  </head>
-  <body {{ BODY_ATTRS }}>
-    {{ APP }}
-  </body>
-</html>
-```
-
-#### **Customization Example**
-
-Add custom scripts or conditional CSS (e.g., for IE):
-
-```html
-<!DOCTYPE html>
-<!--[if IE 9]><html class="lt-ie9 ie9" {{ HTML_ATTRS }}><![endif]-->
-<!--[if (gt IE 9)|!(IE)]><!--><html {{ HTML_ATTRS }}><!--<![endif]-->
-  <head {{ HEAD_ATTRS }}>
-    {{ HEAD }}
-  </head>
-  <body {{ BODY_ATTRS }}>
-    {{ APP }}
-  </body>
-</html>
-```
-
----
-
-✅ **Summary:**
-
-* **Pages** = route components (`head`, `layout`, etc.).
-* **Layouts** = shared structure (`default` or custom).
-* **Error Page** = special page for error states (no `<Nuxt />`).
-* **App Template** = global HTML wrapper (rarely modified).
-
----
-
-Would you like me to format this as a **Markdown cheat sheet** for easier reference (headings, bullets, code blocks)?
-
-
+> ### Nuxt Context & Helpers
 
 ![alt text](https://v2.nuxt.com/_nuxt/image/c12c33.svg)
 
+<br>
 
-Here’s a **short, structured version** of your *“Context and Helpers”* notes — compact but includes all key details 👇
+### 1. What is Context
 
----
-
-## **Nuxt Context & Helpers — Quick Notes**
-
-### **1. What is Context**
-
-* Context gives **extra info** about the current request.
 * Available in: `asyncData`, `plugins`, `middleware`, `nuxtServerInit`.
 * Gives access to **store**, **route**, **params**, **query**, **env**, **redirect**, **error**, etc.
 * Also includes **req/res (server)** and **from/nuxtState (client)**.
@@ -208,15 +285,11 @@ function (context) {
 }
 ```
 
-> ⚠️ Not the same as Vuex or build.extend context objects.
+<br>
 
----
-
-### **2. Using Context Parameters**
+### 2. Using Context Parameters
 
 * Dynamic routes via `context.params`.
-* Example:
-
   ```js
   async asyncData({ params, $http, error }) {
     try {
@@ -229,9 +302,9 @@ function (context) {
   ```
 * For query params → `context.query.id`.
 
----
+<br>
 
-### **3. Redirect & Store Access**
+### 3. Redirect & Store Access
 
 * `store`: same as `this.$store`.
 * `redirect`: helper for navigation.
@@ -246,11 +319,11 @@ export default {
 }
 ```
 
----
+<br>
 
-## **Helpers**
+> ### Helpers
 
-### **1. $nuxt Helper**
+### 1. $nuxt Helper
 
 Accessible via `this.$nuxt` (Vue) or `window.$nuxt` (client).
 
@@ -262,10 +335,7 @@ Accessible via `this.$nuxt` (Vue) or `window.$nuxt` (client).
 
 * Properties: `isOnline`, `isOffline`.
 
-#### ✅ Access Root Instance
-
-* `window.$nuxt` gives access to app instance or modules (e.g., `$axios`).
-* Use **only as last resort**.
+<br>
 
 #### ✅ Refresh Page Data
 
@@ -274,6 +344,8 @@ Accessible via `this.$nuxt` (Vue) or `window.$nuxt` (client).
 ```
 
 * Refreshes `asyncData` / `fetch` without reloading the app.
+
+<br>
 
 #### ✅ Control Loading Bar
 
@@ -286,21 +358,9 @@ mounted() {
 }
 ```
 
----
+<br>
 
-### **2. onNuxtReady**
-
-Run scripts after Nuxt is fully loaded (client-side only).
-
-```js
-window.onNuxtReady(() => {
-  console.log('Nuxt is ready')
-})
-```
-
----
-
-### **3. Process Helpers**
+### 2. Process Helpers
 
 Nuxt provides booleans:
 
@@ -322,45 +382,17 @@ export default {
 </script>
 ```
 
----
+<br>
 
-✅ **Summary**
-
-* **Context** = shared data & utilities for server/client.
-* **Helpers** = `$nuxt`, `onNuxtReady`, and `process.*` for app state control.
-* Use context for data fetching, redirects, and store access; use helpers for app-level interactions.
-
----
-
-Would you like me to combine this and the previous *Views* section into one **printable Markdown cheat sheet** for quick reference?
-
-
-
-
-Here’s a **concise and complete summary** of your *“Server-Side Rendering (SSR)”* notes — simplified but with all important technical details retained 👇
-
----
-
-## **Nuxt Server-Side Rendering (SSR) — Quick Notes**
-
-### **1. What is SSR**
+> ### Nuxt Server-Side Rendering (SSR)
 
 * **Server-Side Rendering (SSR)**: HTML is generated **on the server**, not the browser.
 * The **server sends a fully rendered page** → browser displays it → **Vue hydrates** the app to make it reactive.
 
----
 
-### **2. Node.js Requirement**
-
-* SSR needs a **Node.js server** to render and serve your Vue pages.
-
----
-
-### **3. Extending the Server**
+### Extending the Server
 
 You can extend or modify the server behavior using **serverMiddleware**.
-
-**Example:**
 
 ```js
 // server-middleware/logger.js
@@ -375,26 +407,11 @@ export default {
 }
 ```
 
----
+<br>
 
-### **4. Server vs Browser Environment**
+### SSR Lifecycle (Steps in Nuxt)
 
-* **Server (Node.js):**
-  Access to `req`, `res`.
-  ❌ No access to `window` or `document`.
-* **Browser:**
-  Use `window` or `document` inside lifecycle hooks like:
-
-  ```js
-  beforeMount() { window.alert('hello') }
-  mounted() { window.alert('hello') }
-  ```
-
----
-
-### **5. SSR Lifecycle (Steps in Nuxt)**
-
-#### **Step 1: Browser → Server**
+#### Step 1: Browser → Server
 
 * Browser requests page → hits Node.js internal server.
 * Nuxt renders HTML with data from `asyncData`, `nuxtServerInit`, or `fetch`.
@@ -409,9 +426,9 @@ export default {
 
 * Navigation via `<NuxtLink>` happens **client-side** (no new server request unless hard refresh).
 
----
+<br>
 
-### **6. Common Caveats**
+### Common Caveats
 
 #### ⚠️ **`window` or `document` Undefined**
 
@@ -423,6 +440,8 @@ export default {
     require('external_library')
   }
   ```
+
+<br>
 
 #### ⚠️ **iOS Phone Number Auto-Linking**
 
@@ -443,28 +462,9 @@ export default {
    </template>
    ```
 
----
+<br>
 
-✅ **Summary**
-
-* **SSR** = pre-rendered HTML from server → hydrated by Vue.
-* Needs **Node.js** runtime.
-* Use **serverMiddleware** to extend server logic.
-* Avoid using `window`/`document` directly on the server.
-* **Hydration** makes the app interactive after the first load.
-* Handle iOS number auto-linking to prevent rendering mismatches.
-
----
-
-Would you like me to merge this with your **Views** and **Context & Helpers** sections into a single, well-formatted **Markdown cheat sheet** (for print or quick reference)?
-
-
-
-Here’s a **short, complete summary** of your *“Static Site Generation (SSG)”* notes — formatted for clarity and quick reference 👇
-
----
-
-## **Nuxt Static Site Generation (SSG) — Quick Notes**
+> ### Nuxt Static Site Generation (SSG)
 
 ### **1. What is Static Site Generation**
 
@@ -472,7 +472,7 @@ Here’s a **short, complete summary** of your *“Static Site Generation (SSG)�
 * Outputs **static HTML + JS files** → can be deployed to **Netlify, Vercel, GitHub Pages**, etc.
 * ✅ No Node.js server needed.
 
----
+<br>
 
 ### **2. How It Works**
 
@@ -483,7 +483,7 @@ Here’s a **short, complete summary** of your *“Static Site Generation (SSG)�
   * Executes and caches all API calls in a **static** folder.
   * Client-side navigation uses cached data (no API re-calls).
 
----
+<br>
 
 ### **3. Lifecycle Steps**
 
@@ -501,7 +501,7 @@ Here’s a **short, complete summary** of your *“Static Site Generation (SSG)�
 * Navigation via `<NuxtLink>` handled **client-side**.
 * Even hard refresh loads from cached **static folder**, not API or CDN.
 
----
+<br>
 
 ### **4. SPA Fallback**
 
@@ -509,7 +509,7 @@ Here’s a **short, complete summary** of your *“Static Site Generation (SSG)�
   become **Single Page App (SPA)** pages.
 * Rendered **client-side** (not pre-rendered or cached).
 
----
+<br>
 
 ### **5. Updating Content**
 
@@ -519,53 +519,22 @@ Here’s a **short, complete summary** of your *“Static Site Generation (SSG)�
   * Git pushes to the main branch, or
   * Pull request merges.
 
----
+<br>
 
 ### **6. Preview Mode**
 
 * Enables **live preview** of API/CMS changes before deployment.
 * Temporarily fetches live data without rebuilding.
 
----
 
-✅ **Summary**
-
-* **SSG = Pre-rendered static HTML at build time.**
-* **Fast, secure, and serverless deployment.**
-* **Client navigation = instant (cached data).**
-* **Rebuild required for content updates.**
-* **Preview Mode** allows testing new content live.
-
----
-
-Would you like me to now compile all four topics —
-**Views**, **Context & Helpers**, **SSR**, and **SSG** —
-into a single **Markdown cheat sheet** (well formatted for quick revision or printing)?
-
-
-
-
+<br>
 
 ![alt text](https://v2.nuxt.com/_nuxt/image/de48ca.svg)
 
-Perfect — you’ve shared the full **Nuxt.js lifecycle**, which is one of the most important core concepts to truly master Nuxt development.
-Let’s break it down and summarize it **clearly and visually**, so you can recall it easily when debugging or optimizing apps 👇
 
----
+> ### Nuxt Lifecycle Overview
 
-## 🧩 Nuxt Lifecycle Overview
-
-Nuxt’s lifecycle happens **after the build phase** (once code is bundled and optimized).
-From here, it diverges into two main paths depending on your mode:
-
-1. **SSR (Server-Side Rendering)** — via `nuxt start`
-2. **SSG (Static Site Generation)** — via `nuxt generate`
-
-Each mode has its **Server** and **Client** lifecycle phases.
-
----
-
-## ⚙️ Server Lifecycle (SSR or during Static Generation)
+### ⚙️ Server Lifecycle (SSR or during Static Generation)
 
 > Happens on the server for every initial request (SSR) or once per route during static generation (SSG).
 
@@ -636,9 +605,9 @@ Each mode has its **Server** and **Client** lifecycle phases.
     * `generate:routeCreated` → route fully generated
     * `generate:done` → all routes done
 
----
+<br>
 
-## 💻 Client Lifecycle (in the Browser)
+### 💻 Client Lifecycle (in the Browser)
 
 > This part happens in the browser for **both SSR and SSG**.
 
@@ -683,9 +652,9 @@ Each mode has its **Server** and **Client** lifecycle phases.
 
     * Component is now interactive.
 
----
+<br>
 
-## 🔁 Navigation with `<NuxtLink>`
+### 🔁 Navigation with `<NuxtLink>`
 
 > Happens **only in the browser** when navigating without page reloads.
 
@@ -695,9 +664,10 @@ Each mode has its **Server** and **Client** lifecycle phases.
 4. Triggers Vue lifecycle (`beforeCreate`, `created`, `beforeMount`, `mounted`)
 5. No CDN hit — navigation happens **client-side** only.
 
----
 
-## 🧭 Quick Mental Model
+<br>
+
+### 🧭 Quick Mental Model
 
 | Phase              | What Happens                        | Blocking? | Where  |
 | ------------------ | ----------------------------------- | --------- | ------ |
@@ -708,125 +678,47 @@ Each mode has its **Server** and **Client** lifecycle phases.
 | `fetch()`          | Fetch data after component creation | ❌         | Both   |
 | `mounted`          | DOM ready, app interactive          | ❌         | Client |
 
----
 
-Would you like me to make a **visual lifecycle flow diagram** (like a timeline from server → client → navigation) to help you remember this more intuitively?
+<br>
 
-
-Exactly ✅ — that passage explains the **three rendering modes in Nuxt**.
-Let’s summarize them clearly so you can recall when and why to use each 👇
-
----
-
-## ⚙️ Rendering Modes in Nuxt
+> ### Rendering Modes in Nuxt
 
 ### 1. **Server-Side Rendering (SSR)**
 
 > 🧠 Default mode — `ssr: true` (you don’t need to set it manually).
 
-#### 🏗 How it works:
-
-* Each time a user requests a page, the **server** generates the HTML.
-* The generated HTML is sent to the browser.
-* Once received, Vue **hydrates** it — making it interactive.
-
-#### 📦 nuxt.config.js
-
 ```js
+// nuxt.config.js
 export default {
   ssr: true // default (no need to add)
 }
 ```
 
-#### ✅ Pros:
-
-* Great **SEO** — full HTML available to crawlers.
-* Faster **first contentful paint**.
-* Dynamic data always up-to-date.
-
-#### ⚠️ Cons:
-
-* Needs a **Node.js server**.
-* Slightly higher latency per request (HTML generated on demand).
-
-#### 🏁 Use when:
-
-* Content changes frequently (e.g., dashboards, logged-in pages, news feeds).
-* SEO is important.
-
----
-
 ### 2. **Static Site Generation (SSG)**
 
 > ⚙️ Triggered via `nuxt generate` and often called “pre-rendering”.
 
-#### 🏗 How it works:
-
-* Pages are **rendered at build time** — HTML generated once and stored.
-* On deploy, files are served via **CDN** (no Node server needed).
-* Navigation between pages uses client-side rendering.
-
-#### 📦 nuxt.config.js
-
 ```js
+// nuxt.config.js
 export default {
   target: 'static', // or just run `nuxt generate`
 }
 ```
-
-#### ✅ Pros:
-
-* Very fast — served from CDN.
-* No backend server required.
-* Secure (no runtime code execution).
-
-#### ⚠️ Cons:
-
-* To see new data, must **regenerate the site**.
-* Not ideal for highly dynamic or personalized content.
-
-#### 🏁 Use when:
-
-* Blog, docs, marketing sites, portfolios.
-* Content changes occasionally.
-
----
 
 ### 3. **Client-Side Rendering (CSR)**
 
 > 🚀 “SPA mode” — no SSR or pre-rendering.
 > Only runs in the browser.
 
-#### 🏗 How it works:
-
-* The server sends a **bare HTML shell** and a JavaScript bundle.
-* Vue takes over and renders the entire app in the browser.
-
-#### 📦 nuxt.config.js
-
 ```js
+// nuxt.config.js
 export default {
   ssr: false // enables SPA mode
 }
 ```
 
-#### ✅ Pros:
 
-* No Node server or build-time generation needed.
-* Ideal for **internal tools** or apps behind login.
-
-#### ⚠️ Cons:
-
-* Poor SEO (HTML is empty before JS runs).
-* Slower first paint (browser must download JS before rendering).
-
-#### 🏁 Use when:
-
-* SEO doesn’t matter (e.g., dashboards, admin panels, internal apps).
-
----
-
-## 🧭 Quick Comparison Table
+### Quick Comparison Table
 
 | Mode    | Server Needed? | When HTML is Rendered | SEO Friendly | Example Use Case      |
 | ------- | -------------- | --------------------- | ------------ | --------------------- |
@@ -834,151 +726,14 @@ export default {
 | **SSG** | ❌ No           | At build time         | ✅ Excellent  | Blogs, portfolios     |
 | **CSR** | ❌ No           | In browser            | ❌ Poor       | Internal dashboards   |
 
----
 
-Would you like me to show **how Nuxt decides which lifecycle steps run differently** in each rendering mode (SSR vs SSG vs CSR)? That’s a nice way to connect this section to the lifecycle you shared earlier.
+<br>
 
-
-Perfect — this section describes **where and how your Nuxt app is deployed** depending on your rendering strategy.
-Here’s a clean, developer-friendly summary 👇
-
----
-
-## 🚀 **Nuxt Deployment Targets**
-
-Nuxt can be deployed in **two main ways** — depending on whether you need a **server** or not.
-
----
-
-### **1. Static Hosting (`target: 'static'`)**
-
-> 🧱 Generates your site as a **fully static website** — no Node.js server needed.
-
-#### ⚙️ **How it works**
-
-* Run:
-
-  ```bash
-  nuxt generate
-  ```
-* Nuxt **pre-renders HTML** for every route.
-* Output goes into the `/dist` folder — ready to deploy anywhere (Netlify, GitHub Pages, Vercel, etc.).
-* Dynamic routes are handled via the **Nuxt Crawler**, which finds and generates them automatically.
-
-#### 📦 **nuxt.config.js**
-
-```js
-export default {
-  target: 'static' // default is 'server'
-}
-```
-
-#### 🧠 **When you run `nuxt dev` with `target: 'static'`:**
-
-* Removes `req` & `res` from context (no server context available).
-* Falls back to **client-side rendering** for:
-
-  * 404s
-  * errors
-  * redirects
-    *(see SPA fallback)*
-* `$route.query` = `{}` on the server-side.
-* `process.static` → `true`
-* `process.target` → `'static'` (helpful for module authors).
-
-#### ✅ **Pros**
-
-* No backend required — deploy anywhere.
-* Faster load times (CDN-friendly).
-* SEO-friendly (pre-rendered HTML).
-* Works offline (thanks to pre-generated files).
-
-#### ⚠️ **Cons**
-
-* Must rebuild site for new content.
-* Limited server interactivity (no `req`/`res`).
-
-#### 🏁 **Use when**
-
-* Blogs, portfolios, documentation, marketing sites — content changes rarely.
-
----
-
-### **2. Server Hosting (`target: 'server'`)**
-
-> 🖥️ Runs on a **Node.js server**, rendering pages on demand.
-
-#### ⚙️ **How it works**
-
-* Browser requests a page → Node.js server renders HTML for that request → sends it back.
-* You can also use `serverMiddleware` for APIs, logging, or authentication.
-* Works with **both SSR and CSR** modes:
-
-  * With `ssr: true` → full server-side rendering.
-  * With `ssr: false` → SPA served from Node (no SSR, but still uses middleware).
-
-#### 📦 **nuxt.config.js**
-
-```js
-export default {
-  target: 'server' // default value
-}
-```
-
-#### ✅ **Pros**
-
-* Supports dynamic content.
-* Can use server APIs and middleware.
-* Real-time rendering per request.
-
-#### ⚠️ **Cons**
-
-* Requires a running Node.js server.
-* Slightly slower initial response than static.
-
-#### 🏁 **Use when**
-
-* You need **serverMiddleware** (custom APIs, authentication, etc.).
-* Your content updates frequently.
-* You require **true SSR** for SEO or personalization.
-
----
-
-## ⚡ Quick Comparison
-
-| Feature                     | `target: 'static'`         | `target: 'server'`     |
-| --------------------------- | -------------------------- | ---------------------- |
-| **Requires Node.js server** | ❌ No                       | ✅ Yes                  |
-| **Rendered**                | At build time              | On each request        |
-| **Performance**             | ⚡ Very fast (CDN cached)   | 🚀 Depends on server   |
-| **SEO**                     | ✅ Excellent                | ✅ Excellent            |
-| **Middleware support**      | ❌ Limited                  | ✅ Full                 |
-| **Dynamic content**         | ⚠️ Requires rebuild        | ✅ Always fresh         |
-| **Use case**                | Blogs, docs, landing pages | Dashboards, apps, APIs |
-
----
-
-Would you like me to combine this with the **Rendering** section into a single summarized sheet (to see how SSR/SSG/CSR connect to `target: 'server'` and `target: 'static'`)? It makes the relationships much clearer.
-
-
-
-
-
-
-
-
-Here’s a **short, complete summary** of the **File System Routing** chapter — simplified and structured while keeping all important details intact 👇
-
----
-
-## 🚏 **File System Routing in Nuxt**
+> ### File System Routing in Nuxt
 
 Nuxt automatically creates routes based on your **`pages/`** directory — no manual router config needed.
-It also supports **nested**, **dynamic**, and **custom** routes.
 
----
-
-### ⚙️ **Basics**
+### Basics
 
 * Each `.vue` file in `pages/` becomes a route.
 * Uses **automatic code-splitting** per page.
@@ -1010,9 +765,9 @@ Generated routes:
 ]
 ```
 
----
+<br>
 
-### 🌀 **Dynamic Routes**
+### Dynamic Routes
 
 Use `_` prefix for dynamic parameters.
 
@@ -1047,12 +802,7 @@ Generated routes:
 this.$route.params.id
 ```
 
-#### 🕵️‍♂️ Static Site Note
-
-Nuxt’s **crawler (v2.13+)** auto-detects linked dynamic routes.
-Unlinked/secret pages must be manually defined in `generate.routes`.
-
----
+<br>
 
 ### 🌳 **Nested Routes**
 
@@ -1081,7 +831,7 @@ Creates:
 }
 ```
 
----
+<br>
 
 ### 🔁 **Dynamic Nested Routes**
 
@@ -1104,7 +854,7 @@ Supports multi-level dynamic routes like:
 /:category/:subCategory/:id
 ```
 
----
+<br>
 
 ### ❓ **Unknown Depth Routes**
 
@@ -1113,9 +863,9 @@ Use a **catch-all** file: `pages/_.vue`
 Handles any unmatched path (e.g. `/about`, `/about/team`, `/foo/bar/...`).
 Can also serve as a **custom 404 page**.
 
----
+<br>
 
-## 🧩 **Customizing the Router**
+> ### Customizing the Router
 
 ### Extend Router via `nuxt.config.js`
 
@@ -1201,17 +951,11 @@ Would you like me to make a **visual diagram** showing how the file structure �
 
 Here’s a **clear and compact summary** of the **Data Fetching** chapter in Nuxt — perfect for quick understanding and revision 👇
 
----
+<br>
 
-## ⚡ **Data Fetching in Nuxt**
+> ### Data Fetching in Nuxt
 
-Nuxt provides **two main hooks** for fetching async data — optimized for **server-side rendering (SSR)** and **static generation**.
-
----
-
-### 🧠 **Why Nuxt Hooks?**
-
-Traditional Vue methods like `mounted()` only run on the **client-side**, so data isn’t rendered on the server.
+Traditional Vue methods like `mounted()` only run on the **client-side**, so data isn’t rendered on the server.\
 Nuxt provides SSR-friendly alternatives:
 
 | Hook        | Used In       | SSR Support | Access to `this` | Shows Loading State           | Blocks Navigation |
@@ -1219,16 +963,13 @@ Nuxt provides SSR-friendly alternatives:
 | `fetch`     | Any component | ✅ Yes       | ✅ Yes            | ✅ Yes (`$fetchState.pending`) | ❌ No              |
 | `asyncData` | Only pages    | ✅ Yes       | ❌ No             | ❌ No                          | ✅ Yes             |
 
----
 
-## 🔁 **1️⃣ The `fetch()` Hook**
+<br>
+
+### The `fetch()` Hook
 
 > Works in pages and components.
 > Runs on the server before initial render, and on the client when navigating.
-
----
-
-### 🧩 **Basic Example**
 
 ```vue
 <script>
@@ -1243,9 +984,9 @@ export default {
 </script>
 ```
 
----
+<br>
 
-### ⚙️ **Behavior Options**
+### Behavior Options
 
 | Property        | Type               | Description                                    |
 | --------------- | ------------------ | ---------------------------------------------- |
@@ -1262,9 +1003,9 @@ export default {
 }
 ```
 
----
+<br>
 
-### 🔍 **Fetch State**
+### Fetch State
 
 Nuxt exposes a built-in `$fetchState` object:
 
@@ -1283,7 +1024,7 @@ Nuxt exposes a built-in `$fetchState` object:
 <button @click="$fetch">Reload</button>
 ```
 
----
+<br>
 
 ### ⏱️ **Re-fetching & Caching**
 
@@ -1304,7 +1045,7 @@ Nuxt exposes a built-in `$fetchState` object:
   }
   ```
 
----
+<br>
 
 ### 🕵️ **Listening to Query Changes**
 
@@ -1316,14 +1057,14 @@ watch: {
 }
 ```
 
----
+<br>
 
 ### 🚨 **Error Handling**
 
 `fetch()` does **not** trigger Nuxt’s error page.
 Handle manually with `$fetchState.error`.
 
----
+<br>
 
 ## 📘 **2️⃣ The `asyncData()` Hook**
 
