@@ -3938,3 +3938,123 @@ JavaScript engines automatically manage memory through a process called garbage 
 - **Use WeakMap/WeakSet:** Use WeakMap/WeakSet for data structures where object references should not prevent garbage collection.
 - **Release Closures:** Be mindful of closures, and release unnecessary closures when they are no longer needed.
 - **Testing and Profiling:** Regularly test and profile your application for memory leaks, using tools like Chrome Dev Tools.
+
+
+<br>
+
+> ### lets say your build time gets increased by 8 min, how you will resolve this issue ?
+
+### 1. Identify the Root Cause
+
+First, determine *what changed* recently.
+
+* **Check Git history** — Did new dependencies, assets, or scripts get added?
+* **Compare build logs** — Look for new or longer-running steps.
+* **Use CI/CD timestamps** — Many CI systems (GitHub Actions, Jenkins, GitLab, etc.) show per-step timing. Identify which step grew.
+
+🔍 Example:
+
+> Earlier, `npm run build` took 2m, now it’s 10m → check webpack stats to find which plugin or loader is slow.
+
+<br>
+
+### 2. Optimize Dependency & Package Size
+
+* Remove unused npm packages.
+* Avoid large libraries if smaller ones exist.
+* Ensure `node_modules` isn’t being reinstalled unnecessarily in CI.
+
+📦 **Pro Tip:** Cache `node_modules` or `.pnpm-store` in your CI (e.g., GitHub Actions cache) to save 3–5 minutes easily.
+
+<br>
+
+### 3. Improve Bundler Efficiency
+
+If you’re using **Webpack**, **Vite**, **Nuxt**, or **React Native Metro**, check:
+
+* Disable source maps for production (`devtool: false` or `build.sourcemap = false`).
+* Reduce bundle size — fewer assets = faster build.
+
+<br>
+
+### 4. CI/CD Optimization
+
+In CI (Jenkins, GitHub Actions, AWS CodeBuild, etc.):
+
+* **Enable caching** for `node_modules`, `.nuxt`, `.vite`, or `dist`.
+* **Parallelize jobs** — linting, testing, and building can run concurrently.
+* Use **Docker layer caching** if building inside containers.
+
+Example (GitHub Actions cache):
+
+```yaml
+- uses: actions/cache@v3
+  with:
+    path: ~/.npm
+    key: ${{ runner.os }}-npm-${{ hashFiles('package-lock.json') }}
+```
+
+<br>
+
+### 5. Profile the Build
+
+Use tools to pinpoint bottlenecks:
+
+* **Webpack Bundle Analyzer**
+* **Nuxt build --analyze**
+* **React Native ––profile**
+  This helps see which chunks or loaders take time.
+
+<br>
+
+### 6. Remove Unnecessary Steps
+
+* Running tests or linting inside the build job (move them to separate jobs).
+* Unnecessary environment setup (e.g., `npm ci` twice).
+* Large image optimization during every build (move to pre-processing step).
+
+<br>
+
+### 7. Long-Term Fixes
+
+* Migrate to **Vite** or **esbuild** if possible (faster dev & prod builds).
+* Use **incremental static regeneration** (Next.js / Nuxt3).
+
+
+> ### successful in unit testing but gets failed in integration testing, what will you do ?
+
+> I’d start by reproducing the issue, identifying the integration point that’s failing, and then validating assumptions like data flow, mocks, and side effects.
+> My goal would be to isolate whether it’s a code issue, environment mismatch, or incorrect mock behavior.”
+
+
+| Check                       | Why                                                                   |
+| --------------------------- | --------------------------------------------------------------------- |
+| Props or data passed        | The component might receive different props in integration.           |
+| Mocked API or store         | The mock might differ from the real data shape.                       |
+| Environment                 | Some APIs (like window, localStorage, router) might not be available. |
+| Lifecycle or async behavior | Integration might introduce real side effects or network timing.      |
+
+🧠 Example:
+
+> Unit test used a mock store with `user: { name: 'Test' }`,
+> Integration test uses the real store where `user` is `null` — causing crash.
+
+
+### Debug Side Effects
+
+Sometimes integration failures come from:
+
+* API calls not awaited.
+* Race conditions.
+* Cleanup not done properly.
+
+
+Common fixes I’ve seen:
+
+* Correcting prop or state shape mismatch.
+* Adjusting mock to match live data.
+* Waiting for async renders using `await waitFor()`.
+* Adding missing providers (Router, Store, Theme).
+* Adjusting cleanup logic in `useEffect`.
+
+<br>

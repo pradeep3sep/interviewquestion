@@ -4668,11 +4668,41 @@ Render in JSX Order: React renders the children in the order they appear in the 
 ### Question 160
 
 ```jsx
+function bar(){
+    return foo;
+    foo = 10;
+    function foo(){
+        
+    };
+    var foo = 11;
+}
+
+console.log(bar())
 ```
+
+It is internally treated (conceptually) as:
+
+```js
+function bar() {
+    var foo;          // variable declaration hoisted
+    function foo() {} // function declaration hoisted (takes precedence)
+
+    return foo;
+    foo = 10;
+    foo = 11;
+}
+```
+
+
 
 ### Question 161
 
-```jsx
+```js
+var y =1;
+if(function f(){}){
+    y += typeof f
+}
+console.log(y)
 ```
 
 ### Question 162

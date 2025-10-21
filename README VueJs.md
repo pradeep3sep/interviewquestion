@@ -2981,3 +2981,296 @@ Now if `this.message` changes in the provider, the injected value updates automa
 
 <br>
 
+
+<br>
+
+> ### Vuex Modules Overview
+
+* Vuex allows splitting the store into **modules** to avoid a bloated single state tree.
+* Each module can have its own:
+
+  * `state`
+  * `mutations`
+  * `actions`
+  * `getters`
+  * Nested `modules`
+
+```js
+const moduleA = { state: () => ({}), mutations: {}, actions: {}, getters: {} }
+const store = createStore({ modules: { a: moduleA } })
+store.state.a // moduleA's state
+```
+
+<br>
+
+### Module Local State
+
+* **Mutations & Getters:** first argument is local `state`.
+* **Actions:** `context.state` = local, `context.rootState` = global root state.
+* **Getters:** `rootState` is 3rd argument.
+
+```js
+getters: {
+  sumWithRootCount(state, getters, rootState) { return state.count + rootState.count }
+}
+```
+
+<br>
+
+### Namespacing
+
+* By default, actions, mutations, and getters are **global**.
+* Use `namespaced: true` to make module self-contained:
+
+```js
+const account = {
+  namespaced: true,
+  state: () => ({}),
+  getters: { isAdmin: state => {} },   // accessed as 'account/isAdmin'
+  actions: { login() {} },             // dispatch('account/login')
+  mutations: { login() {} }            // commit('account/login')
+}
+```
+
+* Nested namespaced modules inherit or extend namespace.
+
+<br>
+
+### Accessing Global Assets in Namespaced Modules
+
+* **Getters:** `rootGetters` (4th argument).
+* **Actions:** `rootState`, `rootGetters`.
+* Dispatch/commit global: `{ root: true }`.
+
+```js
+dispatch('someAction', null, { root: true })
+commit('someMutation', null, { root: true })
+```
+
+<br>
+
+### Global Actions in Namespaced Modules
+
+* Mark action with `root: true` and use `handler` function.
+
+```js
+actions: {
+  someAction: { root: true, handler(ctx, payload) { ... } }
+}
+```
+
+<br>
+
+### Binding Helpers
+
+* Use `mapState`, `mapGetters`, `mapActions`, `mapMutations` with module namespace:
+
+```js
+computed: { ...mapState('moduleA', { a: state => state.a }) }
+methods: { ...mapActions('moduleA', ['foo']) }
+```
+
+* Or create namespaced helpers:
+
+```js
+const { mapState, mapActions } = createNamespacedHelpers('moduleA')
+```
+
+<br>
+
+### Dynamic Module Registration
+
+* `store.registerModule('myModule', module)` or nested: `['nested','myModule']`
+* Remove dynamically: `store.unregisterModule('myModule')`
+* Check: `store.hasModule('myModule')`
+* Preserve existing state: `{ preserveState: true }`
+
+<br>
+
+### Module Reuse
+
+* Use a **function** for `state` to avoid shared state across modules or stores:
+
+```js
+const MyReusableModule = {
+  state: () => ({ foo: 'bar' }),
+  mutations: {}, actions: {}, getters: {}
+}
+```
+
+<br>
+
+✅ **Key Takeaways**
+
+* Modules help organize large stores.
+* Namespacing isolates modules for reusability.
+* Dynamic registration allows flexible module management.
+* Use `state` as a function to avoid shared state issues.
+
+<br>
+
+
+> ### As FE architeure, how you setup the vuetify and what challenges you faced
+
+> “I configured Vuetify as part of the global UI layer — defining a centralized theme system, global component overrides, and reusable layout patterns.
+
+1. Theme setup
+```js
+// plugins/vuetify.js
+import Vue from 'vue'
+import Vuetify from 'vuetify/lib/framework'
+import colors from 'vuetify/lib/util/colors'
+
+Vue.use(Vuetify)
+
+export default new Vuetify({
+  theme: {
+    themes: {
+      light: {
+        primary: colors.indigo.base,
+        secondary: colors.pink.base,
+        accent: colors.deepPurple.accent2,
+        error: colors.red.accent3,
+      },
+      dark: {
+        primary: colors.indigo.lighten1,
+      }
+    },
+    options: { customProperties: true }
+  },
+  icons: {
+    iconfont: 'mdiSvg'
+  }
+})
+```
+
+Then load it globally:
+
+```js
+// nuxt.config.js
+export default {
+  buildModules: ['@nuxtjs/vuetify'],
+  vuetify: {
+    customVariables: ['~/assets/variables.scss'],
+    treeShake: true,
+  }
+}
+```
+
+<br>
+
+2. Theming & Custom Variables
+
+I set up **custom SCSS variables** for brand consistency:
+
+```scss
+// assets/variables.scss
+$btn-border-radius: 8px;
+$body-font-family: 'Inter', sans-serif;
+$heading-font-family: 'Poppins', sans-serif;
+```
+
+And apply **dynamic themes**:
+
+```js
+vuetify.framework.theme.dark = userPrefersDarkMode
+```
+
+<br>
+
+3. Directory Structure for Scalability
+
+```
+src/
+├── plugins/
+│   └── vuetify.js        # Vuetify setup
+├── styles/
+│   ├── variables.scss     # SCSS vars
+│   ├── overrides.scss     # Component overrides
+│   └── mixins.scss
+├── components/
+│   ├── base/              # <BaseButton>, <BaseDialog>, <BaseCard>
+│   └── layout/            # <AppHeader>, <AppSidebar>
+```
+
+> ### multiple child gets same data, how you prevent multiple rerendering
+
+
+### 1. Identify Why Multiple Re-renders Happen
+
+In Vue (or React), re-renders are triggered when:
+
+* Props change (new object or reference).
+* Reactive store/state changes.
+* Parent re-renders and passes new reactive data.
+
+So the key is to **stabilize references** and **minimize reactive depth**.
+
+
+### 2. Techniques to Prevent Re-renders
+
+### ✅ **a. Use Vuex / Pinia or Global Store for Shared Data**
+### ✅ **b. Use `computed` for Caching Derived Data**
+
+If multiple children depend on the same source data:
+
+* Keep it in a centralized store.
+* Let each child subscribe to only the **specific slice** it needs.
+
+Example (Vuex):
+
+```js
+// store.js
+state: {
+  users: []
+},
+getters: {
+  getUserById: (state) => (id) => state.users.find(u => u.id === id)
+}
+```
+
+Then in components:
+
+```vue
+<script>
+computed: {
+  user() {
+    return this.$store.getters['getUserById'](this.userId)
+  }
+}
+</script>
+```
+
+✅ Only the specific computed value updates — not all components.
+
+
+### ✅ **c. Use `v-once`**
+
+```vue
+<ChildComponent v-once :data="data" />
+```
+
+✅ Prevents re-render when the data reference doesn’t change.
+
+
+### ✅ **d. Stabilize Object/Array References**
+
+Passing inline objects/arrays triggers re-render every time:
+
+```vue
+❌ <Child :filters="{ active: true }" />
+```
+
+Vue treats this as a new object each render.
+✅ Fix:
+
+```vue
+<script>
+export default {
+  data: () => ({ filters: { active: true } })
+}
+</script>
+<Child :filters="filters" />
+```
+
+Now it only changes when `filters.active` changes.
