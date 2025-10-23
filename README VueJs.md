@@ -1,3 +1,5 @@
+> ### :class = "{active : dyanmicdata}"
+
 > ### Lifecycle Hooks
 
 Lifecycle hooks allow you to run custom code **at specific stages of a component’s lifecycle**
@@ -142,6 +144,15 @@ beforeCreate → created → beforeMount → mounted
 
 Plugin is an **object or function** that adds global-level functionality to Vue.
 
+A **Vue plugin** is a way to extend Vue’s core functionality globally.
+
+Plugins can:
+
+- Add global methods or properties (`Vue.prototype.$xyz`)
+- Add global mixins
+- Register global components or directives
+- Inject reusable logic into the app (logging, analytics, interceptors, etc.)
+
 <details>
 
 You register it once with:
@@ -242,6 +253,76 @@ export default {
 | Directive                | `Vue.directive('name', { inserted() {} })` |
 | Mixin                    | `Vue.mixin({ created() { ... } })`         |
 | Component                | `Vue.component('MyComp', MyComp)`          |
+
+
+
+
+
+### Real-Life Example 1: Axios Plugin for API Calls
+
+<details>
+
+You want to make HTTP requests throughout your Vue app and automatically handle base URLs, interceptors, and authorization headers — **without repeating setup in every component**.
+
+### 📁 File: `plugins/axios.js`
+
+```js
+import axios from 'axios'
+
+export default {
+  install(Vue) {
+    const api = axios.create({
+      baseURL: 'https://api.example.com',
+      timeout: 10000
+    })
+
+    // Add token to headers automatically
+    api.interceptors.request.use(config => {
+      const token = localStorage.getItem('token')
+      if (token) config.headers.Authorization = `Bearer ${token}`
+      return config
+    })
+
+    // Global error handling
+    api.interceptors.response.use(
+      response => response,
+      error => {
+        if (error.response && error.response.status === 401) {
+          console.warn('Unauthorized — redirecting to login')
+        }
+        return Promise.reject(error)
+      }
+    )
+
+    // Make available in all components as this.$api
+    Vue.prototype.$api = api
+  }
+}
+```
+
+### 📄 Register in `main.js`
+
+```js
+import Vue from 'vue'
+import AxiosPlugin from './plugins/axios'
+
+Vue.use(AxiosPlugin)
+```
+
+### 🧠 Usage in any component
+
+```js
+export default {
+  async mounted() {
+    const res = await this.$api.get('/users')
+    console.log(res.data)
+  }
+}
+```
+
+✅ **Benefit:** Centralized API logic, reusable, consistent auth and error handling.
+
+</details>
 
 <br>
 
@@ -516,6 +597,32 @@ your v-model.
 ```js
 <input v-model.trim="msg">
 ```
+
+<br>
+
+#### You Can Combine Modifiers
+
+```html
+<input v-model.lazy.trim.number="amount">
+```
+
+**Bonus: `v-model` on Custom Components (Modifiers Support)**
+
+In Vue 2, **modifiers don’t automatically apply** to custom components —
+you must **manually handle them** in your component’s `model` option or event logic.
+
+Example:
+
+```vue
+<CustomInput v-model.trim="userInput" />
+```
+
+To support `.trim`, you must handle it inside `CustomInput`:
+
+```js
+this.$emit('input', value.trim())
+```
+
 <br>
 
 > ### What are Slots in Vue?
@@ -1044,7 +1151,7 @@ directives: {
 
 > ### What are dynamic components?
 
-A **dynamic component** means you can **swap which component is rendered at runtime**, *without changing your template structure*.
+A **dynamic component** means you can **swap which component is rendered at runtime**, without changing your template structure.
 
 <br>
 
@@ -1055,6 +1162,8 @@ Vue provides the special built-in component:
 ```
 
 <br>
+
+<details>
 
 The `:is` attribute decides **which component to render** dynamically.
 
@@ -1087,6 +1196,8 @@ export default {
 
 * “Login” → `LoginForm` renders
 * “Register” → `RegisterForm` replaces it
+
+</details>
 
 <br>
 
@@ -1349,6 +1460,8 @@ The **`v-once` directive** tells Vue to **render the element or component only o
 
    * Ideal for **static headers, footers, or labels** that don’t depend on reactive data.
 
+<details>
+
 ```html
 <template>
   <div>
@@ -1369,22 +1482,14 @@ export default {
 </script>
 ```
 
-**Behavior:**
-
-* First `<p v-once>` → stays as `Initial Message` forever.
-* Second `<p>` → updates reactively to `Hello Vue!` when the button is clicked.
-
-
-**Key Notes**
+<br>
 
 * Works with **elements and components**:
-
 ```vue
 <my-component v-once></my-component>
 ```
 
-* Vue will render the component once and **ignore future prop updates**.
-* Use sparingly — only on truly **static content**.
+</details>
 
 <br>
 
@@ -1667,14 +1772,11 @@ const store = new Vuex.Store({
 
 > ### What is a property style access? What is a method style access
 
-Excellent — this question relates to **Vuex getters** and how you access them
-
-<br>
-
 **1. Property Style Access**
 
-Property-style access treats a **getter** like a **computed property** —
-you access it **without parentheses**.
+Property-style access treats a **getter** like a **computed property** — you access it **without parentheses**.
+
+<details>
 
 ```js
 const store = new Vuex.Store({
@@ -1698,12 +1800,15 @@ And in template:
 ```vue
 <p>{{ doubleCount }}</p>
 ```
+</details>
 
 <br>
 
 **2. Method Style Access**
 
 Method-style access treats a **getter** like a **function**
+
+<details>
 
 ```js
 const store = new Vuex.Store({
@@ -1736,6 +1841,8 @@ And in template:
 ```
 
 **Key:** `getTodosByStatus(true)` — called like a **method**, because it needs an argument.
+
+</details>
 
 <br>
 
@@ -2233,32 +2340,6 @@ methods: {
 
 <br>
 
-> ### Writable Computed (Getter + Setter)
-
-You can also make computed properties writable:
-
-```js
-export default {
-  data() {
-    return { firstName: 'John', lastName: 'Doe' }
-  },
-  computed: {
-    fullName: {
-      get() {
-        return this.firstName + ' ' + this.lastName
-      },
-      set(newValue) {
-        [this.firstName, this.lastName] = newValue.split(' ')
-      }
-    }
-  }
-}
-
-```
-Now, doing `this.fullName = 'Jane Smith'` updates both names automatically.
-
-<br>
-
 ### How to use v-model on custom input box
 
 Read data of the below
@@ -2335,18 +2416,30 @@ export default {
 ```
 <br>
 
-> ### what is vue loader 
-Vue Loader is a loader for Webpack, a popular module bundler for web applications, that allows you to write Vue.js components in a format that can be compiled into JavaScript code that can be run in a web browser.
+> ### What is Vue Loader(for Webpack) 
+* **Purpose:** A Webpack loader that lets you write Vue components (`.vue` files) and compiles them into browser-ready JavaScript.
+* **How it works:**
 
-Vue Loader works by parsing your Vue components and their associated templates, and then transforming them into JavaScript code that can be included in your application. This allows you to write your components in a more modular and reusable way, and it also makes it easier to manage the dependencies between your components.
+  * Parses `.vue` files (template, script, style).
+  * Transforms them into JavaScript modules Webpack can bundle.
+* **Benefits:**
 
-Vue Loader supports many features of Vue.js, including template compilation, scoped CSS, custom blocks, and hot-reloading. It also supports pre-processors such as Sass and Less, and can be configured to use other plugins to extend its functionality.
+  * Enables modular and reusable component development.
+  * Simplifies dependency management between components.
+* **Key Features:**
 
-Overall, Vue Loader simplifies the process of building Vue.js applications by allowing developers to write components in a more intuitive and efficient way.
+  * Supports template compilation, scoped CSS, and custom blocks.
+  * Enables hot-reloading for faster development.
+  * Works with CSS preprocessors like Sass and Less.
+  * Can be extended via plugins for extra functionality.
+* **Overall:** Simplifies building Vue apps by making component-based development intuitive and efficient.
 
 <br>
 
 > ### How do you configure vue loader in webpack?
+
+<details>
+
 ```js
 // webpack.config.js
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -2398,6 +2491,8 @@ module.exports = {
 }
 </style>
 ```
+
+</details>
 
 <br>
 
@@ -2508,89 +2603,13 @@ This makes Vue **destroy and re-create** the component whenever the param change
 
 <br>
 
-> ### What are the supported modifiers on model?
-
-Modifiers are **special postfixes** you can add to `v-model` to tweak its behavior.
-They’re written like this:
-
-```vue
-<input v-model.trim="username" />
-```
-<br>
-
-| Modifier  | Description                                                                  | Example                        |
-| --------- | ---------------------------------------------------------------------------- | ------------------------------ |
-| `.lazy`   | Updates the bound data **only after `change` event** (instead of on `input`) | `<input v-model.lazy="msg">`   |
-| `.number` | Automatically **casts input value to a number**                              | `<input v-model.number="age">` |
-| `.trim`   | Automatically **trims whitespace** from user input                           | `<input v-model.trim="name">`  |
-
-<br>
-
-#### 1. `.lazy`
-
-By default, `v-model` updates on the **`input` event** (after each keystroke).
-
-`.lazy` changes that to the **`change` event**, so the data updates **only after the input loses focus** or the user presses Enter.
-
-```html
-<input v-model.lazy="message">
-```
-
-**Without `.lazy`:**
-
-* `message` updates on every keystroke.
-
-**With `.lazy`:**
-
-* `message` updates only when input loses focus or user hits Enter.
-
-<br>
-
-#### You Can Combine Modifiers
-
-```html
-<input v-model.lazy.trim.number="amount">
-```
-
-<br>
-
-**Bonus: `v-model` on Custom Components (Modifiers Support)**
-
-In Vue 2, **modifiers don’t automatically apply** to custom components —
-you must **manually handle them** in your component’s `model` option or event logic.
-
-Example:
-
-```vue
-<CustomInput v-model.trim="userInput" />
-```
-
-To support `.trim`, you must handle it inside `CustomInput`:
-
-```js
-this.$emit('input', value.trim())
-```
-
-<br>
-
-> ### What are modules in vuex?
-
-In Vuex, a module is a way to split your store into multiple smaller, manageable stores —
-each module having its own state, mutations, actions, and getters.
-
-<br>
-
-> ### :class = "{active : dyanmicdata}"
-
-<br>
-
 > ### Event Bus
 
 * **Parent → Child** → via **props**
 * **Child → Parent** → via **$emit()**
 
-But if two components don’t share a direct relationship, passing events through multiple levels becomes messy.
-👉 That’s where **Event Bus** helps — it acts like a **central event hub**.
+But if two components don’t share a direct relationship, passing events through multiple levels becomes messy.\
+That’s where **Event Bus** helps — it acts like a **central event hub**.
 
 <br>
 
@@ -2663,8 +2682,6 @@ Avoid in:
 
 > ### What Are Fallthrough Attributes?
 
-Fallthrough attributes are:
-
 > Attributes (like `class`, `style`, `id`, or `@click`) **that are passed to a component but not declared as props or emits**.
 
 <br>
@@ -2694,7 +2711,7 @@ Since `class` was **not declared as a prop**, Vue treated it as a **fallthrough 
 
 <br>
 
-**1. Merging class and style**
+### 1. Merging class and style
 
 <details>
 
@@ -2739,7 +2756,7 @@ If the child *also* binds `@click`, both listeners will run.
 
 <br>
 
-**2. Nested Component Inheritance**
+### 2. Nested Component Inheritance
 
 If a component renders **another component** as its root:
 
@@ -2757,7 +2774,7 @@ But:
 
 <br>
 
-**3. Disabling Automatic Inheritance**
+### 3. Disabling Automatic Inheritance
 
 If you don’t want automatic attribute inheritance:
 
@@ -2771,7 +2788,7 @@ Then you can manually decide **where** to apply them using `$attrs`.
 
 <br>
 
-**4. Using `$attrs`**
+### 4. Using `$attrs`
 
 <details>
 
@@ -2854,7 +2871,7 @@ Output in browser
 
 <br>
 
-**5. Attribute Inheritance on Multiple Root Nodes**
+### 5. Attribute Inheritance on Multiple Root Nodes
 
 If your component has **multiple root elements**, Vue won’t know where to apply fallthrough attributes automatically.
 
@@ -2873,6 +2890,7 @@ If you do:
 ```vue
 <CustomLayout id="layout" @click="changeValue" />
 ```
+<br>
 
 🚨 Vue warns:
 
@@ -2920,8 +2938,9 @@ export default {
 </script>
 ```
 
+<br>
 
-**Injection Aliasing**
+### Injection Aliasing
 
 If you want a different local name for the injected key:
 
@@ -2937,7 +2956,7 @@ Now you can use `this.localTheme`.
 
 <br>
 
-**Injection Default Values**
+### Injection Default Values
 
 If the provider might not exist, add defaults to avoid warnings:
 
@@ -2956,10 +2975,12 @@ export default {
 ```
 <br>
 
-**Making Injection Reactive**
+### Making Injection Reactive
 
-By default, injected data is **not reactive**.
+By default, injected data is **not reactive**.\
 To make it reactive, provide a `computed` value:
+
+<details>
 
 ```js
 import { computed } from 'vue'
@@ -2978,6 +2999,7 @@ export default {
 
 Now if `this.message` changes in the provider, the injected value updates automatically.
 
+</details>
 
 <br>
 
@@ -3193,10 +3215,10 @@ src/
 │   └── layout/            # <AppHeader>, <AppSidebar>
 ```
 
-> ### multiple child gets same data, how you prevent multiple rerendering
+> ### Multiple child gets same data, how you prevent multiple rerendering
 
 
-### 1. Identify Why Multiple Re-renders Happen
+#### 1. Identify Why Multiple Re-renders Happen
 
 In Vue (or React), re-renders are triggered when:
 
@@ -3206,11 +3228,12 @@ In Vue (or React), re-renders are triggered when:
 
 So the key is to **stabilize references** and **minimize reactive depth**.
 
+<br>
 
-### 2. Techniques to Prevent Re-renders
+#### 2. Techniques to Prevent Re-renders
 
-### ✅ **a. Use Vuex / Pinia or Global Store for Shared Data**
-### ✅ **b. Use `computed` for Caching Derived Data**
+**a. Use Vuex / Pinia or Global Store for Shared Data**
+**b. Use `computed` for Caching Derived Data**
 
 If multiple children depend on the same source data:
 
@@ -3243,8 +3266,9 @@ computed: {
 
 ✅ Only the specific computed value updates — not all components.
 
+<br>
 
-### ✅ **c. Use `v-once`**
+**c. Use `v-once`**
 
 ```vue
 <ChildComponent v-once :data="data" />
@@ -3252,8 +3276,9 @@ computed: {
 
 ✅ Prevents re-render when the data reference doesn’t change.
 
+<br>
 
-### ✅ **d. Stabilize Object/Array References**
+**d. Stabilize Object/Array References**
 
 Passing inline objects/arrays triggers re-render every time:
 
