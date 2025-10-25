@@ -1,9 +1,5 @@
 > ### Folder acts as routing path
 
-```js
-<NuxtLink to="/">Home page</NuxtLink>
-```
-
 <br>
 
 > ### Nuxt 2 — Full Folder Structure
@@ -87,74 +83,6 @@ my-nuxt-app/
 
 <br>
 
-> ### File/Folder Purpose Summary
-
-| Folder/File          | Description                                                                               |
-| -------------------- | ----------------------------------------------------------------------------------------- |
-| **`nuxt.config.js`** | Global Nuxt configuration — routes, plugins, modules, head, build settings, etc.          |
-| **`assets/`**        | Processed by Webpack — use for SCSS, LESS, images that are imported.                      |
-| **`static/`**        | Directly served at root (not processed). Use for `robots.txt`, `favicon.ico`, etc.        |
-| **`components/`**    | Vue components auto-imported when `components: true` in `nuxt.config.js`.                 |
-| **`layouts/`**       | Define global or specific page layouts (each must include `<nuxt/>`).                     |
-| **`middleware/`**    | Functions executed before rendering a page or route.                                      |
-| **`pages/`**         | Auto-generated routes. Folders define nested routes; `_param.vue` defines dynamic routes. |
-| **`plugins/`**       | Initialize external libraries or custom code before Vue app starts.                       |
-| **`store/`**         | Vuex state management files. Each file becomes a namespaced module.                       |
-| **`utils/`**         | Optional folder for helper utilities and constants.                                       |
-| **`server/`**        | Optional folder for custom Node/Express server or API endpoints.                          |
-| **`test/`**          | For unit or end-to-end test files.                                                        |
-
-
-### Example of Key Config (`nuxt.config.js`)
-
-```js
-import { resolve } from 'path'
-
-export default {
-  mode: 'universal',
-
-  head: {
-    title: 'My Nuxt App',
-    meta: [{ charset: 'utf-8' }],
-  },
-
-  css: ['~/assets/scss/main.scss'],
-
-  components: true,
-
-  plugins: [
-    '~/plugins/axios.js',
-    '~/plugins/filters.js'
-  ],
-
-  buildModules: ['@nuxt/components'],
-
-  router: {
-    middleware: ['auth']
-  },
-
-  alias: {
-    images: resolve(__dirname, './assets/images'),
-    style: resolve(__dirname, './assets/scss')
-  }
-}
-```
-
-<br>
-
-> ### Static Deployment (Pre-rendered)
-
-To deploy a static generated site make sure you have `target: 'static'` in your `nuxt.config.js` (for Nuxt >= 2.13):
-
-```js
-// nuxt.config.js
-export default {
-  target: 'static'
-}
-```
-
-<br>
-
 > ### Nuxt Views Overview
 
 ![alt text](https://v2.nuxt.com/_nuxt/image/f55faf.png)
@@ -197,37 +125,49 @@ Used to define the general **look and feel** (header, sidebar, etc.) of your app
 
 * File: `layouts/default.vue`
 * Used when no layout is specified.
+* The `layouts/default.vue` file is automatically used for all pages that **don’t specify a custom layout**.
+* **Important:** You must include `<Nuxt />` in your layout to render the page component.
 
   ```vue
   <template>
-    <Nuxt />
+    <div>
+      <TheHeader />
+      <Nuxt />
+      <TheFooter />
+    </div>
   </template>
   ```
-* `<Nuxt />` renders the page component.
+
+<br>
 
 #### **Custom Layout**
 
 * Create a custom file in `layouts/` (e.g., `blog.vue`):
 
-  ```vue
-  <!-- layouts/blog.vue -->
-  <template>
-    <div>
-      <div>My blog navigation bar</div>
-      <Nuxt />
-    </div>
-  </template>
-  ```
-* Use it in a page:
+```vue
+<!-- layouts/blog.vue -->
+<template>
+  <div>
+    <div>My blog navigation bar here</div>
+    <Nuxt />
+  </div>
+</template>
+```
 
-  ```vue
-  <!-- pages/posts.vue -->
-  <script>
-  export default {
-    layout: 'blog'
+* Apply it in your page component:
+
+```vue
+<!-- pages/posts.vue -->
+<script>
+export default {
+  layout: 'blog',  // Static assignment
+  // OR
+  layout(context) { // Dynamic assignment
+    return 'blog'
   }
-  </script>
-  ```
+}
+</script>
+```
 
 <br>
 
@@ -571,37 +511,9 @@ Used mainly by plugins that need to access SSR state on client.
 console.log(context.nuxtState)
 ```
 
-
 <br>
 
-
-
-#### Summary Table
-
-| Key                | Type         | Environment | Description                        |
-| ------------------ | ------------ | ----------- | ---------------------------------- |
-| `app`              | `Object`     | Universal   | Root Vue app instance with plugins |
-| `store`            | `Vuex.Store` | Universal   | Vuex store instance                |
-| `route`            | `Route`      | Universal   | Current route                      |
-| `params`           | `Object`     | Universal   | Alias for `route.params`           |
-| `query`            | `Object`     | Universal   | Alias for `route.query`            |
-| `env`              | `Object`     | Universal   | Environment variables              |
-| `isDev`            | `Boolean`    | Universal   | Is development mode                |
-| `isHMR`            | `Boolean`    | Universal   | Is Hot Module Replacement call     |
-| `redirect`         | `Function`   | Universal   | Redirect user                      |
-| `error`            | `Function`   | Universal   | Show error page                    |
-| `$config`          | `Object`     | Universal   | Runtime config                     |
-| `req`              | `Object`     | Server      | Node.js Request                    |
-| `res`              | `Object`     | Server      | Node.js Response                   |
-| `beforeNuxtRender` | `Function`   | Server      | Modify SSR state before hydration  |
-| `beforeSerialize`  | `Function`   | Server      | Sync modification of SSR state     |
-| `from`             | `Route`      | Client      | Previous route                     |
-| `nuxtState`        | `Object`     | Client      | SSR state before hydration         |
-
-
-<br>
-
-### 2. Using Context Parameters
+> ### Using Context Parameters
 
 * Dynamic routes via `context.params`.
   ```js
@@ -618,11 +530,6 @@ console.log(context.nuxtState)
 
 <br>
 
-### 3. Redirect & Store Access
-
-* `store`: same as `this.$store`.
-* `redirect`: helper for navigation.
-
 **Example middleware:**
 
 ```js
@@ -635,7 +542,7 @@ export default {
 
 <br>
 
-> ### Helpers
+> ### Helpers in nuxt
 
 ### 1. $nuxt Helper
 
@@ -723,26 +630,7 @@ export default {
 
 <br>
 
-### SSR Lifecycle (Steps in Nuxt)
-
-#### Step 1: Browser → Server
-
-* Browser requests page → hits Node.js internal server.
-* Nuxt renders HTML with data from `asyncData`, `nuxtServerInit`, or `fetch`.
-* Server executes hooks and sends rendered HTML.
-
-#### **Step 2: Server → Browser**
-
-* Browser receives rendered HTML.
-* Vue **hydrates** it → page becomes reactive and interactive.
-
-#### **Step 3: Browser → Browser**
-
-* Navigation via `<NuxtLink>` happens **client-side** (no new server request unless hard refresh).
-
-<br>
-
-### Common Caveats
+> ### Common Caveats
 
 #### ⚠️ **`window` or `document` Undefined**
 
@@ -799,25 +687,7 @@ export default {
 
 <br>
 
-### **3. Lifecycle Steps**
-
-#### **Step 1: Browser → CDN**
-
-* Browser sends request → hits CDN hosting your static files.
-
-#### **Step 2: CDN → Browser**
-
-* CDN serves **pre-rendered HTML, JS, and assets**.
-* Vue **hydrates** the page → makes it reactive & interactive.
-
-#### **Step 3: Browser → Browser**
-
-* Navigation via `<NuxtLink>` handled **client-side**.
-* Even hard refresh loads from cached **static folder**, not API or CDN.
-
-<br>
-
-### **4. SPA Fallback**
+### **3. SPA Fallback**
 
 * Pages **excluded** from generation via `generate.exclude` →
   become **Single Page App (SPA)** pages.
@@ -825,21 +695,13 @@ export default {
 
 <br>
 
-### **5. Updating Content**
+### **4. Updating Content**
 
 * To reflect new API or CMS content → **rebuild the site**.
 * Most hosting platforms trigger rebuilds via:
 
   * Git pushes to the main branch, or
   * Pull request merges.
-
-<br>
-
-### **6. Preview Mode**
-
-* Enables **live preview** of API/CMS changes before deployment.
-* Temporarily fetches live data without rebuilding.
-
 
 <br>
 
@@ -850,34 +712,21 @@ export default {
 
 ### ⚙️ Server Lifecycle (SSR or during Static Generation)
 
-> Happens on the server for every initial request (SSR) or once per route during static generation (SSG).
-
-### 🧠 Step-by-step:
-
-1. **Server starts**
-
-   * `nuxt start` (for SSR)
-   * `nuxt generate` (for SSG)
-
-2. **Nuxt Hooks**
-
-   * Framework-level hooks run (e.g., `render:before`, `build:done`)
-
-3. **serverMiddleware**
+1. **serverMiddleware**
 
    * Custom Node/Express middlewares from `nuxt.config.js`
 
-4. **Server-side Nuxt Plugins**
+2. **Server-side Nuxt Plugins**
 
    * Loaded **in order** as defined in `nuxt.config.js` under `plugins`
 
-5. **nuxtServerInit**
+3. **nuxtServerInit**
 
    * Vuex action for **pre-populating the store**
    * Only runs **on the server**
    * Defined in `store/index.js`
 
-6. **Middleware**
+4. **Middleware**
 
    * Runs in order:
 
@@ -885,103 +734,30 @@ export default {
      * Layout middleware
      * Route middleware
 
-7. **asyncData**
+5. **asyncData**
 
    * Fetches data **before page creation**
    * Blocks rendering until complete
 
-8. **Vue Lifecycle**
+6. **Vue Lifecycle**
 
    * `beforeCreate`
    * `created`
 
-9. **fetch()**
+7. **fetch()**
 
    * New fetch method (runs top → bottom, parallel for siblings)
    * Non-blocking
 
-10. **Serialization**
+8. **beforeMount**
 
-    * Vuex state is serialized (Nuxt hook: `render:routeContext`)
+9. **mounted**
 
-11. **HTML Rendering**
-
-    * Actual HTML output (hook: `render:route`)
-
-12. **render:routeDone**
-
-    * Triggered once HTML is sent to browser
-
-13. **(Static Only)**
-
-    * `generate:before` → before generation
-    * `generate:page` → each page HTML created
-    * `generate:routeCreated` → route fully generated
-    * `generate:done` → all routes done
+  * Component is now interactive.
 
 <br>
 
-### 💻 Client Lifecycle (in the Browser)
-
-> This part happens in the browser for **both SSR and SSG**.
-
-### 🧠 Step-by-step:
-
-1. **Receives HTML**
-
-   * Browser loads pre-rendered page.
-
-2. **Loads JS Assets**
-
-   * JavaScript bundles, hydration scripts, etc.
-
-3. **Client-side Nuxt Plugins**
-
-   * Executed in the same order as defined in `nuxt.config.js`
-
-4. **Vue Hydration**
-
-   * Converts static HTML into a live, reactive Vue app.
-
-5. **Middleware (Blocking)**
-
-   * Global → Layout → Route middleware
-
-6. **asyncData**
-
-   * Fetched again (if needed) on client navigation.
-
-7. **Vue Lifecycle**
-
-   * `beforeCreate`
-   * `created`
-
-8. **fetch()**
-
-   * Non-blocking data fetching.
-
-9. **beforeMount**
-
-10. **mounted**
-
-    * Component is now interactive.
-
-<br>
-
-### 🔁 Navigation with `<NuxtLink>`
-
-> Happens **only in the browser** when navigating without page reloads.
-
-1. Runs middleware (Global → Layout → Route)
-2. Executes `asyncData` (blocking) or static payload loading
-3. Executes `fetch` (non-blocking)
-4. Triggers Vue lifecycle (`beforeCreate`, `created`, `beforeMount`, `mounted`)
-5. No CDN hit — navigation happens **client-side** only.
-
-
-<br>
-
-### 🧭 Quick Mental Model
+### Quick Mental Model
 
 | Phase              | What Happens                        | Blocking? | Where  |
 | ------------------ | ----------------------------------- | --------- | ------ |
@@ -995,11 +771,23 @@ export default {
 
 <br>
 
+> ### Navigation with `<NuxtLink>`
+
+Happens **only in the browser** when navigating without page reloads.
+
+1. Runs middleware (Global → Layout → Route)
+2. Executes `asyncData` (blocking) or static payload loading
+3. Executes `fetch` (non-blocking)
+4. Triggers Vue lifecycle (`beforeCreate`, `created`, `beforeMount`, `mounted`)
+5. No CDN hit — navigation happens **client-side** only.
+
+<br>
+
 > ### Rendering Modes in Nuxt
 
-### 1. **Server-Side Rendering (SSR)**
+### 1. Server-Side Rendering (SSR)
 
-> 🧠 Default mode — `ssr: true` (you don’t need to set it manually).
+Default mode — `ssr: true` (you don’t need to set it manually).
 
 ```js
 // nuxt.config.js
@@ -1008,9 +796,9 @@ export default {
 }
 ```
 
-### 2. **Static Site Generation (SSG)**
+### 2. Static Site Generation (SSG)
 
-> ⚙️ Triggered via `nuxt generate` and often called “pre-rendering”.
+Triggered via `nuxt generate` and often called “pre-rendering”.
 
 ```js
 // nuxt.config.js
@@ -1019,10 +807,10 @@ export default {
 }
 ```
 
-### 3. **Client-Side Rendering (CSR)**
+### 3. Client-Side Rendering (CSR)
 
-> 🚀 “SPA mode” — no SSR or pre-rendering.
-> Only runs in the browser.
+“SPA mode” — no SSR or pre-rendering.\
+Only runs in the browser.
 
 ```js
 // nuxt.config.js
@@ -1047,8 +835,6 @@ export default {
 
 Nuxt automatically creates routes based on your **`pages/`** directory — no manual router config needed.
 
-### Basics
-
 * Each `.vue` file in `pages/` becomes a route.
 * Uses **automatic code-splitting** per page.
 * Use `<NuxtLink>` for navigation.
@@ -1059,7 +845,7 @@ Nuxt automatically creates routes based on your **`pages/`** directory — no ma
 </template>
 ```
 
-#### 🗂️ Example
+#### Example
 
 ```
 pages/
@@ -1085,7 +871,7 @@ Generated routes:
 
 Use `_` prefix for dynamic parameters.
 
-#### 🗂️ Example
+#### Example
 
 ```
 pages/
@@ -1110,7 +896,7 @@ Generated routes:
 
 > ✅ `?` makes params optional — remove it by creating an `index.vue` inside the folder.
 
-#### 📍Accessing Params
+#### Accessing Params
 
 ```js
 this.$route.params.id
@@ -1118,11 +904,11 @@ this.$route.params.id
 
 <br>
 
-### 🌳 **Nested Routes**
+### Nested Routes
 
 Use a parent `.vue` with `<NuxtChild />`.
 
-#### 🗂️ Example
+#### Example
 
 ```
 pages/
@@ -1147,7 +933,7 @@ Creates:
 
 <br>
 
-### 🔁 **Dynamic Nested Routes**
+### Dynamic Nested Routes
 
 For deep hierarchies:
 
@@ -1181,7 +967,7 @@ Can also serve as a **custom 404 page**.
 
 > ### Customizing the Router
 
-### Extend Router via `nuxt.config.js`
+#### Extend Router via `nuxt.config.js`
 
 ```js
 export default {
@@ -1196,8 +982,9 @@ export default {
   }
 }
 ```
+<br>
 
-#### 🧱 With `@nuxt/utils`
+#### With `@nuxt/utils`
 
 ```js
 import { sortRoutes } from '@nuxt/utils'
@@ -1212,7 +999,9 @@ export default {
 }
 ```
 
-#### 🧩 Named Views
+<br>
+
+#### Named Views
 
 ```js
 routes.push({
@@ -1225,9 +1014,9 @@ routes.push({
 })
 ```
 
----
+<br>
 
-## ⚙️ **Router Config Options**
+#### Router Config Options
 
 | Option                          | Description                              | Example                          |
 | ------------------------------- | ---------------------------------------- | -------------------------------- |
@@ -1240,6 +1029,8 @@ routes.push({
 | **scrollBehavior**              | Control scroll position on navigation    | `~/app/router.scrollBehavior.js` |
 | **trailingSlash**               | Add/remove trailing slash in URLs        | `trailingSlash: true`            |
 
+<br>
+
 #### Example Scroll Behavior
 
 `app/router.scrollBehavior.js`
@@ -1250,26 +1041,18 @@ export default function (to, from, savedPosition) {
 }
 ```
 
----
+<br>
 
-### 🧩 Other Router Extension Methods
+#### Other Router Extension Methods
 
 * `router-extras-module` → customize route params.
 * `@nuxtjs/router` → override entire router with your own `router.js`.
 
----
-
-Would you like me to make a **visual diagram** showing how the file structure → routes → nested/dynamic routing work together? It’s great for quick revision.
-
-
-
-Here’s a **clear and compact summary** of the **Data Fetching** chapter in Nuxt — perfect for quick understanding and revision 👇
 
 <br>
 
 > ### Data Fetching in Nuxt
 
-Traditional Vue methods like `mounted()` only run on the **client-side**, so data isn’t rendered on the server.\
 Nuxt provides SSR-friendly alternatives:
 
 | Hook        | Used In       | SSR Support | Access to `this` | Shows Loading State           | Blocks Navigation |
@@ -1282,17 +1065,32 @@ Nuxt provides SSR-friendly alternatives:
 
 ### The `fetch()` Hook
 
-> Works in pages and components.
-> Runs on the server before initial render, and on the client when navigating.
+Works in pages and components.\
+Runs on the server before initial render, and on the client when navigating.\
+`$fetchState` can be used to track the **loading** or **error** state.
 
-```vue
+```html
+<!-- components/MountainsList.vue -->
+<template>
+  <div>
+    <p v-if="$fetchState.pending">Loading....</p>
+    <p v-else-if="$fetchState.error">Error while fetching mountains</p>
+    <ul v-else>
+      <li v-for="(mountain, index) in mountains" :key="index">
+        {{ mountain.title }}
+      </li>
+    </ul>
+  </div>
+</template>
+
 <script>
 export default {
   data() {
-    return { posts: [] }
+    return { mountains: [] }
   },
   async fetch() {
-    this.posts = await this.$http.$get('https://api.nuxtjs.dev/posts')
+    this.mountains = await fetch('https://api.nuxtjs.dev/mountains')
+      .then(res => res.json())
   }
 }
 </script>
@@ -1300,7 +1098,7 @@ export default {
 
 <br>
 
-### Behavior Options
+#### Behavior Options
 
 | Property        | Type               | Description                                    |
 | --------------- | ------------------ | ---------------------------------------------- |
@@ -1320,9 +1118,9 @@ export default {
 
 <br>
 
-### fetchKey
+#### 1. fetchKey
 
-`fetchKey` is the **unique identifier** Nuxt uses to match (and cache) that fetch payload between server and client and across component re-uses.
+`fetchKey` is the **unique identifier**, Nuxt uses to match (and cache) that fetch payload between server and client and across component re-uses.
 
 If the key on the server and client match → Nuxt reuses the server payload (no refetch).
 
@@ -1335,7 +1133,7 @@ If the key differs → Nuxt treats it as a different fetch and will run `fetch()
 
 <br>
 
-### fetchDelay
+#### 2. fetchDelay
 
 `fetchDelay` is an **optional numeric value (milliseconds)** you can define in a component that uses the `fetch()` hook.
 
@@ -1352,7 +1150,7 @@ export default {
 }
 ```
 
-### Why it exists
+**Why it exists**
 
 When navigating between pages or when a component re-runs `fetch()` (for example, on route param change), sometimes:
 
@@ -1364,7 +1162,9 @@ This “flash” feels janky.
 
 `fetchDelay` gives Nuxt a small delay buffer so the **loading indicator and data update** feel smoother — especially for fast API responses.
 
-### How it behaves internally
+<br>
+
+**How it behaves internally**
 
 1. You navigate or trigger a new `fetch()`.
 2. Nuxt sets `this.$fetchState.pending = true`.
@@ -1375,11 +1175,9 @@ This “flash” feels janky.
 
 So it **doesn’t delay the fetch itself**, only the **DOM update** after fetch.
 
----
+<br>
 
-## 🧠 Example Use Case
-
-### Example 1: Prevent flicker on fast API
+**Example 1: Prevent flicker on fast API**
 
 ```js
 export default {
@@ -1409,7 +1207,7 @@ With `fetchDelay: 500`, Nuxt keeps `pending` true for at least 500ms, so the tra
 
 <br>
 
-### Fetch State
+#### Fetch State
 
 Nuxt exposes a built-in `$fetchState` object:
 
@@ -1430,7 +1228,7 @@ Nuxt exposes a built-in `$fetchState` object:
 
 <br>
 
-### ⏱️ **Re-fetching & Caching**
+#### Re-fetching & Caching
 
 * Call `this.$fetch()` manually to reload.
 * Use `<nuxt keep-alive />` to **cache** visited pages.
@@ -1451,7 +1249,7 @@ Nuxt exposes a built-in `$fetchState` object:
 
 <br>
 
-### 🕵️ **Listening to Query Changes**
+#### Listening to Query Changes
 
 `fetch()` doesn’t run on query changes by default.
 
@@ -1463,17 +1261,17 @@ watch: {
 
 <br>
 
-### 🚨 **Error Handling**
+#### Error Handling
 
-`fetch()` does **not** trigger Nuxt’s error page.
+`fetch()` does **not** trigger Nuxt’s error page.\
 Handle manually with `$fetchState.error`.
 
 <br>
 
-> ### The `asyncData()` Hook**
+> ### The asyncData() Hook
 
 - Used **only in page components** (not child components).
-- SSR-compatible and merges returned data into the page component’s `data()`.
+- **Note:-**SSR-compatible and merges returned data into the page component’s `data()`.
 
 ```vue
 <script>
@@ -1486,11 +1284,11 @@ export default {
 </script>
 ```
 
-✅ **Runs before rendering** (SSR + during client navigation).\
 ❌ **No access to `this`** (use context args).\
 ✅ **Returns object merged into page data.**\
 ❌ **No loading placeholder** — navigation waits until data resolves.
 
+<br>
 
 ### Query Change Handling
 
@@ -1508,8 +1306,8 @@ export default {
 ### Fetching for Components
 
 Components **can’t** use `asyncData`.
-Alternatives:
 
+Alternatives:
 1. Use `fetch()` (✅ SSR supported)
 2. Use `mounted()` (❌ CSR only)
 3. Fetch in parent `asyncData` and pass via props.
@@ -1544,6 +1342,8 @@ Alternatives:
 
 Define defaults that apply to every page.
 
+<details>
+
 ```js
 // nuxt.config.js
 
@@ -1570,11 +1370,15 @@ export default {
 ✅ Adds **viewport**, **favicon**, etc.
 ✅ Used on **every page** (unless overridden)
 
+</details>
+
 <br>
 
 ### Local Meta (Static)
 
 Define meta tags for a specific page.
+
+<details>
 
 ```js
 // pages/index.vue
@@ -1592,8 +1396,10 @@ export default {
 }
 ```
 
-✅ Simple and **page-specific**
+✅ Simple and **page-specific**\
 ❌ Can’t use `data()` or `computed` values
+
+</details>
 
 <br>
 
@@ -1601,9 +1407,10 @@ export default {
 
 Use `head()` as a **function** to access reactive data or computed props.
 
-**`pages/index.vue`**
+<details>
 
-```vue
+```html
+<!-- pages/index.vue -->
 <template>
   <h1>{{ title }}</h1>
 </template>
@@ -1631,6 +1438,8 @@ export default {
 
 ✅ Access **data** and **computed** values
 ✅ Good for **dynamic SEO titles/descriptions**
+
+</details>
 
 <br>
 
@@ -1674,9 +1483,8 @@ export default {
 
 ### Local Example
 
-
-```vue
-// pages/about.vue
+```html
+<!-- pages/about.vue -->
 <script>
 export default {
   head() {
@@ -1718,7 +1526,7 @@ Adds the script **at the end of the body** for better performance.
 
 You can configure **CSS**, **pre-processors**, **webpack**, **server settings**, **external resources**, and more.
 
-### CSS Property
+### 1. CSS Property
 
 Globally include CSS, SCSS, or CSS libraries:
 
@@ -1734,7 +1542,7 @@ export default {
 
 <br>
 
-### External Resources
+### 2. External Resources
 
 Include scripts, fonts, or styles **globally** or **locally**.
 
@@ -1762,7 +1570,7 @@ head() {
 
 <br>
 
-### JSX Support
+### 3. JSX Support
 
 Nuxt supports JSX using `@nuxt/babel-preset-app`:
 
@@ -1777,7 +1585,7 @@ export default {
 
 <br>
 
-### Ignoring Files
+### 4. Ignoring Files
 
 Use **`.nuxtignore`** or `ignorePrefix` / `ignore` in config:
 
@@ -1803,19 +1611,16 @@ export default { ignore: 'pages/bar.vue' }
 
 > ### Nuxt Loading & Progress Bar
 
-### Default Loading Behavior
-
-Nuxt provides a **loading progress bar** by default between route transitions.
-
-You can **customize**, **disable**, or **replace** it with a custom component.
+#### 1. Default Loading Behavior
+- Nuxt provides a **loading progress bar** by default between route transitions.
+- You can **customize**, **disable**, or **replace** it with a custom component.
 
 <br>
 
-### Customizing the Progress Bar
-
-Set options in `nuxt.config.js`:
+#### 2. Customizing the Progress Bar
 
 ```js
+// nuxt.config.js
 export default {
   loading: {
     color: 'blue',       // Progress bar color
@@ -1830,20 +1635,35 @@ export default {
 }
 ```
 
+#### Available Options
+
+| Property        | Type      | Default   | Description                                           |
+| --------------- | --------- | --------- | ----------------------------------------------------- |
+| **color**       | `String`  | `'black'` | Color of the progress bar                             |
+| **failedColor** | `String`  | `'red'`   | Color when route loading fails                        |
+| **height**      | `String`  | `'2px'`   | CSS height of the bar                                 |
+| **throttle**    | `Number`  | `200`     | Delay before showing the bar (ms)                     |
+| **duration**    | `Number`  | `5000`    | Max duration before auto-complete (ms)                |
+| **continuous**  | `Boolean` | `false`   | Keeps the animation running if loading takes too long |
+| **css**         | `Boolean` | `true`    | Whether to include Nuxt’s default styles              |
+| **rtl**         | `Boolean` | `false`   | Animate from right to left                            |
+
+
 > **Tip:** If the loading is too fast, set `throttle: 0` to make the bar visible.
 
 <br>
 
-### Disabling the Progress Bar
+#### 3. Disabling the Progress Bar
 
 Globally:
-
 ```js
-export default { loading: false }
+// nuxt.config.js
+export default { 
+  loading: false
+}
 ```
 
 Per page:
-
 ```vue
 <script>
 export default {
@@ -1854,7 +1674,7 @@ export default {
 
 <br>
 
-### Programmatic Control
+#### 4. Programmatic Control
 
 Start/stop the loader in components:
 
@@ -1871,35 +1691,46 @@ export default {
 
 <br>
 
-### Continuous Progress Bar
+#### 5. Continuous Progress Bar
 
 If loading exceeds duration, the bar animates from 0 → 100 repeatedly:
 
 ```js
 export default {
-  loading: { continuous: true }
+  loading: {
+    continuous: true
+  }
 }
 ```
 
 <br>
 
-### Custom Loading Component
+#### 6. Custom Loading Component
 
 Create your own loader component (`components/LoadingBar.vue`):
 
 ```vue
 <template>
-  <div v-if="loading" class="loading-page">
+  <div class="loading-page" v-if="loading">
     <p>Loading...</p>
   </div>
 </template>
 
 <script>
 export default {
-  data: () => ({ loading: false }),
+  data: () => ({
+    loading: false
+  }),
   methods: {
-    start() { this.loading = true },
-    finish() { this.loading = false }
+    start() {
+      this.loading = true
+    },
+    finish() {
+      this.loading = false
+    },
+    fail() {
+      this.loading = false
+    }
   }
 }
 </script>
@@ -1907,20 +1738,25 @@ export default {
 <style scoped>
 .loading-page {
   position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: rgba(255,255,255,0.8);
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
   text-align: center;
   padding-top: 200px;
   font-size: 30px;
+  font-family: sans-serif;
 }
 </style>
 ```
 
-Tell Nuxt to use it:
+Then register it in your Nuxt config:
 
 ```js
-export default { loading: '~/components/LoadingBar.vue' }
+export default {
+  loading: '~/components/loading.vue'
+}
 ```
 
 **Optional methods your component can implement:**
@@ -1930,7 +1766,7 @@ export default { loading: '~/components/LoadingBar.vue' }
 
 <br>
 
-### SPA Mode Loading Spinner
+#### 7. SPA Mode Loading Spinner
 
 When running in SPA mode, a **spinner** is displayed instead of blank content:
 
@@ -1948,14 +1784,30 @@ export default {
 
 * `circle`, `cube-grid`, `fading-circle`, `folding-cube`, `chasing-dots`, `nuxt`, `pulse`, `rectangle-bounce`, `rotating-plane`, `three-bounce`, `wandering-cubes`
 
-> You can also create a **custom HTML template** for the spinner.
+**Note:-**You can also create a **custom HTML template** for the spinner.
 
 
+#### 8. Programmatically Control the Loader
 
+You can trigger the Nuxt loader from anywhere in your app:
+
+```js
+mounted() {
+  this.$nextTick(() => {
+    this.$nuxt.$loading.start()
+
+    setTimeout(() => this.$nuxt.$loading.finish(), 500)
+  })
+}
+```
+
+Useful for manual API calls, long-running tasks, or page preloading.
+
+<br>
 
 > ### Nuxt built-in components
 
-### 1. `<Nuxt>` Component
+#### 1. `<Nuxt>` Component
 
 * Displays the **current page component** inside layouts.
 * Must be used **inside layouts** (like `layouts/default.vue`).
@@ -1996,7 +1848,7 @@ export default {
 
 <br>
 
-### 2. `<NuxtChild>` Component
+#### 2. `<NuxtChild>` Component
 
 * Displays **child components** for **nested routes**.
 
@@ -2024,7 +1876,7 @@ pages/
 
 <br>
 
-### 3. `<NuxtLink>` Component
+#### 3. `<NuxtLink>` Component
 
 * For **internal navigation**, replacing `<a>` tags.
 * Props:
@@ -2052,7 +1904,7 @@ export default {
 
 <br>
 
-### 4. `<client-only>` Component
+#### 4. `<client-only>` Component
 
 * Renders content **only on the client side** (useful for components that rely on `window`, `document`, or third-party libraries).
 
@@ -2061,6 +1913,7 @@ export default {
   <comments />
 </client-only>
 ```
+<br>
 
 * With slot placeholder:
 
@@ -2077,15 +1930,14 @@ export default {
 
 <br>
 
-### Key Takeaways
-
+**Key Takeaways**
 1. Use `<Nuxt>` for page rendering inside layouts.
 2. Use `<NuxtChild>` for nested routes.
 3. Use `<NuxtLink>` for **internal navigation** with prefetching control.
 4. Use `<client-only>` for components that **cannot render on server-side**.
 5. Both `<Nuxt>` and `<NuxtChild>` support `keep-alive` to cache pages.
 
-
+<br>
 
 > ### Nuxt component auto-import and usage
 
@@ -2130,7 +1982,7 @@ You can use them directly in layouts or pages:
 
 ### 3. Component Names
 
-* For nested directories, Nuxt generates **PascalCase names** based on the file path:
+1. For nested directories, Nuxt generates **PascalCase names** based on the file path:
 
 ```
 components/
@@ -2143,7 +1995,9 @@ Component name: `<BaseFooButton />`
 
 > **Tip:** Rename file to match component name for clarity: `BaseFooButton.vue`.
 
-* **Custom directory configuration**:
+<br>
+
+2. Custom directory configuration:
 
 ```js
 components: {
@@ -2172,13 +2026,117 @@ Now, `components/base/foo/Button.vue` can be used as `<FooButton />`.
   </div>
 </template>
 ```
+<br>
+
+> ### components property in Nuxt
+
+* **Automatically imports Vue components** when they are used in pages, layouts, or other components.
+* Saves you from manually importing components in every file.
+
+```js
+// nuxt.config.js
+export default {
+  components: true  // auto-import from ~/components
+}
+```
+
+<br>
+
+### 2. Customizing Auto-Discovery
+
+You can specify directories and options:
+
+```js
+export default {
+  components: [
+    '~/components',                         // default
+    { path: '~/components/other', extensions: ['vue'] }
+  ]
+}
+```
+
+<br>
+
+### 3. Example: Using Prefix
+
+Directory:
+
+```
+components/
+├─ awesome/
+│  └─ Button.vue
+├─ Button.vue
+```
+
+Config:
+
+```js
+export default {
+  components: [
+    '~/components',
+    { path: '~/components/awesome', prefix: 'awesome' }
+  ]
+}
+```
+
+Usage in template:
+
+```vue
+<template>
+  <div>
+    <AwesomeButton>Click Me</AwesomeButton>
+    <Button>Click Me</Button>
+  </div>
+</template>
+```
+
+<br>
+
+### 4. Overwriting Components with `level`
+
+* Useful when you want local components to override library/theme components.
+
+Example:
+
+```js
+components: [
+  '~/components', // level 0
+  { path: 'node_modules/my-theme/components', level: 1 } // library
+]
+```
+
+* `~/components/Header.vue` will overwrite `my-theme/components/Header.vue`.
+
+<br>
+
+### 5. Library Authors
+
+* Nuxt exposes a hook `components:dirs` to extend component directories in modules.
+* Example for UI library:
+
+```js
+// awesome-ui/nuxt.js
+import { join } from 'path'
+
+export default function () {
+  this.nuxt.hook('components:dirs', dirs => {
+    dirs.push({
+      path: join(__dirname, 'components'),
+      prefix: 'awesome'
+    })
+  })
+}
+```
+
+* Then just add the module to `buildModules` and components are auto-imported.
+
+<br>
 
 > ### Nuxt’s build directory and `.nuxt` folder
 
-### Changing the Build Directory
+**Changing the Build Directory**
 
 By default, the build directory is `.nuxt`. You can change it with the `buildDir` property in `nuxt.config.js`:
-
 ```js
 export default {
   buildDir: 'nuxt-dist' // new directory name
@@ -2189,27 +2147,7 @@ export default {
 
 <br>
 
-### Important Files & Folders inside `.nuxt`
-
-| File/Folder                | Description                                                                         |
-| -------------------------- | ----------------------------------------------------------------------------------- |
-| `router.js`                | Generated router file based on your `pages/` folder; useful for debugging routes.   |
-| `router.scrollBehavior.js` | Handles your router’s scroll behavior.                                              |
-| `components/`              | Nuxt components like `<NuxtChild>`, `<NuxtLink>`, `nuxt-loading`, and `nuxt-error`. |
-| `mixins/`                  | Files required for `$fetch` method.                                                 |
-| `views/`                   | App template and server error pages.                                                |
-| `app.js`                   | Main application file.                                                              |
-| `client.js`                | Client-side entry point.                                                            |
-| `empty`                    | Intentionally empty, used for no-op aliases.                                        |
-| `index.js`                 | Bootstraps the application.                                                         |
-| `loading.html`             | Default page displayed while loading.                                               |
-| `middleware/`              | Your middleware files.                                                              |
-| `server.js`                | Server-side code for SSR.                                                           |
-| `utilities/`               | Nuxt internal utilities.                                                            |
-
-<br>
-
-Here’s a **visual tree of the `.nuxt` folder** with key files and folders annotated for purpose:
+**Important Files & Folders inside `.nuxt`**
 
 ```
 .nuxt/
@@ -2231,16 +2169,16 @@ Here’s a **visual tree of the `.nuxt` folder** with key files and folders anno
 ├── middleware/             # Your middleware files
 └── utilities/              # Nuxt internal utility functions
 ```
+<br>
 
-
-> ### Nuxt `assets/` directory** and how to use it effectively:
+> ### Nuxt `assets/` directory and how to use it effectively:
 
 * Contains **uncompiled assets**: images, fonts, Sass/SCSS/Stylus files.
 * Unlike `static/`, assets in `assets/` are processed by **Webpack** (with `file-loader` and `url-loader`), allowing imports, hashes, and optimizations.
 
 <br>
 
-### Using Images
+#### 1. Using Images
 
 * **In Vue templates**: Use the `~` alias for the source directory.
 
@@ -2250,30 +2188,18 @@ Here’s a **visual tree of the `.nuxt` folder** with key files and folders anno
 </template>
 ```
 
-* **In CSS/SCSS**: Use `~assets` (no leading slash).
-
-```css
-background: url('~assets/banner.svg');
-```
-
 * **Dynamic images**:
 
 ```vue
 <img :src="require(`~/assets/img/${image}.jpg`)" />
 ```
 
-* **Webpack behavior**:
-
-  * Files ≤ 1 kB → inlined as Base64 via `url-loader`.
-  * Files > 1 kB → copied to `.nuxt` with hashed names for caching.
-
 <br>
 
-### Styles
-
-* Add global CSS/SCSS in `nuxt.config.js`:
+#### 2. Styles
 
 ```js
+// nuxt.config.js
 export default {
   css: [
     'bulma',
@@ -2284,7 +2210,7 @@ export default {
 ```
 <br>
 
-### Fonts
+#### 3. Fonts
 
 * Place font files in `assets/fonts/` and reference them in CSS:
 
@@ -2300,7 +2226,7 @@ export default {
 
 <br>
 
-### Aliases
+#### 4. Aliases
 
 * `~` → source directory (`srcDir`)
 * `~~` → project root (`rootDir`)
@@ -2313,225 +2239,74 @@ Example:
 <img src="@@/assets/logo.png" /> <!-- rootDir alias -->
 ```
 
+<br>
 
-> ### Nuxt’s `components/` directory and how it works:
 
-* Holds **Vue components** that make up your pages, layouts, and other components.
-* Components are **reusable** and can be organized in nested folders.
-* Components are typically imported into pages or layouts, but Nuxt can auto-import them (see below).
+> ### Nuxt `static/` directory and how it differs from `assets/`:
+
+* `static/` contains **files that won’t be processed by Webpack** and are served directly by the server.
+* Files are **mapped directly to the root URL**.
+
+  * `/static/robots.txt` → `http://localhost:3000/robots.txt`
+  * `/static/favicon.ico` → `http://localhost:3000/favicon.ico`
 
 <br>
 
-### Fetching Data in Components
+**Use Cases**
+* Robots.txt, sitemap.xml, CNAME, manifest files.
+* Images or assets that **don’t require processing** (no compilation, no hashing).
 
-* Use `fetch()` inside a component to fetch asynchronous data from APIs.
-* `$fetchState` can be used to track the **loading** or **error** state.
+<br>
 
+### Referencing Static Files
 
-```vue
-// components/MountainsList.vue
-<template>
-  <div>
-    <p v-if="$fetchState.pending">Loading....</p>
-    <p v-else-if="$fetchState.error">Error while fetching mountains</p>
-    <ul v-else>
-      <li v-for="(mountain, index) in mountains" :key="index">
-        {{ mountain.title }}
-      </li>
-    </ul>
-  </div>
-</template>
+* Use paths relative to the root (`/`) for static files:
 
-<script>
-export default {
-  data() {
-    return { mountains: [] }
-  },
-  async fetch() {
-    this.mountains = await fetch('https://api.nuxtjs.dev/mountains')
-      .then(res => res.json())
-  }
-}
-</script>
+```html
+<!-- Static image -->
+<img src="/my-image.png" />
+
+<!-- Webpack-processed image from assets directory -->
+<img src="~/assets/my-image-2.png" />
 ```
 
+> Note: `assets/` files are processed by Webpack and can use features like SCSS, PostCSS, or image optimization.
+
 <br>
 
-### Components Auto-Discovery
+### Router Base Consideration
 
-* **Starting v2.13**, Nuxt can **auto-import components** from `~/components`.
-* Enable in `nuxt.config.js`:
+* If your app is deployed in a subfolder (`/blog/`), Nuxt automatically prefixes static assets:
+
+```html
+<img src="/blog/my-image.png" />
+```
+
+* To **disable automatic prefixing**:
 
 ```js
+// nuxt.config.js
 export default {
-  components: true
+  static: {
+    prefix: false
+  }
 }
 ```
 
-* Example usage without import:
-
-```vue
-<template>
-  <div>
-    <TheHeader />
-    <Nuxt />
-    <TheFooter />
-  </div>
-</template>
-```
+* Now `/static/my-image.png` → `/my-image.png` instead of `/blog/my-image.png`.
 
 <br>
 
-### Dynamic Imports (Lazy Loading)
+#### Key Differences: `assets/` vs `static/`
 
-* Prefix the component name with `Lazy` to **lazy-load** it.
-* Useful for optimizing bundle size or loading components only on-demand.
-
-**Example:**
-
-```vue
-<template>
-  <div>
-    <h1>Mountains</h1>
-    <LazyMountainsList v-if="show" />
-    <button v-if="!show" @click="show = true">Show List</button>
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return { show: false }
-  }
-}
-</script>
-```
+| Feature            | `assets/`                    | `static/`                      |
+| ------------------ | ---------------------------- | ------------------------------ |
+| Webpack processing | ✅ Yes (CSS, JS, images)      | ❌ No                           |
+| URL reference      | `~/assets/...`               | `/file-name`                   |
+| File changes       | Triggers rebuild             | Served directly without build  |
+| Use case           | Styles, JS, processed images | Static files, public resources |
 
 <br>
-
-### Nested Directories
-
-* Component name is derived from **directory path + filename**.
-
-```text
-components/
-  base/
-    foo/
-      CustomButton.vue
-```
-
-* Default name: `<BaseFooCustomButton />`
-
-* To **keep a simpler name** like `<CustomButton />`, configure in `nuxt.config.js`:
-
-```js
-components: {
-  dirs: [
-    '~/components',
-    '~/components/base/foo'
-  ]
-}
-```
-
-* Then you can use it directly:
-
-```vue
-<CustomButton />
-```
-
-
-> ### Nuxt `layouts/` directory
-
-* Layouts help you define the **overall structure and look** of your app.
-* Examples: headers, footers, sidebars, or distinct layouts for **desktop vs mobile**.
-
-
-### Default Layout
-
-* The `layouts/default.vue` file is automatically used for all pages that **don’t specify a custom layout**.
-* **Important:** You must include `<Nuxt />` in your layout to render the page component.
-
-
-**Minimal default layout:**
-
-```vue
-<!-- layouts/default.vue -->
-<template>
-  <Nuxt />
-</template>
-```
-
-**With additional components:**
-
-```vue
-<template>
-  <div>
-    <TheHeader />
-    <Nuxt />
-    <TheFooter />
-  </div>
-</template>
-```
-
-
-### Custom Layouts
-
-* Any top-level file in `layouts/` creates a **custom layout**.
-* Example: creating a blog layout:
-
-```vue
-<!-- layouts/blog.vue -->
-<template>
-  <div>
-    <div>My blog navigation bar here</div>
-    <Nuxt />
-  </div>
-</template>
-```
-
-* Apply it in your page component:
-
-```vue
-<!-- pages/posts.vue -->
-<script>
-export default {
-  layout: 'blog',  // Static assignment
-  // OR
-  layout(context) { // Dynamic assignment
-    return 'blog'
-  }
-}
-</script>
-```
-
-
-
-> ### **Error Page**
-
-* Special layout for handling errors (404, 500, etc.).
-* Placed in `layouts/error.vue` but behaves like a **page component**.
-* **Do not include `<Nuxt />`** inside it.
-
-```vue
-<!-- layouts/error.vue -->
-<template>
-  <div class="container">
-    <h1 v-if="error.statusCode === 404">Page not found</h1>
-    <h1 v-else>An error occurred</h1>
-    <NuxtLink to="/">Home page</NuxtLink>
-  </div>
-</template>
-
-<script>
-export default {
-  props: ['error'],
-  layout: 'blog' // Optional: assign a custom layout for error page
-}
-</script>
-```
-
-* The error page can use **any layout** like `blog` or `default` as needed.
-
 
 > ### Nuxt `middleware/` directory
 
@@ -2539,12 +2314,12 @@ export default {
 * Common use cases: authentication checks, analytics tracking, user-agent detection, etc.
 * Middleware can be **shared** (for multiple pages/layouts) or **page-specific**.
 
+<br>
 
 ### Middleware Directory
 
 * The `middleware/` directory is where you place **shared middleware**.
 * The **filename** becomes the **middleware name**.
-
   * Example: `middleware/auth.js` → middleware named `auth`.
 * Middleware receives the **context object** as its first argument.
 
@@ -2553,9 +2328,7 @@ export default {
 ```js
 // middleware/user-agent.js
 export default function (context) {
-  context.userAgent = process.server
-    ? context.req.headers['user-agent']
-    : navigator.userAgent
+  context.userAgent = process.server ? context.req.headers['user-agent'] : navigator.userAgent
 }
 ```
 
@@ -2573,11 +2346,11 @@ Middleware is executed **in series** in the following order:
 * **Universal mode**: runs once on the server-side (first request) and on the client for subsequent navigations.
 * **ssr: false**: runs only on the client-side for both initial load and navigations.
 
-
+<br>
 
 ### Applying Middleware
 
-#### Globally
+#### 1. Globally
 
 * Use `router.middleware` in `nuxt.config.js`:
 
@@ -2592,7 +2365,7 @@ export default {
 
 <br>
 
-#### Layout or Page-Specific
+#### 2. Layout or Page-Specific
 
 * Use the `middleware` property in the layout or page component:
 
@@ -2605,7 +2378,7 @@ export default {
 
 <br>
 
-#### Named Middleware
+#### 3. Named Middleware
 
 * File-based, reusable middleware:
 
@@ -2625,7 +2398,7 @@ export default {
 
 <br>
 
-#### Anonymous Middleware
+#### 4. Anonymous Middleware
 
 * Only used for a specific page:
 
@@ -2640,17 +2413,18 @@ export default {
 }
 ```
 
-### ✅ **Key Points**
+<br>
 
+#### Key Points
 1. **Execution order:** global → layout → page → router.
 2. Middleware can be **synchronous or asynchronous**.
 
+<br>
 
-> ### Nuxt `modules/` directory and module system**:
+> ### Nuxt `modules/` directory and module system (phir se samjhao aache se)
 
 * Nuxt modules are **functions that extend Nuxt’s core functionality**.
 * They are executed sequentially when Nuxt boots, allowing you to:
-
   * Customize webpack config.
   * Register plugins.
   * Add CSS libraries.
@@ -2664,18 +2438,16 @@ export default {
 ### Using Modules
 
 * Modules are added in `nuxt.config.js` under the `modules` property:
-
-```js
-export default {
-  modules: [
-    '@nuxtjs/axios',              // npm package
-    '~/modules/awesome.js',       // local module
-    ['@nuxtjs/google-analytics', { ua: 'X1234567' }], // options
-    function () {}                // inline function
-  ]
-}
-```
-
+    ```js
+    export default {
+      modules: [
+        '@nuxtjs/axios',              // npm package
+        '~/modules/awesome.js',       // local module
+        ['@nuxtjs/google-analytics', { ua: 'X1234567' }], // options
+        function () {}                // inline function
+      ]
+    }
+    ```
 * **Order matters**: modules run sequentially.
 * Modules **export a function** and can optionally return a Promise if asynchronous work is needed.
 
@@ -2684,34 +2456,33 @@ export default {
 ### Module Options
 
 1. **moduleOptions**
-
    * Object passed when registering a module.
    * Example:
+      ```js
+      // nuxt.config.js
+      modules: [['~/modules/example', { token: '123' }]]
+      ```
 
-```js
-// nuxt.config.js
-modules: [['~/modules/example', { token: '123' }]]
-```
+      ```js
+      // modules/example.js
+      export default function ExampleModule(moduleOptions) {
+        console.log(moduleOptions.token) // '123'
+      }
+      ```
 
-```js
-// modules/example.js
-export default function ExampleModule(moduleOptions) {
-  console.log(moduleOptions.token) // '123'
-}
-```
+<br>
 
 2. **this.options**
 
-   * Access top-level Nuxt options, merged with defaults.
-   * Useful for sharing options between modules.
+  * Access top-level Nuxt options, merged with defaults.
+  * Useful for sharing options between modules.
+    ```js
+    const options = Object.assign({}, this.options.axios, moduleOptions)
+    ```
 
-```js
-const options = Object.assign({}, this.options.axios, moduleOptions)
-```
+<br>
 
----
-
-## **Adding Plugins**
+### Adding Plugins
 
 * Modules can register plugins with `this.addPlugin`:
 
@@ -2732,9 +2503,9 @@ ga('create', '<%= options.ua %>', 'auto')
 
 * Options in the template are replaced by Nuxt at runtime.
 
----
+<br>
 
-## **Registering Webpack Loaders**
+### Registering Webpack Loaders
 
 * Use `this.extendBuild` to add custom loaders:
 
@@ -2747,9 +2518,9 @@ this.extendBuild((config, { isClient, isServer }) => {
 })
 ```
 
----
+<br>
 
-## **Nuxt Hooks**
+### Nuxt Hooks (Ye smjh nhi aaya aache se)
 
 Modules can hook into Nuxt lifecycle events:
 
@@ -2818,12 +2589,14 @@ export default {
 4. Use `modules` for runtime modules, `buildModules` for dev/build modules.
 5. Module options: `moduleOptions` (passed to module) + `this.options` (Nuxt config).
 
+<br>
 
 > ### Nuxt `pages/` directory
 
 * Nuxt **automatically generates the router** based on the `.vue` files inside `pages/`.
 * Each page is a Vue component but with additional **Nuxt-specific features**.
 
+<br>
 
 ### Dynamic Pages
 
@@ -2928,7 +2701,7 @@ export default {
 
 <br>
 
-Perfect! Here's a **visual file tree with routes** for a Nuxt `pages/` directory, including dynamic and nested pages:
+Here's a **visual file tree with routes** for a Nuxt `pages/` directory, including dynamic and nested pages:
 
 ```
 pages/
@@ -2952,14 +2725,13 @@ pages/
     └── settings.vue        → Route: /admin/settings
 ```
 
-
+<br>
 
 > ### Nuxt `plugins/` directory
 
 The `plugins/` directory contains JavaScript files that run **before instantiating the root Vue.js application**.
 
 * Typically used to:
-
   * Register Vue plugins (`Vue.use()`)
   * Inject functions, constants, or services into the app context
   * Configure third-party libraries (like Axios)
@@ -3128,9 +2900,9 @@ Perfect! Here’s a **diagram showing how Nuxt plugins interact with Vue, Nuxt c
         └───────────────┬───────┘
                         ▼
                 ┌───────────────┐
-                │  Vuex Store    │
-                │  (actions can  │
-                │   access $hello)│
+                │  Vuex Store   │
+                │ (actions can  │
+                │ access $hello)│
                 └───────────────┘
 
 Legend:
@@ -3158,73 +2930,6 @@ Legend:
 
 <br>
 
-> ### Nuxt `static/` directory and how it differs from `assets/`:
-
-* `static/` contains **files that won’t be processed by Webpack** and are served directly by the server.
-* Files are **mapped directly to the root URL**.
-
-  * `/static/robots.txt` → `http://localhost:3000/robots.txt`
-  * `/static/favicon.ico` → `http://localhost:3000/favicon.ico`
-
-<br>
-
-### Use Cases
-
-* Robots.txt, sitemap.xml, CNAME, manifest files.
-* Images or assets that **don’t require processing** (no compilation, no hashing).
-
-<br>
-
-### Referencing Static Files
-
-* Use paths relative to the root (`/`) for static files:
-
-```html
-<!-- Static image -->
-<img src="/my-image.png" />
-
-<!-- Webpack-processed image from assets directory -->
-<img src="~/assets/my-image-2.png" />
-```
-
-> Note: `assets/` files are processed by Webpack and can use features like SCSS, PostCSS, or image optimization.
-
-<br>
-
-### Router Base Consideration
-
-* If your app is deployed in a subfolder (`/blog/`), Nuxt automatically prefixes static assets:
-
-```html
-<img src="/blog/my-image.png" />
-```
-
-* To **disable automatic prefixing**:
-
-```js
-// nuxt.config.js
-export default {
-  static: {
-    prefix: false
-  }
-}
-```
-
-* Now `/static/my-image.png` → `/my-image.png` instead of `/blog/my-image.png`.
-
-<br>
-
-### Key Differences: `assets/` vs `static/`
-
-| Feature            | `assets/`                    | `static/`                      |
-| ------------------ | ---------------------------- | ------------------------------ |
-| Webpack processing | ✅ Yes (CSS, JS, images)      | ❌ No                           |
-| URL reference      | `~/assets/...`               | `/file-name`                   |
-| File changes       | Triggers rebuild             | Served directly without build  |
-| Use case           | Styles, JS, processed images | Static files, public resources |
-
-<br>
-
 > ### Nuxt `store/` directory
 
 * `store/` contains **Vuex store files**.
@@ -3233,18 +2938,7 @@ export default {
 
 <br>
 
-### Activating Vuex Store
-
-* Nuxt automatically:
-
-  1. Imports Vuex.
-  2. Adds the `store` option to the root Vue instance.
-* Every `.js` file in `store/` becomes a **namespaced module** (except `index.js` which is the root module).
-
-<br>
-
-### Basic Module Structure
-
+#### Basic Module Structure
 ```js
 // store/index.js
 export const state = () => ({ counter: 0 })
@@ -3265,9 +2959,9 @@ export const actions = {
   }
 }
 ```
+<br>
 
 ### Example of a module
-
 ```js
 // store/todos.js
 export const state = () => ({ list: [] })
@@ -3280,7 +2974,6 @@ export const mutations = {
 ```
 
 * Access module in a component:
-
 ```js
 computed: {
   todos () { return this.$store.state.todos.list }
@@ -3313,7 +3006,7 @@ export default () => ({ counter: 0 })
 
 <br>
 
-### `nuxtServerInit` Action
+### nuxtServerInit Action
 
 * Special action called **only on the server** in universal mode.
 * Useful to populate the store with server-side data (like session user):
@@ -3374,41 +3067,13 @@ Nuxt Store Directory (store/)
 │
 └─ ui.js              ← Another module
 
-Component Usage:
-----------------
-pages/todos.vue
-<template>
-  <ul>
-    <li v-for="todo in todos" :key="todo.text">
-      <input :checked="todo.done" @change="toggle(todo)">
-      <span>{{ todo.text }}</span>
-    </li>
-  </ul>
-</template>
-
-<script>
-import { mapMutations } from 'vuex'
-
-export default {
-  computed: {
-    todos() {
-      return this.$store.state.todos.list   // Access module state
-    }
-  },
-  methods: {
-    ...mapMutations('todos', ['toggle']),  // Map module mutations
-  }
-}
-</script>
-
-Data Flow Overview:
-------------------
-[Component] --calls--> [Mutation/Action] --updates--> [State] --reactively updates--> [Component]
 ```
+
+<br>
 
 > ### Structured breakdown of Nuxt’s `nuxt.config.js` file and its options for quick reference:
 
-### 1. Environment Variables
+#### 1. Environment Variables
 
 * `env`: build-time env vars
 * `runtimeConfig`: public/private runtime config
@@ -3434,7 +3099,7 @@ async asyncData({ $config }) {
 
 <br>
 
-### 2. Server Options
+#### 2. Server Options
 
 Configure Nuxt server and HTTPS.
 
@@ -3454,7 +3119,7 @@ export default {
 
 <br>
 
-### 3. Others thing
+#### 3. Others thing
 
 Set default meta tags globally.
 
@@ -3521,7 +3186,9 @@ export default {
 }
 ```
 
-### 4. Source Directory
+<br>
+
+#### 4. Source Directory
 
 Customize source code location.
 
@@ -3597,8 +3264,7 @@ export default {
 
 ### Using Aliases
 
-### **In JavaScript / Vue `<script>`**
-
+**In JavaScript / Vue `<script>`**
 ```js
 import testData from 'data/test.json'
 console.log(testData)
@@ -3634,110 +3300,6 @@ body {
 
 <br>
 
-> ### components property in Nuxt
-
-* **Automatically imports Vue components** when they are used in pages, layouts, or other components.
-* Saves you from manually importing components in every file.
-
-```js
-// nuxt.config.js
-export default {
-  components: true  // auto-import from ~/components
-}
-```
-
-<br>
-
-### 2. Customizing Auto-Discovery
-
-You can specify directories and options:
-
-```js
-export default {
-  components: [
-    '~/components',                         // default
-    { path: '~/components/other', extensions: ['vue'] }
-  ]
-}
-```
-
-<br>
-
-### 3. Example: Using Prefix
-
-Directory:
-
-```
-components/
-├─ awesome/
-│  └─ Button.vue
-├─ Button.vue
-```
-
-Config:
-
-```js
-export default {
-  components: [
-    '~/components',
-    { path: '~/components/awesome', prefix: 'awesome' }
-  ]
-}
-```
-
-Usage in template:
-
-```vue
-<template>
-  <div>
-    <AwesomeButton>Click Me</AwesomeButton>
-    <Button>Click Me</Button>
-  </div>
-</template>
-```
-
-<br>
-
-### 4. Overwriting Components with `level`
-
-* Useful when you want local components to override library/theme components.
-
-Example:
-
-```js
-components: [
-  '~/components', // level 0
-  { path: 'node_modules/my-theme/components', level: 1 } // library
-]
-```
-
-* `~/components/Header.vue` will overwrite `my-theme/components/Header.vue`.
-
-<br>
-
-### 5. Library Authors
-
-* Nuxt exposes a hook `components:dirs` to extend component directories in modules.
-* Example for UI library:
-
-```js
-// awesome-ui/nuxt.js
-import { join } from 'path'
-
-export default function () {
-  this.nuxt.hook('components:dirs', dirs => {
-    dirs.push({
-      path: join(__dirname, 'components'),
-      prefix: 'awesome'
-    })
-  })
-}
-```
-
-* Then just add the module to `buildModules` and components are auto-imported.
-
-
-
 > ### `env` property
 
 The `env` property in `nuxt.config.js` allows you to **expose certain environment variables to the client-side** (browser).\
@@ -3751,7 +3313,7 @@ export default {
 }
 ```
 
-## 💡 For Nuxt 2.12+ and later
+<br>
 
 The **`env` property is build-time only**.
 For **runtime variables** (e.g., values that change after deployment), use:
@@ -3784,157 +3346,16 @@ context.$config.apiSecret
 
 <br>
 
-> ### loading Property
-
-`loading` controls Nuxt’s built-in **route transition progress bar** — the thin line that appears at the top when navigating between pages.
-You can:
-
-* Disable it completely,
-* Customize its appearance, or
-* Replace it with a **custom Vue component**.
-
-<br>
-
-### Type
-
-```js
-Type: Boolean | Object | String
-```
-
-<br>
-
-### 1. Disable the Progress Bar
-
-If you don’t want any loading indicator during route navigation:
-
-```js
-export default {
-  loading: false
-}
-```
-
-<br>
-
-### 2. Customize the Default Progress Bar
-
-You can modify the color, height, animation duration, etc.
-
-```js
-export default {
-  loading: {
-    color: 'blue',
-    failedColor: 'red',
-    height: '5px',
-    throttle: 200,
-    duration: 5000,
-    continuous: false,
-    css: true,
-    rtl: false
-  }
-}
-```
-
-### 🧩 Available Options
-
-| Property        | Type      | Default   | Description                                           |
-| --------------- | --------- | --------- | ----------------------------------------------------- |
-| **color**       | `String`  | `'black'` | Color of the progress bar                             |
-| **failedColor** | `String`  | `'red'`   | Color when route loading fails                        |
-| **height**      | `String`  | `'2px'`   | CSS height of the bar                                 |
-| **throttle**    | `Number`  | `200`     | Delay before showing the bar (ms)                     |
-| **duration**    | `Number`  | `5000`    | Max duration before auto-complete (ms)                |
-| **continuous**  | `Boolean` | `false`   | Keeps the animation running if loading takes too long |
-| **css**         | `Boolean` | `true`    | Whether to include Nuxt’s default styles              |
-| **rtl**         | `Boolean` | `false`   | Animate from right to left                            |
-
-<br>
-
-### 3. Using a Custom Loading Component
-
-If you want to show your **own loader UI**, define a component and expose specific methods.
-
-### `components/loading.vue`
-
-```vue
-<template>
-  <div class="loading-page" v-if="loading">
-    <p>Loading...</p>
-  </div>
-</template>
-
-<script>
-export default {
-  data: () => ({
-    loading: false
-  }),
-  methods: {
-    start() {
-      this.loading = true
-    },
-    finish() {
-      this.loading = false
-    },
-    fail() {
-      this.loading = false
-    }
-  }
-}
-</script>
-
-<style scoped>
-.loading-page {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  padding-top: 200px;
-  font-size: 30px;
-  font-family: sans-serif;
-}
-</style>
-```
-
-Then register it in your Nuxt config:
-
-```js
-export default {
-  loading: '~/components/loading.vue'
-}
-```
-
-<br>
-
-### 4. Programmatically Control the Loader
-
-You can trigger the Nuxt loader from anywhere in your app:
-
-```js
-mounted() {
-  this.$nextTick(() => {
-    this.$nuxt.$loading.start()
-
-    setTimeout(() => this.$nuxt.$loading.finish(), 500)
-  })
-}
-```
-
-Useful for manual API calls, long-running tasks, or page preloading.
-
-<br>
-
 > ### `router` Property (Full Overview)
 
 The `router` property in `nuxt.config.js` allows you to **customize Nuxt’s internal Vue Router** behavior — including paths, modes, navigation classes, middleware, and advanced routing features.
 
----
+<br>
 
-## 🧭 **1. base**
+#### 1. Base
 
-**Type:** `String`
-**Default:** `'/'`
+**Type:** `String`\
+**Default:** `'/'`\
 Defines the **base URL** where your app is served.
 
 ```js
@@ -3945,15 +3366,15 @@ export default {
 }
 ```
 
-➡️ If your Nuxt app is hosted under `/app/`, all routes will automatically include that prefix.
+If your Nuxt app is hosted under `/app/`, all routes will automatically include that prefix.\
 Also adds `<base href="/app/">` to the HTML.
 
----
+<br>
 
-## 🔤 **2. routeNameSplitter**
+#### 2. routeNameSplitter
 
-**Type:** `String`
-**Default:** `'-'`
+**Type:** `String`\
+**Default:** `'-'`\
 Changes how Nuxt names routes based on your file structure.
 
 Example:
@@ -3970,11 +3391,12 @@ export default {
 // route name becomes: posts/id
 ```
 
----
+<br>
 
-## 🧩 **3. extendRoutes**
+#### 3. extendRoutes
 
 **Type:** `Function`
+
 Manually add or modify auto-generated routes.
 
 ```js
@@ -4027,22 +3449,22 @@ export default {
 }
 ```
 
----
+<br>
 
-## 🧱 **4. fallback**
+#### 4. fallback
 
-**Type:** `Boolean`
+**Type:** `Boolean`\
 **Default:** `false`
 
 If `true`, router falls back to **hash mode** when `history.pushState` isn’t supported (like in IE9).
 If `false`, navigation causes full page reloads in unsupported browsers.
 
----
+<br>
 
-## 🟦 **5. linkActiveClass**
+#### 5. linkActiveClass
 
-**Type:** `String`
-**Default:** `'nuxt-link-active'`
+**Type:** `String`\
+**Default:** `'nuxt-link-active'`\
 Set the global class for active `<nuxt-link>` items.
 
 ```js
@@ -4053,12 +3475,12 @@ export default {
 }
 ```
 
----
+<br>
 
-## 🟩 **6. linkExactActiveClass**
+#### 6. linkExactActiveClass
 
-**Type:** `String`
-**Default:** `'nuxt-link-exact-active'`
+**Type:** `String`\
+**Default:** `'nuxt-link-exact-active'`\
 Class for links that exactly match the current route.
 
 ```js
@@ -4069,12 +3491,12 @@ export default {
 }
 ```
 
----
+<br>
 
-## 🟨 **7. linkPrefetchedClass**
+#### 7. linkPrefetchedClass
 
-**Type:** `String | false`
-**Default:** `false`
+**Type:** `String | false`\
+**Default:** `false`\
 Sets a custom CSS class for prefetched links.
 
 ```js
@@ -4085,11 +3507,11 @@ export default {
 }
 ```
 
----
+<br>
 
-## 🧠 **8. middleware**
+#### 8. middleware
 
-**Type:** `String` or `Array<String>`
+**Type:** `String` or `Array<String>`\
 Set global middleware for **all routes**.
 
 ```js
@@ -4099,6 +3521,7 @@ export default {
   }
 }
 ```
+<br>
 
 **middleware/user-agent.js**
 
@@ -4110,12 +3533,12 @@ export default function (context) {
 }
 ```
 
----
+<br>
 
-## ⚙️ **9. mode**
+#### 9. mode
 
-**Type:** `String`
-**Default:** `'history'`
+**Type:** `String`\
+**Default:** `'history'`\
 Switch between router modes.
 
 > ⚠️ Changing this is not recommended in SSR apps.
@@ -4128,11 +3551,11 @@ export default {
 }
 ```
 
----
+<br>
 
-## 🧩 **10. parseQuery / stringifyQuery**
+#### 10. parseQuery / stringifyQuery
 
-**Type:** `Function`
+**Type:** `Function`\
 Provide custom functions to parse and stringify URL query strings.
 
 ```js
@@ -4150,12 +3573,12 @@ export default {
 }
 ```
 
----
+<br>
 
-## ⚡ **11. prefetchLinks**
+#### 11. prefetchLinks
 
-**Type:** `Boolean`
-**Default:** `true`
+**Type:** `Boolean`\
+**Default:** `true`\
 Automatically prefetch page code when a `<nuxt-link>` enters the viewport.
 
 ```js
@@ -4189,12 +3612,12 @@ Use per-link control:
 <nuxt-link to="/about" prefetch>Force prefetch</nuxt-link>
 ```
 
----
+<br>
 
-## ⚡ **12. prefetchPayloads**
+#### 12. prefetchPayloads
 
-**Type:** `Boolean`
-**Default:** `true`
+**Type:** `Boolean`\
+**Default:** `true`\
 (Only for `target: 'static'`)
 
 When generating static pages, Nuxt prefetches the **payload.js** for faster transitions.
@@ -4207,9 +3630,9 @@ export default {
 }
 ```
 
----
+<br>
 
-## 📜 **13. scrollBehavior**
+#### 13. scrollBehavior
 
 **Type:** `Function`
 Controls scroll position when navigating routes.
@@ -4225,11 +3648,11 @@ export default function (to, from, savedPosition) {
 
 This file overrides the default Nuxt scroll behavior.
 
----
+<br>
 
-## 🔚 **14. trailingSlash**
+#### 14. trailingSlash
 
-**Type:** `Boolean | undefined`
+**Type:** `Boolean | undefined`\
 **Default:** `undefined`
 
 Controls if routes end with `/`:
@@ -4247,9 +3670,9 @@ export default {
 
 > ⚠️ Requires redirects or link updates — test carefully.
 
----
+<br>
 
-## 🧾 **Summary Table**
+**Summary Table**
 
 | Option                          | Type       | Description                        |                         |
 | ------------------------------- | ---------- | ---------------------------------- | ----------------------- |
@@ -4267,10 +3690,6 @@ export default {
 | `prefetchPayloads`              | `Boolean`  | Prefetch payloads for static sites |                         |
 | `scrollBehavior`                | `Function` | Customize scroll on navigation     |                         |
 | `trailingSlash`                 | `Boolean`  | Enforce or remove trailing slashes |                         |
-
----
-
-Would you like me to show **an example Nuxt project** where several of these router options (like `base`, `extendRoutes`, `middleware`, and `scrollBehavior`) are all used together in one clean config?
 
 
 <br>
@@ -4353,79 +3772,9 @@ export default {
 * Provides access to: **connection status, data refresh, and loading bar**.
 * Useful for improving **UX without reloading the page**.
 
-
-> ### `fetch` hook
-
-It is a powerful way to fetch asynchronous data in components, both **server-side** when the route is first rendered and **client-side** when navigating. Here's a structured overview:
-
-```vue
-<script>
-export default {
-  data() {
-    return {
-      posts: []
-    }
-  },
-  async fetch() {
-    this.posts = await this.$http.$get('https://api.nuxtjs.dev/posts')
-  }
-}
-</script>
-```
-
-* `fetch()` runs automatically on server and client navigation.
-* `$fetchState` is available for reactive state tracking:
-
-| Property    | Type          | Description                                                  |
-| ----------- | ------------- | ------------------------------------------------------------ |
-| `pending`   | Boolean       | True when fetch is running (useful for loading placeholders) |
-| `error`     | Error or null | Captures any error during fetching                           |
-| `timestamp` | Integer       | Last fetch timestamp (useful for caching or `keep-alive`)    |
-
 <br>
 
-### 2️. Calling `fetch` Manually
-
-From **template**:
-
-```vue
-<button @click="$fetch">Refresh</button>
-```
-
-From **methods**:
-
-```js
-export default {
-  methods: {
-    refresh() {
-      this.$fetch()
-    }
-  }
-}
-```
-<br>
-
-### 4️. Accessing Nuxt Context
-
-Inside `fetch`, you can access the full Nuxt context:
-
-```js
-async fetch() {
-  const { env, route, store } = this.$nuxt.context
-  this.posts = await this.$http.$get(`${env.API_URL}/posts`)
-}
-```
-
-### 5️. Key Notes
-
-* `$fetchState.pending` can be used to show loading placeholders.
-* `$fetchState.error` can be used to display errors.
-* **fetch relies on `fetchKey` internally**—don’t set `inheritAttrs: false` on components using fetch.
-* Fetch is **more modern** than `asyncData` for component-level fetching, especially useful for **reusable components** or `keep-alive`.
-
-<br>
-
-> ### `scrollToTop` property 
+> ### scrollToTop property 
 
 In Nuxt is a convenient way to control page scroll behavior when navigating between routes, especially **nested or child routes**. Here's a clear breakdown:
 
@@ -4477,7 +3826,7 @@ export default function (to, from, savedPosition) {
 
 <br>
 
-> ### validate method in Nuxt 
+> ### Validate method in Nuxt 
 It is a **route-level guard for dynamic routes**. It allows you to check whether a route’s parameters are valid **before rendering the page**, both on server-side and client-side navigation. Here’s a detailed breakdown:
 
 * Ensures that a route only renders if certain conditions are met (e.g., valid ID, existing resource).
@@ -4548,16 +3897,14 @@ export default {
 * Throws a **500 error** or custom message if something goes wrong.
 * You can use this to signal server errors, not just invalid routes.
 
+<br>
 
-
-## 6️⃣ Key Notes
+**Key Notes**
 
 * Only used in **dynamic route components** (e.g., `_id.vue`).
 * Runs:
-
   * **Server-side**: on first request.
   * **Client-side**: on navigation.
 * Returns:
-
   * `true` → render the page
   * `false` → show 404 page
