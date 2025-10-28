@@ -1550,6 +1550,8 @@ export default function Page() {
 ```
 <br>
 
+<details>
+
 #### Importing Local images
 
 Next.js will automatically determine the intrinsic `width` and `height` of your image based on the imported file. These values are used to determine the image ratio and prevent Cumulative Layout Shift while your image is loading.
@@ -1627,10 +1629,13 @@ const config: NextConfig = {
  
 export default config
 ```
+
+</details>
+
 <br>
 <br>
 
-### Optimizing fonts
+## Optimizing fonts
 
 The `next/font` module automatically optimizes your fonts and removes external network requests for improved privacy and performance.
 
@@ -1656,7 +1661,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
 <br>
 
-#### Google fonts
+
+### Google fonts
+
+<details>
 
 You can automatically self-host any Google Font. Fonts are included in the deployment and served from the same domain as your deployment, meaning no requests are sent to Google by the browser when the user visits your site.
 
@@ -1681,9 +1689,14 @@ export default function RootLayout({
   )
 }
 ```
+</details>
+
 <br>
 
-**Local fonts**
+### Local fonts
+
+<details>
+
 To use a local font, import your font from next/font/local and specify the src of your local font file in the public folder.
 
 ```js
@@ -1705,6 +1718,9 @@ export default function RootLayout({
   )
 }
 ```
+
+</details>
+
 <br>
 <br>
 
@@ -4918,7 +4934,7 @@ export async function getStaticProps() {
 
 <br>
 
-### Additonal return oject of getStaticProps
+### Additonal return object of getStaticProps
 - You can return any one or more according to the condition as return object
 
 ```js
