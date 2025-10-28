@@ -3777,19 +3777,62 @@ In JavaScript, **function declarations are hoisted first**, then `var` declarati
 
 But **assignments happen in order**, and `var` declarations can **overwrite** earlier function declarations (not the other way around).
 
+Untill the assignment of var, it is always the function
+
 Here’s what happens behind the scenes:
 
 ```js
 function a() {}  // hoisted first (function declaration)
-
+console.log(typeof a) // function
 var a;           // hoisted second (var declaration, no assignment)
-
+console.log(typeof a) // function
 a = 1;           // assignment at runtime — overrides function
-
 console.log(typeof a); // typeof 1 → "number"
 ```
 
 </details>
+
+
+### ⭐️ Question 160
+
+```jsx
+function bar(){
+    return foo;
+    foo = 10;
+    function foo(){
+        
+    };
+    var foo = 11;
+}
+
+console.log(bar())
+```
+<details>
+
+It is internally treated (conceptually) as:
+
+```js
+function bar() {
+    var foo;          // variable declaration hoisted
+    function foo() {} // function declaration hoisted (takes precedence)
+
+    return foo;
+    foo = 10;
+    foo = 11;
+}
+```
+</details>
+
+
+### ⭐️ Question 161
+
+```js
+var y =1;
+if(function f(){}){
+    y += typeof f
+}
+console.log(y)
+```
 
 
 ### ⭐️ Question 137
@@ -4663,46 +4706,6 @@ C */
 Render in JSX Order: React renders the children in the order they appear in the JSX tree.
 
  // - Context Consumers: When a context value changes, all consumers of that context will re-render, but they will still follow the rendering order defined by the parent component.
-```
-
-### Question 160
-
-```jsx
-function bar(){
-    return foo;
-    foo = 10;
-    function foo(){
-        
-    };
-    var foo = 11;
-}
-
-console.log(bar())
-```
-
-It is internally treated (conceptually) as:
-
-```js
-function bar() {
-    var foo;          // variable declaration hoisted
-    function foo() {} // function declaration hoisted (takes precedence)
-
-    return foo;
-    foo = 10;
-    foo = 11;
-}
-```
-
-
-
-### Question 161
-
-```js
-var y =1;
-if(function f(){}){
-    y += typeof f
-}
-console.log(y)
 ```
 
 ### Question 162
