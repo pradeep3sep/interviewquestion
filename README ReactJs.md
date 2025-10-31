@@ -1932,6 +1932,7 @@ MyButton.defaultProps = {
 ```
 
 If props.color is not provided then it will set the default value to 'red'. i.e, Whenever you try to access the color prop it uses the default value
+
 <br>
 
 > ### What are Keyed Fragments?
@@ -2922,7 +2923,7 @@ function NestedList({ data }) {
 export default NestedList;
 ```
 
-
+<br>
 
 > ### useCallback hook
 
@@ -2934,12 +2935,6 @@ const memoizedFn = useCallback(() => {
   // function logic
 }, [dependencies]);
 ```
-
-If **dependencies** don’t change → React returns **the same function reference**.\
-If **any dependency changes** → a **new function** is created.
-
-
-### Case: Parent + Memoized Child
 
 <br>
 
@@ -3049,8 +3044,9 @@ When you click the child button, count updates and you’ll see:
 
 — expected, because `count` changed.
 
+<br>
 
-### The Key Takeaway
+#### The Key Takeaway
 
 | Without useCallback             | With useCallback                |
 | ------------------------------- | ------------------------------- |
@@ -3058,27 +3054,26 @@ When you click the child button, count updates and you’ll see:
 | Memoized child still re-renders | Memoized child skips re-render  |
 | Causes wasted renders           | Prevents unnecessary renders    |
 
+<br>
 
 ### Extra Tip: When You Don’t Need It
 
-If your child **is not wrapped in `React.memo`**,\
-or the function **isn’t passed as a prop**,\
-then `useCallback` gives **no benefit** — it just adds unnecessary complexity.
+If your child **is not wrapped in `React.memo`**, or the function **isn’t passed as a prop**, then `useCallback` gives **no benefit** — it just adds unnecessary complexity.
 
+<br>
 
-> ### 🧠 Quick Rule of Thumb, when you are using react.memo in child then
+> ### Quick Rule of Thumb, when you are using react.memo in child then
 
 - If prop is a **function** → use `useCallback`
 - If prop is an **object or array** → use `useMemo` (Below is the code)
 - If prop is an **object or array in useState** → Then during rerender useState value do not gets updated of parent, or object reference do not change, then the passed value in child remain same then React.memo in child work efficiently
 - If prop is a **primitive (string, number, boolean)** → no need, React compares by value, you can use React.memo directly
 
+<br>
 
 > ### memo in the case of object pass in the child
 
-
 Let’s explore what happens when you pass a **nested object** (or any object/array) as a prop to a memoized child
-
 
 ```jsx
 // Child Component
@@ -3120,10 +3115,7 @@ export default function App() {
 
 <br>
 
-Now open your console and type something in the input.
-
 You’ll see:
-
 ```
 👨‍💻 Parent rendered
 🧒 Child rendered
@@ -3135,9 +3127,7 @@ You’ll see:
 
 <br>
 
-#### ⚠️ Why?
-
-Because:
+**Why?** Because:
 
 ```js
 const userData = { value: count };
@@ -3187,7 +3177,7 @@ export default function App() {
 
 <br>
 
-### ✅ What Happens Now
+#### What Happens Now
 
 When you type in the input:
 
@@ -3209,16 +3199,16 @@ When you click “Increment”:
 
 <br>
 
-### Takeaways
+#### Takeaways
 
 | Problem                                | Solution                   | Hook          |
 | -------------------------------------- | -------------------------- | ------------- |
 | Function recreated on every render     | Memoize function reference | `useCallback` |
 | Object/Array recreated on every render | Memoize value reference    | `useMemo`     |
 
+<br>
 
-
-> ### what are the ways in which we can import dynamically in react
+> ### What are the ways in which we can import dynamically in react
 
 
 **1. Using `React.lazy()` (for components)**
@@ -3304,3 +3294,415 @@ async function loadImage(name) {
 | `import()`                  | Any module dynamically  | Works anywhere, supports named exports |
 | Conditional `import()`      | Load based on condition | Async/await required                   |
 | Assets `import()`           | Load images, JSON, etc. | Returns a URL (for images)             |
+
+
+
+### **What Redux Usually Involves**
+
+* A **single global store**
+* **Dispatching actions** to update state
+* **Pure reducers** to compute new immutable state
+* Often includes:
+
+  * Action creators
+  * Middleware (e.g., thunks)
+  * Normalized state
+  * Memoized selectors (Reselect)
+  * Redux DevTools
+  * React-Redux bindings
+
+#### Other Helpful APIs:
+
+* **createAsyncThunk** → simplifies async logic
+* **createEntityAdapter** → manages normalized data
+* **createListenerMiddleware** → side-effect handling
+* **RTK Query** → Handles data fetching + caching + auto-generated hooks
+
+
+
+```
+A[Start] --> B[Install: @reduxjs/toolkit & react-redux]
+
+B --> C[Create Store using configureStore()]
+C --> D[Create Slice using createSlice()]
+D --> E[Export Reducer & Actions]
+
+E --> F[Add Slice Reducer to Store]
+F --> G[Wrap App with <Provider store={store}>]
+
+G --> H[Use useSelector() to Read State]
+G --> I[Use useDispatch() to Dispatch Actions]
+
+H --> J[UI Updates Automatically When State Changes]
+```
+
+
+
+
+Here is a **short and clear summary of RTK Query Quick Start**, without losing the important points:
+
+---
+
+### **RTK Query Quick Start – Short Notes**
+
+**What is RTK Query?**
+RTK Query is a powerful data fetching and caching tool built into **Redux Toolkit**. It helps simplify API calls, caching, and state management for server data.
+
+---
+
+### **Key Benefits**
+
+* Automatically handles **fetching, caching, re-fetching, and memoization**
+* Generates **custom React hooks** for API calls
+* Reduces need for manual `loading`, `error`, and `data` state management
+* Minimizes duplicate network requests
+
+---
+
+### **Step 1: Create an API Service**
+
+Use `createApi` and `fetchBaseQuery` to define API endpoints.
+
+```ts
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+export const pokemonApi = createApi({
+  reducerPath: 'pokemonApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://pokeapi.co/api/v2/' }),
+  endpoints: (builder) => ({
+    getPokemonByName: builder.query({
+      query: (name) => `pokemon/${name}`,
+    }),
+  }),
+});
+
+export const { useGetPokemonByNameQuery } = pokemonApi;
+```
+
+---
+
+### **Step 2: Add API to the Store**
+
+Include the API **reducer** and **middleware** inside the Redux store.
+
+```ts
+import { configureStore } from '@reduxjs/toolkit';
+import { pokemonApi } from './services/pokemon';
+import { setupListeners } from '@reduxjs/toolkit/query';
+
+export const store = configureStore({
+  reducer: {
+    [pokemonApi.reducerPath]: pokemonApi.reducer,
+  },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(pokemonApi.middleware),
+});
+
+setupListeners(store.dispatch);
+```
+
+---
+
+### **Step 3: Wrap App with Provider**
+
+```tsx
+import { Provider } from 'react-redux';
+import { store } from './store';
+
+<Provider store={store}>
+  <App />
+</Provider>
+```
+
+---
+
+### **Step 4: Use API Hook in Components**
+
+The hook automatically fetches and tracks request state.
+
+```tsx
+import { useGetPokemonByNameQuery } from './services/pokemon';
+
+export default function App() {
+  const { data, error, isLoading } = useGetPokemonByNameQuery('bulbasaur');
+
+  return (
+    <div>
+      {error ? "Error" :
+       isLoading ? "Loading..." :
+       data ? <h3>{data.name}</h3> : null}
+    </div>
+  );
+}
+```
+
+---
+
+### **Important Points**
+
+| Feature             | Explanation                                                                     |
+| ------------------- | ------------------------------------------------------------------------------- |
+| `data`              | Response result                                                                 |
+| `error`             | Any request error                                                               |
+| `isLoading`         | First time loading                                                              |
+| `isFetching`        | True when refetching                                                            |
+| Auto de-duplication | Multiple components using same query share the same data; no duplicate requests |
+
+---
+
+### **Conclusion**
+
+RTK Query helps you:
+✅ Fetch data easily
+✅ Reduce boilerplate Redux code
+✅ Automatically cache and share API results
+✅ Improve app performance
+
+---
+
+If you want, I can now also give you:
+👉 A **flow chart**
+👉 A **real working code project**
+👉 A **comparison with React Query**
+
+Just tell me 😊
+
+
+
+
+Got it — you want **notes**, not explanation or tutorial.
+Here are **clean, exam-style, interview-style notes for `createSlice()`**, short and clear:
+
+<br>
+
+## **extraReducers**
+
+Used to **handle actions from outside this slice**, such as:
+
+* Actions from another slice
+* `createAsyncThunk` lifecycle actions
+* Manually created actions
+
+```js
+extraReducers: (builder) => {
+  builder.addCase(otherAction, (state, action) => { ... })
+}
+```
+
+<br>
+
+## **Key Points**
+
+* **Mutating syntax is safe** (because of Immer)
+* Each reducer inside `reducers` **generates** an action creator
+* `extraReducers` does **not** generate actions
+* `name` determines action type prefix (`sliceName/actionName`)
+
+<br>
+
+## **Example (Short)**
+
+```js
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: { value: 0 },
+  reducers: {
+    increment(state) { state.value++ },
+    decrement(state) { state.value-- },
+    incrementByAmount(state, action) { state.value += action.payload },
+  },
+})
+```
+
+Generated action types:
+
+```
+counter/increment
+counter/decrement
+counter/incrementByAmount
+```
+
+> ### React Query, now officially known as TanStack Query
+
+
+> ## React Toolkit (RTK) Query Overview
+
+RTK Query is a powerful data fetching and caching tool. It is designed to simplify common cases for loading data in a web application, **eliminating the need to hand-write data fetching & caching logic yourself**.
+
+### Why Use RTK Query? (Motivation)
+
+It solves problems like:
+- Managing **loading** and **error** states
+- **Avoiding duplicate** network requests
+- **Caching** data and keeping data in sync
+- Performing **optimistic updates**
+
+It separates **data fetching logic** from general **state management**, like React Query or Apollo.
+
+<br>
+
+Usage Example:
+
+```js
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+export const api = createApi({
+  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
+  tagTypes: ["Tasks"],
+  endpoints: (builder) => ({
+    getTasks: builder.query({ // Query means caching for get api
+      query: () => "/tasks",  // this is the end point
+      transformResponse: (tasks) => tasks.reverse(), // these are additional function for response manipulation
+      providesTags: ["Tasks"],  // these tags are added as marking, means when we want to call this api, utlize this tag
+    }),
+    addTask: builder.mutation({ // mutation means other than get api
+      query: (task) => ({
+        url: "/tasks",
+        method: "POST",
+        body: task,
+      }),
+      invalidatesTags: ["Tasks"],
+      async onQueryStarted(task, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          api.util.updateQueryData("getTasks", undefined, (draft) => {
+            draft.unshift({ id: crypto.randomUUID(), ...task });
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+    updateTask: builder.mutation({
+      query: ({ id, ...updatedTask }) => ({
+        url: `/tasks/${id}`,
+        method: "PATCH",
+        body: updatedTask,
+      }),
+      invalidatesTags: ["Tasks"],
+      async onQueryStarted(
+        { id, ...updatedTask },
+        { dispatch, queryFulfilled },
+      ) {
+        const patchResult = dispatch(
+          api.util.updateQueryData("getTasks", undefined, (tasksList) => {
+            const taskIndex = tasksList.findIndex((el) => el.id === id);
+            tasksList[taskIndex] = { ...tasksList[taskIndex], ...updatedTask };
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+    deleteTask: builder.mutation({
+      query: (id) => ({
+        url: `/tasks/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Tasks"],
+      async onQueryStarted(id, { dispatch, queryFulfilled }) {
+        const patchResult = dispatch(
+          api.util.updateQueryData("getTasks", undefined, (tasksList) => {
+            const taskIndex = tasksList.findIndex((el) => el.id === id);
+            tasksList.splice(taskIndex, 1);
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResult.undo();
+        }
+      },
+    }),
+  }),
+});
+
+export const {
+  useGetTasksQuery,
+  useAddTaskMutation,
+  useUpdateTaskMutation,
+  useDeleteTaskMutation,
+} = api;  // these are the methods exports for api call
+```
+
+<br>
+
+Below is consuming the query
+
+```js
+import {
+  useAddTaskMutation,
+  useDeleteTaskMutation,
+  useGetTasksQuery,
+  useUpdateTaskMutation,
+} from "./apiSlice";
+
+export default function Home() {
+  const [newTask, setNewTask] = useState("");
+
+  // Below is the usgae of query hooks
+  const { data: tasksList, isError, isLoading, error } = useGetTasksQuery();
+  const [addTask] = useAddTaskMutation();
+  const [updateTask] = useUpdateTaskMutation();
+  const [deleteTask] = useDeleteTaskMutation();
+
+  return (
+    <div>
+      <div >
+        <div >
+          <h4 className="ml-3 text-lg font-semibold">My Tasks</h4>
+        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const task = {
+              value: newTask,
+              completed: false,
+            };
+            addTask(task);
+            setNewTask("");
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Add a new task"
+            onChange={(e) => setNewTask(e.target.value)}
+            value={newTask}
+            required
+          />
+          <button className="text-indigo-400">Add</button>
+        </form>
+        <div className="tasks-container overflow-auto">
+          {isLoading ? (
+            <p className="text-center">Loading...</p>
+          ) : isError ? (
+            <p className="text-center">
+              {error.error || "Something went wrong"}
+            </p>
+          ) : (
+            tasksList.map((task) => (
+              <TaskItem
+                key={task.id}
+                task={task}
+                updateTask={updateTask}
+                deleteTask={deleteTask}
+              />
+            ))
+          )}
+        </div>
+      </div>
+      <Link to="contact" className="absolute text-gray-800 hover:text-gray-400">
+        Contact
+      </Link>
+    </div>
+  );
+}
+```
