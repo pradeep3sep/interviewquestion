@@ -4116,8 +4116,7 @@ Use tools to pinpoint bottlenecks:
 
 > ### Successful in unit testing but gets failed in integration testing, what will you do ?
 
-> I’d start by reproducing the issue, identifying the integration point that’s failing, and then validating assumptions like data flow, mocks, and side effects.
-> My goal would be to isolate whether it’s a code issue, environment mismatch, or incorrect mock behavior.”
+’d start by reproducing the issue, identifying the integration point that’s failing, and then validating assumptions like data flow, mocks, and side effects.
 
 
 | Check                       | Why                                                                   |
@@ -4127,13 +4126,14 @@ Use tools to pinpoint bottlenecks:
 | Environment                 | Some APIs (like window, localStorage, router) might not be available. |
 | Lifecycle or async behavior | Integration might introduce real side effects or network timing.      |
 
-🧠 Example:
+<br>
 
-> Unit test used a mock store with `user: { name: 'Test' }`,
-> Integration test uses the real store where `user` is `null` — causing crash.
+Example:
+- Unit test used a mock store with `user: { name: 'Test' }`,
+- Integration test uses the real store where `user` is `null` — causing crash.
 
 
-### Debug Side Effects
+#### Debug Side Effects
 
 Sometimes integration failures come from:
 
