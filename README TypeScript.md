@@ -207,6 +207,8 @@ direction = "forward" // ❌ Error: not assignable to type
 
 > ### Unknown vs Any 
 
+<details>
+
 1. `any` Type: 
   - The any type is the most flexible type, `type any` can hold values of any type.
   - The downside is that you lose many of the benefits of static typing because the compiler can't provide type-checking assistance.
@@ -238,6 +240,8 @@ direction = "forward" // ❌ Error: not assignable to type
       let result = value + 5; // OK
     }
     ```
+</details>
+
 <br>
 <br>
 
@@ -525,7 +529,7 @@ const stringNumber: number[] = [1, 2, 3];
 console.log(firstElement(stringNumber)); // Output: 1
 ```
 
-- In above we defined that the `Type` let say `string`, it means thaat arr value will be `array of string` and `return` value will be `string`
+- In above we defined that the `Type` let say `string`, it means that arr value will be `array of string` and `return` value will be `string`
 
 <br>
 

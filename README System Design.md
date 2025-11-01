@@ -44,6 +44,9 @@ CLS (Avoiding Layout Shifts)
 ## **Vue**
 
 #### **Positives**:
+
+<details>
+
 1. **Simplicity and faster code devlopment**:
   - HTML-like `template syntax` made it easy to integrate designs directly from the UI/UX team.
   - Using directives like `v-if` and `v-for` felt intuitive, especially for conditional rendering and loops.
@@ -235,9 +238,14 @@ setState((prevState) => ({
 }));
 ```
 
+</details>
+
 <br>
 
 #### **Negatives**:
+
+<details>
+
 1. **Scaling with Large Teams**:
    - **Experience**: On a large project with multiple developers, Vue's flexibility in allowing multiple coding styles led to inconsistencies. For instance, some developers preferred the `Options API`, while `others used` the `Composition API`, making the codebase harder to maintain.
 
@@ -248,11 +256,14 @@ setState((prevState) => ({
    - **Experience**: For certain advanced needs, like optimizing large lists, I had to spend more time researching or building custom solutions because the ecosystem didn’t have as many mature libraries as React.
    - **Example**: Implementing virtual scrolling required using a lesser-known library compared to React’s well-supported libraries like `react-window`.
 
-
+</details>
 
 ## **React**
 
 #### **Positives**:
+
+<details>
+
 1. **Backing by Facebook**:
    - React is maintained by Facebook, which ensures continuous development, regular updates, and a high level of stability. This can be reassuring for large-scale enterprises..
    - Vue, while open-source and community-driven, doesn’t have the same level of corporate backing.
@@ -269,7 +280,14 @@ setState((prevState) => ({
    - **Experience**: React DevTools allowed me to pinpoint performance bottlenecks quickly. Tracing state changes and component updates was straightforward.
    - **Example**: Identifying unnecessary re-renders using `React.memo` and `Profiler` improved performance in a large React app with complex grids.
 
+</details>
+
+<br>
+
 #### **Negatives**:
+
+<details>
+
 1. **Verbose Code**:
    - **Experience**: JSX often felt verbose for simple tasks. For instance, `conditionally rendering` lists or elements required more boilerplate compared to Vue's directives.
    - **Example**: A simple `v-if`-style condition in Vue took four extra lines in React with `&&` or ternary operators.
@@ -294,6 +312,7 @@ setState((prevState) => ({
      Example:\
      Forgetting to use React.memo or useCallback in a deeply nested component tree might cause avoidable re-renders and slow down the application.
 
+</details>
 
 <br>
 
@@ -339,7 +358,7 @@ A startup needing a **proof-of-concept (POC)** in 2 weeks would benefit from Vue
 
 <br>
 
-> ### concurrent session kya hota h
+> ### Concurrent session kya hota h
 
 A user logs into the same account from a web browser on their laptop and a mobile app on their phone at the same time. Both sessions are active concurrently.
 
@@ -856,6 +875,9 @@ webpack.config.js
 ```
 
 **Webpack Configuration**:
+
+<details>
+
 ```javascript
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -911,6 +933,8 @@ module.exports = {
   mode: 'development', // Change to 'production' for optimized builds
 };
 ```
+
+</details>
 
 <br>
 
@@ -975,6 +999,8 @@ module.exports = {
 
 > ### XSS
 
+<details>
+
 An `XSS (Cross-Site Scripting)` attack occurs when an `attacker injects malicious scripts` into a website viewed by other users.
 
 The attacker add the malicious script in browser through various method like 
@@ -990,6 +1016,8 @@ Prevention Techniques:
 - you can use the `pakage like DOMPurity`
 - `avoid` using the `eval`
 - CSP headers
+
+</details>
 
 <br>
 
@@ -1025,6 +1053,8 @@ CSP allows you to `create a whitelist of trusted sources` for various types of c
 
 ### Implementing CSP in the Frontend:
 There are different methods for implementing CSP in the frontend:
+
+<details>
 
 #### 1. **Via HTTP Headers (Best Practice)**:
 The CSP is typically set in the server’s HTTP headers, which instruct the browser on how to handle various types of content for a web page.
@@ -1080,6 +1110,8 @@ Content-Security-Policy: script-src 'self' 'sha256-xyz'
 
 The `sha256-xyz` hash corresponds to a specific inline script, ensuring that only the script with that exact content is allowed to run.
 
+</details>
+
 <br>
 
 #### Common CSP Pitfalls to Avoid:
@@ -1128,7 +1160,7 @@ For example, changing the source site URL, installing malware, stealing informat
 
 ### **5 Required Steps to Secure Your iFrames**
 
-<br>
+<details>
 
 **1. Use the ‘sandbox’ attribute**
 
@@ -1218,6 +1250,8 @@ This ensures the iFrame can only be embedded by trusted domains.
 <br>
 
 **5. Cookies must be set from backend having the httpOnly be true, secure be true, sameSite be Strict**
+
+</details>
 
 <br>
 
@@ -1311,6 +1345,8 @@ This way, every time your app responds, it tells the browser not to guess the co
 
 **4. x-xss-protection**
 
+<details>
+
 The `X-XSS-Protection` is another security header that helps protect your website from **cross-site scripting (XSS) attacks**. 
 
 **How Does `X-XSS-Protection` Work?**
@@ -1387,9 +1423,13 @@ module.exports = {
 
 This will enable the XSS protection for every response your server sends. It’s a simple but effective way to reduce the risk of XSS attacks.
 
+</details>
+
 <br>
 
 **5. HSTS**
+
+<details>
 
 **Easy Explanation:**
 HSTS is like telling the browser, **“Only visit my site using a secure connection (HTTPS), and remember this rule for a year.”** This makes sure users aren’t accidentally exposed to unencrypted traffic.
@@ -1433,6 +1473,8 @@ app.use(helmet.hsts({
 ```
 
 This will ensure that all your HTTP responses include the HSTS header, forcing browsers to stick to HTTPS for your site.
+
+</details>
 
 <br>
 
@@ -1512,6 +1554,8 @@ npm audit fix - This updates dependencies to the nearest safe version.
 
 > ### Permissions Policy
 
+<details>
+
 Let say you have used iframe in your site, now the `iframe website` tried to cheat on you, he `ask for the voice and video permission` and `user` on your website `thinks that it is giving permission to your website` but actually the permission is taken by iframe website. This can cause security issue
 
 https://developer.mozilla.org/en-US/docs/Web/HTTP/Permissions_Policy
@@ -1558,6 +1602,8 @@ you can refer below website if you want to see demo
 https://permissions-policy-demo.glitch.me/demo/
 ```
 
+</details>
+
 <br>
 
 > ### CSRF (cross site request forgery)
@@ -1598,6 +1644,8 @@ referer should be added in the link, so that we can verify it in the backend, re
 
 **1. Access-Control-Allow-Origin :**
 
+<details>
+
 The `Access-Control-Allow-Origin` header is part of Cross-Origin Resource Sharing (CORS) in web development. It tells the browser which origins (domains) are permitted to access a resource on the server. When a web application running at one origin tries to request resources from another origin (like making an API call from `https://example.com` to `https://api.example.com`), the server responds with `Access-Control-Allow-Origin` to specify if it allows access from the requesting origin.
 
 Here’s how it works:
@@ -1615,9 +1663,13 @@ Access-Control-Allow-Origin: https://example.com
 
 This header is typically used in the server response to handle CORS policies for frontend applications that need to make cross-origin HTTP requests.
 
+</details>
+
 <br>
 
 **2. Access-Control-Allow-Methods**
+
+<details>
 
 The `Access-Control-Allow-Methods` header is used in Cross-Origin Resource Sharing (CORS) to specify which HTTP methods are permitted when accessing a resource on the server from a different origin. This is part of the server's response to a "preflight" request, which is an initial request the browser sends to determine if the actual request is safe to make.
 
@@ -1645,9 +1697,13 @@ For instance, if a web application on `https://example.com` wants to send a `POS
 - `OPTIONS`
 - `PATCH`
 
+</details>
+
 <br>
 
 **3. Access-Control-Allow-Headers**
+
+<details>
 
 The `Access-Control-Allow-Headers` header in Cross-Origin Resource Sharing (CORS) specifies which HTTP headers can be included in requests made to the server from a different origin. This is especially relevant when making requests that use custom headers or non-standard headers that aren’t typically included in simple requests, like `Authorization`, `Content-Type`, or other custom headers.
 
@@ -1663,6 +1719,10 @@ Access-Control-Allow-Headers: Content-Type, Authorization, X-Custom-Header
 ```
 
 This response tells the browser that the specified headers are permitted in requests from allowed origins.
+
+</details>
+
+<br>
 
 ### Key Points:
 
@@ -1849,6 +1909,8 @@ https://www.whois.com/whois/tataaig.com
 
 Communication protocols are essential rules and conventions for data transfer between network devices. These protocols define how data is formatted, transmitted, and received, enabling reliable communication across networks. Here are some common types of communication protocols:
 
+<details>
+
 ### 1. **Network Protocols**
    - **TCP/IP (Transmission Control Protocol/Internet Protocol):** The foundation of the internet, governing how data is divided into packets, transmitted, and reassembled at the destination. TCP ensures reliability, while IP handles addressing.
    - **UDP (User Datagram Protocol):** A faster but less reliable alternative to TCP, often used for real-time applications like video streaming and gaming, where speed is prioritized over guaranteed delivery.
@@ -1875,12 +1937,17 @@ Communication protocols are essential rules and conventions for data transfer be
    - **SNMP (Simple Network Management Protocol):** Used for network management, it monitors network devices and handles alerts.
 
 Each protocol plays a specific role in enabling reliable, efficient, and secure communication between devices across various types of networks. These protocols can operate at different layers of the OSI (Open Systems Interconnection) model, from the physical transfer of data to application-level interactions.
+</details>
+
+<br>
 
 > ### Explaining 8 Popular Network Protocols in 1 Diagram. The method to download the high-resolution PDF is available at the end.
 
 If have the time then get the knowlege of each
 
 Network protocols are standard methods of transferring data between two computers in a network.
+
+<details>
 
 **1. HTTP (HyperText Transfer Protocol)**
 
@@ -1914,6 +1981,7 @@ SMTP is a standard protocol to transfer electronic mail from one user to another
 
 FTP is used to transfer computer files between client and server. It has separate connections for the control channel and data channel.
 
+</details>
 
 ![common network protocols](images/protocol.jpg)
 
@@ -2045,6 +2113,8 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers
 
 The **ETag** (Entity Tag) header is used in HTTP responses for caching and conditional requests. It serves as a unique identifier for a specific version of a resource. When the resource changes, the ETag value changes as well. This is particularly useful for optimizing performance and bandwidth usage.
 
+<details>
+
 ### **How ETag Works**
 
 1. **Server Response with ETag**: When a server responds to a request for a resource (e.g., an image, JSON data, or a webpage), it may include an `ETag` header with a unique identifier for the current version of that resource.
@@ -2071,6 +2141,8 @@ The **ETag** (Entity Tag) header is used in HTTP responses for caching and condi
 - **Reduced Bandwidth**: Avoids resending unchanged resources, saving bandwidth and speeding up the loading time.
 - **Improved Performance**: Reduces latency by allowing clients to validate cached resources instead of fully re-downloading them.
 - **Cache Control**: Ensures that clients always have the most recent version of the resource, avoiding outdated cache issues.
+
+<br>
 
 ### **Example with ETag**
 
@@ -2104,6 +2176,8 @@ Content-Type: application/json
 ``` 
 
 In this way, `ETag` helps maintain up-to-date data while optimizing server-client communication.
+
+</details>
 
 <br>
 
@@ -2212,6 +2286,8 @@ In this example, a client requests only specific fields (e.g., `name`, `email`, 
 
 > ### Advantages of GraphQL
 
+<details>
+
 GraphQL offers several advantages over traditional REST APIs, making it popular for modern application development. Here’s a rundown of its primary benefits:
 
 ### 1. **Efficient Data Fetching (No Over-fetching or Under-fetching)**
@@ -2265,11 +2341,15 @@ GraphQL offers several advantages over traditional REST APIs, making it popular 
 
 These advantages make GraphQL a strong choice for building scalable, performant, and flexible APIs, especially for applications with complex data requirements.
 
+</details>
+
 <br>
 
 > ### Rest vs GraphQL
 
 REST and GraphQL are two distinct approaches for building APIs, each with its own strengths and trade-offs. Here’s a comparison between the two:
+
+<details>
 
 ### 1. **Data Fetching Efficiency**
 
@@ -2321,11 +2401,17 @@ REST and GraphQL are two distinct approaches for building APIs, each with its ow
    - **REST**: Well-known conventions and tools exist, making it easy to implement and understand. REST is stateless, which simplifies scaling, but handling complex relationships and nested resources can be challenging.
    - **GraphQL**: Tools like GraphiQL, Apollo Explorer, and Playground provide schema introspection, autocompletion, and real-time query feedback. This makes GraphQL more user-friendly for developers, especially with complex data models.
 
+</details>
+
+<br>
+
 ### Use Cases for Each
 
 - **REST** is ideal for simpler, resource-driven applications where each resource is represented by a separate endpoint and where caching and standard HTTP methods suffice.
   
 - **GraphQL** is a good choice for complex applications with intricate data relationships, where clients need specific data fields and real-time updates, such as social media platforms, data-heavy dashboards, or apps with multiple client types (mobile, web).
+
+<br>
 
 ### Summary Table
 
@@ -2363,7 +2449,9 @@ Overall, both REST and GraphQL have their strengths, and the choice depends on t
 
 ```
 
-> ### GraphQL building Block
+<br>
+
+### GraphQL building Block
 
 1. Schema/Types
 2. Query/ Mutation.   Quey to get data from the server and mutation to update data on server through api
@@ -2373,7 +2461,11 @@ Overall, both REST and GraphQL have their strengths, and the choice depends on t
 
 ## Communication Techniques
 
-In system design interviews, discussing various communication techniques is essential, as different use cases benefit from different approaches. Here’s a breakdown of popular communication techniques:
+In system design interviews, discussing various communication techniques is essential, as different use cases benefit from different approaches. 
+
+**Here’s a breakdown of popular communication techniques:**
+
+<details>
 
 ### 1. **Short Polling**
 
@@ -2409,6 +2501,10 @@ In system design interviews, discussing various communication techniques is esse
    - **Use Case**: Event-driven applications, like `triggering a notification when a payment is completed` or updating an external system when a user’s profile changes.
    - **Pros**: Efficient for event-driven updates and reduces the need for polling.
    - **Cons**: Client must handle security for incoming requests, and there’s no guarantee of delivery if the client server is down.
+
+</details>
+
+<br>
 
 ### Summary Table
 
@@ -3223,6 +3319,8 @@ Testing in frontend applications is crucial for maintaining high code quality an
 
 A/B testing, also known as split testing, is a method used to compare two versions of a webpage, app feature, marketing content, or other product elements to see which one performs better in terms of a desired outcome. The goal is to optimize for specific metrics, such as conversion rates, engagement, or click-through rates. Here’s a detailed breakdown of how A/B testing works, its benefits, and the process involved.
 
+<details>
+
 ### 1. **Purpose of A/B Testing**
    - **Optimization**: It helps in making data-driven decisions to improve user experience and increase conversions.
    - **Validation**: Allows teams to test hypotheses about what users prefer, ensuring that any changes made are grounded in real user data.
@@ -3271,6 +3369,8 @@ A/B testing, also known as split testing, is a method used to compare two versio
 
 A/B testing is a powerful tool for teams to validate changes and continuously improve based on real user behavior, helping companies make informed, data-backed decisions that enhance the user experience and drive results.
 
+</details>
+
 <br>
 
 > ### What is test driven approach? explain in details
@@ -3311,6 +3411,10 @@ The TDD process generally follows these steps:
 
 6. **Repeat**: Move to the next feature or requirement, and repeat the cycle.
 
+<br>
+
+<details>
+
 ### Advantages of TDD
 
 - **Improved Code Quality**: By forcing the developer to write tests before coding, TDD encourages well-structured, modular, and testable code.
@@ -3340,6 +3444,8 @@ Suppose you’re creating a function to check if a number is prime.
 5. **Refactor**: Simplify the code if possible while ensuring the test still passes.
 
 By the end of the TDD cycle, you have a tested, working `isPrime` function and confidence that it behaves as expected.
+
+</details>
 
 <br>
 
@@ -3906,6 +4012,7 @@ JavaScript events like onbeforeunload won't be triggered in situations of unexpe
 
 **Network Monitoring:** Use network monitoring tools to track traffic to your website. A sudden drop in incoming requests could be a sign of a crash.
 
+<br>
 
 > ### Memory leaks explained
 
@@ -3944,7 +4051,7 @@ JavaScript engines automatically manage memory through a process called garbage 
 
 > ### lets say your build time gets increased by 8 min, how you will resolve this issue ?
 
-### 1. Identify the Root Cause
+#### 1. Identify the Root Cause
 
 First, determine *what changed* recently.
 
@@ -4007,21 +4114,7 @@ Use tools to pinpoint bottlenecks:
 
 <br>
 
-### 6. Remove Unnecessary Steps
-
-* Running tests or linting inside the build job (move them to separate jobs).
-* Unnecessary environment setup (e.g., `npm ci` twice).
-* Large image optimization during every build (move to pre-processing step).
-
-<br>
-
-### 7. Long-Term Fixes
-
-* Migrate to **Vite** or **esbuild** if possible (faster dev & prod builds).
-* Use **incremental static regeneration** (Next.js / Nuxt3).
-
-
-> ### successful in unit testing but gets failed in integration testing, what will you do ?
+> ### Successful in unit testing but gets failed in integration testing, what will you do ?
 
 > I’d start by reproducing the issue, identifying the integration point that’s failing, and then validating assumptions like data flow, mocks, and side effects.
 > My goal would be to isolate whether it’s a code issue, environment mismatch, or incorrect mock behavior.”
