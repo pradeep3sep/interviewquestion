@@ -3801,6 +3801,8 @@ we have default gzip compression technique but we can switch to brotli compressi
 
 ### Brotli in BE
 
+<details>
+
 #### 1. Steps to Set Up Brotli Compression using 'compression' package:
 
 - **Install Required Packages**
@@ -3895,12 +3897,17 @@ server.listen(3000, () => {
 
 This example shows how to use the built-in `zlib` module for Brotli compression without using an external library. The `createBrotliCompress()` method compresses the response.
 
+</details>
+
+<br>
 
 ### Brotli in FE
 
 In Fe side, when we run the build command in react or other, it build using default gzib compression technique, we can change the default compression technique to brotlli.
 
 We have many module bundler like webpack or any other we can configure in that bundler for compression to use brotli. Keep in mind the server we have dployed our FE code on server(any like ngnix serve, amazon ec2 serve), it should serve the brotli compression file
+
+<details>
 
 - **Webpack and Brotli Compression**:
   If you're using Webpack to bundle your React app, you can set up Brotli compression for your static files during the build process.
@@ -3932,6 +3939,8 @@ We have many module bundler like webpack or any other we can configure in that b
   ```
 
 With this setup, Webpack will generate `.br` versions of your `.js`, `.css`, `.html`, and `.svg` files, which can then be served by your server.
+
+</details>
 
 <br>
 
@@ -4049,7 +4058,7 @@ JavaScript engines automatically manage memory through a process called garbage 
 
 <br>
 
-> ### lets say your build time gets increased by 8 min, how you will resolve this issue ?
+> ### Lets say your build time gets increased by 8 min, how you will resolve this issue ?
 
 #### 1. Identify the Root Cause
 
@@ -4065,7 +4074,7 @@ First, determine *what changed* recently.
 
 <br>
 
-### 2. Optimize Dependency & Package Size
+#### 2. Optimize Dependency & Package Size
 
 * Remove unused npm packages.
 * Avoid large libraries if smaller ones exist.
@@ -4075,7 +4084,7 @@ First, determine *what changed* recently.
 
 <br>
 
-### 3. Improve Bundler Efficiency
+#### 3. Improve Bundler Efficiency
 
 If you’re using **Webpack**, **Vite**, **Nuxt**, or **React Native Metro**, check:
 
@@ -4084,7 +4093,7 @@ If you’re using **Webpack**, **Vite**, **Nuxt**, or **React Native Metro**, ch
 
 <br>
 
-### 4. CI/CD Optimization
+#### 4. CI/CD Optimization
 
 In CI (Jenkins, GitHub Actions, AWS CodeBuild, etc.):
 
@@ -4103,7 +4112,7 @@ Example (GitHub Actions cache):
 
 <br>
 
-### 5. Profile the Build
+#### 5. Profile the Build
 
 Use tools to pinpoint bottlenecks:
 

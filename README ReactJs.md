@@ -45,6 +45,9 @@ https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react
 > ### How to use the useEffect to api call with async
 
 #### Incorrect Code
+
+<details>
+
 ```js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -73,9 +76,12 @@ function App() {
 
 export default App;
 ```
-
+</details>
 
 #### Correct Code
+
+<details>
+
 ```js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
@@ -108,6 +114,8 @@ function App() {
 
 export default App;
 ```
+</details>
+
 <br>
 
 - **`useEffect()` restrictions**:  
@@ -2060,6 +2068,8 @@ Its main goals are:
 
 > ### What are the rules covered by diffing algorithm?
 
+<details>
+
 When diffing two trees, React first compares the two root elements. The behavior is different depending on the types of the root elements. It covers the below rules during reconciliation algorithm,
 
   1. **Elements Of Different Types**: Whenever the root elements have different types, React will tear down the old tree and build the new tree from scratch. For example, elements to , or from to of different types lead a full rebuild.
@@ -2103,6 +2113,7 @@ When diffing two trees, React first compares the two root elements. The behavior
       </ul>
       ```
 
+</details>
 
 <br>
 
@@ -2128,7 +2139,7 @@ The first argument is any render-able React child, such as an element, string, o
 
 <br>
 
-### Controlled vs Uncontrolled component
+> ### Controlled vs Uncontrolled component
 
 **Uncontrolled component**: When we use ref, it don't control the internal stateof input with react, so it is called Uncontrolled component
 
@@ -3295,7 +3306,7 @@ async function loadImage(name) {
 | Conditional `import()`      | Load based on condition | Async/await required                   |
 | Assets `import()`           | Load images, JSON, etc. | Returns a URL (for images)             |
 
-
+<br>
 
 ### **What Redux Usually Involves**
 

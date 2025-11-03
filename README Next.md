@@ -132,7 +132,7 @@ export default function Page() {
 
 <br>
 
-**2. Pages Router (`pages/` directory) - "pages" folder is at Top leve**
+**2. Pages Router (`pages/` directory) - "pages" folder is at Top level**
 
 ```
 /pages
@@ -243,6 +243,7 @@ export default function Page({ params, searchParams }) {
 ### 3. loading.js / loading.tsx (Loading UI)
 - Provides a loading state while fetching server-side data.
 - Uses React Suspense.
+-  it gets triggered automatically while fetching the api
 
 
 ```tsx

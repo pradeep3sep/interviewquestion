@@ -4106,7 +4106,7 @@ console.log(name); // Jayesh
 
 <br>
 
-**case 2:-** let and const variables ( Temporal Dead Zone :- Technically they are also hoisted )\
+**case 2:-** let and const variables ( Temporal Dead Zone :- Technically they are also hoisted )
 
 **What is TDZ** :- time frame between let and const varibles are hoisted to they are initialized\
 let and const are allocated in diffrent memory space ( script scope ) than global scope
@@ -4137,8 +4137,6 @@ console.log(a); // 4
 <br>
 
 **Hoisting of functions**
-
-<br>
 
 **case 1:-** function declaration
 ```js
@@ -4198,8 +4196,6 @@ getNameArrowTDZ(); // Jayesh
 <br>
 
 **Hoisting of Classes**
-
-<br>
 
 **case 1:-** class declaration
 ```js
