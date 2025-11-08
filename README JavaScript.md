@@ -779,6 +779,7 @@ eg: `Array.prototype` `has all` the `built-in` method of array like `map, filter
 
 - Call, Apply, and Bind : It is use for `function borrowing`
 - Function borrowing allows us to `use the method of one object on another object` without having to make a copy of that method and maintain it in two separate places.
+- These methods allow you to **change the context of the `this` keyword** in function, which can be useful for controlling the behaviour of functions
 
 #### **Call**  
 - **Use:** It is used for function borrowing.  
@@ -5768,47 +5769,72 @@ Contain certain value | 	Can contain NULL too
 
 **Debounce**
 
+- Wait until the user stops triggering the event — then run the function once.
+
 Other use cases :-\
 👉 Continous button click event function call can be delay.\
 👉 Resize of window event function call can be delay.
 
 ```js
-function debounce(func, delay) {
-  let timeoutId;
-  
-  return function() {
-    const context = this;
-    const args = arguments;
-    
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(function() {
-      func.apply(context, args);
+function debounce(fn, delay) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(this, args);
     }, delay);
   };
 }
+
 
 // Example usage
 const debouncedFunction = debounce(function() {
   console.log('Debounced function executed!');
 }, 500);
 
-// Attach the debounced function to an event
-window.addEventListener('scroll', debouncedFunction);
+debouncedFunction()
+debouncedFunction()
+debouncedFunction()
 
+// It will console after the 500ms and only one time
 ```
+
+#### why we have return function in debounce
+
+- If we didn’t return a function, timer would be useless — it would be recreated on every call.
+- Returning a function creates a closure, so timer stays in memory:
+- Function returned → keeps access to the 'timer' variable → debounce logic works
+- We return a function because debounce needs to create a closure to remember the timer across calls and act as a wrapper that schedules the original function execution.
+
+<br>
 
 **Throttle**
 
+- Ensure function runs at most once every X ms, even if triggered constantly.
+
+**Using Date.now()**
+```js
+function throttle(fn, delay) {
+  let last = 0;
+  return function (...args) {
+    const now = Date.now();
+    if (now - last >= delay) {
+      last = now;
+      fn.apply(this, args);
+    }
+  };
+}
+```
+
+**Using setTimeout**
 ```js
 function throttle(func, delay) {
   let isThrottled = false;
   
   return function() {
-    const context = this;
-    const args = arguments;
-    
+
     if (!isThrottled) {
-      func.apply(context, args);
+      func.apply(this, args);
       isThrottled = true;
       
       setTimeout(function() {
@@ -5825,7 +5851,6 @@ const throttledFunction = throttle(function() {
 
 // Attach the throttled function to an event
 window.addEventListener('scroll', throttledFunction);
-
 ```
 
 
