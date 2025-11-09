@@ -1,4 +1,58 @@
-We’re talking about rendering strategies:
+> ### What is rendering
+
+**Rendering means converting your code (templates + data) into actual HTML that can be displayed on the screen.**
+
+When you write UI code like:
+
+```jsx
+<h1>Hello {user.name}</h1>
+```
+
+This is **not HTML yet**.
+"Rendering" is the process that turns this into actual HTML:
+
+```html
+<h1>Hello Pradeep</h1>
+```
+
+So that the browser can show it.
+
+<br>
+
+### Where Does Rendering Happen?
+
+**1. Server (SSR)**
+
+HTML is generated **before it reaches the browser**.
+
+```
+React Component + Data  →  Server →  Final HTML → Browser displays it
+```
+<br>
+
+**2. Browser (CSR)**
+
+Browser receives JS code and then builds the HTML **inside the browser**.
+
+```
+React Component + Data → JavaScript Runs in Browser → HTML gets created on screen
+```
+
+<br>
+
+### When you choose SSR:
+
+* The user gets **ready-made HTML**, so the page shows **faster**
+* Search engines can read content easily (better SEO)
+
+### When you choose CSR:
+
+* The browser does the work → requires JS to be downloaded first
+* Initial load is slower, but *app feels faster after load*
+
+<br>
+
+> ### Rendering strategies:
 
 * **Static Site (SSG)**
 * **ISR (Incremental Static Regeneration)**
@@ -8,7 +62,7 @@ We’re talking about rendering strategies:
 
 <br>
 
-### **1. Static Website (SSG - Static Site Generation)**
+### 1. Static Website (SSG - Static Site Generation)
 
 **Concept:**
 All pages are generated **once at build time**. The output is just plain HTML, CSS, JS.
@@ -16,9 +70,10 @@ All pages are generated **once at build time**. The output is just plain HTML, C
 **Where used?**
 
 * Blogs
-* Docs
 * Marketing websites
 * Sites where data **does not change frequently** or **SEO is important**
+
+<br>
 
 **Pros:**
 
@@ -28,6 +83,8 @@ All pages are generated **once at build time**. The output is just plain HTML, C
 | **Scalable**   | Serving static files requires minimal infrastructure.                        |
 | **Cheap**      | You can deploy on CDN or GitHub Pages with almost zero runtime cost.         |
 
+<br>
+
 **Cons:**
 
 | Issue                                     | Why                                                                  |
@@ -36,8 +93,124 @@ All pages are generated **once at build time**. The output is just plain HTML, C
 | **Not suitable for highly dynamic pages** | Data that changes per-user (e.g., dashboards) can't be pre-rendered. |
 
 **Example:**
-Blog posts fetched at build time using `getStaticProps` (Next.js).
+Blog posts fetched at build time using `getStaticProps` (Next.js).\
 When you change a blog, you have to redeploy.
+
+<br>
+
+Example : Static website with api calling on client side
+
+<details>
+
+```js
+// next.config.ts
+
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: 'export',
+  distDir: 'build',
+  assetPrefix: process.env.NODE_ENV === 'production' ? './' : undefined,
+};
+
+export default nextConfig;
+```
+
+
+```js
+'use client';
+
+import { useState, useEffect } from 'react';
+
+interface Post {
+  id: number;
+  title: string;
+  body: string;
+  userId: number;
+}
+
+export default function Home() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10');
+        
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        
+        const data = await response.json();
+        setPosts(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-zinc-50 font-sans dark:bg-black py-12 px-4">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold text-center mb-8 text-zinc-900 dark:text-zinc-100">
+          Posts from API
+        </h1>
+
+        {loading && (
+          <div className="text-center py-12">
+            <p className="text-zinc-600 dark:text-zinc-400">Loading posts...</p>
+          </div>
+        )}
+
+        {error && (
+          <div className="bg-red-100 dark:bg-red-900 border border-red-400 text-red-700 dark:text-red-300 px-4 py-3 rounded mb-6">
+            <p>Error: {error}</p>
+          </div>
+        )}
+
+        {!loading && !error && (
+          <div className="grid gap-6">
+            {posts.map((post) => (
+              <div
+                key={post.id}
+                className="bg-white dark:bg-zinc-800 rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow"
+              >
+                <h2 className="text-xl font-semibold mb-2 text-zinc-900 dark:text-zinc-100">
+                  {post.title}
+                </h2>
+                <p className="text-zinc-600 dark:text-zinc-400 mb-3">
+                  {post.body}
+                </p>
+                <div className="text-sm text-zinc-500 dark:text-zinc-500">
+                  Post ID: {post.id} | User ID: {post.userId}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+<br>
+
+![UI Preview](https://github.com/user-attachments/assets/f03f44e6-04da-4950-b22a-654ca38d3587)
+
+
+</details>
+
+
+
 
 <br>
 
@@ -745,120 +918,7 @@ Just tell me the framework you are focusing on now:
 
 **Next.js**, **Nuxt**, or **React without Next**?
 
-
-
-> ### What is rendering
-
-Sure — **"rendering"** is one of those words people use everywhere in frontend discussions, but rarely explain clearly.
-Let’s explain it in a very **practical, real-world developer sense**.
-
----
-
-## **What Does “Rendering” Mean?**
-
-**Rendering means converting your code (templates + data) into actual HTML that can be displayed on the screen.**
-
-When you write UI code like:
-
-```jsx
-<h1>Hello {user.name}</h1>
-```
-
-This is **not HTML yet**.
-"Rendering" is the process that turns this into actual HTML:
-
-```html
-<h1>Hello Pradeep</h1>
-```
-
-So that the browser can show it.
-
----
-
-## **Where Does Rendering Happen?**
-
-### **1. Server (SSR)**
-
-HTML is generated **before it reaches the browser**.
-
-```
-React Component + Data  →  Server →  Final HTML → Browser displays it
-```
-
-### **2. Browser (CSR)**
-
-Browser receives JS code and then builds the HTML **inside the browser**.
-
-```
-React Component + Data → JavaScript Runs in Browser → HTML gets created on screen
-```
-
-So the **difference is only: who is doing the job?**
-
-| Rendering Type | Who Converts React → HTML? | When?                  |
-| -------------- | -------------------------- | ---------------------- |
-| **SSR**        | **Server**                 | Before sending to user |
-| **CSR**        | **Browser (JS)**           | After page loads       |
-
----
-
-## **Why It Matters**
-
-### When you choose SSR:
-
-* The user gets **ready-made HTML**, so the page shows **faster**
-* Search engines can read content easily (better SEO)
-
-### When you choose CSR:
-
-* The browser does the work → requires JS to be downloaded first
-* Initial load is slower, but *app feels faster after load*
-
----
-
-## **Simple Analogy (Easy to Remember)**
-
-| Rendering Type | Analogy                                                |
-| -------------- | ------------------------------------------------------ |
-| **SSR**        | Restaurant **serves a ready-cooked meal**              |
-| **CSR**        | Restaurant gives **ingredients and you cook yourself** |
-
-SSR = work done on the server
-CSR = work done in the browser
-
----
-
-## **Let’s Visualize It**
-
-### **SSR Flow**
-
-```
-User → Server → Server generates HTML → Browser shows it → JS activates page
-```
-
-### **CSR Flow**
-
-```
-User → Server → Server sends empty HTML + JS → Browser executes JS → Page finally appears
-```
-
----
-
-## **So, “Rendering” Means:**
-
-> Taking UI code + data and producing real HTML that the user sees —
-> This can happen **on the Server (SSR)** or **in the Browser (CSR)**.
-
----
-
-If you'd like, next I can show:
-
-✅ A small **Next.js example** showing SSR vs CSR code
-✅ How rendering affects **SEO and performance (with real Lighthouse impact)**
-✅ How hydration fits into all this
-
-Just tell me: **Do you want examples in React or Next.js?**
-
+<br>
 
 ### Importing Alias in TypeScript/JavaScript with Next.js
 
