@@ -1,3 +1,16 @@
+* So, Tata AIG is in the **insurance domain**, and we deal with multiple types of insurance like **health**, **motor**, **marine**, and even **electrical appliance insurance**.
+
+* For each of these categories, we have a **dedicated product** that manages the **entire claim process**, right from **inward creation** to **final settlement**.
+
+* The claim journey has **multiple stages**, and each stage is handled by a **specific internal team** within Tata AIG.
+
+* Our **end users** are not the general public — they’re **Tata AIG employees** who use these internal systems to process claims efficiently.
+
+* My role, along with my teammates, is mainly focused on the **front-end development** of these products.
+
+* We take care of all **change requests**, **UI/UX improvements**, and **feature enhancements** to make the claim management process smooth and efficient.
+
+<br>
 
 
 ```

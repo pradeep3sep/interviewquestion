@@ -774,6 +774,44 @@ person.role.push('admin');
 person.role = [0, 'admin', 'user'];
 ```
 
+<br>
+
+#### Below is how we manage it
+
+```js
+type ImmutableLengthTuple<T extends any[]> =
+  Omit<T, 'push' | 'pop' | 'splice' | 'shift' | 'unshift'>;
+
+let t: ImmutableLengthTuple<[string, number]> = ['id', 10];
+
+t[0] = 'code'; // ✅ OK
+t.push('x');   // ❌ Error
+```
+
+If we want more constraint then we can use
+
+```js
+type ImmutablePair = Omit<[string, number], 'push' | 'pop' | 'splice' | 'shift' | 'unshift'>;
+
+let pair: ImmutablePair = ['name', 42];
+
+pair[0] = 'id';  // ✅ OK
+pair[1] = 10;    // ✅ OK
+pair.push(20);   // ❌ Error
+```
+
+In combined form we can write like
+
+```js
+type ImmutablePair<T extends [string, number]> =
+  Omit<T, 'push' | 'pop' | 'splice' | 'shift' | 'unshift'>;
+
+
+let ok: ImmutablePair<[string, number]> = ['age', 30];   // ✅ OK
+let wrong: ImmutablePair<[string, string]> = ['name', 'John']; // ❌ Error
+```
+
+<br>
 
 #### Optional Tuples
 ```ts

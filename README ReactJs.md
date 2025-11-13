@@ -2119,16 +2119,12 @@ When diffing two trees, React first compares the two root elements. The behavior
 
 
 > ### What is the typical use case of portals?
+
+**Portals** let you render a component’s **child elements outside of its parent’s DOM hierarchy — while keeping the same React component tree.**
+
 React portals are very useful when a parent component has overflow: hidden or has properties that affect the stacking context (e.g. z-index, position, opacity) and you need to visually “break out” of its container.
 
 For example, dialogs, global message notifications, hovercards, and tooltips.
-
-
-<br>
-
-> ### What are portals in React?
-
-_Portal_ is a recommended way to render children into a DOM node that exists outside the DOM hierarchy of the parent component.
 
 ```javascript
 ReactDOM.createPortal(child, container);
@@ -2197,18 +2193,93 @@ The Concurrent rendering makes React apps to be more responsive by rendering com
 // 2. Whole app using createRoot
 ReactDOM.unstable_createRoot(domNode).render(<App />);
 ```
+<br>
 
+> ### useTransition Hook
 
+It helps when you have **slow state updates** that can make the app feel laggy.
+
+It allows you to mark some `state updates` as **“non-urgent”** so the UI can still remain **smooth and responsive**.
 
 <br>
 
+**Why do we need it?**
+
+When React state updates:
+
+* Some updates are **urgent** (like typing in input, clicking button)
+* Some updates are **slow / heavy** (like filtering huge data, changing big UI sections)
+
+If heavy updates happen immediately → **UI freezes**.
+
+`useTransition` solves this by telling React:
+
+> "Do this heavy update in background. Keep UI interactive."
+
+<br>
+
+**✅ Example Use Case**
+
+**Typing in a search input** but the **filtered list** is big.
+
+You want:
+
+* Input typing → **smooth**
+* List update → **can happen slightly later**
+
+<br>
+
+**How it’s used**
+
+```jsx
+import { useState, useTransition } from "react";
+
+function Search() {
+  const [query, setQuery] = useState("");
+  const [list, setList] = useState(bigDataList);
+
+  const [isPending, startTransition] = useTransition();
+
+  function handleSearch(e) {
+    setQuery(e.target.value); // urgent update
+
+    startTransition(() => {
+      // non-urgent update
+      const filtered = bigDataList.filter(item =>
+        item.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setList(filtered);
+    });
+  }
+
+  return (
+    <>
+      <input value={query} onChange={handleSearch} />
+      {isPending && <p>Updating list...</p>}
+      <ul>
+        {list.map(item => <li key={item}>{item}</li>)}
+      </ul>
+    </>
+  );
+}
+```
+
+<br>
+
+**What is returned?**
+
+| value                       | meaning                                                      |
+| --------------------------- | ------------------------------------------------------------ |
+| `isPending`                 | `true` while transition is in progress (you can show loader) |
+| `startTransition(callback)` | Wrap your slow state updates here                            |
+
+
+<br>
 
 > ### What is the difference between async mode and concurrent mode?
 Both refers the same thing. Previously concurrent Mode being referred to as "Async Mode" by React team. The name has been changed to highlight React’s ability to perform work on different priority levels. So it avoids the confusion from other approaches to Async Rendering.
 
-
 <br>
-
 
 > ### What are the differences between useEffect and useLayoutEffect hooks?
 
