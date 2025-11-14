@@ -108,7 +108,7 @@ Below is the code for the creation of index.html file which serves as main file
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  output: 'export', // this part specific means that we are going to build static webiste having roote as index.html , // ✅ enables static export
   distDir: 'build',
   assetPrefix: process.env.NODE_ENV === 'production' ? './' : undefined,
 };
@@ -118,7 +118,7 @@ export default nextConfig;
 
 <br>
 
-Example 1: Static website with api calling on server side
+**Example 1: Static website with api calling on server side**
 
 <details>
 
@@ -201,7 +201,7 @@ Note: Here api is called at the build time and in build folder you will get the 
 
 <br>
 
-Example 2: Static website with api calling on client side
+**Example 2: Static website with api calling on client side**
 
 <details>
 
@@ -300,13 +300,298 @@ export default function Home() {
 
 <br>
 
-Example 3: Static website with static route
+**Example 3: Static website with static route**
 
 There is nothing new
 
 <br>
 
-Example 4: Static website with dynamic route + api calls
+**Example 4: Static website with dynamic route**
+
+Folder structure
+
+```
+my-app/
+ ├─ app/
+ │   ├─ page.js
+ │   └─ blog/
+ │       ├─ [slug]/
+ │       │   └─ page.js
+ │       └─ page.js
+ ├─ package.json
+ └─ ...
+```
+
+```js
+// app/page.js
+
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <main>
+      <h1>Welcome to my static site</h1>
+      <Link href="/blog/hello-world">Go to Hello World blog</Link>
+    </main>
+  );
+}
+```
+
+```js
+// app/blog/page.js
+
+import Link from "next/link";
+
+export default function Blog() {
+  return (
+    <main>
+      <h1>Blog Page</h1>
+      <ul>
+        <li><Link href="/blog/hello-world">Hello World</Link></li>
+        <li><Link href="/blog/nextjs">Next.js</Link></li>
+      </ul>
+    </main>
+  );
+}
+```
+
+```js
+// app/blog/[slug]/page.js
+
+export async function generateStaticParams() {
+  return [
+    { slug: 'hello-world' },
+    { slug: 'second-post' },
+  ];
+}
+
+export default function BlogPost({ params }) {
+  return (
+    <main>
+      <h1>Blog Post: {params.slug}</h1>
+      <p>This page is statically generated for the slug: <b>{params.slug}</b></p>
+    </main>
+  );
+}
+```
+
+
+![Build structure](https://github.com/user-attachments/assets/fc065d01-04e2-402b-81f5-a484b5139c13)
+
+
+
+<br>
+
+
+**Example 5: Static website with dynamic route + api calls**
+
+Foder Structure
+```
+my-app/
+ ├─ app/
+ │   ├─ page.js
+ │   └─ blog/
+ │       ├─ [slug]/
+ │       │   └─ page.js
+ │       └─ page.js
+ ├─ package.json
+ └─ ...
+```
+
+```js
+// app/blog/page.js
+
+import Link from "next/link";
+
+export default async function Blog() {
+  // Fetch data at build time
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+    cache: "force-cache", // ensures static build
+  });
+  const posts = await res.json();
+
+  // Limit to first 5 posts for simplicity
+  const limitedPosts = posts.slice(0, 3);
+
+  return (
+    <main>
+      <h1>Blog Page</h1>
+      <ul>
+        {limitedPosts.map((post) => (
+          <li key={post.id}>
+            <Link href={`/blog/${post.id}`}>{post.title}</Link>
+          </li>
+        ))}
+      </ul>
+    </main>
+  );
+}
+```
+
+```js
+// app/blog/[slug]/page.js
+
+export async function generateStaticParams() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+    cache: "force-cache",
+  });
+  const posts = await res.json();
+  const limitedPosts = posts.slice(0, 3);
+
+  return limitedPosts.map((post) => ({
+    slug: post.id.toString(),
+  }));
+}
+
+export default async function BlogPost({ params }) {
+  const res = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${params.slug}`,
+    { cache: "force-cache" } // ensures it's built statically
+  );
+  const post = await res.json();
+
+  return (
+    <main>
+      <h1>{post.title}</h1>
+      <p>{post.body}</p>
+      <p>
+        <b>Post ID:</b> {params.slug}
+      </p>
+    </main>
+  );
+}
+```
+
+![Build UI](https://github.com/user-attachments/assets/8835f6ab-99b9-4300-be53-1ea5b1632d2e)
+
+<br>
+
+###  ISR (Incremental Static Regeneration)**
+
+This will let your static site **rebuild pages automatically** after a set time (without needing a full redeploy).
+
+**Folder structure**
+```
+my-app/
+ ├─ app/
+ │   ├─ page.js
+ │   └─ blog/
+ │       ├─ [slug]/
+ │       │   └─ page.js
+ │       └─ page.js
+ ├─ package.json
+ └─ ...
+```
+
+
+
+```jsx
+// `app/page.js`
+import Link from "next/link";
+
+export default function Home() {
+  return (
+    <main>
+      <h1>Welcome to my ISR static site</h1>
+      <Link href="/blog">Go to Blog</Link>
+    </main>
+  );
+}
+```
+
+<br>
+
+**Static generation + ISR (revalidate every 60 seconds)**
+```jsx
+// `app/blog/page.js`
+import Link from "next/link";
+
+export const revalidate = 60; // ⏱️ Rebuild every 60s if data changes, this caching of page
+
+export default async function Blog() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+    next: { revalidate: 60 }, // revalidate in background, basically this is caching of api
+  });
+  const posts = await res.json();
+  const limitedPosts = posts.slice(0, 5);
+
+  return (
+    <main>
+      <h1>Blog Page (ISR enabled)</h1>
+      <ul>
+        {limitedPosts.map((post) => (
+          <li key={post.id}>
+            <Link href={`/blog/${post.id}`}>{post.title}</Link>
+          </li>
+        ))}
+      </ul>
+    </main>
+  );
+}
+```
+
+<br>
+
+**Dynamic routes that also revalidate automatically**
+```jsx
+// `app/blog/[slug]/page.js`
+export const revalidate = 60; // ⏱️ Rebuild each post every 60s
+
+export async function generateStaticParams() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  const posts = await res.json();
+  const limitedPosts = posts.slice(0, 5);
+
+  return limitedPosts.map((post) => ({
+    slug: post.id.toString(),
+  }));
+}
+
+export default async function BlogPost({ params }) {
+  const res = await fetch(
+    `https://jsonplaceholder.typicode.com/posts/${params.slug}`,
+    { next: { revalidate: 60 } }
+  );
+  const post = await res.json();
+
+  return (
+    <main>
+      <h1>{post.title}</h1>
+      <p>{post.body}</p>
+      <p>
+        <b>Post ID:</b> {params.slug}
+      </p>
+    </main>
+  );
+}
+```
+
+### Note
+> ⚠️ Note: `npm run export` (static export) **does not support ISR**
+
+Means we have to remove the below code from next.config.js, becuase isr needs server we can not use the build file of html,js,css
+
+```js
+const nextConfig: NextConfig = {
+  output: 'export', // remove this part
+  assetPrefix: process.env.NODE_ENV === 'production' ? './' : undefined, // remove this part also
+};
+```
+
+> To test ISR, you must **run the Next.js server** (`npm start`) or **deploy to Vercel**.
+
+
+![Build UI](https://github.com/user-attachments/assets/583cbe2c-1251-43d7-8c15-4af9361d4084)
+
+
+<br>
+
+### ISR in action
+✅ When you open `/blog` or `/blog/1`, they’re pre-rendered.
+✅ After 60 seconds, the next visitor triggers **background regeneration**.
+✅ The new static page replaces the old one automatically.
+
+You get **fresh content** — without a full rebuild or SSR.
 
 
 <br>
