@@ -22,6 +22,8 @@ https://www.bigocheatsheet.com/
 
 > ### Measuring Space Complexity in Practice
 
+<details>
+
 - **Variables**: Consider the memory used by variables you create. For example:
   ```js
   let x = 42; // O(1), fixed space for a number
@@ -42,10 +44,14 @@ https://www.bigocheatsheet.com/
   let obj = { a: 1, b: 2, c: 3 }; // O(m), where m is the number of keys
   ```
 
+</details>
+
 <br>
 
 > ### The difference between various notations
 The differences between the time complexities \(O(1)\), \(O(log n)\), \(O(n)\), \(O(nlog n)\), and \(O(n^2)\) describe how the runtime of an algorithm scales with the size of the input \(n\). Here's a breakdown of each:
+
+<details>
 
 1. **\(O(1)\) - Constant Time Complexity**:
    - The runtime of the algorithm does not depend on the input size. No matter how large \(n\) is, it always takes a constant amount of time to complete.
@@ -69,6 +75,8 @@ The differences between the time complexities \(O(1)\), \(O(log n)\), \(O(n)\), 
 
 ### Summary of Growth:
 - \(O(1)\) < \(O(log n)\) < \(O(n)\) < \(O(n log n)\) < \(O(n^2)\)
+
+</details>
 
 <br>
 
@@ -712,20 +720,20 @@ Given a binary array nums, return the maximum length of a contiguous subarray wi
 
 Example 1:
 
-**Input**: nums = [0,1]
-**Output**: 2
+**Input**: nums = [0,1]\
+**Output**: 2\
 **Explanation**: [0, 1] is the longest contiguous subarray with an equal number of 0 and 1.
 
 Example 2:
 
-**Input**: nums = [0,1,0]
-**Output**: 2
-**Explanation**: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.
+**Input**: nums = [0,1,0]\
+**Output**: 2\
+**Explanation**: [0, 1] or [1, 0] is a longest contiguous subarray with equal number of 0 and 1.
 
 Example 3:
 
-**Input**: nums = [0,1,1,1,1,1,0,0,0]
-**Output**: 6
+**Input**: nums = [0,1,1,1,1,1,0,0,0]\
+**Output**: 6\
 **Explanation**: [1,1,1,0,0,0] is the longest contiguous subarray with equal number of 0 and 1.
 
 
@@ -1154,7 +1162,7 @@ We maintain a variable `prev` to store the index of the last occupied seat and c
 
 > ##  4. Two Sum Algorithm
 
-**it is advance case of two pointer alogo, which is specially used when given sum of two number equal to required no.**
+**it is advance case of two pointer algo, which is specially used when given sum of two number equal to required no.**
 
 Simple logic - It works like create a `object` and `add keys` in it with `value as index or just count` of array, then iterate over array and check if `(sum - current number)` exist in the obejct.
 
@@ -1226,7 +1234,7 @@ console.log(maxOperations([1,2,3,4],5))
 
 You are given a list of songs where the ith song has a duration of time[i] seconds.
 
-Return the number of pairs of songs for which their total duration in seconds is divisible by 60. Formally, we want the number of indices i, j such that i < j with (time[i] + time[j]) % 60 == 0.
+Return the number of pairs of songs for which their total duration in seconds is divisible by 60. Formally, we want the number of indices i, j such that i < j with time[i] + time[j]) % 60 == 0.
 
 Example 1:
 

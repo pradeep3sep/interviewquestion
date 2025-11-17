@@ -686,6 +686,26 @@ interface NumberDictionary {
 <br>
 <br>
 
+> ### Readonly<Obj>
+
+Create a new object type where all properties of the original object are readonly.
+
+Useful for creating immutable data structures and ensuring data integrity.
+
+Can also be used with arrays to create immutable arrays.
+
+```ts
+type User = { id: number; name: string; }
+type ReadonlyUser = Readonly<User>
+// ^= { readonly id: number; readonly name: string; }
+type NamesArray = string[]
+type ReadonlyNames = Readonly<NamesArray>
+// ^= readonly string[]
+```
+
+<br>
+<br>
+
 ### The `ReadonlyArray` Type
 
 The `ReadonlyArray` is a special type that describes arrays that shouldn't be changed.
@@ -716,6 +736,162 @@ function doStuff(values: readonly string[]) {
 }
 
 ```
+<br>
+<br>
+
+> ### Pick<Obj, Keys>
+
+Create a new object type that contains only the specified keys from the original object.
+
+**Opposite of Omit.**
+
+```ts
+type User = { id: number; name: string; age: number; }
+type UserFormFields = Pick<User, 'name' | 'age'>
+// ^= { name: string; age: number; }
+```
+
+<br>
+<br>
+
+> ### Omit<Obj, Keys>
+
+Create a new object type that contains all properties except the specified keys from the original object.
+
+**Opposite of Pick**
+
+```ts
+type User = { id: number; name: string; age: number; }
+type UserWithoutAgeOrName = Omit<User, 'age' | 'name'>
+// ^= { id: number; }
+```
+
+<br>
+<br>
+
+### Partial<Obj>
+
+Constructs a type with `all properties` of Type set to `optional`.
+
+Basically all keys are optional
+
+```js
+interface Todo {
+  title: string;
+  description: string;
+}
+
+function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
+  return { ...todo, ...fieldsToUpdate };
+}
+
+const todo1 = {
+  title: "organize desk",
+  description: "clear clutter",
+};
+
+const todo2 = updateTodo(todo1, {
+  description: "throw out trash",
+});
+```
+<br>
+<br>
+
+> ### Required<Obj>
+
+Create a new object type where all properties of the original object are required.
+
+**Opposite of Partial.**
+
+```ts
+type PartialUser = { id?: number; name?: string; age?: number; }
+type RequiredUser = Required<PartialUser>
+// ^= { id: number; name: string; age: number; }
+```
+
+<br>
+<br>
+
+> ### Parameters<Func>
+
+Extract the parameter types from a function type as a **tuple**.
+
+Useful for creating wrapper functions, currying, or when you need to access the type of
+individual parameters from libraries that don't expose those types.
+
+```ts
+type GreetFunction = (name: string, age: number) => string
+type GreetParams = Parameters<GreetFunction>
+// ^= [string, number]
+```
+
+<br>
+<br>
+
+> ### Extract<Union, Members>
+
+Create a new union type that contains only the specified members from the original union.
+
+Useful for creating subsets of union types without needing to redefine every member. Use Extract whenever your union is derived from the existing union type.
+
+**Opposite of Exclude, and similar to Pick**
+
+```ts
+type Colors = 'red' | 'green' | 'blue' | 'yellow' | 'orange'
+type RedishColors = Extract<Colors, "red" | "yellow" | "orange">
+// ^= 'red' | 'yellow' | 'orange'
+```
+
+<br>
+<br>
+
+> ### Exclude<Union, Members>
+
+Create a new union type that contains all members except the specified members from the original
+union.
+
+Useful for creating subsets of union types without needing to redefine every member. Use Exclude whenever your union is derived from the existing union type.
+
+**Opposite of Extract, and similar to Omit.**
+
+```ts
+type Colors = 'red' | 'green' | 'blue' | 'yellow' | 'orange'
+type RedishColors = Exclude<Colors, "blue" | "green">
+// ^= 'red' | 'yellow' | 'orange'
+```
+
+<br>
+<br>
+
+> ### NonNullable<T>
+
+Remove null and undefined from the type.
+
+Useful for type narrowing. Commonly used in optional chaining and null checking scenarios.
+
+This is similar to **Required**, but it removes null and undefined from the type while Required just makes all properties required (even if the value of those properties can still be null or undefined).
+
+```ts
+type MaybeString = string | null | undefined
+type DefiniteString = NonNullable<MaybeString>
+// ^= string
+```
+
+<br>
+<br>
+
+> ### Awaited<PromiseType>
+
+Get the type that a Promise resolves to, recursively unwrapping nested Promises.
+
+Perfect for working with async functions and it handles nested Promises automatically.
+
+```ts
+type NestedPromise = Promise<Promise<number>>
+type UnwrappedNumber = Awaited<NestedPromise>
+// ^= number
+```
+
 <br>
 <br>
 
@@ -1042,32 +1218,6 @@ When to Use Type Casting
 - You know more about the type than TypeScript can infer
 - You're narrowing types manually (like DOM elements or API results)
 
-<br>
-<br>
-
-#### Partial Type in TS
-
-Constructs a type with `all properties` of Type set to `optional`. 
-
-```js
-interface Todo {
-  title: string;
-  description: string;
-}
-
-function updateTodo(todo: Todo, fieldsToUpdate: Partial<Todo>) {
-  return { ...todo, ...fieldsToUpdate };
-}
-
-const todo1 = {
-  title: "organize desk",
-  description: "clear clutter",
-};
-
-const todo2 = updateTodo(todo1, {
-  description: "throw out trash",
-});
-```
 <br>
 <br>
 
