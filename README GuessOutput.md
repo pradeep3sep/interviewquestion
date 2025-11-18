@@ -476,21 +476,28 @@ for (var i = 0; i < 5; i++) {
   <summary>Answer</summary>
   <p></p>
 
-log for the `first`, it will show value after every second
+log for the `first`, it will show value after every second\
 0\
 1\
 2\
 3\
 4
 
-log for the `second`, it will show value after every second
+log for the `second`, it will show value after every second\
 5\
 5\
 5\
 5\
 5
 
-log for the `third`, it will show at instant
+log for the `third`, it will show at instant\
+0\
+1\
+2\
+3\
+4
+
+log for the `fourth`, it will show value after every second\
 0\
 1\
 2\
@@ -657,10 +664,10 @@ async function func() {
 console.log(func());
 ```
 
-1: Promise {<fulfilled>: 10} \
+1: Promise {`<fulfilled>`: 10} \
 2: 10 \
 3: SyntaxError \
-4: Promise {<rejected>: 10}
+4: Promise {`<rejected>`: 10}
 
 <details>
   <summary>Answer</summary>
@@ -686,16 +693,16 @@ async function func() {
 console.log(func());
 ```
 
-1: Promise {<fulfilled>: 10} \
+1: Promise {`<fulfilled>`: 10} \
 2: 10 \
 3: SyntaxError \
-4: Promise {<resolved>: undefined}
+4: Promise {`<resolved>`: undefined}
 
 <details>
   <summary>Answer</summary>
   <p>Answer: 4 </p>
 
-**Keep in mind that in 37, we do return certain value so Promise {<fulfilled>: 10} but in above we are not returning anything(ie undefined) so Promise {<resolved>: undefined}**
+**Keep in mind that in 37, we do return certain value so Promise {`<fulfilled>`: 10} but in above we are not returning anything(ie undefined) so Promise {`<resolved>`: undefined}**
 
 The await expression returns value 10 with promise resolution and the code after each await expression can be treated as existing in a .then callback. In this case, there is no return expression at the end of the function. Hence, the default return value of undefined is returned as the resolution of the promise. The above async function is equivalent to below expression,
 ```js
@@ -804,7 +811,7 @@ console.log(freddie.colorChange('orange'));
 
 </details>
 
-### Question 44
+### ⭐️ Question 44 - reason
 ```js
 function Person(firstName, lastName) {
   this.firstName = firstName;
@@ -1073,8 +1080,34 @@ With the `defineProperty` method, we can add new properties to an object, or mod
 Properties added using the `defineProperty` method are immutable by default. You can override this behavior using the `writable`, `configurable` and `enumerable` properties. This way, the `defineProperty` method gives you a lot more control over the properties you're adding to an object.
 </details>
 
+### Question 54
 
-### ⭐️ Question 54
+```js
+const info = {
+  [Symbol('a')]: 'b',
+};
+
+console.log(info);
+console.log(Object.keys(info));
+```
+
+
+- A: {Symbol('a'): 'b'} and ["{Symbol('a')"]
+- B: {} and []
+- C: { a: "b" } and ["a"]
+- D: {Symbol('a'): 'b'} and []
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer D</p>
+
+  A `Symbol` is not `enumerable` ie can not run loop over it or non-iterable. The `Object.keys` method returns all `enumerable key` properties on an object. The Symbol won't be visible, and an empty array is returned. When `logging` the entire object, `all properties will be visible`, `even non-enumerable ones`.
+
+You can still `access symbols` using the `Object.getOwnPropertySymbols()` method).
+</details>
+
+
+### ⭐️ Question 55
 
 ```js
 const settings = {
@@ -1106,7 +1139,7 @@ The second argument of `JSON.stringify` is the replacer. The `replacer` can eith
 
 
 
-### Question 55
+### Question 56
 
 ```js
 let num = 10;
@@ -1137,7 +1170,7 @@ console.log(num2);
 </details>
 
 
-### Question 56
+### Question 57
 ```js
 const value = { number: 10 };
 
@@ -1171,7 +1204,7 @@ The fourth time, we pass the value object again. x.number was previously modifie
 </details>
 
 
-### Question 57
+### Question 58
 
 ```js
 async function getData() {
@@ -1208,7 +1241,7 @@ console.log(data);
 
 </details>
 
-### Question 58
+### Question 59
 
 ```js
 const add = () => {
@@ -1242,33 +1275,6 @@ console.log(addFunction(5 * 2));
   The `third time`, we pass `5 * 2` to the function which gets evaluated to `10`.
 </details>
 
-
-### Question 59
-
-```js
-class Person {
-  constructor(name) {
-    this.name = name;
-  }
-}
-
-const member = new Person('John');
-console.log(typeof member);
-```
-
-- A: "class"
-- B: "function"
-- C: "object"
-- D: "string"
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer: C</p>
-
-Calling a function constructor with `new` results in the creation of an instance of `Person`, `typeof` keyword returns `"object"` for an instance. `typeof member` returns `"object"`.
-
-</details>
-
 ### ⭐️ Question 60
 
 ```js
@@ -1282,7 +1288,7 @@ console.log([10,20,30,40][1,3])
   The last element from the second array is used as the index to get the value from the first array
 </details>
 
-### ⭐️ Question 60
+### ⭐️ Question 61
 
 ```js
 [1, 2, 3, 4].reduce((x, y) => console.log(x, y));
@@ -1312,7 +1318,7 @@ On the fourth call, we again don't return from the callback function. The accumu
 </details>
 
 
-### Question 61
+### Question 62
 
 ```js
 class Person {
@@ -1342,34 +1348,6 @@ console.log(member.name);
 
   We can set classes equal to other classes/function constructors. In this case, we set `Person` equal to `AnotherPerson`. The name on this constructor is `Sarah`, so the name property on the new `Person` instance `member` is `"Sarah"`.
 </details>
-
-
-### Question 62
-
-```js
-const info = {
-  [Symbol('a')]: 'b',
-};
-
-console.log(info);
-console.log(Object.keys(info));
-```
-
-
-- A: {Symbol('a'): 'b'} and ["{Symbol('a')"]
-- B: {} and []
-- C: { a: "b" } and ["a"]
-- D: {Symbol('a'): 'b'} and []
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer D</p>
-
-  A `Symbol` is not `enumerable` ie can not run loop over it or non-iterable. The `Object.keys` method returns all `enumerable key` properties on an object. The Symbol won't be visible, and an empty array is returned. When `logging` the entire object, `all properties will be visible`, `even non-enumerable ones`.
-
-You can still `access symbols` using the `Object.getOwnPropertySymbols()` method).
-</details>
-
 
 ### Question 63
 
@@ -2232,33 +2210,6 @@ undefined
 
 </details>
 
-### Question 90
-```js
-// No Strict Mode
-  name = "Jayesh"; // window.name ( property of window object )
-  console.log(delete name);
-
-  const displayName = (function (name) {
-    console.log(delete name); // Local variable of function
-    return name;
-  })("JC");
-
-  console.log(displayName);
-
-  // 👍A) true, false, JC
-  // 💡B) true, true, undefined
-  // 💖C) false, false, JC
-  // 😀D) false, true, undefined
-```
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer is A</p>
-
-Answer is A) true, false, JC because delete keyword deletes only property of an object. delete keyword can not delete local variables ( declared with var, let, and const ) and functions. delete keyword can delete global variables as they are property of window object.
-</details>
-
-
 ### ⭐️ Question 91
 
 ```js
@@ -2359,21 +2310,7 @@ person.method(displayName);
 
 <details>
   <summary>Answer</summary>
-  <p>Answer is C)</p>
-
-
-```js
-  // 👇 We can get JC as an output by attaching call method with fn() inside person method :-
-
-  const person2 = {
-    name: "JC",
-    method(fn) {
-      fn.call(this); // borrowing function and passing "this" of person2 object.
-    },
-  };
-
-  person2.method(displayName); // JC
-```
+  <p>Answer is B</p>
 </details>
 
 
@@ -2430,32 +2367,7 @@ person.method();
 
 <details>
   <summary>Answer</summary>
-  <p>Answer is C)</p>
-
-
-The correct answer is: **💖C) undefined**  
-
-### Explanation:
-
-- The `person` object sets `method` to `displayName.bind(this)`. Here, `this` refers to the global `this` in the context of the script, not the `person` object.
-
-Correction
-
-```js
-var name = "Jayesh";
-
-function displayName() {
-    console.log(this.name);
-}
-
-const person = {
-    name: "JC",
-    method: displayName, // don't bind!
-};
-
-person.method(); // ✅ Logs: "JC"
-```
-
+  <p>Answer is A</p>
 </details>
 
 ### Question 96
@@ -2488,34 +2400,6 @@ show();
   Answer is C) JC because a function which is bound with bind keyword can not be re-bound with other new context, bind chaining does not exist.
   once the function is bound to a particular object, It will always be bound to that object no matter how many times it's further bounded.
   */
-```
-</details>
-
-### ⭐️ Question 97
-
-```js
-for (var i = 0; i < 5; i++) {
-    setTimeout((i) => {
-        console.log(i);
-      },1000,i);
-}
-
-// 👍A) 0 1 2 3 4      💡B) 5 5 5 5 5
-// 💖C) 4 4 4 4 4      😀D) 0 1 2 3 4 5
-```
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer is A)</p>
-
- ```js
-/*
-  Answer is A) 0 1 2 3 4 because as we are passing i ( 0 to 4 ) value as an argument to setTimeout callback function
-  therefore this will console different values of i from 0 to 4.
-
-  if there was no argument passed to setTimeout callback function then the output would be 5 5 5 5 5 because variables declared 
-  with var keyword are function-scoped or globally-scoped but not blocked scoped. Inner function i would point to the updated value of i that is 5.
-*/
 ```
 </details>
 
@@ -3969,7 +3853,7 @@ So, in summary:
 I hope this clears up any confusion! Let me know if you need further clarification.
 </details>
 
-### Question 141
+### ⭐️ Question 141
 
 ```js
 const arr = [1,,,2]
