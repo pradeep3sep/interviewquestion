@@ -28,9 +28,38 @@ onDrop
 https://www.geeksforgeeks.org/difference-between-react-memo-and-usememo-in-react/
 ```
 
+```js
+import { useMemo } from 'react';
+
+function TodoList({ todos, tab }) {
+  const visibleTodos = useMemo(
+    () => filterTodos(todos, tab),
+    [todos, tab]
+  );
+  // ...
+}
+```
+
+
+```js
+function Child({ count }) {
+  console.log("Child rendered");
+  return <h2>Count: {count}</h2>;
+}
+
+export default React.memo(Child);
+```
+
+```js
+const Child = React.memo(({ value }) => {
+  console.log("Child rendered");
+  return <div>{value}</div>;
+});
+```
+
 <br>
 
-**Note:**
+> ### Note:
 
 1. React in-line style has double bracket, `first` one is for the `dynamic value` and `second` one is that react wants value as `object`.
 2. Joining label and input, we use `htmlFor=""`, not `for=""`.
@@ -1265,6 +1294,29 @@ fragments in JS
 
 <br>
 
+> ### What are Keyed Fragments?
+
+The Fragments declared with the explicit <React.Fragment> syntax may have keys. The general use case is mapping a collection to an array of fragments as below,
+
+```jsx
+function Glossary(props) {
+  return (
+    <dl>
+      {props.items.map((item) => (
+        // Without the `key`, React will fire a key warning
+        <React.Fragment key={item.id}>
+          <dt>{item.term}</dt>
+          <dd>{item.description}</dd>
+        </React.Fragment>
+      ))}
+    </dl>
+  );
+}
+```
+
+**Note**: key is the only attribute that can be passed to Fragment. In the future, there might be a support for additional attributes, such as event handlers.
+
+<br>
 
 > ### How to use innerHTML in React?
 The `dangerouslySetInnerHTML` attribute is React's replacement for using `innerHTML` in the browser DOM. Just like `innerHTML`, it is risky to use this attribute considering cross-site scripting (XSS) attacks. You just need to pass a `__html` object as key and HTML text as value.
@@ -1353,6 +1405,8 @@ User.propTypes = {
 
 > ### What will happen if you use props in initial state?
 
+<details>
+
 ```jsx
 import React, { useState } from 'react';
 
@@ -1404,6 +1458,8 @@ const MyComponent = (props) => {
 
 export default MyComponent;
 ```
+
+</details>
 
 <br>
 
@@ -1943,31 +1999,6 @@ If props.color is not provided then it will set the default value to 'red'. i.e,
 
 <br>
 
-> ### What are Keyed Fragments?
-
-The Fragments declared with the explicit <React.Fragment> syntax may have keys. The general use case is mapping a collection to an array of fragments as below,
-
-```jsx
-function Glossary(props) {
-  return (
-    <dl>
-      {props.items.map((item) => (
-        // Without the `key`, React will fire a key warning
-        <React.Fragment key={item.id}>
-          <dt>{item.term}</dt>
-          <dd>{item.description}</dd>
-        </React.Fragment>
-      ))}
-    </dl>
-  );
-}
-```
-
-**Note**: key is the only attribute that can be passed to Fragment. In the future, there might be a support for additional attributes, such as event handlers.
-
-<br>
-
-
 > ### What are the limitations with HOCs?
 
 - **Prop Clashing:**
@@ -2177,9 +2208,7 @@ render() {
 
 The same applies for `select` and `textArea` inputs. But you need to use **defaultChecked** for `checkbox` and `radio` inputs.
 
-
 <br>
-
 
 > ### What is Concurrent Rendering?
 The Concurrent rendering makes React apps to be more responsive by rendering component trees without blocking the main UI thread. It allows React to interrupt a long-running render to handle a high-priority event. i.e, When you enabled concurrent Mode, React will keep an eye on other tasks that need to be done, and if there's something with a higher priority it will pause what it is currently rendering and let the other task finish first. You can enable this in two ways,
@@ -2196,14 +2225,6 @@ ReactDOM.unstable_createRoot(domNode).render(<App />);
 <br>
 
 > ### useTransition Hook
-
-It helps when you have **slow state updates** that can make the app feel laggy.
-
-It allows you to mark some `state updates` as **“non-urgent”** so the UI can still remain **smooth and responsive**.
-
-<br>
-
-**Why do we need it?**
 
 When React state updates:
 
@@ -2425,113 +2446,22 @@ It is also known as one-way data flow, which means the data has one, and only on
 
 <br>
 
-> ### What does eject do in create react app?
-The Create React App documentation characterizes this script as a “one-way operation” and warns that “once you eject, you can’t go back!” Create React App comes with an excellent configuration that helps you build your React app with the best practices in mind to optimize it.
-
-However, we may have to customize the pre-built react-scripts with additional configurations in some advanced scenarios. The eject script gives you full control over the React app configuration. For example, you can customize the webpack or Babel configuration according to a specific need by ejecting the React app.
-
-Running the eject script will remove the single build dependency from your project. That means it will copy the configuration files and the transitive dependencies (e.g., webpack, Babel, etc.) as dependencies in the package.json file. If you do that, you’ll have to ensure that the dependencies are installed before building your project.
-
-After running the eject command, it won’t be possible to run it again, because all scripts will be available except the eject one. Use this command only if you need to. Otherwise, stick with the default configuration. It’s better, anyway.
-
-
-<br>
-
-
 > ### Why to avoid using setState() after a component has been unmounted?
 
 - Calling setState() after a component has unmounted will emit a warning. The "setState warning" exists to help you catch bugs, because calling setState() on an unmounted component is an indication that your app/component has somehow failed to clean up properly.
 - Specifically, calling setState() in an unmounted component `means` that your `app is still holding a reference to the component after the component has been unmounted` - which often `indicates a memory leak`.
 
-
 <br>
-
 
 > ### Differentiate between stateful and stateless components?
 - Stateful and stateless components have many different names. They are also known as: `Container vs Presentational components` and `Smart vs Dumb components`.
 - The literal difference is that one has state, and the other does not. That means the stateful components are keeping track of changing data, while stateless components print out what is given to them via props, or they always render the same thing.
 
-
-<br>
-
-
-> ### What are the benefits of using HOC?
-  Benefits:
-- Importantly they provided a way to reuse code when using ES6 classes.
-- No longer have method name clashing if two HOC implement the same one.
-- It is easy to make small reusable units of code, thereby supporting the single responsibility principle.
-- Apply multiple HOCs to one component by composing them. The readability can be improve using a compose function like in Recompose.
-
-  Problems:
-- Boilerplate code like setting the displayName with the HOC function name e.g. (withHOC(Component)) to help with debugging.
-- Ensure all relevant props are passed through to the component.
-- Hoist static methods from the wrapped component.
-- It is easy to compose several HOCs together and then this creates a deeply nested tree making it difficult to debug.
-
-<br>
-
-
-> ### Hook for listening click outside
-
-```jsx
-import { useEffect, useRef } from "react";
-
-export function useOutsideClick(handler, listenCapturing = true) {
-  const ref = useRef();
-
-  useEffect(
-    function () {
-      function handleClick(e) {
-        if (ref.current && !ref.current.contains(e.target)) {
-          handler();
-          // the handler is any function which we want to excute when we click outside, which can be any close function
-        }
-      }
-
-      document.addEventListener("click", handleClick, listenCapturing);
-
-      return () =>
-        document.removeEventListener("click", handleClick, listenCapturing);
-    },
-    [handler, listenCapturing]
-  );
-
-  return ref;
-}
-```
-
-```jsx
-
-// In app.jsx
-import React, { useState } from "react";
-import { useOutsideClick } from "./useOutsideClick";
-
-export function App() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
-
-  const ref = useOutsideClick(handleClose);
-
-  return (
-    <div>
-      <button onClick={() => setIsOpen(!isOpen)}>Toggle Dropdown</button>
-      {isOpen && (
-        <div ref={ref} className="dropdown-menu">
-          <p>Dropdown Content</p>
-        </div>
-      )}
-    </div>
-  );
-}
-```
-
-
 <br>
 
 > ### Compound Pattern in react
+
+<details>
 
 ```jsx
 
@@ -2579,14 +2509,15 @@ Counter.Increase = Increase;
 Counter.Decrease = Decrease;
 
 export default Counter;
-
-
 ```
+</details>
 
 <br>
 
 
 > ### Below is trick to optimize the slowcomponent or we say that we prevent the rerendering of the slow component without the useMemo or useCallback
+
+<details>
 
 ```jsx
 import { useState } from "react";
@@ -2638,6 +2569,9 @@ export default function Test() {
   );
 }
 ```
+
+</details>
+
 In commented it is earlier version, the non-commented is optimized version.
 
 It's re-rendered is optimized, you can check it in profiler.
@@ -2645,44 +2579,6 @@ It's re-rendered is optimized, you can check it in profiler.
 It works because, The component has been passed as a children prop, and so what this means is that this component here was actually created before the Counter component re-rendered. And so therefore, there's no way in which this component could have been affected by the state change in the counter. 
 
 
-<br>
-
-
-> ### Children types
-React can render `children` from most types. In most cases it's either an `array` or a `string`.
-
-#### String
-```html
-<div>Hello World!</div>
-```
-#### Array
-
-```jsx
-<div>{["Hello ", <span>World</span>, "!"]}</div>
-```
-
-
-<br>
-
-
-> ### Array as children
-Providing an array as `children` is a very common. It's how lists are drawn in React.
-
-We use `map()` to create an array of React Elements for every value in the array.
-
-```jsx
-<ul>
-  {["first", "second"].map((item) => (
-    <li>{item}</li>
-  ))}
-</ul>
-```
-
-That's equivalent to providing a literal `array`.
-
-```jsx
-<ul>{[<li>first</li>, <li>second</li>]}</ul>
-```
 <br>
 
 > ### What is the difference between React Node, React Element, and a React Component?
@@ -2772,102 +2668,6 @@ function Search() {
 
 <br>
 
-> ### How to detect 'click' outside React component?
-
-#### Approach: Using `useRef` & `useEffect`
-```jsx
-import { useEffect, useRef } from "react";
-
-function OutsideClickDetector({ onClose }) {
-  const wrapperRef = useRef(null);
-
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
-        onClose(); // Trigger the close action
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [onClose]);
-
-  return (
-    <div ref={wrapperRef} className="p-4 border rounded">
-      Click outside me to close
-    </div>
-  );
-}
-
-export default function App() {
-  return (
-    <OutsideClickDetector onClose={() => alert("Clicked outside!")} />
-  );
-}
-```
-<br>
-
-#### **⚡ Alternative: Using a Custom Hook**
-You can create a reusable **`useClickOutside`** hook.
-
-```jsx
-import { useEffect, useRef } from "react";
-
-function useClickOutside(ref, callback) {
-  useEffect(() => {
-    function handleClickOutside(event) {
-      if (ref.current && !ref.current.contains(event.target)) {
-        callback();
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [callback]);
-}
-
-export default function App() {
-  const ref = useRef(null);
-  useClickOutside(ref, () => alert("Clicked outside!"));
-
-  return <div ref={ref} className="p-4 border rounded">Click outside me</div>;
-}
-```
-<br>
-
-> ### What is the difference between npx and npm?
-
-### **`npx` vs `npm` – What's the Difference?**  
-
-#### `npm` (Node Package Manager)
-`npm` is used to **install, manage, and run packages** globally or locally in a project.
-
-✅ **Key Features of `npm`:**  
-- Installs dependencies (`node_modules/` folder).  
-- Adds dependencies to `package.json`.  
-- Runs installed packages using `npx` or `scripts` in `package.json`.
-
-#### `npx` (Node Package eXecute)
-`npx` is used to **run Node.js packages without installing them globally**.
-
-✅ **Key Features of `npx`:**  
-- Runs CLI tools **without installing** them permanently.  
-- Uses the locally installed version if available.  
-- Ensures correct package versions are executed.
-
-#### When to Use What?
-✅ **Use `npm`** when:
-- Installing dependencies (`npm install react`).  
-- Running scripts (`npm run dev`).  
-- Managing project dependencies in `package.json`.  
-
-✅ **Use `npx`** when:
-- Running one-time CLI commands (`npx create-react-app`).  
-- Avoiding global package installations (`npx eslint .`).  
-- Ensuring the correct version of a package runs.  
-
-<br>
-
 > ### Create your own useState hook for your new vanilla javascript project.
 
 ```js
@@ -2881,71 +2681,6 @@ function useState(initialState) {
   return [state, setState];
 }
 ```
-
-<br>
-
-> ### useParams VS useLocation
-
-
-#### ✅ `useParams()`: Extract **Route Parameters**
-
-Use it to get values from **dynamic segments** of the route path like `/user/:id` or `/post/:slug`.
-
-##### Example:
-
-If your route is defined as:
-
-```tsx
-<Route path="/user/:id" element={<UserDetails />} />
-```
-
-Then in `UserDetails.tsx`:
-
-```tsx
-import { useParams } from "react-router-dom";
-
-const UserDetails = () => {
-  const { id } = useParams();
-
-  return <div>User ID: {id}</div>;
-};
-```
-
-
-#### ✅ `useLocation()`: Get **full path**, **query params**, **hash**, etc.
-
-Use this to access:
-
-* `pathname`: e.g., `/user/123`
-* `search`: e.g., `?page=2&sort=desc`
-* `hash`: e.g., `#top`
-
-##### Example:
-
-```tsx
-import { useLocation } from "react-router-dom";
-
-const MyComponent = () => {
-  const location = useLocation();
-
-  console.log(location.pathname); // "/user/123"
-  console.log(location.search);   // "?tab=profile"
-  console.log(location.hash);     // "#settings"
-
-  return <div>URL: {location.pathname + location.search}</div>;
-};
-```
-
-#### 🤔 When to Use Which?
-
-| Task                              | Use                              |
-| --------------------------------- | -------------------------------- |
-| Get `:id` from `/user/:id`        | `useParams()`                    |
-| Get query params like `?page=1`   | `useLocation()`                  |
-| Detect route changes              | `useLocation()`                  |
-| Build breadcrumb/navigation logic | `useLocation()` or `useParams()` |
-| React to any URL change           | `useLocation()` in `useEffect`   |
-
 <br>
 
 > ### Scenario Based - Dynamic Nested List Rendering
@@ -3418,30 +3153,31 @@ G --> I[Use useDispatch() to Dispatch Actions]
 H --> J[UI Updates Automatically When State Changes]
 ```
 
+<br>
+
+> ### React Query, now officially known as TanStack Query
+
+<br>
+
+> ### RTK Query - React toolkit query
+
+RTK Query is a powerful data fetching and caching tool. It is designed to simplify common cases for loading data in a web application, **eliminating the need to hand-write data fetching & caching logic yourself**.
+
+RTK Query is a tool built into **Redux Toolkit**.
+
+It separates **data fetching logic** from general **state management**, like React Query or Apollo.
 
 
-
-Here is a **short and clear summary of RTK Query Quick Start**, without losing the important points:
-
----
-
-### **RTK Query Quick Start – Short Notes**
-
-**What is RTK Query?**
-RTK Query is a powerful data fetching and caching tool built into **Redux Toolkit**. It helps simplify API calls, caching, and state management for server data.
-
----
-
-### **Key Benefits**
+**Key Benefits**
 
 * Automatically handles **fetching, caching, re-fetching, and memoization**
 * Generates **custom React hooks** for API calls
 * Reduces need for manual `loading`, `error`, and `data` state management
 * Minimizes duplicate network requests
 
----
+<br>
 
-### **Step 1: Create an API Service**
+**Step 1: Create an API Service**
 
 Use `createApi` and `fetchBaseQuery` to define API endpoints.
 
@@ -3461,9 +3197,9 @@ export const pokemonApi = createApi({
 export const { useGetPokemonByNameQuery } = pokemonApi;
 ```
 
----
+<br>
 
-### **Step 2: Add API to the Store**
+**Step 2: Add API to the Store**
 
 Include the API **reducer** and **middleware** inside the Redux store.
 
@@ -3483,9 +3219,9 @@ export const store = configureStore({
 setupListeners(store.dispatch);
 ```
 
----
+<br>
 
-### **Step 3: Wrap App with Provider**
+**Step 3: Wrap App with Provider**
 
 ```tsx
 import { Provider } from 'react-redux';
@@ -3496,9 +3232,9 @@ import { store } from './store';
 </Provider>
 ```
 
----
+<br>
 
-### **Step 4: Use API Hook in Components**
+**Step 4: Use API Hook in Components**
 
 The hook automatically fetches and tracks request state.
 
@@ -3518,9 +3254,9 @@ export default function App() {
 }
 ```
 
----
+<br>
 
-### **Important Points**
+**Important Points**
 
 | Feature             | Explanation                                                                     |
 | ------------------- | ------------------------------------------------------------------------------- |
@@ -3530,34 +3266,9 @@ export default function App() {
 | `isFetching`        | True when refetching                                                            |
 | Auto de-duplication | Multiple components using same query share the same data; no duplicate requests |
 
----
-
-### **Conclusion**
-
-RTK Query helps you:
-✅ Fetch data easily
-✅ Reduce boilerplate Redux code
-✅ Automatically cache and share API results
-✅ Improve app performance
-
----
-
-If you want, I can now also give you:
-👉 A **flow chart**
-👉 A **real working code project**
-👉 A **comparison with React Query**
-
-Just tell me 😊
-
-
-
-
-Got it — you want **notes**, not explanation or tutorial.
-Here are **clean, exam-style, interview-style notes for `createSlice()`**, short and clear:
-
 <br>
 
-## **extraReducers**
+> ### extraReducers
 
 Used to **handle actions from outside this slice**, such as:
 
@@ -3573,7 +3284,7 @@ extraReducers: (builder) => {
 
 <br>
 
-## **Key Points**
+**Key Points**
 
 * **Mutating syntax is safe** (because of Immer)
 * Each reducer inside `reducers` **generates** an action creator
@@ -3582,7 +3293,7 @@ extraReducers: (builder) => {
 
 <br>
 
-## **Example (Short)**
+**Example (Short)**
 
 ```js
 const counterSlice = createSlice({
@@ -3604,24 +3315,9 @@ counter/decrement
 counter/incrementByAmount
 ```
 
-> ### React Query, now officially known as TanStack Query
-
-
-> ## React Toolkit (RTK) Query Overview
-
-RTK Query is a powerful data fetching and caching tool. It is designed to simplify common cases for loading data in a web application, **eliminating the need to hand-write data fetching & caching logic yourself**.
-
-### Why Use RTK Query? (Motivation)
-
-It solves problems like:
-- Managing **loading** and **error** states
-- **Avoiding duplicate** network requests
-- **Caching** data and keeping data in sync
-- Performing **optimistic updates**
-
-It separates **data fetching logic** from general **state management**, like React Query or Apollo.
-
 <br>
+
+> ### Below is the detailed example
 
 Usage Example:
 
@@ -3788,3 +3484,224 @@ export default function Home() {
   );
 }
 ```
+
+<br>
+
+> ### useParams VS useLocation
+
+
+#### ✅ `useParams()`: Extract **Route Parameters**
+
+Use it to get values from **dynamic segments** of the route path like `/user/:id` or `/post/:slug`.
+
+##### Example:
+
+If your route is defined as:
+
+```tsx
+<Route path="/user/:id" element={<UserDetails />} />
+```
+
+Then in `UserDetails.tsx`:
+
+```tsx
+import { useParams } from "react-router-dom";
+
+const UserDetails = () => {
+  const { id } = useParams();
+
+  return <div>User ID: {id}</div>;
+};
+```
+
+
+#### ✅ `useLocation()`: Get **full path**, **query params**, **hash**, etc.
+
+Use this to access:
+
+* `pathname`: e.g., `/user/123`
+* `search`: e.g., `?page=2&sort=desc`
+* `hash`: e.g., `#top`
+
+##### Example:
+
+```tsx
+import { useLocation } from "react-router-dom";
+
+const MyComponent = () => {
+  const location = useLocation();
+
+  console.log(location.pathname); // "/user/123"
+  console.log(location.search);   // "?tab=profile"
+  console.log(location.hash);     // "#settings"
+
+  return <div>URL: {location.pathname + location.search}</div>;
+};
+```
+
+#### 🤔 When to Use Which?
+
+| Task                              | Use                              |
+| --------------------------------- | -------------------------------- |
+| Get `:id` from `/user/:id`        | `useParams()`                    |
+| Get query params like `?page=1`   | `useLocation()`                  |
+| Detect route changes              | `useLocation()`                  |
+| Build breadcrumb/navigation logic | `useLocation()` or `useParams()` |
+| React to any URL change           | `useLocation()` in `useEffect`   |
+
+<br>
+
+
+> ### What is the difference between npx and npm?
+
+### **`npx` vs `npm` – What's the Difference?**  
+
+#### `npm` (Node Package Manager)
+`npm` is used to **install, manage, and run packages** globally or locally in a project.
+
+✅ **Key Features of `npm`:**  
+- Installs dependencies (`node_modules/` folder).  
+- Adds dependencies to `package.json`.  
+- Runs installed packages using `npx` or `scripts` in `package.json`.
+
+#### `npx` (Node Package eXecute)
+`npx` is used to **run Node.js packages without installing them globally**.
+
+✅ **Key Features of `npx`:**  
+- Runs CLI tools **without installing** them permanently.  
+- Uses the locally installed version if available.  
+- Ensures correct package versions are executed.
+
+#### When to Use What?
+✅ **Use `npm`** when:
+- Installing dependencies (`npm install react`).  
+- Running scripts (`npm run dev`).  
+- Managing project dependencies in `package.json`.  
+
+✅ **Use `npx`** when:
+- Running one-time CLI commands (`npx create-react-app`).  
+- Avoiding global package installations (`npx eslint .`).  
+- Ensuring the correct version of a package runs.  
+
+<br>
+
+
+> ### How to detect 'click' outside React component?
+
+#### Approach: Using `useRef` & `useEffect`
+
+<details>
+
+```jsx
+import { useEffect, useRef } from "react";
+
+function OutsideClickDetector({ onClose }) {
+  const wrapperRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+        onClose(); // Trigger the close action
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [onClose]);
+
+  return (
+    <div ref={wrapperRef} className="p-4 border rounded">
+      Click outside me to close
+    </div>
+  );
+}
+
+export default function App() {
+  return (
+    <OutsideClickDetector onClose={() => alert("Clicked outside!")} />
+  );
+}
+```
+
+</details>
+
+<br>
+
+#### Alternative: Using a Custom Hook
+You can create a reusable **`useClickOutside`** hook.
+
+<details>
+
+```jsx
+import { useEffect, useRef } from "react";
+
+function useClickOutside(ref, callback) {
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (ref.current && !ref.current.contains(event.target)) {
+        callback();
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [callback]);
+}
+
+export default function App() {
+  const ref = useRef(null);
+  useClickOutside(ref, () => alert("Clicked outside!"));
+
+  return <div ref={ref} className="p-4 border rounded">Click outside me</div>;
+}
+```
+
+</details>
+
+<br>
+
+> ### Children types
+React can render `children` from most types. In most cases it's either an `array` or a `string`.
+
+#### String
+```html
+<div>Hello World!</div>
+```
+#### Array
+
+```jsx
+<div>{["Hello ", <span>World</span>, "!"]}</div>
+```
+
+<br>
+
+> ### Array as children
+Providing an array as `children` is a very common. It's how lists are drawn in React.
+
+We use `map()` to create an array of React Elements for every value in the array.
+
+```jsx
+<ul>
+  {["first", "second"].map((item) => (
+    <li>{item}</li>
+  ))}
+</ul>
+```
+
+That's equivalent to providing a literal `array`.
+
+```jsx
+<ul>{[<li>first</li>, <li>second</li>]}</ul>
+```
+<br>
+
+> ### What does eject do in create react app?
+The Create React App documentation characterizes this script as a “one-way operation” and warns that “once you eject, you can’t go back!” Create React App comes with an excellent configuration that helps you build your React app with the best practices in mind to optimize it.
+
+However, we may have to customize the pre-built react-scripts with additional configurations in some advanced scenarios. The eject script gives you full control over the React app configuration. For example, you can customize the webpack or Babel configuration according to a specific need by ejecting the React app.
+
+Running the eject script will remove the single build dependency from your project. That means it will copy the configuration files and the transitive dependencies (e.g., webpack, Babel, etc.) as dependencies in the package.json file. If you do that, you’ll have to ensure that the dependencies are installed before building your project.
+
+After running the eject command, it won’t be possible to run it again, because all scripts will be available except the eject one. Use this command only if you need to. Otherwise, stick with the default configuration. It’s better, anyway.
+
+<br>

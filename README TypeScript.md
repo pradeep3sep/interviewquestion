@@ -706,7 +706,7 @@ type ReadonlyNames = Readonly<NamesArray>
 <br>
 <br>
 
-### The `ReadonlyArray` Type
+> ### The `ReadonlyArray` Type
 
 The `ReadonlyArray` is a special type that describes arrays that shouldn't be changed.
 
@@ -769,6 +769,41 @@ type UserWithoutAgeOrName = Omit<User, 'age' | 'name'>
 <br>
 <br>
 
+> ### Extract<Union, Members>
+
+Create a new union type that contains only the specified members from the original union.
+
+Useful for creating subsets of union types without needing to redefine every member. Use Extract whenever your union is derived from the existing union type.
+
+**Opposite of Exclude, and similar to Pick**
+
+```ts
+type Colors = 'red' | 'green' | 'blue' | 'yellow' | 'orange'
+type RedishColors = Extract<Colors, "red" | "yellow" | "orange">
+// ^= 'red' | 'yellow' | 'orange'
+```
+
+<br>
+<br>
+
+> ### Exclude<Union, Members>
+
+Create a new union type that contains all members except the specified members from the original
+union.
+
+Useful for creating subsets of union types without needing to redefine every member. Use Exclude whenever your union is derived from the existing union type.
+
+**Opposite of Extract, and similar to Omit.**
+
+```ts
+type Colors = 'red' | 'green' | 'blue' | 'yellow' | 'orange'
+type RedishColors = Exclude<Colors, "blue" | "green">
+// ^= 'red' | 'yellow' | 'orange'
+```
+
+<br>
+<br>
+
 ### Partial<Obj>
 
 Constructs a type with `all properties` of Type set to `optional`.
@@ -823,41 +858,6 @@ individual parameters from libraries that don't expose those types.
 type GreetFunction = (name: string, age: number) => string
 type GreetParams = Parameters<GreetFunction>
 // ^= [string, number]
-```
-
-<br>
-<br>
-
-> ### Extract<Union, Members>
-
-Create a new union type that contains only the specified members from the original union.
-
-Useful for creating subsets of union types without needing to redefine every member. Use Extract whenever your union is derived from the existing union type.
-
-**Opposite of Exclude, and similar to Pick**
-
-```ts
-type Colors = 'red' | 'green' | 'blue' | 'yellow' | 'orange'
-type RedishColors = Extract<Colors, "red" | "yellow" | "orange">
-// ^= 'red' | 'yellow' | 'orange'
-```
-
-<br>
-<br>
-
-> ### Exclude<Union, Members>
-
-Create a new union type that contains all members except the specified members from the original
-union.
-
-Useful for creating subsets of union types without needing to redefine every member. Use Exclude whenever your union is derived from the existing union type.
-
-**Opposite of Extract, and similar to Omit.**
-
-```ts
-type Colors = 'red' | 'green' | 'blue' | 'yellow' | 'orange'
-type RedishColors = Exclude<Colors, "blue" | "green">
-// ^= 'red' | 'yellow' | 'orange'
 ```
 
 <br>

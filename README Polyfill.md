@@ -256,30 +256,19 @@ const splits = myString.split(" ", 3);
 console.log(splits); // [ "Hello", "World.", "How" ]
 
 String.prototype.customSplit = function (separator, limit) {
-    debugger
-    const string = this;
-    const result = [];
-  
-    if (separator === "") {
-      return Array.from(string);
+  const result = [];
+  let current = '';
+
+  for (let char of this) {
+    if (char === separator) {
+      result.push(current);
+      current = '';
+    } else {
+      current += char;
     }
-  
-    const splitString = (str) => {
-        debugger
-      if (result.length >= limit) {
-        return;
-      }
-      const index = str.indexOf(separator);
-      if (index >= 0) {
-        result.push(str.substring(0, index));
-        splitString(str.substring(index + separator.length));
-      } else {
-        result.push(str);
-      }
-    };
-  
-    splitString(string);
-    return result;
+  }
+  result.push(current); // push last part
+  return result;
 };
 
 let d = "This is the string with two the in it."
