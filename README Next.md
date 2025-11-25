@@ -190,6 +190,8 @@ export default async function Home() {
 }
 ```
 
+<br>
+
 Note: Here api is called at the build time and in build folder you will get the index.html along with corresponding js and css file. Everytime you reload the page same build html,css and js will be served
 
 
@@ -199,6 +201,7 @@ Note: Here api is called at the build time and in build folder you will get the 
 
 </details>
 
+<br>
 <br>
 
 **Example 2: Static website with api calling on client side**
@@ -308,6 +311,8 @@ There is nothing new
 
 **Example 4: Static website with dynamic route**
 
+<details>
+
 Folder structure
 
 ```
@@ -378,12 +383,15 @@ export default function BlogPost({ params }) {
 
 ![Build structure](https://github.com/user-attachments/assets/fc065d01-04e2-402b-81f5-a484b5139c13)
 
+</details>
 
-
+<br>
 <br>
 
 
 **Example 5: Static website with dynamic route + api calls**
+
+<details>
 
 Foder Structure
 ```
@@ -464,11 +472,43 @@ export default async function BlogPost({ params }) {
 
 ![Build UI](https://github.com/user-attachments/assets/8835f6ab-99b9-4300-be53-1ea5b1632d2e)
 
+</details>
+<br>
 <br>
 
-###  ISR (Incremental Static Regeneration)**
+###  2. ISR (Incremental Static Regeneration)
+
+**Concept:** A mix of SSG + SSR. Pages are **pre-rendered**, but they can **regenerate** after a time interval or on demand.
 
 This will let your static site **rebuild pages automatically** after a set time (without needing a full redeploy).
+
+**Used in:**
+
+* Blogs / Catalog websites where content changes occasionally
+* E-commerce product listings that update periodically
+
+**How it works:**
+
+1. Page is generated at build time.
+2. When content changes, the page is regenerated **in the background**.
+3. New version is served to the next visitor.
+
+**Pros:**
+
+| Benefit                    | Explanation                             |
+| -------------------------- | --------------------------------------- |
+| **Fast like static**       | Served from CDN as static HTML.         |
+| **No full rebuild needed** | Only pages that get traffic regenerate. |
+| **Good for SEO**           | Page always exists as static HTML.      |
+
+**Cons:**
+
+| Issue                                     | Explanation                                                 |
+| ----------------------------------------- | ----------------------------------------------------------- |
+| **Content may be stale for a short time** | Until regeneration happens.                                 |
+| **Requires hosting that supports ISR**    | e.g., Vercel, Netlify (with plugin), custom CDN handles it. |
+
+<br>
 
 **Folder structure**
 ```
@@ -578,11 +618,13 @@ const nextConfig: NextConfig = {
 };
 ```
 
+<br>
+
 > To test ISR, you must **run the Next.js server** (`npm start`) or **deploy to Vercel**.
 
+<br>
 
 ![Build UI](https://github.com/user-attachments/assets/583cbe2c-1251-43d7-8c15-4af9361d4084)
-
 
 <br>
 
@@ -595,8 +637,9 @@ You get **fresh content** — without a full rebuild or SSR.
 
 
 <br>
+<br>
 
-### **2. CSR (Client Side Rendering)**
+### 3. CSR (Client Side Rendering)
 
 **Concept:**
 Server sends a minimal HTML + JS bundle, and rendering happens in **browser**.
@@ -622,7 +665,7 @@ Server sends a minimal HTML + JS bundle, and rendering happens in **browser**.
 
 <br>
 
-### **3. SSR (Server Side Rendering)**
+### 4. SSR (Server Side Rendering)
 
 **Concept:**
 HTML is generated **per request** on the server.
@@ -650,41 +693,7 @@ HTML is generated **per request** on the server.
 
 <br>
 
-### **4. ISR (Incremental Static Regeneration)**
-
-**Concept:**
-A mix of SSG + SSR.
-Pages are **pre-rendered**, but they can **regenerate** after a time interval or on demand.
-
-**Used in:**
-
-* Blogs / Catalog websites where content changes occasionally
-* E-commerce product listings that update periodically
-
-**How it works:**
-
-1. Page is generated at build time.
-2. When content changes, the page is regenerated **in the background**.
-3. New version is served to the next visitor.
-
-**Pros:**
-
-| Benefit                    | Explanation                             |
-| -------------------------- | --------------------------------------- |
-| **Fast like static**       | Served from CDN as static HTML.         |
-| **No full rebuild needed** | Only pages that get traffic regenerate. |
-| **Good for SEO**           | Page always exists as static HTML.      |
-
-**Cons:**
-
-| Issue                                     | Explanation                                                 |
-| ----------------------------------------- | ----------------------------------------------------------- |
-| **Content may be stale for a short time** | Until regeneration happens.                                 |
-| **Requires hosting that supports ISR**    | e.g., Vercel, Netlify (with plugin), custom CDN handles it. |
-
-<br>
-
-### **5. Hybrid Rendering (Most Real Apps Today)**
+### 5. Hybrid Rendering (Most Real Apps Today)
 
 You can mix strategies based on page type:
 
@@ -728,7 +737,7 @@ Modern frameworks like **Next.js, Nuxt, Remix** allow mixing per route.
 
 ### How They Work Technically
 
-**SSR (Server Side Rendering)**
+**1. SSR (Server Side Rendering)**
 
 When user visits URL:
 
@@ -750,7 +759,7 @@ User Request → Server Render → Send HTML → Browser Enhances with JS
 
 <br>
 
-**CSR (Client Side Rendering)**
+**2. CSR (Client Side Rendering)**
 
 When user visits URL:
 
@@ -921,7 +930,9 @@ This is a common issue in:
 
 > ### Example where hydration fails
 
-**Example: Mistake: Using `Math.random()` (or any non-deterministic value) directly during render.**
+<details>
+
+**Example 1: Mistake: Using `Math.random()` (or any non-deterministic value) directly during render.**
 
 ```jsx
 // pages/index.js
@@ -948,9 +959,13 @@ The HTML **doesn’t match**, so during hydration React prints a warning:
 Warning: Text content did not match. Server: "0.27512681" Client: "0.59487121"
 ```
 
+</details>
+
 <br>
 
-**Fix #1 — Generate the Value on the Client Only**
+**Scenario 1 — Generate the Value on the Client Only**
+
+<details>
 
 Move dynamic browser-only behavior into `useEffect()`:
 
@@ -981,9 +996,13 @@ Now:
 ✅ **No mismatch**
 ✅ **No hydration failure**
 
+</details>
+
 <br>
 
 **Scenario 2: Using `window`, `localStorage`, or screen size in SSR render**
+
+<details>
 
 **Broken Code Example**
 ```jsx
@@ -1028,9 +1047,13 @@ export default function Dashboard() {
 ✅ Server HTML matches client HTML initially
 ✅ Client updates layout smoothly after hydration
 
+</details>
+
 <br>
 
 **Scenario 3: Time-based Rendering (date, countdown, timers)**
+
+<details>
 
 **Broken Version**
 ```jsx
@@ -1057,24 +1080,23 @@ export default function Clock() {
   return <p>{time || "Loading..."}</p>;
 }
 ```
+</details>
 
 <br>
 
 > ### How you create the forms in next or react js
 
-Before picking any library, I decide based on:
 
 | Factor                       | Why it matters                                  | Examples                                |
 | ---------------------------- | ----------------------------------------------- | --------------------------------------- |
 | **Form Complexity**          | Simple login vs dynamic wizard                  | Few fields vs 50 dependent fields       |
 | **Validation Needs**         | Basic required vs Regex vs API-level validation | Email format, uniqueness check          |
 | **Performance**              | Re-renders and lag in large forms               | Real-time search fields                 |
-| **Developer Experience**     | Maintainability and testability                 | Reusable schemas, UI feedback           |
 | **Where Validation Happens** | Client only vs Client + Server                  | Zod/Yup + server actions/API validation |
 
 <br>
 
-**My Standard Architecture for Forms in Next.js (App Router)**
+### My Standard Architecture for Forms in Next.js (App Router)
 
 I **never** do *only* frontend validation.
 
@@ -1121,7 +1143,7 @@ const [form, setForm] = useState({ email: "", password: "" });
 />
 ```
 
-**Why:** Simple, readable.
+**Why:** Simple, readable.\
 **Why not always:** Re-renders every keystroke → not scalable for large forms.
 
 <br>
@@ -1178,13 +1200,13 @@ export async function loginAction(formData) {
 
 ### Final Thought (Real World Developer Voice)
 
-> I treat forms as state machines, not just UI.
-> I validate **first for UX** (frontend) - 
+- I treat forms as state machines, not just UI.
+- I validate **first for UX** (frontend) - 
     - resolver: zodResolver(registerSchema)  // ✅ Client validation
-> and **always revalidate for security** (server).
+- and **always revalidate for security** (server).
     - const result = registerSchema.safeParse(rawData);  // ✅ Server validation
-> I avoid unnecessary re-renders, I make schemas reusable,
-> and I ensure forms are maintainable 6 months later.
+- I avoid unnecessary re-renders, I make schemas reusable,
+- and I ensure forms are maintainable 6 months later.
 
 <br>
 
@@ -1196,6 +1218,8 @@ export async function loginAction(formData) {
 * **Server Action** (for secure backend validation & processing)
 * **Loading state + Field errors + Success message**
 
+
+<details>
 
 **Folder Structure**
 
@@ -1368,6 +1392,8 @@ export default function RegisterPage() {
 }
 ```
 
+</details>
+
 <br>
 
 ### What This Demonstrates
@@ -1400,7 +1426,7 @@ export default function RegisterPage() {
 
 <br>
 
-### Importing Alias in TypeScript/JavaScript with Next.js
+> ### Importing Alias in TypeScript/JavaScript with Next.js
 
 ```js
 // Before
@@ -1548,6 +1574,35 @@ export default function Page() {
 ```
 
 <br>
+<br>
+
+### Folder Structure of all files in next js
+
+```
+app/  
+├── layout.(js|jsx|tsx)          # Persistent layout wrapper for all pages  
+├── page.(js|jsx|tsx)            # Default route page (e.g., `/` route)  
+├── loading.(js|jsx|tsx)         # Suspense fallback for loading state  
+├── not-found.(js|jsx|tsx)       # Custom 404 page  
+├── error.(js|jsx|tsx)           # Handles errors in a specific route/page  
+├── global-error.(js|jsx|tsx)    # Handles global errors across the app  
+├── template.(js|jsx|tsx)        # Re-rendered layout (non-persistent)  
+├── default.(js|jsx|tsx)         # Default UI for parallel routes  
+│  
+├── api/  
+│   ├── route.(js|ts)           # API endpoint handler  
+│  
+├── another-route/               # Example sub-route  
+│   ├── layout.(js|jsx|tsx)      # Persistent layout for this route  
+│   ├── page.(js|jsx|tsx)        # Page for `/another-route`  
+│   ├── loading.(js|jsx|tsx)     # Loading state for this route  
+│   ├── error.(js|jsx|tsx)       # Error boundary for this route  
+│   ├── template.(js|jsx|tsx)    # Re-rendered layout (non-persistent)  
+
+```
+
+<br>
+<br>
 
 ## Next.js Routing Files in the App Router (`app/` directory) 
 
@@ -1599,7 +1654,9 @@ Params is available in layout.js of `route folder`, but params is `not available
 
 <br>
 
-**Note**: Passing `data between a parent layout` and its `children` is `not possible`. However, you can `fetch the same data` in a route `more than once`, and the same API call is made in layout.js and page.js, React will automatically `deduplicate (dedupe)` requests, ensuring the data is only fetched once.
+### Note: 
+
+Passing `data between a parent layout` and its `children` is `not possible`. However, you can `fetch the same data` in a route `more than once`, and the same API call is made in layout.js and page.js, React will automatically `deduplicate (dedupe)` requests, ensuring the data is only fetched once.
 
 <br>
 <br>
@@ -1924,35 +1981,6 @@ app
 - Either **match the folder structure** or use `default.js` to **provide fallback UI**.
 
 </details>
-
-<br>
-<br>
-
-
-### Folder Structure of all files in next js
-
-```
-app/  
-├── layout.(js|jsx|tsx)          # Persistent layout wrapper for all pages  
-├── page.(js|jsx|tsx)            # Default route page (e.g., `/` route)  
-├── loading.(js|jsx|tsx)         # Suspense fallback for loading state  
-├── not-found.(js|jsx|tsx)       # Custom 404 page  
-├── error.(js|jsx|tsx)           # Handles errors in a specific route/page  
-├── global-error.(js|jsx|tsx)    # Handles global errors across the app  
-├── template.(js|jsx|tsx)        # Re-rendered layout (non-persistent)  
-├── default.(js|jsx|tsx)         # Default UI for parallel routes  
-│  
-├── api/  
-│   ├── route.(js|ts)           # API endpoint handler  
-│  
-├── another-route/               # Example sub-route  
-│   ├── layout.(js|jsx|tsx)      # Persistent layout for this route  
-│   ├── page.(js|jsx|tsx)        # Page for `/another-route`  
-│   ├── loading.(js|jsx|tsx)     # Loading state for this route  
-│   ├── error.(js|jsx|tsx)       # Error boundary for this route  
-│   ├── template.(js|jsx|tsx)    # Re-rendered layout (non-persistent)  
-
-```
 
 <br>
 <br>
@@ -5249,6 +5277,8 @@ But sometimes, you might want **different viewport behavior per page** — for e
 
 Viewport can be managed by two method
 
+<details>
+
 1. The viewport object
 
 ```jsx
@@ -5280,6 +5310,8 @@ export function generateViewport({ params }) {
 ```
 
 Need more - https://nextjs.org/docs/14/app/api-reference/functions/generate-viewport
+
+</details>
 
 <br>
 <br>

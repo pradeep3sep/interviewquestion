@@ -888,6 +888,8 @@ watch: {
 
 // OR
 
+// Inside the main route file
+
 beforeRouteUpdate (to, from, next) {
   // react to route changes and then call next()
 }
@@ -3214,6 +3216,7 @@ src/
 │   ├── base/              # <BaseButton>, <BaseDialog>, <BaseCard>
 │   └── layout/            # <AppHeader>, <AppSidebar>
 ```
+<br>
 
 > ### Multiple child gets same data, how you prevent multiple rerendering
 
@@ -3232,7 +3235,7 @@ So the key is to **stabilize references** and **minimize reactive depth**.
 
 #### 2. Techniques to Prevent Re-renders
 
-**a. Use Vuex / Pinia or Global Store for Shared Data**
+**a. Use Vuex / Pinia or Global Store for Shared Data**\
 **b. Use `computed` for Caching Derived Data**
 
 If multiple children depend on the same source data:
