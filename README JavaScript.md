@@ -6271,7 +6271,7 @@ obj1.showName.call(obj2); // Jc precedence of Rule 2) Call method > Rule 3) meth
 
 <br>
 
-**Rule 7)** IFFE ( inherits "this" of global object )
+**Rule 7)** IFFE ( inherits "this" of `global object` in `function declaration` and `lexical scope` in `arrow function`)
 
 In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves differently depending on how the IIFE is invoked and the execution context. Here's a breakdown:
 

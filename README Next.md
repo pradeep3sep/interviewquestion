@@ -6069,8 +6069,8 @@ export async function getServerSideProps(context) {
 In **Next.js**, the `_app.js` file `wraps all pages`. It is used to:
 
 - **Persist layout** across pages  
-- **Inject global styles**  
-- **Provide global state or context**  
+- **Inject global styles or Provide global state or context**  
+- **Handling Route Changes (e.g., Loading Indicator)**  
 
 <br>
 
@@ -6191,6 +6191,8 @@ export default MyApp;
 ### Static Generation -  Basically generate static when build command is done
 
 > ### 1. getStaticProps
+
+- In static website, data-fetching method used to pre-render a page at build time
 
 Let's say we have fixed data website called `static website like Blog website`, but sometimes we come the situation when we want static website which have some `data from api or external source`. In that condition we `called the api during build(npm run build command) time`, `api gets called` and `update the component` then `page with that updated content`, i want to `build static website`. Then we use getStaticProps function.
 

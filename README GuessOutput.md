@@ -3054,44 +3054,6 @@ person.getInfo();
  
 </details>
 
-
-
-### Question 116
-
-```js
-function Person(name, age) {
-    this.name = name;
-    this.age = age;
-}
-
-class Player {
-    constructor(name, age) {
-        this.name = name;
-        this.age = age;
-    }
-}
-
-const jayesh = new Person("JC", 24);
-const virat = new Player("VK", 34);
-
-console.log(typeof Person);
-console.log(typeof Player);
-
-// 👍A) "object" "object"     💡B) "function" "function"
-// 💖C) "function" "class"    😀D) "object" "class"
-```
-
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer is B)</p>
-
-  Answer is B) "function" "function" because The typeof operator in JavaScript returns "function" for user-defined function, a predefined function, or a class.
-  console.log(typeof function() {}) - user-defined function => "function"
-  console.log(typeof Math.tan) - predefined function => "function"
-  console.log(typeof class C {}) - class => "function" 
-</details>
-
 ### Question 117
 
 ```js
@@ -3677,7 +3639,7 @@ console.log(typeof a); // typeof 1 → "number"
 </details>
 
 
-### ⭐️ Question 160
+### ⭐️ Question 137
 
 ```jsx
 function bar(){
@@ -3692,6 +3654,12 @@ function bar(){
 console.log(bar())
 ```
 <details>
+
+```
+ƒ foo(){
+        
+  }
+```
 
 It is internally treated (conceptually) as:
 
@@ -3708,7 +3676,7 @@ function bar() {
 </details>
 
 
-### ⭐️ Question 161
+### ⭐️ Question 138
 
 ```js
 var y =1;
@@ -3717,6 +3685,11 @@ if(function f(){}){
 }
 console.log(y)
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer is `1undefined`</p>
+</details>
 
 
 ### ⭐️ Question 137

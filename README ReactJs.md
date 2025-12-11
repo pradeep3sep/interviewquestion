@@ -2412,18 +2412,7 @@ function Example() {
 > ### Why should component names start with a capital letter?
 If you are rendering your component using JSX, the name of that component has to begin with a capital letter otherwise React will throw an error as an unrecognized tag. This convention is because only HTML elements and SVG tags can begin with a lowercase letter.
 
-The component names should start with an uppercase letter but there are a few exceptions to this convention. The lowercase tag names with a dot (property accessors) are still considered as valid component names. For example, the below tag can be compiled to a valid component,
-
-```jsx
-render() {
-  return (
-    <obj.component/> // `React.createElement(obj.component)`
-  )
-}
-```
-
 <br>
-
 
 > ### How to combine multiple inline style objects?
 You can use the spread operator in regular React:
