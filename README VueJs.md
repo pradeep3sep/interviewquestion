@@ -1,5 +1,7 @@
 > ### :class = "{active : dyanmicdata}"
 
+<br>
+
 > ### Lifecycle Hooks
 
 Lifecycle hooks allow you to run custom code **at specific stages of a component’s lifecycle**

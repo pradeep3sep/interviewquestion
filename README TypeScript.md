@@ -928,7 +928,9 @@ A tuple type is another sort of Array type that knows `exactly how many elements
 type StringNumberPair = [string, number];
 ```
 
-**Note :**Key point to note here `push` is exceptional in tuple. Like if we have defined the tuple then we can push in that. below is example
+<br>
+
+**Note:** Key point to note here `push` is exceptional in tuple. Like if we have defined the tuple then we can push in that. below is example
 
 ```ts
 const person: {
@@ -1958,7 +1960,7 @@ export default UserList;
 - We want to make the `useSelector hook` to be `typescript`,we create `useCartSelector` custom hook, which is  `ts form of useSelector`.
 - we use `TypedUseSelectorHook` from react, it is generic function so we can assign value in it, so we assign the `Rootstate`
 - so RootState should be similar to the data managed in our store, means we have to provide store in it
-- so we use `store.getState>`, getState provide the store but it is function. and its return value is our store
+- so we use `store.getState`, getState provide the store but it is function. and its return value is our store
 - `typeof store.getState` provide its type, ie function which gets stored in RootState as type function, but we needed its return value
 - now we use `ts uitility function` which provide the return value of function ie `ReturnType`
 - whole code becomes `ReturnType<typeof store.getState>`

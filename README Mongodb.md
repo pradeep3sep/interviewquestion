@@ -15,7 +15,7 @@
 
 <br>
 
-> ### MongoDB use BSON ie "Binaray JSON" to storing in the database. 
+> ### MongoDB use BSON ie "Binary JSON" to storing in the database. 
 This is because it is more efficient to store than JSON data. Efficient in terms of space and size persepective, MongoDB drivers converts the JSON to BSON, Also BSON suppots additional types eg is ObjectId("hiikbs9dshu9uhij"), ObjectId is not supported by JSON but by the BSON.
 
 <br>
