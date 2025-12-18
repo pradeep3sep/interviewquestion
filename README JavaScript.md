@@ -2,7 +2,26 @@
 
 - [Rule of this ](#rule-of-this)
 
+<br>
 
+```js
+function sum(a){
+     function name(b){
+        if(b) return sum(a+b)
+        return a
+    }
+    name.toString = ()=>{
+        return a
+    }
+    return name
+}
+
+console.log(sum(1)(2)(3)(4)())
+console.log(+sum(1)(2)(3)(4))
+console.log(sum(1)(2)(3)(4) == 10)
+```
+
+<br>
 
 > ### What is Javascript ?
 
@@ -1579,7 +1598,7 @@ console.log(result7); // [ 10 ]
 
 ```
 
-**for splice** - mutate the array and *keep in mind it `return array of deleted values`
+**for splice** - mutate the array and **keep in mind** it `return array of deleted values`
 ```js
 splice() // delete all the values and make a blank array
 splice(startIndex) // delete all the values from satrtIndex
@@ -6273,8 +6292,6 @@ obj1.showName.call(obj2); // Jc precedence of Rule 2) Call method > Rule 3) meth
 
 **Rule 7)** IFFE ( inherits "this" of `global object` in `function declaration` and `lexical scope` in `arrow function`)
 
-In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves differently depending on how the IIFE is invoked and the execution context. Here's a breakdown:
-
 1. **Global Context (Non-strict mode & Strict mode)**
    - Example:
      ```javascript
@@ -6326,8 +6343,7 @@ In an Immediately Invoked Function Expression (IIFE), the `this` keyword behaves
 
 <br>
  
-**Miscellaneous important things about "this"**
-
+### Miscellaneous important things about "this"
 
 - "this" inside nested normal function
 

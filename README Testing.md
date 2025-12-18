@@ -632,11 +632,11 @@ expect(input).toHaveValue("john@gmail.com");
 <br>
 
 ### Best Practices
-✔ Test behavior, not implementation
-✔ Use `screen` instead of render result variables
-✔ Prefer `userEvent` over `fireEvent`
-✔ Prefer accessibility queries (`getByRole`)
-✔ Avoid snapshots except small components
+✔ Test behavior, not implementation\
+✔ Use `screen` instead of render result variables\
+✔ Prefer `userEvent` over `fireEvent`\
+✔ Prefer accessibility queries (`getByRole`)\
+✔ Avoid snapshots except small components\
 ✔ One assert per behavior block if possible
 
 

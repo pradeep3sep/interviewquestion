@@ -1540,6 +1540,52 @@ export default function Page() {
 
 <br>
 
+### App Router vs Pages Router Difference
+
+| Feature        | Pages Router | App Router     |
+| -------------- | ------------ | -------------- |
+| Meta tags      | `next/head`  | `metadata` API |
+| Dynamic SEO    | Manual       | Automatic      |
+| Loading UI        | Manual       | `loading.js` |
+| Streaming support | ❌            | ✅            |
+| Error boundary     | `_error.js`  | `error.js`     |
+| Route-level errors | ❌            | ✅              |
+| 404 handling       | `404.js`     | `not-found.js` |
+| Default                | Client-side  | Server-side    |
+| Opt-in client          | N/A          | `"use client"` |
+| JS bundle size         | Larger       | Smaller        |
+| API           | `getServerSideProps` | `fetch()`            |
+| Where it runs | Page-level only      | Any Server Component |
+| Granularity   | Whole page           | Component-level      |
+| Global layout      | `_app.js`    | `app/layout.js`        |
+| Layout persistence | ❌            | ✅ (does not re-render) |
+| Route entry         | `pages/home.js`      | `app/home/page.js`       |
+| Layout support      | Manual via `_app.js` | Built-in via `layout.js` |
+| Route grouping      | ❌                    | ✅ `(group)`              |
+| Parallel routes     | ❌                    | ✅                        |
+| Intercepting routes | ❌                    | ✅                        |
+
+<br>
+
+### Side by side function compare
+
+| Pages Router         | App Router                     |
+| -------------------- | ------------------------------ |
+| `getStaticProps`     | `fetch()` + cache              |
+| `getStaticPaths`     | `generateStaticParams`         |
+| `getServerSideProps` | `fetch({ cache: 'no-store' })` |
+| `getInitialProps`    | ❌ Removed                      |
+| `_app.js`            | `layout.js`                    |
+| `_document.js`       | `layout.js`                    |
+| `next/head`          | `metadata` API                 |
+| SEO API     | `next/head`  | `generateMetadata` |
+| Server side | ❌            | ✅                  |
+| Async       | ❌            | ✅                  |
+
+
+
+<br>
+
 ### App Router vs Pages Router Folder structure in Next.js
 
 <br>
@@ -2634,6 +2680,29 @@ TWITTER_URL=https://twitter.com/$TWITTER_USER
 ```
 
 Note: If you need to use variable with a `$ in the actual value`, it needs to be escaped e.g. `\$`.
+
+<br>
+<br>
+
+> ### - How dyncmic params behave in static and ISR website
+* **Dynamic params** are values like `/blog/[id]`.
+
+* **Static (SSG)**: all possible params must be known at **build time**.
+
+* Pages are generated once during build and **never change**.
+
+* If a param isn’t pre-generated → **404 page**.
+
+* **ISR**: only some params are generated at build time.
+
+* New params are generated **on first request**.
+
+* Generated page is **cached as static**.
+
+* Page is **revalidated after a set time**.
+
+* No full rebuild needed for new params.
+
 
 <br>
 <br>
