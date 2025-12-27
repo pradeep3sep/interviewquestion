@@ -23,6 +23,224 @@ console.log(sum(1)(2)(3)(4) == 10)
 
 <br>
 
+> ### How closure helps in data privacy ?
+
+Closures provide data privacy by keeping variables inside a lexical scope and exposing only controlled functions that can access and modify those variables.
+
+<br>
+
+> ### We have array of object, want to delete some object which way we can do.
+
+For raw performance, `splice` with `findIndex` is `most optimized`, but in `React` applications `filter is preferred` due to immutability and predictable re-renders.
+
+Splice + findIndex
+- space O(1)
+- time O(n)
+
+Filter
+- space O(n)
+- time O(n)
+
+<br>
+
+> ### Async and sync functions
+
+#### Synchronous (Sync) functions in JavaScript
+
+**Definition:**
+Synchronous code runs **line by line**. Each operation **blocks** the next one until it finishes.
+
+**Key points:**
+
+* Execution is **sequential**
+* One task at a time
+* Slow operations block the main thread
+
+**Example:**
+
+```js
+function syncTask() {
+  console.log("Start");
+  let sum = 0;
+  for (let i = 0; i < 1e9; i++) {
+    sum += i;
+  }
+  console.log("End");
+}
+
+syncTask();
+```
+
+**Output order (always same):**
+
+```
+Start
+End
+```
+
+**Problem:**
+If a task is slow (loop, heavy calculation), the UI freezes (important in browsers).
+
+<br>
+
+#### Asynchronous (Async) functions in JavaScript
+
+**Definition:**
+Asynchronous code allows JavaScript to **start a task and move on**, without waiting for it to finish.
+
+**Key points:**
+
+* **Non-blocking**
+* Long tasks run in the background
+* Result is handled later
+
+**Common async mechanisms:**
+
+* `setTimeout`
+* `Promises`
+* `async / await`
+* Network requests (`fetch`)
+
+<br>
+
+#### `async` / `await` (modern way)
+
+**`async` function:**
+
+* Always returns a **Promise**
+* Makes async code look synchronous
+
+**Example:**
+
+```js
+async function fetchData() {
+  console.log("Start");
+
+  const response = await fetch("https://api.example.com/data");
+  const data = await response.json();
+
+  console.log("End");
+  return data;
+}
+```
+
+**Execution flow:**
+
+1. `"Start"` logs immediately
+2. `await` pauses **only this function**
+3. JS continues executing other code
+4. Function resumes when Promise resolves
+
+<br>
+
+### Sync vs Async (Quick Comparison)
+
+| Feature     | Synchronous    | Asynchronous       |
+| ----------- | -------------- | ------------------ |
+| Blocking    | Yes            | No                 |
+| Execution   | One by one     | Parallel-like      |
+| Performance | Slower for I/O | Faster & efficient |
+| UI Freeze   | Yes            | No                 |
+| Usage       | Calculations   | API calls, timers  |
+
+<br>
+
+#### 1️⃣ Calling async code **from sync code**
+
+You **cannot pause sync code** directly.
+Instead, you **start async work** and handle the result later.
+
+#### ✅ Using `then()`
+
+```js
+console.log("Step 1");
+
+fetchData().then(result => {
+  console.log("Async result:", result);
+});
+
+console.log("Step 2");
+
+async function fetchData() {
+  return "DATA";
+}
+```
+
+**Output:**
+
+```
+Step 1
+Step 2
+Async result: DATA
+```
+
+➡️ Sync code continues immediately.
+
+<br>
+
+#### 2️⃣ Writing async code **that looks synchronous** (`async/await`)
+
+You can **pause execution inside an async function only**.
+
+### ✅ Correct way
+
+```js
+async function main() {
+  console.log("A");
+
+  const result = await fetchData(); // async in between sync
+  console.log("B", result);
+
+  console.log("C");
+}
+
+main();
+
+async function fetchData() {
+  return "DATA";
+}
+```
+
+➡️ `await` **pauses only `main()`**, not the whole JS thread.
+
+<br>
+
+#### 3️⃣ Calling sync code **inside async code**
+
+This is the easiest case — sync code just runs normally.
+
+```js
+async function processData() {
+  console.log("Start");
+
+  calculate(); // sync
+  await fetchData(); // async
+  calculate(); // sync again
+
+  console.log("End");
+}
+
+function calculate() {
+  console.log("Calculating...");
+}
+
+async function fetchData() {
+  return "DATA";
+}
+
+processData();
+```
+
+**Order:**
+
+```
+Start
+Calculating...
+Calculating...
+End
+```
+<br>
+
 > ### What is Javascript ?
 
 It is `High Level`, `Object oriented`, `Multi Paradigm` programming language.

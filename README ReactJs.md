@@ -1,3 +1,5 @@
+> ### Difference between useTransition useDeferredValue
+
 > ### WE have below events in react
 onKeyDown
 
@@ -20,6 +22,618 @@ onDragStart
 onDragOver
 
 onDrop
+
+<br>
+
+> ### How to use the props and children in react
+
+<br>
+
+> ### Features of React 18
+
+1. Concurrency
+
+A new concept & set of feature that help with state update prioritization, Urgent state updates can be prioritized over less urgent, long-taking (blocking) updates
+
+Concurrency in React 18 means **React can prepare multiple UI updates at the same time and decide which one is more important to show first**, instead of blocking the UI with one long render.
+
+Think of it as **interruptible rendering**.
+
+
+Why concurrency was needed
+
+Before React 18:
+- Rendering was synchronous & blocking
+- A heavy render could:
+  - Freeze the UI
+  - Delay typing, clicks, or animations
+
+React 18 fixes this by **splitting rendering into chunks** and scheduling them smartly.
+
+without concurrecny (ie <= React 17)
+```js
+setUser(u1) // first state update    
+setShow(true) // second state update
+
+// setUser is completed then setShow will be done
+```
+
+
+with concurrecny (ie >= React 18)
+```js
+setUser(u1) // Long taking state update is performed in the background
+setShow(true) // whilst the urgent update can be prioritized
+```
+
+#### Key features built on concurrency
+1. startTransition
+2. useTransition
+
+
+#### Real-world example
+
+Search input with heavy filtering:
+```jsx
+onChange={(e) => {
+  setSearch(e.target.value); // high priority
+
+  startTransition(() => {
+    setFilteredList(filterData(e.target.value)); // low priority
+  });
+}}
+```
+
+
+2. Automatic Batching Everywhere
+
+**React 17 (Pre-Concurrent)**
+
+In React 17 and earlier, **React only batched updates inside React event handlers**.
+
+✔ Batched:
+
+```jsx
+function handleClick() {
+  setCount(c => c + 1);
+  setFlag(f => !f);
+  // React 17 will re-render once
+}
+```
+
+❌ Not batched:
+
+```jsx
+function increaseCounter(){
+  setTimeout(() => {
+    setCount(c => c + 1);
+    setFlag(f => !f);
+    // React 17 re-renders twice
+  }, 0);
+}
+```
+
+So outside React events (e.g., `setTimeout`, Promises, native DOM events), **updates were not batched**.
+
+<br>
+
+**React 18 (Automatic Batching Everywhere)**
+
+React 18 introduced **automatic batching across all contexts** — not just event handlers.
+
+Now the same code above becomes batched even inside:
+
+✅ `setTimeout`
+✅ native event listeners
+✅ async callbacks
+✅ Promises
+
+Example:
+
+```jsx
+function increaseCounter(){
+  setTimeout(() => {
+    setCount(c => c + 1);
+    setFlag(f => !f);
+    // React 18 batches them -> ONE re-render
+  }, 0);
+}
+```
+
+
+3. Strict Mode Changes (Dev Only)
+
+**StrictMode** is a **development-only tool** that helps identify:
+
+* Unsafe lifecycle methods
+* Side effects in render
+* Legacy APIs
+* Code that will break with future concurrent features
+
+👉 **It does NOT affect production builds.**
+
+<br>
+
+In **React 17**, Strict Mode mainly focused on **legacy warnings**.
+
+* Warned about:
+
+  * `componentWillMount`
+  * `componentWillReceiveProps`
+  * `componentWillUpdate`
+* Detected:
+
+  * Side effects in `render`
+  * Unsafe lifecycles in class components
+
+### ❌ What React 17 did NOT do:
+
+* ❌ Did **not** double-invoke effects
+* ❌ Did **not** simulate re-mounting
+* ❌ Did **not** stress-test for concurrent rendering
+
+### Example (React 17)
+
+```jsx
+useEffect(() => {
+  console.log("mounted");
+}, []);
+```
+
+➡️ Runs **once** in development.
+
+<br>
+
+React 18 introduced **new Strict Mode checks** to prepare apps for **Concurrent Rendering**.
+
+### 🔥 Major Change: *Intentional Double Invocation*
+
+In **development mode only**, React 18:
+
+* **Mounts → Unmounts → Re-mounts components**
+* Re-runs:
+
+  * `useEffect`
+  * `useLayoutEffect`
+  * Component initialization logic
+
+👉 This helps catch **non-idempotent side effects**.
+
+
+## 🛠️ Correct Pattern in React 18
+
+```jsx
+useEffect(() => {
+  let isMounted = true;
+
+  fetchData().then(data => {
+    if (isMounted) setData(data);
+  });
+
+  return () => {
+    isMounted = false;
+  };
+}, []);
+```
+
+or use **AbortController**:
+
+```jsx
+useEffect(() => {
+  const controller = new AbortController();
+
+  fetch(url, { signal: controller.signal });
+
+  return () => controller.abort();
+}, []);
+```
+
+
+> “In React 17, Strict Mode was mostly about warning developers against unsafe lifecycles.
+> In React 18, Strict Mode goes further by intentionally mounting, unmounting, and remounting components in development to detect side effects that would break under concurrent rendering. This is why effects appear to run twice, but it only happens in dev and helps make apps future-proof.”
+
+<br>
+
+🚫 Should You Disable Strict Mode?
+
+❌ **No** (unless debugging legacy code)
+
+Why?
+
+* It exposes real bugs early
+* Prevents memory leaks
+* Prepares your app for concurrent features
+
+
+#### ✅ Key Takeaway
+
+* **React 17 Strict Mode** → warning-focused
+* **React 18 Strict Mode** → behavior-testing + concurrency readiness
+* Double effects = **feature, not bug**
+
+
+4. Imporoved Suspense component
+
+**Suspense** lets you declaratively handle **loading states** by telling React:
+
+> “This part of the UI may suspend while waiting for something.”
+
+```jsx
+<Suspense fallback={<Loader />}>
+  <Component />
+</Suspense>
+```
+
+<br>
+
+✅ React 17 – Suspense (Limited & Incomplete)
+
+In **React 17**, Suspense was **NOT a general data-fetching solution**.
+
+What Suspense supported in React 17
+
+✔ **Code splitting only**
+
+* `React.lazy()` + `import()`
+
+```jsx
+const Profile = React.lazy(() => import('./Profile'));
+
+<Suspense fallback={<Spinner />}>
+  <Profile />
+</Suspense>
+```
+
+✔ Worked well for **bundle loading**
+
+<br>
+
+#### ❌ What React 17 did NOT support
+
+❌ Suspense for **data fetching**
+❌ Server-side Suspense streaming
+❌ Coordination with concurrent rendering
+❌ Transitions or UI interruption control
+
+> Data-fetching Suspense was **experimental** and unsupported.
+
+<br>
+
+#### React 18 – Suspense Becomes a Core Feature
+
+React 18 turns Suspense into a **first-class concurrent feature**.
+
+#### 1️⃣ Suspense + Concurrent Rendering
+
+* Rendering can **pause, resume, or restart**
+* Suspense boundaries isolate slow parts of UI
+* Prevents blocking the entire page
+
+```jsx
+<Suspense fallback={<Skeleton />}>
+  <Comments />
+</Suspense>
+```
+
+<br>
+
+#### 2️⃣ Suspense for Data Fetching (Framework-Level)
+
+React 18 officially supports Suspense **when used with compatible frameworks**:
+
+✔ Next.js App Router
+✔ Relay
+✔ React Server Components
+
+> ⚠️ React itself still doesn’t provide a built-in data-fetching API.
+
+---
+
+### 3️⃣ Streaming Server Rendering
+
+React 18 enables **streaming HTML from the server**:
+
+* Send shell HTML immediately
+* Fill in suspended parts later
+* Huge performance boost for TTFB
+
+```jsx
+renderToPipeableStream(<App />, options);
+```
+
+---
+
+### 4️⃣ Suspense + `startTransition`
+
+```jsx
+startTransition(() => {
+  setTab('comments');
+});
+```
+
+✔ Keeps old UI visible
+✔ Shows fallback only for the suspended part
+✔ Avoids layout flicker
+
+<br>
+
+#### Important Behavioral Difference
+
+#### React 17
+
+* Suspense fallback **blocks render**
+* No prioritization
+* All-or-nothing UI
+
+#### React 18
+
+* Suspense boundaries are **interruptible**
+* Only the suspended subtree falls back
+* Rest of UI stays responsive
+
+
+
+#### 📊 React 17 vs React 18 – Suspense Comparison
+
+| Feature                          | React 17 | React 18             |
+| -------------------------------- | -------- | -------------------- |
+| Code splitting with `React.lazy` | ✅        | ✅                    |
+| Suspense for data fetching       | ❌        | ⚠️ (Framework-based) |
+| Concurrent rendering support     | ❌        | **✅**                |
+| Streaming SSR                    | ❌        | **✅**                |
+| Partial UI reveal                | ❌        | **✅**                |
+| Works with `startTransition`     | ❌        | **✅**                |
+| Production-ready Suspense        | ❌        | **✅**                |
+
+<br>
+
+#### 🧪 Example: Data Fetching Behavior
+
+❌ React 17 (Not Supported)
+
+```jsx
+const data = fetchData(); // Suspends
+```
+
+➡️ Breaks / experimental
+
+<br>
+
+✅ React 18 (With Framework Support)
+
+```jsx
+const data = use(fetchDataPromise);
+```
+
+➡️ Suspends safely inside boundary
+
+
+## 🚫 Common Misconception
+
+> “Suspense fetches data for you”
+
+❌ False
+
+✔ Suspense **coordinates async rendering**
+✔ Data fetching is done by libraries/frameworks
+
+### Very Simple Suspense Data Fetching Example (React 18)
+
+```js
+import React, { Suspense } from "react";
+
+// 1️⃣ Fake API
+function fetchMessage() {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve("Hello from Suspense 🚀");
+    }, 2000);
+  });
+}
+
+// 2️⃣ Simple cache
+let message;
+let promise;
+
+// 3️⃣ Read function
+function readMessage() {
+  if (message) {
+    return message;
+  }
+
+  if (!promise) {
+    promise = fetchMessage().then((data) => {
+      message = data;
+    });
+  }
+
+  throw promise; // ⬅️ Suspense magic
+}
+
+// 4️⃣ Component
+function Message() {
+  const msg = readMessage();
+  return <h2>{msg}</h2>;
+}
+
+// 5️⃣ App
+export default function App() {
+  return (
+    <Suspense fallback={<h3>Loading...</h3>}>
+      <Message />
+    </Suspense>
+  );
+}
+
+```
+
+
+<br>
+
+5. React server components
+
+<br>
+
+> ### How does react handles state management or different ways to manage state in react
+1. useState
+2. useRef
+3. useReducer
+4. Context API
+5. Redux Toolkit
+
+<br>
+
+> ### We have parent, child and grandchild component, we can can pass data from parent to grandchild through props, but can we pass the component from parent to grandchild, if yes then how.
+
+
+**1️⃣ Pass Component as a Prop (Most Common & Clean)**
+You pass the **component reference**, not JSX.
+
+```jsx
+// Parent.jsx
+function Parent() {
+  return (
+    <Child RenderComponent={GrandChildUI} />
+  );
+}
+
+function GrandChildUI() {
+  return <h3>I am passed as a component</h3>;
+}
+```
+<br>
+
+```jsx
+// Child.jsx
+function Child({ RenderComponent }) {
+  return (
+    <div>
+      <GrandChild RenderComponent={RenderComponent} />
+    </div>
+  );
+}
+```
+<br>
+
+```jsx
+// GrandChild.jsx
+function GrandChild({ RenderComponent }) {
+  return (
+    <div>
+      <RenderComponent />
+    </div>
+  );
+}
+```
+<br>
+
+**2️⃣ Pass JSX (Element) Instead of Component**
+
+👉 Here you pass **already created JSX**.
+
+
+```jsx
+// Parent.jsx
+function Parent() {
+  return (
+    <Child content={<GrandChildUI />} />
+  );
+}
+
+function GrandChildUI() {
+  return <h3>JSX passed from Parent</h3>;
+}
+```
+<br>
+
+```jsx
+// Child.jsx
+function Child({ content }) {
+  return <GrandChild content={content} />;
+}
+```
+<br>
+
+```jsx
+// GrandChild.jsx
+function GrandChild({ content }) {
+  return <div>{content}</div>;
+}
+```
+
+<br>
+
+**3️⃣ Using `children` (Best Practice – Composition Pattern)** ⭐⭐⭐
+
+
+```jsx
+// Parent.jsx
+function Parent() {
+  return (
+    <Child>
+      <GrandChildUI />
+    </Child>
+  );
+}
+
+function GrandChildUI() {
+  return <h3>Passed using children</h3>;
+}
+```
+<br>
+
+```jsx
+// Child.jsx
+function Child({ children }) {
+  return <GrandChild>{children}</GrandChild>;
+}
+```
+<br>
+
+```jsx
+// GrandChild.jsx
+function GrandChild({ children }) {
+  return <div>{children}</div>;
+}
+```
+<br>
+
+**4️⃣ Advanced: Passing Component with Props**
+
+
+```jsx
+// Parent.jsx
+function Parent() {
+  return (
+    <Child
+      RenderComponent={(props) => (
+        <GrandChildUI title={props.title} />
+      )}
+    />
+  );
+}
+
+function GrandChildUI({ title }) {
+  return <h3>{title}</h3>;
+}
+```
+<br>
+
+```jsx
+// GrandChild.jsx
+function GrandChild({ RenderComponent }) {
+  return <RenderComponent title="Dynamic Title" />;
+}
+```
+<br>
+
+### Which approach should YOU use?
+
+| Scenario                    | Best Choice       |
+| --------------------------- | ----------------- |
+| Static layout               | `children`        |
+| Dynamic component rendering | Component as prop |
+| Reusable UI library         | `children`        |
+| Need to inject props later  | Render props      |
 
 <br>
 

@@ -302,6 +302,8 @@ https://www.youtube.com/watch?v=ZrMO0bCGwFg&list=PLKhlp2qtUcSYQojD5G-ElgHezoCyq2
 ### Repo for the various react package
 ```
 https://github.com/pradeep3sep/All-react-details-AtoZ
+
+https://demos.gsap.com/explore/
 ```
 
 If you want to understand any JS concept with help of multiple refrence website and video, refer below repo

@@ -1,4 +1,14 @@
 ### Question 1
+
+```js
+function sum(a){
+    console.log(arguments[0] = 'india')
+}
+sum("ggg")
+```
+
+
+### Question 1
 ```js
 const numbers = [10,20,30,40,50,60]
 const [,,,...newNumbers] = numbers
