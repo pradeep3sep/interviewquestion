@@ -2296,7 +2296,7 @@ console.log(arr[4]());
 
 
 
-### ⭐️ Question 93
+### ⭐️⭐️ Question 93
 
 ```js
 var name = "Jayesh";
@@ -2321,6 +2321,8 @@ person.method(displayName);
 <details>
   <summary>Answer</summary>
   <p>Answer is B</p>
+
+  The answe is B not 'JC' becuse if you see the how the function is called, `person.method(displayName)`, in this case the 'this' points towards the global object.
 </details>
 
 

@@ -31,22 +31,23 @@ onDrop
 
 > ### Features of React 18
 
-1. Concurrency
+### 1. Concurrency
+
+<details>
 
 A new concept & set of feature that help with state update prioritization, Urgent state updates can be prioritized over less urgent, long-taking (blocking) updates
 
 Concurrency in React 18 means **React can prepare multiple UI updates at the same time and decide which one is more important to show first**, instead of blocking the UI with one long render.
 
-Think of it as **interruptible rendering**.
-
-
-Why concurrency was needed
+**Why concurrency was needed**
 
 Before React 18:
 - Rendering was synchronous & blocking
 - A heavy render could:
   - Freeze the UI
   - Delay typing, clicks, or animations
+
+<br>
 
 React 18 fixes this by **splitting rendering into chunks** and scheduling them smartly.
 
@@ -64,6 +65,7 @@ with concurrecny (ie >= React 18)
 setUser(u1) // Long taking state update is performed in the background
 setShow(true) // whilst the urgent update can be prioritized
 ```
+<br>
 
 #### Key features built on concurrency
 1. startTransition
@@ -83,8 +85,13 @@ onChange={(e) => {
 }}
 ```
 
+</details>
 
-2. Automatic Batching Everywhere
+<br>
+
+### 2. Automatic Batching Everywhere
+
+<details>
 
 **React 17 (Pre-Concurrent)**
 
@@ -122,9 +129,9 @@ React 18 introduced **automatic batching across all contexts** — not just even
 
 Now the same code above becomes batched even inside:
 
-✅ `setTimeout`
-✅ native event listeners
-✅ async callbacks
+✅ `setTimeout`\
+✅ native event listeners\
+✅ async callbacks\
 ✅ Promises
 
 Example:
@@ -139,8 +146,13 @@ function increaseCounter(){
 }
 ```
 
+</details>
 
-3. Strict Mode Changes (Dev Only)
+<br>
+
+### 3. Strict Mode Changes (Dev Only)
+
+<details>
 
 **StrictMode** is a **development-only tool** that helps identify:
 
@@ -165,13 +177,13 @@ In **React 17**, Strict Mode mainly focused on **legacy warnings**.
   * Side effects in `render`
   * Unsafe lifecycles in class components
 
-### ❌ What React 17 did NOT do:
+#### ❌ What React 17 did NOT do:
 
 * ❌ Did **not** double-invoke effects
 * ❌ Did **not** simulate re-mounting
 * ❌ Did **not** stress-test for concurrent rendering
 
-### Example (React 17)
+#### Example (React 17)
 
 ```jsx
 useEffect(() => {
@@ -185,7 +197,7 @@ useEffect(() => {
 
 React 18 introduced **new Strict Mode checks** to prepare apps for **Concurrent Rendering**.
 
-### 🔥 Major Change: *Intentional Double Invocation*
+#### Major Change: *Intentional Double Invocation*
 
 In **development mode only**, React 18:
 
@@ -197,39 +209,6 @@ In **development mode only**, React 18:
   * Component initialization logic
 
 👉 This helps catch **non-idempotent side effects**.
-
-
-## 🛠️ Correct Pattern in React 18
-
-```jsx
-useEffect(() => {
-  let isMounted = true;
-
-  fetchData().then(data => {
-    if (isMounted) setData(data);
-  });
-
-  return () => {
-    isMounted = false;
-  };
-}, []);
-```
-
-or use **AbortController**:
-
-```jsx
-useEffect(() => {
-  const controller = new AbortController();
-
-  fetch(url, { signal: controller.signal });
-
-  return () => controller.abort();
-}, []);
-```
-
-
-> “In React 17, Strict Mode was mostly about warning developers against unsafe lifecycles.
-> In React 18, Strict Mode goes further by intentionally mounting, unmounting, and remounting components in development to detect side effects that would break under concurrent rendering. This is why effects appear to run twice, but it only happens in dev and helps make apps future-proof.”
 
 <br>
 
@@ -243,19 +222,17 @@ Why?
 * Prevents memory leaks
 * Prepares your app for concurrent features
 
+</details>
 
-#### ✅ Key Takeaway
+<br>
 
-* **React 17 Strict Mode** → warning-focused
-* **React 18 Strict Mode** → behavior-testing + concurrency readiness
-* Double effects = **feature, not bug**
+### 4. Imporoved Suspense component
 
-
-4. Imporoved Suspense component
+<details>
 
 **Suspense** lets you declaratively handle **loading states** by telling React:
 
-> “This part of the UI may suspend while waiting for something.”
+- “This part of the UI may suspend while waiting for something.”
 
 ```jsx
 <Suspense fallback={<Loader />}>
@@ -265,7 +242,7 @@ Why?
 
 <br>
 
-✅ React 17 – Suspense (Limited & Incomplete)
+**React 17 – Suspense (Limited & Incomplete)**
 
 In **React 17**, Suspense was **NOT a general data-fetching solution**.
 
@@ -289,9 +266,9 @@ const Profile = React.lazy(() => import('./Profile'));
 
 #### ❌ What React 17 did NOT support
 
-❌ Suspense for **data fetching**
-❌ Server-side Suspense streaming
-❌ Coordination with concurrent rendering
+❌ Suspense for **data fetching**\
+❌ Server-side Suspense streaming\
+❌ Coordination with concurrent rendering\
 ❌ Transitions or UI interruption control
 
 > Data-fetching Suspense was **experimental** and unsupported.
@@ -320,39 +297,11 @@ React 18 turns Suspense into a **first-class concurrent feature**.
 
 React 18 officially supports Suspense **when used with compatible frameworks**:
 
-✔ Next.js App Router
-✔ Relay
+✔ Next.js App Router\
+✔ Relay\
 ✔ React Server Components
 
 > ⚠️ React itself still doesn’t provide a built-in data-fetching API.
-
----
-
-### 3️⃣ Streaming Server Rendering
-
-React 18 enables **streaming HTML from the server**:
-
-* Send shell HTML immediately
-* Fill in suspended parts later
-* Huge performance boost for TTFB
-
-```jsx
-renderToPipeableStream(<App />, options);
-```
-
----
-
-### 4️⃣ Suspense + `startTransition`
-
-```jsx
-startTransition(() => {
-  setTab('comments');
-});
-```
-
-✔ Keeps old UI visible
-✔ Shows fallback only for the suspended part
-✔ Avoids layout flicker
 
 <br>
 
@@ -370,51 +319,18 @@ startTransition(() => {
 * Only the suspended subtree falls back
 * Rest of UI stays responsive
 
-
-
-#### 📊 React 17 vs React 18 – Suspense Comparison
-
-| Feature                          | React 17 | React 18             |
-| -------------------------------- | -------- | -------------------- |
-| Code splitting with `React.lazy` | ✅        | ✅                    |
-| Suspense for data fetching       | ❌        | ⚠️ (Framework-based) |
-| Concurrent rendering support     | ❌        | **✅**                |
-| Streaming SSR                    | ❌        | **✅**                |
-| Partial UI reveal                | ❌        | **✅**                |
-| Works with `startTransition`     | ❌        | **✅**                |
-| Production-ready Suspense        | ❌        | **✅**                |
-
 <br>
 
-#### 🧪 Example: Data Fetching Behavior
-
-❌ React 17 (Not Supported)
-
-```jsx
-const data = fetchData(); // Suspends
-```
-
-➡️ Breaks / experimental
-
-<br>
-
-✅ React 18 (With Framework Support)
-
-```jsx
-const data = use(fetchDataPromise);
-```
-
-➡️ Suspends safely inside boundary
-
-
-## 🚫 Common Misconception
+#### 🚫 Common Misconception
 
 > “Suspense fetches data for you”
 
 ❌ False
 
-✔ Suspense **coordinates async rendering**
+✔ Suspense **coordinates async rendering**\
 ✔ Data fetching is done by libraries/frameworks
+
+<br>
 
 ### Very Simple Suspense Data Fetching Example (React 18)
 
@@ -465,7 +381,7 @@ export default function App() {
 }
 
 ```
-
+</details>
 
 <br>
 
@@ -484,8 +400,7 @@ export default function App() {
 
 > ### We have parent, child and grandchild component, we can can pass data from parent to grandchild through props, but can we pass the component from parent to grandchild, if yes then how.
 
-
-**1️⃣ Pass Component as a Prop (Most Common & Clean)**
+### 1️⃣ Pass Component as a Prop (Most Common & Clean)
 You pass the **component reference**, not JSX.
 
 ```jsx
@@ -526,7 +441,7 @@ function GrandChild({ RenderComponent }) {
 ```
 <br>
 
-**2️⃣ Pass JSX (Element) Instead of Component**
+### 2️⃣ Pass JSX (Element) Instead of Component
 
 👉 Here you pass **already created JSX**.
 
@@ -2840,6 +2755,8 @@ ReactDOM.unstable_createRoot(domNode).render(<App />);
 
 > ### useTransition Hook
 
+In Simple words, Let say you have two state updates one is fast state update and other is slow state update in same function, by default there is batching and both state are executed at a time time and sync form, but you want fast state to execute first and make UI responsive and the slow state update then we use the useTransition hook.
+
 When React state updates:
 
 * Some updates are **urgent** (like typing in input, clicking button)
@@ -3201,6 +3118,9 @@ React hydration is the process of attaching event listeners and making a server-
 <br>
 
 > ### Why React's useDeferredValue hook is useful?
+
+Defer means it to be execute at the end, when the react is free, let say you have heavy computation which freezes the UI, we want the react to do all the task and at the end when its free, it do the heavy compuation task without freezing the UI.
+
 
 The `useDeferredValue` hook is useful for improving UI **performance** by **deferring** updates to expensive computations while keeping the UI responsive.
 
