@@ -119,6 +119,38 @@ function reverseArray (arr) {
 
 <br>
 
+> ### Q24 - Reverse a string
+
+<details>
+
+ 1) using Decrementing for loop
+
+```js
+  const str1 = "hello";
+  let reverse = "";
+  for (i = str1.length - 1; i >= 0; i--) {
+    reverse += str1[i];
+  }
+
+  console.log(reverse);
+```
+
+2) using simple for loop
+
+```js
+  const str3 = "hello";
+  let output = "";
+
+  for (let char of str3) {
+    output = char + output;
+  }
+  console.log(output);
+```
+
+</details>
+
+<br>
+
 > ### Q4 - Sort of array
 
 <Details>
@@ -854,38 +886,6 @@ console.log(pairElements(arr));
   }
 
   console.log(pairElements(arr));
-```
-
-</details>
-
-<br>
-
-> ### Q24 - Reverse a string
-
-<details>
-
- 1) using Decrementing for loop
-
-```js
-  const str1 = "hello";
-  let reverse = "";
-  for (i = str1.length - 1; i >= 0; i--) {
-    reverse += str1[i];
-  }
-
-  console.log(reverse);
-```
-
-2) using simple for loop
-
-```js
-  const str3 = "hello";
-  let output = "";
-
-  for (let char of str3) {
-    output = char + output;
-  }
-  console.log(output);
 ```
 
 </details>
@@ -1868,7 +1868,7 @@ a) declare array of employees & sort them in ascending order (empId)\
 b) declare an array of employees & sort them in ascending order by name.\
 c) declare array of employees & filter the employees whose sal>6000;\
 d) declare array of employees & increase sal of every employee by 500;\
-e) declare array of employees & add "comp:ibm" to every employee;
+e) declare array of employees & add "comp:IBM" to every employee;
 
 <Details>
 
@@ -3864,7 +3864,7 @@ console.log(A); // ['F', 'A', 'E', 'D', 'C', 'B']
 <br>
 
 
-> ### Q95 - window.setTimeout() could be used to schedule some task in the future.
+> ### ⭐️ Q95 - window.setTimeout() could be used to schedule some task in the future.
 
 Could you implement clearAllTimeout() to clear all the timers ? This might be useful when we want to clear things up before page transition.
 

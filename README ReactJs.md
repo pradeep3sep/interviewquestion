@@ -29,6 +29,15 @@ onDrop
 
 <br>
 
+> ### If you have many useState in your components, what are the methods you can reduce
+
+1. Use `useReducer`
+2. Group State into a Single Object State
+3. Lift State Up (Correct State Ownership)
+4. Move Logic into Custom Hooks - You create the state in custom hook, then only single line added in every component, which is less code compare to earlier many useState.
+
+<br>
+
 > ### Features of React 18
 
 ### 1. Concurrency
