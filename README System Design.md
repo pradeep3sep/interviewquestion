@@ -1,3 +1,742 @@
+### What is the difference between the hashing and encryption
+
+This is a **core security interview question**.
+Here’s a **clear, structured, interview-ready explanation**.
+
+---
+
+## Hashing vs Encryption
+
+### 1️⃣ Hashing
+
+**What it is**
+
+* A **one-way** process
+* Converts data into a fixed-length hash value
+
+**Key property**
+
+* ❌ Cannot be reversed back to original data
+
+**Used for**
+
+* Password storage
+* Data integrity checks
+
+**Example**
+
+```text
+password123 → x8F2kL9Q...
+```
+
+Even a small change:
+
+```text
+password124 → completely different hash
+```
+
+---
+
+### 2️⃣ Encryption
+
+**What it is**
+
+* A **two-way** process
+* Data can be encrypted **and decrypted**
+
+**Key property**
+
+* ✅ Reversible using a key
+
+**Used for**
+
+* Secure data transmission
+* Storing sensitive data (PII, tokens)
+
+**Example**
+
+```text
+Hello → ENCRYPT(key) → A9x@Q!
+A9x@Q! → DECRYPT(key) → Hello
+```
+
+---
+
+## Core Differences (Interview Table)
+
+| Feature    | Hashing      | Encryption           |
+| ---------- | ------------ | -------------------- |
+| Reversible | ❌ No         | ✅ Yes                |
+| Uses key   | ❌ No         | ✅ Yes                |
+| Purpose    | Verify data  | Protect data         |
+| Output     | Fixed length | Variable length      |
+| Common use | Passwords    | Secure communication |
+
+---
+
+## Real-World Examples
+
+### Passwords → Hashing ✅
+
+```text
+User enters password
+→ hash(password)
+→ compare with stored hash
+```
+
+Why?
+
+* Even the system should not know your password
+
+---
+
+### HTTPS / API data → Encryption ✅
+
+* Data encrypted using TLS
+* Server decrypts it using private key
+
+---
+
+## Common Algorithms (Good to Mention)
+
+### Hashing
+
+* bcrypt
+* SHA-256
+* Argon2
+
+### Encryption
+
+* AES (symmetric)
+* RSA (asymmetric)
+
+---
+
+## Interview Trick Question ❌
+
+❓ *Can we decrypt a hashed password?*
+✔ **No, hashes are irreversible**
+
+❓ *Why not encrypt passwords instead of hashing?*
+✔ If encryption key is stolen, all passwords are compromised
+
+---
+
+## One-Line Interview Answer 🔥
+
+> “Hashing is a one-way process used for verification, while encryption is a two-way process used to protect data and allows decryption using a key.”
+
+---
+
+## Ultra-Short Version
+
+> **Hashing = verify**
+> **Encryption = protect & retrieve**
+
+---
+
+If you want, I can also explain:
+
+* **Salting & peppering**
+* **JWT signing vs encryption**
+* **Why bcrypt is slow**
+* **Hash collisions**
+
+Just tell me 👍
+
+
+
+### Access Token vs Refresh Token
+
+#### 1️⃣ Access Token
+
+**What it is**
+
+* A **short-lived token** used to access protected APIs
+
+**Purpose**
+
+* Sent with every API request to prove the user is authenticated
+
+**Lifetime**
+
+* Short (minutes)
+
+**Where it’s used**
+
+```http
+Authorization: Bearer <access_token>
+```
+
+**Why short-lived**
+
+* Limits damage if the token is stolen
+
+<br>
+
+#### 2️⃣ Refresh Token
+
+**What it is**
+
+* A **long-lived token** used only to get a new access token
+
+**Purpose**
+
+* Allows user to stay logged in without re-entering credentials
+
+**Lifetime**
+
+* Long (days / weeks)
+
+**Where it’s used**
+
+* Sent only to the **token refresh endpoint**
+* Never sent with normal API calls
+
+<br>
+
+#### How They Work Together (Flow)
+
+```text
+Login
+  ↓
+Server issues:
+  - Access Token (short)
+  - Refresh Token (long)
+
+Client uses Access Token → API calls
+
+Access Token expires
+  ↓
+Client sends Refresh Token → /refresh
+  ↓
+Server returns new Access Token
+```
+
+<br>
+
+#### Why We Need Both (Security Reason)
+
+| Problem                     | Solution                 |
+| --------------------------- | ------------------------ |
+| Long-lived token is risky   | Short-lived access token |
+| Frequent re-login is bad UX | Refresh token            |
+| Token theft                 | Limited access window    |
+
+<br>
+
+#### Where to Store Them (Important Interview Point)
+
+#### Access Token
+
+* Memory (JS variable / Redux)
+* Sometimes HttpOnly cookie
+
+#### Refresh Token
+
+* **HttpOnly secure cookie** (recommended)
+* ❌ Never localStorage
+
+<br>
+
+#### Security Best Practices (Interview Gold)
+
+* Rotate refresh tokens
+* Invalidate refresh token on logout
+* Use HTTPS only
+* Store refresh token server-side (DB / Redis)
+* Detect token reuse
+
+<br>
+
+#### Common Interview Traps ❌
+
+| Trap Question                       | Correct Answer |
+| ----------------------------------- | -------------- |
+| Use refresh token for API calls     | ❌ Never        |
+| Store refresh token in localStorage | ❌              |
+| Access token should be long-lived   | ❌              |
+| Both tokens are same                | ❌              |
+
+
+<br>
+<br>
+
+
+## Accessibility in React
+
+**Why Accessibility Matters**
+
+Accessibility measn your website should be available for everyone. By ensuring accessibility, we help people with visual, auditory, motor, or cognitive disabilities use our applications with ease.
+
+Laws like the **Americans with Disabilities Act (ADA)** and the **Web Content Accessibility Guidelines (WCAG)** set guidelines for making websites accessible
+
+
+#### Best Practices for Accessibility in React
+
+1. Use Semantic HTML Elements
+
+Always prefer semantic HTML elements over non-semantic ones (like `<div>` and `<span>`) when possible. HTML5 provides a variety of elements (`<header>, <main>, <nav>, <footer>, <section>, <aside>`, etc.) that are inherently more accessible and recognized by screen readers.
+
+Always have one h1 heading in a page
+
+```js
+// Avoid non-semantic divs
+<div onClick={handleClick}>Click me</div>
+
+// Use a semantic button instead
+<button onClick={handleClick}>Click me</button>
+```
+<br>
+
+2. Utilize WAI-ARIA for Additional Context
+
+WAI-ARIA (Web Accessibility Initiative — Accessible Rich Internet Applications) provides attributes to make dynamic content more accessible to people using screen readers. ARIA attributes enhance non-semantic elements with roles and properties to improve context.
+
+```js
+<button aria-label="Close" onClick={handleClose}>
+  ✖
+</button>
+```
+
+In the above example, the `aria-label` attribute provides a descriptive label for `screen readers`, clarifying that the button’s purpose is to "Close," even though it only visually displays an "X" icon.
+
+`aria-label` helps basically do define the element content details which do not comes in semantic tag,
+
+Some commonly used ARIA attributes include:
+
+- `aria-hidden`: Hide elements from screen readers.
+- `aria-live`: Inform screen readers about dynamic content updates.
+    - An ARIA attribute that tells screen readers and other assistive technologies about dynamic content changes on a webpage, ensuring users aren't left unaware of updates like status messages, errors, or new information that appears without a page reload. 
+    - Let say we have conditon to have the toast that saves the data, to update the screen reader that data have been updated, we use this.
+    - It's set on an element that contains changing text, with values like `polite (wait for user)` or `assertive (interrupt immediately)` to control notification priority, making web applications more accessible by announcing changes that sighted users see automatically. 
+- `aria-expanded`: Indicate whether a collapsible section is open or closed.
+
+<br>
+
+3. Keyboard Navigation and Focus Management
+
+For many users, navigating a web page is done entirely through the keyboard. It’s essential to ensure all interactive elements are accessible via keyboard navigation (i.e., `Tab, Enter, Space, and arrow keys`).
+
+**Things to keep in mind:**
+
+- Ensure that all clickable and interactive elements (like buttons and links) are focusable.
+- Manage focus for modals, dialogs, and dynamic components.
+- Use the `tabIndex` attribute to control the order of focusable elements.
+
+```jsx
+const Modal = ({ isOpen, onClose }) => {
+  const modalRef = useRef(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      modalRef.current.focus();  // Set focus to modal when opened
+    }
+  }, [isOpen]);
+
+  return isOpen ? (
+    <div
+      ref={modalRef}
+      role="dialog"
+      aria-modal="true"
+      tabIndex="-1"
+      className="modal"
+    >
+      <button onClick={onClose}>Close</button>
+      <p>Modal content goes here</p>
+    </div>
+  ) : null;
+};
+```
+
+Here, the focus is set to the modal when it opens, helping keyboard users quickly navigate to interactive content.
+
+<br>
+
+4. Accessible Form Elements
+
+Forms are often a key interaction point for users, so it’s vital to ensure that they’re accessible. This includes:
+
+- Using `<label>` elements that are correctly associated with form inputs via the `for` attribute or `htmlFor` in React.
+- Providing helpful error messages and guidance.
+
+
+```jsx
+<form onSubmit={handleSubmit}>
+  <label htmlFor="email">Email Address</label>
+  <input type="email" id="email" name="email" required />
+
+  <button type="submit">Submit</button>
+</form>
+```
+
+If you do not have the label then you can use below
+
+```jsx
+<form onSubmit={handleSubmit}>
+  <input type="email" aria-label="email" required />
+
+  <button type="submit">Submit</button>
+</form>
+```
+
+Additionally, consider using `aria-live` to announce form errors to screen reader users dynamically.
+
+```jsx
+<div role="alert" aria-live="assertive">
+  {formErrors.email && <span>{formErrors.email}</span>}
+</div>
+```
+
+<br>
+
+5. Color Contrast and Accessible Design
+
+Ensure that your design adheres to accessible color contrast ratios. According to WCAG guidelines, the minimum contrast ratio should be 4.5:1 for normal text and 3:1 for large text.
+
+```css
+.button {
+  background-color: #007bff;
+  color: #ffffff; /* Good contrast */
+}
+```
+
+<br>
+
+5. Image with alt tag
+
+The screen reader do not see the image, it tells the user by using the alt tag of image.
+
+
+<br>
+
+
+### Purpose of `data-*` Attributes in HTML
+
+`data-*` attributes are used to **store custom data directly on HTML elements** in a **standard, valid, and semantic way**, without affecting layout or behavior by default.
+
+---
+
+## Why `data-*` Attributes Exist
+
+Before `data-*`, developers used:
+
+* random custom attributes (invalid HTML)
+* extra classes for logic
+* hidden inputs
+
+`data-*` solves this by:
+
+* keeping HTML **valid**
+* separating **data from presentation**
+* being easily accessible via JavaScript and CSS
+
+---
+
+## Syntax
+
+```html
+<button data-user-id="123" data-role="admin">
+  Edit
+</button>
+```
+
+---
+
+## How to Access `data-*`
+
+### JavaScript
+
+```js
+const btn = document.querySelector("button");
+
+btn.dataset.userId;   // "123"
+btn.dataset.role;     // "admin"
+```
+
+> `data-user-id` → `dataset.userId` (camelCase)
+
+---
+
+### CSS
+
+```css
+button[data-role="admin"] {
+  background-color: red;
+}
+```
+
+---
+
+## Common Use Cases
+
+### 1️⃣ Passing Metadata to JS (Without Extra DOM Queries)
+
+```html
+<li data-product-id="45">iPhone</li>
+```
+
+```js
+handleClick(e) {
+  const id = e.target.dataset.productId;
+}
+```
+
+---
+
+### 2️⃣ Avoiding Extra State
+
+* Tooltips
+* Modals
+* Dropdown values
+
+---
+
+### 3️⃣ JS Framework Interop
+
+Used internally by:
+
+* React
+* Vue
+* Angular
+* Testing libraries
+
+Example (React):
+
+```jsx
+<button data-testid="submit-btn">Submit</button>
+```
+
+---
+
+### 4️⃣ Testing (Very Important)
+
+```jsx
+<button data-testid="login-button">Login</button>
+```
+
+✔ Stable selectors
+✔ Not affected by UI changes
+
+---
+
+### 5️⃣ Styling Based on State (Without JS)
+
+```html
+<div data-status="active"></div>
+```
+
+```css
+div[data-status="active"] {
+  border: 2px solid green;
+}
+```
+
+---
+
+## What `data-*` Is NOT For ❌
+
+* ❌ Storing sensitive data
+* ❌ Replacing proper state management
+* ❌ Heavy data storage
+
+---
+
+## Interview One-Liner 🔥
+
+> “`data-*` attributes allow us to store custom, non-visual data on HTML elements in a standard way, making it easy to access via JavaScript or CSS without breaking HTML semantics.”
+
+---
+
+## Quick Comparison
+
+| Approach          | Problem                  |
+| ----------------- | ------------------------ |
+| Classes for logic | Mixes styling & behavior |
+| Hidden inputs     | Extra DOM elements       |
+| data-*            | Clean & semantic         |
+
+Great question — this is a **classic accessibility + frontend interview topic**.
+
+---
+
+## `data-*` vs `aria-*`
+
+### High-Level Difference (Interview One-Liner)
+
+> **`data-*` is for developers (logic & metadata), while `aria-*` is for users (accessibility & assistive technologies).**
+
+---
+
+## 1️⃣ `data-*` Attributes
+
+### Purpose
+
+* Store **custom, non-visual data**
+* Used by **JavaScript, CSS, testing**
+* Has **no meaning** to screen readers
+
+### Example
+
+```html
+<button data-user-id="42" data-status="active">
+  Save
+</button>
+```
+
+### Usage
+
+```js
+button.dataset.userId; // "42"
+```
+
+### Typical Use Cases
+
+* Metadata for JS logic
+* `data-testid` for testing
+* State flags for styling
+* Framework internals
+
+### Important
+
+* ❌ Does NOT improve accessibility
+* ❌ Screen readers ignore it
+
+---
+
+## 2️⃣ `aria-*` Attributes
+
+### Purpose
+
+* Improve **accessibility**
+* Communicate UI meaning to **screen readers**
+* Part of **WAI-ARIA specification**
+
+### Example
+
+```html
+<button aria-disabled="true">
+  Save
+</button>
+```
+
+### What Screen Readers Understand
+
+* Roles
+* States
+* Relationships
+
+### Typical Use Cases
+
+* Custom components (modals, dropdowns)
+* Dynamic UI state
+* Non-semantic elements acting as controls
+
+---
+
+## Core Differences (Interview Table)
+
+| Feature                | `data-*`           | `aria-*`        |
+| ---------------------- | ------------------ | --------------- |
+| Purpose                | Developer metadata | Accessibility   |
+| Read by screen readers | ❌ No               | ✅ Yes           |
+| Used by JS             | ✅ Yes              | ❌ Not for logic |
+| Affects UX             | ❌ No               | ✅ Yes           |
+| Standard               | HTML5              | WAI-ARIA        |
+
+---
+
+## Example: Custom Dropdown
+
+### ❌ Incorrect (Using `data-*` for accessibility)
+
+```html
+<div data-expanded="true">Menu</div>
+```
+
+Screen readers: ❌ no clue
+
+---
+
+### ✅ Correct (Using `aria-*`)
+
+```html
+<div role="button" aria-expanded="true">
+  Menu
+</div>
+```
+
+Screen readers:
+
+> “Button, expanded”
+
+---
+
+## Important Interview Rule 🔥
+
+> **Never use `data-*` to replace `aria-*` for accessibility.**
+
+---
+
+## When to Use Which?
+
+### Use `data-*` When:
+
+* Passing values to JS
+* Writing tests
+* Styling based on state
+* Framework hooks
+
+### Use `aria-*` When:
+
+* UI state must be announced
+* Element role is not semantic
+* Building custom components
+* Supporting keyboard/screen readers
+
+---
+
+## Common Interview Traps ❌
+
+| Trap                            | Correct Answer             |
+| ------------------------------- | -------------------------- |
+| Use `data-*` for screen readers | ❌                          |
+| ARIA improves styling           | ❌                          |
+| ARIA replaces semantic HTML     | ❌                          |
+| Use both together               | ✅ (for different purposes) |
+
+---
+
+## Real-World Example (React)
+
+```jsx
+<button
+  data-testid="submit-btn"
+  aria-disabled={isLoading}
+  disabled={isLoading}
+>
+  Submit
+</button>
+```
+
+✔ `data-*` → testing
+✔ `aria-*` → accessibility
+✔ `disabled` → native behavior
+
+---
+
+## Final Interview Answer 🔥
+
+> “`data-*` attributes store custom metadata for JavaScript and testing, while `aria-*` attributes communicate roles and states to assistive technologies to make UIs accessible.”
+
+
+
+
+
+
+
+<br>
+
 ## Enhanced Core web vitals
 Website used - Google Lighthouse, PageSpeed Insights
 

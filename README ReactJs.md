@@ -1,3 +1,233 @@
+> ### What are the limitaion of usecontextapi so we used the redux
+
+#### 1️⃣ Unnecessary Re-renders (Performance Issue)
+
+**Problem** - When a context value changes, **all consuming components re-render**, even if they use only a small part of the state.
+
+```jsx
+<UserContext.Provider value={{ user, theme }}>
+```
+
+If `theme` changes → components using only `user` also re-render.
+
+**Redux advantage**
+* Components subscribe to **only the slice they need**
+* Uses selectors + memoization
+
+<br>
+
+#### 2️⃣ Not Designed for Complex Global State
+
+**Context API**
+
+* Best for **static or low-frequency updates**
+
+  * theme
+  * auth user
+  * language
+
+**Redux**
+
+* Handles:
+
+  * large, deeply nested state
+  * frequent updates
+  * derived state
+  * cross-feature dependencies
+
+<br>
+
+#### 3️⃣ No Built-in State Management Patterns
+
+Context provides:
+
+* No reducers by default
+* No middleware
+* No side-effect handling
+
+Redux provides:
+
+* Reducers
+* Middleware (Thunk, Saga)
+* Clear data flow
+
+<br>
+
+### 4️⃣ Debugging Is Hard
+
+Context:
+
+* No time-travel debugging
+* No centralized state logs
+
+Redux:
+
+* Redux DevTools
+* Action history
+* Time travel debugging
+
+<br>
+
+#### 5️⃣ Scalability & Maintainability Issues
+
+With Context:
+
+```text
+AuthContext
+ThemeContext
+CartContext
+UserContext
+ProductContext
+```
+
+This leads to:
+
+* Provider hell
+* Tight coupling
+* Harder refactoring
+
+Redux:
+
+* Centralized store
+* Feature-based slices
+* Predictable structure
+
+---
+
+### 6️⃣ Async & Side Effects Are Manual
+
+Context:
+
+```js
+useEffect + fetch + setState
+```
+
+Redux:
+
+```js
+createAsyncThunk
+sagas
+RTK Query
+```
+
+✔ Cleaner async handling
+✔ Better error/loading states
+
+<br>
+
+> ### How we come up the situation where we needed the redux
+
+> We don’t start with Redux.
+> We adopt Redux **when React’s local state and Context API stop scaling**.
+
+
+#### 1️⃣ Props Drilling Becomes Unmanageable
+
+#### 2️⃣ Context API Starts Causing Performance Issues
+
+**Situation**
+
+Context value updates frequently (e.g. filters, cart, notifications).
+
+```js
+<GlobalContext.Provider value={{ cart, filters, user }} />
+```
+
+**Problem**
+
+* Every update triggers **all consumers to re-render**
+* Hard to optimize
+
+**Why Redux**
+
+* Selective subscriptions
+* Memoized selectors
+* Better performance control
+
+<br>
+
+#### 3️⃣ State Is Shared Across Unrelated Features
+
+**Situation**
+
+Same state used in:
+
+* Header (cart count)
+* Product page
+* Checkout page
+* Order summary
+
+**Problem**
+
+* Duplicated logic
+* Sync issues
+
+**Why Redux**
+
+* Single source of truth
+* Consistent data across the app
+
+<br>
+
+#### 5️⃣ Async Logic Gets Messy
+
+**Situation**
+
+Many API calls:
+
+* Loading
+* Success
+* Error
+* Retry
+* Cancellation
+
+```js
+useEffect(() => {
+  setLoading(true);
+  fetchData()
+    .then(setData)
+    .catch(setError)
+    .finally(() => setLoading(false));
+}, []);
+```
+
+**Problem**
+
+* Repeated patterns
+* Hard to debug
+* Inconsistent states
+
+**Why Redux**
+
+* Thunks / RTK Query
+* Standard async lifecycle
+* Central error handling
+
+<br>
+
+#### 6️⃣ Debugging & Traceability Become Important
+
+**Situation**
+
+* Bugs in production
+* Hard to reproduce state issues
+
+**Problem**
+
+* No visibility into state changes
+* No action history
+
+**Why Redux**
+
+* Redux DevTools
+* Action logs
+* Time-travel debugging
+
+<br>
+
+<br>
+
+
 > ### Difference between useTransition useDeferredValue
 
 > ### WE have below events in react
@@ -409,8 +639,10 @@ export default function App() {
 
 > ### We have parent, child and grandchild component, we can can pass data from parent to grandchild through props, but can we pass the component from parent to grandchild, if yes then how.
 
-### 1️⃣ Pass Component as a Prop (Most Common & Clean)
+#### 1️⃣ Pass Component as a Prop (Most Common & Clean)
 You pass the **component reference**, not JSX.
+
+<details>
 
 ```jsx
 // Parent.jsx
@@ -448,12 +680,15 @@ function GrandChild({ RenderComponent }) {
   );
 }
 ```
+</details>
+
 <br>
 
-### 2️⃣ Pass JSX (Element) Instead of Component
+#### 2️⃣ Pass JSX (Element) Instead of Component
 
 👉 Here you pass **already created JSX**.
 
+<details>
 
 ```jsx
 // Parent.jsx
@@ -483,11 +718,13 @@ function GrandChild({ content }) {
   return <div>{content}</div>;
 }
 ```
+</details>
 
 <br>
 
-**3️⃣ Using `children` (Best Practice – Composition Pattern)** ⭐⭐⭐
+### 3️⃣ Using `children` (Best Practice – Composition Pattern)
 
+<details>
 
 ```jsx
 // Parent.jsx
@@ -519,45 +756,8 @@ function GrandChild({ children }) {
   return <div>{children}</div>;
 }
 ```
-<br>
 
-**4️⃣ Advanced: Passing Component with Props**
-
-
-```jsx
-// Parent.jsx
-function Parent() {
-  return (
-    <Child
-      RenderComponent={(props) => (
-        <GrandChildUI title={props.title} />
-      )}
-    />
-  );
-}
-
-function GrandChildUI({ title }) {
-  return <h3>{title}</h3>;
-}
-```
-<br>
-
-```jsx
-// GrandChild.jsx
-function GrandChild({ RenderComponent }) {
-  return <RenderComponent title="Dynamic Title" />;
-}
-```
-<br>
-
-### Which approach should YOU use?
-
-| Scenario                    | Best Choice       |
-| --------------------------- | ----------------- |
-| Static layout               | `children`        |
-| Dynamic component rendering | Component as prop |
-| Reusable UI library         | `children`        |
-| Need to inject props later  | Render props      |
+</details>
 
 <br>
 
@@ -923,13 +1123,21 @@ export function App() {
 
 ### **Why `handleCount` only increases by 1 (not 3)?**
 
+<details>
+
 In `handleCount`, you're calling `setCount(count + 1)` three times in a row. However, React's state updates are **asynchronous** and **batched** for performance reasons. 
 
 Here's the key points:
 1. When you call `setCount(count + 1)`, the value of `count` inside the function refers to the **current state** at the time the function was executed (closure). 
 2. Even though you call `setCount(count + 1)` multiple times, React batches these updates, effectively overwriting previous calls. Therefore, the final value of `count` after all three calls will reflect only **one increment** by the end of the render cycle.
 
+</details>
+
+<br>
+
 ### **Why `handleCountCallback` increases by 3?**
+
+<details>
 
 In `handleCountCallback`, you're using the callback form of `setCount`: 
 ```javascript
@@ -945,6 +1153,7 @@ Here's why this works as expected:
 
 Thus, the state ends up incrementing by 3.
 
+</details>
 
 <br>
 
@@ -1115,6 +1324,8 @@ root.render(container)
 
 > ### What is the difference between Element and Component?
 
+<details>
+
 An Element is a `plain object`, describing what you want to appear on the screen in terms of the DOM nodes or other components. Elements can contain other Elements in their props. Creating a React element is cheap. Once an element is created, it cannot be mutated.
 
 The JavaScript representation(Without JSX) of React Element would be as follows:
@@ -1165,8 +1376,9 @@ const Button = ({ handleLogin }) =>
   );
 ```
 
-<br>
+</details>
 
+<br>
 
 > ### Why should we not update the state directly?
 
