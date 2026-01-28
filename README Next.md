@@ -62,6 +62,57 @@ What Interviewers Listen For 👂
 
 <br>
 
+> ### let say you try to have api data on server side and your api fails, in that case what would happen. how you manage it
+
+If not any handling is done, then we see the crashed white page. We handle it with 2 ways
+1. Error page
+2. Not found page
+
+
+
+case -1
+
+**error.js – Error Boundary**
+
+```jsx
+async function getUsers() {
+  const res = await fetch(API_URL, { cache: "no-store" });
+
+  if (!res.ok) {
+    throw new Error("Users API failed");
+  }
+
+  return res.json();
+}
+```
+
+If we have thown an error and have the error page, then it will be handled by the error page. we can provide the rest button. reset is retry.
+
+```jsx
+// error.jsx
+"use client";
+
+export default function Error({ error, reset }) {
+  return (
+    <div>
+      <h2>Something went wrong</h2>
+      <button onClick={reset}>Retry</button>
+    </div>
+  );
+}
+```
+
+
+case - 2
+
+```jsx
+import { notFound } from "next/navigation";
+
+if (res.status === 404) {
+  notFound();
+}
+```
+
 
 <br>
 

@@ -1,3 +1,296 @@
+Here are **only the 20 DSA pattern names**, filtered cleanly from the email 👇
+
+1. Prefix Sum
+2. Two Pointers
+3. Sliding Window
+4. Fast & Slow Pointers
+5. Linked List In-place Reversal
+6. Frequency Counting
+7. Monotonic Stack
+8. Bit Manipulation
+9. Top ‘K’ Elements
+10. Overlapping Intervals
+11. Modified Binary Search
+12. Binary Tree Traversal
+13. Depth-First Search (DFS)
+14. Breadth-First Search (BFS)
+15. Shortest Path
+16. Matrix Traversal
+17. Backtracking
+18. Prefix Search (Trie)
+19. Greedy
+20. Dynamic Programming (DP)
+
+<br>
+
+
+Love that you want this mapped properly 😄
+Below is a **clean, interview-oriented list** of **each DSA pattern → must-do LeetCode problems**, all **JS-friendly** and commonly asked.
+
+<br>
+
+## 1. Prefix Sum
+
+**Must-do problems**
+
+* 303. Range Sum Query – Immutable
+* 560. Subarray Sum Equals K ⭐
+* 525. Contiguous Array
+* 238. Product of Array Except Self
+
+👉 *Focus:* cumulative sum + hashmap trick
+
+<br>
+
+## 2. Two Pointers
+
+**Must-do problems**
+
+* 167. Two Sum II – Input Array Is Sorted
+* 15. 3Sum ⭐
+* 11. Container With Most Water
+* 125. Valid Palindrome
+
+👉 *Focus:* sorted arrays, inward/outward movement
+
+<br>
+
+## 3. Sliding Window
+
+**Must-do problems**
+
+* 3. Longest Substring Without Repeating Characters ⭐
+* 76. Minimum Window Substring ⭐
+* 567. Permutation in String
+* 239. Sliding Window Maximum
+
+👉 *Focus:* expand + shrink window logic
+
+<br>
+
+## 4. Fast & Slow Pointers
+
+**Must-do problems**
+
+* 141. Linked List Cycle
+* 142. Linked List Cycle II
+* 876. Middle of the Linked List
+* 202. Happy Number
+
+👉 *Focus:* cycle detection, mid finding
+
+<br>
+
+## 5. Linked List In-place Reversal
+
+**Must-do problems**
+
+* 206. Reverse Linked List ⭐
+* 92. Reverse Linked List II
+* 24. Swap Nodes in Pairs
+* 25. Reverse Nodes in k-Group ⭐
+
+👉 *Focus:* pointer manipulation without extra space
+
+<br>
+
+## 6. Frequency Counting
+
+**Must-do problems**
+
+* 242. Valid Anagram
+* 49. Group Anagrams ⭐
+* 347. Top K Frequent Elements
+* 387. First Unique Character in a String
+
+👉 *Focus:* hash maps, counting patterns
+
+<br>
+
+## 7. Monotonic Stack
+
+**Must-do problems**
+
+* 496. Next Greater Element I
+* 739. Daily Temperatures ⭐
+* 84. Largest Rectangle in Histogram ⭐
+* 42. Trapping Rain Water
+
+👉 *Focus:* increasing/decreasing stacks
+
+<br>
+
+## 8. Bit Manipulation
+
+**Must-do problems**
+
+* 136. Single Number
+* 191. Number of 1 Bits
+* 338. Counting Bits
+* 231. Power of Two
+
+👉 *Focus:* XOR, bit masks
+
+<br>
+
+## 9. Top K Elements (Heap)
+
+**Must-do problems**
+
+* 215. Kth Largest Element in an Array ⭐
+* 347. Top K Frequent Elements
+* 973. K Closest Points to Origin
+* 703. Kth Largest Element in a Stream
+
+👉 *Focus:* min-heap vs max-heap
+
+<br>
+
+## 10. Overlapping Intervals
+
+**Must-do problems**
+
+* 56. Merge Intervals ⭐
+* 57. Insert Interval
+* 435. Non-overlapping Intervals
+* 252. Meeting Rooms
+
+👉 *Focus:* sorting + merging logic
+
+<br>
+
+## 11. Modified Binary Search
+
+**Must-do problems**
+
+* 33. Search in Rotated Sorted Array ⭐
+* 153. Find Minimum in Rotated Sorted Array
+* 74. Search a 2D Matrix
+* 162. Find Peak Element
+
+👉 *Focus:* boundary decisions, condition-based search
+
+<br>
+
+## 12. Binary Tree Traversal
+
+**Must-do problems**
+
+* 94. Binary Tree Inorder Traversal
+* 144. Binary Tree Preorder Traversal
+* 145. Binary Tree Postorder Traversal
+* 102. Binary Tree Level Order Traversal
+
+👉 *Focus:* recursion vs iteration
+
+<br>
+
+## 13. Depth-First Search (DFS)
+
+**Must-do problems**
+
+* 200. Number of Islands ⭐
+* 112. Path Sum
+* 113. Path Sum II
+* 133. Clone Graph
+
+👉 *Focus:* recursion, visited tracking
+
+<br>
+
+## 14. Breadth-First Search (BFS)
+
+**Must-do problems**
+
+* 102. Binary Tree Level Order Traversal
+* 994. Rotting Oranges ⭐
+* 127. Word Ladder ⭐
+* 111. Minimum Depth of Binary Tree
+
+👉 *Focus:* queue + level processing
+
+<br>
+
+## 15. Shortest Path
+
+**Must-do problems**
+
+* 743. Network Delay Time ⭐
+* 787. Cheapest Flights Within K Stops
+* 1514. Path with Maximum Probability
+* 1631. Path With Minimum Effort
+
+👉 *Focus:* Dijkstra, BFS with weights
+
+<br>
+
+## 16. Matrix Traversal
+
+**Must-do problems**
+
+* 200. Number of Islands
+* 695. Max Area of Island
+* 733. Flood Fill
+* 417. Pacific Atlantic Water Flow ⭐
+
+👉 *Focus:* DFS/BFS + boundary checks
+
+<br>
+
+## 17. Backtracking
+
+**Must-do problems**
+
+* 78. Subsets ⭐
+* 46. Permutations ⭐
+* 39. Combination Sum
+* 51. N-Queens
+
+👉 *Focus:* choose → explore → unchoose
+
+<br>
+
+## 18. Prefix Search (Trie)
+
+**Must-do problems**
+
+* 208. Implement Trie ⭐
+* 212. Word Search II
+* 211. Design Add and Search Words
+* 648. Replace Words
+
+👉 *Focus:* prefix matching
+
+<br>
+
+## 19. Greedy
+
+**Must-do problems**
+
+* 55. Jump Game ⭐
+* 45. Jump Game II
+* 134. Gas Station
+* 763. Partition Labels
+
+👉 *Focus:* greedy choice proof
+
+<br>
+
+## 20. Dynamic Programming (DP)
+
+**Must-do problems**
+
+* 70. Climbing Stairs
+* 198. House Robber ⭐
+* 322. Coin Change ⭐
+* 1143. Longest Common Subsequence ⭐
+* 300. Longest Increasing Subsequence
+
+👉 *Focus:* state definition + transitions
+
+<br>
+<br>
+
 # Table of Contents
 
 - [Hash Map alogo ](#1-hash-map-alogo)

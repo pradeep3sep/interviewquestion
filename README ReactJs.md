@@ -1,6 +1,8 @@
 > ### What are the limitaion of usecontextapi so we used the redux
 
-#### 1️⃣ Unnecessary Re-renders (Performance Issue)
+1. Unnecessary Re-renders (Performance Issue)
+
+<details>
 
 **Problem** - When a context value changes, **all consuming components re-render**, even if they use only a small part of the state.
 
@@ -14,9 +16,13 @@ If `theme` changes → components using only `user` also re-render.
 * Components subscribe to **only the slice they need**
 * Uses selectors + memoization
 
+</details>
+
 <br>
 
-#### 2️⃣ Not Designed for Complex Global State
+2. Not Designed for Complex Global State
+
+<details>
 
 **Context API**
 
@@ -35,25 +41,13 @@ If `theme` changes → components using only `user` also re-render.
   * derived state
   * cross-feature dependencies
 
-<br>
-
-#### 3️⃣ No Built-in State Management Patterns
-
-Context provides:
-
-* No reducers by default
-* No middleware
-* No side-effect handling
-
-Redux provides:
-
-* Reducers
-* Middleware (Thunk, Saga)
-* Clear data flow
+</details>
 
 <br>
 
-### 4️⃣ Debugging Is Hard
+3. Debugging Is Hard
+
+<details>
 
 Context:
 
@@ -66,9 +60,13 @@ Redux:
 * Action history
 * Time travel debugging
 
+</details>
+
 <br>
 
-#### 5️⃣ Scalability & Maintainability Issues
+4. Scalability & Maintainability Issues
+
+<details>
 
 With Context:
 
@@ -92,9 +90,11 @@ Redux:
 * Feature-based slices
 * Predictable structure
 
----
+</details>
 
-### 6️⃣ Async & Side Effects Are Manual
+5. Async & Side Effects Are Manual
+
+<details>
 
 Context:
 
@@ -113,17 +113,20 @@ RTK Query
 ✔ Cleaner async handling
 ✔ Better error/loading states
 
+</details>
+
 <br>
 
 > ### How we come up the situation where we needed the redux
 
-> We don’t start with Redux.
-> We adopt Redux **when React’s local state and Context API stop scaling**.
+**We don’t start with Redux.We adopt Redux **when React’s local state and Context API stop scaling**.
 
 
-#### 1️⃣ Props Drilling Becomes Unmanageable
+1. Props Drilling Becomes Unmanageable
 
-#### 2️⃣ Context API Starts Causing Performance Issues
+2. Context API Starts Causing Performance Issues
+
+<details>
 
 **Situation**
 
@@ -144,9 +147,13 @@ Context value updates frequently (e.g. filters, cart, notifications).
 * Memoized selectors
 * Better performance control
 
+</details>
+
 <br>
 
-#### 3️⃣ State Is Shared Across Unrelated Features
+3. State Is Shared Across Unrelated Features
+
+<details>
 
 **Situation**
 
@@ -167,9 +174,13 @@ Same state used in:
 * Single source of truth
 * Consistent data across the app
 
+</details>
+
 <br>
 
-#### 5️⃣ Async Logic Gets Messy
+4. Async Logic Gets Messy
+
+<details>
 
 **Situation**
 
@@ -203,9 +214,13 @@ useEffect(() => {
 * Standard async lifecycle
 * Central error handling
 
+</details>
+
 <br>
 
-#### 6️⃣ Debugging & Traceability Become Important
+5. Debugging & Traceability Become Important
+
+<details>
 
 **Situation**
 
@@ -223,10 +238,10 @@ useEffect(() => {
 * Action logs
 * Time-travel debugging
 
-<br>
+</details>
 
 <br>
-
+<br>
 
 > ### Difference between useTransition useDeferredValue
 
