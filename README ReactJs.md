@@ -1,4 +1,4 @@
-> ### What are the limitaion of usecontextapi so we used the redux
+> ### What are the limitation of usecontextapi so we used the redux
 
 1. Unnecessary Re-renders (Performance Issue)
 
@@ -119,8 +119,7 @@ RTK Query
 
 > ### How we come up the situation where we needed the redux
 
-**We don’t start with Redux.We adopt Redux **when React’s local state and Context API stop scaling**.
-
+**We don’t start with Redux.We adopt Redux when React’s local state and Context API stop scaling**.
 
 1. Props Drilling Becomes Unmanageable
 
@@ -245,7 +244,9 @@ useEffect(() => {
 
 > ### Difference between useTransition useDeferredValue
 
-> ### WE have below events in react
+<br>
+
+> ### We have below events in react
 onKeyDown
 
 onPaste
@@ -285,7 +286,7 @@ onDrop
 
 > ### Features of React 18
 
-### 1. Concurrency
+1. Concurrency
 
 <details>
 
@@ -343,7 +344,7 @@ onChange={(e) => {
 
 <br>
 
-### 2. Automatic Batching Everywhere
+2. Automatic Batching Everywhere
 
 <details>
 
@@ -404,7 +405,7 @@ function increaseCounter(){
 
 <br>
 
-### 3. Strict Mode Changes (Dev Only)
+3. Strict Mode Changes (Dev Only)
 
 <details>
 
@@ -480,7 +481,7 @@ Why?
 
 <br>
 
-### 4. Imporoved Suspense component
+4. Imporoved Suspense component
 
 <details>
 
