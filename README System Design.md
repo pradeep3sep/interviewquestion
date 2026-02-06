@@ -2302,7 +2302,391 @@ Websites can be reached directly via their IP addresses. You can use a [DNS look
 
 https://www.whois.com/whois/tataaig.com
 
+**How does DNS caching improve performance? Where does it occur?**
+DNS caching reduces the time required to resolve domain names by storing previously retrieved DNS query results. It improves performance by:
+
+- **Reducing latency**: Eliminates the need to repeat DNS queries for frequently accessed websites.
+- **Lowering DNS server load**: Fewer queries reduce traffic to upstream DNS servers.
+- **Enhancing user experience**: Websites load faster as queries are resolved locally.
+
+
+Where does DNS caching occur?
+- **Browser Cache**: Stores DNS responses for recently visited websites.
+- **Operating System Cache**: Maintains a local DNS cache for frequently accessed domains.
+- **Recursive Resolver Cache**: DNS servers (e.g., ISP resolvers) cache responses to serve multiple users efficiently.
+
+
+**What is TTL in DNS, and why is it important?**
+- **TTL (Time-To-Live)** is a setting in DNS records that defines how long a record is
+valid before it must be refreshed.
+- **Importance of TTL:**
+  - A short TTL (e.g., 60 seconds) ensures frequent updates but increases query load.
+  - A long TTL (e.g., 24 hours) reduces query frequency but delays propagation of changes.
+  - TTL balances performance and accuracy in DNS resolution.
+
 **Now we have connected server with the browser, we will se how they transfer data from server to browser**
+
+<br>
+
+> ### What is proxy ?
+
+A proxy server is an intermediary server that sits between the client, which is a browser and the server.
+
+1. Security, so proxies help in protecting both clients and servers from threats 
+2. Caching, They store frequently accessed content, which eventually reduces the latency and improve the overall performance.
+3. Traffic control they distribute requests efficiently, preventing the overloads of the back end systems and anonymity.
+4. Sometimes these proxies match the IP addresses of the client and help maintaining the user privacy.
+
+
+**What is a proxy server, and why is it used?**
+
+A proxy server is an intermediary system that sits between a client (such as a user's browser or device) and a destination server. When a client makes a request, the proxy server forwards it to the destination server, receives the response, and then relays it back to the client.
+
+
+**Why is a Proxy Server Used?**
+A proxy server is primarily used for:
+✅ Security & Privacy – It hides the client’s or server’s identity by masking IP addresses.
+✅ Caching & Performance Optimization – Frequently requested content is stored and
+served faster.
+✅ Traffic Control & Load Balancing – Helps distribute traffic evenly across multiple
+servers.
+✅ Content Filtering – Blocks access to restricted or harmful content.
+✅ Compression & Optimization – Reduces bandwidth consumption.
+
+
+
+Type of Proxy Server
+* **Forward proxy** → sits **in front of clients**
+* **Reverse proxy** → sits **in front of servers**
+
+## Forward Proxy
+
+```
++--------+        +---------------+        +----------------+
+| Client | -----> | Forward Proxy | -----> | External Server|
+| (User) |        | (Client-side) |        | (Google, API)  |
++--------+        +---------------+        +----------------+
+
+```
+
+**Who it represents:** the **client**
+
+### How it works
+
+Client → **Forward Proxy** → Internet/Server
+
+The server doesn’t really know who the original client is.
+
+### Common use cases
+
+* Hide client identity (privacy/anonymity)
+* Bypass geo-restrictions
+* Internet access control in offices
+* Caching responses to reduce bandwidth
+
+### Real-world examples
+
+* Corporate proxy servers
+* VPNs (conceptually similar)
+* Browser-configured proxies
+
+### Key points
+
+* Client **must know** about the proxy
+* Proxy is configured on the client side
+* Server sees the proxy’s IP, not the client’s
+
+
+
+## Reverse Proxy
+
+
+```
+
+                +-------------------+
+                |   Reverse Proxy   |
+                | (Nginx / ALB /    |
+Client -------->|  Cloudflare)      |
+                +---------+---------+
+                          |
+          ---------------------------------
+          |               |               |
+   +-------------+ +-------------+ +-------------+
+   | Backend Svc | | Backend Svc | | Backend Svc |
+   | (API #1)    | | (API #2)    | | (API #3)    |
+   +-------------+ +-------------+ +-------------+
+
+```
+
+
+**Who it represents:** the **server**
+
+### How it works
+
+Client → **Reverse Proxy** → Backend Servers
+
+The client thinks it’s talking directly to the server.
+
+### Common use cases
+
+* Load balancing
+* SSL termination
+* Security (WAF, DDoS protection)
+* Caching & compression
+* Hiding internal server architecture
+
+### Real-world examples
+
+* **Nginx**
+* **Apache**
+* **HAProxy**
+* **Cloudflare**
+* **AWS ALB / Nginx Ingress**
+
+### Key points
+
+* Client **does not know** it’s a proxy
+* Configured on the server side
+* Improves performance, security, and scalability
+
+
+
+## Side-by-side Comparison
+
+| Aspect           | Forward Proxy    | Reverse Proxy            |
+| ---------------- | ---------------- | ------------------------ |
+| Sits in front of | Client           | Server                   |
+| Hides            | Client identity  | Server identity          |
+| Configured by    | Client           | Server                   |
+| Main use         | Privacy, control | Load balancing, security |
+| Client awareness | Yes              | No                       |
+
+
+
+## Simple analogy 🏫
+
+* **Forward proxy** → You ask a friend to go buy something *for you*
+* **Reverse proxy** → Reception desk that routes visitors to the right employee
+
+
+
+## Developer angle (useful for you 👨‍💻)
+
+* **Frontend / Backend apps** → Reverse proxy (Nginx, Cloudflare)
+* **Scraping, testing APIs, privacy** → Forward proxy
+* **Microservices** → Reverse proxy + load balancer is almost mandatory
+
+
+**How does a forward proxy improve security and privacy?**
+A forward proxy enhances security and privacy in several ways:
+
+🔒 Hiding Client Identity: A forward proxy masks the client’s IP address so that the target website only sees
+the proxy’s IP. This helps in anonymous browsing and bypassing geo-blocking restrictions.
+
+🔒 Encryption of Traffic: VPN-based forward proxies encrypt internet traffic, preventing ISPs and hackers
+from spying on user activities.
+
+🔒 Content Filtering & Malware Protection: Organizations use forward proxies to block malicious websites and prevent
+phishing attacks.
+
+🔒 Access Control:Companies restrict employee access to specific websites using forward proxies.
+
+
+**How does a reverse proxy help in load balancing and caching?**
+A reverse proxy improves system efficiency by handling requests in an optimized way:
+⚖ Load Balancing: 
+  - A reverse proxy distributes incoming requests across multiple backend servers,
+  preventing any single server from being overloaded.
+  - Algorithms used: Round Robin, Least Connections, IP Hashing.
+
+🛑 Caching Content:
+  - Frequently requested content (HTML pages, images, videos) is stored in the reverse
+proxy’s cache.
+  - Reduces response time and server load by serving cached content instead of fetching it from backend servers.
+
+🔐 Security & DDoS Protection:
+  - Reverse proxies can block malicious traffic before it reaches the backend servers.
+  - Example: Cloudflare protects websites from DDoS attacks by filtering traffic at the proxy level.
+
+
+
+**How does a reverse proxy protect backend servers from DDoS attacks?**
+A reverse proxy defends against Distributed Denial of Service (DDoS) attacks by:
+
+🛑 Traffic Filtering:It analyzes requests and blocks malicious IPs and bots before they reach backend
+servers.
+
+📊 Rate Limiting: Limits the number of requests from a single IP to prevent excessive traffic.
+
+🔍 Anomaly Detection:Uses AI-based traffic analysis to detect attack patterns.
+
+🔄 Load Distribution: Distributes traffic across multiple servers to prevent overload during high-traffic attacks.
+
+
+
+**How does SSL termination work in a reverse proxy?**
+SSL termination is the process where the reverse proxy decrypts HTTPS traffic before forwarding it to backend servers.
+
+Benefits of SSL Termination:
+✅ Reduces Server Load – Backend servers don’t need to handle SSL decryption.
+✅ Improves Performance – Faster response times.
+✅ Centralized Security – Easier to manage SSL certificates at the proxy level.
+
+
+Example: Cloudflare handles SSL termination for websites, reducing the burden on
+origin servers.
+
+**What are the advantages of using Cloudflare, Nginx, or HAProxy as a reverse proxy?**
+
+| Tool        | Advantages                                                                 |
+|------------|-----------------------------------------------------------------------------|
+| Cloudflare | DDoS protection, CDN caching, global load balancing                          |
+| Nginx      | High-performance web server, easy to configure, great for static content caching |
+| HAProxy    | Best for enterprise-grade load balancing, health checks, and high availability |
+
+
+<br>
+
+> ### load balancing
+
+**What is load balancing, and why is it important?**
+Load balancing is the process of distributing incoming network traffic across multiple backend servers to ensure efficient utilization, prevent overload, and improve system availability.
+
+- Ensures High Availability: Prevents system downtime by redirecting traffic in case of server failure.
+
+- Optimizes Resource Utilization: Spreads requests evenly to avoid overloading a single server.
+
+- Improves Performance: Reduces latency by routing traffic to the best-performing server.
+
+- Enhances Scalability: Supports horizontal scaling by adding more servers as demand grows.
+
+- Increases Fault Tolerance: Redirects requests if a server fails, ensuring system reliability.
+
+
+**Types of Load Balancers**
+
+1. Based on Layer or Functions
+
+  - **Layer 4 (L4) Load Balancer/Network Load Balancer:**
+    Layer-4 load balancers operate at the network transport layer(TCP/UDP) of the OSI model. They make forwarding decisions based on information available in network layer protocols (such as IP addresses and port numbers).
+
+    Features
+    **Transport Layer**: Operates at the transport layer (TCP/UDP).
+    **Basic Load Balancing**: Distributes traffic based on IP addresses and port numbers.
+    **Efficiency**: Faster processing as it doesn’t inspect the content of the data packets.
+    **Network Address Translation (NAT)**: Can perform basic NAT to hide server addresses.
+    Examples: AWS Network Load Balancer (NLB), HAProxy (L4 Mode).
+
+  - **Layer 7 (L7) Load Balancer/Application Load Balancer:**
+    Layer-7 load balancers operate at the application layer of the OSI model. They can make load balancing decisions based on content, including information such as URLs, HTTP headers, or cookies.
+
+    Features
+    **Application Layer**: Operates at the application layer (HTTP, HTTPS).
+    **Content-Based Routing**: Distributes traffic based on content-specific information.
+    **Advanced Routing**: Can make intelligent routing decisions based on application-specific data.
+    **SSL Termination**: Capable of terminating SSL connections.
+    Routes requests based on content, headers, cookies, or URL paths.
+    Supports a`dvanced features like SSL termination, caching, and authentication.
+    Examples: AW`S Application Load Balancer (ALB), Nginx, Traefik.
+
+  **Key Difference**: Layer 4 is faster but less flexible, while Layer 7 is intelligent but adds overhead.
+
+
+2. Based on Deployment
+
+  - Hardware Load Balancer: As the name suggests we use a physical appliance to distribute the traffic across the cluster of network servers. These load balancers are also known as Layer 4-7 Routers and these are capable of handling all kinds of HTTP, HTTPS, TCP, and UDP traffic. Specialized devices (eg F5, Citrix NetScaler)
+  - Software Load Balancer: Software load balancers are applications or components that run on general-purpose servers. They are implemented in software, making them flexible and adaptable to various environments. eg Nginx, HAProxy, Envoy
+  - Cloud based Load Balancer: AWS Elastic Load Balancer, Google cloud load balancing
+
+
+
+
+### What are the different types of load balancing algorithms/strategies?
+
+1. Dynamic load balancing algorithms
+- **Least connection**: Checks which servers have the fewest connections open at the time and sends traffic to those servers. This assumes all connections require roughly equal processing power.
+- **Weighted least connection**: Gives administrators the ability to assign different weights to each server, assuming that some servers can handle more connections than others.
+- **Weighted response time**: Averages the response time of each server, and combines that with the number of connections each server has open to determine where to send traffic. By sending traffic to the servers with the quickest response time, the algorithm ensures faster service for users.
+- **Resource-based**: Distributes load based on what resources each server has available at the time. Specialized software (called an "agent") running on each server measures that server's available CPU and memory, and the load balancer queries the agent before distributing traffic to that server.
+
+
+2. Static load balancing algorithms
+- **Round robin**: Round robin load balancing distributes traffic to a list of servers in rotation using the Domain Name System (DNS). An authoritative nameserver will have a list of different A records for a domain and provides a different one in response to each DNS query.
+- **Weighted round robin**: Allows an administrator to assign different weights to each server. Servers deemed able to handle more traffic will receive slightly more. Weighting can be configured within DNS records.
+- **IP hash**: Combines incoming traffic's source and destination IP addresses and uses a mathematical function to convert it into a hash. Based on the hash, the connection is assigned to a specific server.
+
+
+
+### How would you design a scalable load balancing solution for a large e-commerce site?
+
+1. **Use Multiple Load Balancers:**
+  Deploy **primary and secondary** load balancers for redundancy.
+  Distribute traffic globally using **DNS-based load balancing.**
+2. **Choose the Right Load Balancer:**
+  Use **Layer 7** load balancing for dynamic content.
+  Use **Layer 4** load balancing for database connections.
+3. **Implement Load Balancing Strategies:**
+  **Round Robin** for static content servers.
+  **Least Connections** for dynamic request handling.
+4. **Ensure High Availability:**
+  Use **auto-scaling groups** to handle traffic spikes.
+  Implement **health checks** to detect and bypass failed servers.
+5. **Optimize Performance:**
+  Enable **caching (e.g., CDN)** to reduce load on backend servers.
+  Use **Gzip compression and minification** to reduce response sizes.
+
+
+## What factors should be considered when choosing a load balancing strategy?
+
+### 1. Traffic Pattern:
+
+* If traffic is evenly distributed, use **Round Robin**.
+* If requests vary in complexity, use **Least Connections**.
+
+### 2. Server Capacity:
+
+* If servers have different capacities, use **Weighted Load Balancing**.
+
+### 3. Session Persistence:
+
+* If user sessions must be maintained, use **Sticky Sessions**.
+
+### 4. Performance vs. Complexity:
+
+* **Layer 4** is faster but less flexible.
+* **Layer 7** is slower but allows intelligent routing.
+
+### 5. Scalability Needs:
+
+* For cloud-native applications, use cloud-based load balancers (e.g., **AWS ELB**).
+* For on-premises applications, use **software or hardware-based solutions**.
+
+
+
+## How does a load balancer improve security?
+
+### 1. DDoS Protection
+
+* Detects and blocks malicious traffic spikes.
+* Some hardware load balancers provide built-in DDoS mitigation.
+
+### 2. SSL Termination
+
+* Offloads SSL decryption from backend servers.
+* Ensures secure connections with HTTPS.
+
+### 3. Access Control
+
+* Restricts access using firewalls and IP whitelisting.
+
+### 4. Application Firewall Integration
+
+* Prevents SQL injection, cross-site scripting (XSS), and other attacks.
+
+### 5. Rate Limiting
+
+* Limits requests per second to prevent abuse.
+
 
 <br>
 
@@ -4561,3 +4945,11 @@ Common fixes I’ve seen:
 * Adjusting cleanup logic in `useEffect`.
 
 <br>
+
+### Goal of system design
+1. Scalability and Reliablity
+2. Architectural Thinking - like SQL vs NoSQL
+3. Career Growth
+4. Real world problem solving
+5. Trade-offs& Decision making
+6. Future Proofing

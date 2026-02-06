@@ -1,3 +1,8 @@
+> ### React Patterns
+
+
+
+
 > ### What are the limitation of usecontextapi so we used the redux
 
 1. Unnecessary Re-renders (Performance Issue)
