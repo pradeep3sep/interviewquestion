@@ -2690,6 +2690,131 @@ Load balancing is the process of distributing incoming network traffic across mu
 
 <br>
 
+# API Gateway – Interview Questions & Detailed Answers
+
+## 1. What is an API Gateway, and why is it used?
+
+An API Gateway is a server that acts as an intermediary between clients and backend services. It handles request routing, authentication, rate limiting, caching, and response transformation. It is used to manage API traffic efficiently, improve security, reduce backend load, and ensure scalability.
+
+
+## 2. How does an API Gateway differ from a Load Balancer?
+
+An API Gateway provides additional features beyond load balancing, such as authentication, rate limiting, caching, and API composition. A Load Balancer simply distributes network traffic among multiple backend servers to improve availability and scalability.
+
+While Load Balancers operate at the network or transport layer (Layer 4/7), API Gateways operate at the application layer (Layer 7), enabling more advanced request handling.
+
+
+## 3. What are the key benefits of using an API Gateway?
+
+* **Security**: Protects backend services by enforcing authentication and authorization.
+* **Rate Limiting & Throttling**: Controls traffic to prevent abuse and maintain system stability.
+* **Load Balancing**: Distributes requests across multiple services to improve scalability.
+* **Caching**: Reduces backend load and speeds up response times.
+* **Request Transformation**: Converts API requests between different formats (e.g., JSON to XML).
+* **Monitoring & Logging**: Tracks API performance, usage, and security threats.
+
+
+## 4. How does an API Gateway handle authentication and authorization?
+
+API Gateways enforce security through authentication (verifying user identity) and authorization (checking user permissions). Common methods include:
+
+* **API Keys**: Unique identifiers required for API access.
+* **OAuth 2.0 & JWT (JSON Web Tokens)**: Used for secure access management.
+* **mTLS (Mutual TLS)**: Ensures encrypted communication between clients and APIs.
+* **LDAP & SAML**: Used for enterprise authentication.
+
+When a request reaches the API Gateway, it verifies the credentials/token before forwarding the request to backend services. If authentication fails, the request is denied.
+
+
+## 5. Explain rate limiting and throttling in API Gateways.
+
+Rate limiting and throttling control how many requests a client can make within a specified time to prevent API abuse.
+
+* **Rate Limiting**: Restricts the number of API calls per user/IP per second, minute, or hour.
+  *Example*: A user can make only 100 requests per minute.
+* **Throttling**: Allows excess requests but slows down response times instead of rejecting them immediately. Useful for handling high-traffic scenarios.
+* **Burst Limits**: Temporary high limits that adjust dynamically based on usage patterns.
+
+### Common rate-limiting algorithms include:
+
+* **Token Bucket Algorithm**: Requests consume tokens from a fixed bucket; new tokens are added periodically.
+* **Leaky Bucket Algorithm**: Requests are processed at a fixed rate, preventing traffic spikes.
+* **Fixed Window & Sliding Window Counters**: Limit requests per time window.
+
+
+## 6. What caching strategies can be implemented in an API Gateway?
+
+Caching improves performance by storing frequently accessed responses to reduce redundant backend calls. Common caching strategies include:
+
+* **In-memory Caching**: Stores responses in memory (e.g., Redis, Memcached).
+* **Response Caching**: Stores API responses and serves cached results for repeated requests.
+* **Edge Caching (CDN)**: Uses Content Delivery Networks to cache API responses globally.
+* **Per-Route Caching**: Different endpoints have different caching rules (e.g., caching GET but not POST requests).
+* **Time-to-Live (TTL)**: Sets expiration times for cached responses to ensure freshness.
+
+**Example**: A product details API can cache responses for 5 minutes to reduce database queries.
+
+
+## 7. How does an API Gateway improve security against DDoS attacks?
+
+An API Gateway protects against Distributed Denial of Service (DDoS) attacks by:
+
+* **Rate Limiting & Throttling**: Prevents excessive requests from overwhelming backend services.
+* **IP Whitelisting & Blacklisting**: Blocks requests from suspicious or unauthorized IP addresses.
+* **Web Application Firewall (WAF) Integration**: Filters malicious traffic based on predefined security rules.
+* **Bot Detection & CAPTCHA**: Identifies automated bots and requires human verification.
+* **TLS Termination**: Encrypts and decrypts traffic to prevent man-in-the-middle attacks.
+
+**Example**: If an attacker floods an API with millions of requests per second, the API Gateway enforces rate limiting to block excess traffic.
+
+
+## 8. When should you use an API Gateway in a microservices architecture?
+
+An API Gateway is useful in microservices architectures when:
+
+* Multiple services need a unified entry point. Instead of clients calling each service directly, an API Gateway routes requests efficiently.
+* Security and authentication are required. API Gateways enforce access controls to protect microservices.
+* Rate limiting and caching are necessary. This ensures performance and system stability.
+* Request transformation is needed. API Gateways can convert between formats like REST, GraphQL, and gRPC.
+* API monitoring and analytics are important. It enables logging, tracing, and monitoring API usage.
+
+**Example**: In an e-commerce system, an API Gateway can route requests to separate microservices for authentication, product catalog, and payments.
+
+
+## 9. How would you design an API Gateway for a large-scale system with millions of users?
+
+### Security:
+
+For a high-traffic system, an API Gateway must be designed for scalability, reliability, and security.
+
+* Deploy in a Distributed Architecture: Use multiple API Gateway instances behind a Load Balancer to handle traffic spikes.
+* Enable Auto-Scaling: Dynamically adjust resources based on demand (e.g., Kubernetes-based deployment).
+* Use Rate Limiting & Throttling: Prevent excessive API calls from overloading the system.
+* Implement Caching: Reduce backend workload by caching frequently requested responses.
+* Ensure High Availability: Use multi-region deployment with failover mechanisms.
+* Monitor & Log API Traffic: Track errors, response times, and security threats with observability tools.
+
+**Example**: A global video streaming service (like Netflix) would use a CDN-enabled API Gateway to route requests to the nearest data center, improving latency.
+
+
+## 10. What challenges might arise when implementing an API Gateway, and how would you address them?
+
+* **Single Point of Failure**: API Gateway failure can disrupt all API traffic.
+  **Solution**: Deploy multiple API Gateway instances with failover support.
+* **Increased Latency**: Extra processing (authentication, transformation, logging) can slow down requests.
+  **Solution**: Optimize configurations, enable caching, and minimize request overhead.
+* **Complexity in Microservices**: Managing API routes, security policies, and monitoring can be challenging.
+  **Solution**: Use an API Gateway management platform (e.g., Kong, Apigee).
+* **Scalability Issues**: A poorly designed API Gateway can become a performance bottleneck.
+  **Solution**: Use horizontal scaling with distributed API Gateway nodes.
+* **Versioning & Backward Compatibility**: Managing API versions can be complex.
+  **Solution**: Implement versioning strategies (e.g., `/v1/resource`, `/v2/resource`).
+
+**Example**: If an API Gateway becomes a bottleneck in an IoT system, scaling it with a Kubernetes-based deployment ensures high availability.
+
+
+<br>
+
 ## Communication Protocols
 
 Communication protocols are essential rules and conventions for data transfer between network devices. These protocols define how data is formatted, transmitted, and received, enabling reliable communication across networks. Here are some common types of communication protocols:
@@ -2769,6 +2894,17 @@ FTP is used to transfer computer files between client and server. It has separat
 </details>
 
 ![common network protocols](images/protocol.jpg)
+
+<br>
+
+TCP (Transmission Control Protocol)
+
+
+
+
+
+
+
 
 <br>
 
@@ -4781,6 +4917,166 @@ Here's why we use CDNs:
 6. **Global Reach**: CDNs' global presence ensures that users from different parts of the world can access content quickly, regardless of their location.
 7. **Bandwidth Savings**: CDNs can compress and optimize content, reducing the amount of data that needs to be transferred leading to cost savings for both website owners and users.
 8. **Analytics and Reporting**: CDNs typically provide detailed analytics and reporting tools that allow website owners to monitor traffic, user behavior, and other relevant metrics.
+
+
+# CDN System Design Interview Questions & Answers
+
+## Comprehensive Guide
+
+## Table of Contents
+
+1. CDN Basics
+2. CDN Architecture & Components
+3. Caching Strategies & Content Delivery
+4. Load Balancing & Failover Handling
+5. CDN Optimization Techniques
+6. CDN Security & Challenges
+7. Advanced CDN Topics
+
+
+
+## 1⃣ CDN Basics
+
+### 1. What is a CDN, and how does it work?
+
+A Content Delivery Network (CDN) is a distributed network of servers that work together to deliver content to users efficiently. The primary goal of a CDN is to reduce latency and load times by caching content in multiple geographically distributed servers called edge servers or PoPs (Points of Presence).
+
+#### How It Works:
+
+1. A user requests content (e.g., an image, video, or webpage).
+2. The request is directed to the nearest CDN edge server based on factors like geographic location, network latency, and server load.
+3. If the requested content is already cached on the edge server (**Cache Hit**), it is delivered instantly.
+4. If the content is not cached (**Cache Miss**), the request is forwarded to the origin server, fetched, and stored at the edge server for future requests.
+
+
+
+### 2. Why do we need CDNs in system design?
+
+Without a CDN, content is served directly from the origin server, which leads to:
+
+* High latency due to geographic distance between the user and the server.
+* Overloaded origin servers, causing slower responses and downtime.
+* Bandwidth constraints, leading to slow page load times and higher operational costs.
+* Security risks, including DDoS attacks and malicious traffic.
+
+CDNs solve these problems by distributing traffic across multiple edge locations, caching frequently accessed content, and protecting against cyber threats.
+
+
+### 3. What are the key benefits of using a CDN?
+
+* ✅ **Reduced Latency** – Faster content delivery by serving from the closest PoP.
+* ✅ **Lower Bandwidth Costs** – Caching reduces requests to the origin, minimizing data transfer costs.
+* ✅ **Increased Availability & Load Balancing** – Distributes traffic across multiple servers, preventing overload.
+* ✅ **Enhanced Security** – Protects against DDoS attacks, traffic filtering, and SSL/TLS encryption.
+
+
+## 2⃣ CDN Architecture & Components
+
+### 4. Explain the difference between an origin server and an edge server in a CDN.
+
+* **Origin Server**: The central server that hosts the original content. It is responsible for serving content when a cache miss occurs.
+* **Edge Server (PoP)**: A geographically distributed server that caches content closer to users to reduce latency.
+
+💡 **Analogy**: The origin server is like a main warehouse, while edge servers are local distribution centers that store frequently accessed goods.
+
+
+### 5. What is a PoP (Point of Presence) in a CDN?
+
+A PoP (Point of Presence) is a CDN data center that contains edge servers to store and serve cached content to users. The more PoPs a CDN has, the faster and more reliable the content delivery.
+
+
+### 6. How does request routing work in a CDN?
+
+CDNs use various routing strategies to direct user requests to the optimal edge server:
+
+* **Geo-Based Routing**: Users are directed to the closest PoP.
+* **Latency-Based Routing**: Requests go to the PoP with the lowest network latency.
+* **Load-Aware Routing**: Traffic is balanced across multiple PoPs to prevent overload.
+
+
+## 3⃣ Caching Strategies & Content Delivery
+
+### 7. What is a cache hit vs. cache miss, and how does a CDN handle them?
+
+* **Cache Hit**: The requested content is found in the CDN cache and served immediately.
+* **Cache Miss**: The content is not in the cache, so it is fetched from the origin, stored at the edge, and then served to the user.
+
+
+### 8. Explain cache expiration and TTL (Time-To-Live) in a CDN.
+
+* **TTL (Time-To-Live)**: Defines how long content stays cached before it expires.
+* **CDN Cache Expiration**: Once TTL expires, the CDN fetches updated content from the origin.
+
+
+### 9. What are cache invalidation strategies, and why are they important?
+
+* **Manual Purge**: Manually removes outdated content.
+* **Stale-While-Revalidate**: Serves stale content while fetching fresh content in the background.
+* **Versioning**: Appends version numbers (e.g., `image_v2.png`) to force cache updates.
+
+
+## 4⃣ Load Balancing & Failover Handling
+
+### 10. How do CDNs use load balancing to improve reliability?
+
+CDNs distribute traffic across multiple PoPs using:
+
+* ✅ Round-robin balancing
+* ✅ Latency-based routing
+* ✅ Geo-based routing
+
+
+### 11. What happens if a CDN PoP fails?
+
+The CDN automatically reroutes traffic to the next best PoP, ensuring uninterrupted service.
+
+
+## 5⃣ CDN Optimization Techniques
+
+### 12. What compression and minification techniques do CDNs use?
+
+CDNs optimize content delivery using:
+
+* **Gzip & Brotli Compression** (reduces file size).
+* **Minification of CSS/JS** (removes unnecessary characters).
+* **Image Optimization** (WebP, AVIF formats).
+
+
+## 6⃣ CDN Security & Challenges
+
+### 13. How does a CDN protect against DDoS attacks?
+
+* **Rate Limiting**: Blocks excessive requests from a single source.
+* **Traffic Filtering**: Identifies and drops malicious requests.
+* **Anycast Routing**: Distributes attack traffic across multiple PoPs to absorb the impact.
+
+
+### 14. What is SSL/TLS offloading, and why is it useful?
+
+SSL/TLS Offloading means the CDN handles encryption at the edge, reducing the burden on the origin server.
+
+
+## 7⃣ Advanced CDN Topics
+
+### 15. How does a multi-CDN architecture work?
+
+A multi-CDN strategy uses multiple CDN providers for better redundancy, performance, and failover handling.
+
+
+### 16. How would you design a CDN for a large-scale video streaming platform?
+
+Key design considerations:
+
+* **Segmented Caching** (store different video chunks at different PoPs).
+* **Adaptive Bitrate Streaming** (adjusts video quality based on user bandwidth).
+* **Load Balancing** (distributes viewers across multiple servers).
+
+
+## Final Thoughts
+
+Understanding CDN architecture, caching, security, and optimization techniques will help you design high-performance, scalable systems.
+
+💡 **Pro Tip**: Always think about latency, redundancy, and scalability when discussing CDNs in system design interviews!
 
 <br>
 
