@@ -3920,6 +3920,278 @@ H --> J[UI Updates Automatically When State Changes]
 
 <br>
 
+### createSelector
+
+Think of **`createSelector`** as a **smart helper that calculates derived data from Redux state and remembers the result** so it doesn’t redo work unnecessarily.
+
+#### In super simple terms 🧠
+
+> **`createSelector` helps you compute something from the store only when the input actually changes.**
+
+
+
+#### The problem it solves
+
+In Redux, you often do things like:
+
+* Filter a list
+* Count items
+* Combine multiple pieces of state
+
+If you do this **directly in a component**, it runs **every render**, even when the data hasn’t changed → wasteful.
+
+
+
+#### What `createSelector` does
+
+1. Takes **one or more input selectors** (small functions that read state)
+2. Takes a **result function** (your calculation)
+3. **Memoizes** the result (caches it)
+
+ If inputs are the same, it returns the **cached result** instead of recalculating.
+
+
+#### Simple example
+
+#### Redux state
+
+```js
+state = {
+  todos: [
+    { id: 1, text: 'Learn Redux', completed: true },
+    { id: 2, text: 'Learn RTK', completed: false }
+  ]
+}
+```
+
+#### ❌ Without `createSelector`
+
+```js
+const completedTodos = state.todos.filter(t => t.completed)
+```
+
+This runs **every time** the component renders.
+
+
+
+#### ✅ With `createSelector`
+
+```js
+import { createSelector } from '@reduxjs/toolkit'
+
+const selectTodos = state => state.todos
+
+const selectCompletedTodos = createSelector(
+  [selectTodos],
+  (todos) => todos.filter(t => t.completed)
+)
+```
+
+Now:
+
+* Filtering runs **only when `state.todos` changes**
+* Otherwise, Redux returns the **previous result**
+
+
+#### How it works (mental model)
+
+Think of it like:
+
+> “If input is same as last time → return saved answer
+> If input changed → recalculate and save new answer”
+
+
+#### When to use it
+
+Use `createSelector` when:
+
+* You do **filter / map / reduce**
+* You compute **derived data**
+* Logic is used in **multiple components**
+
+Don’t bother when:
+
+* You’re just reading a value (`state.user.name`)
+
+
+<br>
+
+#### How to use createSelector
+
+In Redux Toolkit:
+
+```js
+import { createSelector } from '@reduxjs/toolkit'
+```
+
+(Internally it comes from `reselect`.)
+
+---
+
+#### `createSelector` syntax (core idea)
+
+```js
+createSelector(
+  inputSelectors,
+  resultFunction
+)
+```
+
+That’s it. Only **two things**.
+
+---
+
+#### Parameters explained (plain English)
+
+#### 1. `inputSelectors`
+
+* **Array of selector functions**
+* Each selector:
+
+  * Takes `state`
+  * Returns a piece of state
+
+Example:
+
+```js
+const selectTodos = state => state.todos
+const selectFilter = state => state.filter
+```
+
+You pass them as an array:
+
+```js
+[selectTodos, selectFilter]
+```
+
+
+#### 2. `resultFunction`
+
+* Function that receives the **results of input selectors**
+* Order matters (same order as input selectors)
+* This is where your logic goes
+
+Example:
+
+```js
+(todos, filter) => {
+  return todos.filter(todo => todo.status === filter)
+}
+```
+
+#### Basic working example (step by step)
+
+### Redux state
+
+```js
+state = {
+  todos: [
+    { id: 1, text: 'Redux', completed: true },
+    { id: 2, text: 'RTK', completed: false }
+  ]
+}
+```
+
+#### Step 1: Create a normal selector
+
+```js
+const selectTodos = state => state.todos
+```
+
+#### Step 2: Create memoized selector
+
+```js
+const selectCompletedTodos = createSelector(
+  [selectTodos],                // input selectors
+  (todos) => todos.filter(t => t.completed) // result fn
+)
+```
+
+#### Step 3: Use it in a component
+
+```js
+import { useSelector } from 'react-redux'
+
+const completedTodos = useSelector(selectCompletedTodos)
+```
+
+✅ Filtering runs **only when `state.todos` changes**
+
+#### Multiple input selectors (very common)
+
+#### State
+
+```js
+state = {
+  todos: [...],
+  searchText: 'redux'
+}
+```
+
+#### Selector
+
+```js
+const selectTodos = state => state.todos
+const selectSearchText = state => state.searchText
+
+const selectFilteredTodos = createSelector(
+  [selectTodos, selectSearchText],
+  (todos, searchText) => {
+    return todos.filter(todo =>
+      todo.text.toLowerCase().includes(searchText.toLowerCase())
+    )
+  }
+)
+```
+
+Order matters:
+
+```js
+[todos, searchText]
+```
+
+#### You can also pass selectors directly (shortcut)
+
+Instead of defining them separately:
+
+```js
+const selectCompletedTodos = createSelector(
+  [(state) => state.todos],
+  (todos) => todos.filter(t => t.completed)
+)
+```
+
+Works the same 👍
+(For large apps, named selectors are cleaner.)
+
+#### Important rules (remember these)
+
+#### DO
+
+* Put **only pure logic** in result function
+* Use it for **derived data**
+
+#### DON’T
+
+* Mutate state inside selector
+* Use random values / Date / Math.random
+* Call APIs
+
+#### createSelector vs normal selector (quick compare)
+
+| Normal selector   | createSelector               |
+| ----------------- | ---------------------------- |
+| Runs every render | Runs only when inputs change |
+| No memoization    | Memoized                     |
+| Simple reads      | Derived/computed data        |
+
+#### Mental model (one line)
+
+> **Input selectors extract data → result function computes → memoization avoids re-work**
+
+
+<br>
+
 > ### React Query, now officially known as TanStack Query
 
 <br>
