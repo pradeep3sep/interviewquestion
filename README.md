@@ -97,6 +97,10 @@ onKeyDown	KeyboardEvent
 ChangeEvent<HTMLInputElement>
 
 ———react———
+- limitation of contextapi - (4)
+- when we needed the needed the redux, - above 4 + 1
+- feature of react 18 - 4
+- Different ways to manage state - 5
 - what is custom hook, and its conditions(4) and example
 - why not to use setCount(count++) instead use setCount(prev => prev + 1);
 - useRef vs useState
