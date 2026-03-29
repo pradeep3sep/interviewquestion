@@ -1,3 +1,125 @@
+> ### Custom hook for the debounce
+
+```jsx
+import { useState, useEffect } from "react";
+
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(timer); // cleanup on value change
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+export default useDebounce;
+```
+
+
+```jsx
+import React, { useState } from "react";
+import useDebounce from "./useDebounce";
+
+function SearchComponent() {
+  const [query, setQuery] = useState("");
+  const debouncedQuery = useDebounce(query, 500);
+
+
+  // if api call needed
+  useEffect(() => {
+    if (debouncedQuery) {
+      fetchData(debouncedQuery); // API call, set some value in usestate and render the data
+    }
+  }, [debouncedQuery]);
+
+  return (
+    <div>
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search..."
+      />
+      <p>Debounced: {debouncedQuery}</p>
+    </div>
+  );
+}
+```
+
+<br>
+<br>
+
+> ### Custom fetch hook
+
+```jsx
+import { useState, useEffect } from "react";
+
+export default function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!url) return;
+
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        const res = await fetch(url);
+
+        if (!res.ok) {
+          throw new Error("Something went wrong");
+        }
+
+        const result = await res.json();
+        setData(result);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data, loading, error };
+}
+```
+
+
+```jsx
+import React from "react";
+import useFetch from "./useFetch";
+
+export default function App() {
+  const { data, loading, error } = useFetch(
+    "https://jsonplaceholder.typicode.com/posts"
+  );
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <ul>
+      {data?.map((item) => (
+        <li key={item.id}>{item.title}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+<br>
+
 > ### React Patterns
 
 1. HOC Pattern - A Higher Order Component (HOC) is a function that takes a component and returns a new component
@@ -337,6 +459,9 @@ export const RHFYouTubeForm = () => {
 ```
 </details>
 
+<br>
+<br>
+
 > ### What are the limitation of usecontextapi so we used the redux
 
 1. Unnecessary Re-renders (Performance Issue)
@@ -449,7 +574,7 @@ sagas
 RTK Query
 ```
 
-✔ Cleaner async handling
+✔ Cleaner async handling\
 ✔ Better error/loading states
 
 </details>
@@ -611,6 +736,25 @@ onDrop
 <br>
 
 > ### How to use the props and children in react
+
+```jsx
+function Layout({ title, children }) {
+  return (
+    <div>
+      <h1>{title}</h1>
+      <div>{children}</div>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Layout title="Dashboard">
+      <p>Welcome to your dashboard</p>
+    </Layout>
+  );
+}
+```
 
 <br>
 
@@ -4262,7 +4406,7 @@ Think of **`createSelector`** as a **smart helper that calculates derived data f
 
 > **`createSelector` helps you compute something from the store only when the input actually changes.**
 
-
+<br>
 
 #### The problem it solves
 
@@ -4274,7 +4418,7 @@ In Redux, you often do things like:
 
 If you do this **directly in a component**, it runs **every render**, even when the data hasn’t changed → wasteful.
 
-
+<br>
 
 #### What `createSelector` does
 
@@ -4285,11 +4429,12 @@ If you do this **directly in a component**, it runs **every render**, even when 
  If inputs are the same, it returns the **cached result** instead of recalculating.
 
 
-#### Simple example
+<br>
 
-#### Redux state
+### Simple example
 
 ```js
+// Redux state
 state = {
   todos: [
     { id: 1, text: 'Learn Redux', completed: true },
@@ -4297,6 +4442,8 @@ state = {
   ]
 }
 ```
+
+<br>
 
 #### ❌ Without `createSelector`
 
@@ -4306,7 +4453,7 @@ const completedTodos = state.todos.filter(t => t.completed)
 
 This runs **every time** the component renders.
 
-
+<br>
 
 #### ✅ With `createSelector`
 
@@ -4326,14 +4473,7 @@ Now:
 * Filtering runs **only when `state.todos` changes**
 * Otherwise, Redux returns the **previous result**
 
-
-#### How it works (mental model)
-
-Think of it like:
-
-> “If input is same as last time → return saved answer
-> If input changed → recalculate and save new answer”
-
+<br>
 
 #### When to use it
 
@@ -4347,20 +4487,7 @@ Don’t bother when:
 
 * You’re just reading a value (`state.user.name`)
 
-
 <br>
-
-#### How to use createSelector
-
-In Redux Toolkit:
-
-```js
-import { createSelector } from '@reduxjs/toolkit'
-```
-
-(Internally it comes from `reselect`.)
-
----
 
 #### `createSelector` syntax (core idea)
 
@@ -4373,9 +4500,9 @@ createSelector(
 
 That’s it. Only **two things**.
 
----
+<br>
 
-#### Parameters explained (plain English)
+### Parameters explained (plain English)
 
 #### 1. `inputSelectors`
 
@@ -4385,9 +4512,9 @@ That’s it. Only **two things**.
   * Takes `state`
   * Returns a piece of state
 
-Example:
-
 ```js
+// Example:
+
 const selectTodos = state => state.todos
 const selectFilter = state => state.filter
 ```
@@ -4412,12 +4539,13 @@ Example:
   return todos.filter(todo => todo.status === filter)
 }
 ```
+<br>
 
-#### Basic working example (step by step)
-
-### Redux state
+### Basic working example (step by step)
 
 ```js
+// Redux state
+
 state = {
   todos: [
     { id: 1, text: 'Redux', completed: true },
@@ -4436,7 +4564,7 @@ const selectTodos = state => state.todos
 
 ```js
 const selectCompletedTodos = createSelector(
-  [selectTodos],                // input selectors
+  [selectTodos],                // selector function
   (todos) => todos.filter(t => t.completed) // result fn
 )
 ```
@@ -4448,23 +4576,26 @@ import { useSelector } from 'react-redux'
 
 const completedTodos = useSelector(selectCompletedTodos)
 ```
+<br>
 
 ✅ Filtering runs **only when `state.todos` changes**
 
-#### Multiple input selectors (very common)
+<br>
 
-#### State
+### Multiple input selectors (very common) example
 
 ```js
+// State
+
 state = {
   todos: [...],
   searchText: 'redux'
 }
 ```
 
-#### Selector
-
 ```js
+// Selector
+
 const selectTodos = state => state.todos
 const selectSearchText = state => state.searchText
 
@@ -4484,7 +4615,9 @@ Order matters:
 [todos, searchText]
 ```
 
-#### You can also pass selectors directly (shortcut)
+<br>
+
+### You can also pass selectors directly (shortcut)
 
 Instead of defining them separately:
 
@@ -4498,7 +4631,9 @@ const selectCompletedTodos = createSelector(
 Works the same 👍
 (For large apps, named selectors are cleaner.)
 
-#### Important rules (remember these)
+<br>
+
+### Important rules (remember these)
 
 #### DO
 
@@ -4511,13 +4646,17 @@ Works the same 👍
 * Use random values / Date / Math.random
 * Call APIs
 
-#### createSelector vs normal selector (quick compare)
+<br>
+
+### createSelector vs normal selector (quick compare)
 
 | Normal selector   | createSelector               |
 | ----------------- | ---------------------------- |
 | Runs every render | Runs only when inputs change |
 | No memoization    | Memoized                     |
 | Simple reads      | Derived/computed data        |
+
+<br>
 
 #### Mental model (one line)
 

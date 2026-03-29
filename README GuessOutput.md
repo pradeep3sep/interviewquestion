@@ -1,4 +1,4 @@
-### Question 1
+### Question 0
 
 ```js
 function sum(a){
@@ -6,6 +6,13 @@ function sum(a){
 }
 sum("ggg")
 ```
+
+<details>
+  <summary>Answer</summary>
+  <p>india</p>
+</details>
+
+<br>
 
 
 ### Question 1
@@ -723,6 +730,44 @@ function func() {
 </details>
 
 
+### Question 58
+
+```js
+async function getData() {
+  return await Promise.resolve('I made it!');
+}
+
+const data = getData();
+console.log(data);
+```
+
+```
+- A: "I made it!"
+- B: "Promise {<resolved>: "I made it!"}"
+- C: "Promise {<pending>}"
+- D: "undefined"
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: C</p>
+
+An async function always returns a promise. The `await` still has to wait for the promise to resolve: a pending promise gets returned when we call `getData()` in order to set `data` equal to it.
+
+simply run below code you will get clear idea
+
+```js
+function getData() {
+  return  Promise.resolve('I made it!');
+}
+
+const data = getData();
+console.log(data);
+```
+
+</details>
+
+
 ### Question 39
 ```js
 let message = 'Hello World!';
@@ -1210,44 +1255,6 @@ The `third time` we invoke multiply, we do pass an argument: the object called v
 `passed value is object and object have refrence type which means when x is modifed in 3rd time then value also gets modified and become 20
 
 The fourth time, we pass the value object again. x.number was previously modified to 20, so x.number *= 2 logs 40. also the value.number becomes 40`
-
-</details>
-
-
-### Question 58
-
-```js
-async function getData() {
-  return await Promise.resolve('I made it!');
-}
-
-const data = getData();
-console.log(data);
-```
-
-```
-- A: "I made it!"
-- B: "Promise {<resolved>: "I made it!"}"
-- C: "Promise {<pending>}"
-- D: "undefined"
-```
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer: C</p>
-
-An async function always returns a promise. The `await` still has to wait for the promise to resolve: a pending promise gets returned when we call `getData()` in order to set `data` equal to it.
-
-simply run below code you will get clear idea
-
-```js
-function getData() {
-  return  Promise.resolve('I made it!');
-}
-
-const data = getData();
-console.log(data);
-```
 
 </details>
 
@@ -1923,23 +1930,6 @@ What is value of
 <details>
   <summary>Answer</summary>
   <p>Answer: false</p>
-</details>
-
-
-### Question 78
-
-```js
-var foo = 'outside';
-
-function logIt() {
-    console.log(foo); 
-    var foo = 'inside';
-}
-logIt();
-```
-<details>
-  <summary>Answer</summary>
-  <p>Answer: undefined</p>
 </details>
 
 

@@ -1,3 +1,148 @@
+```vue
+<template>
+  <main id="app">
+    <h1 class="title">Hello, World!</h1>
+    <h2>{{ computedCount }}</h2>
+    <button @click="incrementCounter">Count: {{ counter }}</button>
+  </main>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      counter: 0,
+    };
+  },
+  methods: {
+    incrementCounter() {
+      this.counter++;
+    },
+  },
+  created(){
+    console.log("hii")
+  },
+  computed: {
+    computedCount(){
+      return this.counter
+    }
+  }
+};
+</script>
+
+<style>
+#app {
+  padding: 10px;
+}
+
+.title {
+  color: #5C6AC4;
+}
+</style>
+```
+
+
+<br>
+<br>
+<br>
+
+
+```vue
+<template>
+  <div class="container">
+    <h2>Products Table</h2>
+
+    <!-- Search Input -->
+    <input
+      type="text"
+      v-model="search"
+      placeholder="Search title or description..."
+      class="search-box"
+    />
+
+    <!-- Table -->
+    <table border="1" width="100%">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Price</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr v-for="product in filteredProducts" :key="product.id">
+          <td>{{ product.id }}</td>
+          <td>{{ product.title }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.price }}</td>
+        </tr>
+
+        <tr v-if="filteredProducts.length === 0">
+          <td colspan="4">No results found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "ProductTable",
+  data() {
+    return {
+      products: [],
+      search: ""
+    };
+  },
+  computed: {
+    filteredProducts() {
+      const term = this.search.toLowerCase();
+
+      return this.products.filter(product =>
+        product.title.toLowerCase().includes(term) ||
+        product.description.toLowerCase().includes(term)
+      );
+    }
+  },
+  async mounted() {
+    try {
+      const response = await fetch("https://fakestoreapi.com/products");
+      const data = await response.json();
+      this.products = data;
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  }
+};
+</script>
+
+<style>
+.container {
+  width: 800px;
+  margin: auto;
+}
+
+.search-box {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+</style>
+```
+
+
+
 > ### :class = "{active : dyanmicdata}"
 
 <br>

@@ -12,6 +12,35 @@
 
 <br>
 
+- Guess output
+
+<br>
+
+- Html, css
+- JS
+
+<br>
+
+- Vue 
+- Nuxt
+
+<br>
+- System design
+- Polyfill
+
+<br>
+- React 
+- Next
+
+
+- Testing
+- TS
+
+- write based
+
+
+<br>
+
 
 - How hydration fails
 - App Router vs Pages Router Folder structure and difference
@@ -101,6 +130,7 @@ ChangeEvent<HTMLInputElement>
 - when we needed the needed the redux, - above 4 + 1
 - feature of react 18 - 4
 - Different ways to manage state - 5
+- How to pass a component from parent to child - 3 
 - what is custom hook, and its conditions(4) and example
 - why not to use setCount(count++) instead use setCount(prev => prev + 1);
 - useRef vs useState
@@ -113,10 +143,14 @@ ChangeEvent<HTMLInputElement>
 - useDeferredValue
 - useTransition Hook
 - useImperativeHandle
+- render props
 - Rule of Thumb in memo (4 point)
 - useCallback, useTransition syntex
+- createSelector - helper that calculates derived data from Redux state and remembers the result
+
 
 ———Vue———
+- what is Lifecycle hooks defination, various Lifecycle hooks defination(when it runs)
 - plugins - 4
 - vue reactivity
 - supported modifiers on model - 3
@@ -145,6 +179,8 @@ mapActions
 - How can you write duplicate virtual nodes in a component
 - How to make router param changes as reactive
 - Event Bus and its 3 points
+- fallthrough attribute
+- provide/inject used in parent/child respectively
 
 ————— Nuxt —————-
 watchQuery
@@ -168,6 +204,11 @@ watchQuery
 - static in classes outsider constructor in classes
 - Normal function vs Arrow function - 4
 - Obj vs map - 4
+- Higher order function
+
+------------- HTML-------------
+
+- use a srcset
 
 ———Misc———
 - Can you give an example of an @media property other than screen
@@ -177,6 +218,7 @@ watchQuery
 - Polyfill of flat,shift,unshift
 
 ———S.Design——
+- Accessibility in React - 5
 - Core web vital manage
 - 3 -ve & +ve of vue and react
 - FE optimization - 3 point
@@ -227,15 +269,6 @@ How could you do to improve performance in React?
 
 ————————————
 
-* So, Tata AIG is in the insurance domain, and we deal with multiple types of insurance like health, motor, marine, and even electrical appliance insurance.
-* For each of these categories, we have a dedicated product that manages the entire claim process, right from inward creation to final settlement.
-* The claim journey has multiple stages, and each stage is handled by a specific internal team within Tata AIG.
-* Our end users are not the general public — they’re Tata AIG employees who use these internal systems to process claims efficiently.
-* My role, along with my teammates, is mainly focused on the front-end development of these products.
-* We take care of all change requests, UI/UX improvements, and feature enhancements to make the claim management process smooth and efficient.
-
-
-—————
 - code - 21, 88,93,103
 - BFS DFS - pre,post-in
 - valueOf, toString

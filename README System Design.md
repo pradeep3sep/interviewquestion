@@ -105,7 +105,7 @@ A9x@Q! → DECRYPT(key) → Hello
 
 #### Interview Trick Question 
 
-❓ *Why not encrypt passwords instead of hashing?*
+❓ *Why not encrypt passwords instead of hashing?*\
 ✔ If encryption key is stolen, all passwords are compromised
 
 <br>
