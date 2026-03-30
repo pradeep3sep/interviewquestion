@@ -54,10 +54,10 @@ Fix
 
 What Interviewers Listen For 👂
 
-✔ Hydration mismatch
-✔ window/document errors
-✔ Auth & cookies
-✔ Third-party libs
+✔ Hydration mismatch\
+✔ window/document errors\
+✔ Auth & cookies\
+✔ Third-party libs\
 ✔ Real fixes, not theory
 
 <br>

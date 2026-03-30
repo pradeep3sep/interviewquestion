@@ -32,6 +32,7 @@
 - React 
 - Next
 
+<br>
 
 - Testing
 - TS
@@ -43,6 +44,8 @@
 
 
 - How hydration fails
+- when api fails on server side how you manage it - 2 ways
+- Rendering strategies: 5 types
 - App Router vs Pages Router Folder structure and difference
 - importing the server compoent in client
 - Folder Structure of all files in next js(Search Keyword)
@@ -102,7 +105,7 @@ Nuxt vs Next
 * Union Types
 * Literal Types
 * Unknown vs Any 
-* Difference Between Type Aliases and Interfaces
+* Difference Between Type Aliases and Interfaces - 4 points
 * Constraints
 * Call Signatures
 * Index Signatures
