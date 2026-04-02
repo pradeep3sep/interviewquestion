@@ -42,12 +42,15 @@
 
 <br>
 
-
-- How hydration fails
 - when api fails on server side how you manage it - 2 ways
 - Rendering strategies: 5 types
-- App Router vs Pages Router Folder structure and difference
+    - Kaise every one is different from other
+- SSR vs CSR (5 points)
+- How Hydration happens in terms of DOM and virtual dom, How hydration fails
 - importing the server compoent in client
+- App router vs Page router (loading, route level error, default rendering, api call,route grouping, parallel route, intercepting route)
+- App Router vs Pages Router Folder structure
+- Side by side function compare of page and app router
 - Folder Structure of all files in next js(Search Keyword)
 - Static route
 - Dynamic route
@@ -62,7 +65,7 @@
 - Route Groups & Private Folders
 - parallal route, default and its sign also the URL behaviour in notes
 - Intercepted Routes and its sign
-- Meta data updation - 2 ways
+- Meta data updation - 2 ways and which file we can add
 - fetch(`https://...`, { cache: 'force-cache' | 'no-store' })
     - when fetch is not cached- ie except get method
     - revalidate, 2 ways of using
