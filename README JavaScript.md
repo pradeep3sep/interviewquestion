@@ -2688,28 +2688,6 @@ console.log(Object.isFrozen(object));
 
 <br>
 
-> ### How do you detect caps lock key turned on or not
-
-The mouseEvent `getModifierState()` is used to return a boolean value that indicates whether the specified modifier key is activated or not. The modifiers such as `CapsLock, ScrollLock and NumLock` are activated when they are clicked, and deactivated when they are clicked again.
-
-Let's take an input element to detect the CapsLock on/off behavior with an example,
-
-```js
-document.addEventListener('keydown', function (event) {
-  const isCapsLockOn = event.getModifierState('CapsLock');
-  
-  if (isCapsLockOn) {
-    console.log('Caps Lock is ON');
-  } else {
-    console.log('Caps Lock is OFF');
-  }
-});
-```
-
-
-<br>
- 
-
 > ### What is the purpose of isFinite function
 The isFinite() function is used to determine whether a number is a finite, legal number. It returns false if the value is +infinity, -infinity, or NaN (Not-a-Number), otherwise it returns true.
 

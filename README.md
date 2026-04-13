@@ -86,7 +86,6 @@
 - useSelectedLayoutSegments
 
 - How dyncmic params behave in static and ISR website
-- Side by side function compare
 
 Nuxt vs Next
 - dynamic route is [slug]/page.jsx in app type in next but slug/_id.vue for file _slug/index.vue for folder
@@ -123,7 +122,7 @@ Nuxt vs Next
 * Mapped Types
 * Indexed Access Types
 * Typecasting
-* Children
+* Children - RectNode
 Event	Type Annotation
 onClick	MouseEvent
 onChange	ChangeEvent
@@ -132,9 +131,10 @@ onKeyDown	KeyboardEvent
 ChangeEvent<HTMLInputElement>
 
 ———react———
+- Custom hook for debounce
 - limitation of contextapi - (4)
 - when we needed the needed the redux, - above 4 + 1
-- feature of react 18 - 4
+- features of react 18 - 4
 - Different ways to manage state - 5
 - How to pass a component from parent to child - 3 
 - what is custom hook, and its conditions(4) and example
@@ -145,7 +145,7 @@ ChangeEvent<HTMLInputElement>
 - batching, diffing, reconciliation,React Fiber
 - Abort controller
 - portals in React
-- useEffect and useLayoutEffect (3 point)
+- useEffect and useLayoutEffect (3 point + 1 point)
 - useDeferredValue
 - useTransition Hook
 - useImperativeHandle
@@ -162,6 +162,7 @@ ChangeEvent<HTMLInputElement>
 - supported modifiers on model - 3
 - slots and its type - 4
 - props validation -  (1 generic+3specific) possible prop ye search karo 
+- Nested routes
 - route guard - 2 ways
 - filters
 - merging strategies in mixins - 2
@@ -177,7 +178,7 @@ ChangeEvent<HTMLInputElement>
 mapState
 mapGetters
 
-- Iska usage dekh lo(methods me use hota h and direct bn jata h
+- Iska usage dekh lo methods me use hota h and direct bn jata h
 mapMutations
 mapActions
 
@@ -215,6 +216,7 @@ watchQuery
 ------------- HTML-------------
 
 - use a srcset
+- How to make table
 
 ———Misc———
 - Can you give an example of an @media property other than screen

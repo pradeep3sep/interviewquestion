@@ -1,5 +1,145 @@
 # HTML Best Practices
 
+### Checkbox
+
+```js
+<div id="app">
+  <label>
+    <input type="checkbox" v-model="checked">
+    Accept Terms
+  </label>
+
+  <p>Checked: {{ checked }}</p>
+</div>
+
+<script>
+new Vue({
+  el: "#app",
+  data: {
+    checked: false
+  }
+});
+</script>
+```
+
+```js
+<input type="checkbox" :checked="checked" @change="handleChange">
+
+
+methods: {
+  handleChange(e) {
+    this.checked = e.target.checked;
+  }
+}
+```
+
+```js
+import { useState } from "react";
+
+function App() {
+  const [hobbies, setHobbies] = useState([]);
+
+  const handleChange = (e) => {
+    const { value, checked } = e.target;
+
+    if (checked) {
+      setHobbies([...hobbies, value]);
+    } else {
+      setHobbies(hobbies.filter((h) => h !== value));
+    }
+  };
+
+  return (
+    <>
+      <label>
+        <input type="checkbox" value="reading" onChange={handleChange} />
+        Reading
+      </label>
+      <label>
+        <input type="checkbox" value="gaming" onChange={handleChange} />
+        Gaming
+      </label>
+    </>
+  );
+}
+```
+
+
+```js
+import { useState } from "react";
+
+function App() {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <label>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => setChecked(e.target.checked)}
+      />
+      Accept Terms
+    </label>
+  );
+}
+```
+
+
+> ### select in vue 2 and react
+
+```js
+<template>
+  <div>
+    <select v-model="selected">
+      <option disabled value="">Select option</option>
+      <option value="apple">Apple</option>
+      <option value="banana">Banana</option>
+      <option value="mango">Mango</option>
+    </select>
+
+    <p>Selected: {{ selected }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      selected: ""
+    };
+  }
+};
+</script>
+```
+
+```jsx
+import React, { useState } from "react";
+
+function App() {
+  const [selected, setSelected] = useState("");
+
+  return (
+    <div>
+      <select
+        value={selected}
+        onChange={(e) => setSelected(e.target.value)}
+      >
+        <option value="">Select option</option>
+        <option value="apple">Apple</option>
+        <option value="banana">Banana</option>
+        <option value="mango">Mango</option>
+      </select>
+
+      <p>Selected: {selected}</p>
+    </div>
+  );
+}
+
+export default App;
+```
+
+
+
 ### Start with DOCTYPE
 All HTML documents must start with a <!DOCTYPE> declaration. The declaration is not an HTML tag. It is an "information" to the browser about what document type to expect. In HTML 5, the declaration is simple: <!DOCTYPE html>
 
