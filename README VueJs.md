@@ -3449,3 +3449,2517 @@ export default {
 ```
 
 Now it only changes when `filters.active` changes.
+
+
+
+---------------------------------------------------VUE 3---------------------------
+
+- In Vue 3 we do not have the filters, we can use the computed or methods.
+
+
+> ### Watch
+
+```js
+export default {
+  data() {
+    return {
+      count: 0
+    }
+  },
+  watch: {
+    count(newVal, oldVal) {
+      console.log(newVal, oldVal)
+    }
+  }
+}
+```
+
+```js
+watch: {
+  user: {
+    handler(val) {
+      console.log(val)
+    },
+    deep: true,
+    immediate: true
+  }
+}
+```
+
+
+```js
+<template>
+  <button @click="count++">Count: {{ count }}</button>
+</template>
+
+<script setup>
+import { ref, watch } from "vue"
+
+const count = ref(0)
+
+watch(count, (newVal, oldVal) => {
+  console.log(newVal, oldVal)
+})
+</script>
+```
+
+
+1. Watch Multiple Sources
+
+```js
+watch([count, name], ([newCount, newName]) => {
+  console.log(newCount, newName)
+})
+```
+
+
+2. Watch Getter Functions
+
+```js
+watch(() => count.value * 2, (val) => {
+  console.log(val)
+})
+```
+
+
+3. Cleanup / Side Effects Control
+
+```js
+watch(count, (newVal, oldVal, onInvalidate) => {
+  const timer = setTimeout(() => {
+    console.log(newVal)
+  }, 1000)
+
+  onInvalidate(() => {
+    clearTimeout(timer)
+  })
+})
+// Not possible in vue 2
+```
+
+4. Stop Watching
+
+```js
+const stop = watch(count, () => {})
+stop() // stops watcher
+```
+
+5. Immediate & Deep (Same but cleaner)
+
+```js
+watch(count, callback, {
+  immediate: true,
+  deep: true
+})
+```
+
+
+> ### Watch on object
+
+```js
+export default {
+  data() {
+    return {
+      user: {
+        name: "John",
+        age: 25
+      }
+    }
+  },
+  watch: {
+    user(newVal, oldVal) {
+      console.log("changed", newVal)
+    }
+  }
+}
+```
+
+in vue 3
+
+Case 1: Watching Reactive Object
+
+```js
+import { reactive, watch } from 'vue'
+
+const user = reactive({
+  name: "John",
+  age: 25
+})
+
+watch(user, (newVal, oldVal) => {
+  console.log("changed", newVal)
+})
+watch(user.name, (newVal, oldVal) => {
+  console.log("changed", newVal)
+})
+```
+
+
+Behavior:
+- Automatically deep watches
+- No need for deep: true
+
+
+
+> ### Lifecyce hooks in vue 2 vue 3
+
+- In vue 2, in single component we have the single lifecycle hook of single type, in vue 3 we can have many hook of same type
+
+
+> ### Router in vue 2 vs vue 3
+
+```js
+import { useRoute, useRouter } from 'vue-router'
+
+export default {
+  setup() {
+    const route = useRoute()
+    const router = useRouter()
+
+    console.log(route.path)
+
+    const goHome = () => {
+      router.push('/')
+    }
+
+    return { goHome }
+  }
+}
+```
+
+```js
+export default {
+  mounted() {
+    console.log(this.$route.path)
+    this.$router.push('/about')
+  }
+}
+```
+
+
+> ### Template ref in vue 2 vs vue 3
+
+```js
+<input ref="inputRef" />
+
+export default {
+  mounted() {
+    this.$refs.inputRef.focus()
+  }
+}
+```
+
+```js
+<template>
+  <input ref="inputRef" />
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const inputRef = ref(null)
+
+onMounted(() => {
+  inputRef.value.focus()
+})
+</script>
+```
+
+
+**Note:**Keep in mind that here we used the inputRef.value, not inputRef. When we use the ref, then we can access through the ref.value
+
+
+
+> ### nextick in vue 2 vs vue 3
+
+| Feature         | Vue 2            | Vue 3               |
+| --------------- | ---------------- | ------------------- |
+| Access          | `this.$nextTick` | `nextTick()` import |
+| API Style       | Instance method  | Global function     |
+| Works in setup  | ❌                | ✅                   |
+| Promise support | ⚠️ limited       | ✅ native Promise    |
+
+
+```js
+export default {
+  data() {
+    return { count: 0 }
+  },
+  methods: {
+    increment() {
+      this.count++
+
+      this.$nextTick(() => {
+        console.log(this.$el.textContent)
+      })
+    }
+  }
+}
+```
+
+```js
+<template>
+  <div>
+    <p ref="textRef">{{ count }}</p>
+    <button @click="update">Update</button>
+  </div>
+</template>
+
+<script setup>
+import { ref, nextTick } from 'vue'
+
+const count = ref(0)
+const textRef = ref(null)
+
+const update = async () => {
+  count.value++
+
+  // ❌ DOM not updated yet
+  console.log(textRef.value.textContent)
+
+  await nextTick()
+
+  // ✅ DOM updated
+  console.log(textRef.value.textContent)
+}
+</script>
+
+```
+
+> ### props in vue 2 and vue 3
+
+```js
+export default {
+  props: {
+    title: String
+  }
+}
+```
+
+- Access via `this.title`
+
+
+
+```js
+<template>
+  <h1>{{ title }}</h1>
+</template>
+
+<script setup>
+defineProps({
+  title: String,
+  required: true,
+  default: "Hello"
+})
+</script>
+```
+
+
+```js
+<script setup>
+const props = defineProps({
+  title: String
+})
+
+console.log(props.title)
+</script>
+```
+
+
+- Avoid below
+
+```js
+const { title } = defineProps({ title: String })
+```
+
+> ### Emit in vue 2 vs vue 3
+
+```js
+// child
+<template>
+  <button @click="handleClick">Click</button>
+</template>
+
+<script setup>
+const emit = defineEmits(['update'])
+
+const handleClick = () => {
+  emit('update', 'Hello from child')
+}
+</script>
+```
+
+```js
+// parent
+<template>
+  <Child @update="handleUpdate" />
+</template>
+
+<script setup>
+const handleUpdate = (val) => {
+  console.log(val)
+}
+</script>
+```
+
+
+```js
+// vue 2
+this.$emit('update', value)
+```
+
+
+### What is a Composable?
+
+👉 A **Composable** is simply a **reusable function that uses Vue’s Composition API** to share logic across components.
+
+Think of it like:
+
+> 🔹 “Custom hooks” (similar to React hooks)
+
+
+### Simple Definition
+
+A composable =
+**function + reactive state + reusable logic**
+
+
+### Example (Using `<script setup>`)
+
+#### `useCounter.js` (Composable)
+
+```js
+import { ref } from 'vue'
+
+export function useCounter() {
+  const count = ref(0)
+
+  const increment = () => {
+    count.value++
+  }
+
+  return { count, increment }
+}
+```
+
+#### Use in Component
+
+```vue
+<template>
+  <button @click="increment">{{ count }}</button>
+</template>
+
+<script setup>
+import { useCounter } from './useCounter'
+
+const { count, increment } = useCounter()
+</script>
+```
+
+
+### Why Composables Are Powerful
+
+1. ✅ Reuse Logic Easily
+
+Instead of duplicating code across components
+
+
+2. ✅ Cleaner Code Structure
+
+Group logic by **feature**, not by lifecycle
+
+
+3. ✅ Better than Mixins (Vue 2)
+
+Vue 2 used **mixins**, which had problems:
+
+* Name conflicts ❌
+* Hard to debug ❌
+
+👉 Composables fix all of that ✅
+
+
+### Real Example (API Fetch)
+
+#### `useFetch.js`
+
+```js
+import { ref, onMounted } from 'vue'
+
+export function useFetch(url) {
+  const data = ref(null)
+  const loading = ref(true)
+
+  const fetchData = async () => {
+    const res = await fetch(url)
+    data.value = await res.json()
+    loading.value = false
+  }
+
+  onMounted(fetchData)
+
+  return { data, loading }
+}
+```
+
+#### Use in Component
+
+```vue
+<template>
+  <div v-if="loading">Loading...</div>
+  <pre v-else>{{ data }}</pre>
+</template>
+
+<script setup>
+import { useFetch } from './useFetch'
+
+const { data, loading } = useFetch('https://api.example.com')
+</script>
+```
+
+#### Vue 2 vs Vue 3 (Logic Reuse)
+
+| Feature     | Vue 2    | Vue 3         |
+| ----------- | -------- | ------------- |
+| Reuse logic | Mixins ❌ | Composables ✅ |
+| Readability | ❌        | ✅             |
+| Debugging   | ❌        | ✅             |
+| Flexibility | ❌        | ✅             |
+
+
+# 🧠 Naming Convention
+
+👉 Always start with `use`
+
+Examples:
+
+* `useCounter`
+* `useAuth`
+* `useFetch`
+
+
+#### Common Mistake
+
+❌ Not returning values:
+
+```js
+export function useSomething() {
+  const count = ref(0)
+}
+```
+
+👉 Nothing usable in component
+
+
+
+✅ Correct:
+
+```js
+return { count }
+```
+
+
+> ### Composable state vs vuex vs pinia
+
+Here’s a **clear comparison of Composable state vs Vuex vs Pinia**, explained using **Vue 3 `<script setup>` style** 👇
+
+---
+
+# 🔁 Core Idea
+
+All three are used for **state management**, but at different scales:
+
+* **Composable state** → local/shared logic
+* **Vuex** → centralized global store (Vue 2 style)
+* **Pinia** → modern global store (Vue 3 recommended)
+
+---
+
+# 🟢 1. Composable State (Lightweight)
+
+## 📁 `useCounter.js`
+
+```js
+import { ref } from 'vue'
+
+const count = ref(0) // shared if outside function
+
+export function useCounter() {
+  const increment = () => count.value++
+
+  return { count, increment }
+}
+```
+
+---
+
+## ✅ Use in Component
+
+```vue
+<template>
+  <button @click="increment">{{ count }}</button>
+</template>
+
+<script setup>
+import { useCounter } from './useCounter'
+
+const { count, increment } = useCounter()
+</script>
+```
+
+---
+
+## 🔥 Characteristics
+
+* ✅ Simple & fast
+* ✅ Great for small apps / features
+* ❌ No devtools, no strict structure
+* ❌ Hard to scale for large apps
+
+---
+
+# 🟣 2. Vuex (Vue 2 Style)
+
+## 📁 Store (Concept)
+
+```js
+const store = new Vuex.Store({
+  state: { count: 0 },
+  mutations: {
+    increment(state) {
+      state.count++
+    }
+  }
+})
+```
+
+---
+
+## ❌ Problems
+
+* Too much boilerplate
+* Mutations + actions = verbose
+* Not Composition API friendly
+
+---
+
+## 📉 Status
+
+👉 Vuex is now **mostly replaced by Pinia**
+
+---
+
+# 🔵 3. Pinia (Vue 3 Recommended 🚀)
+
+## 📁 `store/counter.js`
+
+```js
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+
+  const increment = () => count.value++
+
+  return { count, increment }
+})
+```
+
+---
+
+## ✅ Use in Component
+
+```vue
+<template>
+  <button @click="store.increment()">
+    {{ store.count }}
+  </button>
+</template>
+
+<script setup>
+import { useCounterStore } from './store/counter'
+
+const store = useCounterStore()
+</script>
+```
+
+---
+
+# ⚡ Key Differences
+
+| Feature          | Composable | Vuex      | Pinia     |
+| ---------------- | ---------- | --------- | --------- |
+| Setup complexity | ✅ very low | ❌ high    | ✅ low     |
+| Boilerplate      | ✅ none     | ❌ heavy   | ✅ minimal |
+| Global state     | ⚠️ manual  | ✅         | ✅         |
+| Devtools         | ❌          | ✅         | ✅         |
+| TypeScript       | ⚠️ manual  | ❌ meh     | ✅ great   |
+| Vue 3 support    | ✅          | ⚠️ legacy | ✅ best    |
+| Learning curve   | ✅ easy     | ❌ hard    | ✅ easy    |
+
+---
+
+# 🧠 When to Use What
+
+## ✅ Use Composable when:
+
+* Small feature-level state
+* Reusable logic (e.g. form, API)
+* No need for global store
+
+---
+
+## ❌ Avoid Vuex (new projects)
+
+* Only for legacy Vue 2 apps
+
+---
+
+## ✅ Use Pinia when:
+
+* Global shared state (auth, cart, user)
+* Medium to large apps
+* Need devtools & structure
+
+---
+
+# 🔥 Real-World Insight
+
+👉 Most modern Vue 3 apps use:
+
+* **Composable** → for logic
+* **Pinia** → for global state
+
+💡 They are often used **together**, not as alternatives.
+
+
+> ### Alos see the case
+```js
+import { ref } from 'vue'
+
+const count = ref(0) // shared if outside function
+
+export function useCounter() {
+  const increment = () => count.value++
+
+  return { count, increment }
+}
+
+```
+
+```js
+import { ref } from 'vue'
+
+export function useCounter() {
+  const count = ref(0) 
+
+  const increment = () => count.value++
+
+  return { count, increment }
+}
+```
+
+
+> ### computed in vue 2 vs vue 3
+
+```js
+export default {
+  data() {
+    return {
+      firstName: "John",
+      lastName: "Doe"
+    }
+  },
+  computed: {
+    fullName() {
+      return this.firstName + " " + this.lastName
+    }
+  }
+}
+```
+
+```js
+<template>
+  <h1>{{ fullName }}</h1>
+</template>
+
+<script setup>
+import { ref, computed } from "vue"
+
+const firstName = ref("John")
+const lastName = ref("Doe")
+
+const fullName = computed(() => {
+  return firstName.value + " " + lastName.value
+})
+</script>
+```
+
+
+```js
+<script setup>
+import { ref, computed } from "vue"
+
+const firstName = ref("John")
+const lastName = ref("Doe")
+
+const fullName = computed({
+  get: () => firstName.value + " " + lastName.value,
+  set: (value) => {
+    const [f, l] = value.split(" ")
+    firstName.value = f
+    lastName.value = l
+  }
+})
+</script>
+```
+
+
+> ### custom directives in vue 2 vs vue 3 using locally in component
+
+```js
+<input v-focus />
+
+export default {
+  directives: {
+    focus: {
+      inserted(el) {
+        el.focus()
+      }
+    }
+  }
+}
+```
+
+
+```js
+<template>
+  <input v-focus />
+</template>
+
+<script setup>
+const vFocus = {  // it should start with v
+  mounted(el) {
+    el.focus()
+  }
+}
+</script>
+```
+
+Full Lifecycle Example Comparison
+```js
+directives: {
+  demo: {
+    bind(el) {},
+    inserted(el) {},
+    update(el) {},
+    componentUpdated(el) {},
+    unbind(el) {}
+  }
+}
+```
+
+
+```js
+<script setup>
+const vDemo = {
+  beforeMount(el) {},
+  mounted(el) {},
+  beforeUpdate(el) {},
+  updated(el) {},
+  beforeUnmount(el) {},
+  unmounted(el) {}
+}
+</script>
+```
+
+
+
+Note: Pinia is default store in vue 3. So learn pinia also
+Note: defineExpose in vue 3 
+
+
+
+
+-------------------------------- Pinia ---------------------------
+
+# 🚀 Step 1: Install Pinia
+
+```bash
+npm install pinia
+```
+
+---
+
+# 🚀 Step 2: Connect Pinia to your Vue app
+
+Go to `main.js` or `main.ts`
+
+```js
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import App from './App.vue'
+
+const app = createApp(App)
+
+const pinia = createPinia()
+app.use(pinia)
+
+app.mount('#app')
+```
+
+
+# 🚀 Step 3: Create your first store
+
+Create folder:
+
+```
+/src/stores/
+```
+
+Create file: Basicall the slice of store in this folder
+
+```
+src/store/userStore.js
+src/store/permiss.ts
+src/store/sidebar.ts
+```
+
+## Option 1 (Recommended): Setup Store (modern style)
+
+```js
+import { defineStore } from 'pinia'
+import { ref, computed } from 'vue'
+
+export const useUserStore = defineStore('user', () => {
+  // state
+  const name = ref('John')
+  const age = ref(25)
+
+  // getters
+  const isAdult = computed(() => age.value >= 18)
+
+  // actions
+  function incrementAge() {
+    age.value++
+  }
+
+  return { name, age, isAdult, incrementAge }
+})
+```
+
+**Note:** Note that you must return all state properties in setup stores for Pinia to pick them up as state. In other words, you cannot have private state properties in stores. Not returning all state properties or making them readonly will break SSR, devtools, and other plugins.
+
+## Option 2: Options API style (older but still used)
+
+```js
+import { defineStore } from 'pinia'
+
+export const useUserStore = defineStore('user', {
+  state: () => ({
+    name: 'John',
+    age: 25
+  }),
+
+  getters: {
+    isAdult: (state) => state.age >= 18,
+
+    // Below is the example of getters using other getters
+    doubleCount(state) {
+      return state.count * 2
+    },
+   
+    doublePlusOne(): number {
+      return this.doubleCount + 1
+    },
+  },
+
+  actions: {
+    incrementAge() {
+      this.age++
+    }
+  }
+})
+```
+
+
+Note:
+
+**Passing arguments to getters**
+Getters are just computed properties behind the scenes, so it's not possible to pass any parameters to them. However, you can return a function from the getter to accept any arguments:
+
+
+```js
+export const useStore = defineStore('main', {
+  getters: {
+    getUserById: (state) => {
+      return (userId) => state.users.find((user) => user.id === userId)
+    },
+  },
+})
+```
+
+```vue
+<script setup>
+import { storeToRefs } from 'pinia'
+import { useUserListStore } from './store'
+
+const userList = useUserListStore()
+const { getUserById } = storeToRefs(userList)
+// note you will have to use `getUserById.value` to access
+// the function within the <script setup>
+</script>
+
+<template>
+  <p>User 2: {{ getUserById(2) }}</p>
+</template>
+```
+
+
+**Accessing other stores getters**
+
+To use another store's getters, you can directly use it inside of the getter:
+
+```js
+import { useOtherStore } from './other-store'
+
+export const useStore = defineStore('main', {
+  state: () => ({
+    // ...
+  }),
+  getters: {
+    otherGetter(state) {
+      const otherStore = useOtherStore()
+      return state.localData + otherStore.data
+    },
+  },
+})
+```
+
+```vue
+<script setup>
+const store = useCounterStore()
+
+store.count = 3
+store.doubleCount // 6
+</script>
+```
+
+
+**Actions**
+
+- Actions are the equivalent of methods in components
+- Like getters, actions get access to the whole store instance through `this`
+- Unlike getters, actions can be asynchronous, you can await inside of actions any API call or even other actions
+
+
+```js
+import { mande } from 'mande'
+
+const api = mande('/api/users')
+
+export const useUsers = defineStore('users', {
+  state: () => ({
+    userData: null,
+    // ...
+  }),
+
+  actions: {
+    async registerUser(login, password) {
+      try {
+        this.userData = await api.post({ login, password })
+        showTooltip(`Welcome back ${this.userData.name}!`)
+      } catch (error) {
+        showTooltip(error)
+        // let the form component display the error
+        return error
+      }
+    },
+  },
+})
+```
+
+```vue
+<script setup>
+const store = useCounterStore()
+// call the action as a method of the store
+store.randomizeCounter()
+</script>
+
+<template>
+  <!-- Even on the template -->
+  <button @click="store.randomizeCounter()">Randomize</button>
+</template>
+```
+
+**Accessing other stores actions**
+
+```js
+import { useAuthStore } from './auth-store'
+
+export const useSettingsStore = defineStore('settings', {
+  state: () => ({
+    preferences: null,
+    // ...
+  }),
+  actions: {
+    async fetchUserPreferences() {
+      const auth = useAuthStore()
+      if (auth.isAuthenticated) {
+        this.preferences = await fetchPreferences()
+      } else {
+        throw new Error('User must be authenticated')
+      }
+    },
+  },
+})
+```
+
+
+
+
+# 🚀 Step 4: Use store in component
+
+```vue
+<script setup>
+import { useUserStore } from '@/stores/userStore'
+
+const userStore = useUserStore()
+</script>
+
+<template>
+  <div>
+    <p>{{ userStore.name }}</p>
+    <p>{{ userStore.age }}</p>
+    <p>{{ userStore.isAdult }}</p>
+
+    <button @click="userStore.incrementAge">Increase Age</button>
+  </div>
+</template>
+```
+
+---
+
+# ⚡ VERY IMPORTANT RULES (junior dev mistakes)
+
+### ❌ Don’t destructure directly
+
+```js
+// WRONG ❌
+const { name } = useUserStore()
+```
+
+### ✅ Use storeToRefs
+
+```js
+import { storeToRefs } from 'pinia'
+
+const store = useUserStore()
+const { name, age } = storeToRefs(store)
+```
+
+👉 Otherwise reactivity breaks.
+
+In order to extract properties from the store while keeping its reactivity, you need to use `storeToRefs()`. It will create refs for every reactive property. This is useful when you are only using state from the store but not calling any action. Note you can destructure actions directly from the store as they are bound to the store itself too:
+
+
+
+```vue
+<script setup>
+import { useCounterStore } from '@/stores/counter'
+import { storeToRefs } from 'pinia'
+
+const store = useCounterStore()
+// `name` and `doubleCount` are reactive refs
+// This will also extract refs for properties added by plugins
+// but skip any action or non reactive (non ref/reactive) property
+const { name, doubleCount } = storeToRefs(store)
+// the increment action can just be destructured
+const { increment } = store
+</script>
+```
+
+### Updating the State
+
+By default, you can directly read from and write to the state by accessing it through the store instance:
+
+```js
+const store = useStore()
+
+store.count++
+```
+
+Yes, this means no verbose wrappers like in Vuex, you can directly bind that to v-model:
+
+```html
+<input v-model="store.count" type="number" />
+```
+
+
+
+# 🚀 Step 5: Async actions (API calls)
+
+```js
+async function fetchUser() {
+  try {
+    const res = await fetch('/api/user')
+    const data = await res.json()
+    name.value = data.name
+  } catch (err) {
+    console.error(err)
+  }
+}
+```
+
+### 🔑 Tips
+
+* Always handle errors
+* Keep API logic inside store (not components)
+
+---
+
+# 🚀 Step 6: Store splitting (scaling apps)
+
+Instead of one big store:
+
+```
+stores/
+  userStore.js
+  productStore.js
+  cartStore.js
+```
+
+👉 Each store = single responsibility
+
+---
+
+# 🚀 Step 7: Access store outside components
+
+```js
+import { useUserStore } from '@/stores/userStore'
+
+const store = useUserStore()
+store.incrementAge()
+```
+
+### ⚠️ Important
+
+* Works only AFTER app is initialized
+* In SSR → pass pinia instance manually
+
+---
+
+# 🚀 Step 8: Persist data (VERY common requirement)
+
+Install plugin:
+
+```bash
+npm install pinia-plugin-persistedstate
+```
+
+Setup:
+
+```js
+import { createPinia } from 'pinia'
+import persistedState from 'pinia-plugin-persistedstate'
+
+const pinia = createPinia()
+pinia.use(persistedState)
+```
+
+Use in store:
+
+```js
+export const useUserStore = defineStore('user', () => {
+  const name = ref('John')
+
+  return { name }
+}, {
+  persist: true
+})
+```
+
+👉 Now data stays after refresh
+
+---
+
+# 🚀 Step 9: Reset store
+
+
+1. In `Option Stores`, you can reset the state to its initial value by calling the `$reset()` method on the store:
+
+```js
+const store = useUserStore()
+
+store.$reset()
+```
+
+2. In `Setup Stores`, you need to create your own `$reset()` method:
+```js
+export const useCounterStore = defineStore('counter', () => {
+  const count = ref(0)
+
+  function $reset() {
+    count.value = 0
+  }
+
+  return { count, $reset }
+})
+```
+
+
+
+👉 Useful for logout
+
+---
+
+# 🚀 Step 10: Watch store changes
+
+```js
+import { watch } from 'vue'
+
+watch(() => store.age, (newVal) => {
+  console.log('Age changed:', newVal)
+})
+```
+
+---
+
+# 🚀 Step 11: Subscribe to store globally
+
+You can watch the state and its changes through the `$subscribe()` method of a store, similar to `Vuex's subscribe method`. The advantage of using `$subscribe()` over a regular `watch()` is that subscriptions will trigger only once after patches (e.g. when using the function version from above).
+
+
+```js
+cartStore.$subscribe((mutation, state) => {
+  // import { MutationType } from 'pinia'
+  mutation.type // 'direct' | 'patch object' | 'patch function'
+  // same as cartStore.$id
+  mutation.storeId // 'cart'
+  // only available with mutation.type === 'patch object'
+  mutation.payload // patch object passed to cartStore.$patch()
+
+  // persist the whole state to the local storage whenever it changes
+  localStorage.setItem('cart', JSON.stringify(state))
+})
+```
+
+Tip: You can watch the whole state on the pinia instance with a single watch():
+```js
+watch(
+  pinia.state,
+  (state) => {
+    // persist the whole state to the local storage whenever it changes
+    localStorage.setItem('piniaState', JSON.stringify(state))
+  },
+  { deep: true }
+)
+```
+
+
+
+
+# 🚀 Step 12: Devtools (debugging)
+
+* Pinia integrates with Vue DevTools automatically
+* You can:
+
+  * track mutations
+  * inspect state
+  * time-travel debug
+
+---
+
+# 🚀 Step 13: Best folder structure (production)
+
+```
+src/
+ ├── stores/
+ │    ├── user/
+ │    │     ├── index.js
+ │    │     ├── actions.js
+ │    │     ├── getters.js
+ │    │     └── state.js
+ │    ├── cart/
+ │    └── product/
+```
+
+---
+
+# 🔥 Pro Tips (this is where seniors stand out)
+
+### ✅ 1. Keep stores clean
+
+* No DOM logic
+* No UI logic
+
+---
+
+### ✅ 2. Use TypeScript (if possible)
+
+Pinia is **TS-friendly**
+
+---
+
+### ✅ 3. Avoid overusing global state
+
+👉 Not everything belongs in Pinia
+
+---
+
+### ✅ 4. Use composables + Pinia together
+
+* Pinia = global state
+* composables = reusable logic
+
+---
+
+### ✅ 5. Lazy load stores
+
+```js
+const store = useUserStore()
+```
+
+👉 Only loads when used
+
+---
+
+### ✅ 6. Naming convention
+
+* `useXStore`
+* Example: `useAuthStore`, `useCartStore`
+
+---
+
+### ✅ 7. Use getters for derived state
+
+```js
+const fullName = computed(() => firstName.value + ' ' + lastName.value)
+```
+
+---
+
+### ✅ 8. Never mutate state outside store (bad practice)
+
+---
+
+# 🧨 Common mistakes juniors make
+
+* ❌ Direct destructuring (breaks reactivity)
+* ❌ Putting everything in one store
+* ❌ API calls in components
+* ❌ Not handling async errors
+* ❌ Forgetting `$reset` on logout
+
+---
+
+# 🧠 Mental Model
+
+Think of Pinia like:
+
+```
+Store = Brain
+Component = UI
+```
+
+---
+
+# 🚀 Final Advice (from 10 YOE dev)
+
+If you follow only this:
+
+1. Use **setup stores**
+2. Use **storeToRefs**
+3. Keep stores **small & focused**
+4. Put **API logic inside stores**
+
+👉 You’ll already be ahead of most developers.
+
+---
+
+If you want next level:
+I can teach you:
+
+* Pinia + TypeScript (advanced typing)
+* SSR with Pinia
+* Real-world auth system using Pinia
+* Performance optimization patterns
+
+Just tell me 👍
+
+
+
+> ### how to use the getters in component
+
+Alright — let’s zoom in specifically on **how to use getters in a component**, like I’d explain to a junior on my team 👇
+
+---
+
+# 🧠 First: What is a Getter in Pinia?
+
+Getter = **derived state** (like computed)
+
+Example:
+
+```js
+const isAdult = computed(() => age.value >= 18)
+```
+
+👉 You NEVER mutate getters — only read them.
+
+---
+
+# 🚀 Case 1: Using getters WITHOUT destructuring (simplest way)
+
+```vue
+<script setup>
+import { useUserStore } from '@/stores/userStore'
+
+const store = useUserStore()
+</script>
+
+<template>
+  <p>{{ store.isAdult }}</p>
+</template>
+```
+
+### ✅ This works perfectly
+
+* No reactivity issues
+* Clean and simple
+
+---
+
+# 🚀 Case 2: Using getters WITH destructuring (IMPORTANT)
+
+This is where most juniors mess up.
+
+### ❌ Wrong way
+
+```js
+const { isAdult } = useUserStore()
+```
+
+👉 This breaks reactivity (getter won’t update)
+
+---
+
+### ✅ Correct way (use storeToRefs)
+
+```vue
+<script setup>
+import { useUserStore } from '@/stores/userStore'
+import { storeToRefs } from 'pinia'
+
+const store = useUserStore()
+const { isAdult } = storeToRefs(store)
+</script>
+
+<template>
+  <p>{{ isAdult }}</p>
+</template>
+```
+
+### 🔑 Why this works
+
+* `storeToRefs` keeps getters reactive
+* Converts them into refs
+
+---
+
+# 🚀 Case 3: Multiple getters
+
+```js
+const { isAdult, fullName } = storeToRefs(store)
+```
+
+---
+
+# 🚀 Case 4: Using getter inside script (JS logic)
+
+```js
+if (store.isAdult) {
+  console.log('User is adult')
+}
+```
+
+👉 You don’t need `.value` here if NOT using `storeToRefs`
+
+---
+
+# 🚀 Case 5: Using getter with storeToRefs in JS
+
+```js
+const { isAdult } = storeToRefs(store)
+
+if (isAdult.value) {
+  console.log('Adult')
+}
+```
+
+---
+
+# 🚀 Case 6: Getter depending on another getter
+
+Inside store:
+
+```js
+const isSenior = computed(() => age.value > 60)
+
+const category = computed(() => {
+  if (isSenior.value) return 'Senior'
+  if (isAdult.value) return 'Adult'
+  return 'Minor'
+})
+```
+
+Use in component same way 👇
+
+```vue
+<p>{{ store.category }}</p>
+```
+
+---
+
+# 🚀 Case 7: Getter with parameters (advanced)
+
+Pinia doesn’t support params directly like Vuex, but you can do this:
+
+```js
+const getUserById = (id) => {
+  return users.value.find(user => user.id === id)
+}
+```
+
+Use in component:
+
+```js
+store.getUserById(1)
+```
+
+👉 Treat it like a function, not a computed getter
+
+---
+
+# ⚡ Golden Rules (VERY IMPORTANT)
+
+### ✅ Rule 1: Prefer direct usage
+
+```js
+store.isAdult
+```
+
+---
+
+### ✅ Rule 2: Use `storeToRefs` only when destructuring
+
+---
+
+### ✅ Rule 3: Don’t overuse getters
+
+👉 If it's simple, compute in component
+
+---
+
+### ✅ Rule 4: Keep getters pure
+
+❌ No API calls
+❌ No side effects
+
+---
+
+# 🧨 Common mistakes
+
+### ❌ Using `.value` incorrectly
+
+```js
+store.isAdult.value // ❌ WRONG (without storeToRefs)
+```
+
+---
+
+### ❌ Treating getter like function
+
+```js
+store.isAdult() // ❌ WRONG
+```
+
+---
+
+### ❌ Heavy logic inside getters
+
+👉 Makes debugging painful
+
+---
+
+# 🧠 Senior Dev Insight
+
+👉 Use getters when:
+
+* Multiple components need same derived logic
+* Logic depends on store state
+
+👉 Don’t use getters when:
+
+* Logic is local to one component
+
+---
+
+# 🔥 Real-world example
+
+Store:
+
+```js
+const cartTotal = computed(() =>
+  cartItems.value.reduce((sum, item) => sum + item.price, 0)
+)
+```
+
+Component:
+
+```vue
+<p>Total: {{ store.cartTotal }}</p>
+```
+
+---
+
+# 🚀 One-line takeaway
+
+👉 **Getter = computed → use it like a property, not a function**
+
+
+
+> ### in vuex we have actions for async, what is used in pinia for the same
+
+Good question — and this is where Pinia simplifies things a lot.
+
+---
+
+# 🧠 Short Answer
+
+👉 In **Pinia**, you still use **actions** for async work
+👉 But unlike Vuex, **actions are much simpler (no commit, no dispatch)**
+
+---
+
+# ⚡ Key Difference
+
+In Vuex:
+
+```js
+actions: {
+  async fetchUser({ commit }) {
+    const data = await apiCall()
+    commit('setUser', data)
+  }
+}
+```
+
+In Pinia:
+
+```js
+actions: {
+  async fetchUser() {
+    const data = await apiCall()
+    this.user = data
+  }
+}
+```
+
+👉 No mutations
+👉 No commit
+👉 Direct state update
+
+---
+
+# 🚀 Step-by-step async in Pinia
+
+## 1. Define async action
+
+### Setup store style
+
+```js
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+
+export const useUserStore = defineStore('user', () => {
+  const user = ref(null)
+  const loading = ref(false)
+  const error = ref(null)
+
+  async function fetchUser() {
+    loading.value = true
+    error.value = null
+
+    try {
+      const res = await fetch('/api/user')
+      user.value = await res.json()
+    } catch (err) {
+      error.value = err
+    } finally {
+      loading.value = false
+    }
+  }
+
+  return { user, loading, error, fetchUser }
+})
+```
+
+---
+
+## 2. Use in component
+
+```vue
+<script setup>
+import { useUserStore } from '@/stores/userStore'
+
+const store = useUserStore()
+
+store.fetchUser()
+</script>
+
+<template>
+  <p v-if="store.loading">Loading...</p>
+  <p v-else>{{ store.user }}</p>
+</template>
+```
+
+---
+
+# ⚡ Important Concepts (Senior-level understanding)
+
+## ✅ 1. Actions are just functions
+
+* Sync or async — your choice
+* No special structure needed
+
+---
+
+## ✅ 2. You can return data
+
+```js
+async function fetchUser() {
+  const res = await fetch('/api/user')
+  const data = await res.json()
+  user.value = data
+  return data
+}
+```
+
+Component:
+
+```js
+const data = await store.fetchUser()
+```
+
+---
+
+## ✅ 3. You can call actions inside actions
+
+```js
+async function init() {
+  await fetchUser()
+  console.log('Initialized')
+}
+```
+
+---
+
+## ✅ 4. Error handling is manual (important)
+
+Pinia doesn’t enforce structure like Vuex — YOU manage it:
+
+```js
+try {
+  await store.fetchUser()
+} catch (e) {
+  console.log(e)
+}
+```
+
+---
+
+# 🔥 Best Practice Pattern (Production)
+
+Always keep these 3 states:
+
+```js
+loading
+error
+data
+```
+
+👉 This avoids UI bugs
+
+---
+
+# 🧨 Common mistakes
+
+### ❌ Trying to use mutations
+
+```js
+// Pinia DOES NOT HAVE THIS
+mutations: {}
+```
+
+---
+
+### ❌ Overcomplicating like Vuex
+
+👉 No need for:
+
+* commit
+* dispatch
+* separate mutation layer
+
+---
+
+### ❌ Doing API calls in components
+
+👉 Always prefer store
+
+---
+
+# 🧠 Mental Shift (VERY IMPORTANT)
+
+In Vuex:
+
+```js
+Action → Mutation → State
+```
+
+In Pinia:
+
+```js
+Action → State
+```
+
+👉 One less layer = cleaner code
+
+---
+
+# 🚀 Real-world example (cart)
+
+```js
+async function checkout() {
+  try {
+    loading.value = true
+    await api.checkout(cartItems.value)
+    cartItems.value = []
+  } catch (e) {
+    error.value = 'Checkout failed'
+  } finally {
+    loading.value = false
+  }
+}
+```
+
+---
+
+# 🧠 Final takeaway
+
+👉 **Pinia uses actions for async — but they are just normal functions with direct state mutation**
+
+
+
+> ### Give me table how you certain things in vuex vs pinia
+
+Here’s a **clear senior-level comparison table** of how you do common things in **Vuex vs Pinia**. This is the kind of mapping that helps you transition quickly 👇
+
+---
+
+# 🆚 Vuex vs Pinia (Side-by-side)
+
+| Task                                  | Vuex                                            | Pinia                                    |
+| ------------------------------------- | ----------------------------------------------- | ---------------------------------------- |
+| **Create Store**                      | `new Vuex.Store()`                              | `defineStore()`                          |
+| **State**                             | `state: { count: 0 }`                           | `state: () => ({ count: 0 })` OR `ref()` |
+| **Getters**                           | `getters: { double: state => state.count * 2 }` | `computed(() => count.value * 2)`        |
+| **Mutations**                         | ✅ Required                                      | ❌ Not needed                             |
+| **Actions**                           | Async + commit mutations                        | Just functions (sync/async)              |
+| **Update State**                      | `commit('increment')`                           | `this.count++` or `count.value++`        |
+| **Access State**                      | `this.$store.state.count`                       | `store.count`                            |
+| **Access Getter**                     | `this.$store.getters.double`                    | `store.double`                           |
+| **Call Action**                       | `dispatch('fetchUser')`                         | `store.fetchUser()`                      |
+| **Modules**                           | Nested modules config                           | Multiple stores (modular by default)     |
+| **Boilerplate**                       | High                                            | Very low                                 |
+| **TypeScript Support**                | Complex                                         | Excellent (built-in friendly)            |
+| **Devtools**                          | Supported                                       | Supported (better UX)                    |
+| **Persistence**                       | Plugin needed                                   | Plugin (simpler setup)                   |
+| **SSR Support**                       | Manual setup                                    | Built-in friendly                        |
+| **Reactivity Issue on Destructuring** | Less common                                     | Must use `storeToRefs`                   |
+
+---
+
+# 🔍 Code Comparison (Real Examples)
+
+---
+
+## 🧩 1. State
+
+### Vuex
+
+```js
+state: {
+  count: 0
+}
+```
+
+### Pinia
+
+```js
+const count = ref(0)
+```
+
+---
+
+## 🧩 2. Getter
+
+### Vuex
+
+```js
+getters: {
+  double: (state) => state.count * 2
+}
+```
+
+### Pinia
+
+```js
+const double = computed(() => count.value * 2)
+```
+
+---
+
+## 🧩 3. Mutation vs Direct Update
+
+### Vuex
+
+```js
+mutations: {
+  increment(state) {
+    state.count++
+  }
+}
+```
+
+Usage:
+
+```js
+store.commit('increment')
+```
+
+---
+
+### Pinia
+
+```js
+function increment() {
+  count.value++
+}
+```
+
+Usage:
+
+```js
+store.increment()
+```
+
+👉 Or even:
+
+```js
+store.count++
+```
+
+---
+
+## 🧩 4. Async Action
+
+### Vuex
+
+```js
+actions: {
+  async fetchUser({ commit }) {
+    const data = await api()
+    commit('setUser', data)
+  }
+}
+```
+
+---
+
+### Pinia
+
+```js
+async function fetchUser() {
+  const data = await api()
+  user.value = data
+}
+```
+
+---
+
+## 🧩 5. Store Usage in Component
+
+### Vuex
+
+```js
+this.$store.state.count
+this.$store.dispatch('increment')
+```
+
+---
+
+### Pinia
+
+```js
+const store = useStore()
+
+store.count
+store.increment()
+```
+
+---
+
+## 🧩 6. Modules vs Stores
+
+### Vuex
+
+```js
+modules: {
+  user: userModule,
+  cart: cartModule
+}
+```
+
+---
+
+### Pinia
+
+```js
+useUserStore()
+useCartStore()
+```
+
+👉 No nesting headache
+
+---
+
+## 🧩 7. Destructuring
+
+### Vuex
+
+```js
+const count = computed(() => store.state.count)
+```
+
+---
+
+### Pinia
+
+```js
+const { count } = storeToRefs(store)
+```
+
+---
+
+# 🧠 Senior Dev Insights
+
+### 🔥 Why Pinia is better
+
+* No mutations → less boilerplate
+* Direct state access → cleaner code
+* Better TypeScript support
+* More intuitive mental model
+
+---
+
+### ⚠️ When Vuex still appears
+
+* Legacy projects
+* Large enterprise apps not migrated yet
+
+---
+
+# 🧠 Mental Model Shift
+
+### Vuex thinking:
+
+```
+Action → Mutation → State → Getter
+```
+
+### Pinia thinking:
+
+```
+Action → State → Getter
+```
+
+👉 One less layer = faster development + fewer bugs
+
+---
+
+# 🚀 Final Takeaway
+
+👉 **Pinia removes complexity, not capability**
+
+If you understand Vuex, Pinia will feel like:
+
+> “Why was I doing so much extra work before?”
+
+---
+
+If you want, next I can give:
+
+* migration guide (Vuex → Pinia)
+* or real production architecture (auth + API + caching)
+-----------------------self note---------------
+
+1. Store has three concepts, the state, getters and actions and it's safe to assume these concepts are the equivalent of data, computed and methods in components.
+2. Defining in store
+
+```js
+import { defineStore } from 'pinia'
+
+// You can name the return value of `defineStore()` anything you want,
+// but it's best to use the name of the store and surround it with `use`
+// and `Store` (e.g. `useUserStore`, `useCartStore`, `useProductStore`)
+// the first argument is a unique id of the store across your application
+export const useAlertsStore = defineStore('alerts', {
+  // other options...
+})
+```
+
+This name, also referred to as id, is necessary and is used by Pinia to connect the store to the devtools. Naming the returned function use... is a convention across composables to make its usage idiomatic.
+
+
+> ### Note
+
+1. If you are not using the Composition API, and you are using computed, methods, ..., you can use the mapState() helper to map state properties as readonly computed properties:
+
+```js
+import { mapState } from 'pinia'
+import { useCounterStore } from '../stores/counter'
+
+export default {
+  computed: {
+    // gives access to this.count inside the component
+    // same as reading from store.count
+    ...mapState(useCounterStore, ['count'])
+    // same as above but registers it as this.myOwnName
+    ...mapState(useCounterStore, {
+      myOwnName: 'count',
+      // you can also write a function that gets access to the store
+      double: store => store.count * 2,
+      // it can have access to `this` but it won't be typed correctly...
+      magicValue(store) {
+        return store.someGetter + this.count + this.double
+      },
+    }),
+  },
+}
+```
+
+2. Mutating the state
+
+Apart from directly mutating the store with `store.count++`, you can also call the `$patch` method. It allows you to apply multiple changes at the same time with a partial `state` object:
+
+
+```js
+store.$patch({
+  count: store.count + 1,
+  age: 120,
+  name: 'DIO',
+})
+```
+
+
+However, some mutations are really hard or costly to apply with this syntax: any collection modification (e.g. pushing, removing, splicing an element from an array) requires you to create a new collection. Because of this, the $patch method also accepts a function to group these kinds of mutations that are difficult to apply with a patch object:
+
+```js
+store.$patch((state) => {
+  state.items.push({ name: 'shoes', quantity: 1 })
+  state.hasChanged = true
+})
+```
+
+The main difference here is that $patch() allows you to group multiple changes into one single entry in the devtools. Note that both direct changes to state and $patch() are tracked in devtools and can be time traveled.
+
+
+> ### Plugins in Pinia
+
+A **Pinia plugin** is a function that runs **every time a store is created**
+
+It lets you:
+
+* extend stores
+* add global functionality
+* hook into store lifecycle
+
+
+Step 1: Create a plugin
+
+```js
+function myPlugin(context) {
+  console.log(context)
+}
+```
+
+Step 2: Register plugin
+
+In `main.js`:
+
+```js
+import { createPinia } from 'pinia'
+
+const pinia = createPinia()
+
+pinia.use(myPlugin)
+```
+
+👉 Now plugin runs for ALL stores
+
+
+# 🧠 What is inside `context`?
+
+```js
+function myPlugin(context) {
+  const { store, app, pinia, options } = context
+}
+```
+
+### 🔑 Important properties
+
+| Property  | Meaning                |
+| --------- | ---------------------- |
+| `store`   | current store instance |
+| `app`     | Vue app                |
+| `pinia`   | Pinia instance         |
+| `options` | the options object defining the store passed to `defineStore()`     |
+
+
+# Use Case 1: Add global property to all stores
+
+```js
+import { createPinia } from 'pinia'
+
+// add a property named `secret` to every store that is created
+// after this plugin is installed this could be in a different file
+function SecretPiniaPlugin() {
+  return { secret: 'the cake is a lie' }
+}
+
+const pinia = createPinia()
+// give the plugin to pinia
+pinia.use(SecretPiniaPlugin)
+
+// in another file
+const store = useStore()
+store.secret // 'the cake is a lie'
+```
+
+You can also set the property directly on the store but if possible use the return version so they can be automatically tracked by devtools:
+
+```js
+function myPlugin({ store }) {
+  store.hello = 'world'
+}
+```
+
+Now in any store:
+
+```js
+store.hello // "world"
+```
+
+Any property returned by a plugin will be automatically tracked by devtools so in order to make hello visible in devtools, make sure to add it to store._customProperties in dev mode only if you want to debug it in devtools:
+
+```js
+// from the example above
+pinia.use(({ store }) => {
+  store.hello = 'world'
+  // make sure your bundler handles this. webpack and vite should do it by default
+  if (process.env.NODE_ENV === 'development') {
+    // add any keys you set on the store
+    store._customProperties.add('hello')
+  }
+})
+```
+
+# Use Case 2: Add custom method
+
+```js
+function myPlugin({ store }) {
+  store.resetAll = () => {
+    store.$reset()
+  }
+}
+```
+
+# Use Case 3: Logging (very common)
+
+```js
+function loggerPlugin({ store }) {
+  store.$subscribe((mutation, state) => {
+    console.log(`[${store.$id}]`, mutation, state)
+  })
+}
+```
+
+👉 Used for debugging
+
+
+# 🚀 Use Case 4: Persist state (real-world)
+
+This is how plugins power libraries like:
+
+👉 [pinia-plugin-persistedstate](https://prazdevs.github.io/pinia-plugin-persistedstate/?utm_source=chatgpt.com)
+
+Example idea:
+
+```js
+function persistPlugin({ store }) {
+  const saved = localStorage.getItem(store.$id)
+
+  if (saved) {
+    store.$patch(JSON.parse(saved))
+  }
+
+  store.$subscribe((_, state) => {
+    localStorage.setItem(store.$id, JSON.stringify(state))
+  })
+}
+```
+
+---
+
+# 🚀 Use Case 5: Add external services
+
+```js
+function apiPlugin({ store }) {
+  store.api = fetch
+}
+```
+
+👉 Now all stores can use:
+
+```js
+store.api('/users')
+```
+
+---
+
+# ⚡ Returning values from plugin
+
+You can also return properties:
+
+```js
+function myPlugin() {
+  return {
+    globalValue: 123
+  }
+}
+```
+
+👉 Automatically added to store
+
+---
+
+# 🧠 Plugin Execution Flow
+
+```text
+App starts
+   ↓
+Pinia created
+   ↓
+Plugin registered
+   ↓
+Store created
+   ↓
+Plugin runs for that store
+```
+
+---
+
+# 🚨 Important Rules
+
+## ❌ Don’t overuse plugins
+
+* Not everything should be global
+
+---
+
+## ❌ Don’t put business logic in plugins
+
+👉 Keep plugins generic
+
+---
+
+## ✅ Use plugins for:
+
+* logging
+* persistence
+* analytics
+* shared utilities
+
+---
+
+# 🧨 Common mistakes
+
+### ❌ Mutating store incorrectly
+
+```js
+store = {} // ❌ NEVER do this
+```
+
+---
+
+### ❌ Heavy logic inside plugin
+
+👉 Makes debugging hard
+
+---
+
+### ❌ Assuming plugin runs once
+
+👉 It runs for EVERY store
+
+---
+
+# 🧠 Senior Dev Insight
+
+👉 Plugins are like **middleware for stores**
+
+Similar to:
+
+* Express middleware
+* Axios interceptors
+
+---
+
+# 🔥 Real-world analogy
+
+```text
+Store = Phone
+Plugin = Apps installed on every phone
+```
+
+---
+
+# 🚀 Final Takeaway
+
+👉 **Pinia plugins = global extensions for stores**
+
+They let you:
+
+* hook into store creation
+* add features across all stores
+* avoid repeating logic
+
+---
+
+If you want next level, I can show:
+
+* how to build your own persisted state plugin step-by-step
+* or how big companies structure plugins (auth, logging, analytics)
