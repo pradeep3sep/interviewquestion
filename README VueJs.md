@@ -1362,6 +1362,36 @@ If you want to **preserve component state** when switching (e.g., form inputs), 
 
 Now when you toggle back and forth, Vue **caches** previous component states.
 
+
+
+**We can limit the maximum number of component instances that can be cached via the max prop**
+```js
+<KeepAlive :max="10">
+  <component :is="activeComponent" />
+</KeepAlive>
+```
+
+
+**By default, `<KeepAlive>` will cache any component instance inside. We can customize this behavior via the include and exclude props.**
+
+
+```js
+<!-- comma-delimited string -->
+<KeepAlive include="a,b">
+  <component :is="view" />
+</KeepAlive>
+
+<!-- regex (use `v-bind`) -->
+<KeepAlive :include="/a|b/">
+  <component :is="view" />
+</KeepAlive>
+
+<!-- Array (use `v-bind`) -->
+<KeepAlive :include="['a', 'b']">
+  <component :is="view" />
+</KeepAlive>
+```
+
 <br>
 
 > ### What are async components?
@@ -3824,6 +3854,8 @@ A composable =
 **function + reactive state + reusable logic**
 
 
+- start with "use".
+
 ### Example (Using `<script setup>`)
 
 #### `useCounter.js` (Composable)
@@ -3875,6 +3907,7 @@ Vue 2 used **mixins**, which had problems:
 
 * Name conflicts ❌
 * Hard to debug ❌
+- means if we have used two mixed then we don't know which mixin is impacting our code, we have to manually which mixin has that function.
 
 👉 Composables fix all of that ✅
 
@@ -3957,6 +3990,376 @@ export function useSomething() {
 ```js
 return { count }
 ```
+
+This is explaining an **important best practice for composables** in **Vue.js 3** — making them flexible when handling inputs.
+
+Let’s break it down clearly 👇
+
+---
+
+# 🔥 The Problem
+
+When you write a composable, users might pass:
+
+1. ✅ A **plain value**
+
+```js
+useFeature("hello")
+```
+
+2. ✅ A **ref**
+
+```js
+const msg = ref("hello")
+useFeature(msg)
+```
+
+3. ✅ A **getter function**
+
+```js
+useFeature(() => someValue)
+```
+
+👉 If your composable only handles one type, it can break or behave inconsistently.
+
+---
+
+# 🧠 Solution: `toValue()`
+
+Vue provides `toValue()` to **normalize the input**.
+
+```js
+import { toValue } from 'vue';
+
+function useFeature(maybeRefOrGetter) {
+  const value = toValue(maybeRefOrGetter);
+}
+```
+
+### ✅ What it does:
+
+* If it's a **ref** → returns `.value`
+* If it's a **getter function** → calls it
+* If it's a **plain value** → returns as-is
+
+---
+
+# 📦 Why This Matters
+
+Without `toValue()`:
+
+```js
+function useFeature(input) {
+  console.log(input); // could be ref, function, or value 😬
+}
+```
+
+👉 You don’t know what you're dealing with.
+
+With `toValue()`:
+
+```js
+const value = toValue(input); // always a clean value ✅
+```
+
+---
+
+# ⚠️ Important: Reactivity Tracking
+
+Here’s the subtle but important part:
+
+> `toValue()` **does NOT automatically track reactivity**
+
+---
+
+## ❌ Wrong Way (No reactivity tracking)
+
+```js
+function useFeature(input) {
+  const value = toValue(input);
+  console.log(value);
+}
+```
+
+👉 If `input` changes later → nothing updates
+
+---
+
+## ✅ Correct Way 1: `watch()`
+
+```js
+import { watch, toValue } from 'vue';
+
+function useFeature(input) {
+  watch(
+    () => toValue(input),
+    (newValue) => {
+      console.log("Updated:", newValue);
+    }
+  );
+}
+```
+
+👉 Tracks changes properly
+
+---
+
+## ✅ Correct Way 2: `watchEffect()`
+
+```js
+import { watchEffect, toValue } from 'vue';
+
+function useFeature(input) {
+  watchEffect(() => {
+    const value = toValue(input);
+    console.log("Reactive:", value);
+  });
+}
+```
+
+👉 Automatically tracks dependencies
+
+---
+
+# 💡 Real Example: `useFetch()`
+
+```js
+function useFetch(url) {
+  const data = ref(null);
+
+  watchEffect(async () => {
+    const response = await fetch(toValue(url));
+    data.value = await response.json();
+  });
+
+  return { data };
+}
+```
+
+---
+
+### ✅ Now it works with:
+
+```js
+useFetch("api/data")                  // plain value
+useFetch(ref("api/data"))            // ref
+useFetch(() => dynamicUrl.value)     // getter
+```
+
+---
+
+# 🧠 Key Takeaways
+
+* Always assume users may pass:
+
+  * ref
+  * getter
+  * plain value
+* Use `toValue()` to normalize input
+* Use `watch()` or `watchEffect()` for reactivity
+
+---
+
+# 🎯 Interview One-Liner
+
+> “In Vue 3 composables, `toValue()` is used to normalize inputs like refs, getters, or plain values, but for reactivity tracking, it must be used inside `watch` or `watchEffect`.”
+
+
+
+This section is about a **very important design rule for composables** in **Vue.js 3**—how you should **return state**.
+
+Let’s break it down step by step 👇
+
+---
+
+# 🔥 Core Idea
+
+> ✅ **Composables should return a plain object containing `ref`s (not a reactive object)**
+
+---
+
+# 🧩 Why Not Return `reactive()`?
+
+## ❌ Problem with `reactive()`
+
+```js
+const state = reactive({
+  x: 0,
+  y: 0
+})
+
+return state;
+```
+
+### In component:
+
+```js
+const { x, y } = useMouse();
+```
+
+👉 ❌ **Reactivity is LOST**
+
+* `x` and `y` become plain values
+* They are no longer connected to original state
+
+---
+
+# ✅ Correct Approach: Return `ref`s
+
+```js
+function useMouse() {
+  const x = ref(0);
+  const y = ref(0);
+
+  return { x, y };
+}
+```
+
+### In component:
+
+```js
+const { x, y } = useMouse();
+```
+
+👉 ✅ **Reactivity is preserved**
+
+* `x` and `y` are still reactive refs
+* Updates reflect automatically
+
+---
+
+# 🧠 Why This Works
+
+Because:
+
+* `ref` is **independent reactive unit**
+* Destructuring does NOT break it
+
+But:
+
+* `reactive` is a **proxy object**
+* Destructuring breaks the proxy connection
+
+---
+
+# ⚡ Rule of Thumb
+
+| Return Type | Destructuring Safe? | Recommended |
+| ----------- | ------------------- | ----------- |
+| `ref`       | ✅ Yes               | ✅ Yes       |
+| `reactive`  | ❌ No                | ❌ Avoid     |
+
+---
+
+# 🔁 What If You Want Object Style Access?
+
+Sometimes you prefer:
+
+```js
+mouse.x
+```
+
+instead of:
+
+```js
+x.value
+```
+
+---
+
+## ✅ Solution: Wrap with `reactive()`
+
+```js
+const mouse = reactive(useMouse());
+
+console.log(mouse.x); // no .value needed
+```
+
+👉 Vue automatically **unwraps refs inside reactive**
+
+---
+
+# 🔍 What’s Happening Internally?
+
+* `useMouse()` returns:
+
+```js
+{ x: Ref, y: Ref }
+```
+
+* `reactive()` wraps it:
+
+```js
+{ x: value, y: value } // auto-unwrapped
+```
+
+* But still linked to original refs ✅
+
+---
+
+# 🧪 Full Example
+
+```js
+function useMouse() {
+  const x = ref(0);
+  const y = ref(0);
+
+  return { x, y };
+}
+```
+
+### Option 1 (Recommended)
+
+```js
+const { x, y } = useMouse();
+```
+
+### Option 2 (Object Style)
+
+```js
+const mouse = reactive(useMouse());
+```
+
+---
+
+# 🚨 Common Mistake
+
+```js
+// ❌ BAD
+return reactive({ x, y });
+```
+
+👉 Leads to:
+
+* Lost reactivity when destructured
+* Hard-to-debug bugs
+
+---
+
+# 🧠 Key Takeaways
+
+* Always return:
+
+  ```js
+  return { ref1, ref2 }
+  ```
+* Never return:
+
+  ```js
+  return reactive({...})
+  ```
+* If needed, convert later in component:
+
+  ```js
+  const obj = reactive(useComposable())
+  ```
+
+---
+
+# 🎯 Interview One-Liner
+
+> “Composables should return plain objects of refs because destructuring reactive objects breaks reactivity, while refs preserve it.”
+
 
 
 > ### Composable state vs vuex vs pinia
@@ -5963,3 +6366,1253 @@ If you want next level, I can show:
 
 * how to build your own persisted state plugin step-by-step
 * or how big companies structure plugins (auth, logging, analytics)
+
+
+------------------------------ vue 3 -------------------------------
+
+> ### Dynamic Arguments
+
+```vue
+<!--
+Note that there are some constraints to the argument expression,
+as explained in the "Dynamic Argument Value Constraints" and "Dynamic Argument Syntax Constraints" sections below.
+-->
+<a v-bind:[attributeName]="url"> ... </a>
+
+<!-- shorthand -->
+<a :[attributeName]="url"> ... </a>
+```
+
+```vue
+<a v-on:[eventName]="doSomething"> ... </a>
+
+<!-- shorthand -->
+<a @[eventName]="doSomething"> ... </a>
+```
+
+> ### Declaring Reactive State
+
+### ref()
+
+```js
+<div>{{ count }}</div> // you can access directly
+<button @click="count++"> // while updating inline function then we do not need the ".value"
+  {{ count }}
+</button>
+
+
+import { ref } from 'vue'
+
+const count = ref(0)
+
+console.log(count) // { value: 0 }
+console.log(count.value) // 0
+
+count.value++  // while upading through function you have to use ".value"
+console.log(count.value) // 1
+```
+
+
+> ### Deep Reactivity
+
+Refs can hold any value type, including deeply nested objects, arrays, or JavaScript built-in data structures like Map.
+
+
+```js
+import { ref } from 'vue'
+
+const obj = ref({
+  nested: { count: 0 },
+  arr: ['foo', 'bar']
+})
+
+function mutateDeeply() {
+  // these will work as expected.
+  obj.value.nested.count++
+  obj.value.arr.push('baz')
+}
+```
+
+
+> ### DOM Update Timing
+
+When you mutate reactive state, the DOM is updated automatically. However, it should be noted that the DOM updates are not applied synchronously. Instead, Vue buffers them until the "next tick" in the update cycle to ensure that each component updates only once no matter how many state changes you have made.
+
+```js
+import { nextTick } from 'vue'
+
+async function increment() {
+  count.value++
+  await nextTick()
+  // Now the DOM is updated
+}
+```
+
+
+> ### reactive()
+
+There is another way to declare reactive state, with the reactive() API. Unlike a ref which wraps the inner value in a special object, reactive() makes an object itself reactive:
+
+```js
+import { reactive } from 'vue'
+
+const state = reactive({ count: 0 })
+
+
+<button @click="state.count++">
+  {{ state.count }}
+</button>
+```
+
+`reactive()` converts the object deeply: nested objects are also wrapped with reactive() when accessed. It is also called by ref() internally when the ref value is an object.
+
+
+> ### Reactive Proxy vs. Original
+
+# 🔹 1. `reactive()` returns a Proxy (not the original object)
+
+When you use `reactive()`, Vue wraps your object in a **Proxy** (a special wrapper).
+
+### Example:
+
+```js
+const raw = {}
+const proxy = reactive(raw)
+
+console.log(proxy === raw) // ❌ false
+```
+
+👉 Means:
+
+* `raw` → original object
+* `proxy` → reactive version (tracked by Vue)
+* They are **NOT the same**
+
+---
+
+# 🔹 2. Only the proxy is reactive
+
+### ❌ Problem:
+
+```js
+raw.count = 1 // ❌ Vue won't track this
+```
+
+### ✅ Correct:
+
+```js
+proxy.count = 1 // ✅ Vue tracks this
+```
+
+👉 Rule:
+
+* Always use **proxy**, not original object
+
+---
+
+# 🔹 3. Vue always returns the SAME proxy
+
+Vue is smart — it doesn’t create multiple proxies for the same object.
+
+### Example:
+
+```js
+const raw = {}
+const proxy = reactive(raw)
+
+console.log(reactive(raw) === proxy) // ✅ true
+console.log(reactive(proxy) === proxy) // ✅ true
+```
+
+👉 Means:
+
+* Same object → same proxy
+* Passing proxy again → returns itself
+
+---
+
+# 🔹 4. Nested objects are ALSO proxies (deep reactivity)
+
+Vue makes everything inside reactive too.
+
+### Example:
+
+```js
+const proxy = reactive({})
+const raw = {}
+
+proxy.nested = raw
+
+console.log(proxy.nested === raw) // ❌ false
+```
+
+👉 Why?
+
+* `proxy.nested` becomes a **new proxy**
+* So it's not equal to original `raw`
+
+---
+
+# 🧠 Easy understanding
+
+### Think like this:
+
+* `raw` = normal object 🧱
+* `proxy` = smart object with tracking 👀
+
+Vue says:
+
+> “I only watch the smart version (proxy), not the raw one”
+
+---
+
+# 🔥 Key Rules (Very Important)
+
+✔️ `reactive()` returns a **proxy, not original**
+✔️ Only proxy is reactive
+✔️ Same object → same proxy (no duplicates)
+✔️ Nested objects → automatically converted to proxies
+
+---
+
+# ⚡ Quick Example (Real-world)
+
+```js
+const user = { name: "Aman" }
+
+const state = reactive(user)
+
+// ❌ Wrong
+user.name = "Rahul" // UI won't update
+
+// ✅ Correct
+state.name = "Rahul" // UI updates
+```
+
+---
+
+# 🎯 One-line memory trick
+
+👉 “Vue tracks the **proxy**, not the original object.”
+
+
+
+> ### Limitations of reactive()
+
+# 🔹 1. Only works with objects (NOT primitives)
+
+`reactive()` **only works with objects, arrays, Map, Set**
+It ❌ does NOT work with:
+
+* number
+* string
+* boolean
+
+### ❌ Wrong:
+
+```js
+const count = reactive(0) // won't work
+```
+
+### ✅ Correct:
+
+```js
+const state = reactive({
+  count: 0
+})
+```
+
+👉 If you want primitive → use `ref()`
+
+```js
+const count = ref(0) // ✅
+```
+
+---
+
+# 🔹 2. Cannot replace the whole object
+
+Vue tracks **the original object reference**, not variable name.
+
+### ❌ Problem:
+
+```js
+let state = reactive({ count: 0 })
+
+state = reactive({ count: 10 }) // ❌ breaks reactivity
+```
+
+👉 Why?
+
+* Vue was tracking the **first object**
+* Now you replaced it with a **new object**
+* Old tracking is lost
+
+
+
+### ✅ Correct way (update property instead):
+
+```js
+state.count = 10 // ✅ works
+```
+
+
+### 🧠 Easy idea:
+
+* Vue says: “Don’t change the object 🧱, just change what's inside it”
+
+
+# 🔹 3. Destructuring breaks reactivity
+
+When you extract values, Vue loses tracking.
+
+### ❌ Problem:
+
+```js
+const state = reactive({ count: 0 })
+
+let { count } = state
+
+count++ // ❌ does NOT update state.count
+```
+
+👉 Now:
+
+* `count` is just a normal number
+* No connection to `state.count`
+
+
+### ✅ Correct way:
+
+Use directly:
+
+```js
+state.count++
+```
+
+
+
+### ✅ OR use `toRefs()` (advanced fix):
+
+```js
+const { count } = toRefs(state)
+
+count.value++ // ✅ reactive
+```
+
+---
+
+# 🔹 4. Passing value to function loses reactivity
+
+### ❌ Problem:
+
+```js
+callSomeFunction(state.count)
+```
+
+👉 Inside function:
+
+* It only gets a **number**
+* No reactivity tracking
+
+
+### ✅ Fix:
+
+Pass full object:
+
+```js
+callSomeFunction(state)
+```
+
+OR pass a ref:
+
+```js
+callSomeFunction(toRef(state, 'count'))
+```
+
+
+
+# 🔥 Why Vue recommends `ref()` more
+
+Because `ref()`:
+
+* ✅ works with primitives
+* ✅ easier to pass around
+* ✅ doesn’t break on destructuring (if handled properly)
+
+
+
+# 🧠 Super Simple Summary
+
+| Problem                   | What happens           | Fix               |
+| ------------------------- | ---------------------- | ----------------- |
+| Primitive with `reactive` | ❌ not allowed          | use `ref()`       |
+| Replace object            | ❌ reactivity lost      | update properties |
+| Destructure               | ❌ breaks link          | use `toRefs()`    |
+| Pass value to function    | ❌ becomes normal value | pass ref/object   |
+
+
+
+# 🔥 Final analogy
+
+Think of `reactive()` like a **smart container 📦**
+
+* If you **replace the box** → Vue loses track ❌
+* If you **take items out (destructure)** → they become normal items ❌
+* If you **use the box directly** → everything stays reactive ✅
+
+
+
+> ### Additional Ref Unwrapping Details
+
+1. Ref inside a reactive object (auto unwrap)
+
+When you put a `ref` inside a `reactive` object, Vue **automatically removes `.value` for you**.
+
+### Example:
+
+```js
+const count = ref(0)
+
+const state = reactive({
+  count
+})
+
+console.log(state.count) // ✅ 0 (no .value needed)
+state.count = 5
+
+console.log(count.value) // ✅ 5 (both are linked)
+```
+
+👉 Think of it like:
+
+* `state.count` and `count.value` are **connected**
+* Updating one updates the other
+
+
+2. Replacing the ref breaks the link
+
+```js
+const count = ref(0)
+
+const state = reactive({ count })
+
+const otherCount = ref(10)
+
+state.count = otherCount
+
+console.log(state.count)     // 10
+console.log(count.value)     // ❗ still 0 (disconnected)
+```
+
+👉 Now:
+
+* `state.count` → points to `otherCount`
+* `count` → old ref, no longer linked
+
+
+3. Important: No unwrapping in arrays or Map
+
+Vue **does NOT unwrap refs inside arrays or Map**
+
+### Array example:
+
+```js
+const books = reactive([ref('Vue Guide')])
+
+console.log(books[0].value) // ✅ must use .value
+```
+
+### Map example:
+
+```js
+const map = reactive(new Map([
+  ['count', ref(0)]
+]))
+
+console.log(map.get('count').value) // ✅ need .value
+```
+
+👉 Rule:
+
+* Objects → auto unwrap
+* Arrays / Map → ❌ no unwrap
+
+
+
+4. Template unwrapping rule (VERY IMPORTANT)
+
+Vue only unwraps refs in templates if they are **top-level variables**
+
+### ❌ Problem case:
+
+```js
+const object = {
+  id: ref(1)
+}
+```
+
+```html
+{{ object.id + 1 }}
+```
+
+👉 Output:
+
+```
+[object Object]1 ❌
+```
+
+Because:
+
+* `object.id` is still a ref object
+* Vue does NOT unwrap nested refs here
+
+
+5. Fix: Make it top-level
+
+```js
+const { id } = object
+```
+
+```html
+{{ id + 1 }}
+```
+
+👉 Output:
+
+```
+2 ✅
+```
+
+---
+
+6. Special shortcut in templates
+
+If you directly print it:
+
+```html
+{{ object.id }}
+```
+
+👉 Output:
+
+```
+1 ✅
+```
+
+Why?
+
+* Vue unwraps it **only because it’s the final value**
+
+
+
+## 🧠 Easy way to remember
+
+* ✅ Reactive object → auto unwrap
+* ❌ Array / Map → use `.value`
+* ⚠️ Template:
+
+  * Top-level → works
+  * Nested → doesn't work (unless final value)
+
+---
+
+## 🔥 Quick analogy
+
+Think of `ref` like a **gift box 🎁**
+
+* In `reactive object` → Vue **opens the box for you**
+* In `array/map` → you must **open it yourself (`.value`)**
+* In template:
+
+  * Top-level → auto open
+  * Nested → Vue says: “you open it yourself 😄”
+
+
+
+
+> ### Computed Properties
+
+## ❌ Problem without computed
+
+```html
+<span>{{ author.books.length > 0 ? 'Yes' : 'No' }}</span>
+
+<script setup>
+import { reactive, computed } from 'vue'
+
+const author = reactive({
+  name: 'John Doe',
+  books: [
+    'Vue 2 - Advanced Guide',
+    'Vue 3 - Basic Guide',
+    'Vue 4 - The Mystery'
+  ]
+})
+</script>
+```
+
+## ✅ Using computed
+
+```js
+const publishedBooksMessage = computed(() => {
+  return author.books.length > 0 ? 'Yes' : 'No'
+})
+```
+
+```html
+<span>{{ publishedBooksMessage }}</span>
+```
+
+# 🔹 2. Key behavior (VERY IMPORTANT)
+
+### ✅ Auto updates
+
+```js
+author.books.push('New Book')
+```
+
+👉 `publishedBooksMessage` updates automatically
+
+
+### ✅ Acts like ref
+
+```js
+console.log(publishedBooksMessage.value)
+```
+
+👉 But in template → no `.value`
+
+---
+
+# 🔹 3. Computed vs Method (IMPORTANT INTERVIEW)
+
+## Method:
+
+```js
+function getMessage() {
+  return author.books.length > 0 ? 'Yes' : 'No'
+}
+```
+
+```html
+{{ getMessage() }}
+```
+
+👉 Runs **every time UI re-renders** 🔁
+
+---
+
+## Computed:
+
+```js
+const message = computed(() => ...)
+```
+
+👉 Runs **ONLY when dependency changes** 🧠
+
+
+
+# 🔹 4. Writable computed (rare but useful)
+
+Computed properties are by default getter-only."writable" computed property, you can create one by providing both a getter and a setter:
+
+```js
+const fullName = computed({
+  get() {
+    return firstName.value + ' ' + lastName.value
+  },
+  set(newValue) {
+    [firstName.value, lastName.value] = newValue.split(' ')
+  }
+})
+```
+
+### Usage:
+
+```js
+fullName.value = "John Doe"
+```
+
+👉 Automatically updates:
+
+* `firstName`
+* `lastName`
+
+---
+
+# 🔹 5. Previous value (advanced) - Only supported in 3.4+
+
+```js
+const alwaysSmall = computed((previous) => {
+  if (count.value <= 3) {
+    return count.value
+  }
+  return previous
+})
+```
+
+👉 Behavior:
+
+* If `count <= 3` → return new value
+* Else → return old value
+
+
+# 🔹 7. Don’t modify computed value
+
+```js
+message.value = "Hello" // ❌ wrong
+```
+
+
+> ### Class and Style Bindings
+
+
+```html
+<div class="active " + (isError ? "error" : "")></div> ❌
+```
+
+```html
+<div :class="{ active: isActive }"></div>
+```
+
+```html
+<div :class="{ active: isActive, 'text-danger': hasError }"></div>
+```
+
+```html
+<div class="box" :class="{ active: isActive }"></div>
+```
+
+2. Using object from JS (cleaner)
+
+```js
+const classObject = reactive({
+  active: true,
+  'text-danger': false
+})
+```
+
+```html
+<div :class="classObject"></div>
+```
+
+This will render:
+
+```html
+<div class="active"></div>
+```
+
+
+
+3. Using computed (BEST PRACTICE 🔥)
+
+```js
+const classObject = computed(() => ({
+  active: isActive.value,
+  'text-danger': error.value
+}))
+
+<div :class="classObject"></div>
+```
+
+
+4. Binding classes using ARRAY
+
+```js
+const activeClass = ref('active')
+const errorClass = ref('error')
+```
+
+```html
+<div :class="[activeClass, errorClass]"></div>
+```
+
+👉 Output:
+
+```html
+<div class="active error"></div>
+```
+
+
+### Conditional inside array:
+
+```html
+<div :class="[isActive ? 'active' : '', 'error']"></div>
+```
+
+
+### Better (mix object + array):
+
+```html
+<div :class="[{ active: isActive }, 'error']"></div>
+```
+
+
+4. Array styles
+
+```html
+<div :style="[baseStyles, overrideStyles]"></div>
+```
+
+
+> ### v-if on `<template>`
+
+```vue
+<template v-if="ok">
+  <h1>Title</h1>
+  <p>Paragraph 1</p>
+  <p>Paragraph 2</p>
+</template>
+```
+
+
+> ### Watchers
+
+Basic example
+
+```js
+const count = ref(0)
+
+watch(count, (newVal, oldVal) => {
+  console.log("Changed:", newVal)
+})
+```
+
+
+1. perform "side effects"
+
+```vue
+<script setup>
+import { ref, watch } from 'vue'
+
+const question = ref('')
+const answer = ref('Questions usually contain a question mark. ;-)')
+const loading = ref(false)
+
+// watch works directly on a ref
+watch(question, async (newQuestion, oldQuestion) => {
+  if (newQuestion.includes('?')) {
+    loading.value = true
+    answer.value = 'Thinking...'
+    try {
+      const res = await fetch('https://yesno.wtf/api')
+      answer.value = (await res.json()).answer
+    } catch (error) {
+      answer.value = 'Error! Could not reach the API. ' + error
+    } finally {
+      loading.value = false
+    }
+  }
+})
+</script>
+
+<template>
+  <p>
+    Ask a yes/no question:
+    <input v-model="question" :disabled="loading" />
+  </p>
+  <p>{{ answer }}</p>
+</template>
+```
+
+2. Watch Source Types
+
+Sources can be a ref (including computed refs), a reactive object, a getter function, or an array of multiple sources:
+
+```js
+const x = ref(0)
+const y = ref(0)
+
+// single ref
+watch(x, (newX) => {
+  console.log(`x is ${newX}`)
+})
+
+// getter
+watch(
+  () => x.value + y.value,
+  (sum) => {
+    console.log(`sum of x + y is: ${sum}`)
+  }
+)
+
+// array of multiple sources
+watch([x, () => y.value], ([newX, newY]) => {
+  console.log(`x is ${newX} and y is ${newY}`)
+})
+```
+
+
+Do note that you can't watch a property of a reactive object like this:
+
+```js
+const obj = reactive({ count: 0 })
+
+// this won't work because we are passing a number to watch()
+watch(obj.count, (count) => {
+  console.log(`Count is: ${count}`)
+})
+```
+
+Instead, use a getter:
+
+```js
+// instead, use a getter:
+watch(
+  () => obj.count,
+  (count) => {
+    console.log(`Count is: ${count}`)
+  }
+)
+```
+
+
+3. Eager Watchers
+
+watch is lazy by default: the callback won't be called until the watched source has changed. Sometimes we may want to fetch some initial data, and then re-fetch the data whenever relevant state changes.
+
+```js
+watch(
+  source,
+  (newValue, oldValue) => {
+    // executed immediately, then again when `source` changes
+  },
+  { immediate: true }
+)
+```
+
+4. Once Watchers
+
+If you want the callback to trigger only once when the source changes, use the once: true option.
+
+```js
+watch(
+  source,
+  (newValue, oldValue) => {
+    // when `source` changes, triggers only once
+  },
+  { once: true }
+)
+```
+
+5. watchEffect()
+
+Auto tracks dependencies
+
+Instead of this:
+```js
+watch(todoId, async () => {
+  fetch(`/api/${todoId.value}`)
+})
+```
+
+Use this:
+
+```js
+watchEffect(async () => {
+  fetch(`/api/${todoId.value}`)
+})
+```
+
+- No need to pass todoId manually
+- Here, the callback will run immediately, there's no need to specify immediate: true.
+
+
+6. Side Effect Cleanup
+
+```js
+watch(id, (newId) => {
+  fetch(`/api/${newId}`).then(() => {
+    // callback logic
+  })
+})
+```
+
+id changes before the request completes? When the previous request completes, it will still fire the callback with an ID value that is already stale. Ideally, we want to be able to cancel the stale request when id changes to a new value.
+
+We can use the onWatcherCleanup()  API to register a cleanup function that will be called when the watcher is invalidated and is about to re-run:
+
+```js
+import { watch, onWatcherCleanup } from 'vue'
+
+watch(id, (newId) => {
+  const controller = new AbortController()
+
+  fetch(`/api/${newId}`, { signal: controller.signal }).then(() => {
+    // callback logic
+  })
+
+  onWatcherCleanup(() => {
+    // abort stale request
+    controller.abort()
+  })
+})
+```
+
+Note that onWatcherCleanup is only supported in Vue 3.5+
+
+Alternatively, an `onCleanup` function is also passed to watcher callbacks as the 3rd argument, and to the watchEffect effect function as the first argument:
+
+```js
+watch(id, (newId, oldId, onCleanup) => {
+  // ...
+  onCleanup(() => {
+    // cleanup logic
+  })
+})
+
+watchEffect((onCleanup) => {
+  // ...
+  onCleanup(() => {
+    // cleanup logic
+  })
+})
+```
+
+7. Timing (advanced)
+
+Default:
+- runs before DOM update
+
+After DOM update:
+```js
+watch(source, callback, { flush: 'post' })
+```
+
+Run instantly (sync):
+```js
+watch(source, callback, { flush: 'sync' })
+```
+⚠️ Can be expensive
+
+
+8. Stopping watcher
+
+```js
+const stop = watchEffect(() => {})
+
+stop() // stop watcher
+```
+👉 Usually not needed (auto cleanup)
+
+
+> ###  Template Ref
+
+Let’s simplify **Template Refs in Vue** 
+
+👉 It gives you **direct access to a DOM element or component**
+
+### Example:
+
+```html
+<input ref="my-input" />
+```
+
+👉 This lets you control the input using JS
+
+
+
+# 🔹 2. Accessing the ref
+
+```js
+import { useTemplateRef, onMounted } from 'vue'
+
+const input = useTemplateRef('my-input')
+
+onMounted(() => {
+  input.value.focus()
+})
+
+
+<template>
+  <input ref="my-input" />
+</template>
+```
+
+👉 After mount:
+
+* `input.value` = actual DOM element
+
+---
+
+# 🔥 Important rule
+
+❗ You can only use refs **after component is mounted**
+
+```js
+console.log(input.value) // ❌ null before mount
+```
+
+---
+
+# 🔹 3. Why use Template Refs?
+
+Use when you need **manual DOM control**:
+
+✔️ Focus input
+✔️ Scroll element
+✔️ Use third-party libraries
+✔️ Access child component
+
+
+# 🔹 4. Handling null (important)
+
+```js
+watchEffect(() => {
+  if (input.value) {
+    input.value.focus()
+  }
+})
+```
+
+👉 Why?
+
+* Before mount → null
+* After mount → element
+
+---
+
+# 🔹 5. Ref on COMPONENT
+
+```html id="tsgxxw"
+<Child ref="child" />
+```
+
+```js id="1f2w5o"
+const child = useTemplateRef('child')
+
+onMounted(() => {
+  console.log(child.value)
+})
+```
+
+👉 `child.value` = component instance
+
+---
+
+# 🔥 Important (very important)
+
+👉 Accessing child directly = tight coupling ❌
+
+👉 Prefer:
+
+* props
+* emits
+
+---
+
+# 🔹 6. Special case: `<script setup>`
+
+Child is **private by default**
+
+---
+
+### To expose values:
+
+```js id="l60c6l"
+defineExpose({
+  count,
+  increment
+})
+```
+
+👉 Now parent can access:
+
+```js id="iw5u0r"
+child.value.count
+child.value.increment()
+```
+
+---
+
+# 🔹 7. Refs inside `v-for`
+
+```html id="pxjklh"
+<li v-for="item in list" ref="items">
+  {{ item }}
+</li>
+```
+
+```js id="fp80kz"
+const itemRefs = useTemplateRef('items')
+```
+
+👉 After mount:
+
+```js id="9bdv1j"
+console.log(itemRefs.value) // array of elements
+```
+
+---
+
+⚠️ Order may not always match array
+
+---
+
+# 🔹 8. Function refs (advanced)
+
+Instead of string:
+
+```html id="9yo4rf"
+<input :ref="(el) => myRef = el" />
+```
+
+👉 Gives full control
+
+---
+
+# 🧠 Simple understanding
+
+* `ref="input"` → mark element 🏷️
+* `useTemplateRef()` → get it in JS 🎯
+
+---
+
+# 🔥 Real example
+
+```html id="0tr11t"
+<input ref="input" />
+<button @click="focusInput">Focus</button>
+```
+
+```js id="y9wqfu"
+const input = useTemplateRef('input')
+
+function focusInput() {
+  input.value.focus()
+}
+```
+
+---
+
+# 🔥 When NOT to use
+
+❌ Don’t use for normal data flow
+✔️ Use only for DOM or special cases
+
+---
+
+# ⚡ Analogy
+
+👉 Template ref = **remote control 🎮 for DOM element**
+
+---
+
+# 🎯 One-line memory trick
+
+👉 “Template ref = direct DOM access after mount”
+
+
+> ### Keep in mind, props passed to child are immutable in nature by child, but if it is nested object then it can be modified.
+
+
+
+
+
+https://vuejs.org/guide/components/v-model.html
+https://vuejs.org/guide/components/slots.html
+https://vuejs.org/guide/components/async.html
+https://vuejs.org/guide/best-practices/performance.html
+https://vuejs.org/guide/best-practices/accessibility.html#skip-link
+https://vuejs.org/guide/extras/reactivity-in-depth.html
