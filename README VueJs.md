@@ -3484,12 +3484,15 @@ Now it only changes when `filters.active` changes.
 
 ---------------------------------------------------VUE 3---------------------------
 
-- In Vue 3 we do not have the filters, we can use the computed or methods.
+> ### In Vue 3 we do not have the filters, we can use the computed or methods.
 
+<br>
 
 > ### Watch
 
 ```js
+// Vue 2
+
 export default {
   data() {
     return {
@@ -3503,6 +3506,7 @@ export default {
   }
 }
 ```
+also
 
 ```js
 watch: {
@@ -3515,8 +3519,9 @@ watch: {
   }
 }
 ```
+<br>
 
-
+In Vue 3
 ```js
 <template>
   <button @click="count++">Count: {{ count }}</button>
@@ -3533,8 +3538,9 @@ watch(count, (newVal, oldVal) => {
 </script>
 ```
 
+<br>
 
-1. Watch Multiple Sources
+1. **Watch Multiple Sources**
 
 ```js
 watch([count, name], ([newCount, newName]) => {
@@ -3543,7 +3549,7 @@ watch([count, name], ([newCount, newName]) => {
 ```
 
 
-2. Watch Getter Functions
+2. **Watch Getter Functions**
 
 ```js
 watch(() => count.value * 2, (val) => {
@@ -3552,7 +3558,7 @@ watch(() => count.value * 2, (val) => {
 ```
 
 
-3. Cleanup / Side Effects Control
+3. **Cleanup / Side Effects Control**
 
 ```js
 watch(count, (newVal, oldVal, onInvalidate) => {
@@ -3567,14 +3573,14 @@ watch(count, (newVal, oldVal, onInvalidate) => {
 // Not possible in vue 2
 ```
 
-4. Stop Watching
+4. **Stop Watching**
 
 ```js
 const stop = watch(count, () => {})
 stop() // stops watcher
 ```
 
-5. Immediate & Deep (Same but cleaner)
+5. **Immediate & Deep (Same but cleaner)**
 
 ```js
 watch(count, callback, {
@@ -3583,10 +3589,12 @@ watch(count, callback, {
 })
 ```
 
+<br>
 
 > ### Watch on object
 
 ```js
+// In vue2
 export default {
   data() {
     return {
@@ -3603,10 +3611,11 @@ export default {
   }
 }
 ```
+<br>
 
-in vue 3
+In vue 3
 
-Case 1: Watching Reactive Object
+**Case 1: Watching Reactive Object**
 
 ```js
 import { reactive, watch } from 'vue'
@@ -3629,35 +3638,35 @@ Behavior:
 - Automatically deep watches
 - No need for deep: true
 
-
+<br>
+<br>
 
 > ### Lifecyce hooks in vue 2 vue 3
 
 - In vue 2, in single component we have the single lifecycle hook of single type, in vue 3 we can have many hook of same type
 
+<br>
+<br>
 
 > ### Router in vue 2 vs vue 3
 
-```js
+```vue
+<script setup>
 import { useRoute, useRouter } from 'vue-router'
 
-export default {
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
+const route = useRoute()
+const router = useRouter()
 
-    console.log(route.path)
+console.log(route.path)
 
-    const goHome = () => {
-      router.push('/')
-    }
-
-    return { goHome }
-  }
+const goHome = () => {
+  router.push('/')
 }
+</script>
 ```
 
 ```js
+// In Vue 2
 export default {
   mounted() {
     console.log(this.$route.path)
@@ -3670,6 +3679,7 @@ export default {
 > ### Template ref in vue 2 vs vue 3
 
 ```js
+// In Vue 2
 <input ref="inputRef" />
 
 export default {
@@ -3679,7 +3689,8 @@ export default {
 }
 ```
 
-```js
+```vue
+// In vue 3
 <template>
   <input ref="inputRef" />
 </template>
@@ -3698,9 +3709,10 @@ onMounted(() => {
 
 **Note:**Keep in mind that here we used the inputRef.value, not inputRef. When we use the ref, then we can access through the ref.value
 
+<br>
+<br>
 
-
-> ### nextick in vue 2 vs vue 3
+> ### Nextick in vue 2 vs vue 3
 
 | Feature         | Vue 2            | Vue 3               |
 | --------------- | ---------------- | ------------------- |
@@ -3709,8 +3721,10 @@ onMounted(() => {
 | Works in setup  | ❌                | ✅                   |
 | Promise support | ⚠️ limited       | ✅ native Promise    |
 
+<br>
 
 ```js
+// Vue 2
 export default {
   data() {
     return { count: 0 }
@@ -3727,7 +3741,10 @@ export default {
 }
 ```
 
+<br>
+
 ```js
+// Vue 3
 <template>
   <div>
     <p ref="textRef">{{ count }}</p>
@@ -3756,9 +3773,13 @@ const update = async () => {
 
 ```
 
-> ### props in vue 2 and vue 3
+<br>
+<br>
+
+> ### Props in vue 2 and vue 3
 
 ```js
+// Vue 2
 export default {
   props: {
     title: String
@@ -3768,9 +3789,10 @@ export default {
 
 - Access via `this.title`
 
+<br>
 
-
-```js
+```vue
+// Vue 3
 <template>
   <h1>{{ title }}</h1>
 </template>
@@ -3786,6 +3808,7 @@ defineProps({
 
 
 ```js
+// Vue 3
 <script setup>
 const props = defineProps({
   title: String
@@ -3794,7 +3817,7 @@ const props = defineProps({
 console.log(props.title)
 </script>
 ```
-
+<br>
 
 - Avoid below
 
@@ -3802,9 +3825,12 @@ console.log(props.title)
 const { title } = defineProps({ title: String })
 ```
 
+<br>
+<br>
+
 > ### Emit in vue 2 vs vue 3
 
-```js
+```vue
 // child
 <template>
   <button @click="handleClick">Click</button>
@@ -3819,7 +3845,7 @@ const handleClick = () => {
 </script>
 ```
 
-```js
+```vue
 // parent
 <template>
   <Child @update="handleUpdate" />
@@ -3832,31 +3858,25 @@ const handleUpdate = (val) => {
 </script>
 ```
 
+<br>
 
 ```js
 // vue 2
 this.$emit('update', value)
 ```
 
+<br>
+<br>
 
-### What is a Composable?
+> ### What is a Composable?
 
-👉 A **Composable** is simply a **reusable function that uses Vue’s Composition API** to share logic across components.
+A **Composable** is simply a **reusable function that uses Vue’s Composition API** to share logic across components.
 
-Think of it like:
-
-> 🔹 “Custom hooks” (similar to React hooks)
-
-
-### Simple Definition
-
-A composable =
-**function + reactive state + reusable logic**
-
+Think of it like: “Custom hooks” (similar to React hooks)
 
 - start with "use".
 
-### Example (Using `<script setup>`)
+<br>
 
 #### `useCounter.js` (Composable)
 
@@ -3874,6 +3894,8 @@ export function useCounter() {
 }
 ```
 
+<br>
+
 #### Use in Component
 
 ```vue
@@ -3888,20 +3910,14 @@ const { count, increment } = useCounter()
 </script>
 ```
 
+<br>
+<br>
 
-### Why Composables Are Powerful
+> ### Why Composables Are Powerful
 
-1. ✅ Reuse Logic Easily
-
-Instead of duplicating code across components
-
-
-2. ✅ Cleaner Code Structure
-
-Group logic by **feature**, not by lifecycle
-
-
-3. ✅ Better than Mixins (Vue 2)
+1. Reuse Logic Easily
+2. Cleaner Code Structure
+3. Better than Mixins (Vue 2)
 
 Vue 2 used **mixins**, which had problems:
 
@@ -3909,8 +3925,7 @@ Vue 2 used **mixins**, which had problems:
 * Hard to debug ❌
 - means if we have used two mixed then we don't know which mixin is impacting our code, we have to manually which mixin has that function.
 
-👉 Composables fix all of that ✅
-
+<br>
 
 ### Real Example (API Fetch)
 
@@ -3935,6 +3950,8 @@ export function useFetch(url) {
 }
 ```
 
+<br>
+
 #### Use in Component
 
 ```vue
@@ -3950,54 +3967,11 @@ const { data, loading } = useFetch('https://api.example.com')
 </script>
 ```
 
-#### Vue 2 vs Vue 3 (Logic Reuse)
-
-| Feature     | Vue 2    | Vue 3         |
-| ----------- | -------- | ------------- |
-| Reuse logic | Mixins ❌ | Composables ✅ |
-| Readability | ❌        | ✅             |
-| Debugging   | ❌        | ✅             |
-| Flexibility | ❌        | ✅             |
+<br>
+<br>
 
 
-# 🧠 Naming Convention
-
-👉 Always start with `use`
-
-Examples:
-
-* `useCounter`
-* `useAuth`
-* `useFetch`
-
-
-#### Common Mistake
-
-❌ Not returning values:
-
-```js
-export function useSomething() {
-  const count = ref(0)
-}
-```
-
-👉 Nothing usable in component
-
-
-
-✅ Correct:
-
-```js
-return { count }
-```
-
-This is explaining an **important best practice for composables** in **Vue.js 3** — making them flexible when handling inputs.
-
-Let’s break it down clearly 👇
-
----
-
-# 🔥 The Problem
+> ### The Problem
 
 When you write a composable, users might pass:
 
@@ -4022,9 +3996,9 @@ useFeature(() => someValue)
 
 👉 If your composable only handles one type, it can break or behave inconsistently.
 
----
+<br>
 
-# 🧠 Solution: `toValue()`
+> ### Solution: `toValue()`
 
 Vue provides `toValue()` to **normalize the input**.
 
@@ -4042,9 +4016,9 @@ function useFeature(maybeRefOrGetter) {
 * If it's a **getter function** → calls it
 * If it's a **plain value** → returns as-is
 
----
 
-# 📦 Why This Matters
+
+> ### Why This Matters
 
 Without `toValue()`:
 
@@ -4061,10 +4035,9 @@ With `toValue()`:
 ```js
 const value = toValue(input); // always a clean value ✅
 ```
+<br>
 
----
-
-# ⚠️ Important: Reactivity Tracking
+> ### Important: Reactivity Tracking
 
 Here’s the subtle but important part:
 
@@ -4072,7 +4045,7 @@ Here’s the subtle but important part:
 
 ---
 
-## ❌ Wrong Way (No reactivity tracking)
+### Wrong Way (No reactivity tracking)
 
 ```js
 function useFeature(input) {
@@ -4083,9 +4056,9 @@ function useFeature(input) {
 
 👉 If `input` changes later → nothing updates
 
----
+<br>
 
-## ✅ Correct Way 1: `watch()`
+### Correct Way 1: `watch()`
 
 ```js
 import { watch, toValue } from 'vue';
@@ -4102,9 +4075,9 @@ function useFeature(input) {
 
 👉 Tracks changes properly
 
----
 
-## ✅ Correct Way 2: `watchEffect()`
+
+### ✅ Correct Way 2: `watchEffect()`
 
 ```js
 import { watchEffect, toValue } from 'vue';
@@ -4119,9 +4092,9 @@ function useFeature(input) {
 
 👉 Automatically tracks dependencies
 
----
 
-# 💡 Real Example: `useFetch()`
+
+### Real Example: `useFetch()`
 
 ```js
 function useFetch(url) {
@@ -4136,7 +4109,7 @@ function useFetch(url) {
 }
 ```
 
----
+<br>
 
 ### ✅ Now it works with:
 
@@ -4146,9 +4119,8 @@ useFetch(ref("api/data"))            // ref
 useFetch(() => dynamicUrl.value)     // getter
 ```
 
----
 
-# 🧠 Key Takeaways
+### Key Takeaways
 
 * Always assume users may pass:
 
@@ -4158,9 +4130,9 @@ useFetch(() => dynamicUrl.value)     // getter
 * Use `toValue()` to normalize input
 * Use `watch()` or `watchEffect()` for reactivity
 
----
 
-# 🎯 Interview One-Liner
+
+### 🎯 Interview One-Liner
 
 > “In Vue 3 composables, `toValue()` is used to normalize inputs like refs, getters, or plain values, but for reactivity tracking, it must be used inside `watch` or `watchEffect`.”
 
@@ -4170,17 +4142,17 @@ This section is about a **very important design rule for composables** in **Vue.
 
 Let’s break it down step by step 👇
 
----
 
-# 🔥 Core Idea
+
+### Core Idea
 
 > ✅ **Composables should return a plain object containing `ref`s (not a reactive object)**
 
----
 
-# 🧩 Why Not Return `reactive()`?
 
-## ❌ Problem with `reactive()`
+### Why Not Return `reactive()`?
+
+### ❌ Problem with `reactive()`
 
 ```js
 const state = reactive({
@@ -4202,9 +4174,9 @@ const { x, y } = useMouse();
 * `x` and `y` become plain values
 * They are no longer connected to original state
 
----
 
-# ✅ Correct Approach: Return `ref`s
+
+### Correct Approach: Return `ref`s
 
 ```js
 function useMouse() {
@@ -4226,9 +4198,9 @@ const { x, y } = useMouse();
 * `x` and `y` are still reactive refs
 * Updates reflect automatically
 
----
 
-# 🧠 Why This Works
+
+### Why This Works
 
 Because:
 
@@ -4240,18 +4212,18 @@ But:
 * `reactive` is a **proxy object**
 * Destructuring breaks the proxy connection
 
----
 
-# ⚡ Rule of Thumb
+
+### Rule of Thumb
 
 | Return Type | Destructuring Safe? | Recommended |
 | ----------- | ------------------- | ----------- |
 | `ref`       | ✅ Yes               | ✅ Yes       |
 | `reactive`  | ❌ No                | ❌ Avoid     |
 
----
 
-# 🔁 What If You Want Object Style Access?
+
+### What If You Want Object Style Access?
 
 Sometimes you prefer:
 
@@ -4265,9 +4237,9 @@ instead of:
 x.value
 ```
 
----
 
-## ✅ Solution: Wrap with `reactive()`
+
+### ✅ Solution: Wrap with `reactive()`
 
 ```js
 const mouse = reactive(useMouse());
@@ -4277,9 +4249,9 @@ console.log(mouse.x); // no .value needed
 
 👉 Vue automatically **unwraps refs inside reactive**
 
----
 
-# 🔍 What’s Happening Internally?
+
+### What’s Happening Internally?
 
 * `useMouse()` returns:
 
@@ -4295,9 +4267,9 @@ console.log(mouse.x); // no .value needed
 
 * But still linked to original refs ✅
 
----
 
-# 🧪 Full Example
+
+### Full Example
 
 ```js
 function useMouse() {
@@ -4320,9 +4292,9 @@ const { x, y } = useMouse();
 const mouse = reactive(useMouse());
 ```
 
----
+<br>
 
-# 🚨 Common Mistake
+### Common Mistake
 
 ```js
 // ❌ BAD
@@ -4334,9 +4306,9 @@ return reactive({ x, y });
 * Lost reactivity when destructured
 * Hard-to-debug bugs
 
----
+<br>
 
-# 🧠 Key Takeaways
+### Key Takeaways
 
 * Always return:
 
@@ -4354,21 +4326,15 @@ return reactive({ x, y });
   const obj = reactive(useComposable())
   ```
 
----
-
-# 🎯 Interview One-Liner
-
-> “Composables should return plain objects of refs because destructuring reactive objects breaks reactivity, while refs preserve it.”
-
-
+<br>
+<br>
 
 > ### Composable state vs vuex vs pinia
 
 Here’s a **clear comparison of Composable state vs Vuex vs Pinia**, explained using **Vue 3 `<script setup>` style** 👇
 
----
 
-# 🔁 Core Idea
+### 🔁 Core Idea
 
 All three are used for **state management**, but at different scales:
 
@@ -4376,11 +4342,11 @@ All three are used for **state management**, but at different scales:
 * **Vuex** → centralized global store (Vue 2 style)
 * **Pinia** → modern global store (Vue 3 recommended)
 
----
+<br>
 
-# 🟢 1. Composable State (Lightweight)
+### 1. Composable State (Lightweight)
 
-## 📁 `useCounter.js`
+### `useCounter.js`
 
 ```js
 import { ref } from 'vue'
@@ -4394,9 +4360,9 @@ export function useCounter() {
 }
 ```
 
----
+<br>
 
-## ✅ Use in Component
+### Use in Component
 
 ```vue
 <template>
@@ -4410,16 +4376,16 @@ const { count, increment } = useCounter()
 </script>
 ```
 
----
+<br>
 
-## 🔥 Characteristics
+### Characteristics
 
 * ✅ Simple & fast
 * ✅ Great for small apps / features
 * ❌ No devtools, no strict structure
 * ❌ Hard to scale for large apps
 
----
+<br>
 
 # 🟣 2. Vuex (Vue 2 Style)
 
@@ -4436,7 +4402,7 @@ const store = new Vuex.Store({
 })
 ```
 
----
+<br>
 
 ## ❌ Problems
 
@@ -4444,13 +4410,13 @@ const store = new Vuex.Store({
 * Mutations + actions = verbose
 * Not Composition API friendly
 
----
+<br>
 
 ## 📉 Status
 
 👉 Vuex is now **mostly replaced by Pinia**
 
----
+<br>
 
 # 🔵 3. Pinia (Vue 3 Recommended 🚀)
 
@@ -4469,7 +4435,7 @@ export const useCounterStore = defineStore('counter', () => {
 })
 ```
 
----
+<br>
 
 ## ✅ Use in Component
 
@@ -4487,7 +4453,7 @@ const store = useCounterStore()
 </script>
 ```
 
----
+<br>
 
 # ⚡ Key Differences
 
@@ -4501,7 +4467,7 @@ const store = useCounterStore()
 | Vue 3 support    | ✅          | ⚠️ legacy | ✅ best    |
 | Learning curve   | ✅ easy     | ❌ hard    | ✅ easy    |
 
----
+<br>
 
 # 🧠 When to Use What
 
@@ -4511,13 +4477,13 @@ const store = useCounterStore()
 * Reusable logic (e.g. form, API)
 * No need for global store
 
----
+<br>
 
 ## ❌ Avoid Vuex (new projects)
 
 * Only for legacy Vue 2 apps
 
----
+<br>
 
 ## ✅ Use Pinia when:
 
@@ -4525,7 +4491,7 @@ const store = useCounterStore()
 * Medium to large apps
 * Need devtools & structure
 
----
+<br>
 
 # 🔥 Real-World Insight
 
@@ -4693,7 +4659,7 @@ Note: defineExpose in vue 3
 npm install pinia
 ```
 
----
+<br>
 
 # 🚀 Step 2: Connect Pinia to your Vue app
 
@@ -4942,7 +4908,7 @@ const userStore = useUserStore()
 </template>
 ```
 
----
+<br>
 
 # ⚡ VERY IMPORTANT RULES (junior dev mistakes)
 
@@ -5020,7 +4986,7 @@ async function fetchUser() {
 * Always handle errors
 * Keep API logic inside store (not components)
 
----
+<br>
 
 # 🚀 Step 6: Store splitting (scaling apps)
 
@@ -5035,7 +5001,7 @@ stores/
 
 👉 Each store = single responsibility
 
----
+<br>
 
 # 🚀 Step 7: Access store outside components
 
@@ -5051,7 +5017,7 @@ store.incrementAge()
 * Works only AFTER app is initialized
 * In SSR → pass pinia instance manually
 
----
+<br>
 
 # 🚀 Step 8: Persist data (VERY common requirement)
 
@@ -5085,7 +5051,7 @@ export const useUserStore = defineStore('user', () => {
 
 👉 Now data stays after refresh
 
----
+<br>
 
 # 🚀 Step 9: Reset store
 
@@ -5115,7 +5081,7 @@ export const useCounterStore = defineStore('counter', () => {
 
 👉 Useful for logout
 
----
+<br>
 
 # 🚀 Step 10: Watch store changes
 
@@ -5127,7 +5093,7 @@ watch(() => store.age, (newVal) => {
 })
 ```
 
----
+<br>
 
 # 🚀 Step 11: Subscribe to store globally
 
@@ -5172,7 +5138,7 @@ watch(
   * inspect state
   * time-travel debug
 
----
+<br>
 
 # 🚀 Step 13: Best folder structure (production)
 
@@ -5188,7 +5154,7 @@ src/
  │    └── product/
 ```
 
----
+<br>
 
 # 🔥 Pro Tips (this is where seniors stand out)
 
@@ -5197,26 +5163,26 @@ src/
 * No DOM logic
 * No UI logic
 
----
+<br>
 
 ### ✅ 2. Use TypeScript (if possible)
 
 Pinia is **TS-friendly**
 
----
+<br>
 
 ### ✅ 3. Avoid overusing global state
 
 👉 Not everything belongs in Pinia
 
----
+<br>
 
 ### ✅ 4. Use composables + Pinia together
 
 * Pinia = global state
 * composables = reusable logic
 
----
+<br>
 
 ### ✅ 5. Lazy load stores
 
@@ -5226,14 +5192,14 @@ const store = useUserStore()
 
 👉 Only loads when used
 
----
+<br>
 
 ### ✅ 6. Naming convention
 
 * `useXStore`
 * Example: `useAuthStore`, `useCartStore`
 
----
+<br>
 
 ### ✅ 7. Use getters for derived state
 
@@ -5241,11 +5207,11 @@ const store = useUserStore()
 const fullName = computed(() => firstName.value + ' ' + lastName.value)
 ```
 
----
+<br>
 
 ### ✅ 8. Never mutate state outside store (bad practice)
 
----
+<br>
 
 # 🧨 Common mistakes juniors make
 
@@ -5255,7 +5221,7 @@ const fullName = computed(() => firstName.value + ' ' + lastName.value)
 * ❌ Not handling async errors
 * ❌ Forgetting `$reset` on logout
 
----
+<br>
 
 # 🧠 Mental Model
 
@@ -5266,7 +5232,7 @@ Store = Brain
 Component = UI
 ```
 
----
+<br>
 
 # 🚀 Final Advice (from 10 YOE dev)
 
@@ -5279,7 +5245,7 @@ If you follow only this:
 
 👉 You’ll already be ahead of most developers.
 
----
+<br>
 
 If you want next level:
 I can teach you:
@@ -5297,7 +5263,7 @@ Just tell me 👍
 
 Alright — let’s zoom in specifically on **how to use getters in a component**, like I’d explain to a junior on my team 👇
 
----
+<br>
 
 # 🧠 First: What is a Getter in Pinia?
 
@@ -5311,7 +5277,7 @@ const isAdult = computed(() => age.value >= 18)
 
 👉 You NEVER mutate getters — only read them.
 
----
+<br>
 
 # 🚀 Case 1: Using getters WITHOUT destructuring (simplest way)
 
@@ -5332,7 +5298,7 @@ const store = useUserStore()
 * No reactivity issues
 * Clean and simple
 
----
+<br>
 
 # 🚀 Case 2: Using getters WITH destructuring (IMPORTANT)
 
@@ -5346,7 +5312,7 @@ const { isAdult } = useUserStore()
 
 👉 This breaks reactivity (getter won’t update)
 
----
+<br>
 
 ### ✅ Correct way (use storeToRefs)
 
@@ -5369,7 +5335,7 @@ const { isAdult } = storeToRefs(store)
 * `storeToRefs` keeps getters reactive
 * Converts them into refs
 
----
+<br>
 
 # 🚀 Case 3: Multiple getters
 
@@ -5377,7 +5343,7 @@ const { isAdult } = storeToRefs(store)
 const { isAdult, fullName } = storeToRefs(store)
 ```
 
----
+<br>
 
 # 🚀 Case 4: Using getter inside script (JS logic)
 
@@ -5389,7 +5355,7 @@ if (store.isAdult) {
 
 👉 You don’t need `.value` here if NOT using `storeToRefs`
 
----
+<br>
 
 # 🚀 Case 5: Using getter with storeToRefs in JS
 
@@ -5401,7 +5367,7 @@ if (isAdult.value) {
 }
 ```
 
----
+<br>
 
 # 🚀 Case 6: Getter depending on another getter
 
@@ -5423,7 +5389,7 @@ Use in component same way 👇
 <p>{{ store.category }}</p>
 ```
 
----
+<br>
 
 # 🚀 Case 7: Getter with parameters (advanced)
 
@@ -5443,7 +5409,7 @@ store.getUserById(1)
 
 👉 Treat it like a function, not a computed getter
 
----
+<br>
 
 # ⚡ Golden Rules (VERY IMPORTANT)
 
@@ -5453,24 +5419,24 @@ store.getUserById(1)
 store.isAdult
 ```
 
----
+<br>
 
 ### ✅ Rule 2: Use `storeToRefs` only when destructuring
 
----
+<br>
 
 ### ✅ Rule 3: Don’t overuse getters
 
 👉 If it's simple, compute in component
 
----
+<br>
 
 ### ✅ Rule 4: Keep getters pure
 
 ❌ No API calls
 ❌ No side effects
 
----
+<br>
 
 # 🧨 Common mistakes
 
@@ -5480,7 +5446,7 @@ store.isAdult
 store.isAdult.value // ❌ WRONG (without storeToRefs)
 ```
 
----
+<br>
 
 ### ❌ Treating getter like function
 
@@ -5488,13 +5454,13 @@ store.isAdult.value // ❌ WRONG (without storeToRefs)
 store.isAdult() // ❌ WRONG
 ```
 
----
+<br>
 
 ### ❌ Heavy logic inside getters
 
 👉 Makes debugging painful
 
----
+<br>
 
 # 🧠 Senior Dev Insight
 
@@ -5507,7 +5473,7 @@ store.isAdult() // ❌ WRONG
 
 * Logic is local to one component
 
----
+<br>
 
 # 🔥 Real-world example
 
@@ -5525,7 +5491,7 @@ Component:
 <p>Total: {{ store.cartTotal }}</p>
 ```
 
----
+<br>
 
 # 🚀 One-line takeaway
 
@@ -5537,14 +5503,14 @@ Component:
 
 Good question — and this is where Pinia simplifies things a lot.
 
----
+<br>
 
 # 🧠 Short Answer
 
 👉 In **Pinia**, you still use **actions** for async work
 👉 But unlike Vuex, **actions are much simpler (no commit, no dispatch)**
 
----
+<br>
 
 # ⚡ Key Difference
 
@@ -5574,7 +5540,7 @@ actions: {
 👉 No commit
 👉 Direct state update
 
----
+<br>
 
 # 🚀 Step-by-step async in Pinia
 
@@ -5609,7 +5575,7 @@ export const useUserStore = defineStore('user', () => {
 })
 ```
 
----
+<br>
 
 ## 2. Use in component
 
@@ -5628,7 +5594,7 @@ store.fetchUser()
 </template>
 ```
 
----
+<br>
 
 # ⚡ Important Concepts (Senior-level understanding)
 
@@ -5637,7 +5603,7 @@ store.fetchUser()
 * Sync or async — your choice
 * No special structure needed
 
----
+<br>
 
 ## ✅ 2. You can return data
 
@@ -5656,7 +5622,7 @@ Component:
 const data = await store.fetchUser()
 ```
 
----
+<br>
 
 ## ✅ 3. You can call actions inside actions
 
@@ -5667,7 +5633,7 @@ async function init() {
 }
 ```
 
----
+<br>
 
 ## ✅ 4. Error handling is manual (important)
 
@@ -5681,7 +5647,7 @@ try {
 }
 ```
 
----
+<br>
 
 # 🔥 Best Practice Pattern (Production)
 
@@ -5695,7 +5661,7 @@ data
 
 👉 This avoids UI bugs
 
----
+<br>
 
 # 🧨 Common mistakes
 
@@ -5706,7 +5672,7 @@ data
 mutations: {}
 ```
 
----
+<br>
 
 ### ❌ Overcomplicating like Vuex
 
@@ -5716,13 +5682,13 @@ mutations: {}
 * dispatch
 * separate mutation layer
 
----
+<br>
 
 ### ❌ Doing API calls in components
 
 👉 Always prefer store
 
----
+<br>
 
 # 🧠 Mental Shift (VERY IMPORTANT)
 
@@ -5740,7 +5706,7 @@ Action → State
 
 👉 One less layer = cleaner code
 
----
+<br>
 
 # 🚀 Real-world example (cart)
 
@@ -5758,7 +5724,7 @@ async function checkout() {
 }
 ```
 
----
+<br>
 
 # 🧠 Final takeaway
 
@@ -5770,7 +5736,7 @@ async function checkout() {
 
 Here’s a **clear senior-level comparison table** of how you do common things in **Vuex vs Pinia**. This is the kind of mapping that helps you transition quickly 👇
 
----
+<br>
 
 # 🆚 Vuex vs Pinia (Side-by-side)
 
@@ -5793,11 +5759,11 @@ Here’s a **clear senior-level comparison table** of how you do common things i
 | **SSR Support**                       | Manual setup                                    | Built-in friendly                        |
 | **Reactivity Issue on Destructuring** | Less common                                     | Must use `storeToRefs`                   |
 
----
+<br>
 
 # 🔍 Code Comparison (Real Examples)
 
----
+<br>
 
 ## 🧩 1. State
 
@@ -5815,7 +5781,7 @@ state: {
 const count = ref(0)
 ```
 
----
+<br>
 
 ## 🧩 2. Getter
 
@@ -5833,7 +5799,7 @@ getters: {
 const double = computed(() => count.value * 2)
 ```
 
----
+<br>
 
 ## 🧩 3. Mutation vs Direct Update
 
@@ -5853,7 +5819,7 @@ Usage:
 store.commit('increment')
 ```
 
----
+<br>
 
 ### Pinia
 
@@ -5875,7 +5841,7 @@ store.increment()
 store.count++
 ```
 
----
+<br>
 
 ## 🧩 4. Async Action
 
@@ -5890,7 +5856,7 @@ actions: {
 }
 ```
 
----
+<br>
 
 ### Pinia
 
@@ -5901,7 +5867,7 @@ async function fetchUser() {
 }
 ```
 
----
+<br>
 
 ## 🧩 5. Store Usage in Component
 
@@ -5912,7 +5878,7 @@ this.$store.state.count
 this.$store.dispatch('increment')
 ```
 
----
+<br>
 
 ### Pinia
 
@@ -5923,7 +5889,7 @@ store.count
 store.increment()
 ```
 
----
+<br>
 
 ## 🧩 6. Modules vs Stores
 
@@ -5936,7 +5902,7 @@ modules: {
 }
 ```
 
----
+<br>
 
 ### Pinia
 
@@ -5947,7 +5913,7 @@ useCartStore()
 
 👉 No nesting headache
 
----
+<br>
 
 ## 🧩 7. Destructuring
 
@@ -5957,7 +5923,7 @@ useCartStore()
 const count = computed(() => store.state.count)
 ```
 
----
+<br>
 
 ### Pinia
 
@@ -5965,7 +5931,7 @@ const count = computed(() => store.state.count)
 const { count } = storeToRefs(store)
 ```
 
----
+<br>
 
 # 🧠 Senior Dev Insights
 
@@ -5976,14 +5942,14 @@ const { count } = storeToRefs(store)
 * Better TypeScript support
 * More intuitive mental model
 
----
+<br>
 
 ### ⚠️ When Vuex still appears
 
 * Legacy projects
 * Large enterprise apps not migrated yet
 
----
+<br>
 
 # 🧠 Mental Model Shift
 
@@ -6001,7 +5967,7 @@ Action → State → Getter
 
 👉 One less layer = faster development + fewer bugs
 
----
+<br>
 
 # 🚀 Final Takeaway
 
@@ -6011,7 +5977,7 @@ If you understand Vuex, Pinia will feel like:
 
 > “Why was I doing so much extra work before?”
 
----
+<br>
 
 If you want, next I can give:
 
@@ -6235,7 +6201,7 @@ function persistPlugin({ store }) {
 }
 ```
 
----
+<br>
 
 # 🚀 Use Case 5: Add external services
 
@@ -6251,7 +6217,7 @@ function apiPlugin({ store }) {
 store.api('/users')
 ```
 
----
+<br>
 
 # ⚡ Returning values from plugin
 
@@ -6267,7 +6233,7 @@ function myPlugin() {
 
 👉 Automatically added to store
 
----
+<br>
 
 # 🧠 Plugin Execution Flow
 
@@ -6283,7 +6249,7 @@ Store created
 Plugin runs for that store
 ```
 
----
+<br>
 
 # 🚨 Important Rules
 
@@ -6291,13 +6257,13 @@ Plugin runs for that store
 
 * Not everything should be global
 
----
+<br>
 
 ## ❌ Don’t put business logic in plugins
 
 👉 Keep plugins generic
 
----
+<br>
 
 ## ✅ Use plugins for:
 
@@ -6306,7 +6272,7 @@ Plugin runs for that store
 * analytics
 * shared utilities
 
----
+<br>
 
 # 🧨 Common mistakes
 
@@ -6316,19 +6282,19 @@ Plugin runs for that store
 store = {} // ❌ NEVER do this
 ```
 
----
+<br>
 
 ### ❌ Heavy logic inside plugin
 
 👉 Makes debugging hard
 
----
+<br>
 
 ### ❌ Assuming plugin runs once
 
 👉 It runs for EVERY store
 
----
+<br>
 
 # 🧠 Senior Dev Insight
 
@@ -6339,7 +6305,7 @@ Similar to:
 * Express middleware
 * Axios interceptors
 
----
+<br>
 
 # 🔥 Real-world analogy
 
@@ -6348,7 +6314,7 @@ Store = Phone
 Plugin = Apps installed on every phone
 ```
 
----
+<br>
 
 # 🚀 Final Takeaway
 
@@ -6360,7 +6326,7 @@ They let you:
 * add features across all stores
 * avoid repeating logic
 
----
+<br>
 
 If you want next level, I can show:
 
@@ -6488,7 +6454,7 @@ console.log(proxy === raw) // ❌ false
 * `proxy` → reactive version (tracked by Vue)
 * They are **NOT the same**
 
----
+<br>
 
 # 🔹 2. Only the proxy is reactive
 
@@ -6508,7 +6474,7 @@ proxy.count = 1 // ✅ Vue tracks this
 
 * Always use **proxy**, not original object
 
----
+<br>
 
 # 🔹 3. Vue always returns the SAME proxy
 
@@ -6529,7 +6495,7 @@ console.log(reactive(proxy) === proxy) // ✅ true
 * Same object → same proxy
 * Passing proxy again → returns itself
 
----
+<br>
 
 # 🔹 4. Nested objects are ALSO proxies (deep reactivity)
 
@@ -6551,7 +6517,7 @@ console.log(proxy.nested === raw) // ❌ false
 * `proxy.nested` becomes a **new proxy**
 * So it's not equal to original `raw`
 
----
+<br>
 
 # 🧠 Easy understanding
 
@@ -6564,7 +6530,7 @@ Vue says:
 
 > “I only watch the smart version (proxy), not the raw one”
 
----
+<br>
 
 # 🔥 Key Rules (Very Important)
 
@@ -6573,7 +6539,7 @@ Vue says:
 ✔️ Same object → same proxy (no duplicates)
 ✔️ Nested objects → automatically converted to proxies
 
----
+<br>
 
 # ⚡ Quick Example (Real-world)
 
@@ -6589,7 +6555,7 @@ user.name = "Rahul" // UI won't update
 state.name = "Rahul" // UI updates
 ```
 
----
+<br>
 
 # 🎯 One-line memory trick
 
@@ -6628,7 +6594,7 @@ const state = reactive({
 const count = ref(0) // ✅
 ```
 
----
+<br>
 
 # 🔹 2. Cannot replace the whole object
 
@@ -6700,7 +6666,7 @@ const { count } = toRefs(state)
 count.value++ // ✅ reactive
 ```
 
----
+<br>
 
 # 🔹 4. Passing value to function loses reactivity
 
@@ -6884,7 +6850,7 @@ const { id } = object
 2 ✅
 ```
 
----
+<br>
 
 6. Special shortcut in templates
 
@@ -6915,7 +6881,7 @@ Why?
   * Top-level → works
   * Nested → doesn't work (unless final value)
 
----
+<br>
 
 ## 🔥 Quick analogy
 
@@ -6929,7 +6895,8 @@ Think of `ref` like a **gift box 🎁**
   * Nested → Vue says: “you open it yourself 😄”
 
 
-
+<br>
+<br>
 
 > ### Computed Properties
 
@@ -6983,7 +6950,7 @@ console.log(publishedBooksMessage.value)
 
 👉 But in template → no `.value`
 
----
+<br>
 
 # 🔹 3. Computed vs Method (IMPORTANT INTERVIEW)
 
@@ -7001,7 +6968,7 @@ function getMessage() {
 
 👉 Runs **every time UI re-renders** 🔁
 
----
+<br>
 
 ## Computed:
 
@@ -7039,7 +7006,7 @@ fullName.value = "John Doe"
 * `firstName`
 * `lastName`
 
----
+<br>
 
 # 🔹 5. Previous value (advanced) - Only supported in 3.4+
 
@@ -7396,24 +7363,23 @@ stop() // stop watcher
 ```
 👉 Usually not needed (auto cleanup)
 
+<br>
+<br>
 
 > ###  Template Ref
 
-Let’s simplify **Template Refs in Vue** 
-
-👉 It gives you **direct access to a DOM element or component**
+It gives you **direct access to a DOM element or component**
 
 ### Example:
-
 ```html
 <input ref="my-input" />
 ```
 
 👉 This lets you control the input using JS
 
+<br>
 
-
-# 🔹 2. Accessing the ref
+### Accessing the ref
 
 ```js
 import { useTemplateRef, onMounted } from 'vue'
@@ -7430,13 +7396,11 @@ onMounted(() => {
 </template>
 ```
 
-👉 After mount:
+After mount: `input.value` = actual DOM element
 
-* `input.value` = actual DOM element
+<br>
 
----
-
-# 🔥 Important rule
+### Important rule
 
 ❗ You can only use refs **after component is mounted**
 
@@ -7444,19 +7408,20 @@ onMounted(() => {
 console.log(input.value) // ❌ null before mount
 ```
 
----
+<br>
 
-# 🔹 3. Why use Template Refs?
+### Why use Template Refs?
 
 Use when you need **manual DOM control**:
 
-✔️ Focus input
-✔️ Scroll element
-✔️ Use third-party libraries
-✔️ Access child component
+- Focus input
+- Scroll element
+- Use third-party libraries
+- Access child component
 
+<br>
 
-# 🔹 4. Handling null (important)
+### Handling null (important)
 
 ```js
 watchEffect(() => {
@@ -7466,20 +7431,18 @@ watchEffect(() => {
 })
 ```
 
-👉 Why?
-
 * Before mount → null
 * After mount → element
 
----
+<br>
 
-# 🔹 5. Ref on COMPONENT
+### Ref on COMPONENT
 
-```html id="tsgxxw"
+```html
 <Child ref="child" />
 ```
 
-```js id="1f2w5o"
+```js
 const child = useTemplateRef('child')
 
 onMounted(() => {
@@ -7489,28 +7452,17 @@ onMounted(() => {
 
 👉 `child.value` = component instance
 
----
+<br>
 
-# 🔥 Important (very important)
-
-👉 Accessing child directly = tight coupling ❌
-
-👉 Prefer:
-
-* props
-* emits
-
----
-
-# 🔹 6. Special case: `<script setup>`
+### Special case: `<script setup>`
 
 Child is **private by default**
 
----
+<br>
 
 ### To expose values:
 
-```js id="l60c6l"
+```js
 defineExpose({
   count,
   increment
@@ -7519,64 +7471,64 @@ defineExpose({
 
 👉 Now parent can access:
 
-```js id="iw5u0r"
+```js
 child.value.count
 child.value.increment()
 ```
 
----
+<br>
 
-# 🔹 7. Refs inside `v-for`
+### Refs inside `v-for`
 
-```html id="pxjklh"
+```html
 <li v-for="item in list" ref="items">
   {{ item }}
 </li>
 ```
 
-```js id="fp80kz"
+```js
 const itemRefs = useTemplateRef('items')
 ```
 
 👉 After mount:
 
-```js id="9bdv1j"
+```js
 console.log(itemRefs.value) // array of elements
 ```
 
----
+<br>
 
 ⚠️ Order may not always match array
 
----
+<br>
 
-# 🔹 8. Function refs (advanced)
+### Function refs (advanced)
 
 Instead of string:
 
-```html id="9yo4rf"
+```html
 <input :ref="(el) => myRef = el" />
 ```
 
 👉 Gives full control
 
----
+<br>
 
-# 🧠 Simple understanding
+### Simple understanding
 
 * `ref="input"` → mark element 🏷️
 * `useTemplateRef()` → get it in JS 🎯
 
----
+<br>
 
-# 🔥 Real example
+### Real example
 
-```html id="0tr11t"
+```html
 <input ref="input" />
 <button @click="focusInput">Focus</button>
 ```
 
-```js id="y9wqfu"
+```js
 const input = useTemplateRef('input')
 
 function focusInput() {
@@ -7584,31 +7536,11 @@ function focusInput() {
 }
 ```
 
----
-
-# 🔥 When NOT to use
-
-❌ Don’t use for normal data flow
-✔️ Use only for DOM or special cases
-
----
-
-# ⚡ Analogy
-
-👉 Template ref = **remote control 🎮 for DOM element**
-
----
-
-# 🎯 One-line memory trick
-
-👉 “Template ref = direct DOM access after mount”
-
+<br>
 
 > ### Keep in mind, props passed to child are immutable in nature by child, but if it is nested object then it can be modified.
 
-
-
-
+<br>
 
 https://vuejs.org/guide/components/v-model.html
 https://vuejs.org/guide/components/slots.html
