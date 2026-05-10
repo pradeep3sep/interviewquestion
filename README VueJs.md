@@ -6432,16 +6432,19 @@ const state = reactive({ count: 0 })
 
 `reactive()` converts the object deeply: nested objects are also wrapped with reactive() when accessed. It is also called by ref() internally when the ref value is an object.
 
+<br>
+<br>
 
 > ### Reactive Proxy vs. Original
 
-# 🔹 1. `reactive()` returns a Proxy (not the original object)
+**1. `reactive()` returns a Proxy (not the original object)**
 
 When you use `reactive()`, Vue wraps your object in a **Proxy** (a special wrapper).
 
-### Example:
 
 ```js
+// Example:
+
 const raw = {}
 const proxy = reactive(raw)
 
@@ -6456,33 +6459,29 @@ console.log(proxy === raw) // ❌ false
 
 <br>
 
-# 🔹 2. Only the proxy is reactive
+**2. Only the proxy is reactive**
 
-### ❌ Problem:
 
 ```js
+// Problem:
 raw.count = 1 // ❌ Vue won't track this
-```
 
-### ✅ Correct:
-
-```js
+//Correct:
 proxy.count = 1 // ✅ Vue tracks this
 ```
 
-👉 Rule:
-
-* Always use **proxy**, not original object
+Rule: Always use **proxy**, not original object
 
 <br>
 
-# 🔹 3. Vue always returns the SAME proxy
+**3. Vue always returns the SAME proxy**
 
 Vue is smart — it doesn’t create multiple proxies for the same object.
 
-### Example:
 
 ```js
+// Example:
+
 const raw = {}
 const proxy = reactive(raw)
 
@@ -6490,20 +6489,20 @@ console.log(reactive(raw) === proxy) // ✅ true
 console.log(reactive(proxy) === proxy) // ✅ true
 ```
 
-👉 Means:
-
+Means:
 * Same object → same proxy
 * Passing proxy again → returns itself
 
 <br>
 
-# 🔹 4. Nested objects are ALSO proxies (deep reactivity)
+**4. Nested objects are ALSO proxies (deep reactivity)**
 
 Vue makes everything inside reactive too.
 
-### Example:
 
 ```js
+// Example:
+
 const proxy = reactive({})
 const raw = {}
 
@@ -6512,37 +6511,22 @@ proxy.nested = raw
 console.log(proxy.nested === raw) // ❌ false
 ```
 
-👉 Why?
-
+Why?
 * `proxy.nested` becomes a **new proxy**
 * So it's not equal to original `raw`
 
 <br>
 
-# 🧠 Easy understanding
-
-### Think like this:
+> ### Think like this:
 
 * `raw` = normal object 🧱
 * `proxy` = smart object with tracking 👀
 
-Vue says:
-
-> “I only watch the smart version (proxy), not the raw one”
+Vue says: “I only watch the smart version (proxy), not the raw one”
 
 <br>
 
-# 🔥 Key Rules (Very Important)
-
-✔️ `reactive()` returns a **proxy, not original**
-✔️ Only proxy is reactive
-✔️ Same object → same proxy (no duplicates)
-✔️ Nested objects → automatically converted to proxies
-
-<br>
-
-# ⚡ Quick Example (Real-world)
-
+Quick Example (Real-world)
 ```js
 const user = { name: "Aman" }
 
@@ -6556,16 +6540,13 @@ state.name = "Rahul" // UI updates
 ```
 
 <br>
-
-# 🎯 One-line memory trick
-
-👉 “Vue tracks the **proxy**, not the original object.”
-
-
+<br>
 
 > ### Limitations of reactive()
 
-# 🔹 1. Only works with objects (NOT primitives)
+<br>
+
+**1. Only works with objects (NOT primitives)**
 
 `reactive()` **only works with objects, arrays, Map, Set**
 It ❌ does NOT work with:
@@ -6574,15 +6555,13 @@ It ❌ does NOT work with:
 * string
 * boolean
 
-### ❌ Wrong:
+
 
 ```js
+// Wrong:
 const count = reactive(0) // won't work
-```
 
-### ✅ Correct:
-
-```js
+// Correct:
 const state = reactive({
   count: 0
 })
@@ -6596,13 +6575,12 @@ const count = ref(0) // ✅
 
 <br>
 
-# 🔹 2. Cannot replace the whole object
+**2. Cannot replace the whole object**
 
 Vue tracks **the original object reference**, not variable name.
 
-### ❌ Problem:
-
 ```js
+// Problem:
 let state = reactive({ count: 0 })
 
 state = reactive({ count: 10 }) // ❌ breaks reactivity
@@ -6614,27 +6592,20 @@ state = reactive({ count: 10 }) // ❌ breaks reactivity
 * Now you replaced it with a **new object**
 * Old tracking is lost
 
-
-
-### ✅ Correct way (update property instead):
-
 ```js
+// Correct way (update property instead):
 state.count = 10 // ✅ works
 ```
 
+<br>
 
-### 🧠 Easy idea:
-
-* Vue says: “Don’t change the object 🧱, just change what's inside it”
-
-
-# 🔹 3. Destructuring breaks reactivity
+**3. Destructuring breaks reactivity**
 
 When you extract values, Vue loses tracking.
 
-### ❌ Problem:
 
 ```js
+// Problem:
 const state = reactive({ count: 0 })
 
 let { count } = state
@@ -6647,18 +6618,14 @@ count++ // ❌ does NOT update state.count
 * `count` is just a normal number
 * No connection to `state.count`
 
-
-### ✅ Correct way:
-
-Use directly:
-
+Correct way - Use directly:
 ```js
 state.count++
 ```
+<br>
 
 
-
-### ✅ OR use `toRefs()` (advanced fix):
+### OR use `toRefs()` (advanced fix):
 
 ```js
 const { count } = toRefs(state)
@@ -6668,11 +6635,10 @@ count.value++ // ✅ reactive
 
 <br>
 
-# 🔹 4. Passing value to function loses reactivity
-
-### ❌ Problem:
+**4. Passing value to function loses reactivity**
 
 ```js
+// Problem:
 callSomeFunction(state.count)
 ```
 
@@ -6682,9 +6648,7 @@ callSomeFunction(state.count)
 * No reactivity tracking
 
 
-### ✅ Fix:
-
-Pass full object:
+Fix - Pass full object:
 
 ```js
 callSomeFunction(state)
@@ -6696,9 +6660,9 @@ OR pass a ref:
 callSomeFunction(toRef(state, 'count'))
 ```
 
+<br>
 
-
-# 🔥 Why Vue recommends `ref()` more
+> ### Why Vue recommends `ref()` more
 
 Because `ref()`:
 
@@ -6706,9 +6670,9 @@ Because `ref()`:
 * ✅ easier to pass around
 * ✅ doesn’t break on destructuring (if handled properly)
 
+<br>
 
-
-# 🧠 Super Simple Summary
+> ### Super Simple Summary
 
 | Problem                   | What happens           | Fix               |
 | ------------------------- | ---------------------- | ----------------- |
@@ -6717,17 +6681,7 @@ Because `ref()`:
 | Destructure               | ❌ breaks link          | use `toRefs()`    |
 | Pass value to function    | ❌ becomes normal value | pass ref/object   |
 
-
-
-# 🔥 Final analogy
-
-Think of `reactive()` like a **smart container 📦**
-
-* If you **replace the box** → Vue loses track ❌
-* If you **take items out (destructure)** → they become normal items ❌
-* If you **use the box directly** → everything stays reactive ✅
-
-
+<br>
 
 > ### Additional Ref Unwrapping Details
 
@@ -6872,7 +6826,7 @@ Why?
 
 
 
-## 🧠 Easy way to remember
+### Easy way to remember
 
 * ✅ Reactive object → auto unwrap
 * ❌ Array / Map → use `.value`
@@ -6883,7 +6837,7 @@ Why?
 
 <br>
 
-## 🔥 Quick analogy
+### Quick analogy
 
 Think of `ref` like a **gift box 🎁**
 
@@ -6900,7 +6854,7 @@ Think of `ref` like a **gift box 🎁**
 
 > ### Computed Properties
 
-## ❌ Problem without computed
+**Problem without computed**
 
 ```html
 <span>{{ author.books.length > 0 ? 'Yes' : 'No' }}</span>
@@ -6919,7 +6873,9 @@ const author = reactive({
 </script>
 ```
 
-## ✅ Using computed
+<br>
+
+### Using computed
 
 ```js
 const publishedBooksMessage = computed(() => {
@@ -6930,10 +6886,11 @@ const publishedBooksMessage = computed(() => {
 ```html
 <span>{{ publishedBooksMessage }}</span>
 ```
+<br>
 
-# 🔹 2. Key behavior (VERY IMPORTANT)
+2. Key behavior (VERY IMPORTANT)
 
-### ✅ Auto updates
+### Auto updates
 
 ```js
 author.books.push('New Book')
@@ -6942,7 +6899,7 @@ author.books.push('New Book')
 👉 `publishedBooksMessage` updates automatically
 
 
-### ✅ Acts like ref
+### Acts like ref
 
 ```js
 console.log(publishedBooksMessage.value)
@@ -6952,9 +6909,9 @@ console.log(publishedBooksMessage.value)
 
 <br>
 
-# 🔹 3. Computed vs Method (IMPORTANT INTERVIEW)
+**3. Computed vs Method (IMPORTANT INTERVIEW)**
 
-## Method:
+### Method:
 
 ```js
 function getMessage() {
@@ -6970,7 +6927,7 @@ function getMessage() {
 
 <br>
 
-## Computed:
+### Computed:
 
 ```js
 const message = computed(() => ...)
@@ -6978,9 +6935,9 @@ const message = computed(() => ...)
 
 👉 Runs **ONLY when dependency changes** 🧠
 
+<br>
 
-
-# 🔹 4. Writable computed (rare but useful)
+**4. Writable computed (rare but useful)**
 
 Computed properties are by default getter-only."writable" computed property, you can create one by providing both a getter and a setter:
 
@@ -7008,7 +6965,7 @@ fullName.value = "John Doe"
 
 <br>
 
-# 🔹 5. Previous value (advanced) - Only supported in 3.4+
+**5. Previous value (advanced) - Only supported in 3.4+**
 
 ```js
 const alwaysSmall = computed((previous) => {
@@ -7024,16 +6981,17 @@ const alwaysSmall = computed((previous) => {
 * If `count <= 3` → return new value
 * Else → return old value
 
+<br>
 
-# 🔹 7. Don’t modify computed value
+**7. Don’t modify computed value**
 
 ```js
 message.value = "Hello" // ❌ wrong
 ```
 
+<br>
 
 > ### Class and Style Bindings
-
 
 ```html
 <div class="active " + (isError ? "error" : "")></div> ❌
