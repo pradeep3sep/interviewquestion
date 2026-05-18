@@ -3480,9 +3480,10 @@ export default {
 
 Now it only changes when `filters.active` changes.
 
+<br>
+<br>
 
-
----------------------------------------------------VUE 3---------------------------
+------------------------------------------VUE 3-----------------------------------------
 
 > ### In Vue 3 we do not have the filters, we can use the computed or methods.
 
@@ -3675,6 +3676,8 @@ export default {
 }
 ```
 
+<br>
+<br>
 
 > ### Template ref in vue 2 vs vue 3
 
@@ -3707,7 +3710,7 @@ onMounted(() => {
 ```
 
 
-**Note:**Keep in mind that here we used the inputRef.value, not inputRef. When we use the ref, then we can access through the ref.value
+**Note:** Keep in mind that here we used the inputRef.value, not inputRef. When we use the ref, then we can access through the ref.value
 
 <br>
 <br>
@@ -4016,7 +4019,7 @@ function useFeature(maybeRefOrGetter) {
 * If it's a **getter function** → calls it
 * If it's a **plain value** → returns as-is
 
-
+<br>
 
 > ### Why This Matters
 
@@ -4039,11 +4042,9 @@ const value = toValue(input); // always a clean value ✅
 
 > ### Important: Reactivity Tracking
 
-Here’s the subtle but important part:
+Here’s the subtle but important part - `toValue()` **does NOT automatically track reactivity**
 
-> `toValue()` **does NOT automatically track reactivity**
-
----
+<br>
 
 ### Wrong Way (No reactivity tracking)
 
@@ -4075,9 +4076,9 @@ function useFeature(input) {
 
 👉 Tracks changes properly
 
+<br>
 
-
-### ✅ Correct Way 2: `watchEffect()`
+### Correct Way 2: `watchEffect()`
 
 ```js
 import { watchEffect, toValue } from 'vue';
@@ -4092,7 +4093,7 @@ function useFeature(input) {
 
 👉 Automatically tracks dependencies
 
-
+<br>
 
 ### Real Example: `useFetch()`
 
@@ -4111,14 +4112,14 @@ function useFetch(url) {
 
 <br>
 
-### ✅ Now it works with:
+### Now it works with:
 
 ```js
 useFetch("api/data")                  // plain value
 useFetch(ref("api/data"))            // ref
 useFetch(() => dynamicUrl.value)     // getter
 ```
-
+<br>
 
 ### Key Takeaways
 
@@ -4130,27 +4131,21 @@ useFetch(() => dynamicUrl.value)     // getter
 * Use `toValue()` to normalize input
 * Use `watch()` or `watchEffect()` for reactivity
 
+<br>
 
+### Interview One-Liner - “In Vue 3 composables, `toValue()` is used to normalize inputs like refs, getters, or plain values, but for reactivity tracking, it must be used inside `watch` or `watchEffect`.”
 
-### 🎯 Interview One-Liner
-
-> “In Vue 3 composables, `toValue()` is used to normalize inputs like refs, getters, or plain values, but for reactivity tracking, it must be used inside `watch` or `watchEffect`.”
-
-
+<br>
 
 This section is about a **very important design rule for composables** in **Vue.js 3**—how you should **return state**.
 
-Let’s break it down step by step 👇
+**Core Idea - Composables should return a plain object containing `ref`s (not a reactive object)**
 
-
-
-### Core Idea
-
-> ✅ **Composables should return a plain object containing `ref`s (not a reactive object)**
-
-
+<br>
 
 ### Why Not Return `reactive()`?
+
+<br>
 
 ### ❌ Problem with `reactive()`
 
@@ -4169,12 +4164,14 @@ return state;
 const { x, y } = useMouse();
 ```
 
-👉 ❌ **Reactivity is LOST**
+<br>
+
+Reactivity is LOST
 
 * `x` and `y` become plain values
 * They are no longer connected to original state
 
-
+<br>
 
 ### Correct Approach: Return `ref`s
 
@@ -4198,7 +4195,7 @@ const { x, y } = useMouse();
 * `x` and `y` are still reactive refs
 * Updates reflect automatically
 
-
+<br>
 
 ### Why This Works
 
@@ -4212,7 +4209,7 @@ But:
 * `reactive` is a **proxy object**
 * Destructuring breaks the proxy connection
 
-
+<br>
 
 ### Rule of Thumb
 
@@ -4221,7 +4218,7 @@ But:
 | `ref`       | ✅ Yes               | ✅ Yes       |
 | `reactive`  | ❌ No                | ❌ Avoid     |
 
-
+<br>
 
 ### What If You Want Object Style Access?
 
@@ -4237,7 +4234,7 @@ instead of:
 x.value
 ```
 
-
+<br>
 
 ### ✅ Solution: Wrap with `reactive()`
 
@@ -4249,7 +4246,7 @@ console.log(mouse.x); // no .value needed
 
 👉 Vue automatically **unwraps refs inside reactive**
 
-
+<br>
 
 ### What’s Happening Internally?
 
@@ -4267,7 +4264,7 @@ console.log(mouse.x); // no .value needed
 
 * But still linked to original refs ✅
 
-
+<br>
 
 ### Full Example
 

@@ -1,3 +1,7 @@
+> #### Notes of react
+we need to creat the .config file of main react component, which contains mainly that content constants, functions not the hooks, or the some constant return the smaller content
+
+
 > ### Custom hook for the debounce
 
 ```jsx
