@@ -896,6 +896,30 @@ We said that `this.firstName` equals `"Sarah"` and `this.lastName` equals `"Smit
 
 </details>
 
+### ⭐️ Question 50
+
+```js
+function Car() {
+  this.make = 'Lamborghini';
+  return { make: 'Maserati' };
+}
+
+const myCar = new Car();
+console.log(myCar.make);
+```
+
+- A: "Lamborghini"
+- B: "Maserati"
+- C: ReferenceError
+- D: TypeError
+
+<details>
+  <summary>Answer</summary>
+  <p>Answer: B</p>
+
+  When you return a property, the value of the property is equal to the returned value, not the value set in the constructor function. We return the string `"Maserati"`, so `myCar.make` is equal to `"Maserati"`.
+</details>
+
 
 ### ⭐️ Question 45
 ```js
@@ -1024,31 +1048,6 @@ The variable `birthYear` has a reference to the value `"1997"`. The argument `ye
 
 The value of `person` is an object. The argument `member` has a (copied) reference to the same object. When we modify a property of the object `member` has a reference to, the value of `person` will also be modified, since they both have a reference to the same object. `person's` `name` property is now equal to the value `"Lydia"`
 </details>
-
-### ⭐️ Question 50
-
-```js
-function Car() {
-  this.make = 'Lamborghini';
-  return { make: 'Maserati' };
-}
-
-const myCar = new Car();
-console.log(myCar.make);
-```
-
-- A: "Lamborghini"
-- B: "Maserati"
-- C: ReferenceError
-- D: TypeError
-
-<details>
-  <summary>Answer</summary>
-  <p>Answer: B</p>
-
-  When you return a property, the value of the property is equal to the returned value, not the value set in the constructor function. We return the string `"Maserati"`, so `myCar.make` is equal to `"Maserati"`.
-</details>
-
 
 ### Question 51
 ```js
