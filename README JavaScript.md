@@ -1719,6 +1719,9 @@ console.log(Array.from('foo'));
 
 console.log(Array.from([1, 2, 3], (x) => x + x));
 // Expected output: Array [2, 4, 6]
+
+console.log(Array.from({ length: 5 })
+// Expected output: Array [undefined, undefined, undefined, undefined, undefined]
 ```
 
 <br>
