@@ -7457,7 +7457,7 @@ console.log(itemRefs.value) // array of elements
 
 <br>
 
-### Function refs (advanced)
+#### Function refs (advanced)
 
 Instead of string:
 
@@ -7469,14 +7469,14 @@ Instead of string:
 
 <br>
 
-### Simple understanding
+**Simple understanding**
 
 * `ref="input"` → mark element 🏷️
 * `useTemplateRef()` → get it in JS 🎯
 
 <br>
 
-### Real example
+**Real example**
 
 ```html
 <input ref="input" />

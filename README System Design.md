@@ -1,20 +1,10 @@
 > ### what is difference between the virtaual dom approach of vue and react
 
-
-
-#### Core idea (same in both)
-Both frameworks:
-
-* Keep a **virtual copy of the real DOM**
-* When state changes:
-
-  1. Create a new virtual DOM
-  2. Compare it with the old one (**diffing**)
-  3. Update only the changed parts in real DOM
-
 #### Key Differences
 
 #### 1. Rendering strategy
+
+<details>
 
 **React**
 
@@ -37,9 +27,13 @@ Both frameworks:
 
 > “Update only what changed”
 
+</details>
+
 <br>
 
 #### 2. Reactivity system
+
+<details>
 
 **React**
 
@@ -63,9 +57,13 @@ Both frameworks:
 
 👉 It knows *exactly what changed*
 
+</details>
+
 <br>
 
 #### 3. Diffing granularity
+
+<details>
 
 **React**
 
@@ -90,6 +88,8 @@ Both frameworks:
 * Knows exactly which pixel changed
 * Updates only that pixel
 
+</details>
+
 <br>
 
 #### Final Summary
@@ -111,7 +111,7 @@ Both frameworks:
 
 <br>
 
-> ### in vue js interview, you were asked to How will optimize your code. you have to give answer based on your person having 10 yoe
+> ### In vue js interview, you were asked to How will optimize your code. you have to give answer based on your person having 10 yoe
 
 ### 1. **Component-Level Optimization**
 
@@ -191,6 +191,8 @@ Both frameworks:
 
 **“Overall, I don’t just optimize blindly—I profile first, identify bottlenecks, and then apply targeted optimizations that balance performance with maintainability.”**
 
+<br>
+<br>
 
 > ### Same thing for the react
 
@@ -276,21 +278,12 @@ Both frameworks:
 
   * FCP, LCP, TTI
 
+<br>
+<br>
 
 > ### In vue js interview, you were asked to How will you write scalable and modular your code. you have to give answer based on your person having 10 yoe
 
-
-If I were answering this as a **10+ years experienced Vue developer**, I’d keep it practical, architectural, and experience-driven—not textbook.
-
----
-
-### ✅ **Answer (Senior-Level – 10 YOE Perspective)**
-
-When I write scalable and modular Vue.js code, I focus on **separation of concerns, reusability, and maintainability at scale**.
-
----
-
-### 1. **Component Architecture (Atomic + Domain-Based)**
+#### 1. Component Architecture (Atomic + Domain-Based)
 
 I avoid monolithic components and break UI into **small, reusable components**.
 
@@ -311,9 +304,9 @@ Example:
 
 👉 This ensures each feature is isolated and scalable.
 
----
+<br>
 
-### 2. **Composition API for Logic Reusability**
+#### 2. Composition API for Logic Reusability
 
 Instead of mixing logic in components, I extract it into **composables**.
 
@@ -331,9 +324,9 @@ export function useAuth() {
 * Cleaner components
 * Easier testing
 
----
+<br>
 
-### 3. **Separation of Concerns**
+#### 3. Separation of Concerns
 
 I clearly separate:
 
@@ -349,9 +342,9 @@ I clearly separate:
 
 👉 Prevents tight coupling.
 
----
+<br>
 
-### 4. **State Management Strategy**
+#### 4. State Management Strategy
 
 For large apps, I use **Pinia** (or Vuex earlier).
 
@@ -364,9 +357,9 @@ For large apps, I use **Pinia** (or Vuex earlier).
 export const useUserStore = defineStore('user', { ... })
 ```
 
----
+<br>
 
-### 5. **Code Splitting & Lazy Loading**
+#### 5. Code Splitting & Lazy Loading
 
 To improve scalability and performance:
 
@@ -376,9 +369,9 @@ const Dashboard = () => import('@/views/Dashboard.vue')
 
 👉 Reduces initial bundle size and improves load time.
 
----
+<br>
 
-### 6. **Folder Structure & Naming Conventions**
+#### 6. Folder Structure & Naming Conventions
 
 Consistency is critical in large teams.
 
@@ -388,9 +381,9 @@ Consistency is critical in large teams.
   * `UserProfileCard.vue` (feature-specific)
 * Group by feature, not by type (for large apps)
 
----
+<br>
 
-### 7. **Reusable UI & Design System**
+#### 7. Reusable UI & Design System
 
 I build a **shared component library**:
 
@@ -402,18 +395,18 @@ I build a **shared component library**:
 
 👉 Avoids duplication and keeps UI consistent.
 
----
+<br>
 
-### 8. **Type Safety (with TypeScript)**
+#### 8. Type Safety (with TypeScript)
 
 In large apps, I prefer **TypeScript**:
 
 * Prevents runtime bugs
 * Improves DX and scalability
 
----
+<br>
 
-### 9. **Testing Strategy**
+#### 9. Testing Strategy
 
 * Unit test composables and services
 * Component testing for critical UI
@@ -422,36 +415,29 @@ Tools:
 
 * Jest / Vue Test Utils
 
----
+<br>
 
-### 10. **Performance Optimization**
+#### 10. Performance Optimization
 
 * Use `v-memo`, `v-once` where needed
 * Avoid unnecessary re-renders
 * Debounce API calls
 
----
+<br>
 
-### 11. **Code Quality & Standards**
+#### 11. Code Quality & Standards
 
 * ESLint + Prettier
 * Strict PR reviews
 * Maintain coding guidelines
 
+<br>
+<br>
 
 > ### Same thing in react
 
-Here’s how I’d answer this in a **React interview with 10+ years experience**—focused on architecture, not basics:
 
----
-
-## ✅ **Answer (Senior-Level – React, 10 YOE Perspective)**
-
-When building scalable and modular applications in React, I focus on **clear separation of concerns, predictable state management, and reusable architecture** so the codebase can grow without becoming difficult to maintain.
-
----
-
-### 1. **Feature-Based Architecture (Not Just Components Folder)**
+#### 1. Feature-Based Architecture (Not Just Components Folder)
 
 Instead of grouping by type, I structure apps by **features/domains**.
 
@@ -465,9 +451,9 @@ Instead of grouping by type, I structure apps by **features/domains**.
 
 👉 This allows teams to work independently and scale easily.
 
----
+<br>
 
-### 2. **Component Design (Reusable & Isolated)**
+#### 2. Component Design (Reusable & Isolated)
 
 I follow a layered approach:
 
@@ -479,9 +465,9 @@ Also use patterns like:
 * Compound components
 * Controlled vs uncontrolled components
 
----
+<br>
 
-### 3. **Custom Hooks for Logic Reusability**
+#### 3. Custom Hooks for Logic Reusability
 
 I extract reusable logic into **custom hooks** instead of duplicating code.
 
@@ -494,9 +480,9 @@ function useAuth() {
 
 👉 Keeps components clean and logic reusable/testable.
 
----
+<br>
 
-### 4. **Separation of Concerns**
+#### 4. Separation of Concerns
 
 I separate:
 
@@ -512,9 +498,9 @@ I separate:
 
 👉 Prevents tightly coupled code.
 
----
+<br>
 
-### 5. **State Management Strategy**
+#### 5. State Management Strategy
 
 * Local state → `useState`, `useReducer`
 * Global state → Context or scalable tools like
@@ -524,9 +510,9 @@ I separate:
 
 👉 I keep global state minimal and domain-specific.
 
----
+<br>
 
-### 6. **Code Splitting & Lazy Loading**
+#### 6. Code Splitting & Lazy Loading
 
 To improve performance at scale:
 
@@ -536,9 +522,9 @@ const Dashboard = React.lazy(() => import('./Dashboard'))
 
 👉 Reduces initial bundle size.
 
----
+<br>
 
-### 7. **Design System & Shared Components**
+#### 7. Design System & Shared Components
 
 I build a reusable UI layer:
 
@@ -550,18 +536,18 @@ I build a reusable UI layer:
 
 👉 Ensures consistency and reduces duplication.
 
----
+<br>
 
-### 8. **Type Safety (TypeScript)**
+#### 8. Type Safety (TypeScript)
 
 For large apps, I use TypeScript:
 
 * Safer refactoring
 * Better collaboration in teams
 
----
+<br>
 
-### 9. **API & Data Layer Abstraction**
+#### 9. API & Data Layer Abstraction
 
 I avoid calling APIs directly inside components.
 
@@ -569,9 +555,9 @@ I avoid calling APIs directly inside components.
 
   * React Query (for caching, syncing server state)
 
----
+<br>
 
-### 10. **Testing Strategy**
+#### 10. Testing Strategy
 
 * Unit tests for hooks and utilities
 * Component tests for UI behavior
@@ -581,23 +567,24 @@ Tools:
 * Jest
 * React Testing Library
 
----
+<br>
 
-### 11. **Performance Optimization**
+#### 11. Performance Optimization
 
 * Memoization (`React.memo`, `useMemo`, `useCallback`)
 * Avoid unnecessary re-renders
 * Virtualization for large lists
 
----
+<br>
 
-### 12. **Code Quality & Team Scalability**
+#### 12. Code Quality & Team Scalability
 
 * ESLint + Prettier
 * Strict PR reviews
 * Clear coding standards
 
-
+<br>
+<br>
 
 > ### What is component based architecture
 

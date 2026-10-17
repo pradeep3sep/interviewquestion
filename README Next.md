@@ -747,8 +747,8 @@ const nextConfig: NextConfig = {
 <br>
 
 ### ISR in action
-✅ When you open `/blog` or `/blog/1`, they’re pre-rendered.
-✅ After 60 seconds, the next visitor triggers **background regeneration**.
+✅ When you open `/blog` or `/blog/1`, they’re pre-rendered.\
+✅ After 60 seconds, the next visitor triggers **background regeneration** but that user sees the stale data untill he refreshes again.\
 ✅ The new static page replaces the old one automatically.
 
 You get **fresh content** — without a full rebuild or SSR.

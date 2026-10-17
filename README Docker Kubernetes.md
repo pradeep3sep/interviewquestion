@@ -368,3 +368,24 @@ CMD node server.js
 ![alt text](image-7.png)
 
 ![alt text](image-8.png)
+
+
+Kubernetes
+
+It is conatiner management tool.
+
+Lets say we have image and want to create the 500 container from that, so if we go manual mode then we have to run the command 500 times to run 500 container, there comes kubernetes as saviour. Lets say we want if we have 1 billion people comes suddenly then we want automatically increase the container and billion goes from the app then it should return to normal conatiner count then kubernetes help in that.
+
+It supports horizonatl and vertical scaling
+
+Load balancer
+
+Platform independence(cloud/virtula/local)
+
+
+Note - 2 PODS can not communicate directly.
+
+In 1 Pod we generally create only 1 container but we can create multiple container
+Single Pod get single IP, if we create multiple conatiner in single Pod, then we face some issue
+
+![alt text](image-9.png)
