@@ -2,6 +2,126 @@
 we need to creat the .config file of main react component, which contains mainly that content constants, functions not the hooks, or the some constant return the smaller content
 
 
+## What is `server.proxy` in Vite?
+
+In Vite, `server.proxy` is a configuration option that allows your frontend development server to forward API requests to another server (usually your backend).
+
+It is mainly used to:
+
+1. Avoid CORS issues during local development.
+2. Connect your React/Vue frontend to a backend API.
+3. Avoid hardcoding backend URLs in frontend API calls.
+4. Make frontend requests appear to come from the same origin during development.
+
+### 1. Example without proxy
+
+Suppose you have two applications running:
+
+| Application           | URL                     |
+| --------------------- | ----------------------- |
+| React frontend (Vite) | `http://localhost:5173` |
+| Node.js backend       | `http://localhost:3000` |
+
+Your frontend makes an API request:
+
+```
+fetch("http://localhost:3000/api/users");
+```
+
+Because the frontend and backend have different origins (different ports), the browser applies CORS restrictions.
+
+Your backend must allow the frontend origin, otherwise the browser can block access to the response.
+
+### 2. Example with Vite proxy
+
+Configure the proxy in `vite.config.js`:
+
+```
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+      },
+    },
+  },
+});
+```
+
+Now, in your React application:
+
+```
+fetch("/api/users");
+```
+
+Vite automatically forwards the request to your backend.
+
+The browser talks to Vite, and Vite forwards the API request to Node.js.
+
+Why does this avoid CORS issues?
+
+The browser sends its request to `localhost:5173`, the same origin serving your frontend. Vite then makes the backend request server-to-server, which is not subject to the browser's CORS enforcement.
+
+### 3. Understanding the proxy options
+
+| Option               | Purpose                                                          |
+| -------------------- | ---------------------------------------------------------------- |
+| `"/api"`             | Matches requests beginning with `/api`                           |
+| `target`             | Backend server where requests are forwarded                      |
+| `changeOrigin: true` | Changes the outgoing request's `Host` header to match the target |
+| `rewrite`            | Modifies the request path before forwarding                      |
+| `ws: true`           | Enables WebSocket proxying                                       |
+
+For example, suppose your backend endpoint is `/users`, not `/api/users`.
+
+You can remove `/api` before forwarding:
+
+```
+proxy: {
+  "/api": {
+    target: "http://localhost:3000",
+    changeOrigin: true,
+    rewrite: (path) => path.replace(/^\/api/, ""),
+  },
+}
+```
+
+Now:
+
+```
+Frontend: http://localhost:5173/api/users
+Backend:  http://localhost:3000/users
+```
+
+### 4. Does Vite proxy work in production?
+
+No, `server.proxy` is a development server feature.
+
+When you build your application using:
+
+```
+npm run build
+```
+
+Vite generates static production assets. Its development proxy is not included.
+
+In production, you typically configure a reverse proxy such as Nginx, use a backend gateway, or configure CORS on your backend.
+
+### Interview-ready answer
+
+> In Vite, `server.proxy` is a development server configuration that forwards matching HTTP requests from the frontend to a backend server. It helps avoid browser CORS restrictions during development and allows the frontend to use relative API paths. It also supports path rewriting and WebSocket proxying. However, it does not automatically provide a proxy for the production build.
+
+Official reference: [Vite server.proxy documentation](https://vite.dev/config/server-options?utm_source=chatgpt.com#server-proxy).
+
+One important interview concept: Vite proxy does not actually disable CORS. It avoids the need for cross-origin browser API calls by forwarding them through the development server.
+
+
+
 > ### Custom hook for the debounce
 
 ```jsx

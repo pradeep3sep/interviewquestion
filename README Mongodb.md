@@ -7,6 +7,14 @@
 
 <br>
 
+### If we have created the schema name to be "todo", how it gonna save in mongodb, ans is todos. Basically the plural form of schema
+
+
+### we have the timestampe true in schema, which store the time of created and updated.
+
+
+<br>
+
 > ### Collection in mongo is same as table in mysql
 
 <br>
