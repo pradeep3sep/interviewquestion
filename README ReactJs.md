@@ -2,6 +2,102 @@
 we need to creat the .config file of main react component, which contains mainly that content constants, functions not the hooks, or the some constant return the smaller content
 
 
+```js
+
+import React, { useEffect, useState } from "react";
+
+export default function ProductTable() {
+  const [products, setProducts] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetch("https://dummyjson.com/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data.products));
+  }, []);
+
+  const filteredProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(search.toLowerCase()) ||
+    product.description.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <div>
+      <h2>Product List</h2>
+
+      <input
+        type="text"
+        placeholder="Search products..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      <table border="1" cellPadding="10">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {filteredProducts.map((product) => (
+            <tr key={product.id}>
+              <td>{product.title}</td>
+              <td>{product.description}</td>
+              <td>${product.price}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+```
+
+```js
+
+import React, { useState } from "react";
+
+function App() {
+  const [user, setUser] = useState([
+    { id: 1, name: "Amit Sharma" },
+    { id: 2, name: "Priya Singh" },
+    { id: 3, name: "Rahul Kumar" },
+    { id: 4, name: "Neha Verma" },
+  ]);
+
+  const [search, setSearch] = useState("");
+
+  const filteredUsers = user.filter((el) =>
+    el.name.toLowerCase().includes(search.trim().toLowerCase())
+  );
+
+  return (
+    <div>
+      <h2>Name List</h2>
+
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search name"
+      />
+
+      <div>
+        {filteredUsers.map((el) => (
+          <h2 key={el.id}>{el.name}</h2>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
+
+
 ## What is `server.proxy` in Vite?
 
 In Vite, `server.proxy` is a configuration option that allows your frontend development server to forward API requests to another server (usually your backend).
