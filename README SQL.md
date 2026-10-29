@@ -1,51 +1,77 @@
-## Contents
+```sql
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    gender ENUM('Male', 'Female', 'Other'),
+    date_of_birth DATE,
+    salary DECIMAL(10, 2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
-- [Cover](#page-1)
-- [Chapter 01: Installing MySQL](#page-2)
-- [Chapter 02: Linux (Ubuntu) Installation](#page-3)
-- [Chapter 03: Getting Started with MySQL](#page-5)
-- [Chapter 04: Working with Tables in MySQL](#page-8)
-- [Chapter 05: Inserting Data into MySQL Tables](#page-11)
-- [Chapter 06: Querying Data in MySQL using SELECT](#page-14)
-- [Chapter 07: UPDATE - Modifying Existing Data](#page-20)
-- [Chapter 08: DELETE - Removing Data from a Table](#page-23)
-- [Chapter 09: MySQL Constraints](#page-26)
-- [Chapter 10: SQL Functions (MySQL)](#page-31)
-- [Chapter 11: MySQL Transactions and AutoCommit](#page-37)
-- [Chapter 12: Understanding PRIMARY KEY in MySQL](#page-40)
-- [Chapter 13: Foreign Keys in MySQL](#page-44)
-- [Chapter 14: SQL JOINs in MySQL](#page-49)
-- [Chapter 15: SQL UNION and UNION ALL](#page-53)
-- [Chapter 16: Self JOIN in MySQL](#page-57)
-- [Chapter 17: MySQL Views](#page-60)
-- [Chapter 18: MySQL Indexes](#page-64)
-- [Chapter 19: Subqueries in MySQL](#page-67)
-- [Chapter 20: GROUP BY and HAVING in MySQL](#page-70)
-- [Chapter 21: Stored Procedures in MySQL](#page-73)
-- [Chapter 22: Triggers in MySQL](#page-76)
-- [Chapter 23: More on MySQL](#page-79)
+INSERT INTO users (name, email, gender, date_of_birth, salary) VALUES
+('Aarav', 'aarav@example.com', 'Male', '1995-05-14', 65000.00),
+('Ananya', 'ananya@example.com', 'Female', '1990-11-23', 72000.00),
+('Raj', 'raj@example.com', 'Male', '1988-02-17', 58000.00),
+('Sneha', 'sneha@example.com', 'Female', '2000-08-09', 50000.00),
+('Farhan', 'farhan@example.com', 'Male', '1993-12-30', 61000.00),
+('Priyanka', 'priyanka@example.com', 'Female', '1985-07-12', 84000.00),
+('Aisha', 'aisha@example.com', 'Female', '1997-03-25', 56000.00),
+('Aditya', 'aditya@example.com', 'Male', '1992-06-17', 69000.00),
+('Meera', 'meera@example.com', 'Female', '1989-09-05', 77000.00),
+('Ishaan', 'ishaan@example.com', 'Male', '2001-10-02', 45000.00),
+('Tanvi', 'tanvi@example.com', 'Female', '1994-04-18', 62000.00),
+('Rohan', 'rohan@example.com', 'Male', '1986-12-01', 75000.00),
+('Zoya', 'zoya@example.com', 'Female', '1998-01-15', 54000.00),
+('Karan', 'karan@example.com', 'Male', '1990-08-22', 68000.00),
+('Nikita', 'nikita@example.com', 'Female', '1987-03-10', 71000.00),
+('Manav', 'manav@example.com', 'Male', '1996-11-29', 61000.00),
+('Divya', 'divya@example.com', 'Female', '1991-02-28', 57000.00),
+('Harshit', 'harshit@example.com', 'Male', '1993-09-09', 65000.00),
+('Ritika', 'ritika@example.com', 'Female', '1999-05-05', 52000.00),
+('Imran', 'imran@example.com', 'Male', '1995-07-30', 63000.00),
+('Juhi', 'juhi@example.com', 'Female', '1992-10-14', 59000.00),
+('Tushar', 'tushar@example.com', 'Male', '1990-01-08', 73000.00),
+('Lata', 'lata@example.com', 'Female', '1984-11-11', 78000.00),
+('Yash', 'yash@example.com', 'Male', '1997-06-06', 64000.00),
+('Fatima', 'fatima@example.com', 'Female', '1993-03-03', 55000.00);
 
----
 
-<a id="page-1"></a>
-## Cover — PDF page 1
 
-**CodeWithHarry**
+CREATE TABLE addresses (
+id INT AUTO_INCREMENT PRIMARY KEY,
+user_id INT,
+street VARCHAR(255),
+city VARCHAR(100),
+state VARCHAR(100),
+pincode VARCHAR(10),
+CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
 
-**ULTIMATE MySQL HANDBOOK**
+INSERT INTO addresses (user_id, street, city, state, pincode)
+VALUES
+(1, '221B MG Road', 'Mumbai', 'Maharashtra', '400001'),
+(22, '14 Park Street', 'Kolkata', 'West Bengal', '700016'),
+(3, '32 Residency Road', 'Bengaluru', 'Karnataka', '560025'),
+(24, '5 North Usman Road', 'Chennai', 'Tamil Nadu', '600017'),
+(5, '17 Hazratganj', 'Lucknow', 'Uttar Pradesh', '226001'),
+(6, '55 Banjara Hills', 'Hyderabad', 'Telangana', '500034'),
+(7, '88 Connaught Place', 'Delhi', 'Delhi', '110001'),
+(8, '10 MG Marg', 'Dehradun', 'Uttarakhand', '248001'),
+(9, '23 Brigade Road', 'Bengaluru', 'Karnataka', '560025'),
+(10, '45 Marine Drive', 'Mumbai', 'Maharashtra', '400020'),
+(11, '67 Ashoka Road', 'Delhi', 'Delhi', '110001'),
+(12, '89 MG Road', 'Pune', 'Maharashtra', '411001'),
+(13, '12 Brigade Road', 'Bengaluru', 'Karnataka', '560025'),
+(14, '34 Park Street', 'Kolkata', 'West Bengal', '700016'),
+(15, '56 Connaught Place', 'Delhi', 'Delhi', '110001'),
+(16, '78 Marine Drive', 'Mumbai', 'Maharashtra', '400020'),
+(17, '90 MG Marg', 'Dehradun', 'Uttarakhand', '248001'),
+(18, '11 North Usman Road', 'Chennai', 'Tamil Nadu', '600017'),
+(19, '33 Residency Road', 'Bengaluru', 'Karnataka', '560025'),
+(20, '22 Hazratganj', 'Lucknow', 'Uttar Pradesh', '226001');
+```
 
-YOUR COMPLETE GUIDE TO MYSQL FROM BASICS TO ADVANCED DATABASE MANAGEMENT
-
-- CLEAR EXPLANATIONS
-- PRACTICAL EXAMPLES
-- REAL-WORLD PROJECTS
-- BEST PRACTICES AND TIPS
-- PERFECT FOR BEGINNERS TO ADVANCED
-- EASY TO UNDERSTAND CONCEPTS
-- HANDS-ON SQL QUERIES
-- RELATIONAL DATABASE FUNDAMENTALS
-- OPTIMIZE AND SCALE YOUR DATABASES
-- SECURE YOUR DATA AND PERFORMANCE
 
 ### Cover code example
 
@@ -53,6 +79,7 @@ YOUR COMPLETE GUIDE TO MYSQL FROM BASICS TO ADVANCED DATABASE MANAGEMENT
 -- Create a database
 CREATE DATABASE codewithharry;
 USE codewithharry;
+
 -- Create a table
 CREATE TABLE users (
  id INT PRIMARY KEY AUTO_INCREMENT,
@@ -61,158 +88,16 @@ CREATE TABLE users (
  created_at TIMESTAMP DEFAULT
  CURRENT_TIMESTAMP
 );
+
 -- Insert data
 INSERT INTO users (name, email)
 VALUES ('Harry', 'harry@cwh.dev');
+
 -- Retrieve data
 SELECT id, name, email
 FROM users
 WHERE id > 0;
 ```
-
-**CODE. PRACTICE. BUILD. REPEAT.**
-
----
-
-<a id="page-2"></a>
-
-## Installing MySQL
-
-**CHAPTER 01 · PDF page 2**
-
-*Beginner Friendly Database Guide*
-
-### What is MySQL Workbench?
-
-MySQL Workbench is a visual tool used for database development and administration. It helps developers and database administrators design databases, write SQL queries, manage servers, create backups, and monitor database performance.
-
-It provides an easy graphical interface for working with MySQL databases without relying completely on command line tools.
-
-### What is a Database Management System (DBMS)?
-
-A Database Management System (DBMS) is software that allows users to create, store, organize, retrieve, and manage data efficiently.
-
-It acts as a bridge between users and databases, making it easier to handle large amounts of information securely and systematically.
-
-### Features of MySQL
-
-1. Open source and free to use database system.
-2. High performance and reliable database engine.
-3. Works on Windows, Linux, and macOS systems.
-4. Provides strong security and user authentication features.
-
-### Windows / macOS Installation
-
-1. Download from: https://dev.mysql.com/downloads/installer/
-
-2. Run the installer and choose Developer Default
-
-3. Follow the setup wizard instructions
-
-4. Set a root password when prompted
-
-5. Install MySQL Workbench for GUI-based management
-
-6. Complete the installation and launch MySQL Workbench
-
----
-
-<a id="page-3"></a>
-
-## Linux (Ubuntu) Installation
-
-**CHAPTER 02 · PDF page 3**
-
-*MySQL Server Setup Guide*
-
-### Installing MySQL on Ubuntu
-
-Follow these steps to install MySQL Server and create a new database user.
-
-### Step 1: Update Package Index
-
-**TERMINAL COMMAND**
-
-```bash
-sudo apt update
-```
-
-### Step 2: Install MySQL Server
-
-**TERMINAL COMMAND**
-
-```bash
-sudo apt install mysql-server
-```
-
-### Step 3: Secure the Installation
-
-**TERMINAL COMMAND**
-
-```bash
-sudo mysql_secure_installation
-```
-
-Choose your preferred security options during setup.
-
-### Step 4: Create a User 'harry'@'localhost'
-
-Log into MySQL:
-
-**MYSQL LOGIN**
-
-```bash
-sudo mysql
-```
-
----
-
-<a id="page-4"></a>
-
-## SQL User Commands
-
-**CHAPTER 02 · PDF page 4**
-
-*Creating a MySQL User*
-
-### Run the following SQL Commands
-
-**SQL COMMANDS**
-
-```sql
-CREATE USER 'harry'@'localhost'
-IDENTIFIED BY 'password';
-
-GRANT ALL PRIVILEGES ON *.* TO
-'harry'@'localhost'
-WITH GRANT OPTION;
-
-FLUSH PRIVILEGES;
-
-EXIT;
-```
-
-### Step 5: Test Login
-
-**TERMINAL COMMAND**
-
-```bash
-mysql -u harry -p
-```
-
-Enter the password: password
-
-Make sure to replace 'password' with a secure password of your choice in production environments.
-
----
-
-<a id="page-5"></a>
-
-## Getting Started with MySQL
-
-**CHAPTER 03 · PDF page 5**
-
-*Database Basics and Table Creation*
 
 ### What is a Database?
 
@@ -511,7 +396,7 @@ INSERT INTO users VALUES
 'Female', '1995-05-14', DEFAULT);
 ```
 
-Not recommended if your table structure might change later (e.g., new columns added later).
+**Not recommended if your table structure might change later (e.g., new columns added later).**
 
 ### Insert by Specifying Column Names (Best Practice)
 
@@ -731,15 +616,15 @@ WHERE gender IN ('Male', 'Other');
 
 ### LIKE (Pattern Matching)
 
-**SQL COMMAND**
-
 ```sql
 SELECT * FROM users
 WHERE name LIKE 'A%';
 -- Starts with A
+
 SELECT * FROM users
 WHERE name LIKE '%a';
 -- Ends with a
+
 SELECT * FROM users
 WHERE name LIKE '%li%';
 -- Contains 'li'
@@ -789,9 +674,11 @@ ORDER BY name DESC;
 SELECT * FROM users
 LIMIT 5;
 -- Top 5 rows
+
 SELECT * FROM users
 LIMIT 10 OFFSET 5;
 -- Skip first 5 rows
+
 SELECT * FROM users
 LIMIT 5, 10;
 -- Get 10 rows
@@ -895,7 +782,7 @@ UPDATE users
 SET gender = 'Other';
 ```
 
-This updates every row in the table. Be very careful when omitting the WHERE clause.
+**This updates every row in the table. Be very careful when omitting the WHERE clause.**
 
 ---
 
@@ -3823,76 +3710,3 @@ FROM employees;
 
 ### Keep in mind CONSTRAINT is basically add on validation. means existing plus this one
 
-```sql
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    gender ENUM('Male', 'Female', 'Other'),
-    date_of_birth DATE,
-    salary DECIMAL(10, 2),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-INSERT INTO users (name, email, gender, date_of_birth, salary) VALUES
-('Aarav', 'aarav@example.com', 'Male', '1995-05-14', 65000.00),
-('Ananya', 'ananya@example.com', 'Female', '1990-11-23', 72000.00),
-('Raj', 'raj@example.com', 'Male', '1988-02-17', 58000.00),
-('Sneha', 'sneha@example.com', 'Female', '2000-08-09', 50000.00),
-('Farhan', 'farhan@example.com', 'Male', '1993-12-30', 61000.00),
-('Priyanka', 'priyanka@example.com', 'Female', '1985-07-12', 84000.00),
-('Aisha', 'aisha@example.com', 'Female', '1997-03-25', 56000.00),
-('Aditya', 'aditya@example.com', 'Male', '1992-06-17', 69000.00),
-('Meera', 'meera@example.com', 'Female', '1989-09-05', 77000.00),
-('Ishaan', 'ishaan@example.com', 'Male', '2001-10-02', 45000.00),
-('Tanvi', 'tanvi@example.com', 'Female', '1994-04-18', 62000.00),
-('Rohan', 'rohan@example.com', 'Male', '1986-12-01', 75000.00),
-('Zoya', 'zoya@example.com', 'Female', '1998-01-15', 54000.00),
-('Karan', 'karan@example.com', 'Male', '1990-08-22', 68000.00),
-('Nikita', 'nikita@example.com', 'Female', '1987-03-10', 71000.00),
-('Manav', 'manav@example.com', 'Male', '1996-11-29', 61000.00),
-('Divya', 'divya@example.com', 'Female', '1991-02-28', 57000.00),
-('Harshit', 'harshit@example.com', 'Male', '1993-09-09', 65000.00),
-('Ritika', 'ritika@example.com', 'Female', '1999-05-05', 52000.00),
-('Imran', 'imran@example.com', 'Male', '1995-07-30', 63000.00),
-('Juhi', 'juhi@example.com', 'Female', '1992-10-14', 59000.00),
-('Tushar', 'tushar@example.com', 'Male', '1990-01-08', 73000.00),
-('Lata', 'lata@example.com', 'Female', '1984-11-11', 78000.00),
-('Yash', 'yash@example.com', 'Male', '1997-06-06', 64000.00),
-('Fatima', 'fatima@example.com', 'Female', '1993-03-03', 55000.00);
-
-
-
-CREATE TABLE addresses (
-id INT AUTO_INCREMENT PRIMARY KEY,
-user_id INT,
-street VARCHAR(255),
-city VARCHAR(100),
-state VARCHAR(100),
-pincode VARCHAR(10),
-CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
-
-INSERT INTO addresses (user_id, street, city, state, pincode)
-VALUES
-(1, '221B MG Road', 'Mumbai', 'Maharashtra', '400001'),
-(22, '14 Park Street', 'Kolkata', 'West Bengal', '700016'),
-(3, '32 Residency Road', 'Bengaluru', 'Karnataka', '560025'),
-(24, '5 North Usman Road', 'Chennai', 'Tamil Nadu', '600017'),
-(5, '17 Hazratganj', 'Lucknow', 'Uttar Pradesh', '226001'),
-(6, '55 Banjara Hills', 'Hyderabad', 'Telangana', '500034'),
-(7, '88 Connaught Place', 'Delhi', 'Delhi', '110001'),
-(8, '10 MG Marg', 'Dehradun', 'Uttarakhand', '248001'),
-(9, '23 Brigade Road', 'Bengaluru', 'Karnataka', '560025'),
-(10, '45 Marine Drive', 'Mumbai', 'Maharashtra', '400020'),
-(11, '67 Ashoka Road', 'Delhi', 'Delhi', '110001'),
-(12, '89 MG Road', 'Pune', 'Maharashtra', '411001'),
-(13, '12 Brigade Road', 'Bengaluru', 'Karnataka', '560025'),
-(14, '34 Park Street', 'Kolkata', 'West Bengal', '700016'),
-(15, '56 Connaught Place', 'Delhi', 'Delhi', '110001'),
-(16, '78 Marine Drive', 'Mumbai', 'Maharashtra', '400020'),
-(17, '90 MG Marg', 'Dehradun', 'Uttarakhand', '248001'),
-(18, '11 North Usman Road', 'Chennai', 'Tamil Nadu', '600017'),
-(19, '33 Residency Road', 'Bengaluru', 'Karnataka', '560025'),
-(20, '22 Hazratganj', 'Lucknow', 'Uttar Pradesh', '226001');
-```
