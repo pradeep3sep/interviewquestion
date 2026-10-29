@@ -121,41 +121,8 @@ Think of it like:
 
 - Each row in the table is like a row in Excel.
 
-### Step 1: Create a Database
-
-**SQL COMMAND**
-
-```sql
-CREATE DATABASE startersql;
-```
-
-After creating the database, either:
-
-- Right-click it in MySQL Workbench and select "Set as Default Schema"
-
-- Use this SQL command:
-
-**SQL COMMAND**
-
-```sql
-USE startersql;
-```
-
----
-
-<a id="page-6"></a>
-
-## Creating Tables in MySQL
-
-**CHAPTER 03 · PDF page 6**
-
-*Understanding Tables and Data Types*
 
 ### Step 2: Create a Table
-
-Now we'll create a simple users table:
-
-**SQL COMMAND**
 
 ```sql
 CREATE TABLE users (
@@ -172,74 +139,50 @@ CREATE TABLE users (
 
 You can delete the entire database (and all its tables) using:
 
-**SQL COMMAND**
-
 ```sql
 DROP DATABASE startersql;
 ```
 
+<br>
+
 ### Data Types Explained
 
-- INT : Integer type, used for whole numbers.
+- **INT** : Integer type, used for whole numbers.
 
-- VARCHAR(100) : Variable-length string, up to 100 characters.
+- **VARCHAR(100)** : Variable-length string, up to 100 characters.
 
-- ENUM : A string object with a value chosen from a list of permitted values.
+- **ENUM** : A string object with a value chosen from a list of permitted values.
 
-- DATE : Stores date values.
+- **DATE** : Stores date values.
 
----
+- **TIMESTAMP** : Stores date and time, automatically set to the current timestamp.
 
-<a id="page-7"></a>
+- **BOOLEAN** : Stores TRUE or FALSE values.
 
-## Data Types & Constraints
+- **DECIMAL(10, 2)** : Stores exact numeric data values, useful for financial data. The first number is the total number of digits, and the second is the number of digits after the decimal point.
 
-**CHAPTER 03 · PDF page 7**
-
-*Understanding MySQL Data Structures*
-
-### More Data Types
-
-- TIMESTAMP : Stores date and time, automatically set to the current timestamp.
-
-- BOOLEAN : Stores TRUE or FALSE values.
-
-- DECIMAL(10, 2) : Stores exact numeric data values, useful for financial data. The first number is the total number of digits, and the second is the number of digits after the decimal point.
+<br>
 
 ### Constraints Explained
 
-- AUTO\_INCREMENT : Automatically generates a unique number for each row.
+- **AUTO\_INCREMENT** : Automatically generates a unique number for each row.
 
-- PRIMARY KEY : Uniquely identifies each row in the table.
+- **PRIMARY KEY** : Uniquely identifies each row in the table.
 
-- NOT NULL : Ensures a column cannot have a NULL value.
+- **NOT NULL** : Ensures a column cannot have a NULL value.
 
-- UNIQUE : Ensures all values in a column are different.
+- **UNIQUE** : Ensures all values in a column are different.
 
-- DEFAULT : Sets a default value for a column if no value is provided.
-
-**EXAMPLE**
+- **DEFAULT** : Sets a default value for a column if no value is provided.
 
 ```sql
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 is_active BOOLEAN DEFAULT TRUE
 ```
 
----
-
-<a id="page-8"></a>
-
-## Working with Tables in MySQL
-
-**CHAPTER 04 · PDF page 8**
-
-*Selecting and Renaming Tables*
+<br>
 
 ### Selecting Data from a Table
-
-#### Select All Columns
-
-**SQL COMMAND**
 
 ```sql
 SELECT * FROM users;
@@ -247,9 +190,9 @@ SELECT * FROM users;
 
 This fetches every column and every row from the users table.
 
-#### Select Specific Columns
+<br>
 
-**SQL COMMAND**
+### Select Specific Columns
 
 ```sql
 SELECT name, email FROM users;
@@ -257,11 +200,9 @@ SELECT name, email FROM users;
 
 This only fetches the name and email columns from all rows.
 
+<br>
+
 ### Renaming a Table
-
-To rename an existing table:
-
-**SQL COMMAND**
 
 ```sql
 RENAME TABLE users TO customers;
@@ -269,29 +210,16 @@ RENAME TABLE users TO customers;
 
 To rename it back:
 
-**SQL COMMAND**
-
 ```sql
 RENAME TABLE customers TO users;
 ```
-
----
-
-<a id="page-9"></a>
-
-## Altering Tables in MySQL
-
-**CHAPTER 04 · PDF page 9**
-
-*Modifying Existing Table Structure*
+<br>
 
 ### Altering a Table
 
 You can use ALTER TABLE to modify an existing table.
 
 #### Add a Column
-
-**SQL COMMAND**
 
 ```sql
 ALTER TABLE users
@@ -300,16 +228,12 @@ ADD COLUMN is_active BOOLEAN DEFAULT TRUE;
 
 #### Drop a Column
 
-**SQL COMMAND**
-
 ```sql
 ALTER TABLE users
 DROP COLUMN is_active;
 ```
 
 #### Modify a Column Type
-
-**SQL COMMAND**
 
 ```sql
 ALTER TABLE users
@@ -320,28 +244,14 @@ MODIFY COLUMN name VARCHAR(150);
 
 To move a column (e.g., email) to the first position:
 
-**SQL COMMAND**
-
 ```sql
 ALTER TABLE users
 MODIFY COLUMN email VARCHAR(100) FIRST;
 ```
 
----
-
-<a id="page-10"></a>
-
-## Advanced Table Modifications
-
-**CHAPTER 04 · PDF page 10**
-
-*Managing Column Position and Structure*
-
 ### Move a Column After Another Column
 
 To move a column after another column (e.g., move gender after name):
-
-**SQL COMMAND**
 
 ```sql
 ALTER TABLE users
@@ -351,10 +261,6 @@ AFTER name;
 
 ### Add Multiple Columns
 
-You can also add multiple columns in a single query.
-
-**SQL COMMAND**
-
 ```sql
 ALTER TABLE users
 ADD COLUMN phone VARCHAR(15),
@@ -363,32 +269,14 @@ ADD COLUMN city VARCHAR(100);
 
 ### Rename a Column
 
-Use RENAME COLUMN to change a column name.
-
-**SQL COMMAND**
-
 ```sql
 ALTER TABLE users
 RENAME COLUMN phone TO mobile_number;
 ```
 
----
-
-<a id="page-11"></a>
-
-## Inserting Data into MySQL Tables
-
-**CHAPTER 05 · PDF page 11**
-
-*Adding Records Using INSERT INTO*
-
-To add data into a table, we use the INSERT INTO statement.
-
-### Insert Without Specifying Column Names (Full Row Insert)
+### Insert Row Without Specifying Column Names (Full Row Insert)
 
 This method requires you to provide values for all columns in order, except columns with default values or AUTO\_INCREMENT.
-
-**SQL COMMAND**
 
 ```sql
 INSERT INTO users VALUES
@@ -398,11 +286,10 @@ INSERT INTO users VALUES
 
 **Not recommended if your table structure might change later (e.g., new columns added later).**
 
+
 ### Insert by Specifying Column Names (Best Practice)
 
-This method is safer and more readable. You only insert into specific columns.
-
-**SQL COMMAND**
+**This method is safer and more readable. You only insert into specific columns.**
 
 ```sql
 INSERT INTO users
@@ -412,21 +299,9 @@ VALUES
 'Male', '1990-11-23');
 ```
 
----
-
-<a id="page-12"></a>
-
-## Multiple Row Inserts
-
-**CHAPTER 05 · PDF page 12**
-
-*Efficient Data Insertion Techniques*
-
 ### Insert Multiple Rows at Once
 
 You can insert multiple rows in a single query.
-
-**SQL COMMAND**
 
 ```sql
 INSERT INTO users
@@ -440,100 +315,37 @@ VALUES
 
 The remaining columns like id (which is AUTO\_INCREMENT) and created\_at (which has a default value) are automatically handled by MySQL.
 
----
 
-<a id="page-13"></a>
-
-## Efficient Bulk Inserts
-
-**CHAPTER 05 · PDF page 13**
-
-*Adding Multiple Records in One Query*
-
-Writing multiple rows inside a single INSERT INTO statement improves performance and reduces the number of database queries.
-
-This approach is commonly used while importing large datasets or inserting multiple users at once.
-
-### Insert Multiple Rows Efficiently
-
-**SQL COMMAND**
-
-```sql
-INSERT INTO users
-(name, email, gender, date_of_birth)
-VALUES
-('Charlie', 'charlie@example.com',
-'Other', '1988-02-17'),
-('David', 'david@example.com',
-'Male', '2000-08-09'),
-('Eva', 'eva@example.com',
-'Female', '1993-12-30');
-```
-
----
-
-<a id="page-14"></a>
-
-## Querying Data in MySQL using SELECT
-
-**CHAPTER 06 · PDF page 14**
-
-*Retrieving and Filtering Data*
-
-The SELECT statement is used to query data from a table.
-
-### Basic Syntax
-
-**SQL SYNTAX**
+### Querying Data in MySQL using SELECT
 
 ```sql
 SELECT column1, column2 FROM table_name;
 ```
 
 To select all columns:
-
-**SQL COMMAND**
-
 ```sql
 SELECT * FROM users;
 ```
 
-### Filtering Rows with WHERE
-
-#### Equal To
-
-**SQL COMMAND**
+### Filtering Rows with WHERE and Equal
 
 ```sql
 SELECT * FROM users
 WHERE gender = 'Male';
 ```
 
----
-
-<a id="page-15"></a>
-
-## Advanced WHERE Conditions
-
-**CHAPTER 06 · PDF page 15**
-
-*Working with Comparisons and NULL*
-
-#### Not Equal To
-
-**SQL COMMAND**
+### Not Equal To
 
 ```sql
 SELECT * FROM users
 WHERE gender != 'Female';
 -- OR
+
 SELECT * FROM users
 WHERE gender <> 'Female';
 ```
 
-#### Greater Than / Less Than
-
-**SQL COMMAND**
+### Greater Than / Less Than
 
 ```sql
 SELECT * FROM users
@@ -541,13 +353,7 @@ WHERE date_of_birth < '1995-01-01';
 
 SELECT * FROM users
 WHERE id > 10;
-```
 
-### Greater Than or Equal / Less Than or Equal
-
-**SQL COMMAND**
-
-```sql
 SELECT * FROM users
 WHERE id >= 5;
 
@@ -555,39 +361,17 @@ SELECT * FROM users
 WHERE id <= 20;
 ```
 
----
-
-<a id="page-16"></a>
-
-## NULL & BETWEEN
-
-**CHAPTER 06 · PDF page 16**
-
-*Handling Missing Values and Ranges*
-
-### Working with NULL
-
-#### IS NULL
-
-**SQL COMMAND**
+### IS NULL and IS NOT NULL
 
 ```sql
 SELECT * FROM users
 WHERE date_of_birth IS NULL;
-```
 
-#### IS NOT NULL
-
-**SQL COMMAND**
-
-```sql
 SELECT * FROM users
 WHERE date_of_birth IS NOT NULL;
 ```
 
 ### BETWEEN
-
-**SQL COMMAND**
 
 ```sql
 SELECT * FROM users
@@ -595,20 +379,9 @@ WHERE date_of_birth BETWEEN
 '1990-01-01' AND '2000-12-31';
 ```
 
----
-
-<a id="page-17"></a>
-
-## Pattern Matching & Sorting
-
-**CHAPTER 06 · PDF page 17**
-
-*LIKE, AND / OR and ORDER BY*
+### Pattern Matching & Sorting
 
 ### IN
-
-**SQL COMMAND**
-
 ```sql
 SELECT * FROM users
 WHERE gender IN ('Male', 'Other');
@@ -632,8 +405,6 @@ WHERE name LIKE '%li%';
 
 ### AND / OR
 
-**SQL COMMAND**
-
 ```sql
 SELECT * FROM users
 WHERE gender = 'Female'
@@ -644,19 +415,7 @@ WHERE gender = 'Male'
 OR gender = 'Other';
 ```
 
----
-
-<a id="page-18"></a>
-
-## ORDER BY & LIMIT
-
-**CHAPTER 06 · PDF page 18**
-
-*Sorting and Limiting Query Results*
-
 ### ORDER BY
-
-**SQL COMMAND**
 
 ```sql
 SELECT * FROM users
@@ -667,8 +426,6 @@ ORDER BY name DESC;
 ```
 
 ### LIMIT
-
-**SQL COMMAND**
 
 ```sql
 SELECT * FROM users
@@ -685,65 +442,8 @@ LIMIT 5, 10;
 -- starting from the 6th row
 ```
 
-**SQL COMMAND**
 
-```sql
-SELECT * FROM users
-ORDER BY created_at DESC
-LIMIT 10;
-```
-
----
-
-<a id="page-19"></a>
-
-## Quick Quiz
-
-**CHAPTER 06 · PDF page 19**
-
-*Practice SQL Query Reading*
-
-What does the following queries do?
-
-**QUERY 1**
-
-```sql
-SELECT * FROM users
-WHERE salary > 60000
-ORDER BY created_at DESC
-LIMIT 5;
-```
-
-**QUERY 2**
-
-```sql
-SELECT * FROM users
-ORDER BY salary DESC;
-```
-
-**QUERY 3**
-
-```sql
-SELECT * FROM users
-WHERE salary BETWEEN
-50000 AND 70000;
-```
-
----
-
-<a id="page-20"></a>
-
-## UPDATE - Modifying Existing Data
-
-**CHAPTER 07 · PDF page 20**
-
-*Changing Values in Existing Rows*
-
-The UPDATE statement is used to change values in one or more rows.
-
-### Basic Syntax
-
-**SQL SYNTAX**
+### UPDATE - Modifying Existing Data - Keep in mind WHERE is important
 
 ```sql
 UPDATE table_name
@@ -751,21 +451,13 @@ SET column1 = value1, column2 = value2
 WHERE condition;
 ```
 
-### Example: Update One Column
-
-**SQL COMMAND**
-
 ```sql
 UPDATE users
 SET name = 'Alicia'
 WHERE id = 1;
 ```
 
-This changes the name of the user with id = 1 to “Alicia”.
-
 ### Example: Update Multiple Columns
-
-**SQL COMMAND**
 
 ```sql
 UPDATE users
@@ -775,8 +467,6 @@ WHERE id = 2;
 
 ### Without WHERE Clause (Warning)
 
-**SQL COMMAND**
-
 ```sql
 UPDATE users
 SET gender = 'Other';
@@ -784,41 +474,8 @@ SET gender = 'Other';
 
 **This updates every row in the table. Be very careful when omitting the WHERE clause.**
 
----
 
-<a id="page-21"></a>
-
-## Quick Quiz: Practice Your UPDATE Skills
-
-**CHAPTER 07 · PDF page 21**
-
-*Writing Real SQL Update Queries*
-
-Try answering or running these queries based on your users table.
-
-#### 1. Update the salary of user with id = 5 to ₹ 70,000.
-
-**SQL COMMAND**
-
-```sql
-UPDATE users
-SET salary = 70000
-WHERE id = 5;
-```
-
-#### 2. Change the name of the user with email aisha@example.com to Aisha Khan.
-
-**SQL COMMAND**
-
-```sql
-UPDATE users
-SET name = 'Aisha Khan'
-WHERE email = 'aisha@example.com';
-```
-
-#### 3. Increase salary by ₹ 10,000 for all users whose salary is less than ₹ 60,000.
-
-**SQL COMMAND**
+#### eg Increase salary by ₹ 10,000 for all users whose salary is less than ₹ 60,000.
 
 ```sql
 UPDATE users
@@ -826,61 +483,12 @@ SET salary = salary + 10000
 WHERE salary < 60000;
 ```
 
-#### 4. Set the gender of user Ishaan to Other.
-
-**SQL COMMAND**
-
-```sql
-UPDATE users
-SET gender = 'Other'
-WHERE name = 'Ishaan';
-```
-
----
-
-<a id="page-22"></a>
-
-## More UPDATE Practice Queries
-
-**CHAPTER 07 · PDF page 22**
-
-*Understanding Row Modifications*
-
-#### 5. Reset salary of all users to ₹ 50,000 (Careful - affects all rows).
-
-**SQL COMMAND**
-
-```sql
-UPDATE users
-SET salary = 50000;
-```
-
-Note: This query will overwrite salary for every user. Use with caution!
-
----
-
-<a id="page-23"></a>
-
-## DELETE - Removing Data from a Table
-
-**CHAPTER 08 · PDF page 23**
-
-*Deleting Rows from Tables*
-
-The DELETE statement removes rows from a table.
-
-### Basic Syntax
-
-**SQL SYNTAX**
+### DELETE - Removing Data from a Table
 
 ```sql
 DELETE FROM table_name
 WHERE condition;
 ```
-
-### Example: Delete One Row
-
-**SQL COMMAND**
 
 ```sql
 DELETE FROM users
@@ -889,26 +497,13 @@ WHERE id = 3;
 
 ### Delete Multiple Rows
 
-**SQL COMMAND**
-
 ```sql
 DELETE FROM users
 WHERE gender = 'Other';
 ```
 
----
-
-<a id="page-24"></a>
-
-## Advanced DELETE Operations
-
-**CHAPTER 08 · PDF page 24**
-
-*Removing Data Safely*
 
 ### Delete All Rows (but keep table structure)
-
-**SQL COMMAND**
 
 ```sql
 DELETE FROM users;
@@ -916,13 +511,13 @@ DELETE FROM users;
 
 ### Drop the Entire Table (use with caution)
 
-**SQL COMMAND**
-
 ```sql
 DROP TABLE users;
 ```
 
 This removes the table structure and all data permanently.
+
+<br>
 
 ### Best Practices
 
@@ -932,63 +527,8 @@ This removes the table structure and all data permanently.
 
 - Always back up important data before performing destructive operations.
 
-**SQL CHECK QUERY**
-
-```sql
-SELECT * FROM users
-WHERE id = 3;
-```
-
----
-
-<a id="page-25"></a>
-
-## Quick Quiz: Practice DELETE Queries
-
-**CHAPTER 08 · PDF page 25**
-
-*Understand What These Queries Will Do*
-
-What will happen if you run the following queries?
-
-**QUERY 1**
-
-```sql
-DELETE FROM users
-WHERE salary < 50000;
-```
-
-**QUERY 2**
-
-```sql
-DELETE FROM users
-WHERE salary IS NULL;
-```
-
-**QUERY 3**
-
-```sql
-DELETE FROM users
-WHERE gender = 'Male'
-AND salary > 100000;
-```
-
-**QUERY 4**
-
-```sql
-DELETE FROM users
-WHERE created_at > '2025-01-01';
-```
-
----
-
-<a id="page-26"></a>
 
 ## MySQL Constraints
-
-**CHAPTER 09 · PDF page 26**
-
-*Constraints in MySQL are rules applied to table columns to ensure the accuracy, validity, and integrity of the data.*
 
 ### 1. UNIQUE Constraint
 
@@ -1011,17 +551,10 @@ ADD CONSTRAINT unique_email
 UNIQUE (email);
 ```
 
----
-
-<a id="page-27"></a>
-
-## 2. NOT NULL Constraint
-
-**CHAPTER 09 · PDF page 27**
+### 2. NOT NULL Constraint
 
 Ensures that a column cannot contain NULL values.
 
-#### Example:
 
 ```sql
 CREATE TABLE users (
@@ -1046,13 +579,7 @@ MODIFY COLUMN name
 VARCHAR(100) NULL;
 ```
 
----
-
-<a id="page-28"></a>
-
-## 3. CHECK Constraint
-
-**CHAPTER 09 · PDF page 28**
+### 3. CHECK Constraint
 
 Ensures that values in a column satisfy a specific condition.
 
@@ -1070,8 +597,6 @@ Naming the constraint (chk\_dob) helps if you want to drop it later.
 
 Sets a default value for a column if none is provided during insert.
 
-#### Example:
-
 ```sql
 CREATE TABLE users (
     id INT PRIMARY KEY,
@@ -1087,17 +612,10 @@ ALTER COLUMN is_active
 SET DEFAULT TRUE;
 ```
 
----
 
-<a id="page-29"></a>
-
-## 5. PRIMARY KEY Constraint
-
-**CHAPTER 09 · PDF page 29**
+### 5. PRIMARY KEY Constraint
 
 Uniquely identifies each row. Must be NOT NULL and UNIQUE.
-
-#### Example:
 
 ```sql
 CREATE TABLE users (
@@ -1113,17 +631,10 @@ ALTER TABLE users
 ADD PRIMARY KEY (id);
 ```
 
----
 
-<a id="page-30"></a>
-
-## 6. AUTO_INCREMENT
-
-**CHAPTER 09 · PDF page 30**
+### 6. AUTO_INCREMENT
 
 Used with PRIMARY KEY to automatically assign the next number.
-
-#### Example:
 
 ```sql
 CREATE TABLE users (
@@ -1132,40 +643,9 @@ CREATE TABLE users (
 );
 ```
 
-### Summary Table
-
-| Constraint | Purpose |
-| --- | --- |
-| UNIQUE | Prevents duplicate values |
-| NOT NULL | Ensures value is not NULL |
-| CHECK | Restricts values using a condition |
-| DEFAULT | Sets a default value |
-| PRIMARY KEY | Uniquely identifies each row |
-| AUTO\_INCREMENT | Automatically generates unique numbers |
-
----
-
-<a id="page-31"></a>
-
-## SQL Functions (MySQL)
-
-**CHAPTER 10 · PDF page 31**
-
-*Aggregate and String Functions*
-
-SQL functions help you analyze, transform, or summarize data in your tables.
-
-Weʼll use the users table which includes:
-
-```sql
-id, name, email, gender, date_of_birth, salary, created_at
-```
-
-### 1. Aggregate Functions
+### SQL Functions (MySQL)
 
 ### COUNT()
-
-Count total number of users:
 
 ```sql
 SELECT COUNT(*) FROM users;
@@ -1180,27 +660,13 @@ WHERE gender = 'Female';
 
 ### MIN() and MAX()
 
-Get the minimum and maximum salary:
-
 ```sql
 SELECT MIN(salary) AS min_salary,
 MAX(salary) AS max_salary
 FROM users;
 ```
 
----
-
-<a id="page-32"></a>
-
-## Aggregate & String Functions
-
-**CHAPTER 10 · PDF page 32**
-
-*Data Analysis Functions*
-
 ### SUM()
-
-Calculate total salary payout:
 
 ```sql
 SELECT SUM(salary) AS total_payroll
@@ -1209,16 +675,12 @@ FROM users;
 
 ### AVG()
 
-Find average salary:
-
 ```sql
 SELECT AVG(salary) AS avg_salary
 FROM users;
 ```
 
 ### Grouping with GROUP BY
-
-Average salary by gender:
 
 ```sql
 SELECT gender,
@@ -1227,21 +689,7 @@ FROM users
 GROUP BY gender;
 ```
 
----
-
-<a id="page-33"></a>
-
-## String Functions
-
-**CHAPTER 10 · PDF page 33**
-
-*Working with Text Data*
-
-### 2. String Functions
-
 ### LENGTH()
-
-Length of user names:
 
 ```sql
 SELECT name,
@@ -1265,25 +713,11 @@ FROM users;
 
 ### CONCAT()
 
-Combine name and email:
-
 ```sql
 SELECT CONCAT(name, ' <', email, '>')
 AS user_contact
 FROM users;
 ```
-
----
-
-<a id="page-34"></a>
-
-## Date Functions
-
-**CHAPTER 10 · PDF page 34**
-
-*Working with Dates and Time*
-
-### 3. Date Functions
 
 ### NOW()
 
@@ -1314,16 +748,6 @@ AS days_lived
 FROM users;
 ```
 
----
-
-<a id="page-35"></a>
-
-## Date & Mathematical Functions
-
-**CHAPTER 10 · PDF page 35**
-
-*Advanced Calculations in SQL*
-
 ### TIMESTAMPDIFF()
 
 Calculate age in years:
@@ -1334,8 +758,6 @@ TIMESTAMPDIFF(YEAR, date_of_birth, CURDATE())
 AS age
 FROM users;
 ```
-
-### 4. Mathematical Functions
 
 ### ROUND(), FLOOR(), CEIL()
 
@@ -1356,18 +778,6 @@ SELECT id,
 MOD(id, 2) AS remainder
 FROM users;
 ```
-
----
-
-<a id="page-36"></a>
-
-## Conditional Functions
-
-**CHAPTER 10 · PDF page 36**
-
-*Logical Conditions in SQL*
-
-### 5. Conditional Functions
 
 ### IF()
 
@@ -1393,15 +803,9 @@ FROM users;
 | ROUND() | Rounding numbers |
 | IF() | Conditional logic |
 
----
+<br>
 
-<a id="page-37"></a>
-
-## MySQL Transactions and AutoCommit
-
-**CHAPTER 11 · PDF page 37**
-
-*Managing Transactions in MySQL*
+### MySQL Transactions and AutoCommit
 
 By default, MySQL operates in AutoCommit mode. This means that every SQL statement is treated as a transaction and is committed automatically. However, for more control over when changes are saved, you can turn AutoCommit off and manage transactions manually.
 
@@ -1431,15 +835,6 @@ COMMIT;
 
 This saves all the changes made since the last COMMIT or ROLLBACK. After this point, the changes become permanent.
 
----
-
-<a id="page-38"></a>
-
-## Rollback and Transactions
-
-**CHAPTER 11 · PDF page 38**
-
-*Reverting Database Changes Safely*
 
 ### 3. ROLLBACK: Revert Changes to the Last Safe Point
 
@@ -1483,16 +878,6 @@ COMMIT;
 ROLLBACK;
 ```
 
----
-
-<a id="page-39"></a>
-
-## AutoCommit Best Practices
-
-**CHAPTER 11 · PDF page 39**
-
-*Working Safely with Transactions*
-
 ### 4. Enabling AutoCommit Again
 
 If you want to turn AutoCommit back on (so that every statement is automatically committed), you can do so with:
@@ -1511,21 +896,10 @@ SET autocommit = 1;
 
 - Always test transaction queries carefully before applying them in production databases.
 
----
 
-<a id="page-40"></a>
-
-## Understanding PRIMARY KEY in MySQL
-
-**CHAPTER 12 · PDF page 40**
-
-*Primary Keys and Unique Constraints*
+### Understanding PRIMARY KEY in MySQL
 
 A PRIMARY KEY is a constraint in SQL that uniquely identifies each row in a table. It is one of the most important concepts in database design.
-
-### What is a Primary Key?
-
-- A PRIMARY KEY:
 
 - Must be unique
 
@@ -1546,15 +920,6 @@ CREATE TABLE users (
 );
 ```
 
----
-
-<a id="page-41"></a>
-
-## UNIQUE and Constraints
-
-**CHAPTER 12 · PDF page 41**
-
-*Comparing PRIMARY KEY and UNIQUE*
 
 ### How Is PRIMARY KEY Different from UNIQUE?
 
@@ -1584,15 +949,8 @@ In this example:
 
 - email must be unique, but is not the primary key.
 
----
 
-<a id="page-42"></a>
-
-## Dropping Keys
-
-**CHAPTER 12 · PDF page 42**
-
-*Managing Constraints in MySQL*
+### Dropping Keys
 
 ### Can I Drop a PRIMARY KEY?
 
@@ -1612,17 +970,7 @@ ALTER TABLE users
 DROP INDEX email;
 ```
 
----
-
-<a id="page-43"></a>
-
-## Auto Increment and Takeaways
-
-**CHAPTER 12 · PDF page 43**
-
-*Best Practices with Primary Keys*
-
-### Auto Increment
+### Auto Increment and Takeaways
 
 In MySQL, a PRIMARY KEY is often used with the AUTO\_INCREMENT attribute to automatically generate unique values for new rows.
 
@@ -1652,19 +1000,11 @@ AUTO_INCREMENT = 1000;
 
 - Always choose a stable and unique column for your primary key.
 
----
 
-<a id="page-44"></a>
-
-## Foreign Keys in MySQL
-
-**CHAPTER 13 · PDF page 44**
-
-*Understanding Relationships Between Tables*
+### Foreign Keys in MySQL
 
 A foreign key is a column that creates a link between two tables. It ensures that the value in one table must match a value in another table.
 
-This is used to maintain data integrity between related data.
 
 ### Why Use Foreign Keys?
 
@@ -1689,17 +1029,7 @@ CREATE TABLE addresses (
 );
 ```
 
----
-
-<a id="page-45"></a>
-
-## Managing Foreign Keys
-
-**CHAPTER 13 · PDF page 45**
-
-*Creating and Removing Constraints*
-
-### Explanation
+### Managing Foreign Keys
 
 - user\_id is a foreign key.
 
@@ -1728,16 +1058,6 @@ ALTER TABLE addresses
 DROP FOREIGN KEY fk_user;
 ```
 
----
-
-<a id="page-46"></a>
-
-## ALTER Operations
-
-**CHAPTER 13 · PDF page 46**
-
-*Adding Foreign Keys Later*
-
 ### Adding a Foreign Key Later (Using ALTER)
 
 Suppose the foreign key was not defined during table creation. You can add it later using ALTER TABLE:
@@ -1749,15 +1069,6 @@ FOREIGN KEY (user_id)
 REFERENCES users(id);
 ```
 
----
-
-<a id="page-47"></a>
-
-## ON DELETE Actions
-
-**CHAPTER 13 · PDF page 47**
-
-*Controlling Delete Behavior*
 
 ### Adding ON DELETE Action
 
@@ -1784,15 +1095,8 @@ CREATE TABLE addresses (
 );
 ```
 
----
+### Foreign Key Summary
 
-<a id="page-48"></a>
-
-## Foreign Key Summary
-
-**CHAPTER 13 · PDF page 48**
-
-*Delete Options and Final Notes*
 
 Or alter it later:
 
