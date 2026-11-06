@@ -72,6 +72,34 @@ VALUES
 (20, '22 Hazratganj', 'Lucknow', 'Uttar Pradesh', '226001');
 ```
 
+### For the databse
+```sql
+SHOW DATABASES;  -- to show all the databases
+CREATE DATABASE <database-name>; -- create the particluar database
+DROP DATABASE <database-name>; -- To drop or delete a database:
+USE <database-name>; -- To use a database or to go into particluar database
+SELECT DATABASE(); -- To check which database you are working or which you have selected
+```
+
+### Data Types
+```sql
+-- for Date and Time
+DATE  -- for date, format is yyyy-mm-dd
+TIME -- for time
+DATETIME -- for both date and time
+SELECT CURTIME();    -- for cureent time
+SELECT CURDATE();    -- for current date
+SELECT NOW();        -- for current time stamp
+eg INSERT INTO people (name, birthdate, birthtime, birthdt) VALUES ('Hazel', CURDATE(), CURTIME(), NOW());
+
+-- below is to get day,date,month from timestamp
+SELECT birthdate, DAY(birthdate), DAYOFWEEK(birthdate), DAYOFYEAR(birthdate) FROM people;
+SELECT birthdate, MONTHNAME(birthdate), YEAR(birthdate) FROM people;
+SELECT birthdt, MONTH(birthdt), DAY(birthdt), HOUR(birthdt), MINUTE(birthdt) FROM people;
+SELECT birthdate, DATE_FORMAT(birthdate, '%a %b %D') FROM people;
+SELECT birthdt, DATE_FORMAT(birthdt, 'BORN ON: %r') FROM people;
+```
+
 
 ### Cover code example
 
@@ -161,13 +189,14 @@ DROP DATABASE startersql;
 
 - **DECIMAL(10, 2)** : Stores exact numeric data values, useful for financial data. The first number is the total number of digits, and the second is the number of digits after the decimal point.
 
+- **UNSIGNED** : means number can not be negative, if used it also increased efficiency
 <br>
 
 ### Constraints Explained
 
 - **AUTO\_INCREMENT** : Automatically generates a unique number for each row.
 
-- **PRIMARY KEY** : Uniquely identifies each row in the table.
+- **PRIMARY KEY** : Uniquely identifies each row in the table. PRIMARY KEY means that column should be unique (we don't require NOT NULL in primary key)
 
 - **NOT NULL** : Ensures a column cannot have a NULL value.
 
@@ -178,6 +207,19 @@ DROP DATABASE startersql;
 ```sql
 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 is_active BOOLEAN DEFAULT TRUE
+```
+
+- **Check** - It checks the condition, on the basis of true(1) or false(0) runs the value
+
+```sql
+CREATE TABLE users (
+	username VARCHAR(20) NOT NULL,
+    age INT CHECK (age > 0)
+);
+
+CREATE TABLE palindromes (
+  word VARCHAR(100) CHECK(REVERSE(word) = word)
+)
 ```
 
 <br>
@@ -217,7 +259,7 @@ RENAME TABLE customers TO users;
 
 ### Altering a Table
 
-You can use ALTER TABLE to modify an existing table.
+ALTER TABLE - is used to add, delete, or modify columns in an existing table, also used to add and drop various constraints on an existing table.
 
 #### Add a Column
 
@@ -285,6 +327,9 @@ INSERT INTO users VALUES
 ```
 
 **Not recommended if your table structure might change later (e.g., new columns added later).**
+
+
+### To add string like 'he's' we add like 'he\'s' || Use the singla and double quote combination 
 
 
 ### Insert by Specifying Column Names (Best Practice)
@@ -423,7 +468,18 @@ ORDER BY date_of_birth ASC;
 
 SELECT * FROM users
 ORDER BY name DESC;
+
+SELECT <column1_name>,<column2_name> FROM <table_name> ORDER BY 2   -- means sort the column2
+SELECT <column1_name>,<column2_name> FROM <table_name> ORDER BY <column1_name>,<column2_name>   -- means sort by column1 and when column1 have 2 values then sort it by column 2
 ```
+
+### To select unique value from column
+
+```sql
+SELECT DISTINCT <column_name> FROM <table_name>
+SELECT DISTINCT <column1_name>,<column2_name> FROM <table_name>  -- for distinct combination if column1 and column2
+```
+
 
 ### LIMIT
 
@@ -604,6 +660,35 @@ CREATE TABLE users (
 );
 ```
 
+### Named Constraints - named constraints provide the named failed case, otherwise if we don't use it will show table_1 or table_2 failed
+
+```sql
+CREATE TABLE users2 (
+    username VARCHAR(20) NOT NULL,
+    age INT,
+    CONSTRAINT age_not_negative CHECK (age >= 0)
+);
+
+CREATE TABLE palindromes2 (
+  word VARCHAR(100),
+  CONSTRAINT word_is_palindrome CHECK(REVERSE(word) = word)
+);
+
+-- Constraint with combination unique
+CREATE TABLE companies (
+    name VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
+    CONSTRAINT name_address UNIQUE (name , address)
+);
+
+CREATE TABLE houses (
+  purchase_price INT NOT NULL,
+  sale_price INT NOT NULL,
+  CONSTRAINT sprice_gt_pprice CHECK(sale_price >= purchase_price)
+);
+```
+
+
 #### Add DEFAULT using ALTER TABLE:
 
 ```sql
@@ -669,15 +754,14 @@ FROM users;
 ### SUM()
 
 ```sql
-SELECT SUM(salary) AS total_payroll
-FROM users;
+SELECT SUM(salary) AS total_payroll FROM users;
 ```
 
 ### AVG()
 
 ```sql
-SELECT AVG(salary) AS avg_salary
-FROM users;
+SELECT AVG(salary) AS avg_salary FROM users;
+SELECT released_year, AVG(stock_quantity),COUNT(*) FROM books GROUP BY released_year;
 ```
 
 ### Grouping with GROUP BY
@@ -709,6 +793,18 @@ FROM users;
 SELECT name,
 UPPER(name) AS uppercase_name
 FROM users;
+```
+
+### Substring
+It return the cut string, we can also use negative value
+```sql
+SELECT SUBSTRING(<column_name>,starting_point,length); eg SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books;
+```
+
+### Replace (str,from_str,to_str) --- This function is case sensitive
+
+```sql
+SELECT REPLACE(title, 'e ', '3') FROM books;
 ```
 
 ### CONCAT()
@@ -1201,11 +1297,9 @@ users          addresses
 
 ---
 
-<a id="page-51"></a>
+
 
 ## LEFT JOIN
-
-**CHAPTER 14 · PDF page 51**
 
 *All Left Rows with Matching Right Rows*
 
@@ -2298,6 +2392,15 @@ Logical operators are used to combine multiple conditions in a WHERE clause.
 | OR | At least one condition is true | gender = 'Male' OR gender = 'Other' |
 | NOT | Reverses a condition | NOT gender = 'Female' |
 
+```sql
+-- Logical operator(&& is written as AND, || is written as OR)
+SELECT * FROM books WHERE title NOT LIKE '%e%';
+SELECT title, author_lname, released_year FROM books WHERE released_year > 2010 AND author_lname = 'Eggers' AND title LIKE '%novel%';
+SELECT title, pages FROM books WHERE pages < 200  OR title LIKE '%stories%';
+SELECT title, released_year FROM books WHERE released_year NOT BETWEEN 2004 AND 2014;   -- it is NOT BETWEEN case
+```
+
+
 ### 2. Add a Column to an Existing Table
 
 Use ALTER TABLE to add a column:
@@ -2405,270 +2508,21 @@ MODIFY COLUMN salary BIGINT;
 This changes only the datatype of salary.
 
 
-
-### For the databse
-```sql
-SHOW DATABASES;  // to show all the databases
-CREATE DATABASE <database-name>; // create the particluar database
-DROP DATABASE <database-name>; //To drop or delete a database:
-USE <database-name>; // To use a database or to go into particluar database
-SELECT DATABASE(); // To check which database you are working or which you have selected
-```
-
-### Data Types
-```sql
--- for Date and Time
-DATE  -- for date, format is yyyy-mm-dd
-TIME -- for time
-DATETIME -- for both date and time
-SELECT CURTIME();    -- for cureent time
-SELECT CURDATE();    -- for current date
-SELECT NOW();        -- for current time stamp
-eg INSERT INTO people (name, birthdate, birthtime, birthdt) VALUES ('Hazel', CURDATE(), CURTIME(), NOW());
-
--- below is to get day,date,month from timestamp
-SELECT birthdate, DAY(birthdate), DAYOFWEEK(birthdate), DAYOFYEAR(birthdate) FROM people;
-SELECT birthdate, MONTHNAME(birthdate), YEAR(birthdate) FROM people;
-SELECT birthdt, MONTH(birthdt), DAY(birthdt), HOUR(birthdt), MINUTE(birthdt) FROM people;
-SELECT birthdate, DATE_FORMAT(birthdate, '%a %b %D') FROM people;
-SELECT birthdt, DATE_FORMAT(birthdt, 'BORN ON: %r') FROM people;
-```
-
-
-```sql
-VARCHAR(140) -- it means that we can use the variable character of length 140
-INT -- Means using the integer or the whole number
-UNSIGNED -- means number can not be negative, if used it also increased efficiency
-
--- for decimal storage of data
-DECIMAL(a,b)  -- a means the total length to number while b is the length after deciamal
-float -- precision issue after 7 digits after decimal
-double -- precision issue after 15 digits after decimal
-```
-
-
-### Constraints in sql
-1. **Unique** - functionality is same
-
-```sql
-CREATE TABLE contacts (
-	name VARCHAR(100) NOT NULL,
-    phone VARCHAR(15) NOT NULL UNIQUE
-);
-INSERT INTO contacts (name, phone) VALUES ('billybob', '8781213455');
-
--- This insert would result in an error:
-INSERT INTO contacts (name, phone) VALUES ('billybob', '8781213455');
-```
-
-2. **Check** - It checks the condition, on the basis of true(1) or false(0) runs the value
-
-```sql
-CREATE TABLE users (
-	username VARCHAR(20) NOT NULL,
-    age INT CHECK (age > 0)
-);
-
-CREATE TABLE palindromes (
-  word VARCHAR(100) CHECK(REVERSE(word) = word)
-)
-```
-
-### Named Constraints - named constraints provide the named failed case, otherwise if we don't use it will show table_1 or table_2 failed
-
-```sql
-CREATE TABLE users2 (
-    username VARCHAR(20) NOT NULL,
-    age INT,
-    CONSTRAINT age_not_negative CHECK (age >= 0)
-);
-
-CREATE TABLE palindromes2 (
-  word VARCHAR(100),
-  CONSTRAINT word_is_palindrome CHECK(REVERSE(word) = word)
-);
-
--- Constraint with combination unique
-CREATE TABLE companies (
-    name VARCHAR(255) NOT NULL,
-    address VARCHAR(255) NOT NULL,
-    CONSTRAINT name_address UNIQUE (name , address)
-);
-
-CREATE TABLE houses (
-  purchase_price INT NOT NULL,
-  sale_price INT NOT NULL,
-  CONSTRAINT sprice_gt_pprice CHECK(sale_price >= purchase_price)
-);
-```
-
-
-### To create table. Here 'not null' means we must provide value when adding a row. Default is the default value,
-
-### PRIMARY KEY means that column should be unique (we don't require NOT NULL in primary key)
-
-### When we have added the auto increment then we don't need to insert/add values to that column. It will fill automatically by adding 1 in last added value
-```sql
-CREATE TABLE <table_name> (
-    <column1_name> INT AUTO_INCREMENT PRIMARY KEY,
-    <column2_name> VARCHAR(50) NOT NULL DEFAULT 'unnamed',
-    <column3_name> INT NOT NULL DEFAULT 99
-);
-```
-
-### To add string like 'he's' we add like 'he\'s' || Use the singla and double quote combination 
-
-### All the Table Queries
-
-```sql
-SHOW TABLES -- to get all the tables
-SHOW COLUMNS FROM <table_name>  -- as name stated
-DESC <table_name>  -- same functionality of above
-DROP TABLE <table_name>  -- to delete the table
-INSERT INTO <table_name> (<column1_name>, <column2_name>) VALUES ("<column1_value>", <column2_name>)  -- to insert values into the table
-INSERT INTO pastries(<column1_name>, <column2_name>) VALUES ('<column1_value>', <column2_value>),('<column1_value>', <column2_value>),('Lazy Bear', 1); -- To Insert multiple values at same time
-
-
-SELECT * from <table_name>   -- To get the all column values from the table
-SELECT <column_name> from <table_name>  -- to get all the column
-SELECT <column1_name>,<column2_name>,<column3_name> from <table_name>   -- to get 2 or more column from table
-SELECT * FROM <table_name> WHERE <column_name> = <column_value>;  -- to get value in specific condition eg. SELECT * FROM cats WHERE age = 4; 
-SELECT <column1_name>,<column2_name> FROM <table_name> WHERE <column_name> = <column_value>;
-```
-
-### Updating in the database
-
-```sql
-UPDATE <table_name> SET <column1_name> = 'some static value',<column2_name> = 'some new static value'  -- Updating whole single column with single value
-UPDATE <table_name> SET <tobe_update_column_name> = 'new value' WHERE <search_column> = 'search column value'
-
--- ALTER TABLE - is used to add, delete, or modify columns in an existing table, also used to add and drop various constraints on an existing table.
-
--- Alter- add column
-ALTER TABLE companies ADD COLUMN employee_count INT NOT NULL DEFAULT 1;
-
--- Alter - Drop or delete column
-ALTER TABLE companies DROP COLUMN phone;
-
--- Alter - Renaming table
-ALTER TABLE companies RENAME COLUMN old_name TO company_new_name;
-
--- Alter - Modify the data type
-ALTER TABLE companies MODIFY company_name VARCHAR(100) DEFAULT 'unknown';
-
--- Alter - Constraints
-ALTER TABLE houses ADD CONSTRAINT positive_pprice CHECK (purchase_price >= 0);
-
--- Delete row in table
-DELETE FROM cats;  // to delete all rows in column
-DELETE FROM <table_name> WHERE <column_name> = 'some value' eg DELETE FROM cats WHERE name='Egg';
-```
-
 ### Functions in SQL
 
 ```sql
--- Concatenation of column
-SELECT CONCAT(<column1_name>,<column2_name>,'random text') AS <new_column_name> FROM <table_name>;
-
--- Concatenate with separator
-SELECT CONCAT_WS('-',<column1_name>,<column2_name>) AS <new_column_name> FROM <table_name>;
-
--- Substring, It return the cut string, we can also use negative value
-SELECT SUBSTRING(<column_name>,starting_point,length); eg SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books;
-
--- Combining string function
-SELECT CONCAT(SUBSTRING(title, 1, 10),'...') AS 'short title' FROM books;
-
--- Replace (str,from_str,to_str) --- This function is case sensitive
-SELECT REPLACE(title, 'e ', '3') FROM books;
-
--- Reverse, exception is that it don't work for null
-SELECT REVERSE('abc');
-
--- char Length of string, there is differenc between LENGTH and CHAR_LENGTH. Length return the value in bytes
-SELECT LENGTH(@dolphin), CHAR_LENGTH(@dolphin);   // retrun value is 6,2
-
-SELECT UPPER('Hej');
-SELECT LOWER('QUADRATICALLY');
-
--- To insert a value, INSERT(string, position, length to be replace, newstr to be added)
-SELECT INSERT('Quadratic', 3, 4, 'What');  gives 'QuWhattic'
-
-LEFT(string, length from left) eg SELECT LEFT('foobarbar', 5); gives 'fooba' 
-RIGHT(string, length from right) eg SELECT RIGHT('foobarbar', 4); gives 'rbar' 
- 
-REPEAT(str,count) eg  SELECT REPEAT('MySQL', 3); gives 'MySQLMySQLMySQL'
--- We have the trim for the different scenerio
-
--- To select unique value from column
-SELECT DISTINCT <column_name> FROM <table_name>
-SELECT DISTINCT <column1_name>,<column2_name> FROM <table_name>  // for distinct combination if column1 and column2
-
--- Sorting our results, ORDER By used at the end, ascending by default
-SELECT <column_name> FROM <table_name> ORDER BY <column_name>
-SELECT <column1_name>,<column2_name> FROM <table_name> ORDER BY <column_name> DESC       // for descending the sort
-SELECT <column1_name>,<column2_name> FROM <table_name> ORDER BY 2   // means sort the column2
-SELECT <column1_name>,<column2_name> FROM <table_name> ORDER BY <column1_name>,<column2_name>   // means sort by column1 and when column1 have 2 values then sort it by column 2 
-
--- To Limit the data, Limit 5 means show first 5 data
-SELECT <column1_name>,<column2_name> FROM <table_name> ORDER BY <column_name> DESC LIMIT 5
-SELECT <column1_name>,<column2_name> FROM <table_name> ORDER BY <column_name> DESC LIMIT <start_point>,count to show
-
 -- For searching or you can say includes of js, we use the LIKE of SQL. % means 0 or more characters, _ means search with that much character length
 WHERE <column_name> LIKE '%search_text%'
 WHERE <column_name> LIKE '__'
-SELECT * FROM books WHERE title LIKE '%\_%';  // To select books with an underscore '_' in title:
-
-
--- AGGREFATE FUNCTIONS - functions that can operate on multiple rows or multiple pieces of data at once to tell us the min or max or avg or sum etc
-
--- Count function- it basically gives the number of rows
-SELECT COUNT(*) FROM <table_name>    // gives all the rows in table. Instead of * we can also use the <column_name>
- 
--- eg
-SELECT COUNT(DISTINCT released_year) FROM books
-SELECT COUNT(*) FROM books WHERE title LIKE '%the%'
-
-
--- Group By - It summarizes or aggregate identical data into single rows
-SELECT author_lname, COUNT(*) FROM books GROUP BY author_lname 
-SELECT author_lname, COUNT(*) FROM books GROUP BY author_lname, author_fname
-
--- Min and Max
-SELECT MIN(<column_name>) FROM <table_name>
-SELECT MAX(<column_name>) FROM <table_name>
-
--- Subqueries - when we have query inside a query its a subqueries. The part in the bracket runs first and then the rest run
-SELECT title, pages FROM books WHERE pages = (SELECT MAX(pages) FROM books)
-SELECT CONCAT(author_fname, ' ', author_lname) AS author,  COUNT(*) FROM books GROUP BY author;
-
-
--- SUM 
-SELECT SUM(<column_name>) FROM <Table>
-
--- Average
-SELECT AVG(<column_name>) FROM <Table>
-SELECT released_year, AVG(stock_quantity),COUNT(*) FROM books GROUP BY released_year;
-
--- Logical operator(&& is written as AND, || is written as OR)
-SELECT * FROM books WHERE title NOT LIKE '%e%';
-SELECT title, author_lname, released_year FROM books WHERE released_year > 2010 AND author_lname = 'Eggers' AND title LIKE '%novel%';
-SELECT title, pages FROM books WHERE pages < 200  OR title LIKE '%stories%';
-SELECT title, released_year FROM books WHERE released_year NOT BETWEEN 2004 AND 2014;   // it is NOT BETWEEN case
-
-
--- Multiple OR replaced by 
-SELECT title, author_lname FROM books WHERE author_lname IN ('Carver', 'Lahiri', 'Smith');
-SELECT title, author_lname FROM books WHERE author_lname NOT IN ('Carver', 'Lahiri', 'Smith');
+SELECT * FROM books WHERE title LIKE '%\_%';  -- To select books with an underscore '_' in title:
 ```
-
 
 ### Joining the two table. (One to many)
 
 - We join the two table by one column which is common in both the table. For joining, we mark the foreign key 
 - advantage of using the foreign key is that it checks the that adding value is already available or not.
 
-```
+```sql
 FOREIGN KEY (<same_table_column>) REFERENCES <other_table_name>(<other_table_column_name>)
 ```
 
@@ -2720,7 +2574,7 @@ JOIN orders ON orders.customer_id = customers.id;
 SELECT * FROM orders
 JOIN customers ON customers.id = orders.customer_id;
 
-// Inner Join with Group by
+-- Inner Join with Group by
 SELECT 
     first_name, last_name, SUM(amount) AS total
 FROM
