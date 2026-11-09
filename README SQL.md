@@ -72,7 +72,15 @@ VALUES
 (20, '22 Hazratganj', 'Lucknow', 'Uttar Pradesh', '226001');
 ```
 
-### For the databse
+<br>
+
+### Some Notes
+
+1. To add string like 'he's' we add like 'he\'s'. Use the singla and double quote combination 
+
+<br>
+
+### For the database
 ```sql
 SHOW DATABASES;  -- to show all the databases
 CREATE DATABASE <database-name>; -- create the particluar database
@@ -80,6 +88,8 @@ DROP DATABASE <database-name>; -- To drop or delete a database:
 USE <database-name>; -- To use a database or to go into particluar database
 SELECT DATABASE(); -- To check which database you are working or which you have selected
 ```
+
+<br>
 
 ### Data Types
 ```sql
@@ -100,6 +110,7 @@ SELECT birthdate, DATE_FORMAT(birthdate, '%a %b %D') FROM people;
 SELECT birthdt, DATE_FORMAT(birthdt, 'BORN ON: %r') FROM people;
 ```
 
+<br>
 
 ### Cover code example
 
@@ -127,28 +138,24 @@ FROM users
 WHERE id > 0;
 ```
 
-### What is a Database?
+<br>
 
+### What is a Database?
 A database is a container that stores related data in an organized way. In MySQL, a database holds one or more tables.
 
 Think of it like:
 
 #### Folder analogy:
-
 - A database is like a folder.
-
 - Each table is a file inside that folder.
-
 - The rows in the table are like the content inside each file.
 
 #### Excel analogy:
-
 - A database is like an Excel workbook.
-
 - Each table is a separate sheet inside that workbook.
-
 - Each row in the table is like a row in Excel.
 
+<br>
 
 ### Step 2: Create a Table
 
@@ -163,8 +170,9 @@ CREATE TABLE users (
 );
 ```
 
-### Step 3: Drop the Database
+<br>
 
+### Step 3: Drop the Database
 You can delete the entire database (and all its tables) using:
 
 ```sql
@@ -176,51 +184,39 @@ DROP DATABASE startersql;
 ### Data Types Explained
 
 - **INT** : Integer type, used for whole numbers.
-
 - **VARCHAR(100)** : Variable-length string, up to 100 characters.
-
 - **ENUM** : A string object with a value chosen from a list of permitted values.
-
 - **DATE** : Stores date values.
-
 - **TIMESTAMP** : Stores date and time, automatically set to the current timestamp.
-
 - **BOOLEAN** : Stores TRUE or FALSE values.
-
 - **DECIMAL(10, 2)** : Stores exact numeric data values, useful for financial data. The first number is the total number of digits, and the second is the number of digits after the decimal point.
-
 - **UNSIGNED** : means number can not be negative, if used it also increased efficiency
+
 <br>
 
 ### Constraints Explained
 
 - **AUTO\_INCREMENT** : Automatically generates a unique number for each row.
-
 - **PRIMARY KEY** : Uniquely identifies each row in the table. PRIMARY KEY means that column should be unique (we don't require NOT NULL in primary key)
-
 - **NOT NULL** : Ensures a column cannot have a NULL value.
-
 - **UNIQUE** : Ensures all values in a column are different.
-
 - **DEFAULT** : Sets a default value for a column if no value is provided.
-
-```sql
-created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-is_active BOOLEAN DEFAULT TRUE
-```
+    ```sql
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    is_active BOOLEAN DEFAULT TRUE
+    ```
 
 - **Check** - It checks the condition, on the basis of true(1) or false(0) runs the value
+    ```sql
+    CREATE TABLE users (
+        username VARCHAR(20) NOT NULL,
+        age INT CHECK (age > 0)
+    );
 
-```sql
-CREATE TABLE users (
-	username VARCHAR(20) NOT NULL,
-    age INT CHECK (age > 0)
-);
-
-CREATE TABLE palindromes (
-  word VARCHAR(100) CHECK(REVERSE(word) = word)
-)
-```
+    CREATE TABLE palindromes (
+        word VARCHAR(100) CHECK(REVERSE(word) = word)
+    )
+    ```
 
 <br>
 
@@ -268,6 +264,8 @@ ALTER TABLE users
 ADD COLUMN is_active BOOLEAN DEFAULT TRUE;
 ```
 
+`Keep in mind here true will be shown as 1 in is_active column`
+
 #### Drop a Column
 
 ```sql
@@ -282,7 +280,7 @@ ALTER TABLE users
 MODIFY COLUMN name VARCHAR(150);
 ```
 
-### Move a Column to the First Position
+#### Move a Column to the First Position
 
 To move a column (e.g., email) to the first position:
 
@@ -291,7 +289,7 @@ ALTER TABLE users
 MODIFY COLUMN email VARCHAR(100) FIRST;
 ```
 
-### Move a Column After Another Column
+#### Move a Column After Another Column
 
 To move a column after another column (e.g., move gender after name):
 
@@ -301,7 +299,7 @@ MODIFY COLUMN gender ENUM('Male', 'Female', 'Other')
 AFTER name;
 ```
 
-### Add Multiple Columns
+#### Add Multiple Columns
 
 ```sql
 ALTER TABLE users
@@ -309,12 +307,59 @@ ADD COLUMN phone VARCHAR(15),
 ADD COLUMN city VARCHAR(100);
 ```
 
-### Rename a Column
+#### Rename a Column
 
 ```sql
 ALTER TABLE users
 RENAME COLUMN phone TO mobile_number;
 ```
+
+<br>
+
+### ALTER vs UPDATE
+
+`ALTER` is a DDL (Data Definition Language) command.
+
+It is used when you want to modify the table structure, such as:
+
+- Adding a new column.
+- Removing a column.
+- Changing a column's datatype.
+- Renaming a column.
+- Adding constraints.
+
+<br>
+
+`UPDATE` is a DML (Data Manipulation Language) command.
+
+It is used to modify existing records in a table without changing its structure.
+
+Examples:
+
+Update multiple columns:
+
+```
+UPDATE users
+SET name = 'Amit Kumar',
+    email = 'amit123@gmail.com'
+WHERE id = 1;
+```
+
+**Key Differences**
+
+| Feature                 | ALTER                  | UPDATE               |
+| ----------------------- | ---------------------- | -------------------- |
+| Category                | DDL                    | DML                  |
+| Purpose                 | Modify table structure | Modify table data    |
+| Changes columns         | Yes                    | No                   |
+| Changes existing values | No                     | Yes                  |
+| WHERE condition         | Generally not used     | Supported            |
+| Example                 | Add a column           | Change a user's name |
+
+<br>
+
+
+<br>
 
 ### Insert Row Without Specifying Column Names (Full Row Insert)
 
@@ -328,9 +373,7 @@ INSERT INTO users VALUES
 
 **Not recommended if your table structure might change later (e.g., new columns added later).**
 
-
-### To add string like 'he's' we add like 'he\'s' || Use the singla and double quote combination 
-
+<br>
 
 ### Insert by Specifying Column Names (Best Practice)
 
@@ -344,7 +387,7 @@ VALUES
 'Male', '1990-11-23');
 ```
 
-### Insert Multiple Rows at Once
+#### Insert Multiple Rows at Once
 
 You can insert multiple rows in a single query.
 
@@ -360,39 +403,34 @@ VALUES
 
 The remaining columns like id (which is AUTO\_INCREMENT) and created\_at (which has a default value) are automatically handled by MySQL.
 
+<br>
 
 ### Querying Data in MySQL using SELECT
 
 ```sql
 SELECT column1, column2 FROM table_name;
-```
 
-To select all columns:
-```sql
 SELECT * FROM users;
 ```
+
+<br>
 
 ### Filtering Rows with WHERE and Equal
 
 ```sql
 SELECT * FROM users
 WHERE gender = 'Male';
-```
 
-### Not Equal To
 
-```sql
+-- Not Equal To
 SELECT * FROM users
 WHERE gender != 'Female';
 -- OR
 
 SELECT * FROM users
 WHERE gender <> 'Female';
-```
 
-### Greater Than / Less Than
-
-```sql
+-- Greater Than / Less Than
 SELECT * FROM users
 WHERE date_of_birth < '1995-01-01';
 
@@ -404,37 +442,27 @@ WHERE id >= 5;
 
 SELECT * FROM users
 WHERE id <= 20;
-```
 
-### IS NULL and IS NOT NULL
-
-```sql
+-- IS NULL and IS NOT NULL
 SELECT * FROM users
 WHERE date_of_birth IS NULL;
 
 SELECT * FROM users
 WHERE date_of_birth IS NOT NULL;
-```
 
-### BETWEEN
-
-```sql
+-- BETWEEN
 SELECT * FROM users
 WHERE date_of_birth BETWEEN
 '1990-01-01' AND '2000-12-31';
-```
 
-### Pattern Matching & Sorting
 
-### IN
-```sql
+-- Pattern Matching & Sorting
+
+-- 1. IN
 SELECT * FROM users
 WHERE gender IN ('Male', 'Other');
-```
 
-### LIKE (Pattern Matching)
-
-```sql
+-- 2. LIKE (Pattern Matching)
 SELECT * FROM users
 WHERE name LIKE 'A%';
 -- Starts with A
@@ -448,6 +476,8 @@ WHERE name LIKE '%li%';
 -- Contains 'li'
 ```
 
+<br>
+
 ### AND / OR
 
 ```sql
@@ -459,6 +489,8 @@ SELECT * FROM users
 WHERE gender = 'Male'
 OR gender = 'Other';
 ```
+
+<br>
 
 ### ORDER BY
 
@@ -473,6 +505,8 @@ SELECT <column1_name>,<column2_name> FROM <table_name> ORDER BY 2   -- means sor
 SELECT <column1_name>,<column2_name> FROM <table_name> ORDER BY <column1_name>,<column2_name>   -- means sort by column1 and when column1 have 2 values then sort it by column 2
 ```
 
+<br>
+
 ### To select unique value from column
 
 ```sql
@@ -480,24 +514,34 @@ SELECT DISTINCT <column_name> FROM <table_name>
 SELECT DISTINCT <column1_name>,<column2_name> FROM <table_name>  -- for distinct combination if column1 and column2
 ```
 
+<br>
 
 ### LIMIT
 
 ```sql
-SELECT * FROM users
-LIMIT 5;
+SELECT * FROM users LIMIT 5;
 -- Top 5 rows
 
-SELECT * FROM users
-LIMIT 10 OFFSET 5;
+SELECT * FROM users LIMIT 10 OFFSET 5;
 -- Skip first 5 rows
 
-SELECT * FROM users
-LIMIT 5, 10;
+SELECT * FROM users LIMIT 5, 10;
 -- Get 10 rows
 -- starting from the 6th row
 ```
 
+<br>
+
+### DISTINCT Keyword
+
+DISTINCT is used to return only unique values.
+
+```sql
+SELECT DISTINCT gender FROM users;
+```
+Returns a list of unique gender values from the users table.
+
+<br>
 
 ### UPDATE - Modifying Existing Data - Keep in mind WHERE is important
 
@@ -513,7 +557,7 @@ SET name = 'Alicia'
 WHERE id = 1;
 ```
 
-### Example: Update Multiple Columns
+#### Example: Update Multiple Columns
 
 ```sql
 UPDATE users
@@ -521,7 +565,7 @@ SET name = 'Robert', email = 'robert@example.com'
 WHERE id = 2;
 ```
 
-### Without WHERE Clause (Warning)
+#### Without WHERE Clause (Warning)
 
 ```sql
 UPDATE users
@@ -529,7 +573,6 @@ SET gender = 'Other';
 ```
 
 **This updates every row in the table. Be very careful when omitting the WHERE clause.**
-
 
 #### eg Increase salary by ₹ 10,000 for all users whose salary is less than ₹ 60,000.
 
@@ -539,6 +582,14 @@ SET salary = salary + 10000
 WHERE salary < 60000;
 ```
 
+
+```sql
+-- keep in mind below is for joining the string, above was for number
+UPDATE users SET name = concat('pradeep', name) WHERE id = 1;
+```
+
+<br>
+
 ### DELETE - Removing Data from a Table
 
 ```sql
@@ -547,31 +598,18 @@ WHERE condition;
 ```
 
 ```sql
-DELETE FROM users
-WHERE id = 3;
-```
+DELETE FROM users WHERE id = 3;
 
-### Delete Multiple Rows
+-- Delete Multiple Rows
+DELETE FROM users WHERE gender = 'Other';
 
-```sql
-DELETE FROM users
-WHERE gender = 'Other';
-```
-
-
-### Delete All Rows (but keep table structure)
-
-```sql
+-- Delete All Rows (but keep table structure)
 DELETE FROM users;
-```
 
-### Drop the Entire Table (use with caution)
-
-```sql
+-- Drop the Entire Table (use with caution)
 DROP TABLE users;
+-- This removes the table structure and all data permanently.
 ```
-
-This removes the table structure and all data permanently.
 
 <br>
 
@@ -584,7 +622,11 @@ This removes the table structure and all data permanently.
 - Always back up important data before performing destructive operations.
 
 
-## MySQL Constraints
+<br>
+
+### MySQL Constraints
+
+<br>
 
 ### 1. UNIQUE Constraint
 
@@ -606,6 +648,8 @@ ALTER TABLE users
 ADD CONSTRAINT unique_email
 UNIQUE (email);
 ```
+
+<br>
 
 ### 2. NOT NULL Constraint
 
@@ -635,6 +679,8 @@ MODIFY COLUMN name
 VARCHAR(100) NULL;
 ```
 
+<br>
+
 ### 3. CHECK Constraint
 
 Ensures that values in a column satisfy a specific condition.
@@ -649,6 +695,8 @@ CHECK (date_of_birth > '2000-01-01');
 
 Naming the constraint (chk\_dob) helps if you want to drop it later.
 
+<br>
+
 ### 4. DEFAULT Constraint
 
 Sets a default value for a column if none is provided during insert.
@@ -659,6 +707,8 @@ CREATE TABLE users (
     is_active BOOLEAN DEFAULT TRUE
 );
 ```
+
+<br>
 
 ### Named Constraints - named constraints provide the named failed case, otherwise if we don't use it will show table_1 or table_2 failed
 
@@ -688,15 +738,7 @@ CREATE TABLE houses (
 );
 ```
 
-
-#### Add DEFAULT using ALTER TABLE:
-
-```sql
-ALTER TABLE users
-ALTER COLUMN is_active
-SET DEFAULT TRUE;
-```
-
+<br>
 
 ### 5. PRIMARY KEY Constraint
 
@@ -708,6 +750,7 @@ CREATE TABLE users (
     name VARCHAR(100)
 );
 ```
+<br>
 
 #### Add later with ALTER TABLE:
 
@@ -716,6 +759,7 @@ ALTER TABLE users
 ADD PRIMARY KEY (id);
 ```
 
+<br>
 
 ### 6. AUTO_INCREMENT
 
@@ -728,7 +772,11 @@ CREATE TABLE users (
 );
 ```
 
+<br>
+
 ### SQL Functions (MySQL)
+
+<br>
 
 ### COUNT()
 
@@ -739,9 +787,10 @@ SELECT COUNT(*) FROM users;
 Count users who are Female:
 
 ```sql
-SELECT COUNT(*) FROM users
-WHERE gender = 'Female';
+SELECT COUNT(*) FROM users WHERE gender = 'Female';
 ```
+
+<br>
 
 ### MIN() and MAX()
 
@@ -751,18 +800,23 @@ MAX(salary) AS max_salary
 FROM users;
 ```
 
+<br>
+
 ### SUM()
 
 ```sql
 SELECT SUM(salary) AS total_payroll FROM users;
 ```
 
+<br>
+
 ### AVG()
 
 ```sql
 SELECT AVG(salary) AS avg_salary FROM users;
-SELECT released_year, AVG(stock_quantity),COUNT(*) FROM books GROUP BY released_year;
 ```
+
+<br>
 
 ### Grouping with GROUP BY
 
@@ -773,13 +827,61 @@ FROM users
 GROUP BY gender;
 ```
 
+1. Every non-aggregated SELECT column must be in GROUP BY
+
+```sql
+SELECT name, AVG(salary)
+FROM users
+GROUP BY date_of_birth;
+```
+
+Why incorrect? Because multiple users can have the same date of birth, and SQL doesn't know which name to return.
+
+```sql
+SELECT date_of_birth, AVG(salary)
+FROM users
+GROUP BY date_of_birth;
+```
+
+2. Understand aggregate functions
+
+```sql
+SELECT
+    gender,
+    COUNT(*) AS total_users,
+    AVG(salary) AS avg_salary,
+    MAX(salary) AS highest_salary
+FROM users
+GROUP BY gender;
+```
+
+3. Use WHERE before GROUP BY
+
+```sql
+SELECT gender, AVG(salary)
+FROM users
+WHERE salary > 30000
+GROUP BY gender;
+```
+
+4. Use HAVING to filter grouped results
+
+```sql
+SELECT gender, AVG(salary) AS avg_salary
+FROM users
+GROUP BY gender
+HAVING AVG(salary) > 50000;
+```
+
+<br>
+
 ### LENGTH()
 
 ```sql
-SELECT name,
-LENGTH(name) AS name_length
-FROM users;
+SELECT name, LENGTH(name) AS name_length FROM users;
 ```
+
+<br>
 
 ### LOWER() and UPPER()
 
@@ -795,17 +897,23 @@ UPPER(name) AS uppercase_name
 FROM users;
 ```
 
-### Substring
+<br>
+
+### SUBSTRING
 It return the cut string, we can also use negative value
 ```sql
 SELECT SUBSTRING(<column_name>,starting_point,length); eg SELECT SUBSTRING(title, 1, 10) AS 'short title' FROM books;
 ```
 
-### Replace (str,from_str,to_str) --- This function is case sensitive
+<br>
+
+### REPLACE (str,from_str,to_str) --- This function is case sensitive
 
 ```sql
 SELECT REPLACE(title, 'e ', '3') FROM books;
 ```
+
+<br>
 
 ### CONCAT()
 
@@ -815,6 +923,8 @@ AS user_contact
 FROM users;
 ```
 
+<br>
+
 ### NOW()
 
 Current date and time:
@@ -822,6 +932,8 @@ Current date and time:
 ```sql
 SELECT NOW();
 ```
+
+<br>
 
 ### YEAR(), MONTH(), DAY()
 
@@ -832,6 +944,8 @@ SELECT name,
 YEAR(date_of_birth) AS birth_year
 FROM users;
 ```
+
+<br>
 
 ### DATEDIFF()
 
@@ -844,6 +958,8 @@ AS days_lived
 FROM users;
 ```
 
+<br>
+
 ### TIMESTAMPDIFF()
 
 Calculate age in years:
@@ -855,6 +971,8 @@ AS age
 FROM users;
 ```
 
+<br>
+
 ### ROUND(), FLOOR(), CEIL()
 
 ```sql
@@ -864,6 +982,8 @@ FLOOR(salary) AS floored,
 CEIL(salary) AS ceiled
 FROM users;
 ```
+
+<br>
 
 ### MOD()
 
@@ -875,6 +995,8 @@ MOD(id, 2) AS remainder
 FROM users;
 ```
 
+<br>
+
 ### IF()
 
 ```sql
@@ -885,33 +1007,22 @@ AS is_female
 FROM users;
 ```
 
-### Summary Table
-
-| Function | Purpose |
-| --- | --- |
-| COUNT() | Count rows |
-| SUM() | Total of a column |
-| AVG() | Average of values |
-| MIN() / MAX() | Lowest / highest value |
-| LENGTH() | String length |
-| CONCAT() | Merge strings |
-| YEAR() / DATEDIFF() | Date breakdown / age |
-| ROUND() | Rounding numbers |
-| IF() | Conditional logic |
-
 <br>
 
 ### MySQL Transactions and AutoCommit
 
 By default, MySQL operates in AutoCommit mode. This means that every SQL statement is treated as a transaction and is committed automatically. However, for more control over when changes are saved, you can turn AutoCommit off and manage transactions manually.
 
-### 1. Disabling AutoCommit
+<br>
+
+#### 1. Disabling AutoCommit
 
 When AutoCommit is off, you can explicitly control when to commit or rollback changes.
 
-### To disable AutoCommit:
+<br>
 
 ```sql
+-- To disable AutoCommit:
 SET autocommit = 0;
 ```
 
@@ -919,30 +1030,36 @@ This turns off AutoCommit, meaning that changes you make wonʼt be saved to the 
 
 Important: Until you execute a COMMIT, your changes are not permanent.
 
-### 2. COMMIT: Save Changes to the Database
+<br>
+
+#### 2. COMMIT: Save Changes to the Database
 
 Once youʼve made changes and youʼre confident that everything is correct, you can use the COMMIT command to save those changes.
 
-### To commit a transaction:
-
 ```sql
+-- To commit a transaction:
 COMMIT;
 ```
 
 This saves all the changes made since the last COMMIT or ROLLBACK. After this point, the changes become permanent.
 
+<br>
 
-### 3. ROLLBACK: Revert Changes to the Last Safe Point
+#### 3. ROLLBACK: Revert Changes to the Last Safe Point
 
 If you make an error or decide you donʼt want to save your changes, you can rollback the transaction to its previous state.
 
-### To rollback a transaction:
+<br>
+
+#### To rollback a transaction:
 
 ```sql
 ROLLBACK;
 ```
 
 This undoes all changes since the last COMMIT or ROLLBACK.
+
+<br>
 
 ### Example Workflow
 
@@ -974,7 +1091,9 @@ COMMIT;
 ROLLBACK;
 ```
 
-### 4. Enabling AutoCommit Again
+<br>
+
+#### 4. Enabling AutoCommit Again
 
 If you want to turn AutoCommit back on (so that every statement is automatically committed), you can do so with:
 
@@ -992,6 +1111,8 @@ SET autocommit = 1;
 
 - Always test transaction queries carefully before applying them in production databases.
 
+
+<br>
 
 ### Understanding PRIMARY KEY in MySQL
 
@@ -1029,26 +1150,11 @@ At first glance, PRIMARY KEY and UNIQUE might seem similar since both prevent du
 | Required by table | Recommended, often required | Optional |
 | Dropping | Cannot be easily dropped | Can be dropped anytime |
 
-### Example with UNIQUE
-
-```sql
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(100) UNIQUE,
-    name VARCHAR(100)
-);
-```
-
-In this example:
-
-- id is the unique identifier for each row.
-
-- email must be unique, but is not the primary key.
-
+<br>
 
 ### Dropping Keys
 
-### Can I Drop a PRIMARY KEY?
+#### Can I Drop a PRIMARY KEY?
 
 Yes, but it is more restricted than dropping a UNIQUE constraint.
 
@@ -1065,6 +1171,7 @@ To drop a UNIQUE constraint:
 ALTER TABLE users
 DROP INDEX email;
 ```
+<br>
 
 ### Auto Increment and Takeaways
 
@@ -1084,29 +1191,15 @@ ALTER TABLE users
 AUTO_INCREMENT = 1000;
 ```
 
-### Key Takeaways
-
-- Use PRIMARY KEY for the main identifier of a row.
-
-- Use UNIQUE for enforcing non-duplicate values in other columns (like email or phone).
-
-- You can have only one primary key, but you can have many unique constraints.
-
-- Combine AUTO\_INCREMENT with PRIMARY KEY for automatically generated IDs.
-
-- Always choose a stable and unique column for your primary key.
-
+<br>
 
 ### Foreign Keys in MySQL
 
 A foreign key is a column that creates a link between two tables. It ensures that the value in one table must match a value in another table.
 
+**Imagine this scenario**: You have a users table. Now you want to store each userʼs address. Instead of putting address columns inside the users table, you create a separate addresses table, and link it to users using a foreign key.
 
-### Why Use Foreign Keys?
-
-Imagine this scenario:
-
-You have a users table. Now you want to store each userʼs address. Instead of putting address columns inside the users table, you create a separate addresses table, and link it to users using a foreign key.
+<br>
 
 ### Creating a Table with a Foreign Key
 
@@ -1125,13 +1218,14 @@ CREATE TABLE addresses (
 );
 ```
 
+<br>
+
 ### Managing Foreign Keys
-
 - user\_id is a foreign key.
-
 - It references the id column in the users table.
-
 - This ensures that every address must be linked to a valid user.
+
+<br>
 
 ### Dropping a Foreign Key
 
@@ -1154,6 +1248,8 @@ ALTER TABLE addresses
 DROP FOREIGN KEY fk_user;
 ```
 
+<br>
+
 ### Adding a Foreign Key Later (Using ALTER)
 
 Suppose the foreign key was not defined during table creation. You can add it later using ALTER TABLE:
@@ -1165,6 +1261,7 @@ FOREIGN KEY (user_id)
 REFERENCES users(id);
 ```
 
+<br>
 
 ### Adding ON DELETE Action
 
@@ -1191,18 +1288,7 @@ CREATE TABLE addresses (
 );
 ```
 
-### Foreign Key Summary
-
-
-Or alter it later:
-
-```sql
-ALTER TABLE addresses
-ADD CONSTRAINT fk_user
-FOREIGN KEY (user_id)
-REFERENCES users(id)
-ON DELETE CASCADE;
-```
+<br>
 
 ### Other ON DELETE Options
 
@@ -1212,31 +1298,15 @@ ON DELETE CASCADE;
 | SET NULL | Sets the foreign key to NULL in the child table |
 | RESTRICT | Prevents deletion of parent if child exists (default) |
 
-### Summary
+<br>
 
-- Foreign keys connect tables and enforce valid references.
-
-- You can create them inline or with ALTER TABLE.
-
-- You can drop them by name.
-
-- Use ON DELETE to control what happens when the parent row is deleted.
-
----
-
-<a id="page-49"></a>
-
-## SQL JOINs in MySQL
-
-**CHAPTER 14 · PDF page 49**
-
-*Combining Data from Multiple Tables*
+### SQL JOINs in MySQL
 
 In SQL, JOINs are used to combine rows from two or more tables based on related columns. Usually a foreign key in one table references a primary key in another.
 
 Weʼll use the following two tables:
 
-### users table
+#### users table
 
 | id | name |
 | --- | --- |
@@ -1244,7 +1314,7 @@ Weʼll use the following two tables:
 | 2 | Sneha |
 | 3 | Raj |
 
-### addresses table
+#### addresses table
 
 | id | user\_id | city |
 | --- | --- | --- |
@@ -1254,17 +1324,9 @@ Weʼll use the following two tables:
 
 Note: user\_id is a foreign key that references users.id.
 
----
+<br>
 
-<a id="page-50"></a>
-
-## INNER JOIN
-
-**CHAPTER 14 · PDF page 50**
-
-*Matching Rows from Both Tables*
-
-### 1. INNER JOIN
+### INNER JOIN
 
 Returns only the matching rows from both tables.
 
@@ -1275,7 +1337,17 @@ INNER JOIN addresses
 ON users.id = addresses.user_id;
 ```
 
-### Output:
+```sql
+-- syntex of Inner join
+SELECT *
+FROM Table1
+INNER JOIN Table2
+ON ForeignKey = Primarykey
+```
+
+<br>
+
+#### Output:
 
 | name | city |
 | --- | --- |
@@ -1284,26 +1356,9 @@ ON users.id = addresses.user_id;
 
 Raj is excluded because there is no matching address. Delhi is excluded because its user\_id (4) is not in users.
 
-### Visual Representation:
+<br>
 
-```text
-users          addresses
------          ---------
-| 1 |          | 1 |
-| 2 |          | 2 |
-| 3 |          |   |
-=> only matching pairs
-```
-
----
-
-
-
-## LEFT JOIN
-
-*All Left Rows with Matching Right Rows*
-
-### 2. LEFT JOIN
+### LEFT JOIN
 
 Returns all rows from the left table (users), and matching rows from the right table (addresses). If no match is found, NULLs are returned.
 
@@ -1314,7 +1369,7 @@ LEFT JOIN addresses
 ON users.id = addresses.user_id;
 ```
 
-### Output:
+#### Output:
 
 | name | city |
 | --- | --- |
@@ -1324,28 +1379,9 @@ ON users.id = addresses.user_id;
 
 Raj is shown even though he doesnʼt have an address.
 
-### Visual Representation:
+<br>
 
-```text
-users          addresses
------          ---------
-| 1 |          | 1 |
-| 2 |          | 2 |
-| 3 |          |   |
-=> all users + matched addresses (or NULL)
-```
-
----
-
-<a id="page-52"></a>
-
-## RIGHT JOIN and Summary
-
-**CHAPTER 14 · PDF page 52**
-
-*Matching Right Side Data*
-
-### 3. RIGHT JOIN
+### RIGHT JOIN
 
 Returns all rows from the right table (addresses), and matching rows from the left table (users). If no match is found, NULLs are returned.
 
@@ -1366,42 +1402,23 @@ ON users.id = addresses.user_id;
 
 Delhi is shown even though it points to a user\_id that doesnʼt exist.
 
-### Visual Representation:
+<br>
 
-```text
-users          addresses
------          ---------
-| 1 |          | 1 |
-| 2 |          | 2 |
-|   |          | 4 |
-=> all addresses + matched users (or NULL)
-```
-
-### Summary Table
-
-> **Source limitation:** The table contents are cut off beyond the bottom edge of this page in the original PDF.
-
----
-
-<a id="page-53"></a>
-
-## SQL UNION and UNION ALL
-
-**CHAPTER 15 · PDF page 53**
-
-*Combining Results from Multiple Queries*
+### SQL UNION and UNION ALL
 
 The UNION operator in SQL is used to combine the result sets of two or more SELECT statements. It removes duplicates by default.
 
-If you want to include all rows including duplicates, use UNION ALL.
+If you want to include all rows including duplicates, use `UNION ALL`.
 
-### Example Scenario
+<br>
+
+#### Example Scenario
 
 You already have a users table for active users. Now, weʼll create an admin\_users table to store users who are administrators or have special roles.
 
 We will then combine the names from both tables using UNION.
 
-### Step 1: Create the admin_users Table
+#### Step 1: Create the admin_users Table
 
 ```sql
 CREATE TABLE admin_users (
@@ -1414,33 +1431,23 @@ CREATE TABLE admin_users (
 );
 ```
 
----
+<br>
 
-<a id="page-54"></a>
-
-## Using UNION
-
-**CHAPTER 15 · PDF page 54**
-
-*Combining Query Results*
-
-### Step 2: Insert Sample Data into admin_users
+#### Step 2: Insert Sample Data into admin_users
 
 ```sql
 INSERT INTO admin_users
 (id, name, email, gender, date_of_birth, salary)
 VALUES
-(101, 'Anil Kumar', 'anil@example.com',
-'Male', '1985-04-12', 60000),
-(102, 'Pooja Sharma', 'pooja@example.com',
-'Female', '1992-09-20', 58000),
-(103, 'Rakesh Yadav', 'rakesh@example.com',
-'Male', '1989-11-05', 54000),
-(104, 'Fatima Begum', 'fatima@example.com',
-'Female', '1990-06-30', 62000);
+(101, 'Anil Kumar', 'anil@example.com', 'Male', '1985-04-12', 60000),
+(102, 'Pooja Sharma', 'pooja@example.com', 'Female', '1992-09-20', 58000),
+(103, 'Rakesh Yadav', 'rakesh@example.com', 'Male', '1989-11-05', 54000),
+(104, 'Fatima Begum', 'fatima@example.com', 'Female', '1990-06-30', 62000);
 ```
 
-### Step 3: Use UNION to Combine Data
+<br>
+
+#### Step 3: Use UNION to Combine Data
 
 Letʼs combine the active and admin user names.
 
@@ -1452,15 +1459,7 @@ SELECT name FROM admin_users;
 
 This returns a single list of unique names from both tables.
 
----
-
-<a id="page-55"></a>
-
-## Advanced UNION Usage
-
-**CHAPTER 15 · PDF page 55**
-
-*Multiple Columns and Sorting*
+<br>
 
 ### UNION ALL Example
 
@@ -1472,17 +1471,17 @@ UNION ALL
 SELECT name FROM admin_users;
 ```
 
+<br>
+
 ### Using More Than One Column
-
-You can also select multiple columns as long as both SELECT queries return the same number of columns
-
-#### with compatible types.
 
 ```sql
 SELECT name, salary FROM users
 UNION
 SELECT name, salary FROM admin_users;
 ```
+
+<br>
 
 ### Adding Separate Roles
 
@@ -1496,15 +1495,7 @@ SELECT name,
 FROM admin_users;
 ```
 
----
-
-<a id="page-56"></a>
-
-## UNION Summary
-
-**CHAPTER 15 · PDF page 56**
-
-*Rules and Best Practices*
+<br>
 
 ### Using Order By with UNION
 
@@ -1515,44 +1506,23 @@ SELECT name FROM admin_users
 ORDER BY name;
 ```
 
+<br>
+
 ### Rules of UNION
 
 1. The number of columns and their data types must match in all SELECT statements.
-
 2. UNION removes duplicates by default.
-
 3. UNION ALL keeps duplicates.
 
-### When to Use UNION
+<br>
 
-- When you have two similar tables (like current and archived data).
-
-- When you need to combine filtered results from multiple sources.
-
-- When performing cross-category reporting.
-
-### Summary
-
-| Operator | Behavior |
-| --- | --- |
-| UNION | Combines results, removes duplicates |
-| UNION ALL | Combines results, keeps duplicates |
-
----
-
-<a id="page-57"></a>
-
-## Self JOIN in MySQL
-
-**CHAPTER 16 · PDF page 57**
-
-*Joining a Table with Itself*
+### Self JOIN in MySQL
 
 A Self JOIN is a regular join, but the table is joined with itself.
 
 This is useful when rows in the same table are related to each other. For example, when users refer other users, and we store the ID of the person who referred them in the same users table.
 
-### Step 1: Add a referred_by_id Column
+#### Step 1: Add a referred_by_id Column
 
 Weʼll extend the existing users table to include a column called referred\_by\_id, which holds the id of the user who referred them.
 
@@ -1564,10 +1534,9 @@ ADD COLUMN referred_by_id INT;
 This column:
 
 - Will be NULL for users who were not referred.
-
 - Will contain the id of another user who referred them.
 
-### Step 2: Insert Referral Data (Optional)
+#### Step 2: Insert Referral Data (Optional)
 
 Assuming id = 1 is the first user, and referred others:
 
@@ -1582,17 +1551,7 @@ WHERE id = 4;
 -- User 2 referred User 4
 ```
 
----
-
-<a id="page-58"></a>
-
-## Using Self JOIN
-
-**CHAPTER 16 · PDF page 58**
-
-*Getting Referrer Information*
-
-### Step 3: Use a Self JOIN to Get Referrer Names
+#### Step 3: Use a Self JOIN to Get Referrer Names
 
 We want to get each userʼs name along with the name of the person who referred them.
 
@@ -1606,64 +1565,25 @@ LEFT JOIN users b
 ON a.referred_by_id = b.id;
 ```
 
-### Explanation
+#### Explanation
 
 - a  refers to the user being queried.
-
 - b  refers to the user who referred them.
-
 - LEFT JOIN is used so that users with NULL in referred\_by\_id are also included.
 
-### Sample Output
+<br>
 
-| id | user\_name | referred\_by |
-| --- | --- | --- |
-| 1 | Aarav | NULL |
-| 2 | Sneha | Aarav |
-| 3 | Raj | Aarav |
-| 4 | Fatima | Sneha |
-
----
-
-<a id="page-59"></a>
-
-## Self JOIN Summary
-
-**CHAPTER 16 · PDF page 59**
-
-*Important Concepts and Best Practices*
-
-### Summary
-
-- Use Self JOIN when you need to join a table with itself.
-
-- In referral-based relationships, store the referrerʼs id in the same table.
-
-- Use aliases like a  and b  to differentiate the two instances of the same table.
-
-- Self JOIN is commonly used in employee-manager structures, referral systems, and hierarchical data.
-
----
-
-<a id="page-60"></a>
-
-## MySQL Views
-
-**CHAPTER 17 · PDF page 60**
-
-*Working with Virtual Tables*
+### MySQL Views
 
 A view in MySQL is a virtual table based on the result of a SELECT query. It does not store data itself. It always reflects the current data in the base tables.
 
 Views are useful when:
 
 - You want to simplify complex queries
-
 - You want to reuse logic
-
 - You want to hide certain columns from users
-
 - You want a “live snapshot” of filtered data
+
 
 ### Creating a View
 
@@ -1676,7 +1596,7 @@ FROM users
 WHERE salary > 70000;
 ```
 
-### Querying the View
+#### Querying the View
 
 ```sql
 SELECT * FROM high_salary_users;
@@ -1684,19 +1604,11 @@ SELECT * FROM high_salary_users;
 
 This will return all users from the users table where salary is above ₹ 70,000.
 
----
+<br>
 
-<a id="page-61"></a>
+### How Views Stay Updated
 
-## How Views Stay Updated
-
-**CHAPTER 17 · PDF page 61**
-
-*Views Automatically Reflect Changes*
-
-Letʼs see what happens when the underlying data changes.
-
-### Step 1: View before update
+#### Step 1: View before update
 
 ```sql
 SELECT * FROM high_salary_users;
@@ -1709,7 +1621,7 @@ Output:
 | 2 | Sneha | 75000 |
 | 5 | Fatima | 80000 |
 
-### Step 2: Update a userʼs salary
+#### Step 2: Update a userʼs salary
 
 ```sql
 UPDATE users
@@ -1717,17 +1629,9 @@ SET salary = 72000
 WHERE name = 'Raj';
 ```
 
----
-
-<a id="page-62"></a>
-
-## How Views Stay Updated
-
-**CHAPTER 17 · PDF page 62**
-
 *Views Automatically Reflect Changes*
 
-### Step 3: Query the view again
+#### Step 3: Query the view again
 
 ```sql
 SELECT * FROM high_salary_users;
@@ -1743,45 +1647,25 @@ New Output:
 
 Notice how Raj is now included in the view. The view did not need to be updated. Thatʼs because views always reflect live data from the original table.
 
----
+<br>
 
-<a id="page-63"></a>
-
-## Dropping a View
-
-**CHAPTER 17 · PDF page 63**
-
-*Removing Existing Views*
-
-To remove a view:
+### Dropping a View
 
 ```sql
 DROP VIEW high_salary_users;
 ```
 
-### Summary
+<br>
 
-- Views act like saved SELECT queries
-
-- Views are not duplicated data
-
-- Changes to base tables are reflected automatically
-
-- Great for simplifying complex queries or creating filtered access
-
----
-
-<a id="page-64"></a>
-
-## MySQL Indexes
-
-**CHAPTER 18 · PDF page 64**
-
-*Improving Query Performance*
+### MySQL Indexes
 
 Indexes in MySQL are used to speed up data retrieval. They work like the index of a book, helping the database engine find rows faster, especially for searches, filters, and joins.
 
-### Viewing Indexes on a Table
+1. PRIMARY KEY automatically creates an index
+2. UNIQUE automatically creates an index
+3. FOREIGN KEY can automatically create an index
+
+#### Viewing Indexes on a Table
 
 To see the indexes on a table, use:
 
@@ -1791,7 +1675,8 @@ SHOW INDEXES FROM users;
 
 This shows all the indexes currently defined on the users table, including the automatically created primary key index.
 
-### Creating a Single-Column Index
+
+#### Creating a Single-Column Index
 
 Suppose you're frequently searching users by their email. You can speed this up by indexing the email column.
 
@@ -1802,30 +1687,21 @@ CREATE INDEX idx_email ON users(email);
 #### What this does:
 
 - Creates an index named idx\_email
-
 - Improves performance of queries like:
 
 ```sql
 SELECT * FROM users WHERE email = 'example@example.com';
 ```
 
----
+<br>
 
-<a id="page-65"></a>
-
-## Working with Multi-Column Indexes
-
-**CHAPTER 18 · PDF page 65**
-
-*Optimizing Complex Searches*
-
-### Important Notes
+### Working with Multi-Column Indexes
 
 - Indexes consume extra disk space
-
 - Indexes slow down INSERT, UPDATE, and DELETE operations slightly
-
 - Use indexes only when needed (for columns used in WHERE, JOIN, and ORDER BY)
+
+<br>
 
 ### Creating a Multi-Column Index
 
@@ -1844,7 +1720,8 @@ WHERE gender = 'Female' AND salary > 70000;
 
 This query can take advantage of the combined index on gender and salary.
 
-### Index Order Matters
+
+#### Index Order Matters
 
 For a multi-column index on (gender, salary):
 
@@ -1854,16 +1731,6 @@ For a multi-column index on (gender, salary):
 WHERE gender = 'Female' AND salary > 70000
 ```
 
----
-
-<a id="page-66"></a>
-
-## Managing MySQL Indexes
-
-**CHAPTER 18 · PDF page 66**
-
-*Best Practices and Removal*
-
 - But this may not use the index effectively:
 
 ```sql
@@ -1872,7 +1739,9 @@ WHERE salary > 70000
 
 Because the first column in the index (gender) is missing in the filter.
 
-### Dropping an Index
+<br>
+
+#### Dropping an Index
 
 To delete an index:
 
@@ -1880,43 +1749,18 @@ To delete an index:
 DROP INDEX idx_email ON users;
 ```
 
-### Summary
+<br>
 
-| Feature | Description |
-| --- | --- |
-| SHOW INDEXES | View current indexes on a table |
-| CREATE INDEX | Create single or multi-column indexes |
-| DROP INDEX | Remove an index |
-| Use when | Query performance on large tables is a concern |
-| Avoid on | Columns that are rarely queried or always unique |
-
----
-
-<a id="page-67"></a>
-
-## Subqueries in MySQL
-
-**CHAPTER 19 · PDF page 67**
-
-*Nested Queries and Dynamic Filtering*
+### Subqueries in MySQL
 
 A subquery is a query nested inside another query. Subqueries are useful for breaking down complex problems into smaller parts.
 
 They can be used in:
 
 - SELECT statements
-
 - WHERE clauses
-
 - FROM clauses
 
-### Example Scenario: Salary Comparison
-
-Suppose we want to find all users who earn more than the average salary of all users.
-
-### Scalar Subquery Example
-
-This subquery returns a single value, the average salary. We then compare each user's salary with it.
 
 ```sql
 SELECT id, name, salary
@@ -1926,21 +1770,7 @@ WHERE salary > (
 );
 ```
 
-#### Explanation:
-
-- The inner query: SELECT AVG(salary) FROM users returns the average salary.
-
-- The outer query selects all users with a salary greater than that average.
-
----
-
-<a id="page-68"></a>
-
-## Using Subqueries
-
-**CHAPTER 19 · PDF page 68**
-
-*Filtering and Derived Values*
+<br>
 
 ### Subquery with IN
 
@@ -1954,66 +1784,15 @@ WHERE referred_by_id IN (
 );
 ```
 
-#### Explanation:
+<br>
 
-- The inner query returns a list of user IDs who earn more than ₹ 75,000.
-
-- The outer query selects users whose referred\_by\_id is in that list.
-
-### Other Places Subqueries Are Used
-
-You can also use subqueries:
-
-- Inside SELECT columns (called scalar subqueries)
-
-- In the FROM clause to create derived tables
-
-Example in SELECT:
-
-```sql
-SELECT name, salary,
-    (SELECT AVG(salary) FROM users) AS average_salary
-FROM users;
-```
-
-This shows each userʼs salary along with the overall average.
-
----
-
-<a id="page-69"></a>
-
-## Subquery Summary
-
-**CHAPTER 19 · PDF page 69**
-
-*Quick Recap of Common Use Cases*
-
-### Summary
-
-| Subquery Type | Use Case |
-| --- | --- |
-| Scalar Subquery | Returns one value (e.g. AVG, MAX) |
-| Subquery with IN | Returns multiple values |
-| Subquery in SELECT | Shows related calculated value |
-| Subquery in FROM | Acts as a virtual table |
-
-Subqueries are powerful tools when filtering based on computed or dynamic conditions.
-
----
-
-<a id="page-70"></a>
-
-## GROUP BY and HAVING in MySQL
-
-**CHAPTER 20 · PDF page 70**
-
-*Grouping and Filtering Aggregated Data*
+### GROUP BY and HAVING in MySQL
 
 The GROUP BY clause is used to group rows that have the same values in specified columns. It is typically used with aggregate functions like COUNT, SUM, AVG, MIN, or MAX.
 
 The HAVING clause is used to filter groups after aggregation. It is similar to how WHERE filters individual rows.
 
-### Example Table: users
+#### Example Table: users
 
 Assume this is your users table:
 
@@ -2025,7 +1804,7 @@ Assume this is your users table:
 | 4 | Fatima | Female | 85000 | 2 |
 | 5 | Priya | Female | 70000 | NULL |
 
-### GROUP BY Example: Average Salary by Gender
+#### GROUP BY Example: Average Salary by Gender
 
 ```sql
 SELECT gender, AVG(salary) AS average_salary
@@ -2033,23 +1812,8 @@ FROM users
 GROUP BY gender;
 ```
 
-#### Explanation:
 
-- This groups users by gender.
-
-- Then calculates the average salary for each group.
-
----
-
-<a id="page-71"></a>
-
-## Using GROUP BY and HAVING
-
-**CHAPTER 20 · PDF page 71**
-
-*Aggregation and Group Filtering*
-
-### GROUP BY with COUNT
+#### WHERE in GROUP BY - It is added before group
 
 Find how many users were referred by each user:
 
@@ -2060,14 +1824,8 @@ WHERE referred_by_id IS NOT NULL
 GROUP BY referred_by_id;
 ```
 
-#### Output:
 
-| referred\_by\_id | total\_referred |
-| --- | --- |
-| 1 | 2 |
-| 2 | 1 |
-
-### HAVING Clause: Filtering Groups
+#### HAVING Clause: Filtering Groups - It is added after group
 
 Letʼs say we only want to show genders where the average salary is greater than ₹ 75,000.
 
@@ -2084,17 +1842,8 @@ HAVING AVG(salary) > 75000;
 
 - HAVING is used after groups are formed. It is the only way to filter aggregated values.
 
----
 
-<a id="page-72"></a>
-
-## ROLLUP and Group Summaries
-
-**CHAPTER 20 · PDF page 72**
-
-*Advanced Aggregation Features*
-
-### Another Example: Groups with More Than 1 Referral
+#### Another Example: Groups with More Than 1 Referral
 
 ```sql
 SELECT referred_by_id, COUNT(*) AS total_referred
@@ -2104,7 +1853,7 @@ GROUP BY referred_by_id
 HAVING COUNT(*) > 1;
 ```
 
-### Summary
+#### Important Summary
 
 | Clause | Purpose | Can use aggregates? |
 | --- | --- | --- |
@@ -2113,6 +1862,8 @@ HAVING COUNT(*) > 1;
 | HAVING | Filters groups after aggregation | Yes |
 
 Use GROUP BY to organize data, and HAVING to filter those groups based on aggregate conditions.
+
+<br>
 
 ### ROLLUP
 
@@ -2126,15 +1877,9 @@ GROUP BY gender WITH ROLLUP;
 
 This gives you a count of users by gender, along with a grand total for all users.
 
----
+<br>
 
-<a id="page-73"></a>
-
-## Stored Procedures in MySQL
-
-**CHAPTER 21 · PDF page 73**
-
-*Reusable SQL Blocks and Procedures*
+### Stored Procedures in MySQL
 
 A stored procedure is a saved SQL block that can be executed later. It is useful for encapsulating logic that can be reused multiple times, such as queries, updates, or conditional operations.
 
@@ -2144,7 +1889,7 @@ By default, MySQL uses ;  to end SQL statements.
 
 But when defining stored procedures, we use ;  inside the procedure as well. This can confuse MySQL. To avoid this, we temporarily change the delimiter (e.g. to $$ or //) while creating the procedure.
 
-### Syntax for Creating a Stored Procedure
+#### Syntax for Creating a Stored Procedure
 
 ```sql
 DELIMITER $$
@@ -2157,15 +1902,7 @@ DELIMITER ;
 
 After the procedure is created, we reset the delimiter back to ; .
 
----
-
-<a id="page-74"></a>
-
-## Creating Stored Procedures
-
-**CHAPTER 21 · PDF page 74**
-
-*Using Input Parameters*
+<br>
 
 ### Creating a Procedure with Input Parameters
 
@@ -2202,29 +1939,18 @@ CALL AddUser('Kiran Sharma', 'kiran@example.com',
 
 This inserts the new user into the users table.
 
----
-
-<a id="page-75"></a>
-
-## Managing Stored Procedures
-
-**CHAPTER 21 · PDF page 75**
-
-*Viewing and Removing Procedures*
-
-### Notes
+#### Notes
 
 - Input parameters are declared using the IN keyword.
-
 - Stored procedures are stored in the database and can be reused.
 
-### Viewing Stored Procedures
+#### Viewing Stored Procedures
 
 ```sql
 SHOW PROCEDURE STATUS WHERE Db = 'startersql';
 ```
 
-### Dropping a Stored Procedure
+#### Dropping a Stored Procedure
 
 ```sql
 DROP PROCEDURE IF EXISTS AddUser;
@@ -2239,27 +1965,18 @@ DROP PROCEDURE IF EXISTS AddUser;
 | CALL procedure\_name(...) | Executes a stored procedure |
 | DROP PROCEDURE | Removes an existing procedure |
 
----
 
-<a id="page-76"></a>
-
-## Triggers in MySQL
-
-**CHAPTER 22 · PDF page 76**
-
-*Automatically Executed Database Events*
+### Triggers in MySQL
 
 A trigger is a special type of stored program that is automatically executed when a specific event occurs in a table, such as INSERT, UPDATE, or DELETE.
 
 Triggers are commonly used for:
 
 - Logging changes
-
 - Enforcing additional business rules
-
 - Automatically updating related data
 
-### Basic Trigger Structure
+#### Basic Trigger Structure
 
 ```sql
 CREATE TRIGGER trigger_name
@@ -2273,8 +1990,9 @@ END;
 Triggers can be fired:
 
 - BEFORE or AFTER an event
-
 - On INSERT, UPDATE, or DELETE
+
+<br>
 
 ### Scenario: Log Every New User Insertion
 
@@ -2282,17 +2000,7 @@ Suppose we want to log every time a new user is inserted into the users table.
 
 Weʼll create a separate table called user\_log to store log entries.
 
----
-
-<a id="page-77"></a>
-
-## Creating a Trigger
-
-**CHAPTER 22 · PDF page 77**
-
-*Logging Inserted Users*
-
-### Step 1: Create the Log Table
+#### Step 1: Create the Log Table
 
 ```sql
 CREATE TABLE user_log (
@@ -2303,7 +2011,7 @@ CREATE TABLE user_log (
 );
 ```
 
-### Step 2: Create the Trigger
+#### Step 2: Create the Trigger
 
 We now define a trigger that runs after a new user is added.
 
@@ -2322,22 +2030,11 @@ DELIMITER ;
 #### Explanation:
 
 - AFTER INSERT means the trigger fires after the user is inserted.
-
 - NEW refers to the new row being added to the users table.
-
 - We insert the new userʼs ID and name into the user\_log table.
 
----
 
-<a id="page-78"></a>
-
-## Managing Triggers
-
-**CHAPTER 22 · PDF page 78**
-
-*Testing and Removing Triggers*
-
-### Step 3: Test the Trigger
+#### Step 3: Test the Trigger
 
 ```sql
 CALL AddUser('Ritika Jain', 'ritika@example.com',
@@ -2352,7 +2049,7 @@ SELECT * FROM user_log;
 
 You should see Ritikaʼs info automatically logged.
 
-### Dropping a Trigger
+#### Dropping a Trigger
 
 If you need to remove a trigger:
 
@@ -2360,7 +2057,7 @@ If you need to remove a trigger:
 DROP TRIGGER IF EXISTS after_user_insert;
 ```
 
-### Summary
+#### Summary
 
 | Trigger Component | Description |
 | --- | --- |
@@ -2370,110 +2067,9 @@ DROP TRIGGER IF EXISTS after_user_insert;
 | OLD.column | Refers to the old row (for UPDATE, DELETE) |
 | FOR EACH ROW | Executes for each affected row |
 
----
+<br>
 
-<a id="page-79"></a>
-
-## More on MySQL
-
-**CHAPTER 23 · PDF page 79**
-
-*Additional Useful MySQL Features*
-
-This section covers some essential MySQL features and operators that help you write more powerful and flexible queries.
-
-### 1. Logical Operators
-
-Logical operators are used to combine multiple conditions in a WHERE clause.
-
-| Operator | Description | Example |
-| --- | --- | --- |
-| AND | All conditions must be true | salary > 50000 AND gender = 'Male' |
-| OR | At least one condition is true | gender = 'Male' OR gender = 'Other' |
-| NOT | Reverses a condition | NOT gender = 'Female' |
-
-```sql
--- Logical operator(&& is written as AND, || is written as OR)
-SELECT * FROM books WHERE title NOT LIKE '%e%';
-SELECT title, author_lname, released_year FROM books WHERE released_year > 2010 AND author_lname = 'Eggers' AND title LIKE '%novel%';
-SELECT title, pages FROM books WHERE pages < 200  OR title LIKE '%stories%';
-SELECT title, released_year FROM books WHERE released_year NOT BETWEEN 2004 AND 2014;   -- it is NOT BETWEEN case
-```
-
-
-### 2. Add a Column to an Existing Table
-
-Use ALTER TABLE to add a column:
-
-```sql
-ALTER TABLE users
-ADD COLUMN city VARCHAR(100);
-```
-
-This adds a new column named city to the users table.
-
----
-
-<a id="page-80"></a>
-
-## Wildcards and LIMIT
-
-**CHAPTER 23 · PDF page 80**
-
-*Pattern Matching and Pagination*
-
-### 3. Wildcard Operators
-
-Wildcards are used with the LIKE operator for pattern matching in text.
-
-| Wildcard | Description | Example |
-| --- | --- | --- |
-| % | Matches any sequence | WHERE name LIKE 'A%' (starts with A) |
-| \_ | Matches a single character | WHERE name LIKE '\_a%' (second letter is ‘aʼ) |
-
-### 4. LIMIT with OFFSET
-
-LIMIT is used to limit the number of rows returned. OFFSET skips rows before returning results.
-
-```sql
-SELECT * FROM users
-ORDER BY id
-LIMIT 5 OFFSET 10;
-```
-
-This skips the first 10 rows and returns the next 5.
-
-Alternative syntax:
-
-```sql
-SELECT * FROM users
-ORDER BY id
-LIMIT 10, 5;
-```
-
-This also skips 10 and returns 5 (LIMIT offset, count).
-
----
-
-<a id="page-81"></a>
-
-## DISTINCT and TRUNCATE
-
-**CHAPTER 23 · PDF page 81**
-
-*Filtering Unique Data and Clearing Tables*
-
-### 5. DISTINCT Keyword
-
-DISTINCT is used to return only unique values.
-
-```sql
-SELECT DISTINCT gender FROM users;
-```
-
-Returns a list of unique gender values from the users table.
-
-### 6. TRUNCATE Keyword
+### TRUNCATE Keyword
 
 TRUNCATE removes all rows from a table, but keeps the table structure.
 
@@ -2482,10 +2078,11 @@ TRUNCATE TABLE users;
 ```
 
 - Faster than DELETE FROM users
-
 - Cannot be rolled back in most cases
 
-### 7. CHANGE vs MODIFY Column
+<br>
+
+### CHANGE vs MODIFY Column
 
 Both CHANGE and MODIFY are used to alter existing columns in a table.
 
@@ -2507,150 +2104,7 @@ MODIFY COLUMN salary BIGINT;
 
 This changes only the datatype of salary.
 
-
-### Functions in SQL
-
-```sql
--- For searching or you can say includes of js, we use the LIKE of SQL. % means 0 or more characters, _ means search with that much character length
-WHERE <column_name> LIKE '%search_text%'
-WHERE <column_name> LIKE '__'
-SELECT * FROM books WHERE title LIKE '%\_%';  -- To select books with an underscore '_' in title:
-```
-
-### Joining the two table. (One to many)
-
-- We join the two table by one column which is common in both the table. For joining, we mark the foreign key 
-- advantage of using the foreign key is that it checks the that adding value is already available or not.
-
-```sql
-FOREIGN KEY (<same_table_column>) REFERENCES <other_table_name>(<other_table_column_name>)
-```
-
-eg
-```sql
-CREATE TABLE customers (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    email VARCHAR(50)
-);
-
-CREATE TABLE orders (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    order_date DATE,
-    amount DECIMAL(8,2),
-    customer_id INT,
-    FOREIGN KEY (customer_id) REFERENCES customers(id)
-);
-
-INSERT INTO customers (first_name, last_name, email) 
-VALUES ('Boy', 'George', 'george@gmail.com'),
-       ('George', 'Michael', 'gm@gmail.com'),
-       ('David', 'Bowie', 'david@gmail.com'),
-       ('Blue', 'Steele', 'blue@gmail.com'),
-       ('Bette', 'Davis', 'bette@aol.com');
-       
-       
-INSERT INTO orders (order_date, amount, customer_id)
-VALUES ('2016-02-10', 99.99, 1),
-       ('2017-11-11', 35.50, 1),
-       ('2014-12-12', 800.67, 2),
-       ('2015-01-03', 12.50, 2),
-       ('1999-04-11', 450.25, 5);
-
-```
-
-### Inner Join -- Ishme jisme sab hota h wahi aata h null wala nhi aata h
-
-```sql
--- Our first inner join!
-SELECT * FROM customers
-JOIN orders ON orders.customer_id = customers.id;
-
-SELECT first_name, last_name, order_date, amount FROM customers
-JOIN orders ON orders.customer_id = customers.id;
-
--- The order doesn't matter here:
-SELECT * FROM orders
-JOIN customers ON customers.id = orders.customer_id;
-
--- Inner Join with Group by
-SELECT 
-    first_name, last_name, SUM(amount) AS total
-FROM
-    customers
-        JOIN
-    orders ON orders.customer_id = customers.id
-GROUP BY first_name , last_name
-ORDER BY total;
-```
-
-### Left Join - In inner join we only show the the comman parts full detail but in left join we takes all row of left table and show corresponding value
-
-```sql
-SELECT 
-    first_name, last_name, order_date, amount
-FROM
-    customers
-        LEFT JOIN
-    orders ON orders.customer_id = customers.id;
-
-
-SELECT 
-    order_date, amount, first_name, last_name
-FROM
-    orders
-        LEFT JOIN
-    customers ON orders.customer_id = customers.id;
-```
-
-### Left Join with Group By
-
-```sql
-SELECT 
-    first_name, 
-    last_name, 
-    IFNULL(SUM(amount), 0) AS money_spent
-FROM
-    customers
-        LEFT JOIN
-    orders ON customers.id = orders.customer_id
-GROUP BY first_name , last_name;
-```
-
-
-### Right Join
-
-```sql
-SELECT 
-    first_name, last_name, order_date, amount
-FROM
-    customers
-        RIGHT JOIN
-    orders ON customers.id = orders.customer_id;
-```
-
-### On delete cascade - In this if we want to delete the data of one table, it can't be deleted because of foreign key so we it. so if we delete it from one place it gets deletd from other places also
-
-```sql
-CREATE TABLE customers (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(50),
-    last_name VARCHAR(50),
-    email VARCHAR(50)
-);
-
-CREATE TABLE orders (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    order_date DATE,
-    amount DECIMAL(8 , 2 ),
-    customer_id INT,
-    FOREIGN KEY (customer_id)
-        REFERENCES customers (id)
-        ON DELETE CASCADE
-);
-```
-
+<br>
 
 ### Joining the two table. (many to many) - In this we create a additional table and add foreign key to both table
 
@@ -2721,70 +2175,12 @@ INSERT INTO reviews(series_id, reviewer_id, rating) VALUES
     (14,2,8.5),(14,3,8.9),(14,4,8.9);
 ```
 
-### VIEWS - Views are the stored queries that when invoked produce a result set. It is not real table, its a virtual table.
-Basically real data se query bna k ek virtual table bnana h phir usi se value nikalni h. ya simple badi badi query table ko choti choti banana
-limitation of view/virtual table is that some functions do not work on it eg delete when aggregation is done, for further visit the website
-
-```sql
--- INSTEAD OF TYPING THIS QUERY ALL THE TIME...
-SELECT 
-    title, released_year, genre, rating, first_name, last_name
-FROM
-    reviews
-        JOIN
-    series ON series.id = reviews.series_id
-        JOIN
-    reviewers ON reviewers.id = reviews.reviewer_id;
-
--- WE CAN CREATE A VIEW: full_reviews is the view
-CREATE VIEW full_reviews AS
-SELECT title, released_year, genre, rating, first_name, last_name FROM reviews
-JOIN series ON series.id = reviews.series_id
-JOIN reviewers ON reviewers.id = reviews.reviewer_id;
-
--- NOW WE CAN TREAT THAT VIEW AS A VIRTUAL TABLE 
--- (AT LEAST WHEN IT COMES TO SELECTING)
-SELECT * FROM full_review;
-
--- Replacing the views 
-CREATE VIEW ordered_series AS
-SELECT * FROM series ORDER BY released_year;
-
-CREATE OR REPLACE VIEW ordered_series AS
-SELECT * FROM series ORDER BY released_year DESC;
-
-ALTER VIEW ordered_series AS
-SELECT * FROM series ORDER BY released_year;
-
-DROP VIEW ordered_series;  // This is to drop/delete the view
-
-
--- Having clause in Group By
-SELECT 
-    title, 
-    AVG(rating),
-    COUNT(rating) AS review_count
-FROM full_reviews 
-GROUP BY title HAVING COUNT(rating) > 1;
-
-
--- Rollup clause in Group By - this provide an additional row which has the value of total(sum, avg) which action(sum, avg) done on each
-SELECT 
-    title, AVG(rating)
-FROM
-    full_reviews
-GROUP BY title WITH ROLLUP;
-
-
-SELECT 
-    title, COUNT(rating)
-FROM
-    full_reviews
-GROUP BY title WITH ROLLUP;
-```
+<br>
 
 ### Window function - window functions perform aggregate operations on groups of rows, but they produce a result FOR EACH ROW.
 basically jab hum group by use karte h tab no of rows reduced ho jati h aut tab value milti h but windows wale case me value milti h but bina rows reduce hue
+
+<br>
 
 ### over clasue - The OVER() clause constructs a window. When it's empty, the window will include all records
 
@@ -2804,6 +2200,7 @@ SELECT
 FROM employees;
 ```
 
+<br>
 
 ### over(Partition by department) clasue - the concept remain same that row don't get reduced but the row having same name comes side by side
 
@@ -2867,4 +2264,3 @@ FROM employees;
 ```
 
 ### Keep in mind CONSTRAINT is basically add on validation. means existing plus this one
-
