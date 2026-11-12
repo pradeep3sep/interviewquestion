@@ -1,3 +1,25 @@
+Good Question - 1581
+
+### To get value of id having value NULL
+
+```sql
+SELECT name FROM Customer WHERE referee_id != 2 OR referee_id IS NULL
+```
+
+### When we get the two table, first thing definately be JOIN of table
+
+### Jab bhi data filter ki need ho to, then we use the WHERE
+
+### We can do the self join
+
+```sql
+SELECT *
+FROM Weather w1
+JOIN Weather w2
+ON DATEDIFF(w1.recordDate, w2.recordDate) = 1
+```
+
+
 ```sql
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -514,6 +536,8 @@ SELECT DISTINCT <column_name> FROM <table_name>
 SELECT DISTINCT <column1_name>,<column2_name> FROM <table_name>  -- for distinct combination if column1 and column2
 ```
 
+**NOTE:**Keep in mind unique is used while creating the table while distinct by getting value from the table ie using the select
+
 <br>
 
 ### LIMIT
@@ -529,17 +553,6 @@ SELECT * FROM users LIMIT 5, 10;
 -- Get 10 rows
 -- starting from the 6th row
 ```
-
-<br>
-
-### DISTINCT Keyword
-
-DISTINCT is used to return only unique values.
-
-```sql
-SELECT DISTINCT gender FROM users;
-```
-Returns a list of unique gender values from the users table.
 
 <br>
 
@@ -789,6 +802,31 @@ Count users who are Female:
 ```sql
 SELECT COUNT(*) FROM users WHERE gender = 'Female';
 ```
+
+**Important SQL concept**
+
+Remember this difference:
+
+Without GROUP BY:
+
+```sql
+SELECT COUNT(customer_id)
+FROM Visits;
+```
+
+Returns one total count.
+
+With GROUP BY:
+
+```sql
+SELECT customer_id, COUNT(customer_id)
+FROM Visits
+GROUP BY customer_id;
+```
+
+Returns the count separately for each customer.
+
+Interview tip: Whenever you want to calculate `COUNT()`, `SUM()`, or `AVG()` separately for each category, customer, department, etc., think about using `GROUP BY`.
 
 <br>
 

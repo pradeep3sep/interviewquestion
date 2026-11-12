@@ -2914,7 +2914,7 @@ With Redis, all three instances reference the same counter, so the quota applies
 npm install express express-rate-limit rate-limit-redis redis
 ```
 
-```
+```js
 const express = require("express");
 const { rateLimit } = require("express-rate-limit");
 const { RedisStore } = require("rate-limit-redis");
@@ -3113,7 +3113,7 @@ Suppose your Node.js API receives an OAuth access token formatted as a JWT.
 
 Your backend must validate that token before allowing access.
 
-```
+```js
 const express = require("express");
 const { createRemoteJWKSet, jwtVerify } = require("jose");
 
@@ -3150,7 +3150,7 @@ async function authenticate(req, res, next) {
 
 Now protect the API and check the token's permissions:
 
-```
+```js
 app.get("/api/profile", authenticate, (req, res) => {
   const scopes = req.auth.scope?.split(" ") || [];
 
@@ -10789,6 +10789,1911 @@ Mongoose supports four middleware types:
 [Mongoose middleware documentation](https://mongoosejs.com/docs/middleware.html)
 
 
+# Sharding, Connection Pooling & Query Optimization – Database Interview Preparation
+
+These are three very important backend concepts for 5–10 years experienced Node.js/backend developer interviews.
+
+You should understand not just definitions but also:
+
+- Why we need them.
+- How they work internally.
+- When to use them.
+- SQL vs MongoDB implementation.
+- Real-world production scenarios.
+- Performance trade-offs and interview questions.
+
+Let's cover them from a senior backend developer's perspective.
+
+# 1. Database Sharding
+
+## 1.1 What is sharding?
+
+Sharding is a database scaling technique in which we divide a large database into smaller databases (shards) and distribute them across multiple servers.
+
+Each shard stores a portion of the overall data.
+
+For example, imagine an e-commerce application with 100 million users.
+
+Initially, all users are stored in one database:
+
+Before sharding
+
+Application Server
+
+Single Database
+
+100 million users
+
+Problem: Increasing storage, CPU, memory and query load.
+
+Now, we divide the users into three shards:
+
+After sharding
+
+Application Server / Shard Router
+
+Shard 1
+
+Users 1–33M
+
+Shard 2
+
+Users 34–66M
+
+Shard 3
+
+Users 67–100M
+
+Now each database handles only a portion of the data.
+
+## 1.2 Why do we need sharding?
+
+Suppose your application has:
+
+- 100 million users.
+- 500 million orders.
+- Millions of database queries per day.
+
+A single database server may eventually struggle with:
+
+1. Storage limitations.
+2. High CPU utilization.
+3. Memory pressure.
+4. Too many concurrent queries.
+5. Increased query latency.
+
+Sharding distributes the data and workload across multiple database servers.
+
+Important: Sharding is primarily a horizontal scaling technique.
+
+## 1.3 Types of sharding
+
+There are four important approaches to understand.
+
+### A. Range-based sharding
+
+Data is divided according to a range of values.
+
+Example:
+
+| Shard   | User ID       |
+| ------- | ------------- |
+| Shard 1 | 1–100000      |
+| Shard 2 | 100001–200000 |
+| Shard 3 | 200001–300000 |
+
+Advantages:
+
+- Easy to understand.
+- Range queries can be efficient.
+
+Disadvantages:
+
+- Uneven data distribution.
+- Hotspots can develop.
+
+For example, if most new users have higher IDs, the latest shard receives most of the traffic.
+
+### B. Hash-based sharding
+
+A hash function determines which shard stores the record.
+
+Example:
+
+```
+const shardNumber = userId % 3;
+```
+
+Suppose:
+
+```
+userId = 101;
+
+shardNumber = 101 % 3; // 2
+```
+
+The record goes to Shard 2 (using zero-based numbering).
+
+Advantages:
+
+- Generally better data distribution.
+- Reduces range-based hotspots.
+
+Disadvantages:
+
+- Range queries become difficult.
+- Changing the number of shards can require significant data redistribution.
+
+### C. Geographic sharding
+
+Data is distributed based on geographical location.
+
+Example:
+
+| Shard   | Data   |
+| ------- | ------ |
+| Shard 1 | India  |
+| Shard 2 | USA    |
+| Shard 3 | Europe |
+
+Advantages:
+
+- Lower latency for regional users.
+- Helps with data residency requirements.
+
+### D. Directory-based sharding
+
+A separate lookup service maintains information about where each record is stored.
+
+Example:
+
+```
+{
+  userId: 101,
+  shard: "shard_2"
+}
+```
+
+The application first checks the directory and then queries the appropriate database.
+
+Advantages:
+
+- Flexible shard assignment.
+- Easy to manage custom distribution.
+
+Disadvantages:
+
+- Directory becomes another dependency.
+- It needs high availability and caching.
+
+## 1.4 Sharding in SQL vs MongoDB
+
+| Feature           | SQL                                            | MongoDB                                         |
+| ----------------- | ---------------------------------------------- | ----------------------------------------------- |
+| Sharding          | Usually application/proxy or database-specific | Native distributed sharding                     |
+| Shard key         | Depends on architecture                        | Required                                        |
+| Routing           | Application or routing layer                   | `mongos`                                        |
+| Data distribution | Depends on implementation                      | Chunks distributed across shards                |
+| Complexity        | Often application-dependent                    | Managed through MongoDB sharding infrastructure |
+
+### SQL example
+
+In a MySQL application, you might implement application-level sharding:
+
+```
+function getDatabase(userId) {
+  const shardId = userId % 3;
+
+  return databases[shardId];
+}
+
+async function getUser(userId) {
+  const db = getDatabase(userId);
+
+  return db.query(
+    "SELECT * FROM users WHERE id = ?",
+    [userId]
+  );
+}
+```
+
+This is a simplified application-level implementation, not built-in MySQL automatic sharding.
+
+### MongoDB example
+
+MongoDB provides native sharding.
+
+You generally use:
+
+- Shard: stores a portion of the data.
+- Config servers: store cluster metadata.
+- `mongos`: routes queries to the correct shards.
+- Shard key: determines how data is distributed.
+
+Example:
+
+```
+sh.shardCollection(
+  "ecommerce.users",
+  { userId: "hashed" }
+);
+```
+
+Here, `userId` is the shard key and MongoDB uses hashed distribution.
+
+This command is executed in the appropriate MongoDB sharded-cluster administrative environment.
+
+## 1.5 What is a shard key?
+
+A shard key is the field or combination of fields used to distribute documents across shards.
+
+Example:
+
+```
+{
+  userId: 101,
+  name: "Amit",
+  city: "Delhi"
+}
+```
+
+Possible shard keys:
+
+```
+{ userId: "hashed" }
+```
+
+or
+
+```
+{ city: 1 }
+```
+
+Choosing the wrong shard key can cause:
+
+- Uneven data distribution.
+- Hotspots.
+- Poor query performance.
+- Difficult scaling.
+
+Senior-level interview point: A good shard key should provide high cardinality, distribute write traffic evenly and support common query patterns.
+
+# 2. Database Connection Pooling
+
+## 2.1 What is connection pooling?
+
+Connection pooling means maintaining a collection of reusable database connections instead of creating a new connection for every database request.
+
+Let's understand with an example.
+
+Imagine your Node.js application receives 1,000 API requests.
+
+Without connection pooling:
+
+```
+Request 1 → Create DB connection → Query → Close
+Request 2 → Create DB connection → Query → Close
+Request 3 → Create DB connection → Query → Close
+...
+```
+
+Creating database connections repeatedly is expensive.
+
+With connection pooling:
+
+```
+              Node.js Application
+                      |
+               Connection Pool
+                      |
+          -------------------------
+          |           |           |
+       Conn 1       Conn 2       Conn 3
+          |           |           |
+          -------------------------
+                      |
+                 Database
+```
+
+Connections are reused by multiple requests.
+
+## 2.2 Why is connection pooling important?
+
+Creating a database connection involves:
+
+1. Network communication.
+2. Authentication.
+3. TCP connection establishment.
+4. Sometimes TLS handshake.
+5. Database session initialization.
+
+This introduces overhead.
+
+Connection pooling reduces this overhead by reusing established connections.
+
+Benefits:
+
+- Faster database access.
+- Reduced connection creation overhead.
+- Better resource management.
+- Controlled database concurrency.
+- Improved application performance.
+
+## 2.3 Connection pooling in Node.js with SQL
+
+Let's use MySQL as an example.
+
+Install:
+
+```
+npm install mysql2
+```
+
+Create a connection pool:
+
+```
+const mysql = require("mysql2/promise");
+
+const pool = mysql.createPool({
+  host: "localhost",
+  user: "root",
+  password: "password",
+  database: "ecommerce",
+
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+```
+
+Use the pool:
+
+```
+async function getUsers() {
+  const [rows] = await pool.execute(
+    "SELECT * FROM users WHERE status = ?",
+    ["active"]
+  );
+
+  return rows;
+}
+```
+
+Notice something important:
+
+We are not creating a new connection for every request. We are asking the pool to provide an available connection.
+
+## 2.4 Connection pooling in MongoDB
+
+MongoDB Node.js driver maintains an internal connection pool for each server in the topology.
+
+Example:
+
+```
+const { MongoClient } = require("mongodb");
+
+const client = new MongoClient(
+  "mongodb://localhost:27017",
+  {
+    maxPoolSize: 50,
+    minPoolSize: 5,
+    maxIdleTimeMS: 30000
+  }
+);
+
+async function connectDB() {
+  await client.connect();
+
+  return client.db("ecommerce");
+}
+```
+
+Use the database:
+
+```
+const db = await connectDB();
+
+const users = await db
+  .collection("users")
+  .find({ status: "active" })
+  .toArray();
+```
+
+The driver reuses connections from its pool.
+
+Important: In a production application, create the MongoClient once during application startup and reuse it. Do not create a new MongoClient for every API request.
+
+## 2.5 Important connection pool parameters
+
+| Parameter          | Meaning                                              |
+| ------------------ | ---------------------------------------------------- |
+| maxPoolSize        | Maximum number of connections in the pool            |
+| minPoolSize        | Minimum connections maintained                       |
+| connectionTimeout  | Time allowed to establish a connection               |
+| idleTimeout        | How long an idle connection can remain               |
+| waitForConnections | Whether requests wait if all connections are busy    |
+| queueLimit         | Maximum number of queued requests in supported pools |
+
+Exact parameter names differ between database drivers.
+
+## 2.6 What happens if the pool is exhausted?
+
+Suppose:
+
+```
+connectionLimit: 10
+```
+
+And 100 requests arrive simultaneously.
+
+Only 10 requests can use those connections at a time.
+
+The remaining requests wait in the queue (assuming the pool is configured to wait).
+
+If queries are slow, the queue grows and API response times increase.
+
+Possible solutions:
+
+1. Optimize slow SQL queries.
+2. Reduce unnecessary database calls.
+3. Increase pool size after checking database capacity.
+4. Use caching.
+5. Apply request concurrency limits.
+6. Investigate connection leaks.
+
+Senior-level point: Increasing the connection pool size blindly is not always a solution. Too many connections can overload the database and make performance worse.
+
+# 3. Query Optimization
+
+## 3.1 What is query optimization?
+
+Query optimization is the process of improving database query performance by reducing execution time, resource consumption and unnecessary data processing.
+
+Example:
+
+Suppose you have 10 million users.
+
+You execute:
+
+```
+SELECT * FROM users;
+```
+
+This fetches every column and every row.
+
+But your API only needs the user's name and email.
+
+A better query:
+
+```
+SELECT id, name, email
+FROM users;
+```
+
+You reduce unnecessary data transfer.
+
+## 3.2 Indexing
+
+Indexing is one of the most important database optimization techniques.
+
+An index helps the database find records without scanning the entire table.
+
+Imagine a book:
+
+- Without an index: You read every page to find a topic.
+- With an index: You directly locate the page.
+
+### Without an index
+
+```
+SELECT *
+FROM users
+WHERE email = 'amit@gmail.com';
+```
+
+The database might perform a full table scan.
+
+### With an index
+
+```
+CREATE INDEX idx_users_email
+ON users(email);
+```
+
+Now the database can use the index to locate matching records more efficiently.
+
+Important interview topic
+
+### Types of SQL indexes
+
+| Index                  | Purpose                                       |
+| ---------------------- | --------------------------------------------- |
+| Primary index          | Identifies rows through the primary key       |
+| Unique index           | Prevents duplicate indexed values             |
+| Composite index        | Indexes multiple columns                      |
+| B-tree index           | General-purpose indexing for many comparisons |
+| Hash index             | Efficient equality lookup where supported     |
+| Partial/filtered index | Indexes only rows matching a condition        |
+
+### Composite index
+
+Suppose your query is:
+
+```
+SELECT *
+FROM orders
+WHERE user_id = 101
+AND status = 'completed';
+```
+
+You can create:
+
+```
+CREATE INDEX idx_user_status
+ON orders(user_id, status);
+```
+
+This can improve query performance.
+
+Important: Column order matters in a composite index.
+
+For a B-tree index on `(user_id, status)`, the database can generally use the leading `user_id` column and combinations beginning with it efficiently. It may not efficiently support queries filtering only on `status`.
+
+## 3.3 EXPLAIN and EXPLAIN ANALYZE
+
+These are essential tools for understanding how a database executes your query.
+
+Example:
+
+```
+EXPLAIN
+SELECT *
+FROM users
+WHERE email = 'amit@gmail.com';
+```
+
+It helps you understand:
+
+- Whether an index is used.
+- Whether a sequential/full table scan happens.
+- Estimated rows.
+- Join strategy.
+- Query execution plan.
+
+In PostgreSQL:
+
+```
+EXPLAIN ANALYZE
+SELECT *
+FROM users
+WHERE email = 'amit@gmail.com';
+```
+
+`EXPLAIN ANALYZE` actually executes the query and reports measured execution information.
+
+Important terms:
+
+| Term            | Meaning                                    |
+| --------------- | ------------------------------------------ |
+| Seq Scan        | Sequential table scan                      |
+| Index Scan      | Reads through an index                     |
+| Index Only Scan | Can retrieve required data from the index  |
+| Nested Loop     | Join strategy                              |
+| Hash Join       | Join using a hash table                    |
+| Sort            | Sorting operation                          |
+| Cost            | Planner's estimated cost, not milliseconds |
+| Actual Time     | Measured execution time                    |
+
+Note: A sequential scan is not always bad. For small tables or queries returning a large percentage of rows, it may be faster than using an index.
+
+## 3.4 Avoid SELECT \*
+
+Bad:
+
+```
+SELECT *
+FROM orders;
+```
+
+Better:
+
+```
+SELECT id, order_date, total_amount
+FROM orders;
+```
+
+Why?
+
+- Less data transferred.
+- Less memory consumption.
+- Less unnecessary processing.
+- Can enable index-only scans in suitable cases.
+
+## 3.5 Avoid N+1 query problems
+
+This is a very important backend interview question.
+
+Suppose you have an API that fetches 100 users and then fetches orders for each user.
+
+Bad implementation:
+
+```
+const users = await getUsers();
+
+for (const user of users) {
+  user.orders = await getOrders(user.id);
+}
+```
+
+This executes:
+
+- 1 query to get users.
+- 100 queries to get orders.
+
+Total = 101 queries.
+
+Better approach:
+
+```
+const users = await getUsers();
+
+const userIds = users.map(user => user.id);
+
+const orders = await getOrdersByUserIds(userIds);
+```
+
+SQL:
+
+```
+SELECT *
+FROM orders
+WHERE user_id IN (1, 2, 3, 4, 5);
+```
+
+Now you have significantly reduced the number of database round trips.
+
+For larger datasets, use batching and pagination rather than an enormous `IN` clause.
+
+## 3.6 Pagination
+
+Suppose you have 10 million records.
+
+Avoid fetching everything:
+
+```
+SELECT *
+FROM orders;
+```
+
+Use pagination:
+
+```
+SELECT *
+FROM orders
+ORDER BY id
+LIMIT 20 OFFSET 0;
+```
+
+However, large offsets can become expensive because the database may still need to process and skip many rows.
+
+For large datasets, use cursor/keyset pagination:
+
+```
+SELECT *
+FROM orders
+WHERE id > 1000
+ORDER BY id
+LIMIT 20;
+```
+
+This is generally more efficient when the cursor column is indexed and the ordering is suitable.
+
+## 3.7 Query optimization in MongoDB
+
+MongoDB also supports indexes and query execution analysis.
+
+Create an index:
+
+```
+db.users.createIndex({
+  email: 1
+});
+```
+
+Query:
+
+```
+db.users.find({
+  email: "amit@gmail.com"
+});
+```
+
+Analyze:
+
+```
+db.users.find({
+  email: "amit@gmail.com"
+}).explain("executionStats");
+```
+
+Important MongoDB execution statistics:
+
+| Field               | Meaning                 |
+| ------------------- | ----------------------- |
+| winningPlan         | Selected execution plan |
+| COLLSCAN            | Collection scan         |
+| IXSCAN              | Index scan              |
+| nReturned           | Documents returned      |
+| totalDocsExamined   | Documents examined      |
+| totalKeysExamined   | Index keys examined     |
+| executionTimeMillis | Execution time          |
+
+For example:
+
+```
+{
+  nReturned: 1,
+  totalDocsExamined: 1000000
+}
+```
+
+This suggests MongoDB examined a million documents to return one result.
+
+Creating a suitable index may significantly improve performance.
+
+# 4. How these three concepts work together in production
+
+Let's consider an e-commerce application.
+
+Suppose:
+
+- 10 million registered users.
+- 50 million orders.
+- 50,000 concurrent users.
+
+A good architecture might look like this:
+
+Client / Frontend
+
+Node.js API / Load Balancer
+
+Database access layer
+
+Connection Pool
+
+Reuse connections
+
+Query Optimization
+
+Indexes, execution plans
+
+Distributed Database
+
+Shard 1
+
+Users / Orders
+
+Shard 2
+
+Users / Orders
+
+Additional shards as required
+
+Each concept solves a different problem:
+
+| Concept            | Problem it solves                                       |
+| ------------------ | ------------------------------------------------------- |
+| Sharding           | Large data and distributed workload                     |
+| Connection pooling | Expensive connection creation and excessive connections |
+| Query optimization | Slow queries and unnecessary database work              |
+
+# 5. Most important interview questions
+
+These are questions I recommend preparing for senior backend interviews.
+
+10 senior-level questions
+
+Interview practice
+
+1.What is the difference between sharding and replication?
+
+2.What happens when a shard goes down?
+
+3.What is a hot shard?
+
+4.What happens when all database pool connections are occupied?
+
+5.Should we always increase connection pool size to improve performance?
+
+6.What is the difference between an index scan and a full table scan?
+
+7.What is a covering index?
+
+8.What is the N+1 query problem?
+
+9.What is the difference between offset and cursor pagination?
+
+10.Can a query be slow even when an index exists?
+
+# 6. What you should remember for interviews
+
+My recommended preparation order:
+
+1. Understand horizontal vs vertical scaling.
+2. Learn range-based, hash-based and directory-based sharding.
+3. Understand MongoDB shard key selection and `mongos`.
+4. Understand SQL and MongoDB connection pooling.
+5. Learn pool exhaustion, timeouts and connection leaks.
+6. Master indexing and composite indexes.
+7. Learn `EXPLAIN` and `EXPLAIN ANALYZE`.
+8. Understand N+1 queries, joins and pagination.
+9. Learn how to troubleshoot slow queries in production.
+
+My recommendation: Don't just memorize definitions. Interviewers at the 5–10 YOE level often give you a scenario such as:
+
+"Your Node.js API is taking 5 seconds to respond, and your database CPU utilization is 90%. How would you investigate and fix it?"
+
+You should be able to discuss query plans, indexes, connection pool metrics, slow queries, caching and database scaling in a logical sequence.
+
+For your backend interview preparation, I can also conduct a daily set of 10 senior-level SQL, MongoDB and Node.js database interview questions with answers and practical coding scenarios.
+
+🗄️Daily database interview practiceTap to set up
+
+
+### Explain how you would diagnose a slow database query and choose an index based on its execution plan.
+
+# How to diagnose a slow database query and choose the right index using its execution plan
+
+This is a very important backend developer interview question for 5–10 years of experience.
+
+In an interview, don't simply say, "I will check the execution plan and create an index."
+
+Explain your approach step by step: identify the bottleneck, understand how the database executes the query, find expensive operations, choose an appropriate index, and verify that performance improves.
+
+I'll explain using PostgreSQL examples, but most concepts also apply to MySQL.
+
+## 1. First, identify the slow query
+
+Suppose we have an `orders` table containing 10 million records.
+
+We are executing:
+
+```
+SELECT *
+FROM orders
+WHERE customer_id = 101
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
+This query takes 3–4 seconds.
+
+Before creating an index, I would investigate:
+
+1. How frequently is this query executed?
+2. How many rows does it return?
+3. How many rows does the database scan?
+4. Is the query waiting for disk I/O?
+5. Is sorting or joining consuming time?
+6. Is the query using an existing index?
+
+I would also check whether the query itself is unnecessarily fetching columns using `SELECT *`.
+
+## 2. Analyze the execution plan
+
+In PostgreSQL, I would execute:
+
+```
+EXPLAIN ANALYZE
+SELECT *
+FROM orders
+WHERE customer_id = 101
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
+For more detailed diagnosis, I would use:
+
+```
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT *
+FROM orders
+WHERE customer_id = 101
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
+Important difference:
+
+- `EXPLAIN` shows the estimated execution plan.
+- `EXPLAIN ANALYZE` actually executes the query and shows the actual execution statistics.
+- `BUFFERS` provides information about memory and disk buffer activity.
+
+`EXPLAIN ANALYZE` executes the query, so be careful when using it with queries that modify data.
+
+## 3. Understand important execution plan operations
+
+These are the operations I would primarily look for.
+
+### A. Sequential Scan
+
+Example:
+
+```
+Seq Scan on orders
+(cost=0.00..250000.00 rows=1000000)
+(actual time=0.050..2500.000 rows=1000000)
+```
+
+Potential performance issue
+
+What does it mean?
+
+The database is scanning the table row by row to find matching records.
+
+Imagine you have 10 million orders and want orders belonging to customer 101.
+
+Without a suitable index, PostgreSQL might examine all 10 million rows.
+
+What would I do?
+
+Check whether a suitable index exists on the filtering column.
+
+```
+CREATE INDEX idx_orders_customer_id
+ON orders(customer_id);
+```
+
+Note: Sequential scans are not always bad. If a query needs most of the table, scanning the whole table can be faster than using an index.
+
+### B. Index Scan
+
+Example:
+
+```
+Index Scan using idx_orders_customer_id
+on orders
+```
+
+Index being used
+
+The database uses an index to locate matching records instead of scanning the entire table.
+
+However, an Index Scan doesn't automatically mean the query is optimal. It might still fetch many rows from the table.
+
+### C. Index Only Scan
+
+Example:
+
+```
+Index Only Scan using idx_orders_customer_id
+on orders
+```
+
+The database can retrieve the required columns directly from the index without needing to access the table for every matching row.
+
+This can be faster, although PostgreSQL's visibility map determines whether heap access is still necessary.
+
+### D. Bitmap Heap Scan
+
+Example:
+
+```
+Bitmap Heap Scan on orders
+  -> Bitmap Index Scan on idx_orders_customer_id
+```
+
+The database first collects matching row locations using an index and then accesses the corresponding table pages in batches.
+
+This is useful when multiple rows match the condition.
+
+### E. Sort
+
+Example:
+
+```
+Sort
+  Sort Key: created_at DESC
+  Sort Method: external merge
+  Disk: 25000kB
+```
+
+Potential performance issue
+
+The database is sorting records before returning the result.
+
+If sorting uses disk instead of memory, it can become expensive.
+
+I would investigate whether a suitable index can provide the required ordering and avoid an explicit sort.
+
+### F. Nested Loop, Hash Join and Merge Join
+
+These operations are important when diagnosing queries involving multiple tables.
+
+| Operation   | Meaning                                                           | When it can be expensive                                         |
+| ----------- | ----------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Nested Loop | For each row from one table, searches matching rows in another    | When outer table returns many rows and inner lookup is expensive |
+| Hash Join   | Builds a hash table from one side and matches rows from the other | When hash table is large or spills to disk                       |
+| Merge Join  | Joins two sorted datasets                                         | When sorting both datasets is expensive                          |
+
+For example:
+
+```
+SELECT c.name, o.total_amount
+FROM customers c
+JOIN orders o ON c.id = o.customer_id
+WHERE c.city = 'Delhi';
+```
+
+If the execution plan shows an expensive Nested Loop, I would check:
+
+- How many rows the outer table returns.
+- Whether the inner table has an index on `customer_id`.
+- Whether the join is processing more rows than expected.
+
+I wouldn't automatically replace a Nested Loop with a Hash Join. The correct join strategy depends on the amount of data and its distribution.
+
+## 4. Understand the most important execution plan metrics
+
+When reading `EXPLAIN ANALYZE`, I focus on these metrics:
+
+| Metric                 | What it tells us                        |
+| ---------------------- | --------------------------------------- |
+| Cost                   | Estimated relative execution cost       |
+| Actual Time            | Actual execution time                   |
+| Rows                   | Number of rows returned by an operation |
+| Loops                  | Number of times an operation executed   |
+| Buffers                | How many database pages were accessed   |
+| Rows Removed by Filter | Rows examined but rejected by a filter  |
+
+One important interview point:
+
+Suppose you see:
+
+```
+Index Scan
+(actual time=0.05..100.00 rows=10 loops=1000)
+```
+
+The operation executes 1,000 times.
+
+Even though each execution looks relatively inexpensive, the total work can be significant.
+
+Also, estimated rows versus actual rows is extremely important.
+
+If PostgreSQL estimates 100 rows but actually processes 500,000 rows, its statistics may be outdated or insufficient. I would investigate table statistics and data distribution before changing indexes.
+
+You can refresh statistics using:
+
+```
+ANALYZE orders;
+```
+
+## 5. How would I choose the correct index?
+
+This is the most important part of the question.
+
+Let's return to our original query:
+
+```
+SELECT *
+FROM orders
+WHERE customer_id = 101
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
+Assume the table contains:
+
+| id | customer_id | created_at | total_amount |
+| -- | ----------- | ---------- | ------------ |
+| 1  | 101         | 2026-11-01 | 500          |
+| 2  | 102         | 2026-11-02 | 700          |
+| 3  | 101         | 2026-11-03 | 900          |
+| 4  | 103         | 2026-11-04 | 300          |
+
+We have two requirements:
+
+1. Filter records using `customer_id`.
+2. Sort records using `created_at DESC`.
+
+### Option 1: Single-column index
+
+```
+CREATE INDEX idx_orders_customer
+ON orders(customer_id);
+```
+
+This helps the database locate records for customer 101.
+
+However, it may still need to sort all matching records by `created_at`.
+
+### Option 2: Composite index
+
+```
+CREATE INDEX idx_orders_customer_created
+ON orders(customer_id, created_at DESC);
+```
+
+Preferred candidate for this query
+
+Why?
+
+Because the index supports both operations:
+
+- First, it locates records using `customer_id`.
+- Then, records are already ordered by `created_at DESC` within that customer.
+
+This can eliminate the separate sorting operation.
+
+The database can also stop after finding the first 10 matching rows because of `LIMIT 10`.
+
+This is an example of a composite index.
+
+### How does column order matter?
+
+Consider these indexes:
+
+```
+CREATE INDEX idx1
+ON orders(customer_id, created_at);
+
+CREATE INDEX idx2
+ON orders(created_at, customer_id);
+```
+
+They are not equivalent.
+
+| Query condition                                         | More suitable index         |
+| ------------------------------------------------------- | --------------------------- |
+| `WHERE customer_id = 101`                               | `(customer_id, created_at)` |
+| `WHERE customer_id = 101 ORDER BY created_at`           | `(customer_id, created_at)` |
+| `WHERE created_at > '2026-01-01'`                       | `(created_at, customer_id)` |
+| `WHERE customer_id = 101 AND created_at > '2026-01-01'` | `(customer_id, created_at)` |
+
+The general principle is to consider equality conditions first, followed by range conditions and ordering requirements.
+
+However, actual index selection depends on selectivity, workload, and the complete query.
+
+## 6. Other types of indexes I would consider
+
+A senior developer should know that not every problem requires a normal B-tree index.
+
+| Index type | When to use                                                      |
+| ---------- | ---------------------------------------------------------------- |
+| B-tree     | Equality, range queries, sorting; default index type             |
+| Hash       | Equality comparisons                                             |
+| GIN        | JSONB, arrays, full-text search                                  |
+| GiST       | Geometric data, ranges, specialized searches                     |
+| BRIN       | Very large tables where values correlate with physical row order |
+
+Some practical examples:
+
+A. Partial index
+
+Suppose 90% of orders are completed, but we frequently query pending orders.
+
+```
+CREATE INDEX idx_pending_orders
+ON orders(created_at)
+WHERE status = 'pending';
+```
+
+This creates an index only for pending orders.
+
+Useful when queries frequently target a small subset of records.
+
+B. Expression index
+
+Suppose we frequently search emails without considering uppercase or lowercase characters.
+
+```
+CREATE INDEX idx_users_email_lower
+ON users(LOWER(email));
+```
+
+Query:
+
+```
+SELECT *
+FROM users
+WHERE LOWER(email) = 'test@gmail.com';
+```
+
+C. Covering index
+
+Suppose we execute:
+
+```
+SELECT customer_id, created_at, total_amount
+FROM orders
+WHERE customer_id = 101
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
+We can consider:
+
+```
+CREATE INDEX idx_orders_covering
+ON orders(customer_id, created_at DESC)
+INCLUDE (total_amount);
+```
+
+`INCLUDE` stores additional columns in the index without making them part of the index's search ordering.
+
+This can enable an Index Only Scan.
+
+## 7. Verify whether the index actually improved performance
+
+Creating an index doesn't guarantee that PostgreSQL will use it.
+
+After creating the index, I would execute:
+
+```
+EXPLAIN (ANALYZE, BUFFERS)
+SELECT customer_id, created_at, total_amount
+FROM orders
+WHERE customer_id = 101
+ORDER BY created_at DESC
+LIMIT 10;
+```
+
+Then compare the old and new execution plans.
+
+I would look for:
+
+1. Did Sequential Scan change to Index Scan?
+2. Did the Sort operation disappear?
+3. Did the number of rows scanned decrease?
+4. Did execution time improve?
+5. Did shared buffer reads decrease?
+6. Did the query avoid unnecessary heap access?
+
+I would also test with representative data and different customer IDs because one customer might have 10 records while another has 500,000.
+
+One more important consideration: Indexes consume disk space and increase the cost of INSERT, UPDATE and DELETE operations. Therefore, I wouldn't create indexes on every frequently queried column.
+
+I would also check whether an existing composite index already covers the query before creating another one.
+
+## 8. Complete practical approach (interview answer)
+
+Here is how I would explain my approach in an actual interview:
+
+## My query optimization workflow
+
+1. Identify the bottleneck
+
+   Find the slow query and understand its frequency, execution time and business requirement.
+2. Analyze the execution plan
+
+   Use `EXPLAIN ANALYZE` and `EXPLAIN (ANALYZE, BUFFERS)` to understand how the database executes the query.
+3. Identify expensive operations
+
+   Look for Sequential Scans, expensive Sort operations, inefficient joins, excessive row processing and disk reads.
+4. Check existing indexes and statistics
+
+   Check whether suitable indexes already exist and whether estimated rows match actual rows.
+5. Choose the appropriate index
+
+   Consider B-tree, composite, partial, expression or covering indexes based on filtering, sorting, selectivity and query patterns.
+6. Re-run and compare
+
+   Compare execution time, buffer usage, rows scanned and execution plan before and after indexing.
+7. Evaluate trade-offs
+
+   Ensure that read performance improves without introducing unnecessary storage and write overhead.
+
+## 9. Important follow-up interview questions
+
+For a 5–10 YOE backend interview, prepare these questions as well:
+
+| Interview question                                        | What you should understand                        |
+| --------------------------------------------------------- | ------------------------------------------------- |
+| Why doesn't PostgreSQL use an index even when one exists? | Selectivity, table size, statistics, planner cost |
+| What is a composite index?                                | Column ordering and leftmost-prefix principle     |
+| What is index selectivity?                                | How effectively an index filters records          |
+| Index Scan vs Index Only Scan?                            | Heap access and visibility map                    |
+| What is a covering index?                                 | INCLUDE columns                                   |
+| Can too many indexes slow down a database?                | Write overhead and storage                        |
+| What is a partial index?                                  | Indexing only matching rows                       |
+| What is a sequential scan?                                | Why it can sometimes be faster                    |
+| What is a bitmap heap scan?                               | Bitmap index and heap access                      |
+| How do you optimize a JOIN query?                         | Join strategy, indexes, cardinality               |
+
+My recommendation: Spend extra time understanding `EXPLAIN ANALYZE`, composite indexes, index selectivity, and query planner decisions. These are particularly important for senior backend interviews.
+
+For hands-on practice, use the official PostgreSQL documentation:
+
+- [PostgreSQL – Using EXPLAIN](https://www.postgresql.org/docs/current/using-explain.html?utm_source=chatgpt.com)
+- [PostgreSQL – Indexes](https://www.postgresql.org/docs/current/indexes.html?utm_source=chatgpt.com)
+- [PostgreSQL – Multicolumn Indexes](https://www.postgresql.org/docs/current/indexes-multicolumn.html?utm_source=chatgpt.com)
+
+
+
+
+### how we know the load is coming is big and now we need to make the new instance
+
+In a production Node.js application, we don't wait until the server crashes or becomes slow to create a new instance. We use monitoring, metrics, and auto-scaling policies to detect increasing traffic and automatically launch new instances before the application becomes unhealthy.
+
+This is called Horizontal Auto Scaling.
+
+Let's understand how it works from a senior backend developer's perspective.
+
+## 1. How do we know that load is increasing?
+
+We monitor a few important metrics for every running Node.js instance.
+
+| Metric             | What it tells us                                   |
+| ------------------ | -------------------------------------------------- |
+| CPU utilization    | How much CPU the application is consuming          |
+| Memory usage       | How much RAM the application is consuming          |
+| Request rate (RPS) | How many requests are coming per second            |
+| Response time      | How long APIs take to respond                      |
+| Error rate         | Percentage of failed requests                      |
+| Event loop lag     | Whether Node.js is struggling to process callbacks |
+| Active connections | Number of concurrent connections                   |
+
+For example, imagine we have one Node.js instance.
+
+Instance 1 — Current metrics
+
+CPU utilization
+
+85%
+
+Memory utilization
+
+78%
+
+Average response time
+
+1.8 seconds
+
+Potential overload
+
+These metrics indicate that our instance may not be able to handle additional traffic efficiently.
+
+## 2. Who monitors these metrics?
+
+Depending on the infrastructure, we use tools such as:
+
+- AWS CloudWatch: Monitors EC2, ECS, CPU, memory, etc.
+- Prometheus + Grafana: Collects and visualizes application metrics.
+- Datadog / New Relic: Application performance monitoring.
+- Kubernetes Metrics Server: Provides resource metrics for pods.
+
+For Node.js specifically, we can expose custom metrics such as event loop lag, active requests, and request duration.
+
+## 3. When do we decide to create a new instance?
+
+We configure scaling rules (thresholds).
+
+For example:
+
+| Condition                                  | Action                            |
+| ------------------------------------------ | --------------------------------- |
+| CPU above 70% for 2 minutes                | Add one instance                  |
+| CPU above 80% for 3 minutes                | Add another instance              |
+| CPU below 30% for 10 minutes               | Remove one instance               |
+| Response time consistently above 2 seconds | Investigate and potentially scale |
+
+These are example thresholds, not universal production settings.
+
+Important: We don't scale based on CPU alone. Sometimes CPU is low, but the application is overloaded because of database connection limits, slow external APIs, or event loop blocking.
+
+## 4. How is a new instance created automatically?
+
+Let's take an AWS example.
+
+We use:
+
+- AWS EC2 Auto Scaling Group
+- Application Load Balancer (ALB)
+- CloudWatch
+
+The process looks like this:
+
+Incoming user traffic
+
+Application Load Balancer
+
+Distributes requests across healthy instances
+
+Instance 1
+
+Healthy
+
+Instance 2
+
+Healthy
+
+Instance 3
+
+New
+
+CloudWatch monitors metrics
+
+If scaling policy threshold is crossed, Auto Scaling launches another EC2 instance.
+
+The actual sequence is:
+
+1. Traffic increases.
+2. CloudWatch detects that CPU utilization has crossed the configured threshold.
+3. CloudWatch triggers the Auto Scaling policy.
+4. Auto Scaling launches a new EC2 instance using the configured launch template.
+5. The new instance starts the Node.js application.
+6. The load balancer performs health checks.
+7. Once healthy, the load balancer starts sending traffic to the new instance.
+
+Notice: We don't manually add the new instance to the load balancer. With the correct Auto Scaling Group and target group configuration, registration happens automatically.
+
+## 5. How many instances should we create?
+
+We can configure minimum, maximum, and desired capacity.
+
+For example:
+
+| Configuration     | Value |
+| ----------------- | ----- |
+| Minimum instances | 2     |
+| Desired instances | 2     |
+| Maximum instances | 10    |
+
+Suppose traffic increases:
+
+Normal traffic
+
+2 instances
+
+Traffic increases
+
+3 instances
+
+Peak traffic
+
+6 instances
+
+Traffic decreases
+
+2 instances
+
+When traffic decreases, the scaling policy can terminate unnecessary instances, but it must respect the minimum capacity.
+
+## 6. What about sudden traffic spikes?
+
+This is an important senior-level interview point.
+
+Suppose your application normally receives 1,000 requests per second, but suddenly receives 20,000 requests per second.
+
+If we wait for CPU utilization to reach 80%, it might already be too late.
+
+We use three strategies:
+
+1. Reactive scaling: Create instances when metrics cross thresholds.
+2. Predictive scaling: Use historical traffic patterns to anticipate demand.
+3. Scheduled scaling: Increase capacity before known peak periods, such as a sale starting at 12 PM.
+
+We can also maintain extra ready capacity to handle sudden spikes.
+
+## 7. What if creating a new instance takes time?
+
+This is another important consideration.
+
+Launching an EC2 instance might take 1–3 minutes or more, depending on configuration.
+
+To handle this, we use:
+
+- Minimum instances: Always keep a baseline capacity available.
+- Warm-up period: Give new instances time to initialize before evaluating their metrics for scaling.
+- Cooldown: Prevent repeatedly launching instances due to short-lived spikes.
+- Health checks: Send traffic only to healthy instances.
+- Load testing: Determine capacity before production traffic arrives.
+
+## 8. Interview-ready answer
+
+If an interviewer asks:
+
+"How do you identify increasing traffic and automatically scale your Node.js application?"
+
+You can answer:
+
+"In production, we monitor application and infrastructure metrics such as CPU utilization, memory, requests per second, response time, event loop lag, and error rate.
+
+For example, if CPU utilization remains above 70% for a configured duration, our monitoring system, such as AWS CloudWatch, triggers an Auto Scaling policy.
+
+The AWS Auto Scaling Group launches a new EC2 instance using a predefined launch template. Once the Node.js application starts and passes health checks, the Application Load Balancer automatically registers the instance and starts distributing incoming requests.
+
+We also configure minimum and maximum instance limits, cooldown periods, and scale-in policies to avoid unnecessary resource consumption."
+
+One more thing to remember: Scaling the Node.js server doesn't automatically solve every bottleneck. Database capacity, Redis connections, external APIs, and background workers must also be considered.
+
+For your backend interviews, the next important topic is understanding how to calculate how much traffic a single Node.js instance can handle and how to perform load testing using tools like k6 or Artillery.
+
+### CAP Theorem
+
+Video - https://www.youtube.com/watch?v=rb2R5I9S5d8
+
+# CAP Theorem in Distributed Systems
+
+The CAP Theorem is one of the most important concepts in system design and backend interviews.
+
+It explains the trade-offs a distributed system faces when multiple servers communicate with each other and store data.
+
+CAP stands for:
+
+1. C – Consistency
+2. A – Availability
+3. P – Partition Tolerance
+
+Let's understand each one with simple examples.
+
+## 1. Consistency (C)
+
+Consistency means every user should get the latest updated data, regardless of which server handles the request.
+
+Imagine you have two servers:
+
+- Server A
+- Server B
+
+Initially, both have a bank balance of ₹10,000.
+
+You withdraw ₹2,000 from Server A.
+
+Now:
+
+- Server A: ₹8,000
+- Server B: ₹10,000 (old data)
+
+If another user requests the balance from Server B, it should not return ₹10,000 if the system promises strong consistency.
+
+It should return the latest value: ₹8,000.
+
+[ABCs of Databases](https://images.openai.com/static-rsc-4/lZ71bVWpoO_8ZmjoAZbC2wTAcWUdh03mYDpzmDO0j--Kx52jqVKcIJrBn7dmalvyetKNhCJZQLpNFMWA6W1Ut-GYUVIRiMNnq27TZP-j68-47tsNt342x0ElSU5LgbIQzeOkfkoETx7S3M43Yng0boBydp4QeqppiIzCrCPRgbc?purpose=inline)
+
+[aymanace2049.hashnode.dev](https://aymanace2049.hashnode.dev/abcs-of-databases?utm_source=chatgpt.com)
+
+In simple words: All users should see the latest committed data.
+
+## 2. Availability (A)
+
+Availability means every request received by the system should get a response, even if some servers are unavailable.
+
+Imagine an e-commerce application running on two servers:
+
+- Server A
+- Server B
+
+Server A goes down.
+
+Server B is still working.
+
+The application should continue responding to user requests through Server B.
+
+The response might contain slightly outdated data, but the system remains available.
+
+In simple words: The system should always respond to requests, even if some components fail.
+
+Note: Availability does not mean every response must be successful. It means every request to a non-failing node receives a non-error response within a reasonable time.
+
+## 3. Partition Tolerance (P)
+
+Partition tolerance means the system continues operating even when communication between servers breaks.
+
+Imagine two servers in different locations:
+
+- Server A (Delhi)
+- Server B (Mumbai)
+
+Both servers are working, but due to a network failure, they cannot communicate with each other.
+
+[Outsmarting Network Partitions With GemFire](https://images.openai.com/static-rsc-4/sb6lRvGLFOj7Z3e8-HbD8gE6DETmMwHw5dXnsPFRLqb6rYZwEA09rZ5q_AFJ2VvkNr6ZRhK3rWLCalhT_-OjFRiMHPJKBv_6oQiPI1zsXSvvhWaXSalBTDjgeeNpT0IOIsog8DCAofaL91Z-1UJlERr8HTtMh_pO9mHdeJNayds?purpose=inline)
+
+[community.broadcom.com](https://community.broadcom.com/education/blogs/kamilla-aslami/2023/04/27/outsmarting-network-partitions-with-gemfire?utm_source=chatgpt.com)
+
+This situation is called a Network Partition.
+
+The system must decide how to behave:
+
+- Should it reject some requests to maintain consistency?
+- Or should it continue accepting requests, potentially returning outdated data?
+
+This is where the CAP trade-off comes in.
+
+## Understanding the CAP trade-off
+
+The CAP theorem says:
+
+When a network partition occurs, a distributed system must choose between Consistency and Availability.
+
+It cannot guarantee both simultaneously during a partition.
+
+[Dark Side of Distributed Systems: Latency and Partition Tolerance](https://images.openai.com/static-rsc-4/v19S-l-xUlVcugrLp67HYQ70VvWD-hZIqzwq0q2ZvPcPYGoVDcN8-_TI68DOH0wQhhEQAQqBbfEa4Itqv7XQkVXFAbH5vEZsNOREbk9N9_dChbn-syVepVPx8oWrYa3b8o9zePUN8BFwAsO93L4hZ7sbZswFP4Mx9jQgW480arI?purpose=inline)
+
+[blog.bytebytego.com](https://blog.bytebytego.com/p/dark-side-of-distributed-systems?utm_source=chatgpt.com)
+
+There are three commonly discussed combinations:
+
+### 1. CP – Consistency + Partition Tolerance
+
+Prioritizes consistency
+
+The system maintains consistent data even during network failures.
+
+If servers cannot communicate, some requests may be rejected or delayed.
+
+Example use cases:
+
+- Banking transactions
+- Financial systems
+- Inventory reservation
+
+For example:
+
+You have ₹10,000 in your bank account.
+
+Two servers cannot communicate.
+
+Instead of allowing both servers to process withdrawals independently, the system may reject one transaction until consistency can be guaranteed.
+
+### 2. AP – Availability + Partition Tolerance
+
+Prioritizes availability
+
+The system continues accepting requests even when servers cannot communicate.
+
+However, users might temporarily receive outdated data.
+
+When connectivity is restored, the system reconciles the data.
+
+Example use cases:
+
+- Social media feeds
+- Distributed shopping carts
+- Some NoSQL databases
+
+For example:
+
+You update your profile picture.
+
+Due to network partition:
+
+- Server A shows the new picture.
+- Server B still shows the old picture.
+
+Both servers continue responding.
+
+Eventually, both servers synchronize.
+
+### 3. CA – Consistency + Availability
+
+No partition tolerance
+
+The system provides consistency and availability as long as there is no network partition.
+
+However, in a genuinely distributed system, network partitions are possible.
+
+Therefore, CA cannot be guaranteed alongside partition tolerance.
+
+A traditional single-node relational database is sometimes used as an approximate CA example, but it is not a distributed CA system in the strict CAP sense.
+
+## Real-world database examples
+
+| Database         | Common CAP behavior                                                                                    |
+| ---------------- | ------------------------------------------------------------------------------------------------------ |
+| MongoDB          | CP-oriented                                                                                            |
+| Apache Cassandra | AP-oriented by default                                                                                 |
+| HBase            | CP-oriented                                                                                            |
+| DynamoDB         | Configurable consistency; availability and consistency behavior depends on operation and configuration |
+
+Important: These classifications are simplified. Actual behavior depends on configuration, replication, consistency levels, and failure conditions.
+
+## CAP Theorem in a Node.js application
+
+Imagine you are building a food delivery application.
+
+Your architecture:
+
+```
+          Node.js API
+               |
+        Load Balancer
+          /       \
+      Server A   Server B
+          \       /
+         Database
+```
+
+Suppose Server A and Server B are in different regions.
+
+A network partition occurs between them.
+
+Now you have two choices:
+
+Option 1: CP approach
+
+- Stop processing certain operations.
+- Wait until consistency can be guaranteed.
+- Avoid accepting conflicting updates.
+
+Option 2: AP approach
+
+- Continue processing requests.
+- Allow temporary data differences.
+- Synchronize data after connectivity is restored.
+
+The right choice depends on business requirements.
+
+For example:
+
+- Payment processing: prioritize strong consistency.
+- Likes and social media feeds: temporary inconsistency may be acceptable.
+
+## CAP Theorem – Interview Questions
+
+These are important questions to prepare for 5–10 YOE backend interviews.
+
+Q1. Can a distributed system achieve all three: C, A, and P?
+
+No. During a network partition, it must choose between consistency and availability.
+
+Q2. Is MongoDB CP or AP?
+
+MongoDB is generally considered CP-oriented because its replica sets prioritize consistency through a primary-based architecture. During certain failures, writes may become unavailable until a primary is elected.
+
+Q3. Is Cassandra CP or AP?
+
+Cassandra is generally considered AP-oriented by default, but it supports configurable consistency levels, allowing different consistency/availability trade-offs.
+
+Q4. What happens when a network partition occurs in a CP system?
+
+Some requests may be rejected or delayed to prevent inconsistent data.
+
+Q5. What happens when a network partition occurs in an AP system?
+
+The system continues responding, but some responses may contain stale data. Conflicts may need reconciliation later.
+
+Q6. Does CAP mean we can only choose two out of three at all times?
+
+No. This is a common misconception.
+
+The actual trade-off between consistency and availability happens when a network partition occurs. Without a partition, a system may provide both consistency and availability.
+
+## 7. CAP vs PACELC (Advanced Interview Concept)
+
+After CAP, you should also understand PACELC.
+
+PACELC extends CAP:
+
+- P: If Partition occurs, choose between Availability and Consistency.
+- E: Else (when there is no partition), choose between Latency and Consistency.
+
+In simple words:
+
+Even when there is no network failure, distributed systems may need to trade off response time against consistency.
+
+This is a good follow-up topic for senior backend interviews.
+
+## Test your understanding
+
+CAP interview quiz
+
+0/3 answered
+
+1\. Two database servers cannot communicate. The system rejects writes rather than risk inconsistent data. Which approach is this?
+
+AP
+
+CP
+
+CA
+
+2\. A social media application continues accepting likes during a network partition, even if counts temporarily differ. Which approach?
+
+CP
+
+AP
+
+CA
+
+3\. When does the CAP trade-off become relevant?
+
+Every request
+
+During a network partition
+
+Only when the database is restarted
+
+Check answers
+
+My recommendation for your backend interview preparation: After CAP, study Eventual Consistency, Strong Consistency, Quorum Reads/Writes, Replication, Sharding, and Distributed Transactions. These concepts are frequently connected in system design interviews.
+
+### Choosing the Best Database
+
+video - https://youtu.be/SxkdolSNZPc?si=znbRVonoIye2XK1U
+
+![alt text](image-27.png)
+
+![alt text](image-28.png)
+
+![alt text](image-29.png)
+
+![alt text](image-30.png)
+
+### Database replication
+
+video - https://www.youtube.com/watch?v=3CF4mVEhMKE
+
+![alt text](image-11.png)
+
+![alt text](image-12.png)
+
+![alt text](image-13.png)
+
+![alt text](image-14.png)
+
+<br>
+
+### What is Message Queue | RabbitMQ | Kafka
+
+video - https://www.youtube.com/watch?v=IeLP6UhdT78
+
+![alt text](image-15.png)
+
+![alt text](image-16.png)
+
+![alt text](image-17.png)
+
+![alt text](image-18.png)
+
+![alt text](image-19.png)
+
+![alt text](image-20.png)
+
+![alt text](image-21.png)
+
+![alt text](image-22.png)
+
+![alt text](image-23.png)
+
+<br>
+
+
+### How to Scale the Database | System Design Basics
+
+video - https://youtu.be/Am9LI2Ea6Xo?si=f8_bF_a4t9ip2xV0
+
+![alt text](image-24.png)
+
+![alt text](image-25.png)
+
+![alt text](image-26.png)
+
+<br>
+
+### How will you Scale from ZERO to MILLION Users
+
+1. Single server
+2. Application and DB server separation
+3. Load balancer + Multi server separation
+4. Database replication (master - slave)
+5. Cache - redis
+6. CDN
+7. Messaging Queue
+8. Database scaling
+
+
+### Design URL Shortening Service TinyURL
+
+Requirement
+1. Ask - incoming request - 100 million/day
+2. Ask - Length of url - as short as possible
+3. Ask - allowed character in url - 0-9,a-z,A-Z
+4. Ask - url updation - can not be updated or deleted
+
+
+--------------------------
 
 
 video 135 for forgot password and reset password
