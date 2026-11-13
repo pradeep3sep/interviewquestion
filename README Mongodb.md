@@ -7,19 +7,11 @@
 
 <br>
 
-### If we have created the schema name to be "todo", how it gonna save in mongodb, ans is todos. Basically the plural form of schema
-
-
-### we have the timestampe true in schema, which store the time of created and updated.
-
-
-<br>
-
-> ### Collection in mongo is same as table in mysql
-
-<br>
-
-> ### Database -> Collection -> Documents
+> ### Notes
+1. If we have created the schema name to be "todo", how it gonna save in mongodb, ans is todos. Basically the plural form of schema
+2. we have the timestampe true in schema, which store the time of created and updated.
+3. Collection in mongo is same as table in mysql
+4. Database -> Collection -> Documents
 
 <br>
 
@@ -117,7 +109,7 @@ db.collection_name.insertMany(
     {
         ordered: false  
       // It means the data which fails will be skipped and rest will be added to db. 
-      //Default value is true means if it fails at certain index then it will not continue the next data 
+      // Default value is true means if it fails any value fails, Documents after the failed document are not inserted. Before the failed will be added
     }
 )
 ```
@@ -140,7 +132,7 @@ db.collection_name.insertMany(
     )
     ```
 
-**Note:**Basically it will go to first row having name rahul and then set the lastname to test, if lastname doesn't exist then it will create the lastname with value test
+**Note:** Basically it will go to first row having name rahul and then set the lastname to test, if lastname doesn't exist then it will create the lastname with value test
 
 <br>
 
@@ -163,17 +155,298 @@ db.collection_name.insertMany(
 
     // To rename the node or key name
     db.collection_name.updateMany({}, {$rename: {age: 'totalAge'}})
-
-
     ```
-
-**Upsert** : where we don't know if the data was saved to database yet and 
-- if it was't saved yet,you know want to create a `new document`
-- if it was, you want to `override the existing or update the existing document`
-it is quite much good if we want to update with check condition
 
 <br>
 
+> ### $set (update and aggregation operator)
+
+```js
+// Sample data
+db.products.insertOne(
+  {
+    _id: 100,
+    quantity: 250,
+    instock: true,
+    reorder: false,
+    details: { model: "14QQ", make: "Clothes Corp" },
+    tags: [ "apparel", "clothing" ],
+    ratings: [ { by: "Customer007", rating: 4 } ]
+  }
+)
+```
+
+Set Fields in Embedded Documents
+
+```js
+db.products.updateOne(
+   { _id: 100 },
+   { $set: { "details.make": "Kustom Kidz" } }
+)
+
+let resultOfAbove = {
+   _id: 100,
+   quantity: 500,
+   instock: true,
+   reorder: false,
+   details: { model: '2600', make: 'Kustom Kidz' },
+   tags: [ 'coats', 'outerwear', 'clothing' ],
+   ratings: [ { by: 'Customer007', rating: 4 } ]
+}
+```
+
+<br>
+
+**Important:-**
+The above code uses dot notation to update the make field of the embedded details document. The code format looks similar to the following code example, which instead replaces the entire embedded document, removing all other fields in the embedded details document:
+
+```js
+db.products.updateOne(
+   { _id: 100 },
+   { $set: { 
+        details: {
+            make: "Kustom Kidz"
+        }
+      }
+   })
+```
+<br>
+
+Set Elements in Arrays
+
+```js
+db.products.updateOne(
+   { _id: 100 },
+   { $set:
+      {
+        "tags.1": "rain gear",
+        "ratings.0.rating": 2
+      }
+   }
+)
+let resulAbove = {
+  _id: 100,
+  quantity: 500,
+  instock: true,
+  reorder: false,
+  details: { model: '2600', make: 'Kustom Kidz' },
+  tags: [ 'coats', 'rain gear', 'clothing' ],
+  ratings: [ { by: 'Customer007', rating: 2 } ]
+}
+```
+
+### In aggregation
+
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/set/#mongodb-pipeline-pipe.-set
+
+```js
+db.scores.insertMany( [
+   { _id: 1, student: "Maya", homework: [ 10, 5, 10 ], quiz: [ 10, 8 ], extraCredit: 0 },
+   { _id: 2, student: "Ryan", homework: [ 5, 6, 5 ], quiz: [ 8, 8 ], extraCredit: 8 }
+] )
+
+db.scores.aggregate( [
+   {
+     $set: {
+        totalHomework: { $sum: "$homework" },
+        totalQuiz: { $sum: "$quiz" }
+     }
+   },
+   {
+     $set: {
+        totalScore: { $add: [ "$totalHomework", "$totalQuiz", "$extraCredit" ] } }
+   }
+] )
+
+let resulAbove = [
+   {
+      _id: 1,
+      student: "Maya",
+      homework: [ 10, 5, 10 ],
+      quiz: [ 10, 8 ],
+      extraCredit: 0,
+      totalHomework: 25,
+      totalQuiz: 18,
+      totalScore: 43
+   },
+   {
+      _id: 2,
+      student: "Ryan",
+      homework: [ 5, 6, 5 ],
+      quiz: [ 8, 8 ],
+      extraCredit: 8,
+      totalHomework: 16,
+      totalQuiz: 16,
+      totalScore: 40
+   }
+]
+```
+
+<br>
+
+> ### $unset (aggregation and update) - purpose is to **remove fields from documents**.
+
+
+### `$unset` in Aggregation
+
+Used in the **aggregation pipeline** to remove fields from the documents as they pass through the pipeline.
+
+#### Syntax
+
+```js
+{
+  $unset: "<field1>" // single field
+}
+// or multiple fields
+{
+  $unset: ["field1", "field2"]
+}
+```
+
+#### Example 1 – Remove a single field
+
+```js
+db.users.aggregate([
+  { $unset: "password" }
+])
+```
+
+* Removes the `password` field from all documents in the aggregation output.
+
+#### Example 2 – Remove multiple fields
+
+```js
+db.users.aggregate([
+  { $unset: ["password", "lastLogin"] }
+])
+```
+
+* Removes both `password` and `lastLogin` fields.
+
+### `$unset` in Update
+
+Used with **update operations** (`updateOne`, `updateMany`, `findOneAndUpdate`) to **delete fields** from existing documents.
+
+#### Syntax
+
+```js
+db.collection.updateOne(
+  { <filter> },
+  { $unset: { <field1>: "", <field2>: "" } }
+)
+```
+
+* The **value** of each field in `$unset` is ignored (usually an empty string).
+
+#### Example 1 – Remove a single field
+
+```js
+db.users.updateOne(
+  { username: "alice" },
+  { $unset: { password: "" } }
+)
+```
+
+#### Example 2 – Remove multiple fields
+
+```js
+db.users.updateMany(
+  { status: "inactive" },
+  { $unset: { password: "", lastLogin: "" } }
+)
+```
+
+* Removes `password` and `lastLogin` from all inactive users.
+
+<br>
+
+### Upsert in MongoDB
+
+**Upsert = Update + Insert**
+
+In MongoDB, `upsert` is an option available in update operations. It means:
+
+- If a matching document exists, MongoDB updates it.
+- If no matching document exists, MongoDB inserts a new document.
+
+**1. Syntax**
+
+```
+db.collection.updateOne(
+  { filter },
+  { $set: { field: value } },
+  { upsert: true }
+);
+```
+
+**2. Example: Document exists**
+
+Suppose the `users` collection contains:
+
+```
+[
+  { _id: 1, name: "Amit", age: 25 },
+  { _id: 2, name: "Rahul", age: 30 }
+]
+```
+
+Execute:
+
+```
+db.users.updateOne(
+  { _id: 1 },
+  { $set: { age: 28 } },
+  { upsert: true }
+);
+```
+
+**Result:** MongoDB finds `_id: 1` and updates Amit's age to 28.
+
+No new document is inserted.
+
+**3. Example: Document does not exist**
+
+```
+db.users.updateOne(
+  { _id: 3 },
+  {
+    $set: {
+      name: "Priya",
+      age: 22
+    }
+  },
+  { upsert: true }
+);
+```
+
+**Result:** Since `_id: 3` doesn't exist, MongoDB inserts a new document:
+
+```
+{
+  _id: 3,
+  name: "Priya",
+  age: 22
+}
+```
+
+**4. Upsert with updateMany()**
+
+You can also use upsert with `updateMany()`.
+
+```
+db.users.updateMany(
+  { city: "Delhi" },
+  {
+    $set: { status: "Active" }
+  },
+  { upsert: true }
+);
+```
+
+- If matching documents exist, all matching documents are updated.
+- If no document matches, MongoDB inserts only **one new document**.
+
+<br>
 
 3. **replaceOne(filter, data, options) - It replaces the whole data to the new data we passed**
     ```js
@@ -325,7 +598,7 @@ db.collection.find({
 
 <br>
 
-### Aggregation Expression Usage:
+#### Aggregation Expression Usage:
 
 In aggregation pipelines, `$in` can check if a **value exists in an array**:
 
@@ -361,11 +634,11 @@ db.collection.find({
 })
 ```
 
-**Note:-**Here `$in` would **not work**, since the conditions are on **different fields**.
+**Note:-** Here `$in` would **not work**, since the conditions are on **different fields**.
 
 <br>
 
-### Rule of Thumb
+#### Rule of Thumb
 
 * Use **`$in`** → when matching **one field** against multiple values.
 * Use **`$or`** → when matching across **different fields** or combining complex conditions.
@@ -677,15 +950,16 @@ db.collection_name.aggregate([
 
 > ### `$size`, it gives the count of the array, below give the length of examScore array
 
-#### Aggregation
+#### In Aggregation
 ```js
 db.collection_name.aggregate([
   { $project: { _id: 0, examScore: { $size: "$examScore" } } },
 ]);
 ```
+
 <br>
 
-#### Query 
+#### In Query 
 * `field` must be an **array**.
 * Matches only if the array length is **exactly equal** to the specified number.
 
@@ -737,6 +1011,8 @@ It groups documents into fixed **ranges (buckets)** based on a field value you s
 * A document that falls outside all buckets goes to the **default** bucket (if provided).
 
 <br>
+
+<details>
 
 #### Example 1: Simple Histogram
 
@@ -820,231 +1096,11 @@ Example:
 
 This splits into 4 equal ranges automatically.
 
-<br>
-
-> ### $set (update and aggregation operator)
-
-The `$set` operator replaces the value of a field with the specified value. If the field does not exist, $set will add a new field with the specified value
-
-```js
-db.products.insertOne(
-  {
-    _id: 100,
-    quantity: 250,
-    instock: true,
-    reorder: false,
-    details: { model: "14QQ", make: "Clothes Corp" },
-    tags: [ "apparel", "clothing" ],
-    ratings: [ { by: "Customer007", rating: 4 } ]
-  }
-)
-
-
-db.products.updateOne(
-  { _id: 100 },
-  { $set: {
-      quantity: 500,
-      details: { model: "2600", make: "Fashionaires" },
-      tags: [ "coats", "outerwear", "clothing" ]
-    }
-  }
-)
-
-let resultAbove = {
-  _id: 100,
-  quantity: 500,
-  instock: true,
-  reorder: false,
-  details: { model: '2600', make: 'Fashionaires' },
-  tags: [ 'coats', 'outerwear', 'clothing' ],
-  ratings: [ { by: 'Customer007', rating: 4 } ]
-}
-```
-<br>
-
-Set Fields in Embedded Documents
-
-```js
-db.products.updateOne(
-   { _id: 100 },
-   { $set: { "details.make": "Kustom Kidz" } }
-)
-
-let resultOfAbove = {
-   _id: 100,
-   quantity: 500,
-   instock: true,
-   reorder: false,
-   details: { model: '2600', make: 'Kustom Kidz' },
-   tags: [ 'coats', 'outerwear', 'clothing' ],
-   ratings: [ { by: 'Customer007', rating: 4 } ]
-}
-```
+</details>
 
 <br>
 
-**Important:-**
-The above code uses dot notation to update the make field of the embedded details document. The code format looks similar to the following code example, which instead replaces the entire embedded document, removing all other fields in the embedded details document:
 
-```js
-db.products.updateOne(
-   { _id: 100 },
-   { $set: { 
-        details: {
-            make: "Kustom Kidz"
-        }
-      }
-   })
-```
-<br>
-
-Set Elements in Arrays
-
-```js
-db.products.updateOne(
-   { _id: 100 },
-   { $set:
-      {
-        "tags.1": "rain gear",
-        "ratings.0.rating": 2
-      }
-   }
-)
-let resulAbove = {
-  _id: 100,
-  quantity: 500,
-  instock: true,
-  reorder: false,
-  details: { model: '2600', make: 'Kustom Kidz' },
-  tags: [ 'coats', 'rain gear', 'clothing' ],
-  ratings: [ { by: 'Customer007', rating: 2 } ]
-}
-```
-
-### In aggregation
-
-https://www.mongodb.com/docs/manual/reference/operator/aggregation/set/#mongodb-pipeline-pipe.-set
-
-```js
-db.scores.insertMany( [
-   { _id: 1, student: "Maya", homework: [ 10, 5, 10 ], quiz: [ 10, 8 ], extraCredit: 0 },
-   { _id: 2, student: "Ryan", homework: [ 5, 6, 5 ], quiz: [ 8, 8 ], extraCredit: 8 }
-] )
-
-db.scores.aggregate( [
-   {
-     $set: {
-        totalHomework: { $sum: "$homework" },
-        totalQuiz: { $sum: "$quiz" }
-     }
-   },
-   {
-     $set: {
-        totalScore: { $add: [ "$totalHomework", "$totalQuiz", "$extraCredit" ] } }
-   }
-] )
-
-let resulAbove = [
-   {
-      _id: 1,
-      student: "Maya",
-      homework: [ 10, 5, 10 ],
-      quiz: [ 10, 8 ],
-      extraCredit: 0,
-      totalHomework: 25,
-      totalQuiz: 18,
-      totalScore: 43
-   },
-   {
-      _id: 2,
-      student: "Ryan",
-      homework: [ 5, 6, 5 ],
-      quiz: [ 8, 8 ],
-      extraCredit: 8,
-      totalHomework: 16,
-      totalQuiz: 16,
-      totalScore: 40
-   }
-]
-```
-
-<br>
-
-> ### $unset (aggregation and update) - purpose is to **remove fields from documents**.
-
-
-### `$unset` in Aggregation
-
-Used in the **aggregation pipeline** to remove fields from the documents as they pass through the pipeline.
-
-#### Syntax
-
-```js
-{
-  $unset: "<field1>" // single field
-}
-// or multiple fields
-{
-  $unset: ["field1", "field2"]
-}
-```
-
-#### Example 1 – Remove a single field
-
-```js
-db.users.aggregate([
-  { $unset: "password" }
-])
-```
-
-* Removes the `password` field from all documents in the aggregation output.
-
-#### Example 2 – Remove multiple fields
-
-```js
-db.users.aggregate([
-  { $unset: ["password", "lastLogin"] }
-])
-```
-
-* Removes both `password` and `lastLogin` fields.
-
-### `$unset` in Update
-
-Used with **update operations** (`updateOne`, `updateMany`, `findOneAndUpdate`) to **delete fields** from existing documents.
-
-#### Syntax
-
-```js
-db.collection.updateOne(
-  { <filter> },
-  { $unset: { <field1>: "", <field2>: "" } }
-)
-```
-
-* The **value** of each field in `$unset` is ignored (usually an empty string).
-
-#### Example 1 – Remove a single field
-
-```js
-db.users.updateOne(
-  { username: "alice" },
-  { $unset: { password: "" } }
-)
-```
-
-#### Example 2 – Remove multiple fields
-
-```js
-db.users.updateMany(
-  { status: "inactive" },
-  { $unset: { password: "", lastLogin: "" } }
-)
-```
-
-* Removes `password` and `lastLogin` from all inactive users.
-
-<br>
 
 > ### $addFields
 
@@ -1223,7 +1279,7 @@ db.scores.aggregate([
 ])
 ```
 
-### Example: In `$group`
+#### Example: In `$group`
 👉 Finds the **minimum price** in each category.
 ```javascript
 db.sales.aggregate([
@@ -3229,15 +3285,15 @@ What does createIndex() do in detail?
 
 - Whilst we can't really see the index, you can think of the index as a simple list of values + pointers to the original document.
 
-- The important thing is that the `index items are ordered (ascending or descending - depending on how you created the index)`. createIndex({age: 1}) creates an index with ascending sorting, createIndex({age: -1}) creates one with descending sorting.
+- The important thing is that the `index items are ordered (ascending or descending - depending on how you created the index)`. `createIndex({age: 1})`creates an index with ascending sorting, `createIndex({age: -1})` creates one with descending sorting.
 
-- One real life example, suppose you done indexing of particular key of large data set, and then you run some query which which return almost all data, then that time if we compare the time period of indexing and without indexing, then indexing query will take much time, eg video - 130
+- One real life example, suppose you done indexing of particular key of large data set, and then you run some query which which return almost all data, then that time if we compare the time period of indexing and without indexing, then indexing query will take much time.
 
 <br>
 
-### Q. What are the types of Indexes available in MongoDB?
+> ### What are the types of Indexes available in MongoDB?
 
-1. Single Field Index
+#### 1. Single Field Index
 
 ```js
 db.people.createIndex( {age : 1} ) // creates an ascending index
@@ -3245,29 +3301,19 @@ db.people.createIndex( {age : 1} ) // creates an ascending index
 db.people.createIndex( {age : -1} ) // creates a descending index
 ```
 
-With this kind of index we can improve all the queries that find documents with a condition and the age field, like the following:
 
-```js
-db.people.find( { age : 20 } )
-db.people.find( { name : "Alex", age : 30 } )
-db.people.find( { age : { $gt : 25} } )
-```
-
-2. Compound Index
+#### 2. Compound Index
 
 A **Compound index** in **MongoDB** is an index that includes **multiple fields** in a single index structure.
 
 This is useful when you frequently query using multiple fields together, because MongoDB can optimize those queries with a single index rather than combining multiple indexes.
 
-
-#### How Compound Indexing Works
-
+**How Compound Indexing Works**
 * A compound index is created on **two or more fields**.
 * The **order of fields matters** in a compound index.
 * MongoDB can use the **prefix of the index** (called the **index prefix rule**) when executing queries.
 
 
-#### Example
 
 ```js
 // Create a compound index on name (ascending) and age (descending)
@@ -3285,7 +3331,6 @@ db.collection.dropIndex()
 db.accounts.dropIndex( { "tax-id": 1 } )
 // Output
 { "nIndexesWas" : 3, "ok" : 1 }
-
 
 
 // The following command removes all indexes from the accounts collection
@@ -3311,12 +3356,8 @@ db.users.find({ age: 25 }); // Skips first field 'name'
 
 <br>
 
-
-**3. Multikey Index**
-
+#### 3. Multikey Index
 This is the index type for arrays. When creating an index on an array, MongoDB will create an index entry for every element.
-
-**Example**
 
 ```js
 {
@@ -3341,8 +3382,6 @@ db.people.find( { hobbies: "music" } )
 db.people.find( { hobbies: "music", hobbies: "gardening" } )
 ```
 
-
-
 <br>
 
 ### Index Prefix Rule
@@ -3357,37 +3396,36 @@ db.people.find( { hobbies: "music", hobbies: "gardening" } )
 
 <br>
 
-## Q. ***Explain Index Properties in MongoDB?***
+### Explain Index Properties in MongoDB?
 
-**1. TTL Indexes**
+### 1. TTL Indexes
+
+<details>
 
 TTL ( **Time To Live** ) s a special index option that automatically deletes documents after a specified time. It’s useful for temporary data like session info, where documents expire and are removed without manual cleanup.
-
-**Example**
 
 ```js
 db.sessionlog.createIndex( { "lastUpdateTime": 1 }, { expireAfterSeconds: 1800 } )
 ```
 
-In this case, MongoDB will drop the documents from the collection automatically once half an hour (1800 seconds) has passed since the value in **lastUpdateTime** field.
-
 **Restrictions**
-
 * Only single field indexes can have the TTL option
 * the `_id` single field index cannot support the TTL option
 * the indexed field must be a date type
 
+</details>
+
 <br>
 
-**2. Partial indexes**
+### 2. Partial indexes
+
+<details>
 
 A partial index is an index that contains only a subset of the values based on a filter rule. They are useful in cases where:
 
 * The index size can be reduced
 * We want to index the most relevant and used values in the query conditions
 * We want to index the most selective values of a field
-
-**Example**
 
 ```js
 db.people.createIndex(
@@ -3403,9 +3441,13 @@ In order for the partial index to be used the queries must contain a condition o
 db.people.find( { city: "New Tork", age: { $eq: 20} } )
 ```
 
+</details>
+
 <br>
 
-**3. Sparse indexes**
+### 3. Sparse indexes
+
+<details>
 
 Sparse indexes are a subset of partial indexes. A sparse index only contains elements for the documents that have the indexed field, even if it is null.
 
@@ -3421,7 +3463,13 @@ db.people.createIndex( { city: 1 }, { sparse: true } )
 
 In this case, we are assuming there could be documents in the collection with the field city missing. Sparse indexes are based on the existence of a field in the documents and are useful to reduce the size of the index.
 
-**4. Unique indexes**
+</details>
+
+<br>
+
+### 4. Unique indexes
+
+<details>
 
 MongoDB can create an index as unique. An index defined this way cannot contain duplicate entries.
 
@@ -3439,9 +3487,11 @@ db.people.createIndex( { city: 1, person.surname: 1}, { unique: true } )
 
 By default, the index on `_id` is automatically created as unique.
 
+</details>
+
 <br>
 
-## Q. ***Can you create an index in an array field in MongoDB?***
+> ### Q. Can you create an index in an array field in MongoDB?
 
 Yes, To index a field that holds an array value, MongoDB creates an index key for each element in the array. Multikey indexes can be constructed over arrays that hold both scalar values (e.g. strings, numbers) and nested documents. MongoDB automatically creates a multikey index if any indexed field is an array.
 
@@ -3478,7 +3528,6 @@ MongoDB can use the multikey index to find documents that have 5 at any position
 
 > ### Sort in mongodb
 
-
 In **MongoDB**, sorting is done using the `.sort()` method in a query.
 But when you have **millions of documents**, sorting can be very expensive unless you use **indexes** properly.
 
@@ -3513,19 +3562,15 @@ db.users.find().sort({ age: 1, name: -1 });
    * If the query **sort order matches an index**, MongoDB can just **traverse the index in order**.
    * No in-memory sorting is needed, making it **much faster**.
 
-<br>
+      ```js
+      // Create index on "age"
+      db.users.createIndex({ age: 1 });
 
-#### Example with Index for Sorting
+      // Now sorting uses the index
+      db.users.find().sort({ age: 1 });
+      ```
 
-```js
-// Create index on "age"
-db.users.createIndex({ age: 1 });
-
-// Now sorting uses the index
-db.users.find().sort({ age: 1 });
-```
-
-👉 If you sort on `{ age: 1 }` after creating this index, MongoDB will use the index and avoid scanning/sorting the whole dataset.
+      👉 If you sort on `{ age: 1 }` after creating this index, MongoDB will use the index and avoid scanning/sorting the whole dataset.
 
 <br>
 
@@ -3602,9 +3647,6 @@ Instead of indexing every document, MongoDB builds the index on a **subset of do
 * **Faster writes** → fewer documents to maintain in the index
 * **Targeted performance** → only optimize queries that matter (not the whole dataset)
 
-
-#### Syntax
-
 ```js
 db.collection.createIndex(
   { fieldName: 1 }, 
@@ -3616,44 +3658,6 @@ This means:
 
 * Only documents with `{ status: "active" }` will be indexed.
 * Queries filtering by `{ status: "active" }` can use this index.
-
-
-## 🔹 Example
-
-Suppose you have a `users` collection with millions of docs:
-
-```js
-{ name: "Alice", status: "active" }
-{ name: "Bob", status: "inactive" }
-{ name: "Charlie", status: "active" }
-```
-
-If you mostly query **active users**:
-
-```js
-db.users.find({ status: "active", name: "Alice" });
-```
-
-👉 Instead of indexing all `status` values:
-
-```js
-db.users.createIndex({ name: 1, status: 1 });
-```
-
-You can use a **partial index**:
-
-```js
-db.users.createIndex(
-  { name: 1 },
-  { partialFilterExpression: { status: "active" } }
-);
-```
-
-Now:
-
-* Only documents with `status: "active"` go into the index.
-* Queries with `status: "active"` use the index.
-* `status: "inactive"` docs don’t bloat the index.
 
 
 #### Supported Filter Operators
@@ -3690,25 +3694,22 @@ db.users.find({ age: { $gte: 18 } }).sort({ age: 1 });
 will use this index.
 
 
-⚡ **In short:**
-A **partial index** is an index built only on documents that match a filter condition. It’s super useful when your queries target a **specific subset of data** (e.g., `active users`, `non-null fields`, `age > 18`), especially in collections with **millions of documents**.
-
-
+**In short:** A **partial index** is an index built only on documents that match a filter condition. It’s super useful when your queries target a **specific subset of data** (e.g., `active users`, `non-null fields`, `age > 18`), especially in collections with **millions of documents**.
 
 **Note:** We can create the index of the key which can be array or object, indexing is not specific to the string or number, but for compound index you can not create the combine of two array key index.
 
 
-> #### Text Indexing
+<br>
+<br>
 
+> ### Text Indexing
 
-#### 🔹 Normal String Indexing (B-tree Index)
-
-* **Definition**: A regular index on a string field (e.g., `{ name: 1 }`).
-* **How it works**:
-
+1. Normal String Indexing (B-tree Index)
+- **Definition**: A regular index on a string field (e.g., `{ name: 1 }`).
+- **How it works**:
   * Uses a **B-tree** structure.
   * Efficient for **prefix queries** and **exact matches**.
-* **Examples**:
+- **Examples**:
 
   ```js
   db.users.createIndex({ name: 1 })
@@ -3721,39 +3722,35 @@ A **partial index** is an index built only on documents that match a filter cond
   db.users.find({ name: /lice$/ })          // suffix search
   db.users.find({ name: /li/ })             // substring search
   ```
-* **Best for**:
+<br>
 
-  * Exact lookups
-  * Sorting
-  * Range/prefix queries
+2. Text Indexing (`text`)
 
-
-#### 🔹 Text Indexing (`text`)
-
-* **Definition**: Special index for **full-text search** across words inside strings (tokenized).
-* **How it works**:
+- **Definition**: Special index for **full-text search** across words inside strings (tokenized).
+- **How it works**:
 
   * Tokenizes text into words and stores them in an **inverted index**.
   * Supports stemming (language-aware, e.g., “running” → “run”).
   * Can index multiple fields together.
-* **Examples**:
 
+- **Examples**:
   ```js
   db.articles.createIndex({ content: "text", title: "text" })
 
   db.articles.find({ $text: { $search: "mongodb indexing" } })
   ```
-* **Features**:
 
+- **Features**:
   * Can search **anywhere in text**, not just prefix.
   * Supports relevance scoring with `textScore`.
   * Allows language-specific stop words & stemming.
-* **Limitations**:
 
+- **Limitations**:
   * Only one text index per collection.
   * No regex/prefix optimization (not suitable for `LIKE "abc%"`).
   * Not good for sorting large text fields alphabetically.
 
+<br>
 
 #### ⚡ Key Differences
 
@@ -3766,13 +3763,15 @@ A **partial index** is an index built only on documents that match a filter cond
 | **Limitations**     | No substring search                   | Only one text index per collection       |
 
 
-👉 **Rule of thumb**:
+**Rule of thumb**:
 
 * If you need **exact match / prefix search / sorting** → use **normal index**.
 * If you need **searching words anywhere in text / relevance ranking** → use **text index**.
 
+<br>
 
-> ### How to use below For getting the data
+> ### Below For getting the data
+
 ```
 https://www.mongodb.com/docs/manual/reference/mql/expressions/
 ```
@@ -3788,22 +3787,33 @@ https://www.mongodb.com/docs/manual/reference/mql/expressions/
 9. $exp
 10. $size, $all, $elemMatch
 
+<br>
+
+> ### Below fields to Update the data
+
+```
+https://www.mongodb.com/docs/manual/reference/mql/update/
+```
+Uper k sare side menu check karo
+
+1. updateOne, updateMany
+2. $set, $inc (if you use negative value in inc then it works as decrement), unset
+3. $min, $max, $mul
+4. $unset, $rename, $upsert
+
+$ sign find in mongodb eg hobbies.$.highfrequency = true
+
+<br>
 
 > ### elemMatch in mongodb
 
+<details>
+
 In **MongoDB**, the `$elemMatch` operator is used to **match documents that contain an array field with at least one element that matches all the specified criteria**.
-
-It’s particularly useful when you want to apply **multiple conditions to a single element in an array** (instead of matching conditions across different elements).
-
-
-#### **Syntax**
 
 ```js
 { <arrayField>: { $elemMatch: { <query1>, <query2>, ... } } }
 ```
-
-
-#### **Example Usage**
 
 #### 1. Basic Match
 
@@ -3829,10 +3839,6 @@ db.students.find({
   grades: { $elemMatch: { $gt: 85, $lt: 92 } }
 })
 ```
-
-✅ This ensures **both conditions apply to the same grade element**.
-Without `$elemMatch`, MongoDB might match `90` (for `$lt: 92`) and `91` (for `$gt: 85`) separately, which isn’t what we want.
-
 
 #### 2. Matching Objects Inside an Array
 
@@ -3874,37 +3880,13 @@ MongoDB treats conditions independently → it will return docs where **some gra
 
 So `$elemMatch` is required when **all conditions must apply to the same array element**.
 
-- Also elemMatch tab use karte h jab same data k ander 2 query lagani ho, like same object pe hi name and age ki query lagani ho
-```js
-d = {
-  name: rahul,
-  age: 26
-}
-```
+</details>
 
-> ### Below fields to Update the data
+<br>
 
-```
-https://www.mongodb.com/docs/manual/reference/mql/update/
-```
-Uper k sare side menu check karo
+> ### Validation Schema, validation in Mongodb not through mongoose
 
-1. updateOne, updateMany
-2. $set, $inc (if you use negative value in inc then it works as decrement), unset
-3. $min, $max, $mul
-4. $unset, $rename, $upsert
-
-$ sign find in mongodb eg hobbies.$.highfrequency = true
-
-
-
-
-video -73,128
-
-Q 12, 
-
-
-> ### Validation Schema
+<details>
 
 - 'posts' is the collection name
 - in required, we define what it is expecting and in properties, bson type defined what is expecting and description is the error message
@@ -3999,8 +3981,13 @@ db.runCommand({
 
 ```
 
+</details>
+
+<br>
 
 > ### Geospatial Data - In MongoDB, you can store geospatial data as GeoJSON objects or as legacy coordinate pairs.
+
+<br>
 
 > ### GeoJSON Objects
 - To calculate geometry over an Earth-like sphere, store your location data as GeoJSON objects.
@@ -4009,20 +3996,18 @@ db.runCommand({
 db.collection_name.insertOne({name: "test institute", location: {type: "Point", coordinates: [-122.34567, 37.5345678]}})
 ```
 
+<br>
 
-Q. How to validate data in mongodb?
+> ### Q. How to validate data in mongodb?
 
 `db.collection.validate(<documents>)` validates a collection. The method scans a collection data and indexes for correctness and returns the result.
 
-**Syntax:**
 ```js
 db.collection.validate( {
    full: <boolean>,          // Optional
    repair: <boolean>         // Optional, added in MongoDB 5.0
 } )
 ```
-
-**Example:**
 
 ```js
 // validate a collection using the default validation setting
@@ -4035,8 +4020,9 @@ db.myCollection.validate( { full: true } )
 db.myCollection.validate( { repair: true } )
 ```
 
+<br>
 
-Q. How to join 3 or more collections in MongoDB?
+> ### Q. How to join 3 or more collections in MongoDB?
 
 Let's say we have 3 hypothetical collections in MongoDB: customers, orders, and orderItems.
 
@@ -4140,6 +4126,8 @@ Each customer has multiple orders, and each order has multiple order items.
 
 **Answer**
 
+<details>
+
 Do nested lookup using lookup with pipeline,
 
 1. `$lookup` with orders collection.
@@ -4170,11 +4158,11 @@ db.customers.aggregate([
   }
 ])
 ```
+</details>
 
-Q. At what interval does MongoDB write updates to the disk?
-By default configuration, MongoDB writes updates to the disk every 60 seconds. However, this is configurable with the commitIntervalMs and syncPeriodSecs options.
+<br>
 
-## Q. ***What is use of capped collection in MongoDB?***
+> ### Q. What is use of capped collection in MongoDB?
 
 **Capped collections** are fixed-size collections that support high-throughput operations that insert and retrieve documents based on insertion order. Capped collections work in a way similar to `circular buffers`: once a collection fills its allocated space, it makes room for new documents by overwriting the oldest documents in the collection.
 
@@ -4199,6 +4187,8 @@ By default configuration, MongoDB writes updates to the disk every 60 seconds. H
 // Querying Capped Collection
 >db.cappedLogCollection.find().sort({$natural: -1})
 ```
+
+<br>
 
 > ### Interaction with allowDiskUseByDefault
 Starting in MongoDB 6.0, pipeline stages that require more than 100 megabytes of memory to execute write temporary files to disk by default. These temporary files last for the duration of the pipeline execution and can influence storage space on your instance. In earlier versions of MongoDB, you must pass `{ allowDiskUse: true } `to individual find and aggregate commands to enable this behavior.
