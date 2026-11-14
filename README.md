@@ -5,16 +5,18 @@
 <br>
 
 - JS
+- System design
+- Polyfill
+
+<br>
+- Node js
 - mongodb
+- SQL
 
 <br>
 
 - Vue 
 - Nuxt
-
-<br>
-- System design
-- Polyfill
 
 <br>
 - React 
