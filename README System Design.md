@@ -1,3 +1,186 @@
+> ### Micor-frontend
+
+- In micro-frontend, we have main layout in which we have the microfrontend services like paymnet page, product page or cart page.
+- Each microfrontend had its own development team, codebase, build process, and deployment pipeline.
+- Each microfrontend can have different tech stack like react, vue or angular.
+- we can implement by **Module Federation** in webpack or vite.
+
+```js
+// webpack.config.js - mf1 or microfrontend
+new ModuleFederationPlugin({
+  name: "claims",
+
+  filename: "remoteEntry.js",
+
+  exposes: {
+    "./ClaimsApp": "./src/App",
+  },
+
+  shared: {
+    react: {
+      singleton: true,
+      requiredVersion: "^18.2.0"
+    },
+    "react-dom": {
+      singleton: true,
+      requiredVersion: "^18.2.0"
+    }
+  }
+});
+```
+- After building above repo cde, we deploy the Claims application independently on https://claims.company.com/remoteEntry.js
+
+```js
+// webpack.config.js - main layout or root UI
+new ModuleFederationPlugin({
+  name: "shell",
+
+  remotes: {
+    claims: "claims@https://claims.company.com/remoteEntry.js"
+  },
+
+  shared: {
+    react: {
+      singleton: true,
+      requiredVersion: "^18.2.0"
+    },
+    "react-dom": {
+      singleton: true,
+      requiredVersion: "^18.2.0"
+    }
+  }
+});
+```
+
+```js
+// consume mfe component in main repo
+import React, { Suspense } from "react";
+
+const ClaimsApp = React.lazy(
+  () => import("claims/ClaimsApp")
+);
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ClaimsApp />
+    </Suspense>
+  );
+}
+
+export default App;
+```
+
+<br>
+
+- How did we manage **shared components**? - We created separate shared packages.
+```js
+packages/
+├── ui-components/
+│   ├── Button/
+│   ├── Input/
+│   ├── Modal/
+│   ├── Table/
+│   └── index.ts
+│
+├── shared-hooks/
+│   ├── useDebounce.ts
+│   └── useOutsideClick.ts
+│
+├── api-client/
+│   ├── axiosInstance.ts
+│   ├── interceptors.ts
+│   └── apiConstants.ts
+│
+└── auth/
+    ├── AuthProvider.tsx
+    └── authService.ts
+```
+
+
+- It is not good pratice to use the mfe as an npm package because now you have to
+- Publish mfe v1.0.0 to v1.1.0.
+- Update the dependency in the main repo application.
+- Install the new version.
+- Rebuild and redeploy the main repo application.
+
+<br>
+
+Routing in mfe
+- we create the route file in main repo, and for the  each route we create add each mfe
+
+<br>
+<br>
+
+### How did microfrontends communicate 
+
+We preferred communication through explicit contracts rather than directly accessing another microfrontend's internal Redux store.
+
+For example, when a user selects a claim in the Claims module, it can publish a custom event.
+
+```js
+window.dispatchEvent(
+  new CustomEvent("claim:selected", {
+    detail: {
+      claimId: "CLM123"
+    }
+  })
+);
+```
+
+Another microfrontend can subscribe to that event:
+
+```js
+useEffect(() => {
+  const handleClaimSelection = (event) => {
+    console.log(event.detail.claimId);
+  };
+
+  window.addEventListener(
+    "claim:selected",
+    handleClaimSelection
+  );
+
+  return () => {
+    window.removeEventListener(
+      "claim:selected",
+      handleClaimSelection
+    );
+  };
+}, []);
+```
+
+<br>
+
+### creating the microfrontend, will it be cost effective
+
+- Honestly, Microfrontend Architecture is not always cost-effective
+- It introduces additional infrastructure, development, deployment, and maintenance costs compared to a traditional monolithic frontend.
+
+**additional cost come from**
+
+#### Infrastructure costs
+- Separate hosting or deployment locations.
+- CDN configuration.
+- CI/CD pipelines.
+- Artifact storage.
+- Monitoring and logging.
+
+#### Development costs
+- Module Federation configuration.
+- Shared dependency management.
+- Cross-application communication.
+- Integration testing.
+- Version compatibility management.
+
+### Maintenance costs
+- Handling remote application failures.
+- Managing React and library versions.
+- Coordinating breaking changes.
+- Debugging issues across multiple applications.
+
+<br>
+
 > ### what is difference between the virtaual dom approach of vue and react
 
 #### Key Differences

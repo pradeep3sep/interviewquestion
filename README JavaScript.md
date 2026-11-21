@@ -3124,16 +3124,15 @@ partialMultiplyBy5(4,10)
  
 > ### What are the different error names from error object
 
-There are 6 different types of error names returned from error object,
-
-Error Name |	Description
----------- | --------------
-EvalError	| An error has occurred in the eval() function
-RangeError	| An error has occurred with a number "out of range"
-ReferenceError	| An error due to an illegal reference
-SyntaxError	| An error due to a syntax error
-TypeError	| An error due to a type error
-URIError	| An error due to encodeURI()
+| Error Type | When Does It Occur? | Example |
+|---|---|---|
+| `SyntaxError` | Invalid syntax or malformed JSON | `JSON.parse("{")` |
+| `ReferenceError` | Variable doesn't exist or is accessed before initialization | `console.log(x)` |
+| `TypeError` | Operation performed on an incompatible value | `null.name` |
+| `RangeError` | Value is outside the allowed range | `new Array(-1)` |
+| `URIError` | Invalid URI encoding/decoding | `decodeURIComponent("%")` |
+| `EvalError` | Related to `eval()` (rare in modern JS) | `new EvalError()` |
+| `AggregateError` | Multiple errors grouped together | `Promise.any()` rejection |
 
 
 <br>
@@ -7156,3 +7155,49 @@ No idea -
 - https://javascript.info/text-decoder
 
 Axios upload progress with progress bar tutorial --- https://www.youtube.com/watch?v=nC3ntJUQrAM
+
+
+let nums = [1,2,4,6]
+
+// 1, 2, 8, 48
+// 
+out
+// Output: [48,24,12,8] = u565
+
+function test(nums){
+  let maxMulti = 1
+  let output  = []
+  
+  for(let unit of nums){
+    maxMulti = unit * maxMulti
+  }
+  
+  for(let unit of nums){
+    output.push(maxMulti/unit)
+  }
+  return output
+  // console.log(output)
+}
+
+console.log(test(nums))
+
+```js
+console.log(1);
+
+setTimeout(() => {
+    console.log(2);
+}, 0);
+
+new Promise((resolve) => {
+    console.log(3);
+    setTimeout(() => {
+        console.log(4);
+    }, 10);
+    resolve(console.log(5));
+}).then(() => {
+    console.log(6);
+});
+console.log(7);
+
+// 1,7,3,5,6,4,2,5
+```

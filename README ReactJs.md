@@ -1,3 +1,98 @@
+### suppose we have the login form, we have parent component in which we have child component of input and button, how you will avoid the rerendering in parent component
+
+- Solution 1: React.memo()
+- Solution 2: Use uncontrolled components with refs
+```js
+function Login() {
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(emailRef.current.value);
+    console.log(passwordRef.current.value);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input ref={emailRef} placeholder="Email" />
+
+      <input
+        ref={passwordRef}
+        type="password"
+        placeholder="Password"
+      />
+
+      <button type="submit">Login</button>
+    </form>
+  );
+}
+```
+- Use a state management library
+
+<br>
+
+### since you mentioned of using the useref, what are the limitations of useref
+
+**1. Updating ref doesn't trigger re-render**
+
+```js
+const countRef = useRef(0);
+
+const increment = () => {
+  countRef.current++;
+  console.log(countRef.current);
+};
+```
+
+React won't re-render the component when `current` changes. Therefore, you cannot rely on it to update the UI.
+
+**2. UI doesn't automatically stay synchronized**
+
+If you store an input value in a ref, React doesn't know when it changes.
+
+For example, if you want to show live validation messages while the user types, `useRef` alone isn't sufficient. You need state or another subscription mechanism.
+
+**3. Not suitable for complex form validation**
+
+For forms requiring:
+
+- Real-time validation
+- Conditional fields
+- Dynamic error messages
+- Dependent field values
+- Live character counts
+
+Using refs alone can make the implementation difficult to maintain.
+
+**4. No automatic change tracking**
+
+Unlike `useState`, refs don't provide a previous-versus-current value update mechanism or trigger effects when `.current` changes.
+
+
+**5. Ref values are not reactive dependencies**
+```js
+useEffect(() => {
+  console.log(countRef.current);
+}, [countRef.current]);
+```
+
+This is not a reliable way to detect ref changes. Updating `.current` doesn't trigger a render, so React may not re-evaluate the dependency.
+
+### **useRef vs useState**
+
+| Feature                      | useRef    | useState            |
+| ---------------------------- | --------- | ------------------- |
+| Triggers re-render           | No        | Yes                 |
+| Stores mutable value         | Yes       | Yes, through setter |
+| Updates UI automatically     | No        | Yes                 |
+| DOM access                   | Yes       | Not directly        |
+| Previous value storage       | Yes       | Possible            |
+| Suitable for live validation | Not alone | Yes                 |
+
+<br>
+
 > #### Notes of react
 we need to creat the .config file of main react component, which contains mainly that content constants, functions not the hooks, or the some constant return the smaller content
 
@@ -2632,7 +2727,7 @@ function App() {
 
 > ### What is Virtual DOM? How Virtual DOM works?
 
-The Virtual DOM (VDOM) is an `in-memory representation of Real DOM`. The representation of a UI is kept in memory and `synced with the "real" DOM`. It's a step that happens between the render function being called and the displaying of elements on the screen. This entire process is called `reconciliation`.
+The Virtual DOM (VDOM) is an `in-memory representation of Real DOM`.
 
 The Virtual DOM works in three simple steps.
 
@@ -5435,3 +5530,29 @@ Running the eject script will remove the single build dependency from your proje
 After running the eject command, it won’t be possible to run it again, because all scripts will be available except the eject one. Use this command only if you need to. Otherwise, stick with the default configuration. It’s better, anyway.
 
 <br>
+
+### Rendering in react
+
+Video - https://www.youtube.com/watch?v=VPtL6dU0YXc
+
+- Rendering is React’s process of describing a user interface based on the application’s current state and props. 
+- The initial render in a React app is the first render when the application starts up, while re-rendering occurs when there is a change in the state to figure out which parts of the UI need an update.
+
+
+The rendering process can be divided into the `Render and Commit phases`.
+
+All the DOM logical part is handled in render phase while real dom creation/updation happens in commit phase. in commit phase changes are done by the react DOM package
+
+1. Initial rendering - first time when react gets loaded in browser
+
+![alt text](image-31.png)
+
+2. Re-rendering - When there is any state update
+
+![alt text](image-32.png)
+
+
+**Note:** Keep in mind sometimes there is render phase is there but commit phase because, sometime unnecessary rerendering happens and react comes to know that there is not changes, then render pase is completed but no commit phase is done.
+
+- React runs useEffect callbacks after the commit.
+- Handles side effects such as API calls, subscriptions, and timers.

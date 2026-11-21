@@ -338,6 +338,53 @@ RENAME COLUMN phone TO mobile_number;
 
 <br>
 
+### What is the difference between RANK(), DENSE_RANK(), and ROW_NUMBER()
+
+| Function       | Description                                                         | Handles duplicates              |
+| -------------- | ------------------------------------------------------------------- | ------------------------------- |
+| `ROW_NUMBER()` | Assigns a unique sequential number to every row.                    | Always gives different numbers. |
+| `RANK()`       | Assigns the same rank to duplicate values, but skips the next rank. | Same rank, skips numbers.       |
+| `DENSE_RANK()` | Assigns the same rank to duplicate values without skipping numbers. | Same rank, no gaps.             |
+
+**Example:** Suppose employee salaries are 10000, 9000, 9000, 8000.
+
+| Salary | ROW_NUMBER() | RANK() | DENSE_RANK() |
+| ------ | ------------ | ------ | ------------ |
+| 10000  | 1            | 1      | 1            |
+| 9000   | 2            | 2      | 2            |
+| 9000   | 3            | 2      | 2            |
+| 8000   | 4            | 4      | 3            |
+
+
+#### **SQL Query**
+
+```sql
+SELECT
+    employee_name,
+    salary,
+    ROW_NUMBER() OVER (ORDER BY salary DESC) AS row_num,
+    RANK() OVER (ORDER BY salary DESC) AS rank_num,
+    DENSE_RANK() OVER (ORDER BY salary DESC) AS dense_rank_num
+FROM employees;
+```
+
+#### **Sample Output**
+
+| Employee | Salary | ROW_NUMBER | RANK | DENSE_RANK |
+| -------- | ------ | ---------- | ---- | ---------- |
+| A        | 10000  | 1          | 1    | 1          |
+| B        | 9000   | 2          | 2    | 2          |
+| C        | 9000   | 3          | 2    | 2          |
+| D        | 8000   | 4          | 4    | 3          |
+
+#### **Key Interview Points**
+
+- **ROW_NUMBER():** Useful when you need unique row numbers, such as fetching the latest record.
+- **RANK():** Useful when you want ranking with gaps after ties, such as competition rankings.
+- **DENSE_RANK():** Useful when you want consecutive rankings without gaps, such as finding the top 3 distinct salaries.
+
+<br>
+
 ### ALTER vs UPDATE
 
 `ALTER` is a DDL (Data Definition Language) command.
@@ -2302,3 +2349,33 @@ FROM employees;
 ```
 
 ### Keep in mind CONSTRAINT is basically add on validation. means existing plus this one
+
+### How do you find the second highest salary from an Employee table?
+
+```sql
+SELECT MAX(salary) AS SecondHighest
+FROM employees
+WHERE salary < (SELECT MAX(salary) FROM employees);
+---------------
+SELECT DISTINCT salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 1 OFFSET 1;
+```
+
+### How do you detect and remove duplicate records from a table?
+
+```sql
+-- To find duplicates:
+SELECT name, COUNT(*)
+FROM employees
+GROUP BY name
+HAVING COUNT(*) > 1;
+
+-- To delete duplicates (keeping the lowest ID)
+DELETE FROM employees
+WHERE id NOT IN (
+SELECT MIN(id)
+FROM employees
+GROUP BY name, department_id, salary);
+```
