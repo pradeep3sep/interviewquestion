@@ -1,3 +1,11 @@
+### Visit below url to know the execution steps
+
+```
+https://www.jsv9000.app/
+```
+
+<br>
+
 ### Question 0
 
 ```js
@@ -2482,6 +2490,37 @@ const promise = new Promise((resolve) => {
 ```
 </details>
 
+<br>
+
+### Question 100
+
+```js
+console.log(1);
+
+setTimeout(() => {
+    console.log(2);
+}, 0);
+
+new Promise((resolve) => {
+    console.log(3);
+    setTimeout(() => {
+        console.log(4);
+    }, 10);
+    resolve(console.log(5));
+}).then(() => {
+    console.log(6);
+});
+console.log(7);
+```
+
+<details>
+  <summary>Answer</summary>
+  <p>1 3 5 7 6 2 4</p>
+</details>
+
+
+
+<br>
 
 ### Question 100
 

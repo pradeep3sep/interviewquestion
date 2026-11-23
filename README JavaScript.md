@@ -1,6 +1,16 @@
-# Table of Contents
+### How objects are stored in memoery 
 
-- [Rule of this ](#rule-of-this)
+Let say we have the object which is below
+
+```js
+let rabbit = {
+  color: "white"
+}
+```
+
+![alt text](image-33.png)
+
+**Note:** For the array, instead of color key, index will be the key.
 
 <br>
 
@@ -6166,7 +6176,13 @@ JavaScript is a multi-paradigm language, supporting imperative/procedural progra
 <br>
  
 > ### Es6(ECMAScript 2015)
-let and const, Arrow Functions, Template Literals, rest and spread operator,  Default Parameters in functions, classes
+- let and const
+- Arrow Functions
+- Template Literals
+- Destructuring
+- Default Parameters
+- Rest and Spread operator
+- Classes
 
 <br>
  
@@ -7155,49 +7171,3 @@ No idea -
 - https://javascript.info/text-decoder
 
 Axios upload progress with progress bar tutorial --- https://www.youtube.com/watch?v=nC3ntJUQrAM
-
-
-let nums = [1,2,4,6]
-
-// 1, 2, 8, 48
-// 
-out
-// Output: [48,24,12,8] = u565
-
-function test(nums){
-  let maxMulti = 1
-  let output  = []
-  
-  for(let unit of nums){
-    maxMulti = unit * maxMulti
-  }
-  
-  for(let unit of nums){
-    output.push(maxMulti/unit)
-  }
-  return output
-  // console.log(output)
-}
-
-console.log(test(nums))
-
-```js
-console.log(1);
-
-setTimeout(() => {
-    console.log(2);
-}, 0);
-
-new Promise((resolve) => {
-    console.log(3);
-    setTimeout(() => {
-        console.log(4);
-    }, 10);
-    resolve(console.log(5));
-}).then(() => {
-    console.log(6);
-});
-console.log(7);
-
-// 1,7,3,5,6,4,2,5
-```

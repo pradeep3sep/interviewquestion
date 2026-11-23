@@ -1,3 +1,103 @@
+working on a **market research platform** that helps companies understand customer opinions and experiences before launching or improving their products or services.
+
+working on a project for Jasper Colin,has around eight internal products. opportunity to work on two of these products: One-on-One Interviews and Diary Studies
+
+The platform has two main panels:
+
+**1. Client Panel**
+
+The client panel is used by companies that want to conduct market research. They can create a study and provide all the necessary details, such as:
+
+- Study details – information about the product or service they are planning to launch.
+- Interview slots – available dates and time slots for conducting interviews.
+- Screener questions – questions used to filter and identify suitable participants for the study.
+- Recruitment details – requirements for participants, including demographics, eligibility criteria, and incentive or payment details.
+- Reports – insights and findings collected during the research process.
+
+**2. Expert/Participant Panel**
+
+The second panel is designed for research participants or experts. They can log in, view the available studies, and participate in the studies they are eligible for.
+
+Depending on the type of study, they can share their feedback through text, video recordings, or one-on-one interviews.
+
+The collected feedback and research insights are then shared with the client company. Based on these insights, the company can make informed decisions and improve its products or services before launching them in the market."
+
+## **2. Understanding the two technical terms**
+
+It's important to understand these two concepts because interviewers might ask you about them.
+
+[Las entrevistas a profundidad en línea: una herramienta poderosa y subestimada en la investigación de mercados](https://images.openai.com/static-rsc-4/vf7EnLn0Codq_0o4_C43Uwjg2M0QdcCSU5GrFHgCJx6r6OaMgWtrkZ_t1b4p7fb8mHOcaNCRt2xE0j_3JGvchT-dB3sairuZWNPsKdFPk5UBfA3zLoq6eh-vAQqlfEiYBkWjmsRdJw__esuzIEtdHm5YUCH1cRyupdYLcDcHM9M?purpose=inline)
+
+**One-on-One Interview**
+
+It is a qualitative research method in which a researcher conducts an individual interview with a participant to understand their opinions, experiences, expectations, and feedback about a particular product or service.
+
+**Example:** A company wants to launch a new mobile application and interviews 10 users individually to understand their expectations.
+
+[Benefits Of Diary Studies And Best Practices For Data Collection](https://images.openai.com/static-rsc-4/iTcDjuIOcuy805NrzatgYiV3UbqybD7IRsRJKv8eVvEb9v_pVv5Ec8Mg2jOLvwOfeOmeIm7hUxUCFT99bxxhdzyuXGY5OK3EZfVnGMfYzFpAoyJukk8ou6c6B0OcpT4v1RABuVrcC7OpfECiOpYVvYzKs0Jvx5aK1Szn5nYxiPM?purpose=inline)
+
+**Diary Study**
+
+It is a qualitative research method in which participants record their experiences, activities, thoughts, and feedback over a specific period of time.
+
+Participants can submit their feedback through text, photos, or videos.
+
+**Example:** A company wants to understand how people use a fitness application. Participants use the application for seven days and record their daily experiences and feedback.
+
+#### **4. A possible follow-up interview question**
+
+**Interviewer:** What is the difference between One-on-One Interviews and Diary Studies?
+
+**Your answer:**
+
+"One-on-One Interviews are conducted individually between a researcher and a participant, where feedback is collected through direct interaction.
+
+On the other hand, Diary Studies are conducted over a specific period of time, where participants regularly record their experiences and feedback.
+
+The main difference is that One-on-One Interviews provide direct feedback at a particular point in time, whereas Diary Studies help us understand user behaviour and experiences over time."
+
+<br>
+<br>
+
+> ### Project architecture
+
+#### *1. High-level architecture*
+
+Your project follows a *modular, component-based frontend architecture with centralized state management and service-based backend integration.*
+
+#### *2. Technology stack*
+
+Based on the technologies we've discussed and the code you've shared:
+
+| Layer                    | Technology             |
+| ------------------------ | ---------------------- |
+| Frontend framework       | Next.js 14             |
+| UI library               | React 18               |
+| Language                 | TypeScript             |
+| Styling                  | Tailwind CSS           |
+| UI components            | Shadcn UI, Radix UI    |
+| Icons                    | Lucide                 |
+| Global state             | Redux Toolkit          |
+| Dynamic state management | Custom Reducer Manager |
+| API management           | RTK Query              |
+| Server state             | TanStack Query v5      |
+| Authentication           | NextAuth               |
+| Form management          | React Hook Form        |
+| Validation               | Zod                    |
+| Rich text editor         | TipTap                 |
+| Notifications            | React Hot Toast        |
+| Utilities                | Lodash                 |
+
+
+- Our application is built using Next.js 14, React 18, and TypeScript. We follow a modular, component-based frontend architecture where different business functionalities are organized into independent feature modules.
+- For global state management, we use Redux Toolkit with a custom dynamic reducer manager, allowing us to inject reducers when required. 
+- For API and server-state management, we use RTK Query and TanStack Query, depending on the use case.
+- We use Next.js middleware for route-level authentication and access control. Our frontend integrates with multiple backend services through REST APIs.
+- One of our major functionalities is AI-led study creation, where we use Server-Sent Events for streaming AI responses and TanStack Query for polling study-generation status and retrieving the final preview.
+
+<br>
+<br>
+
 - Guess output - Star
 - Docker
 - Html, css

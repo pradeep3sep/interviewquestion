@@ -1,3 +1,10 @@
+> ### In typescript, lets say we have added some key value pair in api payload which is not in the ts, whar will happen
+In TypeScript, if you add an extra key-value pair to an API payload that is **not defined in the TypeScript interface or type**, TypeScript generally does not throw an error at runtime. TypeScript throws a **compile-time error**
+
+<br>
+
+> ### 
+
 > ###  What is TypeScript and how does it differ from JavaScript?
 - TypeScript is a statically-typed superset of JavaScript
 - After compiling, TypeScript code is transpiled into standard, browser-compatible JavaScript.

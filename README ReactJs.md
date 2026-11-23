@@ -435,50 +435,569 @@ export default function App() {
 
 <br>
 
-> ### React Patterns
+> ### lifecycle method of react
 
-1. HOC Pattern - A Higher Order Component (HOC) is a function that takes a component and returns a new component
+React lifecycle methods are methods that get called at different stages of a component's lifecycle.
 
-```jsx
-function withStyles(Component) {
-  return props => {
-    const style = { padding: '0.2rem', margin: '1rem' }
-    return <Component style={style} {...props} />
-  }
+There are **3 main phases** in the React component lifecycle:
+1. Mounting
+2. Updating
+3. Unmounting
+
+<br>
+<br>
+
+> ### Other than useeffect, is there any other method
+The three Hooks to remember are:
+1. useEffect() – Runs after the component commits and generally after the browser paints. it occurs after commit phase
+2. useLayoutEffect() – Runs after DOM mutations but before browser paint. It occurs in commit phase
+3. useInsertionEffect() – Runs before layout effects, primarily for dynamic CSS injection.
+
+<br>
+<br>
+
+> ### how will you create error boundaries in functional component
+
+In React, **we cannot create a traditional Error Boundary using only a functional component and Hooks.** React currently requires a class component to implement the built-in Error Boundary lifecycle.
+
+However, we can use a third-party library like `react-error-boundary` to achieve the same functionality in functional components.
+
+**1. Using react-error-boundary (Recommended)**
+
+Install the package:
+
+```
+npm install react-error-boundary
+```
+
+**Example:**
+
+```js
+import { ErrorBoundary } from "react-error-boundary";
+
+function ErrorFallback({ error, resetErrorBoundary }) {
+    return (
+        <div>
+            <h2>Something went wrong!</h2>
+            <p>{error.message}</p>
+
+            <button onClick={resetErrorBoundary}>
+                Try Again
+            </button>
+        </div>
+    );
 }
 
-const Button = () = <button>Click me!</button>
-const Text = () => <p>Hello World!</p>
+function App() {
+    return (
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <User />
+        </ErrorBoundary>
+    );
+}
 
-const StyledButton = withStyles(Button)
-const StyledText = withStyles(Text)
+function User() {
+    throw new Error("Failed to load user");
+
+    return <h1>User Component</h1>;
+}
+
+export default App;
+```
+
+**How it works:**
+
+1. `ErrorBoundary` wraps the child component.
+2. If a child component throws an error during rendering, the boundary catches it.
+3. `ErrorFallback` displays the fallback UI.
+4. `resetErrorBoundary()` allows retrying the failed component.
+
+**2. Important: What errors can Error Boundaries catch?**
+
+| Error type                           | Caught by Error Boundary? |
+| ------------------------------------ | ------------------------- |
+| Rendering errors                     | Yes                       |
+| Errors in child lifecycle processing | Yes                       |
+| Errors in event handlers             | No                        |
+| Errors inside `setTimeout()`         | No                        |
+| Errors in Promise callbacks          | No                        |
+| Errors inside Error Boundary itself  | No                        |
+
+For event handlers and asynchronous operations, use `try...catch` and handle the error explicitly.
+
+<br>
+<br>
+
+> ### What kind of error catches by error boundaries
+
+React Error Boundaries catch **JavaScript errors that occur during rendering and certain React-managed component processing** in their child component tree.
+
+#### 1. Errors caught by Error Boundaries
+Error type	Example	Caught?
+Render errors	Error inside component rendering	Yes
+Child component errors	Child component throws an error	Yes
+Constructor errors	Error during child class initialization	Yes
+Lifecycle errors	Error during child lifecycle processing	Yes
+Errors in nested components	Deep child component throws an error	Yes
+
+#### 2. Errors NOT caught by Error Boundaries
+Error type	Example	Caught?
+Event handler errors	onClick() throws an error	No
+Async errors	Promise rejection	No
+setTimeout errors	Error inside setTimeout()	No
+Server-side rendering errors	Error during SSR	No
+Error Boundary's own errors	Error inside fallback component	No
+
+#### 3. Practical examples
+
+**Example 1: Rendering error (Caught)**
+
+```js
+function User() {
+    throw new Error("Rendering failed");
+
+    return <h1>User</h1>;
+}
+```
+
+The Error Boundary catches this and displays fallback UI.
+
+**Example 2: Event handler error (Not caught)**
+
+```js
+function User() {
+    const handleClick = () => {
+        throw new Error("Click failed");
+    };
+
+    return <button onClick={handleClick}>Click</button>;
+}
+```
+
+This error is not caught by the Error Boundary.
+
+**Example 3: API error (Not automatically caught)**
+
+```js
+async function fetchUsers() {
+    const response = await fetch("/api/users");
+
+    if (!response.ok) {
+        throw new Error("API failed");
+    }
+}
+```
+
+You need to handle this using try...catch or explicitly forward the error to an Error Boundary.
+
+**4. Senior-level interview answer**
+"Error Boundaries catch errors during rendering, constructors, and lifecycle processing of their descendant components. They don't catch errors in event handlers, asynchronous callbacks, server-side rendering, or errors thrown by the boundary itself. For asynchronous and event-handler errors, we handle them separately using try-catch."
+
+**Important:** A rejected Promise is not automatically caught by an Error Boundary. Some libraries, such as react-error-boundary, provide showBoundary(error) to forward an asynchronously caught error to the nearest boundary.
+
+<br>
+
+> ### Difference between lazy loading and code splitting
+
+The main difference is that **Code Splitting is the technique of dividing your application code into smaller bundles, whereas Lazy Loading is the technique of loading those bundles only when they are needed.**
+
+**Difference between Lazy Loading and Code Splitting**
+| Code Splitting                               | Lazy Loading                                            |
+| -------------------------------------------- | ------------------------------------------------------- |
+| Divides the application into smaller chunks. | Loads a component or resource only when required.       |
+| Focuses on breaking code into bundles.       | Focuses on when the code should load.                   |
+| Reduces the initial JavaScript bundle size.  | Avoids loading unnecessary resources initially.         |
+| Can be implemented using dynamic `import()`. | Can be implemented using `React.lazy()` and `Suspense`. |
+| It is a bundling strategy.                   | It is a loading strategy.                               |
+
+
+#### **1. Code Splitting example**
+
+Using dynamic import:
+
+```js
+const loadDashboard = () => {
+  import('./Dashboard');
+};
+```
+
+Here, the Dashboard code is separated into a different chunk instead of being included in the main bundle.
+
+#### **2. Lazy Loading example in React**
+
+```js
+import React, { lazy, Suspense } from 'react';
+
+const Dashboard = lazy(() => import('./Dashboard'));
+
+function App() {
+  return (
+    <Suspense fallback={<p>Loading...</p>}>
+      <Dashboard />
+    </Suspense>
+  );
+}
+
+export default App;
+```
+
+Here:
+
+- `React.lazy()` loads Dashboard only when React renders it.
+- `Suspense` displays fallback UI while the component is loading.
+- `import()` enables the bundler to create a separate chunk.
+
+### **Real-world example**
+
+Suppose we have an application with 5 pages:
+
+- Home
+- Login
+- Dashboard
+- Profile
+- Settings
+
+**Without code splitting:** All page code might be included in the initial JavaScript bundle.
+
+**With code splitting and lazy loading:**
+
+- Initially, only the required Home page code loads.
+- When the user navigates to Dashboard, its JavaScript chunk loads.
+- When the user navigates to Settings, its chunk loads.
+
+
+> ### Code spliting without lazy load
+
+```js
+import { useState } from 'react';
+
+function App() {
+  const [Dashboard, setDashboard] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const loadDashboard = async () => {
+    setLoading(true);
+
+    try {
+      const module = await import('./Dashboard');
+
+      setDashboard(() => module.default);
+    } catch (error) {
+      console.error('Failed to load Dashboard:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Home Page</h1>
+
+      <button onClick={loadDashboard}>
+        Load Dashboard
+      </button>
+
+      {loading && <p>Loading...</p>}
+
+      {Dashboard && <Dashboard />}
+    </div>
+  );
+}
+
+export default App;
+```
+
+Below is also an example
+
+```js
+async function handleExport() {
+  const { exportToPDF } = await import('./pdfUtils');
+
+  exportToPDF();
+}
 ```
 
 <br>
 
-2. Hooks Pattern
+> ### React Patterns
+
+**React Patterns** are reusable solutions or approaches used to solve common problems.
+
+They help us write code that is:
+- Reusable and maintainable.
+- Scalable for large applications.
+- Easy to test and debug.
+- More modular with better separation of concerns.
+
+1. **Container and Presentational Pattern** - Separates business logic from UI rendering.
+- **Container component**: Handles API calls, state, and business logic.
+- **Presentational component**: Handles only UI rendering using props.
+
+```js
+// Container Component
+function UserContainer() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(res => res.json())
+      .then(data => setUsers(data));
+  }, []);
+
+  return <UserList users={users} />;
+}
+
+// Presentational Component
+function UserList({ users }) {
+  return (
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+
+```js
+import { useState } from "react";
+
+// Container Component (Logic)
+function UserContainer() {
+  const [name, setName] = useState("Pradeep");
+
+  return <UserProfile name={name} />;
+}
+
+// Presentational Component (UI)
+function UserProfile({ name }) {
+  return <h2>Hello {name}</h2>;
+}
+
+// App
+function App() {
+  return <UserContainer />;
+}
+
+export default App;
+```
+
+2. **HOC Pattern** - A Higher Order Component (HOC) is a function that `takes a component and returns a new component`
+
+```jsx
+// HOC
+function withMessage(Component) {
+  return function () {
+    return (
+      <>
+        <h2>Hello from HOC!</h2>
+        <Component />
+      </>
+    );
+  };
+}
+
+// Normal Component
+function Welcome() {
+  return <h3>Welcome to React</h3>;
+}
+
+// Enhance component using HOC
+const EnhancedWelcome = withMessage(Welcome);
+
+// Usage
+function App() {
+  return <EnhancedWelcome />;
+}
+```
+
+<br>
+
+3. **Custom Hooks Pattern** - Custom hooks allow us to extract and reuse stateful logic across multiple components.
 
 ```jsx
 import { useState } from "react";
 
-function useCounter(initialValue = 0) {
-  const [count, setCount] = useState(initialValue);
+// Custom Hook
+function useCounter() {
+  const [count, setCount] = useState(0);
 
-  const increment = () => setCount(c => c + 1);
-  const decrement = () => setCount(c => c - 1);
+  const increment = () => setCount(count + 1);
 
-  return { count, increment, decrement };
+  return { count, increment };
+}
+
+// Component 1
+function Counter() {
+  const { count, increment } = useCounter();
+
+  return (
+    <>
+      <h2>{count}</h2>
+      <button onClick={increment}>Increment</button>
+    </>
+  );
+}
+
+// Component 2
+function AnotherCounter() {
+  const { count, increment } = useCounter();
+
+  return (
+    <>
+      <h2>{count}</h2>
+      <button onClick={increment}>Increment</button>
+    </>
+  );
 }
 ```
 
-3. Compound Pattern
+4. **Compound Components Pattern** : Multiple components work together to provide a single feature while sharing common state.
 
-The Compound Components Pattern is a design technique in React that allows the creation of components that work closely and coherently together. In this pattern, a parent component can encapsulate multiple child components, enabling seamless communication and coordinated interaction among them
+```js
+import { useState } from "react";
 
-4. Control Props Pattern
+function Tabs({ children }) {
+  const [activeTab, setActiveTab] = useState(1);
+
+  return (
+    <div>
+      {children.map((child, index) => (
+        <button onClick={() => setActiveTab(index)}>
+          {child.props.title}
+        </button>
+      ))}
+
+      {children[activeTab]}
+    </div>
+  );
+}
+
+function Tab({ children }) {
+  return <div>{children}</div>;
+}
+
+// Usage
+function App() {
+  return (
+    <Tabs>
+      <Tab title="Home">
+        <h2>Home Content</h2>
+      </Tab>
+
+      <Tab title="Profile">
+        <h2>Profile Content</h2>
+      </Tab>
+
+      <Tab title="Settings">
+        <h2>Settings Content</h2>
+      </Tab>
+    </Tabs>
+  );
+}
+
+export default App;
+```
+
+5. **Render Props Pattern**: A component receives a function as a prop and calls that function to decide what UI to render.
+
+```js
+function DataProvider({ render }) {
+  const name = "Pradeep";
+
+  return render(name);
+}
+
+function App() {
+  return (
+    <DataProvider render={(name) => <h1>Hello {name}</h1>} />
+  );
+}
+
+export default App;
+```
+
+6. **Provider Pattern**: Uses React Context to share data across multiple components without passing props through every intermediate component.
 
 <br>
+<br>
 
+> ### Since we have discussed many types of pattern which is best, and what are the advantage of one over the others
+
+Let's compare all the patterns we discussed.
+
+#### **1. Comparison of React Patterns**
+
+| Pattern                  | Main purpose                  | Biggest advantage                                       |
+| ------------------------ | ----------------------------- | ------------------------------------------------------- |
+| Custom Hooks             | Reuse stateful logic          | Avoid logic duplication                                 |
+| HOC                      | Enhance components            | Add functionality without modifying original components |
+| Compound Components      | Build related UI components   | Flexible and reusable component APIs                    |
+| Render Props             | Share logic through functions | Consumer controls rendering                             |
+| Container/Presentational | Separate logic and UI         | Better maintainability                                  |
+| Provider Pattern         | Share global state            | Avoid prop drilling                                     |
+| Controlled Components    | Manage form inputs            | Predictable state and validation                        |
+| State Reducer            | Manage complex state          | Centralized state transitions                           |
+
+#### **2. Advantages of one over another**
+
+Let's understand when one pattern is better than another.
+
+**1. Custom Hooks vs HOC**
+
+Example: Multiple components need authentication logic.
+
+- Custom Hooks: Each component calls `useAuth()` and decides what to render.
+- HOC: Authentication logic and rendering restrictions are handled externally.
+
+
+
+**Modern preference** - Custom Hooks for sharing logic; HOC when external component enhancement is useful.
+
+
+
+**2. Compound Components vs Render Props**
+
+Example: Building a reusable Tabs component.
+
+- Compound Components: `<Tabs>`, `<Tab>`, and `<TabPanel>` work together.
+- Render Props: A function receives data and decides what UI to render.
+
+Compound Components provide a more declarative and readable API for related UI elements.
+
+**3. Container/Presentational vs Custom Hooks**
+
+Example: Building a user listing page.
+
+- Container/Presentational: Separates data handling from UI.
+- Custom Hooks: Extracts reusable business logic from components.
+
+These two patterns can actually work together.
+
+**4. Provider vs HOC**
+
+Example: Managing authentication across an application.
+
+- Provider: Shares authentication data globally.
+- HOC: Protects individual components or routes.
+
+They solve different problems and can be used together.
+
+#### **3. Which pattern should you choose in a real-world project?**
+
+| Requirement                          | Recommended pattern                  |
+| ------------------------------------ | ------------------------------------ |
+| Reuse API/business logic             | Custom Hooks                         |
+| Authentication/authorization wrapper | HOC or route guards                  |
+| Reusable Tabs/Dropdown/Accordion     | Compound Components                  |
+| Dynamic UI rendering                 | Render Props                         |
+| Separate business logic and UI       | Container/Presentational             |
+| Global theme/authentication state    | Provider                             |
+| Complex forms                        | Controlled Components + Custom Hooks |
+| Complex state transitions            | useReducer / State Reducer           |
+
+<br>
 <br>
 
 > ### React Hook Form Example
@@ -3348,51 +3867,6 @@ Same as we did for the focus, just replace focus with click
 
 <br>
 
-
-
-> ### What are render props?
-
-**Render Props** is a simple technique for sharing code between components using a prop whose value is a function. The below component uses render prop which returns a React element
-
-```jsx
-// ParentComponent.js
-import React from 'react';
-import ChildComponent from './ChildComponent';
-
-const ParentComponent = () => {
-  return (
-    <div>
-      <h2>Parent Component</h2>
-      <ChildComponent render={(data) => <p>Data from parent: {data}</p>} />
-    </div>
-  );
-};
-
-export default ParentComponent;
-```
-
-```jsx
-// ChildComponent.js
-import React from 'react';
-
-const ChildComponent = ({ render }) => {
-  const dataFromParent = "Hello from Parent";
-
-  return (
-    <div>
-      <h3>Child Component</h3>
-      {render(dataFromParent)}
-    </div>
-  );
-};
-
-export default ChildComponent;
-```
-
-
-<br>
-
-
 > ### What is the purpose of push() and replace() methods of history?
 
 If you think of the `history` as an `array of visited locations`, `push()` will add a new location to the array and `replace()` will replace the current location in the array with the new one.
@@ -5556,3 +6030,218 @@ All the DOM logical part is handled in render phase while real dom creation/upda
 
 - React runs useEffect callbacks after the commit.
 - Handles side effects such as API calls, subscriptions, and timers.
+
+<br>
+
+> ### Initailly we have created the contextapi as store in the project, but as project gets bigger we need to add the redux toolkit. How you gonna transition context to redux 
+
+This is a very good senior-level React architecture question. In a real enterprise application, I would **migrate from Context API to Redux Toolkit incrementally rather than replacing the entire Context API at once.**
+
+**Incremental migration strategy**
+
+1. **Audit existing Context store**
+
+   Identify state ownership and dependencies.
+2. **Introduce Redux Toolkit**
+
+   Configure store and feature slices.
+3. **Run both providers**
+
+   Context and Redux coexist.
+4. **Migrate feature by feature**
+
+   Authentication → Cart → Other global features.
+5. **Validate and clean up**
+
+   Remove old Context state and unused providers.
+
+**Important challenges during migration**
+
+| Challenge                             | Solution                                                                 |
+| ------------------------------------- | ------------------------------------------------------------------------ |
+| Existing components depend on Context | Migrate consumers incrementally.                                         |
+| Duplicate state in Context and Redux  | Establish one source of truth for each state domain.                     |
+| Application breaks during migration   | Use feature-level testing and gradual rollout.                           |
+| Components re-render unnecessarily    | Use selective `useSelector` subscriptions and memoized selectors.        |
+| Existing API logic is in Context      | Move async operations into Redux thunks or RTK Query, where appropriate. |
+
+
+
+<br>
+<br>
+
+> ### what are the hooks which can be used in performance optimization
+
+| Hook               | Purpose                                    | When to use                             |
+| ------------------ | ------------------------------------------ | --------------------------------------- |
+| `useMemo`          | Memoizes calculated values                 | Avoid expensive recalculations          |
+| `useCallback`      | Memoizes function references               | Avoid unnecessary child re-renders      |
+| `useTransition`    | Marks updates as non-urgent                | Keep UI responsive                      |
+| `useDeferredValue` | Defers updating a value                    | Optimize expensive search/filtering     |
+| `useRef`           | Stores mutable values without re-rendering | Store values without triggering renders |
+
+Let's understand each with simple examples.
+
+#### **2. useMemo**
+
+It caches the result of an expensive calculation and recalculates only when dependencies change.
+
+```js
+const expensiveValue = useMemo(() => {
+  console.log("Calculating...");
+  return numbers.reduce((a, b) => a + b, 0);
+}, [numbers]);
+```
+
+**Benefit:** Avoids unnecessary recalculation on every render.
+
+#### **3. useCallback**
+
+It `caches a function reference` between renders unless dependencies change.
+
+```js
+const handleClick = useCallback(() => {
+  console.log("Button clicked");
+}, []);
+```
+
+**Benefit:** Useful when passing callbacks to memoized child components.
+
+#### **4. useTransition**
+
+It allows us to mark certain state updates as non-urgent so urgent UI updates remain responsive.
+
+```js
+const [isPending, startTransition] = useTransition();
+
+function handleChange(e) {
+  const value = e.target.value;
+
+  startTransition(() => {
+    setSearch(value);
+  });
+}
+```
+
+**Benefit:** Keeps the UI responsive during expensive rendering.
+
+#### **5. useDeferredValue**
+
+It delays updating a value when React is busy with more urgent updates.
+
+```js
+const [search, setSearch] = useState("");
+
+const deferredSearch = useDeferredValue(search);
+
+const filteredUsers = useMemo(() => {
+  return users.filter(user =>
+    user.name.includes(deferredSearch)
+  );
+}, [users, deferredSearch]);
+```
+
+**Benefit:** Keeps typing responsive while expensive filtering catches up.
+
+#### **6. useRef**
+
+It stores a mutable value without triggering a component re-render when the value changes.
+
+```js
+const renderCount = useRef(0);
+
+renderCount.current++;
+
+console.log(renderCount.current);
+```
+
+**Benefit:** Useful for storing timers, previous values, DOM references, and mutable data without causing re-renders.
+
+
+## **8. Senior-level interview summary**
+
+| Technique        | What does it optimize?              |
+| ---------------- | ----------------------------------- |
+| React.memo       | Component re-rendering              |
+| useMemo          | Expensive calculations              |
+| useCallback      | Function reference stability        |
+| useTransition    | Non-urgent state updates            |
+| useDeferredValue | Expensive UI updates                |
+| useRef           | Mutable values without re-rendering |
+
+**Important interview points:**
+
+1. `useMemo` and `useCallback` are primarily memoization tools.
+2. `React.memo` optimizes component rendering.
+3. `useTransition` and `useDeferredValue` help with rendering responsiveness.
+4. `useRef` does not directly optimize rendering; it helps avoid renders caused by storing mutable values.
+5. Don't use memoization everywhere. It has its own overhead. First identify actual performance bottlenecks using React DevTools Profiler.
+
+<br>
+
+> ### Can we implement useCallback using useMemo?
+
+```js
+// useCallback
+const handleClick = useCallback(() => {
+  console.log("Hello");
+}, []);
+
+// Equivalent using useMemo
+const handleClick = useMemo(() => {
+  return () => {
+    console.log("Hello");
+  };
+}, []);
+```
+
+<br>
+
+> ### `useMemo` and `useCallback`  memoize what ?
+
+The main difference is:
+- useMemo memoizes a `value` (result of a calculation).
+- useCallback memoizes a `function reference` (the function itself).
+
+**Note:** `useMemo` caches the result returned by its callback. For `primitive` values, it preserves the `value`; for `objects and arrays`, it `preserves the reference` to the cached object or array.
+
+
+<br>
+
+> ### where is memoized value is storing
+
+React stores the memoized value **internally in the Fiber node of the component**.
+
+More specifically:
+
+1. Every component instance has its own Fiber node.
+2. React maintains a linked list of Hooks associated with that Fiber node.
+3. For `useMemo`, React stores the following internally:
+
+```js
+{
+  memoizedState: [
+    calculatedValue,
+    dependencies
+  ]
+}
+```
+
+For example:
+
+```js
+const result = useMemo(() => 10 + 20, []);
+```
+
+Conceptually, React stores:
+
+```js
+memoizedState = [30, []];
+```
+
+**Important interview points:**
+
+- Stored in React's internal memory, not browser localStorage or sessionStorage.
+- Each component instance has its own Hook state.
+- React checks dependencies before reusing the cached value.
+- React may discard the cache in certain situations; it is a performance optimization, not a guarantee of permanent storage.
