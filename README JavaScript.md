@@ -4238,6 +4238,119 @@ console.log(employees);
 ```
 
 <br>
+
+> ### What is difference between shadow dom and web components
+
+The main difference is that **Web Components are a set of technologies used to create reusable custom HTML elements, whereas Shadow DOM is one of the technologies used inside Web Components to encapsulate their DOM and CSS.**
+
+They are related, but they are not the same thing.
+
+## **1. What are Web Components?**
+
+Web Components are a collection of browser-native technologies that allow developers to create reusable, custom HTML elements.
+
+They consist of three main technologies:
+
+1. **Custom Elements:** Allow you to create your own HTML tags.
+2. **Shadow DOM:** Provides DOM and CSS encapsulation.
+3. **HTML Templates:** Allow you to define reusable HTML structures using `<template>` and `<slot>`.
+
+Example:
+
+```
+<user-profile></user-profile>
+```
+
+Here, `user-profile` is a custom HTML element created by a developer.
+
+## **2. What is Shadow DOM?**
+
+Shadow DOM is a browser feature that allows you to attach a separate, encapsulated DOM tree to an element.
+
+Its main purpose is to provide:
+
+- CSS isolation.
+- DOM encapsulation.
+- Preventing styles from leaking outside.
+- Preventing external styles from unintentionally affecting internal elements.
+
+Example:
+
+```
+class UserProfile extends HTMLElement {
+  constructor() {
+    super();
+
+    const shadow = this.attachShadow({ mode: "open" });
+
+    shadow.innerHTML = `
+      <style>
+        p {
+          color: red;
+        }
+      </style>
+
+      <p>Hello, User!</p>
+    `;
+  }
+}
+
+customElements.define("user-profile", UserProfile);
+```
+
+Usage:
+
+```
+<user-profile></user-profile>
+```
+
+Even if the main document has:
+
+```
+p {
+  color: blue;
+}
+```
+
+The paragraph inside the Shadow DOM remains red because its styles are encapsulated.
+
+## **3. Difference between Shadow DOM and Web Components**
+
+| Feature          | Shadow DOM                        | Web Components                                |
+| ---------------- | --------------------------------- | --------------------------------------------- |
+| Definition       | Browser API for DOM encapsulation | Collection of web technologies                |
+| Purpose          | Isolates DOM and CSS              | Creates reusable custom elements              |
+| Custom HTML tags | Does not create them by itself    | Supports them through Custom Elements         |
+| CSS isolation    | Yes                               | Possible through Shadow DOM                   |
+| DOM isolation    | Yes                               | Possible through Shadow DOM                   |
+| HTML templates   | Not its responsibility            | Supports reusable templates                   |
+| Dependency       | Can be used independently         | Can use Shadow DOM as one of its technologies |
+
+## **4. How are they related?**
+
+## **Web Components**
+
+**Custom Elements**
+
+Define custom HTML tags
+
+**Shadow DOM**
+
+Encapsulate DOM and CSS
+
+**HTML Templates**
+
+Define reusable HTML structures
+
+## **5. Interview-ready answer**
+
+If an interviewer asks, "What is the difference between Shadow DOM and Web Components?", you can answer:
+
+"Web Components are a collection of browser-native technologies used to create reusable custom HTML elements. Shadow DOM is one of those technologies that provides DOM and CSS encapsulation. For example, when creating a custom component like a user profile card, I can use Custom Elements to define the component and Shadow DOM to isolate its internal styles and structure."
+
+**Important interview point:** Shadow DOM can also be used independently of Web Components. For example, you can attach a Shadow DOM to a regular DOM element using `element.attachShadow()`.
+
+<br>
  
 > ### illegal shadowing
 If you create a variable in a global scope with the let keyword and another variable with the var keyword in a block scope but the exact same name, it will throw an error. This is called illegal shadowing.

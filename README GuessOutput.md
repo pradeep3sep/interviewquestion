@@ -845,7 +845,7 @@ console.log(a == b)
   <p>1 <br> false</p>
 </details>
 
-### Question 43
+### ⭐️ Question 43 - answer without option
 ```js
 class Chameleon {
   static colorChange(newColor) {
@@ -1373,7 +1373,7 @@ console.log(member.name);
   We can set classes equal to other classes/function constructors. In this case, we set `Person` equal to `AnotherPerson`. The name on this constructor is `Sarah`, so the name property on the new `Person` instance `member` is `"Sarah"`.
 </details>
 
-### Question 63
+### ⭐️ Question 63
 
 ```js
 const getList = ([x, ...y]) => [x, y]
@@ -2449,7 +2449,7 @@ Thus, the output order is `1 2 4 3`.
 </details>
 
 
-### Question 99
+### ⭐️ Question 99
 
 
 ```js
@@ -2492,7 +2492,7 @@ const promise = new Promise((resolve) => {
 
 <br>
 
-### Question 100
+### ⭐️ Question 100
 
 ```js
 console.log(1);
@@ -2626,7 +2626,7 @@ console.log("end");
 ```
 </details>
 
-### Question 103
+### ⭐️ Question 103
 
 ```js
 const inc = async (x) => {
@@ -3457,7 +3457,7 @@ console.log(person.age);
   if writable: true then value associated with the property can be modified else value can not be modified. 
 </details>
 
-### Question 130
+### ⭐️ Question 130
 
 ```js
 console.log(1)

@@ -1,7 +1,9 @@
-### suppose we have the login form, we have parent component in which we have child component of input and button, how you will avoid the rerendering in parent component
+### Suppose we have the login form, we have parent component in which we have child component of input and button, how you will avoid the rerendering in parent component
 
 - Solution 1: React.memo()
 - Solution 2: Use uncontrolled components with refs
+- Use a state management library
+
 ```js
 function Login() {
   const emailRef = useRef(null);
@@ -29,13 +31,16 @@ function Login() {
   );
 }
 ```
-- Use a state management library
 
 <br>
 
-### since you mentioned of using the useref, what are the limitations of useref
+### Since you mentioned of using the useref, what are the limitations of useRef
+
+**Note**: Keep in mind when we use the ref as normal then we get ref.current, but when we are using the input then it will be ref.current.value
 
 **1. Updating ref doesn't trigger re-render**
+
+<details>
 
 ```js
 const countRef = useRef(0);
@@ -48,13 +53,84 @@ const increment = () => {
 
 React won't re-render the component when `current` changes. Therefore, you cannot rely on it to update the UI.
 
+</details>
+
 **2. UI doesn't automatically stay synchronized**
+
+<details>
 
 If you store an input value in a ref, React doesn't know when it changes.
 
 For example, if you want to show live validation messages while the user types, `useRef` alone isn't sufficient. You need state or another subscription mechanism.
 
-**3. Not suitable for complex form validation**
+</details>
+
+**3. No automatic previoud change tracking**
+
+<details>
+
+Unlike `useState`, refs don't provide a previous-versus-current value update mechanism or trigger effects when `.current` changes.
+
+#### We can do the previous manually but useState provide automatically basically updating a value and React tracking that update are two different things.
+```js
+function Counter() {
+  const countRef = useRef(0);
+
+  const handleClick = () => {
+    const previousValue = countRef.current;
+
+    countRef.current = countRef.current + 1;
+
+    const currentValue = countRef.current;
+
+    console.log("Previous:", previousValue);
+    console.log("Current:", currentValue);
+  };
+
+  return (
+    <button onClick={handleClick}>
+      Increment
+    </button>
+  );
+}
+```
+
+```js
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Count changed:", count);
+  }, [count]);
+
+  return (
+    <button onClick={() => setCount(prev => prev + 1)}>
+      Increment
+    </button>
+  );
+}
+```
+
+</details>
+
+**4. Ref values are not reactive dependencies**
+
+<details>
+
+Below code won't work
+```js
+useEffect(() => {
+  console.log(countRef.current);
+}, [countRef.current]);
+```
+
+This is not a reliable way to detect ref changes. Updating `.current` doesn't trigger a render, so React may not re-evaluate the dependency.
+
+</details>
+
+**5. Not suitable for complex form validation**
+
+<details>
 
 For forms requiring:
 
@@ -66,21 +142,9 @@ For forms requiring:
 
 Using refs alone can make the implementation difficult to maintain.
 
-**4. No automatic change tracking**
+</details>
 
-Unlike `useState`, refs don't provide a previous-versus-current value update mechanism or trigger effects when `.current` changes.
-
-
-**5. Ref values are not reactive dependencies**
-```js
-useEffect(() => {
-  console.log(countRef.current);
-}, [countRef.current]);
-```
-
-This is not a reliable way to detect ref changes. Updating `.current` doesn't trigger a render, so React may not re-evaluate the dependency.
-
-### **useRef vs useState**
+#### **useRef vs useState**
 
 | Feature                      | useRef    | useState            |
 | ---------------------------- | --------- | ------------------- |
@@ -93,12 +157,16 @@ This is not a reliable way to detect ref changes. Updating `.current` doesn't tr
 
 <br>
 
-> #### Notes of react
+> ### Notes of react
 we need to creat the .config file of main react component, which contains mainly that content constants, functions not the hooks, or the some constant return the smaller content
 
+> ### Interview Pratice code
+
+1. Call api https://dummyjson.com/products, show data in table and make input which filters the data
+
+<details>
 
 ```js
-
 import React, { useEffect, useState } from "react";
 
 export default function ProductTable() {
@@ -150,9 +218,13 @@ export default function ProductTable() {
   );
 }
 ```
+</details>
+
+2. Take some array of object, make filter from it
+
+<details>
 
 ```js
-
 import React, { useState } from "react";
 
 function App() {
@@ -191,129 +263,12 @@ function App() {
 
 export default App;
 ```
+</details>
 
 
-## What is `server.proxy` in Vite?
+3. Custom hook for the debounce
 
-In Vite, `server.proxy` is a configuration option that allows your frontend development server to forward API requests to another server (usually your backend).
-
-It is mainly used to:
-
-1. Avoid CORS issues during local development.
-2. Connect your React/Vue frontend to a backend API.
-3. Avoid hardcoding backend URLs in frontend API calls.
-4. Make frontend requests appear to come from the same origin during development.
-
-### 1. Example without proxy
-
-Suppose you have two applications running:
-
-| Application           | URL                     |
-| --------------------- | ----------------------- |
-| React frontend (Vite) | `http://localhost:5173` |
-| Node.js backend       | `http://localhost:3000` |
-
-Your frontend makes an API request:
-
-```
-fetch("http://localhost:3000/api/users");
-```
-
-Because the frontend and backend have different origins (different ports), the browser applies CORS restrictions.
-
-Your backend must allow the frontend origin, otherwise the browser can block access to the response.
-
-### 2. Example with Vite proxy
-
-Configure the proxy in `vite.config.js`:
-
-```
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-
-export default defineConfig({
-  plugins: [react()],
-  server: {
-    proxy: {
-      "/api": {
-        target: "http://localhost:3000",
-        changeOrigin: true,
-      },
-    },
-  },
-});
-```
-
-Now, in your React application:
-
-```
-fetch("/api/users");
-```
-
-Vite automatically forwards the request to your backend.
-
-The browser talks to Vite, and Vite forwards the API request to Node.js.
-
-Why does this avoid CORS issues?
-
-The browser sends its request to `localhost:5173`, the same origin serving your frontend. Vite then makes the backend request server-to-server, which is not subject to the browser's CORS enforcement.
-
-### 3. Understanding the proxy options
-
-| Option               | Purpose                                                          |
-| -------------------- | ---------------------------------------------------------------- |
-| `"/api"`             | Matches requests beginning with `/api`                           |
-| `target`             | Backend server where requests are forwarded                      |
-| `changeOrigin: true` | Changes the outgoing request's `Host` header to match the target |
-| `rewrite`            | Modifies the request path before forwarding                      |
-| `ws: true`           | Enables WebSocket proxying                                       |
-
-For example, suppose your backend endpoint is `/users`, not `/api/users`.
-
-You can remove `/api` before forwarding:
-
-```
-proxy: {
-  "/api": {
-    target: "http://localhost:3000",
-    changeOrigin: true,
-    rewrite: (path) => path.replace(/^\/api/, ""),
-  },
-}
-```
-
-Now:
-
-```
-Frontend: http://localhost:5173/api/users
-Backend:  http://localhost:3000/users
-```
-
-### 4. Does Vite proxy work in production?
-
-No, `server.proxy` is a development server feature.
-
-When you build your application using:
-
-```
-npm run build
-```
-
-Vite generates static production assets. Its development proxy is not included.
-
-In production, you typically configure a reverse proxy such as Nginx, use a backend gateway, or configure CORS on your backend.
-
-### Interview-ready answer
-
-> In Vite, `server.proxy` is a development server configuration that forwards matching HTTP requests from the frontend to a backend server. It helps avoid browser CORS restrictions during development and allows the frontend to use relative API paths. It also supports path rewriting and WebSocket proxying. However, it does not automatically provide a proxy for the production build.
-
-Official reference: [Vite server.proxy documentation](https://vite.dev/config/server-options?utm_source=chatgpt.com#server-proxy).
-
-One important interview concept: Vite proxy does not actually disable CORS. It avoids the need for cross-origin browser API calls by forwarding them through the development server.
-
-
-
-> ### Custom hook for the debounce
+<details>
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -366,11 +321,13 @@ function SearchComponent() {
   );
 }
 ```
+</details>
 
 <br>
-<br>
 
-> ### Custom fetch hook
+4. Custom fetch hook
+
+<details>
 
 ```jsx
 import { useState, useEffect } from "react";
@@ -432,8 +389,123 @@ export default function App() {
   );
 }
 ```
+</details>
 
 <br>
+
+### What is `server.proxy` in Vite?
+
+<details>
+
+In Vite, `server.proxy` is a configuration option that allows your frontend development server to forward API requests to another server (usually your backend).
+
+It is mainly used to:
+
+1. Avoid CORS issues during local development.
+2. Connect your React/Vue frontend to a backend API.
+3. Avoid hardcoding backend URLs in frontend API calls.
+4. Make frontend requests appear to come from the same origin during development.
+
+#### 1. Example without proxy
+
+Suppose you have two applications running:
+
+| Application           | URL                     |
+| --------------------- | ----------------------- |
+| React frontend (Vite) | `http://localhost:5173` |
+| Node.js backend       | `http://localhost:3000` |
+
+Your frontend makes an API request:
+
+```
+fetch("http://localhost:3000/api/users");
+```
+
+Because the frontend and backend have different origins (different ports), the browser applies CORS restrictions.
+
+Your backend must allow the frontend origin, otherwise the browser can block access to the response.
+
+<br>
+
+#### 2. Example with Vite proxy
+
+Configure the proxy in `vite.config.js`:
+
+```js
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+
+export default defineConfig({
+  plugins: [react()],
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://localhost:3000",
+        changeOrigin: true,
+      },
+    },
+  },
+});
+```
+
+Now, in your React application:
+
+```
+fetch("/api/users");
+```
+
+Vite automatically forwards the request to your backend.
+
+The browser talks to Vite, and Vite forwards the API request to Node.js.
+
+
+### 3. Understanding the proxy options
+
+| Option               | Purpose                                                          |
+| -------------------- | ---------------------------------------------------------------- |
+| `"/api"`             | Matches requests beginning with `/api`                           |
+| `target`             | Backend server where requests are forwarded                      |
+| `changeOrigin: true` | Changes the outgoing request's `Host` header to match the target |
+| `rewrite`            | Modifies the request path before forwarding                      |
+| `ws: true`           | Enables WebSocket proxying                                       |
+
+For example, suppose your backend endpoint is `/users`, not `/api/users`.
+
+You can remove `/api` before forwarding:
+
+```js
+proxy: {
+  "/api": {
+    target: "http://localhost:3000",
+    changeOrigin: true,
+    rewrite: (path) => path.replace(/^\/api/, ""),
+  },
+}
+```
+
+Now:
+
+```
+Frontend: http://localhost:5173/api/users
+Backend:  http://localhost:3000/users
+```
+
+#### 4. Does Vite proxy work in production?
+
+No, `server.proxy` is a development server feature.
+
+When you build your application using:
+
+```
+npm run build
+```
+
+Vite generates static production assets. Its development proxy is not included.
+
+In production, you typically configure a reverse proxy such as Nginx, use a backend gateway, or configure CORS on your backend.
+
+</details>
+
 
 > ### lifecycle method of react
 
@@ -456,7 +528,7 @@ The three Hooks to remember are:
 <br>
 <br>
 
-> ### how will you create error boundaries in functional component
+> ### How will you create error boundaries in functional component
 
 In React, **we cannot create a traditional Error Boundary using only a functional component and Hooks.** React currently requires a class component to implement the built-in Error Boundary lifecycle.
 
@@ -525,56 +597,95 @@ export default App;
 
 For event handlers and asynchronous operations, use `try...catch` and handle the error explicitly.
 
-<br>
-<br>
+**Rendering errors**
 
-> ### What kind of error catches by error boundaries
+```js
+function UserProfile() {
+  const user = null;
 
-React Error Boundaries catch **JavaScript errors that occur during rendering and certain React-managed component processing** in their child component tree.
+  return <h1>{user.name}</h1>; // TypeError
+}
 
-#### 1. Errors caught by Error Boundaries
-Error type	Example	Caught?
-Render errors	Error inside component rendering	Yes
-Child component errors	Child component throws an error	Yes
-Constructor errors	Error during child class initialization	Yes
-Lifecycle errors	Error during child lifecycle processing	Yes
-Errors in nested components	Deep child component throws an error	Yes
+function App() {
+  return (
+    <ErrorBoundary>
+      <UserProfile />
+    </ErrorBoundary>
+  );
+}
+```
+
+**Child component errors**
+
+```js
+function UserDetails({ user }) {
+  return (
+    <div>
+      <h2>{user.address.city}</h2>
+    </div>
+  );
+}
+
+function UserProfile() {
+  // Imagine this data came from an API
+  const user = {
+    name: "John",
+    address: null
+  };
+
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <UserDetails user={user} />
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <UserProfile />
+    </ErrorBoundary>
+  );
+}
+```
+
+**Errors in hooks during rendering**
+
+```js
+function useUserConfig(config) {
+  const theme = config.theme;
+
+  return theme.toUpperCase();
+}
+
+function UserProfile() {
+  const config = null;
+
+  const theme = useUserConfig(config);
+
+  return <h1>{theme}</h1>;
+}
+
+function App() {
+  return (
+    <ErrorBoundary>
+      <UserProfile />
+    </ErrorBoundary>
+  );
+}
+```
+
 
 #### 2. Errors NOT caught by Error Boundaries
-Error type	Example	Caught?
-Event handler errors	onClick() throws an error	No
-Async errors	Promise rejection	No
-setTimeout errors	Error inside setTimeout()	No
-Server-side rendering errors	Error during SSR	No
-Error Boundary's own errors	Error inside fallback component	No
+| Error Type                   | Example                         | Caught by Error Boundary? |
+| ---------------------------- | ------------------------------- | ------------------------- |
+| Event handler errors         | `onClick()` throws an error     | No                        |
+| Async errors                 | Promise rejection  - use try catch    | No                        |
+| setTimeout errors            | Error inside `setTimeout()`     | No                        |
+| Server-side rendering errors | Error during SSR                | No                        |
+| Error Boundary's own errors  | Error inside fallback component | No                        |
 
-#### 3. Practical examples
-
-**Example 1: Rendering error (Caught)**
-
-```js
-function User() {
-    throw new Error("Rendering failed");
-
-    return <h1>User</h1>;
-}
-```
-
-The Error Boundary catches this and displays fallback UI.
-
-**Example 2: Event handler error (Not caught)**
-
-```js
-function User() {
-    const handleClick = () => {
-        throw new Error("Click failed");
-    };
-
-    return <button onClick={handleClick}>Click</button>;
-}
-```
-
-This error is not caught by the Error Boundary.
 
 **Example 3: API error (Not automatically caught)**
 
@@ -590,11 +701,44 @@ async function fetchUsers() {
 
 You need to handle this using try...catch or explicitly forward the error to an Error Boundary.
 
-**4. Senior-level interview answer**
-"Error Boundaries catch errors during rendering, constructors, and lifecycle processing of their descendant components. They don't catch errors in event handlers, asynchronous callbacks, server-side rendering, or errors thrown by the boundary itself. For asynchronous and event-handler errors, we handle them separately using try-catch."
+<br>
+<br>
 
-**Important:** A rejected Promise is not automatically caught by an Error Boundary. Some libraries, such as react-error-boundary, provide showBoundary(error) to forward an asynchronously caught error to the nearest boundary.
+> ### What is the difference between try catch block and error boundaries?
 
+`Try catch` block works with `imperative code` whereas `error boundaries` are meant for `declarative code` to render on the screen.
+
+For example, the try catch block used for below imperative code
+
+```jsx
+try {
+  showButton();
+} catch (error) {
+  // ...
+}
+```
+
+Whereas error boundaries wrap declarative code as below,
+
+```jsx
+<ErrorBoundary>
+  <MyComponent />
+</ErrorBoundary>
+```
+
+So if an error occurs in a componentDidUpdate method caused by a setState somewhere deep in the tree, it will still correctly propagate to the closest error boundary.
+
+**What are Error Boundaries?**
+
+Special components that catch JavaScript errors in:
+
+- Rendering
+- Lifecycle methods
+- Constructors of child components
+
+They prevent the entire app from crashing by showing a fallback UI instead.
+
+<br>
 <br>
 
 > ### Difference between lazy loading and code splitting
@@ -626,15 +770,19 @@ Here, the Dashboard code is separated into a different chunk instead of being in
 #### **2. Lazy Loading example in React**
 
 ```js
-import React, { lazy, Suspense } from 'react';
+// App.js
+import React, { Suspense, lazy } from 'react';
 
 const Dashboard = lazy(() => import('./Dashboard'));
 
 function App() {
   return (
-    <Suspense fallback={<p>Loading...</p>}>
-      <Dashboard />
-    </Suspense>
+    <div>
+      <h1>My App</h1>
+      <Suspense fallback={<p>Loading Dashboard...</p>}>
+        <Dashboard />
+      </Suspense>
+    </div>
   );
 }
 
@@ -647,24 +795,7 @@ Here:
 - `Suspense` displays fallback UI while the component is loading.
 - `import()` enables the bundler to create a separate chunk.
 
-### **Real-world example**
-
-Suppose we have an application with 5 pages:
-
-- Home
-- Login
-- Dashboard
-- Profile
-- Settings
-
-**Without code splitting:** All page code might be included in the initial JavaScript bundle.
-
-**With code splitting and lazy loading:**
-
-- Initially, only the required Home page code loads.
-- When the user navigates to Dashboard, its JavaScript chunk loads.
-- When the user navigates to Settings, its chunk loads.
-
+<br>
 
 > ### Code spliting without lazy load
 
@@ -729,12 +860,17 @@ They help us write code that is:
 - Easy to test and debug.
 - More modular with better separation of concerns.
 
-1. **Container and Presentational Pattern** - Separates business logic from UI rendering.
+<br>
+
+#### 1. Container and Presentational Pattern - Separates business logic from UI rendering.
+
+<details>
+
 - **Container component**: Handles API calls, state, and business logic.
 - **Presentational component**: Handles only UI rendering using props.
 
 ```js
-// Container Component
+// Container Component (Logic)
 function UserContainer() {
   const [users, setUsers] = useState([]);
 
@@ -747,7 +883,7 @@ function UserContainer() {
   return <UserList users={users} />;
 }
 
-// Presentational Component
+// Presentational Component (UI)
 function UserList({ users }) {
   return (
     <ul>
@@ -759,31 +895,11 @@ function UserList({ users }) {
 }
 ```
 
-
-```js
-import { useState } from "react";
-
-// Container Component (Logic)
-function UserContainer() {
-  const [name, setName] = useState("Pradeep");
-
-  return <UserProfile name={name} />;
-}
-
-// Presentational Component (UI)
-function UserProfile({ name }) {
-  return <h2>Hello {name}</h2>;
-}
-
-// App
-function App() {
-  return <UserContainer />;
-}
-
-export default App;
-```
+<br>
 
 2. **HOC Pattern** - A Higher Order Component (HOC) is a function that `takes a component and returns a new component`
+
+<details>
 
 ```jsx
 // HOC
@@ -812,9 +928,27 @@ function App() {
 }
 ```
 
+</details>
+
+> ### What are the limitations with HOCs?
+
+- **Prop Clashing:**
+
+    - HOCs introduce new props to the wrapped component, and there's a potential for naming conflicts with existing prop names in the wrapped component. This can lead to unexpected behavior if not handled carefully.
+
+- **Unintentional Re-renders:**
+
+    - Some HOCs might cause unnecessary re-renders due to the way they handle props or state. This can impact the performance of the application, especially if not optimized.
+
+- **Prop Drilling:**
+
+    - If HOCs introduce props that are not used by the wrapped component but are only meant for internal functionalities, it might lead to prop drilling, where props are passed through multiple layers of components, making the code harder to maintain.
+
 <br>
 
 3. **Custom Hooks Pattern** - Custom hooks allow us to extract and reuse stateful logic across multiple components.
+
+<details>
 
 ```jsx
 import { useState } from "react";
@@ -853,7 +987,13 @@ function AnotherCounter() {
 }
 ```
 
+</details>
+
+<br>
+
 4. **Compound Components Pattern** : Multiple components work together to provide a single feature while sharing common state.
+
+<details>
 
 ```js
 import { useState } from "react";
@@ -900,7 +1040,13 @@ function App() {
 export default App;
 ```
 
+</details>
+
+<br>
+
 5. **Render Props Pattern**: A component receives a function as a prop and calls that function to decide what UI to render.
+
+<details>
 
 ```js
 function DataProvider({ render }) {
@@ -917,6 +1063,10 @@ function App() {
 
 export default App;
 ```
+
+</details>
+
+<br>
 
 6. **Provider Pattern**: Uses React Context to share data across multiple components without passing props through every intermediate component.
 
@@ -940,51 +1090,8 @@ Let's compare all the patterns we discussed.
 | Controlled Components    | Manage form inputs            | Predictable state and validation                        |
 | State Reducer            | Manage complex state          | Centralized state transitions                           |
 
-#### **2. Advantages of one over another**
 
-Let's understand when one pattern is better than another.
-
-**1. Custom Hooks vs HOC**
-
-Example: Multiple components need authentication logic.
-
-- Custom Hooks: Each component calls `useAuth()` and decides what to render.
-- HOC: Authentication logic and rendering restrictions are handled externally.
-
-
-
-**Modern preference** - Custom Hooks for sharing logic; HOC when external component enhancement is useful.
-
-
-
-**2. Compound Components vs Render Props**
-
-Example: Building a reusable Tabs component.
-
-- Compound Components: `<Tabs>`, `<Tab>`, and `<TabPanel>` work together.
-- Render Props: A function receives data and decides what UI to render.
-
-Compound Components provide a more declarative and readable API for related UI elements.
-
-**3. Container/Presentational vs Custom Hooks**
-
-Example: Building a user listing page.
-
-- Container/Presentational: Separates data handling from UI.
-- Custom Hooks: Extracts reusable business logic from components.
-
-These two patterns can actually work together.
-
-**4. Provider vs HOC**
-
-Example: Managing authentication across an application.
-
-- Provider: Shares authentication data globally.
-- HOC: Protects individual components or routes.
-
-They solve different problems and can be used together.
-
-#### **3. Which pattern should you choose in a real-world project?**
+#### **2. Which pattern should you choose in a real-world project?**
 
 | Requirement                          | Recommended pattern                  |
 | ------------------------------------ | ------------------------------------ |
@@ -994,8 +1101,6 @@ They solve different problems and can be used together.
 | Dynamic UI rendering                 | Render Props                         |
 | Separate business logic and UI       | Container/Presentational             |
 | Global theme/authentication state    | Provider                             |
-| Complex forms                        | Controlled Components + Custom Hooks |
-| Complex state transitions            | useReducer / State Reducer           |
 
 <br>
 <br>
@@ -1305,7 +1410,48 @@ export const RHFYouTubeForm = () => {
 **Problem** - When a context value changes, **all consuming components re-render**, even if they use only a small part of the state.
 
 ```jsx
-<UserContext.Provider value={{ user, theme }}>
+import React, { createContext, useContext, useState } from "react";
+
+const AppContext = createContext();
+
+export default function App() {
+  const [user, setUser] = useState("Pradeep");
+  const [theme, setTheme] = useState("Light");
+
+  console.log("App rendered");
+
+  return (
+    <AppContext.Provider
+      value={{ user, theme, setUser, setTheme }}
+    >
+      <Profile />
+      <Theme />
+    </AppContext.Provider>
+  );
+}
+
+function Profile() {
+  const { user, setUser } = useContext(AppContext);
+
+  console.log("Profile rendered");
+
+  return (
+    <div>
+      <h2>Profile: {user}</h2>
+      <button onClick={() => setUser("Rahul")}>
+        Update Profile
+      </button>
+    </div>
+  );
+}
+
+function Theme() {
+  const { theme } = useContext(AppContext);
+
+  console.log("Theme rendered");
+
+  return <h2>Theme: {theme}</h2>;
+}
 ```
 
 If `theme` changes → components using only `user` also re-render.
@@ -1540,10 +1686,6 @@ useEffect(() => {
 <br>
 <br>
 
-> ### Difference between useTransition useDeferredValue
-
-<br>
-
 > ### We have below events in react
 onKeyDown
 
@@ -1600,6 +1742,8 @@ function App() {
 4. Move Logic into Custom Hooks - You create the state in custom hook, then only single line added in every component, which is less code compare to earlier many useState.
 
 <br>
+
+> ### React 16.8 in which hooks were introduced February 6, 2019
 
 > ### Features of React 18
 
@@ -2231,10 +2375,6 @@ export default App;
 <br>
 
 > ### We can store data in const outside function in component, so it loaded first time, but no effect on rerender when state or prop change
-
-<br>
-
-> ### Error boundary is used as package, because error boundries was only available in class components form but now it comes along with react
 
 <br>
 
@@ -3099,70 +3239,6 @@ function App() {
 
 <br>
 
-### Lazy Loading
-
-> Load code only when needed, it helps improve performance by reducing the initial bundle size.
-
-We wanna split our code into multiple chunks or into multiple bundles which are each only downloaded when they are needed or clicked.
-
-React provides `React.lazy()` and `Suspense` to handle this natively.
-
-
-```js
-// Dashboard.js
-import React from 'react';
-
-export default function Dashboard() {
-  return <h1>Welcome to the Dashboard!</h1>;
-}
-```
-
-```js
-// App.js
-import React, { Suspense, lazy } from 'react';
-
-const Dashboard = lazy(() => import('./Dashboard'));
-
-function App() {
-  return (
-    <div>
-      <h1>My App</h1>
-      <Suspense fallback={<p>Loading Dashboard...</p>}>
-        <Dashboard />
-      </Suspense>
-    </div>
-  );
-}
-
-export default App;
-```
-
-
-#### Lazy load on route change (React Router v6+)
-
-```js
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
-
-const Home = lazy(() => import('./Home'));
-const About = lazy(() => import('./About'));
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Suspense fallback={<div>Loading page...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
-  );
-}
-```
-
-<br>
-
 > ### What is useImperativeHandle
 
 `useImperativeHandle`, which is used `with forwardRef` when you want to `expose custom methods or properties` to the parent that uses the ref ie child component
@@ -3266,6 +3342,8 @@ The Virtual DOM is a concept implemented by libraries in JavaScript on top of br
 
 ### Shadow DOM
 
+<details>
+
 The Shadow DOM is a part of the Web Components standard, providing `encapsulation for DOM and CSS` or `separate environment dom, css from global environment`. It allows developers to create components with their own isolated DOM tree and styles, preventing style and script interference from the rest of the document.
 
 **Note:** Keep in mind that, agr custom component hum bnate h to uski css global css ko pollute/overwrite kr sakti h, so separete environment bnate h jo global environment or css ko pollute nhi karti.
@@ -3315,9 +3393,13 @@ The Shadow DOM is a part of the Web Components standard, providing `encapsulatio
 
 **In above example p of shadow colors will change only**
 
+</details>
+
 <br>
 
 ### Virtual DOM
+
+<details>
 
 The Virtual DOM is a concept used primarily in libraries like React to optimize UI rendering. It creates a lightweight in-memory representation of the actual DOM, allowing for efficient updates and re-renders.
 
@@ -3346,6 +3428,7 @@ function Counter() {
 
 ReactDOM.render(<Counter />, document.getElementById('root'));
 ```
+</details>
 
 ### Summary
 
@@ -3355,6 +3438,8 @@ The Shadow DOM focuses on encapsulation and isolation, while the Virtual DOM aim
 
 > ### What is Lifting State Up in React?
 When several components need to share the same changing data then it is recommended to lift the shared state up to their closest common ancestor. That means if two child components share the same data from its parent, then move the state to parent instead of maintaining local state in both of the child components.
+
+Let say we have the user name, we are managing the name separately in both component and getting the value from api. instead of this we can lift state up to parent and pass the name to each child.
 
 <br>
 
@@ -3912,109 +3997,7 @@ const MyComponent = () => {
   return <input ref={myInputRef} />;
 };
 ```
-
 <br>
-
-
-
-> ### What are HOC factory implementations?
-
-A Higher-Order Component (HOC) factory is a function that returns a Higher-Order Component. In React, a Higher-Order Component is a function that takes a component and returns a new component with additional props, state, or behavior. A HOC factory is essentially a function that generates HOCs with specific configurations.
-
-```jsx
-import React, { useEffect } from 'react';
-
-const withLogger = (WrappedComponent, logMessage) => {
-  // Return a new functional component (HOC)
-  return (props) => {
-    // useEffect to log when the component mounts and unmounts
-    useEffect(() => {
-      console.log(`${logMessage}: Component ${WrappedComponent.name} mounted`);
-      
-      // Cleanup function for componentWillUnmount
-      return () => {
-        console.log(`${logMessage}: Component ${WrappedComponent.name} will unmount`);
-      };
-    }, []); // Empty dependency array ensures the effect runs only on mount and unmount
-
-    // Render the original component with its props
-    return <WrappedComponent {...props} />;
-  };
-};
-
-// Usage of the HOC factory
-const MyComponent = ({ name }) => {
-  return <div>{`Hello, ${name}!`}</div>;
-};
-
-const LogEnhancedComponent = withLogger(MyComponent, 'Log Message');
-
-// Usage of the enhanced component
-const App = () => {
-  return <LogEnhancedComponent name="John" />;
-};
-
-export default App;
-```
-
-- The `withLogger` HOC factory takes a functional component `(WrappedComponent)` and a `logMessage`.
-- It returns a new functional component (the HOC) that logs messages when the component it wraps mounts and unmounts using the `useEffect` hook.
-- The `LogEnhancedComponent` is the result of using the `withLogger` HOC factory with the original `MyComponent`.
-- Finally, in the `App` component, we use  `LogEnhancedComponent` just like any other component.
-
-<br>
-<br>
-
-> ### In which scenarios error boundaries do not catch errors?
-Below are the cases in which error boundaries doesn't work,
-
-- Inside Event handlers
-- Asynchronous code using setTimeout or requestAnimationFrame callbacks
-- During Server side rendering
-- When errors thrown in the error boundary code itself
-
-<br>
-
-> ### What is the difference between try catch block and error boundaries?
-
-`Try catch` block works with `imperative code` whereas `error boundaries` are meant for `declarative code` to render on the screen.
-
-For example, the try catch block used for below imperative code
-
-```jsx
-try {
-  showButton();
-} catch (error) {
-  // ...
-}
-```
-
-Whereas error boundaries wrap declarative code as below,
-
-```jsx
-<ErrorBoundary>
-  <MyComponent />
-</ErrorBoundary>
-```
-
-So if an error occurs in a componentDidUpdate method caused by a setState somewhere deep in the tree, it will still correctly propagate to the closest error boundary.
-
-**What are Error Boundaries?**
-
-Special components that catch JavaScript errors in:
-
-- Rendering
-- Lifecycle methods
-- Constructors of child components
-
-They prevent the entire app from crashing by showing a fallback UI instead.
-
-<br>
-
-> ### What is the required method to be defined for a class component?
-
-The `render()` method is the only required method in a class component. i.e, All methods other than render method are optional for a class component.
-
 <br>
 
 > ### What are default props?
@@ -4034,23 +4017,6 @@ MyButton.defaultProps = {
 ```
 
 If props.color is not provided then it will set the default value to 'red'. i.e, Whenever you try to access the color prop it uses the default value
-
-<br>
-
-> ### What are the limitations with HOCs?
-
-- **Prop Clashing:**
-
-    - HOCs introduce new props to the wrapped component, and there's a potential for naming conflicts with existing prop names in the wrapped component. This can lead to unexpected behavior if not handled carefully.
-
-- **Unintentional Re-renders:**
-
-    - Some HOCs might cause unnecessary re-renders due to the way they handle props or state. This can impact the performance of the application, especially if not optimized.
-
-- **Prop Drilling:**
-
-    - If HOCs introduce props that are not used by the wrapped component but are only meant for internal functionalities, it might lead to prop drilling, where props are passed through multiple layers of components, making the code harder to maintain.
-
 
 <br>
 
@@ -4262,83 +4228,24 @@ ReactDOM.unstable_createRoot(domNode).render(<App />);
 ```
 <br>
 
-> ### useTransition Hook
-
-In Simple words, Let say you have two state updates one is fast state update and other is slow state update in same function, by default there is batching and both state are executed at a time time and sync form, but you want fast state to execute first and make UI responsive and the slow state update then we use the useTransition hook.
-
-When React state updates:
-
-* Some updates are **urgent** (like typing in input, clicking button)
-* Some updates are **slow / heavy** (like filtering huge data, changing big UI sections)
-
-If heavy updates happen immediately → **UI freezes**.
-
-`useTransition` solves this by telling React:
-
-> "Do this heavy update in background. Keep UI interactive."
-
 <br>
 
-**✅ Example Use Case**
+> ### concurrent mode?
+In React, **Concurrent Mode** or React's concurrent rendering capabilities allows React to work on multiple UI updates with different priorities without blocking the main thread unnecessarily.
 
-**Typing in a search input** but the **filtered list** is big.
+**. Important APIs related to Concurrent Rendering**
 
-You want:
+| API                | Purpose                                                         |
+| ------------------ | --------------------------------------------------------------- |
+| `useTransition`    | Marks state updates as non-urgent                               |
+| `useDeferredValue` | Defers updating a value when rendering is expensive             |
+| `Suspense`         | Shows fallback UI while waiting for supported asynchronous work |
+| `startTransition`  | Marks updates as non-urgent outside the hook                    |
 
-* Input typing → **smooth**
-* List update → **can happen slightly later**
+**Interview-ready definition:**
 
-<br>
+"Concurrent Rendering is a capability in React that allows React to prepare multiple UI updates with different priorities. It can pause, resume, or abandon rendering work so that urgent interactions, such as user input, remain responsive while expensive UI updates are processed in the background."
 
-**How it’s used**
-
-```jsx
-import { useState, useTransition } from "react";
-
-function Search() {
-  const [query, setQuery] = useState("");
-  const [list, setList] = useState(bigDataList);
-
-  const [isPending, startTransition] = useTransition();
-
-  function handleSearch(e) {
-    setQuery(e.target.value); // urgent update
-
-    startTransition(() => {
-      // non-urgent update
-      const filtered = bigDataList.filter(item =>
-        item.toLowerCase().includes(e.target.value.toLowerCase())
-      );
-      setList(filtered);
-    });
-  }
-
-  return (
-    <>
-      <input value={query} onChange={handleSearch} />
-      {isPending && <p>Updating list...</p>}
-      <ul>
-        {list.map(item => <li key={item}>{item}</li>)}
-      </ul>
-    </>
-  );
-}
-```
-
-<br>
-
-**What is returned?**
-
-| value                       | meaning                                                      |
-| --------------------------- | ------------------------------------------------------------ |
-| `isPending`                 | `true` while transition is in progress (you can show loader) |
-| `startTransition(callback)` | Wrap your slow state updates here                            |
-
-
-<br>
-
-> ### What is the difference between async mode and concurrent mode?
-Both refers the same thing. Previously concurrent Mode being referred to as "Async Mode" by React team. The name has been changed to highlight React’s ability to perform work on different priority levels. So it avoids the confusion from other approaches to Async Rendering.
 
 <br>
 
@@ -4487,62 +4394,7 @@ It is also known as one-way data flow, which means the data has one, and only on
 - The literal difference is that one has state, and the other does not. That means the stateful components are keeping track of changing data, while stateless components print out what is given to them via props, or they always render the same thing.
 
 <br>
-
-> ### Compound Pattern in react
-
-<details>
-
-```jsx
-
-import { createContext, useContext, useState } from "react";
-
-// 1. Create a context
-const CounterContext = createContext();
-
-// 2. Create parent component
-function Counter({ children }) {
-  const [count, setCount] = useState(0);
-  const increase = () => setCount((c) => c + 1);
-  const decrease = () => setCount((c) => c - 1);
-
-  return (
-    <CounterContext.Provider value={{ count, increase, decrease }}>
-      <span>{children}</span>
-    </CounterContext.Provider>
-  );
-}
-
-// 3. Create child components to help implementing the common task
-function Count() {
-  const { count } = useContext(CounterContext);
-  return <span>{count}</span>;
-}
-
-function Label({ children }) {
-  return <span>{children}</span>;
-}
-
-function Increase({ icon }) {
-  const { increase } = useContext(CounterContext);
-  return <button onClick={increase}>{icon}</button>;
-}
-
-function Decrease({ icon }) {
-  const { decrease } = useContext(CounterContext);
-  return <button onClick={decrease}>{icon}</button>;
-}
-// 4. Add child components as proeprties to parent component
-Counter.Count = Count;
-Counter.Label = Label;
-Counter.Increase = Increase;
-Counter.Decrease = Decrease;
-
-export default Counter;
-```
-</details>
-
 <br>
-
 
 > ### Below is trick to optimize the slowcomponent or we say that we prevent the rerendering of the slow component without the useMemo or useCallback
 
@@ -4626,12 +4478,18 @@ React hydration is the process of attaching event listeners and making a server-
 
 <br>
 
-> ### Why React's useDeferredValue hook is useful?
+> ### Difference between useTransition useDeferredValue
+
+#### useDeferredValue hook
+
+video 
+```
+https://www.youtube.com/watch?v=jCGMedd6IWA
+```
 
 Defer means it to be execute at the end, when the react is free, let say you have heavy computation which freezes the UI, we want the react to do all the task and at the end when its free, it do the heavy compuation task without freezing the UI.
 
-
-The `useDeferredValue` hook is useful for improving UI **performance** by **deferring** updates to expensive computations while keeping the UI responsive.
+useDeferred kehta h tum use wo state do bhaut jaldi change hota h me tumhe uski ek same value ki copy dunga. aur usko value ko tab hi me update krunga jab browser free hoga
 
 When a React state update causes a **slow re-render** (e.g., filtering a large list or expensive UI updates), `useDeferredValue` helps by:
 - **Prioritizing user interactions** (e.g., typing in an input field).
@@ -4664,7 +4522,7 @@ function Search() {
 }
 ```
 
-**Issue**: Every keystroke **immediately triggers expensive filtering**, causing lag.
+**Issue**: Every keystroke **immediately triggers expensive filtering**, causing lag in both input text UI and filtereditems list
 
 
 #### With `useDeferredValue` (Smoother UI)
@@ -4690,6 +4548,11 @@ function Search() {
 }
 ```
 
+Ab kya hoga jaise hi jo bhi value hum input me type karenge, wo turant input me dikh jayega meanwhile list abhi bhi purana data dikhayegi, but jaise hi type krna stop karenge then list bhi updated ho jayegi without blocking the UI
+
+
+useDeferred is different from debounce because in debounce the function runs after certain time, but deferred happens when browser is free.
+
 
 #### When to Use `useDeferredValue`?
 - You have **expensive computations** triggered by fast-changing state (e.g., filtering, sorting).  
@@ -4697,6 +4560,80 @@ function Search() {
 
 ❌ **Avoid `useDeferredValue` when:**  
 - The update **must happen immediately** (e.g., form validation, real-time feedback).  
+
+<br>
+
+> ### useTransition Hook
+
+In Simple words, Let say you have two state updates one is fast state update and other is slow state update in same function, by default there is batching and both state are executed at a time and sync form, but you want fast state to execute first and make UI responsive and the slow state update then we use the useTransition hook.
+
+When React state updates:
+
+* Some updates are **urgent** (like typing in input, clicking button)
+* Some updates are **slow / heavy** (like filtering huge data, changing big UI sections)
+
+If heavy updates happen immediately → **UI freezes**.
+
+`useTransition` solves this by telling React:
+
+> "Do this heavy update in background. Keep UI interactive."
+
+<br>
+
+**✅ Example Use Case**
+
+**Typing in a search input** but the **filtered list** is big.
+
+You want:
+
+* Input typing → **smooth**
+* List update → **can happen slightly later**
+
+<br>
+
+**How it’s used**
+
+```jsx
+import { useState, useTransition } from "react";
+
+function Search() {
+  const [query, setQuery] = useState("");
+  const [list, setList] = useState(bigDataList);
+
+  const [isPending, startTransition] = useTransition();
+
+  function handleSearch(e) {
+    setQuery(e.target.value); // urgent update
+
+    startTransition(() => {
+      // non-urgent update
+      const filtered = bigDataList.filter(item =>
+        item.toLowerCase().includes(e.target.value.toLowerCase())
+      );
+      setList(filtered);
+    });
+  }
+
+  return (
+    <>
+      <input value={query} onChange={handleSearch} />
+      {isPending && <p>Updating list...</p>}
+      <ul>
+        {list.map(item => <li key={item}>{item}</li>)}
+      </ul>
+    </>
+  );
+}
+```
+
+<br>
+
+**What is returned?**
+
+| value                       | meaning                                                      |
+| --------------------------- | ------------------------------------------------------------ |
+| `isPending`                 | `true` while transition is in progress (you can show loader) |
+| `startTransition(callback)` | Wrap your slow state updates here                            |
 
 <br>
 
@@ -6010,18 +5947,18 @@ After running the eject command, it won’t be possible to run it again, because
 Video - https://www.youtube.com/watch?v=VPtL6dU0YXc
 
 - Rendering is React’s process of describing a user interface based on the application’s current state and props. 
-- The initial render in a React app is the first render when the application starts up, while re-rendering occurs when there is a change in the state to figure out which parts of the UI need an update.
+- The `initial render` in a React app is the `first render` when the application starts up, while `re-rendering` occurs when there is a `change in the state` to figure out which parts of the UI need an update.
 
 
 The rendering process can be divided into the `Render and Commit phases`.
 
-All the DOM logical part is handled in render phase while real dom creation/updation happens in commit phase. in commit phase changes are done by the react DOM package
+All the `DOM logical part` is handled in `render phase` while `real dom creation/updation` happens in `commit phase`. In `commit phase` `changes` are done by the `react DOM package`
 
-1. Initial rendering - first time when react gets loaded in browser
+#### 1. Initial rendering - first time when react gets loaded in browser
 
 ![alt text](image-31.png)
 
-2. Re-rendering - When there is any state update
+#### 2. Re-rendering - When there is any state update
 
 ![alt text](image-32.png)
 
@@ -6157,26 +6094,6 @@ console.log(renderCount.current);
 
 **Benefit:** Useful for storing timers, previous values, DOM references, and mutable data without causing re-renders.
 
-
-## **8. Senior-level interview summary**
-
-| Technique        | What does it optimize?              |
-| ---------------- | ----------------------------------- |
-| React.memo       | Component re-rendering              |
-| useMemo          | Expensive calculations              |
-| useCallback      | Function reference stability        |
-| useTransition    | Non-urgent state updates            |
-| useDeferredValue | Expensive UI updates                |
-| useRef           | Mutable values without re-rendering |
-
-**Important interview points:**
-
-1. `useMemo` and `useCallback` are primarily memoization tools.
-2. `React.memo` optimizes component rendering.
-3. `useTransition` and `useDeferredValue` help with rendering responsiveness.
-4. `useRef` does not directly optimize rendering; it helps avoid renders caused by storing mutable values.
-5. Don't use memoization everywhere. It has its own overhead. First identify actual performance bottlenecks using React DevTools Profiler.
-
 <br>
 
 > ### Can we implement useCallback using useMemo?
@@ -6245,3 +6162,416 @@ memoizedState = [30, []];
 - Each component instance has its own Hook state.
 - React checks dependencies before reusing the cached value.
 - React may discard the cache in certain situations; it is a performance optimization, not a guarantee of permanent storage.
+
+
+<br>
+
+> ### how trackdown and fix the react screen that progressively slower as longer user uses it, what specific signal you look for it to confirm the root cause
+
+When a React application becomes progressively slower the longer a user interacts with it, I would primarily investigate **memory leaks, unnecessary re-renders, accumulated event listeners, and growing DOM/component trees**.
+
+
+**The first signals I would look for:**
+
+| Signal                                | What it could indicate                                  |
+| ------------------------------------- | ------------------------------------------------------- |
+| JavaScript heap keeps increasing      | Memory leak                                             |
+| DOM node count keeps increasing       | Components/elements not being cleaned up                |
+| Event listeners keep increasing       | Missing event listener cleanup                          |
+| Same components render repeatedly     | Unnecessary re-renders                                  |
+| Long tasks on the main thread         | Expensive JavaScript execution                          |
+| Increasing API requests               | Duplicate effects or subscriptions  - AbortController                    |
+| Performance degrades after navigation | Uncleaned subscriptions, timers, or retained components |
+
+#### **2. Tools I would use**
+
+**Chrome DevTools – Performance**
+
+To identify long tasks, scripting time, rendering bottlenecks, and repeated expensive operations.
+
+**Chrome DevTools – Memory**
+
+To compare heap snapshots, identify retained objects, detached DOM nodes, and memory leaks.
+
+**React DevTools – Profiler**
+
+To identify which components are rendering frequently and how much time they spend rendering.
+
+#### **3. How I would confirm a memory leak**
+
+**Step 1: Take a baseline heap snapshot.**
+
+- Open Chrome DevTools.
+- Go to Memory.
+- Select Heap Snapshot.
+- Take the first snapshot.
+
+**Step 2: Perform repeated interactions.**
+
+For example, navigate between pages 20 times, open and close modals, and switch tabs.
+
+**Step 3: Force garbage collection.**
+
+Click the garbage collection icon in the Memory panel.
+
+**Step 4: Take another heap snapshot.**
+
+Compare the two snapshots using the Comparison view.
+
+Important signal
+
+If memory keeps increasing even after garbage collection, and the same types of objects remain retained, I would suspect a memory leak.
+
+I would specifically inspect:
+
+- Detached DOM trees.
+- Increasing numbers of event listeners.
+- Growing arrays and objects.
+- Retained closures.
+- Objects that should have been released after component unmounting.
+
+Chrome's Heap Snapshot Comparison and Retainers views help identify which references are keeping objects alive.
+
+#### **5. How to identify the exact root cause**
+
+This is the most important part of the interview question.
+
+I wouldn't just say that I found a memory leak because the heap increased. I would correlate multiple signals.
+
+| Observation                           | Likely root cause                        | How to confirm           |
+| ------------------------------------- | ---------------------------------------- | ------------------------ |
+| Heap increases after every navigation | Memory leak                              | Heap snapshot comparison |
+| DOM nodes continuously increase       | Detached DOM / DOM leak                  | Memory panel             |
+| Event listener count increases        | Missing cleanup                          | Performance Monitor      |
+| Same component renders multiple times | Unnecessary re-renders                   | React Profiler           |
+| CPU usage stays high                  | Expensive JS execution                   | Performance flame chart  |
+| Repeated API calls                    | Duplicate effects/subscriptions          | Network panel            |
+| Frequent GC pauses                    | Excessive allocations or retained memory | Memory timeline          |
+
+<br>
+<br>
+
+> ### What is React Fiber and how does it differ from the old reconciliation algorithm?
+
+So React Fiber is basically the new brain behind how React updates the screen
+
+- Old React had a stackbased rendering engine.
+- It had big problem.The problem was it couldn't pause once rendering started. 
+- UI had to finish all at once
+- If updates took long -> App felt frozen
+
+Analogy
+- You are reading a book
+- someone asks a question
+- You must finish the chapter before responding
+
+
+Now React fiber alogorithm - It is interruptible
+- Breaks rendering into chunks
+- We can pause, resume or cancel work
+- Prioritizes urgent task (like user clicks)
+
+Analogy
+- You are reading a book 
+- Someone ask you something important question
+- you can bookmark your place, then answer it, then continue it from bookmark
+
+
+Key benefits of fibre
+- Priority based updates
+- Concurrent rendering
+- Supports suspense and lazy loading
+
+<br>
+
+> ### What are fibre node and fibre tree
+
+A **Fiber Node** represents an individual unit of work (usually corresponding to a React element/component), while a **Fiber Tree** is a tree-like structure made up of these Fiber Nodes.
+
+#### **1. What is a React Fiber Node?**
+
+A Fiber Node is a JavaScript object that stores information about a particular component or element in the React application.
+
+For example:
+
+```js
+function App() {
+  return (
+    <div>
+      <h1>Hello React</h1>
+      <p>Welcome</p>
+    </div>
+  );
+}
+```
+
+React internally creates Fiber Nodes representing:
+
+- App component
+- div element
+- h1 element
+- Hello React text
+- p element
+- Welcome text
+
+A simplified Fiber Node looks something like this:
+
+```js
+const fiberNode = {
+  type: "div",
+
+  key: null,
+
+  stateNode: null,
+
+  child: null,
+  sibling: null,
+  return: null,
+
+  pendingProps: {},
+  memoizedProps: {},
+  memoizedState: null,
+
+  alternate: null,
+
+  flags: 0,
+  lanes: 0
+};
+```
+
+#### **2. What is a Fiber Tree?**
+
+A Fiber Tree is a collection of Fiber Nodes connected together in a tree structure.
+
+Consider this React component:
+
+```js
+function App() {
+  return (
+    <div>
+      <Header />
+      <Main />
+      <Footer />
+    </div>
+  );
+}
+```
+
+Its simplified Fiber Tree looks like this:
+
+```
+         App
+          |
+         div
+          |
+Header-- Main --- Footer
+```
+
+
+React doesn't necessarily store the tree as traditional nested JavaScript objects.
+
+Instead, it uses three important pointers:
+
+- `child`: Points to the first child.
+- `sibling`: Points to the next sibling.
+- `return`: Points to the parent.
+
+For example:
+
+```
+         App
+          |
+         div
+          |
+        Header ----> Main ----> Footer
+```
+
+Here:
+
+- `div.child` points to Header.
+- `Header.sibling` points to Main.
+- `Main.sibling` points to Footer.
+- `Header.return` points to div.
+
+This structure helps React traverse the Fiber Tree.
+
+## **3. What are Current Fiber Tree and Work-In-Progress Fiber Tree?**
+
+This is one of the most important concepts in React Fiber.
+
+React maintains two versions of the Fiber Tree:
+
+**Current Fiber Tree**
+
+Committed
+
+Represents the currently committed UI.
+
+**App**
+
+Header
+
+Main
+
+alternate pointers / tree switching
+
+**Work-In-Progress Tree**
+
+Being prepared
+
+React builds this tree while processing updates.
+
+**App**
+
+Header
+
+Updated Main
+
+**How does it work?**
+
+Suppose you have:
+
+```
+function App() {
+  const [count, setCount] = useState(0);
+
+  return <h1>{count}</h1>;
+}
+```
+
+When you click a button that updates the count:
+
+1. React schedules a state update.
+2. React creates or reuses Fiber Nodes to build the Work-In-Progress Tree.
+3. React processes components and calculates what has changed.
+4. React completes the render work.
+5. React commits the necessary changes to the DOM.
+6. The Work-In-Progress Tree becomes the Current Tree.
+
+The `alternate` property connects corresponding Fiber Nodes between the two trees.
+
+For example:
+
+```
+currentFiber.alternate = workInProgressFiber;
+```
+
+And vice versa:
+
+```
+workInProgressFiber.alternate = currentFiber;
+```
+
+React uses this mechanism to reuse Fiber Nodes instead of recreating the entire tree from scratch.
+<br>
+
+> ### How does React determine when to re-render a component?
+- Its state or props change
+- Its parent component re-renders, unless its memoized
+
+<br>
+
+> ### what are some real use cases of suspense beyond lazy loading?
+
+
+**Suspense allows you to declaratively handle components that are not ready to render yet.** Instead of manually managing loading states for every component, you define a fallback UI that React displays while the component is waiting for something.
+
+
+#### **1. Data fetching (API calls)**
+
+**Without Suspense:**
+
+```js
+import { useEffect, useState } from "react";
+
+function UserProfile() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/user")
+      .then(res => res.json())
+      .then(data => {
+        setUser(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) {
+    return <p>Loading user...</p>;
+  }
+
+  return <h2>{user.name}</h2>;
+}
+```
+
+**With Suspense:**
+
+```js
+import { Suspense } from "react";
+
+function App() {
+  return (
+    <Suspense fallback={<p>Loading user...</p>}>
+      <UserProfile />
+    </Suspense>
+  );
+}
+```
+
+Here, `UserProfile` must use a Suspense-compatible data-fetching mechanism.
+
+**Important:** Normal `fetch()` inside `useEffect()` does not automatically trigger Suspense. You need a Suspense-enabled data source, framework, or Promise-based integration.
+
+
+#### **2. Preventing UI replacement during transitions**
+
+This is an interesting use case involving `useTransition`.
+
+Imagine you have a dashboard with two tabs:
+
+- Overview
+- Analytics
+
+When a user clicks Analytics, the new content takes some time to load.
+
+Without a transition, the existing content might be replaced by a Suspense fallback.
+
+You can use `useTransition` to prevent the already visible content from disappearing immediately.
+
+```js
+import { Suspense, useState, useTransition } from "react";
+
+function Dashboard() {
+  const [tab, setTab] = useState("overview");
+  const [isPending, startTransition] = useTransition();
+
+  function handleTabChange(nextTab) {
+    startTransition(() => {
+      setTab(nextTab);
+    });
+  }
+
+  return (
+    <>
+      <button onClick={() => handleTabChange("overview")}>
+        Overview
+      </button>
+
+      <button onClick={() => handleTabChange("analytics")}>
+        Analytics
+      </button>
+
+      {isPending && <p>Updating...</p>}
+
+      <Suspense fallback={<p>Loading content...</p>}>
+        {tab === "overview" ? (
+          <Overview />
+        ) : (
+          <Analytics />
+        )}
+      </Suspense>
+    </>
+  );
+}
+```

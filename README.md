@@ -301,12 +301,15 @@ watchQuery
 - Normal function vs Arrow function - 4
 - Obj vs map - 4
 - Higher order function
+- reduce function 2 cases
+- Puri ek class banao and extend karo with static and private
 
 ------------- HTML-------------
 
 - use a srcset
 - How to make table
 - box model or box sizing in css
+- adjacent and general sibling in css sign and work
 
 ———Misc———
 - Can you give an example of an @media property other than screen
