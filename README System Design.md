@@ -1,8 +1,8 @@
-> ### Micor-frontend
+> ### Micro-frontend
 
 - In micro-frontend, we have main layout in which we have the microfrontend services like paymnet page, product page or cart page.
-- Each microfrontend had its own development team, codebase, build process, and deployment pipeline.
-- Each microfrontend can have different tech stack like react, vue or angular.
+- Each `microfrontend` had its `own` development team, codebase, build process, and `deployment pipeline`.
+- Each `microfrontend` can have `different tech stack` like react, vue or angular.
 - we can implement by **Module Federation** in webpack or vite.
 
 ```js
@@ -112,7 +112,7 @@ Routing in mfe
 <br>
 <br>
 
-### How did microfrontends communicate 
+> ### How did microfrontends communicate 
 
 We preferred communication through explicit contracts rather than directly accessing another microfrontend's internal Redux store.
 
@@ -152,7 +152,7 @@ useEffect(() => {
 
 <br>
 
-### creating the microfrontend, will it be cost effective
+> ### Creating the microfrontend, will it be cost effective
 
 - Honestly, Microfrontend Architecture is not always cost-effective
 - It introduces additional infrastructure, development, deployment, and maintenance costs compared to a traditional monolithic frontend.
@@ -181,7 +181,7 @@ useEffect(() => {
 
 <br>
 
-> ### what is difference between the virtaual dom approach of vue and react
+> ### what is difference between the virtual dom approach of vue and react
 
 #### Key Differences
 
@@ -289,7 +289,7 @@ useEffect(() => {
 
 #### One-liner
 
-👉 **React = Virtual DOM + re-rendering**
+👉 **React = Virtual DOM + re-rendering**\
 👉 **Vue = Virtual DOM + dependency tracking**
 
 <br>
@@ -297,6 +297,8 @@ useEffect(() => {
 > ### In vue js interview, you were asked to How will optimize your code. you have to give answer based on your person having 10 yoe
 
 ### 1. **Component-Level Optimization**
+
+<details>
 
 * I ensure components are **small, reusable, and properly scoped**.
 * Use `computed` instead of methods where caching is beneficial.
@@ -306,24 +308,31 @@ useEffect(() => {
   * Leveraging `key` correctly in lists
 * Prefer **lazy loading components** with dynamic imports for large views.
 
+</details>
 
 ### 2. **Reactivity Optimization**
+
+<details>
 
 * Avoid making large objects fully reactive when not needed (use `shallowRef`, `markRaw`).
 * Normalize state to prevent deep nesting.
 * Watchers are used carefully—prefer `computed` over `watch` unless side effects are needed.
-
+</details>
 
 ### 3. **State Management**
+
+<details>
 
 * In larger apps (using Pinia/Vuex), I:
 
   * Keep the store **modular and normalized**
   * Avoid over-fetching or redundant API calls (cache/store results)
   * Use derived state instead of duplicating data
-
+</details>
 
 ### 4. **Rendering & DOM Performance**
+
+<details>
 
 * Use `v-if` vs `v-show` appropriately:
 
@@ -331,48 +340,48 @@ useEffect(() => {
   * `v-show` for frequent toggling
 * Virtualize large lists (e.g., thousands of rows)
 * Debounce/throttle expensive operations (search, scroll handlers)
-
+</details>
 
 ### 5. **Code Splitting & Bundling**
+
+<details>
 
 * Implement **route-level code splitting**
 * Analyze bundle size using tools like webpack-bundle-analyzer
 * Remove unused dependencies and use tree-shaking
-
+</details>
 
 ### 6. **API & Network Optimization**
-
+<details>
 * Use request debouncing, batching, and caching
 * Handle loading and error states properly
 * Optimize payload size (pagination, selective fields)
-
+</details>
 
 ### 7. **SSR / Hydration (if applicable)**
 
+<details>
 * For SEO-heavy apps, I use SSR (Nuxt)
 * Optimize hydration to avoid mismatches and improve TTI
-
+</details>
 
 ### 8. **Performance Monitoring**
 
+<details>
 * Use browser dev tools, Lighthouse, and profiling
 * Track metrics like:
 
   * First Contentful Paint (FCP)
   * Time to Interactive (TTI)
 * Continuously optimize based on real user data
-
+</details>
 
 ### 9. **Code Quality & Maintainability**
-
+<details>
 * Follow best practices (composition API, hooks)
 * Avoid premature optimization—focus on bottlenecks
 * Write scalable and readable code so future optimizations are easier
-
-
-### 🔚 Closing Line (very important in interview)
-
-**“Overall, I don’t just optimize blindly—I profile first, identify bottlenecks, and then apply targeted optimizations that balance performance with maintainability.”**
+</details>
 
 <br>
 <br>
@@ -430,6 +439,7 @@ useEffect(() => {
 
 ### 6. **Avoiding Expensive Operations**
 
+* Will use useDeferred and useTransition hook
 * Move heavy logic outside render
 * Memoize derived data
 * Use Web Workers if computation is very heavy
@@ -921,6 +931,20 @@ Client sends Refresh Token → /refresh
 Server returns new Access Token
 ```
 
+### Import point below
+
+- adding below in axios make cookies which are set by backend, goes or attached to api automatically
+```
+withCredentials: true,
+```
+- login api give both token
+- When we set cookies from BE, we have passed the path from BE, from it browser knows which cookies need to send to backend endpoint automatically
+```
+Set-Cookie: accessToken=abc; Path=/; HttpOnly; Secure
+Set-Cookie: refreshToken=xyz; Path=/auth/refresh; HttpOnly; Secure
+```
+- When normal api gives 401, then we call the auth/refresh endpoint of BE, it sets the new access token in browser cookies
+
 <br>
 
 #### Why We Need Both (Security Reason)
@@ -1093,7 +1117,7 @@ Ensure that your design adheres to accessible color contrast ratios. According t
 
 <br>
 
-5. **Image with alt tag**
+6. **Image with alt tag**
 
 The screen reader do not see the image, it tells the user by using the alt tag of image.
 

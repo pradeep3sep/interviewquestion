@@ -124,8 +124,9 @@ Based on the technologies we've discussed and the code you've shared:
 
 
 <br>
-
-- when api fails on server side how you manage it - 2 ways
+--------------Next js------------
+- SSR issue
+- when api fails on server side how you manage it - 2 ways (hint- its not redirect)
 - Rendering strategies: 5 types
     - Kaise every one is different from other
 - SSR vs CSR (5 points)
@@ -221,12 +222,14 @@ ChangeEvent<HTMLInputElement>
 - error not caught by error boundaries, how we handle
 - 2 example of lazy load (1 in router and 1 in component)
 - Code spliting without lazy load
-- React patterns 
+- React patterns - 6 please write code
 - limitation of contextapi - (4)
 - when we needed the needed the redux, - above 4 + 1
 - features of react 18 - 4
 - Different ways to manage state - 5
-- How to pass a component from parent to child - 3 
+- How to pass a component from parent to child - 3. write code
+- React.memo and useMemo, usecallback syntax code
+- JSX and react.createElement, babel
 - what is custom hook, and its conditions(4) and example
 - why not to use setCount(count++) instead use setCount(prev => prev + 1);
 - useRef vs useState
@@ -239,10 +242,16 @@ ChangeEvent<HTMLInputElement>
 - useDeferredValue
 - useTransition Hook
 - useImperativeHandle
-- render props
+- React lifecycle with 3 phase
+- React unidirectional flow
+- Defination of Concurrent Rendering, also method (4)
 - Rule of Thumb in memo (4 point)
 - useCallback, useTransition syntex
 - createSelector - helper that calculates derived data from Redux state and remembers the result
+- Hooks which can be used in performance optimization - 5 
+- React Fiber and how does it differ from the old reconciliation algorithm
+- Suspense beyond lazy loading - 1
+- Optimze react app - 9 (answer is in system design)
 
 
 ———Vue———
@@ -320,10 +329,19 @@ watchQuery
 - Polyfill of flat,shift,unshift
 
 ———S.Design——
+- microfrontend and package (Module federation)
+- How do microfrontend communicate - 1
+- Optimze react app - 9
 - Accessibility in React - 5
 - Core web vital manage
 - 3 -ve & +ve of vue and react
 - FE optimization - 3 point
+- SEO Points
+    - Meta Tags like title, description
+    - OG Tags
+    - JSON LD
+    - url
+    - Canonical Tags
 
 Security
 1. XSS - 3 points in all

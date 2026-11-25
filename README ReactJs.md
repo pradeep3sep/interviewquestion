@@ -902,7 +902,8 @@ function UserList({ users }) {
 
 <br>
 
-2. **HOC Pattern** - A Higher Order Component (HOC) is a function that `takes a component and returns a new component`
+#### 2. HOC Pattern
+A Higher Order Component (HOC) is a function that `takes a component and returns a new component`
 
 <details>
 
@@ -935,7 +936,7 @@ function App() {
 
 </details>
 
-> ### What are the limitations with HOCs?
+#### What are the limitations with HOCs?
 
 - **Prop Clashing:**
 
@@ -951,7 +952,7 @@ function App() {
 
 <br>
 
-3. **Custom Hooks Pattern** - Custom hooks allow us to extract and reuse stateful logic across multiple components.
+#### 3. Custom Hooks Pattern - Custom hooks allow us to extract and reuse stateful logic across multiple components.
 
 <details>
 
@@ -1110,7 +1111,7 @@ Let's compare all the patterns we discussed.
 <br>
 <br>
 
-> ### React Hook Form Example
+> ### React Hook Form Example, zod validation
 
 <details>
 
@@ -4218,25 +4219,10 @@ render() {
 The same applies for `select` and `textArea` inputs. But you need to use **defaultChecked** for `checkbox` and `radio` inputs.
 
 <br>
-
-> ### What is Concurrent Rendering?
-The Concurrent rendering makes React apps to be more responsive by rendering component trees without blocking the main UI thread. It allows React to interrupt a long-running render to handle a high-priority event. i.e, When you enabled concurrent Mode, React will keep an eye on other tasks that need to be done, and if there's something with a higher priority it will pause what it is currently rendering and let the other task finish first. You can enable this in two ways,
-
-```jsx
-// 1. Part of an app by wrapping with ConcurrentMode
-<React.unstable_ConcurrentMode>
-  <Something />
-</React.unstable_ConcurrentMode>;
-
-// 2. Whole app using createRoot
-ReactDOM.unstable_createRoot(domNode).render(<App />);
-```
 <br>
 
-<br>
-
-> ### concurrent mode?
-In React, **Concurrent Mode** or React's concurrent rendering capabilities allows React to work on multiple UI updates with different priorities without blocking the main thread unnecessarily.
+> ### Concurrent mode or  Concurrent Rendering?
+In React, **Concurrent Mode** or React's concurrent rendering capabilities allows React to work on **multiple UI updates with different priorities** without blocking the main thread unnecessarily.
 
 **. Important APIs related to Concurrent Rendering**
 
@@ -4249,7 +4235,7 @@ In React, **Concurrent Mode** or React's concurrent rendering capabilities allow
 
 **Interview-ready definition:**
 
-"Concurrent Rendering is a capability in React that allows React to prepare multiple UI updates with different priorities. It can pause, resume, or abandon rendering work so that urgent interactions, such as user input, remain responsive while expensive UI updates are processed in the background."
+"Concurrent Rendering is a capability in React that allows React to prepare `multiple UI updates with different priorities`. It can `pause, resume, or abandon rendering work so that urgent interactions`, such as user input, remain responsive while expensive UI updates are processed in the background."
 
 
 <br>
@@ -5418,6 +5404,12 @@ It separates **data fetching logic** from general **state management**, like Rea
 
 <br>
 
+**Steps in RTK Query**
+
+<br>
+
+<details>
+
 **Step 1: Create an API Service**
 
 Use `createApi` and `fetchBaseQuery` to define API endpoints.
@@ -5507,6 +5499,8 @@ export default function App() {
 | `isFetching`        | True when refetching                                                            |
 | Auto de-duplication | Multiple components using same query share the same data; no duplicate requests |
 
+</details>
+
 <br>
 
 > ### extraReducers
@@ -5558,9 +5552,11 @@ counter/incrementByAmount
 
 <br>
 
-> ### Below is the detailed example
+> ### Below is the detailed example of RTK
 
 Usage Example:
+
+<details>
 
 ```js
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
@@ -5725,6 +5721,8 @@ export default function Home() {
   );
 }
 ```
+
+</details>
 
 <br>
 
@@ -5947,11 +5945,11 @@ After running the eject command, it won’t be possible to run it again, because
 
 <br>
 
-### Rendering in react
+> ### Rendering in react
 
 Video - https://www.youtube.com/watch?v=VPtL6dU0YXc
 
-- Rendering is React’s process of describing a user interface based on the application’s current state and props. 
+- Rendering is React’s process of describing a `user interface` `based` on the application’s `current state and props`. 
 - The `initial render` in a React app is the `first render` when the application starts up, while `re-rendering` occurs when there is a `change in the state` to figure out which parts of the UI need an update.
 
 
@@ -6258,9 +6256,11 @@ I wouldn't just say that I found a memory leak because the heap increased. I wou
 
 > ### What is React Fiber and how does it differ from the old reconciliation algorithm?
 
+It comes with react 16
+
 So React Fiber is basically the new brain behind how React updates the screen
 
-- Old React had a stackbased rendering engine.
+- Old React had a `stackbased rendering engine`.
 - It had big problem.The problem was it couldn't pause once rendering started. 
 - UI had to finish all at once
 - If updates took long -> App felt frozen
@@ -6271,7 +6271,7 @@ Analogy
 - You must finish the chapter before responding
 
 
-Now React fiber alogorithm - It is interruptible
+#### Now React fiber alogorithm - It is interruptible
 - Breaks rendering into chunks
 - We can pause, resume or cancel work
 - Prioritizes urgent task (like user clicks)
@@ -6468,6 +6468,7 @@ workInProgressFiber.alternate = currentFiber;
 ```
 
 React uses this mechanism to reuse Fiber Nodes instead of recreating the entire tree from scratch.
+
 <br>
 
 > ### How does React determine when to re-render a component?

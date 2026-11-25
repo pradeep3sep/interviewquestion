@@ -70,9 +70,7 @@ If not any handling is done, then we see the crashed white page. We handle it wi
 
 
 
-case -1
-
-**error.js – Error Boundary**
+#### case -1 (error.js – Error Boundary)
 
 ```jsx
 async function getUsers() {
@@ -103,7 +101,7 @@ export default function Error({ error, reset }) {
 ```
 
 
-case - 2
+#### case - 2
 
 ```jsx
 import { notFound } from "next/navigation";
