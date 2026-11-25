@@ -26,15 +26,13 @@ The collected feedback and research insights are then shared with the client com
 
 It's important to understand these two concepts because interviewers might ask you about them.
 
-[Las entrevistas a profundidad en línea: una herramienta poderosa y subestimada en la investigación de mercados](https://images.openai.com/static-rsc-4/vf7EnLn0Codq_0o4_C43Uwjg2M0QdcCSU5GrFHgCJx6r6OaMgWtrkZ_t1b4p7fb8mHOcaNCRt2xE0j_3JGvchT-dB3sairuZWNPsKdFPk5UBfA3zLoq6eh-vAQqlfEiYBkWjmsRdJw__esuzIEtdHm5YUCH1cRyupdYLcDcHM9M?purpose=inline)
-
 **One-on-One Interview**
 
 It is a qualitative research method in which a researcher conducts an individual interview with a participant to understand their opinions, experiences, expectations, and feedback about a particular product or service.
 
 **Example:** A company wants to launch a new mobile application and interviews 10 users individually to understand their expectations.
 
-[Benefits Of Diary Studies And Best Practices For Data Collection](https://images.openai.com/static-rsc-4/iTcDjuIOcuy805NrzatgYiV3UbqybD7IRsRJKv8eVvEb9v_pVv5Ec8Mg2jOLvwOfeOmeIm7hUxUCFT99bxxhdzyuXGY5OK3EZfVnGMfYzFpAoyJukk8ou6c6B0OcpT4v1RABuVrcC7OpfECiOpYVvYzKs0Jvx5aK1Szn5nYxiPM?purpose=inline)
+<br>
 
 **Diary Study**
 
@@ -44,11 +42,7 @@ Participants can submit their feedback through text, photos, or videos.
 
 **Example:** A company wants to understand how people use a fitness application. Participants use the application for seven days and record their daily experiences and feedback.
 
-#### **4. A possible follow-up interview question**
-
 **Interviewer:** What is the difference between One-on-One Interviews and Diary Studies?
-
-**Your answer:**
 
 "One-on-One Interviews are conducted individually between a researcher and a participant, where feedback is collected through direct interaction.
 
@@ -220,7 +214,14 @@ onKeyDown	KeyboardEvent
 ChangeEvent<HTMLInputElement>
 
 ———react———
-- Custom hook for debounce
+- limitations of useRef - (4)
+- Custom hook for debounce, api calling pratice, some data, custom fetch
+- Other than useeffect, is there any other lifecycle method
+- error boundaries me 2 thing code me, what type of error it catches
+- error not caught by error boundaries, how we handle
+- 2 example of lazy load (1 in router and 1 in component)
+- Code spliting without lazy load
+- React patterns 
 - limitation of contextapi - (4)
 - when we needed the needed the redux, - above 4 + 1
 - features of react 18 - 4

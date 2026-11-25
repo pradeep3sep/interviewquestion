@@ -158,7 +158,9 @@ Using refs alone can make the implementation difficult to maintain.
 <br>
 
 > ### Notes of react
-we need to creat the .config file of main react component, which contains mainly that content constants, functions not the hooks, or the some constant return the smaller content
+we need to create the .config file of main react component, which contains mainly that content constants, functions not the hooks, or the some constant return the smaller content
+
+<br>
 
 > ### Interview Pratice code
 
@@ -393,7 +395,7 @@ export default function App() {
 
 <br>
 
-### What is `server.proxy` in Vite?
+> ### What is `server.proxy` in Vite?
 
 <details>
 
@@ -506,8 +508,9 @@ In production, you typically configure a reverse proxy such as Nginx, use a back
 
 </details>
 
+<br>
 
-> ### lifecycle method of react
+> ### Lifecycle method of react
 
 React lifecycle methods are methods that get called at different stages of a component's lifecycle.
 
@@ -519,7 +522,7 @@ There are **3 main phases** in the React component lifecycle:
 <br>
 <br>
 
-> ### Other than useeffect, is there any other method
+> ### Other than useeffect, is there any other lifecycle method
 The three Hooks to remember are:
 1. useEffect() – Runs after the component commits and generally after the browser paints. it occurs after commit phase
 2. useLayoutEffect() – Runs after DOM mutations but before browser paint. It occurs in commit phase
@@ -894,6 +897,8 @@ function UserList({ users }) {
   );
 }
 ```
+
+</details>
 
 <br>
 
