@@ -1,3 +1,273 @@
+> ### Light mode or dark mode. Same princple will work for multiple themes also
+
+1\. When the application loads, we check whether the user has previously selected a theme or not by checking `localStorage`.
+
+2\. If a previously selected theme exists, we use that theme; otherwise, we set the default theme to **Light Mode**.
+
+3\. We store the selected theme (`light` or `dark`) in React state or can be managed in redux. Below we are using the context.
+
+4\. Meanwhile, when the component loads or the theme changes, we add/update a `data-theme` attribute on the root HTML element (`<html>`).
+
+5\. In CSS, we define different background colors, text colors, border colors, etc., based on the value of the `data-theme` attribute.
+
+6\. When the user toggles the theme, we update the React state from `light` to `dark` or vice versa.
+
+7\. Since the theme state changes, the `useEffect` runs and updates the `data-theme` attribute on the root HTML element.
+
+8\. Based on the updated `data-theme` attribute, CSS variables change automatically, and the entire application's appearance changes accordingly.
+
+9\. We also save the selected theme in `localStorage` so that the user's preference persists even after refreshing or reopening the application.
+
+
+```mermaid
+flowchart TD
+    A[User clicks toggle] --> B[React state changes: Light to Dark]
+    B --> C[useEffect runs]
+    C --> D[HTML data-theme attribute changes]
+    D --> E[CSS variables update]
+    E --> F[UI changes accordingly]
+    F --> G[New theme saved in localStorage]
+```
+
+#### App.jsx
+
+```js
+import { useState, useEffect } from "react";
+
+function App() {
+  const [theme, setTheme] = useState(
+    localStorage.getItem("theme") || "light"
+  );
+
+  // Update HTML attribute and localStorage whenever theme changes
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <div className="app">
+      <h1>React Dark Mode</h1>
+
+      <p>Current theme: {theme}</p>
+
+      <button onClick={toggleTheme}>
+        Switch to {theme === "light" ? "Dark" : "Light"} Mode
+      </button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+#### 2. CSS
+
+```css
+:root[data-theme="light"] {
+  --bg: white;
+  --text: black;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121212;
+  --text: white;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.app {
+  padding: 20px;
+}
+
+button {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+```
+
+<br>
+<br>
+
+> ### how you handle token refresh and concurrent api request(when many api fails with 401 at a time, becuse it cause request of multiple refresh api call)
+
+#### **1. What happens in real life?**
+
+Suppose 5 API requests are running simultaneously:
+
+- `GET /profile`
+- `GET /dashboard`
+- `GET /orders`
+- `GET /notifications`
+- `GET /settings`
+
+All 5 return `401` because the access token has expired.
+
+Without proper handling:
+
+- 5 refresh API calls might be triggered.
+- Multiple new tokens might be generated.
+- Some requests could fail due to refresh token rotation.
+- The user might get logged out unexpectedly.
+
+With proper handling:
+
+- Only **one refresh API request** is sent.
+- The other requests wait.
+- Once the new token is received, pending requests are retried.
+- If refresh fails, the user is logged out.
+
+## **2. Axios implementation (production-style)**
+
+Assuming the backend sets the access token and refresh token in **HttpOnly cookies**, we don't need to read or store tokens in JavaScript. The browser sends cookies automatically when `withCredentials: true` is enabled.
+
+```js
+import axios from "axios";
+
+const api = axios.create({
+  baseURL: "https://api.example.com",
+  withCredentials: true,
+});
+
+// Separate axios instance for refreshing the token
+const refreshClient = axios.create({
+  baseURL: "https://api.example.com",
+  withCredentials: true,
+});
+
+let refreshPromise = null;
+
+// Response interceptor
+api.interceptors.response.use(
+  (response) => response,
+
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Handle only 401 and avoid retry loops
+    if (
+      error.response?.status !== 401 ||
+      originalRequest._retry
+    ) {
+      return Promise.reject(error);
+    }
+
+    originalRequest._retry = true;
+
+    try {
+      // If refresh is already in progress, reuse the same promise.
+      // Otherwise, start a new refresh request.
+      if (!refreshPromise) {
+        refreshPromise = refreshClient
+          .post("/auth/refresh")
+          .finally(() => {
+            refreshPromise = null;
+          });
+      }
+
+      await refreshPromise;
+
+      // Retry the original request after refresh succeeds
+      return api(originalRequest);
+    } catch (refreshError) {
+      // Refresh failed — authentication session is no longer valid
+      window.location.href = "/login";
+
+      return Promise.reject(refreshError);
+    }
+  }
+);
+
+export default api;
+```
+
+#### Senior-level interview answer
+
+> In our application, we handle token refresh using Axios response interceptors. Whenever an API request returns 401 due to an expired access token, we intercept that response and initiate a refresh token request.
+>
+> To handle concurrent requests, I maintain a shared refresh promise. If multiple API requests fail with 401 simultaneously, only the first request initiates the refresh API call, while the remaining requests wait for the same promise. Once the refresh succeeds, the backend sets the updated tokens in HttpOnly cookies, and we retry the original failed requests.
+>
+> We also mark the original request with a retry flag to prevent infinite retry loops. If the refresh token is expired or revoked, we clear the session and redirect the user to the login page.
+>
+> This avoids duplicate refresh calls, handles concurrent requests safely, and provides a consistent authentication flow.
+
+**Interview tip:** Since your authentication flow uses backend-set cookies, you don't need to manually attach the access token in an Axios Authorization header. With `withCredentials: true`, cookies are sent automatically, subject to cookie and CORS configuration. Also, the backend should distinguish an expired access token from other authorization failures so you don't unnecessarily refresh on every `401`.
+
+<br>
+<br>
+
+> ### Custom fetch hook with race condition handling - Keep in mind what race here means
+
+A race condition occurs when multiple API requests are triggered, but an older request finishes after the newer one and overwrites the latest data.
+
+<details>
+
+```js
+import { useState, useEffect } from "react";
+
+function useFetch(url) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!url) return;
+
+    const controller = new AbortController();
+
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(url, {
+          signal: controller.signal,
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error: ${response.status}`);
+        }
+
+        const result = await response.json();
+        setData(result);
+      } catch (err) {
+        // Ignore errors caused by request cancellation
+        if (err.name !== "AbortError") {
+          setError(err);
+        }
+      } finally {
+        // Don't update loading state for an aborted request
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+
+    // Cleanup: cancel previous request
+    return () => {
+      controller.abort();
+    };
+  }, [url]);
+
+  return { data, loading, error };
+}
+
+export default useFetch;
+```
+</details>
+
+<br>
+<br>
+
 > ### Micro-frontend
 
 - In micro-frontend, we have main layout in which we have the microfrontend services like paymnet page, product page or cart page.

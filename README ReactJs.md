@@ -1,4 +1,35 @@
-### Suppose we have the login form, we have parent component in which we have child component of input and button, how you will avoid the rerendering in parent component
+> ### Second argument of React.memo 
+
+The second argument of React.memo is a custom comparison function called arePropsEqual. It receives the previous and next props and returns a boolean. 
+
+If it returns true, React skips the re-render because it considers the props unchanged; if it returns false, React re-renders the component.
+
+We use it when the default shallow comparison is not sufficient, such as with complex props or performance-sensitive components. However, we need to compare all props that affect the rendered output, otherwise we may cause stale UI.
+
+```js
+const TableRow = React.memo(
+  function TableRow({ user, selected, onSelect }) {
+    return (
+      <tr>
+        <td>{user.name}</td>
+        <td>{user.email}</td>
+        <td>{selected ? "Selected" : "Not selected"}</td>
+      </tr>
+    );
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.user.id === nextProps.user.id &&
+      prevProps.selected === nextProps.selected
+    );
+  }
+);
+```
+
+<br>
+<br>
+
+> ### Suppose we have the login form, we have parent component in which we have child component of input and button, how you will avoid the rerendering in parent component
 
 - Solution 1: React.memo()
 - Solution 2: Use uncontrolled components with refs

@@ -125,6 +125,7 @@ Based on the technologies we've discussed and the code you've shared:
 
 <br>
 --------------Next js------------
+
 - SSR issue
 - when api fails on server side how you manage it - 2 ways (hint- its not redirect)
 - Rendering strategies: 5 types
